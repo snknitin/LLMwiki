@@ -1,0 +1,1144 @@
+"tweet_type","id","created_at","username","user_display_name","text","lang","source","retweet_count","favorite_count","reply_count","quote_count","bookmark_count","view_count","has_media","media_type","media_urls","video_url","video_duration","thumbnail_url","conversation_id_str","in_reply_to_status_id_str","in_reply_to_user_id_str","in_reply_to_screen_name","quoted_status_id_str","quoted_user_id_str","retweeted_status_id_str"
+"original","2062526843564233040","2026-06-04T13:28:14.000Z","akshay_pachaar","Akshay 🚀","http://x.com/i/article/2062152051157782528","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","18","206","8","0","396","18394","false","none",,,,,"2062526843564233040",,,,,,
+"original","2061448348792414354","2026-06-01T14:02:40.000Z","sharbel","Sharbel","These Hermes Hacks Will Save You Hours
+
+0:00 My current Hermes setup  
+0:57 Hack 1: Mission Control  
+2:25 Hack 2: Notion triggers and filming briefs  
+5:12 Hack 3: Cron jobs  
+6:23 Hack 4: Slash goals  
+9:06 Hack 5: Subagents as a research team  
+9:57 Hack 6: Telegram topics as workspaces  
+11:04 Hack 7: Kanban for agent task management  
+12:07 Hack 8: Skills as reusable SOPs  
+14:28 Hack 9: Webhooks and event-based agents  
+16:02 Hack 10: Specialized agents by job  
+17:34 How Hermes becomes a 24/7 assistant","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","62","576","32","7","1161","31398","true","video","https://pbs.twimg.com/amplify_video_thumb/2061436226096254976/img/oXy_u6dng9PyZ_TS.jpg","https://video.twimg.com/amplify_video/2061436226096254976/vid/avc1/1280x720/hD_lhDOWS0dPLGyS.mp4?tag=27","1157","https://pbs.twimg.com/amplify_video_thumb/2061436226096254976/img/oXy_u6dng9PyZ_TS.jpg","2061448348792414354",,,,,,
+"original","2056545463713640917","2026-05-19T01:20:21.000Z","tonysimons_","Tony Simons","http://x.com/i/article/2056535975552016384","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","38","528","15","4","1890","139265","false","none",,,,,"2056545463713640917",,,,,,
+"quote","2061553131176034762","2026-06-01T20:59:02.000Z","tonysimons_","Tony Simons","If you’re building on Hermes Agent, here’s a little gift.
+
+From me, to you.
+
+Bookmark this.
+Give it to your agent.
+Tweak it to fit your needs.
+
+Welcome to having an agent with the most badass personality on the planet. 🤘🏻","en","<a href=""http://twitter.com/download/iphone"" rel=""nofollow"">Twitter for iPhone</a>","34","485","11","1","1324","80176","false","none",,,,,"2061553131176034762",,,,"2056545463713640917","1998221941300490241",
+"original","2061380948659261805","2026-06-01T09:34:51.000Z","_jonatasantos","Jonata Santos","how to build anything rn:
+
+- get a hetzner, do, or hostinger vps
+- host hermes on it
+- add gbrain or implement your own memory vault using qmd + sql
+- set up hermes with codex auth -> gpt-5.5 / no reasoning / fast mode
+- install orca on your macbook and phone with tailscale to have a nice ide to work on both 
+- before starting any work, ask hermes to conduct deep research on the subject and save it to gbrain as source material for the project
+- use the `/grill-me` skill or a similar prompt to uncover as many unknowns as possible. save results to memory too 
+- define/write clear evals for every project to determine whether a run was successful
+- have hermes iterate over the project until all evals pass, saving all learnings to the vault along the way
+- whenever it gets stuck, use memory + a new research or `/grill-me` session to unblock it
+
+rinse and repeat until the work is done. pay attention to the process. develop a feeling for how long tasks should take and do not be afraid to stop a model mid session to ask for status and why it's taking so long.","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","182","3234","72","22","6245","173122","false","none",,,,,"2061380948659261805",,,,,,
+"original","2060883609935077667","2026-05-31T00:38:36.000Z","cyrilXBT","CyrilXBT","http://x.com/i/article/2060852386651111424","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","52","481","22","15","1504","320494","false","none",,,,,"2060883609935077667",,,,,,
+"quote","2060914969605189808","2026-05-31T02:43:13.000Z","cyrilXBT","CyrilXBT","Hermes Agent. Zero to full autonomous operation. One complete course.
+
+Installation. Skills. Memory. MCP. Scheduler. Multi-agent.
+
+Works while you sleep.
+
+The people who build this system will never manually operate a content, research, or business workflow again.
+
+The compounding starts from the first automated skill that runs.
+
+Read this and bookmark it now.","en","<a href=""https://typefully.com/"" rel=""nofollow"">Typefully</a>","146","1126","58","5","1861","152984","true","video","https://pbs.twimg.com/amplify_video_thumb/2060914916631232512/img/hVWwxPr1j7QRfq1j.jpg","https://video.twimg.com/amplify_video/2060914916631232512/vid/avc1/720x1280/2lbakvlpsPs8OefW.mp4?tag=14","38","https://pbs.twimg.com/amplify_video_thumb/2060914916631232512/img/hVWwxPr1j7QRfq1j.jpg","2060914969605189808",,,,"2060883609935077667","1373665408193036293",
+"original","2060406977357070522","2026-05-29T17:04:38.000Z","aparnadhinak","Aparna Dhinakaran","http://x.com/i/article/2060381072148537344","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","121","894","13","10","1974","74154","false","none",,,,,"2060406977357070522",,,,,,
+"original","2060351831826628650","2026-05-29T13:25:30.000Z","catalinmpit","Catalin","I've deployed my Hermes agent on a Hetzner VPS.
+
+The security measures I've taken so far:
+- Installed Tailscale and restricted SSH access to Tailscale IPs only
+- Blocked all ports except 80 and 443
+- Restricted ports 80 and 443 to Cloudflare IP ranges only
+- Enabled and configured UFW
+- Disabled password SSH login
+
+Need to add:
+- fail2ban
+
+What else should I do?","en","<a href=""https://typefully.com/"" rel=""nofollow"">Typefully</a>","59","1504","156","7","2950","174612","false","none",,,,,"2060351831826628650",,,,,,
+"original","2059675518966894767","2026-05-27T16:38:05.000Z","IBuzovskyi","YanXbt","http://x.com/i/article/2059639716417273860","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","85","650","25","10","2006","510242","false","none",,,,,"2059675518966894767",,,,,,
+"quote","2059860662658949530","2026-05-28T04:53:46.000Z","IBuzovskyi","YanXbt","HERMES AGENT JUST GOT A RESEARCH BRAIN.
+
+connect it to NotebookLM and it becomes
+a 247 research system that builds
+knowledge over time.
+
+it resources. connects ideas across sources.
+uses that context in every real task.
+
+setup in 4 steps:
+
+1. install Hermes with MCP enabled
+2. download NotebookLM skill from GitHub
+3. add endpoint to MCP servers in config
+4. restart Hermes
+
+what your agent can now do:
+
+→ query your notebooks instead of the open web
+→ connect ideas across multiple sources
+→ build knowledge session after session
+→ use your curated context in every /goal
+→ zero hallucinations from your own verified sources
+
+ask it anything — it answers from
+what YOU already know.
+
+full setup guide — MCP, models, use cases —
+in the article 👇","en","<a href=""http://twitter.com/download/iphone"" rel=""nofollow"">Twitter for iPhone</a>","212","1686","56","7","3169","180709","true","video","https://pbs.twimg.com/amplify_video_thumb/2059860573089566725/img/dApn2OnWkJ61FVcy.jpg","https://video.twimg.com/amplify_video/2059860573089566725/vid/avc1/720x1280/TQFrZcv0eZJVTRgY.mp4?tag=27","30","https://pbs.twimg.com/amplify_video_thumb/2059860573089566725/img/dApn2OnWkJ61FVcy.jpg","2059860662658949530",,,,"2059675518966894767","1387382307229769732",
+"original","2058178662818865342","2026-05-23T13:30:06.000Z","shannholmberg","Shann³","how /goal works in Hermes Agent
+
+you give the agent a standing goal. after every turn, a judge model checks if it's complete.
+
+if not, Hermes auto-continues with the judge's reasoning. The loop runs until the goal is met, you pause, or the turn token budget is exhausted.
+
+this is when to use /goal:
+
+> the task has clear ""done"" criteria
+> you'd otherwise type ""keep going"" 3+ times
+> the agent can verify its own progress
+
+skip /goal when:
+
+> a single turn does the job
+> you want to steer every iteration
+> your taste IS the deliverable
+
+what I've used it for:
+
+> ""/goal: go over our 10,000+ sales call transcripts and find insights + learnings, write up themes with supporting quotes""
+
+more AI marketing use cases I'm testing:
+
+> ""/goal: draft 10 SEO blogs targeting [keyword cluster] and queue them for human review in our CMS""
+> ""/goal: enrich every lead in this spreadsheet with company size, recent funding, tech stack, and recent X activity until all 200 rows are filled""
+> ""/goal: take this article, atomize into platform-specific posts for LinkedIn, X, Threads, and Bluesky, queue them for tomorrow's review""
+> ""/goal: pull analytics from GA, Search Console, and HubSpot, identify what worked last week, ship the weekly marketing report to Slack""
+
+how it works:
+
+> 1. you set /goal <objective>
+> 2. Hermes does the first turn
+> 3. a judge model reviews and returns done or continue
+> 4. if continue, Hermes auto-fires the next turn with the judge's reasoning
+> 5. loop runs until done, paused, cleared, or turn budget (default 20) hits
+
+/subgoal lets you append criteria mid-loop without resetting. ""fix the failing tests"" → mid-run → ""/subgoal also add a regression test"". the judge waits until both are done.
+
+goal state lives in the session db, so /resume picks up where you left off.
+
+works on every surface: CLI, telegram, discord, slack, signal, whatsapp, sms, imessage, webhook, API","en","<a href=""https://typefully.com/"" rel=""nofollow"">Typefully</a>","23","227","20","3","248","21339","true","photo","https://pbs.twimg.com/media/HJAelgTaYAAxlWp.jpg",,,"https://pbs.twimg.com/media/HJAelgTaYAAxlWp.jpg","2058178662818865342",,,,,,
+"quote","2058637557030850568","2026-05-24T19:53:35.000Z","shannholmberg","Shann³","/goal is the simplest way to get your Hermes Agent running autonomously
+
+here's how it works:
+
+you give the agent a standing goal. after every turn, a judge model checks if it's complete. if not, Hermes auto-continues with the judge's reasoning. the loop runs until the goal is met, you pause it, or the turn token budget runs out.
+
+this means your agent can work through multi-step tasks without you babysitting every action.
+
+I'm testing two ways to structure this:
+
+> multi-agent kanban: each specialist agent picks up tasks from a shared board and works toward the overall goal
+> single agent with subgoals: one agent breaks down the main goal into smaller subgoals and executes them in sequence
+
+both work, but kanban is better for parallel workflows across different domains. subgoals work better for linear processes where each step depends on the last.
+
+my rule for what to automate with /goal: if you don't need to be in the loop for taste or judgment, it's a good candidate.
+
+examples that work well:
+
+> data collection and formatting
+> recurring research reports
+> monitoring and alerting workflows
+> file organization and cleanup
+> CRM updates from call transcripts
+
+examples that don't work:
+
+> creative copywriting that needs your voice
+> strategic decisions with multiple valid paths
+> client-facing content that requires approval
+
+visualized how /goal runs below.","en","<a href=""https://typefully.com/"" rel=""nofollow"">Typefully</a>","20","167","15","2","195","22540","true","photo","https://pbs.twimg.com/media/HJG_8oebUAAKK22.jpg",,,"https://pbs.twimg.com/media/HJG_8oebUAAKK22.jpg","2058637557030850568",,,,"2058178662818865342","1455999313453195265",
+"original","2056369839548362754","2026-05-18T13:42:29.000Z","wongmjane","Jane Manchun Wong","I resurrected my 8-year-old phone into a Hermes Agent server⚕️ 
+
+Replaced Android with postmarketOS (Alpine Linux on ARM64), runs Hermes as a systemd service. I chat with it over Matrix (E2E encrypted)
+
+One less piece of e-waste + no need to buy a Mac mini now","en","<a href=""http://twitter.com/download/iphone"" rel=""nofollow"">Twitter for iPhone</a>","68","1088","69","13","745","69630","true","photo","https://pbs.twimg.com/media/HImxd8-boAAP1ZX.jpg",,,"https://pbs.twimg.com/media/HImxd8-boAAP1ZX.jpg","2056369839548362754",,,,,,
+"original","2055335043904492011","2026-05-15T17:10:35.000Z","shannholmberg","Shann³","http://x.com/i/article/2055317817658900480","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","245","2345","34","34","7400","1377514","false","none",,,,,"2055335043904492011",,,,,,
+"quote","2056410242330874349","2026-05-18T16:23:02.000Z","shannholmberg","Shann³","4 levels of Hermes Agent setup:
+
+LEVEL 1: main agent
+
+You → Hermes Agent
+
+this is your main agent and your prototype area, where you test new workflows and refine them. it doubles as your orchestrator until you have something worth breaking out
+
+----
+
+LEVEL 2: specialized agents
+
+You → SEO Agent
+You → CMO Agent
+You → Ops Agent
+
+once a workflow is solid, break it out into its own agent with its own credentials, memory and scope.
+
+---
+
+LEVEL 3: orchestrated team
+
+You → Orchestrator
+          ↓
+     Specialist Agents
+
+bring the orchestrator back in. it now steers the company of agents you have built.
+
+----
+
+LEVEL 4: automated team
+
+Cron / Events → Orchestrator
+                    ↓
+              Agent Team
+
+add task lists so the team works async. cron and events fire jobs, the orchestrator routes them through the task bus, the team handles the work without you
+
+----
+
+take small steps, you DO NOT want to automate slop.
+
+if your output at level 1 is mediocre, you are about to scale mediocrity. 20 agents shipping low quality work at speed is worse than 3 shipping great work slowly.
+
+I would rather run fewer agents with better output than MAXXING the agent count and spitting out more of the same.","en","<a href=""https://typefully.com/"" rel=""nofollow"">Typefully</a>","279","2672","62","10","5351","310291","true","photo","https://pbs.twimg.com/media/HInWN2XbQAAps5j.jpg",,,"https://pbs.twimg.com/media/HInWN2XbQAAps5j.jpg","2056410242330874349",,,,"2055335043904492011","1455999313453195265",
+"original","2056269840009318569","2026-05-18T07:05:08.000Z","0xJeff","0xJeff","http://x.com/i/article/2056268562051022848","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","74","846","30","12","1741","155449","false","none",,,,,"2056269840009318569",,,,,,
+"original","2054096165055217987","2026-05-12T07:07:43.000Z","kloss_xyz","klöss","/goal is the best command in Codex, Claude Code, and Hermes right now.
+
+And most are using it wrong.
+
+They write ""make no mistakes"".
+
+And pray.
+   
+Here's how to structure yours for a mission, to rank your uncertainties before acting, to kill scope creep, and to close every loop other prompts leave open.
+
+/goal prompt [structure below]
+
+GOAL:
+<single clear measurable outcome; one mission only>
+
+CONTEXT:
+<repo/files/architecture/current state>
+<known assumptions, dependencies, and relevant prior decisions>
+
+CONSTRAINTS:
+<what must not change>
+<required standards/patterns>
+<forbidden files/actions if any>
+
+PRIORITY: (optional)
+1. <highest priority>
+2. <secondary priority>
+3. <tertiary priority>
+
+PLAN:
+<understand first, then act>
+<restate understanding before executing non-trivial changes>
+<prefer minimal sufficient changes over broad rewrites>
+
+DONE WHEN:
+<verifiable completion state>
+<expected behavior preserved or improved>
+
+VERIFY:
+<tests/build/lint/typecheck/manual validation>
+<state what could not be verified and why>
+<include rollback/containment plan for destructive or high-risk changes>
+
+OUTPUT:
+<concise summary/docs/audit/results>
+<changed files, key decisions, risks, and follow-ups>
+
+STOP RULES:
+<halt on high-impact ambiguity or risk; do not invent architecture, behavior, or requirements>
+<surface uncertainties together with ranked highest-confidence proposals before acting; not open-ended clarification questions>
+<do not continue expanding scope after the goal is satisfied>","en","<a href=""http://twitter.com/download/iphone"" rel=""nofollow"">Twitter for iPhone</a>","94","914","35","7","1620","265796","true","photo","https://pbs.twimg.com/media/HIGdkyEbUAAIqeh.jpg",,,"https://pbs.twimg.com/media/HIGdkyEbUAAIqeh.jpg","2054096165055217987",,,,,,
+"quote","2055477217552142782","2026-05-16T02:35:32.000Z","kloss_xyz","klöss","people loved my Codex /goal share
+
+so I built 7 production grade templates covering use cases
+
+1. Ideation/Interrogation
+2. Planning &amp; Documentation
+3. Build &amp; Implementation
+4. Refactoring/Restructuring
+5. Consolidation
+6. Hardening
+7. Migrations
+
+use 1-3 in order, 4-7 whenever","en","<a href=""http://twitter.com/download/iphone"" rel=""nofollow"">Twitter for iPhone</a>","55","600","18","0","1310","89136","true","photo","https://pbs.twimg.com/media/HIaFotlbgAAhHxI.jpg",,,"https://pbs.twimg.com/media/HIaFotlbgAAhHxI.jpg","2055477217552142782",,,,"2054096165055217987","1470503969789251589",
+"quote","2055418066289512839","2026-05-15T22:40:29.000Z","shannholmberg","Shann³","I've spent the past few weeks rebuilding my entire marketing operation in Hermes Agents
+
+I poured everything I learned along the way into this article.
+
+> how to set it up
+> the four-level path from one agent to a whole marketing company on one VPS
+> the agent control room template I built (public repo to clone)
+> the models I run for creative vs structured work
+
+go become an operator","en","<a href=""https://typefully.com/"" rel=""nofollow"">Typefully</a>","74","782","23","4","1750","120700","true","photo","https://pbs.twimg.com/media/HIZP1rKbgAADJvc.jpg",,,"https://pbs.twimg.com/media/HIZP1rKbgAADJvc.jpg","2055418066289512839",,,,"2055335043904492011","1455999313453195265",
+"quote","2054542245475578147","2026-05-13T12:40:17.000Z","shannholmberg","Shann³","the org chart for my Hermes Agent company
+
+four layers, all isolated docker containers on one vps:
+
+1. company brain - vision, brand, customers, products. the context every other layer inherits
+
+2. orchestrator hermes agent - reads the company brain, picks the right department, hands off the context they need
+
+3. department brain - marketing, sales, ops, support. each one has its own playbook, voice rules, and tools
+
+4. specialized hermes agents - the actual workers. each one focused on a single task with a sub-profile
+
+context flows down, work flows up, and memory stays scoped to the layer that owns it
+
+one vps holds the whole company. spin up new departments or agents from a template, each in its own container, no cross-contamination","en","<a href=""https://typefully.com/"" rel=""nofollow"">Typefully</a>","104","1068","55","6","1895","142366","true","photo","https://pbs.twimg.com/media/HIMzSJta0AAzErl.jpg",,,"https://pbs.twimg.com/media/HIMzSJta0AAzErl.jpg","2054542245475578147",,,,"2054249815291351207",,
+"quote","2055059408305168691","2026-05-14T22:55:18.000Z","shannholmberg","Shann³","the Hermes Agent company visualized
+
+I´m currently migrating my workflows from the main hermes agent I´ve been running for a while to seperate instances
+
+managed to spin up new agents in under 2 minutes
+
+having a seperate folder with CLI agent controlling the hermes company is such a hack","en","<a href=""https://typefully.com/"" rel=""nofollow"">Typefully</a>","54","416","25","2","622","37325","true","photo","https://pbs.twimg.com/media/HIUJo_-agAAe8hH.jpg",,,"https://pbs.twimg.com/media/HIUJo_-agAAe8hH.jpg","2055059408305168691",,,,"2054542245475578147","1455999313453195265",
+"original","2051473178682118241","2026-05-05T01:24:54.000Z","tonysimons_","Tony Simons","http://x.com/i/article/2051460508943867904","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","77","922","28","10","2992","165920","false","none",,,,,"2051473178682118241",,,,,,
+"quote","2054988127563907096","2026-05-14T18:12:04.000Z","tonysimons_","Tony Simons","My Hermes Agent’s personality is better than most people I know in real life. 
+
+Here’s how I made the coolest agent on the block with one single markdown file. 👇","en","<a href=""http://twitter.com/download/iphone"" rel=""nofollow"">Twitter for iPhone</a>","59","621","23","2","1635","130066","false","none",,,,,"2054988127563907096",,,,"2051473178682118241","1998221941300490241",
+"original","2054988166541770782","2026-05-14T18:12:13.000Z","Saboo_Shubham_","Shubham Saboo","http://x.com/i/article/2054805605995696128","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","118","1006","29","17","2508","226913","false","none",,,,,"2054988166541770782",,,,,,
+"original","2050516570363908367","2026-05-02T10:03:41.000Z","0xSero","0xSero","Important: This is a summary of an amazing video by one of the best creators I know. Video in the first comment.
+
+If you've been struggling to setup a productive local environment I'll summarise, but you should watch the video.
+
+1. Qwen3.6-27B with NO THINKING - 4bit - 16bit depending on your resources
+
+2. Hermes agent: It's polished, minimal, and OSS, if you're on OC keep at it it's also great but IMO consumes more tokens == slower 
+
+3. Learn to work in a detached way: Instead of small, unclear prompts make something really specific and hand-off to a local agent:
+
+- What is your end goal? 
+- What is the output format?
+- How would you recommend a task be done? 
+- How would you deal with common issues? 
+
+Kick off a job and go do something IRL, the lower speeds paired with very clear prompts means you can check in every 2 hours on average for your next free task. 
+
+Treat it like a challenge, it'll teach you so much.
+
+~~~~~~~
+
+If you're more technical, wire your devices with Tailscale & use protected Cloudflare Tunnels to serve your inference API to your network so you can work from ANYWHERE with your local models. 
+
+I love Droid, Pi, and Opencode but you can use local models in Claude Code, Codex, Cursor relatively easily. 
+
+Most of your day will involve computer-use which the models are great at. Need to reset a server? Do it for free, want to gather research? Do it for free. 
+
+Not every task requires a 10T param beast crunching on things, being able to quickly cycle between models is what's critical here, which is why I recommend the three harnesses I did
+
+~~~~~~~
+
+What is productive? 
+
+- Organise all your files, folders, images, etc.. have each one tagged (Qwen is omni so no more date time titles) 
+- Create a content cache for yourself:  
+     - recommendation algo for books & videos etc.
+     - content/papers/courses for studying
+     - Social media post ideas  (write your own posts tho)
+- Torrent manager, you don't need Netflix or Spotify lol
+- Simple utility coding projects: landing pages, designs, games, scripts 
+- Market watchers: purchase stuff, check marketplaces, do shopping
+- Budgeting, taxes, and subscription management 
+
+I could go on and on, obviously it's not going to make you a millionaire or whatever but it makes life more FUN. 
+
+~~~~~~~
+
+AI is a tool, one that's very good at accelerating you towards self fulfilment as long as you:
+
+1. Understand what it is 
+2. Learn how to talk to it
+3. Keep trying to improve you
+
+~~~~~~~
+
+My videos tend to be stream of thought, I am starved of time and just want to make sure I keep up. 
+
+I would not be doing this if I couldn't just generate 3 thumbnails on t3chat, for example. That's why I spend so much time working on this. 
+
+I see myself being more of who I want to be every day and a lot of that is with the help of this technology, allowing me to more quickly and effectively interact with the world. 
+
+Being able to own this at home? True sovereignty.  
+
+~~~~~~~
+
+Thank you, Digital Spaceport. I wouldn't have gotten this deep into running my own infra without your videos.","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","94","1319","33","7","1987","65491","true","photo","https://pbs.twimg.com/media/HHTkWnOWMAAyIUy.jpg",,,"https://pbs.twimg.com/media/HHTkWnOWMAAyIUy.jpg","2050516570363908367",,,,,,
+"original","2051307460208578864","2026-05-04T14:26:24.000Z","shmidtqq","shmidt","http://x.com/i/article/2051218927263338496","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","75","812","39","7","1956","143308","false","none",,,,,"2051307460208578864",,,,,,
+"original","2051305175961272810","2026-05-04T14:17:20.000Z","witcheer","witcheer","http://x.com/i/article/2051287985962823681","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","18","267","14","3","536","27978","false","none",,,,,"2051305175961272810",,,,,,
+"quote","2052051592770469894","2026-05-06T15:43:19.000Z","sudoingX","Sudo su","watching a 27b local model write its own benchmark report just now and i'm sitting with this for a sec.
+
+gave carnice-v2 27b (kaios SFT on qwen 3.6 dense, trained on hermes agent traces) a self-report card task, find your hardware, find your model file, find the llama.cpp commit you're running on, run a self-benchmark via curl, write a markdown report, verify it, tell me the path.
+
+it called 19 tool in 12 minutes across 42 messages, 11 terminal calls for hardware and git probing, 6 todo updates as it worked through the plan, plus one write_file for the report and one read_file to verify it, no hand holding.
+
+the verify step is what i can't get over, carnice wrote the file then read it back THEN said done, plan execute and VERIFY, that loop actually closing is the rare bird.
+
+running on a 5090 mobile, 21 gb vram peak at 99% gpu, 16.71 tok/s on the singleprompt streaming bench, llama.cpp commit 75f3bc94e from apr 13 (vulkan flash attention dp4a shader), 262k context, fa on, kv cache q4_0/q4_0.
+
+zero hallucinated tools either, the prompt listed bash and python_run from my v0.1 spec but hermes actually ships terminal and execute_code, carnice adapted to the real registry without inventing anything.
+
+this is run 1 of my new personal tool-use benchmark, consumer hardware, harness-agnostic methodology, visible traces. vanilla qwen 3.6 head to head next, video QT after, see for yourself.","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","8","139","9","2","65","29948","true","photo","https://pbs.twimg.com/media/HHpZ390bgAAgeNm.jpg; https://pbs.twimg.com/media/HHpaAJnbwAAzw65.png; https://pbs.twimg.com/media/HHpZ67Pb0AAnIJa.jpg; https://pbs.twimg.com/media/HHpZ9gPboAA1amN.png",,,"https://pbs.twimg.com/media/HHpZ390bgAAgeNm.jpg","2052051592770469894",,,,"2051684921694175340",,
+"quote","2052056149525213520","2026-05-06T16:01:26.000Z","sudoingX","Sudo su","the full 12-minute run sped to 80 seconds, watch carnice v2 cycle through plan, terminal probe, todo update, write the report, then read it back to verify, until the loop closes. no edit cuts, no narration, just the model working at 5x time.
+
+the rare-bird verify moment lands in the last 20 seconds, write_file then read_file then done. closed loop on consumer hardware, you can watch it happen.","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","4","110","5","1","69","11876","true","video","https://pbs.twimg.com/amplify_video_thumb/2052055842942550016/img/8RNmC3I8dptrHt_L.jpg","https://video.twimg.com/amplify_video/2052055842942550016/vid/avc1/2552x1596/zFT0akOyFzzd-ZSM.mp4?tag=27","80","https://pbs.twimg.com/amplify_video_thumb/2052055842942550016/img/8RNmC3I8dptrHt_L.jpg","2052056149525213520",,,,"2052051592770469894","1555661341914198016",
+"original","2054564519280804028","2026-05-13T14:08:48.000Z","akshay_pachaar","Akshay 🚀","http://x.com/i/article/2053698458230702080","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","748","6093","111","100","22314","5057527","false","none",,,,,"2054564519280804028",,,,,,
+"quote","2054861039804772827","2026-05-14T09:47:04.000Z","akshay_pachaar","Akshay 🚀","the three-tier memory of Hermes agent.
+
+AI agents forgets everything when your session ends. Hermes doesn't.
+
+it has three memory layers, each at a different speed.
+
+𝘁𝗶𝗲𝗿 𝟭: 𝘁𝘄𝗼 𝘁𝗶𝗻𝘆 𝗺𝗮𝗿𝗸𝗱𝗼𝘄𝗻 𝗳𝗶𝗹𝗲𝘀
+
+MEMORY.md (2,200 chars) and USER.md (1,375 chars). injected into the system prompt at session start as a frozen snapshot.
+
+MEMORY.md holds project conventions, tool quirks, lessons learned. USER.md holds your profile: name, communication style, skill level.
+
+these files are tiny on purpose. when MEMORY.md hits ~80% capacity, the agent consolidates: merges related entries, drops redundancy, keeps only the densest facts.
+
+natural selection pressure applied to memory. the files stay small, but what's inside gets sharper over time.
+
+𝘁𝗶𝗲𝗿 𝟮: 𝗳𝘂𝗹𝗹-𝘁𝗲𝘅𝘁 𝘀𝗲𝘀𝘀𝗶𝗼𝗻 𝘀𝗲𝗮𝗿𝗰𝗵 (𝘀𝗾𝗹𝗶𝘁𝗲 + 𝗳𝘁𝘀𝟱)
+
+every conversation gets stored in SQLite with FTS5 indexing. the agent can search weeks of past sessions on demand.
+
+when the agent calls session_search: FTS5 ranks matches in ~10ms over 10,000+ docs, an LLM summarizes the top hits, and a concise result returns to context.
+
+tier 1 is always present but tiny. tier 2 has unlimited capacity but requires an active search. critical facts live in memory, everything else is searchable.
+
+𝘁𝗶𝗲𝗿 𝟯: 𝗲𝘅𝘁𝗲𝗿𝗻𝗮𝗹 𝗺𝗲𝗺𝗼𝗿𝘆 𝗽𝗿𝗼𝘃𝗶𝗱𝗲𝗿𝘀
+
+8 pluggable providers that run alongside tiers 1 and 2, never replacing them. three worth knowing: Honcho (dialectic user modeling, 12 identity layers), Holographic (local-first, HRR vectors, no external calls), and Supermemory (context fencing that prevents the same fact from being re-stored infinitely).
+
+when active, hermes auto-syncs every turn: prefetch before, sync after, extract at session end.
+
+𝗵𝗼𝘄 𝘁𝗵𝗲𝘆 𝗰𝗼𝗺𝗽𝗼𝘀𝗲 𝗶𝗻 𝗮 𝘀𝗶𝗻𝗴𝗹𝗲 𝘁𝘂𝗿𝗻
+
+this is the part most people miss. the tiers compose on every turn through a five-step cycle:
+
+1. turn opens. tier 1 is already in prompt, tier 3 prefetches and prepends.
+
+2. agent responds using all three tiers as context.
+
+3. periodic nudge fires (~every 300s). the agent reflects: ""has anything worth persisting happened?"" if yes, it writes. if no, it returns silently.
+
+4. memory written to MEMORY.md on disk. invisible this session because the prefix cache stays warm.
+
+5. session closes. tier 2 logs the transcript, tier 3 extracts semantics. next session opens with the new state.
+
+agent memory today is either always-on but shallow (stuff everything in the prompt) or deep but passive (vector store that never fires at the right time).
+
+hermes composes across both: tiny always-present files for critical facts, full-text search for deep recall, external providers for semantic modeling, all orchestrated by a nudge that decides autonomously what's worth saving.
+
+the agent doesn't just store memories. it curates them under pressure.
+
+i wrote a full deep dive (article below) covering hermes agent's memory system, self-evolving skills, GEPA optimization, and how to set up multiple specialized agents on your machine.","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","122","906","56","6","1479","139894","true","photo","https://pbs.twimg.com/media/HIRUEEba4AAnxvp.jpg",,,"https://pbs.twimg.com/media/HIRUEEba4AAnxvp.jpg","2054861039804772827",,,,"2054564519280804028","703601972",
+"original","2052532018584695225","2026-05-07T23:32:22.000Z","NeoAIForecast","Neo","http://x.com/i/article/2052178223593857024","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","59","488","13","5","1256","46988","false","none",,,,,"2052532018584695225",,,,,,
+"original","2052652747695231285","2026-05-08T07:32:06.000Z","heynavtoor","Nav Toor","10 GitHub repos that distill the world's smartest people into AI you can run on your laptop.
+
+In 2026, the greatest minds of our time became installable. Bookmark this list — you will not see anything stranger this year.
+
+1. andrej-karpathy-skills
+A single markdown file distilling Andrej Karpathy's wisdom on AI coding. 109K+ stars. The most starred single-file repo in GitHub history.
+Repo → https://github.com/forrestchang/andrej-karpathy-skills
+
+2. MemPalace
+Milla Jovovich, the Resident Evil actress, co-built this AI memory system using Claude Code. Near-perfect score on the LongMemEval benchmark.
+Repo → https://github.com/MemPalace/mempalace
+
+3. autoresearch
+Karpathy's own research automation framework. 23K stars in three days. The closest thing to having Karpathy as your research partner.
+Repo → https://github.com/karpathy/autoresearch
+
+4. awesome-claude-code
+The canonical playbook for Claude Code, the AI coding tool used inside FAANG, OpenAI, and Anthropic.
+Repo → https://github.com/hesreallyhim/awesome-claude-code
+
+5. SuperClaude Framework
+The complete Claude Code methodology distilled into a deployable framework. Personas, commands, prompts, workflows.
+Repo → https://github.com/SuperClaude-Org/SuperClaude_Framework
+
+6. AI-Agents-for-Beginners
+Microsoft's free 12-lesson course on building AI agents. Real code, real exercises, real production patterns.
+Repo → https://github.com/microsoft/ai-agents-for-beginners
+
+7. awesome-llm-apps
+106K+ stars. The most comprehensive collection of working AI applications on GitHub.
+Repo → https://github.com/Shubhamsaboo/awesome-llm-apps
+
+8. mattpocock/skills
+TypeScript wizard Matt Pocock's daily coding workflow, open-sourced. Planning, TDD, architecture, git guardrails.
+Repo → https://github.com/mattpocock/skills
+
+9. hermes-agent
+The self-evolving AI agent. Extracts skills from every conversation and gets smarter the more you use it.
+Repo → https://github.com/NousResearch/hermes-agent
+
+10. qlib
+Microsoft's full quant investment platform. The brain of a hedge fund analyst, free to clone.
+Repo → https://github.com/microsoft/qlib
+
+Here's the wildest part:
+
+A Hollywood actress, a Stanford AI legend, a TypeScript world-class teacher, and Microsoft's research division all just open-sourced their thinking.
+
+You don't need to be Karpathy. You don't need to be Milla Jovovich. You don't need a degree, a PhD, or a team.
+
+You need a laptop, a weekend, and these 10 repos.
+
+The greatest minds of our time are now installable.
+
+Most people will scroll past this. The ones who don't will compound.
+
+Save this before you forget.
+
+100% free. 100% open source.","en","<a href=""https://typefully.com/"" rel=""nofollow"">Typefully</a>","186","1331","29","5","3354","102163","true","photo","https://pbs.twimg.com/media/HHx8yZYasAEWv-Q.jpg; https://pbs.twimg.com/media/HHx8ynFbsAAEsk_.jpg; https://pbs.twimg.com/media/HHx8yyaaEAAQgW_.jpg; https://pbs.twimg.com/media/HHx8y83bwAARCfb.jpg",,,"https://pbs.twimg.com/media/HHx8yZYasAEWv-Q.jpg","2052652747695231285",,,,,,
+"original","2052483819270521238","2026-05-07T20:20:50.000Z","smantena","Sudhir Mantena","http://x.com/i/article/2052466094016008192","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","36","293","4","2","723","37629","false","none",,,,,"2052483819270521238",,,,,,
+"original","2054569766418108797","2026-05-13T14:29:39.000Z","aiedge_","AI Edge","http://x.com/i/article/2054279489774120960","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","111","979","18","21","3191","875394","false","none",,,,,"2054569766418108797",,,,,,
+"quote","2054249815291351207","2026-05-12T17:18:16.000Z","shannholmberg","Shann³","Hermes Agent changed how I work
+
+it's the highest leverage agent framework you can set up right now
+
+what makes it different:
+
+> it routes tasks to the right model based on complexity and cost
+> learns your voice and preferences over time
+> handles context switching without losing thread
+> works across your entire stack instead of living in one tool
+
+save this blueprint and build your own","en","<a href=""https://typefully.com/"" rel=""nofollow"">Typefully</a>","105","778","47","7","1315","259004","true","photo","https://pbs.twimg.com/media/HIIpUelaMAAKC-o.jpg",,,"https://pbs.twimg.com/media/HIIpUelaMAAKC-o.jpg","2054249815291351207",,,,"2053477584068063708",,
+"quote","2054617939123605898","2026-05-13T17:41:04.000Z","milesdeutscher","Miles Deutscher","/goal is f*cking insane.
+
+You can literally turn your AI agents into 24/7 employees that work for HOURS with zero manual intervention.
+
+This has to be the most powerful AI feature release of the month.
+
+If you try one thing in AI this week, make it this.","en","<a href=""https://typefully.com/"" rel=""nofollow"">Typefully</a>","358","3732","130","25","8020","777093","true","photo","https://pbs.twimg.com/media/HIN4IKma0AAi5tz.jpg",,,"https://pbs.twimg.com/media/HIN4IKma0AAi5tz.jpg","2054617939123605898",,,,"2054569766418108797","1901654809536843776",
+"original","2040828031707570233","2026-04-05T16:24:54.000Z","WinterArc2125","Winter","Most people don’t realize this:
+
+You get 1,500 free daily requests to Gemma 4 31B on @GoogleAIStudio. 
+
+That’s plenty of free inference (imo).
+
+And you can route it into @NousResearch  Hermes Agent via Vercel’s AI Gateway:
+
+1. Create an API key on Google AI Studio
+2. Add it under BYOK (Google) in Vercel AI Gateway
+3. Create a Vercel Gateway API key
+4. In Hermes → select “Vercel AI Gateway” + your Google model
+
+Now all your Google model requests route through your free AI Studio quota.
+
+Basically: free 31B model access inside your agent stack.
+
+(Tradeoff: not as private as running locally)","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","142","1947","47","12","2876","142378","false","none",,,,,"2040828031707570233",,,,,,
+"original","2049158152709382177","2026-04-28T16:05:49.000Z","sharbel","Sharbel","http://x.com/i/article/2049148134060691456","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","138","1277","34","35","3878","559008","false","none",,,,,"2049158152709382177",,,,,,
+"quote","2049158730323775847","2026-04-28T16:08:07.000Z","sharbel","Sharbel","> you installed Hermes Agent
+> you type a request, read the response, close the window
+> you've been using 8% of it
+> every single session
+> Hermes remembers everything. you never told it what to remember
+> it runs named personas on every task. you've never set one
+> there are 134 slash commands you've never used
+> here are the 15 features that change that:","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","76","1076","49","3","2394","208525","true","video","https://pbs.twimg.com/amplify_video_thumb/2049158660635738112/img/274ZDWtYlyDmntlC.jpg","https://video.twimg.com/amplify_video/2049158660635738112/vid/avc1/1280x720/0cmDeCd5L5rG4OdQ.mp4?tag=21","30","https://pbs.twimg.com/amplify_video_thumb/2049158660635738112/img/274ZDWtYlyDmntlC.jpg","2049158730323775847",,,,"2049158152709382177","1403761673060618244",
+"original","2049447765663428991","2026-04-29T11:16:38.000Z","_MaxBlade","Max Blade","How to start winning :
+
+Install Hermes on your MacBook. 
+
+Get a $100 a month codex subscription and have it run on gpt 5.5 
+
+Don’t waste time on anything else. 
+
+It has absolute frontier intelligence and they have made soo much improvements to the personality.
+
+It feels like working with a friend. 
+
+( kind of scary tbh ) 
+
+The amount of tokens you get subsidized with running gpt 5.5 through the codex cli is unbelievable. 
+
+Give hermes GitHub access, ssh keys to your servers, and cloudflare tokens. 
+
+It will take your local project and put them live on the web with domain, dns, ssl, nginx, pm2, everything setup in just ONE prompt. 
+
+It can monitor your backend / database and make sure everything is running perfectly. 
+
+Give it a support email, when customers reach out instruct it to look into there account on the server and makes any non destructive fixes. 
+
+Hermes will automatically turn everything it does into skills, getting better and learning from mistakes constantly. 
+
+You can literally have a 250k a year highly technical employee that WORKS 24/7 for $100 dollars right now.
+
+I need you to wake up.","en","<a href=""http://twitter.com/download/iphone"" rel=""nofollow"">Twitter for iPhone</a>","163","3468","204","19","5540","238506","false","none",,,,,"2049447765663428991",,,,,,
+"original","2049956455982182593","2026-04-30T20:58:00.000Z","NousResearch","Nous Research","Hermes Agent v0.12.0 - “The Curator Release”","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","155","1884","99","49","612","683745","true","video","https://pbs.twimg.com/amplify_video_thumb/2049949877660954624/img/SkqE9Zpgccbqr1sW.jpg","https://video.twimg.com/amplify_video/2049949877660954624/vid/avc1/2160x2160/KoiTWRauukTCiqQL.mp4?tag=27","76","https://pbs.twimg.com/amplify_video_thumb/2049949877660954624/img/SkqE9Zpgccbqr1sW.jpg","2049956455982182593",,,,,,
+"quote","2050026869274395020","2026-05-01T01:37:47.000Z","gkisokay","Graeme","There’s one Hermes use case for everyone, and if you're not using it, you're already behind.
+
+Do yourself a favour and build a research agent as I outline below; it will change the way you work.
+
+Mine researches my topics of interest and cuts through the noise to find what actually matters.
+
+Every day, it watches the AI/agent space, picks out useful signals, writes research briefs, suggests content angles, tracks what I ignore, and Hermes keeps improving parts of its own workflow.
+
+The basic version is almost free:
+
+1. Pick a domain: AI, crypto, startups, sales leads, competitors, papers, jobs, whatever.
+
+2. Give it sources: X lists, RSS feeds, blogs, GitHub repos, docs, newsletters, YouTube transcripts.
+
+3. Define signal: What should it care about? New tools, benchmarks, launches, funding, tutorials, strange patterns, useful claims.
+
+4. Save the evidence: Links, dates, summaries, claims, and why it matters in a vault.
+
+5. Deliver a daily brief: Discord, Slack, Notion, email, Obsidian, and local markdown.
+
+6. Give feedback: “More like this. This source is noisy. This is useful. This is mid.” 
+
+That is enough for the loop to start. Once you have a research agent, everything gets easier:
+
+- Content agents need research
+- Trading agents need market context
+- Sales agents need account intel
+- coding agents need docs and changelogs
+- Strategy agents need a fresh signal
+
+With a daily stream of inputs, generating ideas for outputs becomes much easier.
+
+If you want it, I’ll share the full research agent setup I use.","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","73","1168","49","3","2240","117674","false","none",,,,,"2050026869274395020",,,,"2049956455982182593","1318419526132862976",
+"quote","2046437276235022371","2026-04-21T03:54:02.000Z","BTCqzy1","爱丽丝呀！","想玩明白 Hermes Agent ，看这篇资源合集就够了！
+
+局长整理的这篇教程很详细啦，覆盖安装、实战到中高阶玩法，适合快速跑起来。
+
+下面我也整理了一份合集，聚焦 Hermes Agent 的持久记忆、自动提炼技能、跨会话成长等自我进化能力，帮你把 Hermes 打造成长期运行的生产力引擎：
+
+一、入门必看：先让 Hermes 跑起来！
+
+1. 最全面官方文档：从安装到基础使用，再到高级架构解析。
+https://hermes-agent.nousresearch.com/docs/
+
+2. Hermes Agent 主引擎：Nous Research 官方核心仓库。
+https://github.com/NousResearch/hermes-agent
+
+二、进阶核心：理解 Hermes 系统
+
+1. Hermes-Wiki：基于源码自动生成的 Wiki，Agent 自解释实现文档同步。
+https://github.com/cclank/Hermes-Wiki
+
+2. Hermes 生态地图 (Atlas)：社区维护的 80+ 工具与技能全景图，支持 RAG 查询。
+https://github.com/ksimback/hermes-ecosystem
+
+3. Hermes Control Interface：自托管仪表盘，统一调度多 Agent、长程任务与记忆。
+https://github.com/xaspx/hermes-control-interface
+
+三、高阶玩法：构建长期运行的自我进化 Agent
+
+1. Hermes Skill Factory：通过任务复盘自动生成并安装新技能，实现武器自造。
+https://github.com/Romanescu11/hermes-skill-factory
+
+2. Maestro：基于 Beads 架构的指挥官框架，支持跨 Agent 协作与结构化记忆管理。
+https://github.com/ReinaMacCredy/maestro
+
+3. Hermes Agent Camel：内置信任边界与安全协议，适合生产环境防护。
+https://github.com/nativ3ai/hermes-agent-camel
+
+四、工具增强：提升使用体验
+
+1. Hermes HUD：基于 Textual 的 TUI 监控终端，实时可视化意识流与内存状态。
+https://github.com/joeynyc/hermes-hud
+
+2. Hermes Alpha：一键部署模板，简化云端环境配置与快速原型开发。
+https://github.com/kaminocorp/hermes-alpha
+
+3. Awesome Hermes Agent：社区驱动的精选插件、提示词与教程列表。
+https://github.com/0xNyk/awesome-hermes-agent
+
+两篇合集结合使用，能帮你更全面地掌握 Hermes Agent，从快速上手到长期自我进化，一路走通。
+
+感兴趣的朋友可以关注收藏哦～
+#HermesAgent","zh","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","261","1133","85","9","1572","205570","true","photo","https://pbs.twimg.com/media/HGZnQxraMAAgUqZ.jpg",,,"https://pbs.twimg.com/media/HGZnQxraMAAgUqZ.jpg","2046437276235022371",,,,"2046426659264540866",,
+"quote","2050050461772939686","2026-05-01T03:11:32.000Z","BTCqzy1","爱丽丝呀！","别再给 Hermes 乱装 Skill 了，这 5 个才是真正值得必装的
+
+很多人玩 Hermes 还停留在调戏 AI的阶段，却不知道大佬们早就把它配成了生产力怪兽。 
+
+如果你还在忍受 Hermes  读不懂代码  转头就忘  乱烧 Token ，那是你没装对东西！ 
+
+之前我发过 Hermes 资源合集，很多朋友看完后问：到底怎么把它真正用成引擎？
+
+今天给你挖出 Hermes 生态里最硬核的 5 个必装基础设施神器，每一个都是社区高频使用的基石项目：
+
+1. Repomix（解决上下文碎片化、项目结构读不准）
+把整个仓库塞进 Hermes 的嘴里，一次性读懂项目。
+npx repomix . 一键打包成 AI 友好格式，再也不用一段一段喂代码。
+https://github.com/yamadashy/repomix
+
+2. TokScale（解决成本失控、对 Token 没概念）
+实时监控 Token 消耗，别等账单来了才心疼。
+支持 Hermes + 多 Agent，可视化 Dashboard，最稳的成本管家。
+https://github.com/junhoyeo/tokscale
+
+3. Hermes Workspace（解决黑框框操作、Skill 管理混乱。）
+给 CLI 穿上西装，让操作直观 10 倍。
+Web 工作台 + 聊天 + 终端 + Skill 管理 + 内存浏览器，一站式体验。
+https://github.com/outsourc-e/hermes-workspace
+
+4. Hindsight（解决失忆问题）
+给 Hermes 装上“长期记忆”，拒绝做陌生人。
+跨会话自动召回架构决策和项目偏好，原生集成 Hermes。
+https://github.com/vectorize-io/hindsight
+
+5. Mission Control（解决复杂流程管理）
+多 Agent 协同的“指挥中心”，大项目的终极方案。
+任务分发、成本追踪、全流程编排，自托管 Dashboard。
+https://github.com/builderz-labs/mission-control
+
+这 5 个工具刚好覆盖 Hermes 的核心短板：上下文、成本、交互、记忆、工程编排。 
+
+装好这套，你的 Hermes 才真正从玩具变成引擎。 
+
+你现在主力在用哪几个？欢迎评论区交流其他神器，我会挑优秀的继续整理成系列～","zh","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","215","1173","95","5","1753","104491","true","photo","https://pbs.twimg.com/media/HHM9TUyaAAAOt38.jpg",,,"https://pbs.twimg.com/media/HHM9TUyaAAAOt38.jpg","2050050461772939686",,,,"2046437276235022371","1680956429811974144",
+"original","2050148805501477076","2026-05-01T09:42:19.000Z","cyrilXBT","CyrilXBT","HERMES JUST GOT A CHATGPT INTERFACE AND IT IS COMPLETELY FREE.
+
+No terminal.
+
+No command line.
+
+No technical setup that takes half a day to figure out.
+
+Here is what just became possible.
+
+You can now run Hermes, DeepSeek, Ollama, and OpenClaw from a single clean chat interface.
+
+Switch between them in one click.
+
+Upload files directly.
+
+Attach knowledge bases and notes.
+
+Preview code without touching the terminal once.
+
+Use it on mobile.
+
+Make voice and video calls.
+
+All of it.
+
+Free.
+
+Open source.
+
+The setup took one conversation with Hermes itself.
+
+Pasted the GitHub link in.
+
+Hermes installed Open Web UI in Docker on its own.
+
+Connected the API server and gateway automatically.
+
+A clean ChatGPT-level interface running entirely on local hardware was live in minutes.
+
+No subscription.
+
+No data leaving your machine.
+
+No API bill at the end of the month.
+
+The people who set this up this weekend will have a local AI stack that rivals what most companies are paying $2,000 a month for in cloud infrastructure.
+
+The people who wait will keep paying for tools that send their data somewhere they cannot see.
+
+Both tools are free.
+
+Both are open source.
+
+The only thing between you and this setup is the next 30 minutes.
+
+Follow @cyrilXBT for the exact config, setup steps, and local AI workflows I use to run a full stack without spending a dollar on cloud inference.","en","<a href=""https://typefully.com/"" rel=""nofollow"">Typefully</a>","59","604","38","1","936","36937","true","video","https://pbs.twimg.com/amplify_video_thumb/2050148738967248896/img/PXWjFz9SQk6Zgwl6.jpg","https://video.twimg.com/amplify_video/2050148738967248896/vid/avc1/1280x720/inEGH5bD8wXBPFs9.mp4?tag=14","550","https://pbs.twimg.com/amplify_video_thumb/2050148738967248896/img/PXWjFz9SQk6Zgwl6.jpg","2050148805501477076",,,,,,
+"original","2050941786340610111","2026-05-03T14:13:21.000Z","MichaelGannotti","Mike Gannotti","And Hermes Workspace is live on my phone! Thanks again @outsource_  this is kick ass!","en","<a href=""http://twitter.com/download/iphone"" rel=""nofollow"">Twitter for iPhone</a>","10","397","13","0","374","24546","true","photo","https://pbs.twimg.com/media/HHZor19XcAAiW_E.jpg",,,"https://pbs.twimg.com/media/HHZor19XcAAiW_E.jpg","2050941786340610111",,,,,,
+"original","2050984556790939731","2026-05-03T17:03:18.000Z","vmiss33","vmiss","http://x.com/i/article/2050983909576294400","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","167","1912","81","27","5304","547108","false","none",,,,,"2050984556790939731",,,,,,
+"quote","2050984822168830302","2026-05-03T17:04:21.000Z","vmiss33","vmiss","100% human generated.  Includes what I use Hermes agent for (since I've seen a lot of people wondering what to do with this thing), and what models/providers I use to keep things cheap. @NousResearch","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","12","322","15","3","503","49281","false","none",,,,,"2050984822168830302",,,,"2050984556790939731","109011736",
+"quote","2051217968575483925","2026-05-04T08:30:48.000Z","0xJeff","0xJeff","My Hermes is finally on the road to become the ultimate analyst
+​
+What it can do really well now
+- Know my preference, my portfolio, my theses, my approach
+- Generate visuals (like Claude artifacts)
+- Daily briefings on macro, tech, X bookmarks, PMs opps, top insights
+- Equities tracking, expanding investment strategies
+- Do everything with Jeff's preference in mind
+​
+Result = Hermes performs a job of Data/Research/PM/Investment analyst  with fraction of the cost 
+
+($60/month on DeepSeek inference + $10-15/month on X API + $20/month on Claude, everything else is free)","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","54","646","30","1","1115","129596","false","none",,,,,"2051217968575483925",,,,"2051214993719427258",,
+"quote","2051561443359592838","2026-05-05T07:15:38.000Z","0xJeff","0xJeff","Proud of my analyst, Hermes
+​
+This is what he has achieved after 1.5+ months of internship with me
+​
+- Got me off X (doomscrolling cut from 2 hrs → 30 mins)
+- Practically paid for his salary via PMs bonding strats
+- Helped me diversify into AI stock + nailed strong picks
+- He's always on the look out for proper entries & exits
+- Turned his Discord into the command center (non-stop signals & alpha)
+​
+I’ve learned so much working with him. Dude could probably land a summer internship at a16z right now","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","35","661","38","2","602","72299","false","none",,,,,"2051561443359592838",,,,"2051217968575483925","1460252469745782790",
+"original","2052140057222369541","2026-05-06T21:34:51.000Z","NousResearch","Nous Research","People love to ask what they can use Hermes Agent for.  
+
+Hermes scraped the internet for answers and added them to our docs as inspiration. And if you've found an interesting use case, you can submit your own!","en","<a href=""https://twitter.com"" rel=""nofollow"">TweetDeck Web App</a>","111","1779","73","27","1215","117103","true","video","https://pbs.twimg.com/amplify_video_thumb/2052139370585505795/img/j2RH6oleC_bwCpk8.jpg","https://video.twimg.com/amplify_video/2052139370585505795/vid/avc1/2160x2160/QxPblzUWp3c7sA7O.mp4?tag=27","7","https://pbs.twimg.com/amplify_video_thumb/2052139370585505795/img/j2RH6oleC_bwCpk8.jpg","2052140057222369541",,,,,,
+"original","2052389363527365092","2026-05-07T14:05:30.000Z","sharbel","Sharbel","10 Hermes Agent Features Most People Aren’t Using:
+
+0:00 Most people use Hermes wrong  
+1:03 Hermes vs Claude Code and normal AI assistants  
+1:50 Feature 1: soul.md and personality  
+3:22 Feature 2: session search  
+5:13 Feature 3: skills as workflows  
+7:11 Feature 4: Telegram gateway as a control surface  
+9:23 Feature 5: cron jobs  
+10:53 Feature 6: subagents  
+12:36 Feature 7: profiles  
+14:34 Feature 8: model and provider switching  
+16:23 Feature 9: /btw side question mode  
+18:07 Feature 10: hooks, boot.md, and event automation  
+20:33 Why Hermes is agent infrastructure  
+21:47 Next video: full operator setup","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","25","491","25","3","934","25951","true","video","https://pbs.twimg.com/amplify_video_thumb/2052388044557205509/img/CPErV4szMXXWqNqi.jpg","https://video.twimg.com/amplify_video/2052388044557205509/vid/avc1/1920x1080/cpNnXCfBL7k-2FOb.mp4?tag=27","1338","https://pbs.twimg.com/amplify_video_thumb/2052388044557205509/img/CPErV4szMXXWqNqi.jpg","2052389363527365092",,,,,,
+"original","2052611784784445604","2026-05-08T04:49:19.000Z","sudoingX","Sudo su","i named my dgx spark ""spark."" it runs hermes agent /goal overnight. 
+
+brain is qwen 3.6 27B Q8, 262K context, i set a goal before bed and wake up to results. no rate limits. no token costs. just local inference grinding while i sleep. this thing never stops.","en","<a href=""http://twitter.com/download/android"" rel=""nofollow"">Twitter for Android</a>","13","225","30","4","122","62739","true","photo","https://pbs.twimg.com/media/HHxXil7bIAATs1r.jpg",,,"https://pbs.twimg.com/media/HHxXil7bIAATs1r.jpg","2052611784784445604",,,,,,
+"quote","2052794989881753743","2026-05-08T16:57:19.000Z","sudoingX","Sudo su","after today's spark posts, lots of you asking how the hermes agent /goal flow actually works. here's how to write a goal that actually executes.
+
+what /goal does:
+> hermes agent autonomous mode, you set the goal once, model executes without supervision, writes files, runs commands, builds, tests, iterates, closes the loop or tells you why it can't.
+
+what to delegate:
+> that one idea you've been thinking about but never started
+> small broken thoughts you can't fully articulate yet
+> a full feature suite you don't have time to build
+> a research direction you want explored without writing it yourself
+> anything where the outcome matters more than the path
+
+how to write a goal that actually executes:
+> single concrete outcome (build X, optimize Y, port Z, debug A)
+> bounded scope (not ""make my code better"", be specific about WHICH code, what better means)
+> ask for tests alongside the build (model writes tests, runs them, fixes until green)
+> testable success criteria the model can self-verify (specific output, specific behavior, specific number)
+> outcome-specific (X tokens/sec, Y test pass rate, Z file structure)
+> include constraints (don't break existing API, keep file under N lines, use library M only)
+
+GOOD goal examples:
+> ""build a multi-file html particle physics demo, 60fps minimum, write tests that verify particle count + collision math, make it pass all tests, then serve on localhost:5000""
+> ""port my triton kernel at /path/to/kernel.py to native CUDA C++, integrate into llama.cpp at the mmq dispatch path, benchmark vs current implementation, write a comparison report""
+
+BAD goal examples:
+> ""make this faster"" (which? how much faster? what's the bound?)
+> ""explore pytorch"" (no endpoint, model loops forever)
+> ""design a beautiful UI"" (taste calls = needs human judgment mid-run)
+
+set the goal before bed. wake up to either receipts or a clean error log.","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","60","809","26","11","1088","98123","true","photo","https://pbs.twimg.com/media/HHz91aoaEAAldel.png",,,"https://pbs.twimg.com/media/HHz91aoaEAAldel.png","2052794989881753743",,,,"2052611784784445604","1555661341914198016",
+"original","2053166838595617127","2026-05-09T17:34:54.000Z","NeoAIForecast","Neo","Always good to see these in a cheat sheet.
+
+Hermes Agent slash commands!","en","<a href=""http://twitter.com/download/iphone"" rel=""nofollow"">Twitter for iPhone</a>","31","207","3","1","244","6463","true","photo","https://pbs.twimg.com/media/HH5QWxVaoAANyCE.jpg",,,"https://pbs.twimg.com/media/HH5QWxVaoAANyCE.jpg","2053166838595617127",,,,,,
+"original","2052710718613360750","2026-05-08T11:22:27.000Z","itsolelehmann","Ole Lehmann","HERMES AGENT FOR DUMMIES
+
+Everyone on X keeps talking about Hermes Agent and I finally get why:
+
+Once you have an AI that's always-on, remembers everything, and you can just text from your phone, you're never going back to a regular AI chat window.
+
+That's Hermes. You text it like an executive assistant and it just handles things.
+
+Think of it like an affordable OpenClaw that actually works and is reliable.
+
+I was using OpenClaw earlier this year, but it kept breaking and the costs were adding up, so I quit personal agents for a while.
+
+Then I set up Hermes and it's what I wanted OpenClaw to be from the start.
+
+Here's how it works:
+
+> You can talk to it on 19+ messaging platforms (I use Telegram and Discord)
+
+> You give it a personality file called SOUL .md so it behaves how you want.
+
+> You give access to your email, calendar, full browser access, and whatever other tools you use through integrations.
+
+> And you plug in whatever models you want as the brain.
+
+I use GPT 5.5 for heavy thinking and DeepSeek for lighter tasks so I'm not burning tokens on every little request (under $20/month in token spend).
+
+And I run mine on a Hetzner server for about $5/mo, which enables Hermes to be always-on and persistent.
+
+So you can schedule tasks that run autonomously, even while you sleep and even while your devices are off.
+
+For example, I have one that scans my email for customer support tickets every morning, matches customer to stripe data, sends out missing links, checks refunds etc.
+
+Stuff that used to take me HOURS.
+
+And the part that actually separates it from OpenClaw and everything else:
+
+Hermes writes its own skills from experience.
+
+Every time it completes a task, it saves what worked and turns it into a reusable skill it can run again without you explaining anything.
+
+So it literally gets smarter and better over time for your specific workflows.
+
+Here's what other people are doing with it:
+
+> inbox zero and calendar management from Telegram on their phone
+> overnight coding that debugs itself while they sleep
+> a family WhatsApp bot where 5 people share one agent to get stuff done
+> daily briefings texted every day at 8am
+> smart home control through Home Assistant
+> etc
+
+Once you try texting an AI that already knows your whole setup and just does things when you ask, opening a chat window and starting from scratch every time feels broken.
+
+This is the first AI agent that feels like a legit Chief of Staff.","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","19","310","18","4","632","153690","true","video","https://pbs.twimg.com/amplify_video_thumb/2052699469121310720/img/iBcfSg6wECw6QSH8.jpg","https://video.twimg.com/amplify_video/2052699469121310720/vid/avc1/780x720/VMG2Y2kyC5xfCXYG.mp4?tag=14","49","https://pbs.twimg.com/amplify_video_thumb/2052699469121310720/img/iBcfSg6wECw6QSH8.jpg","2052710718613360750",,,,,,
+"quote","2053190714734137366","2026-05-09T19:09:47.000Z","itsolelehmann","Ole Lehmann","A lot of people keep DMing me ""how do I actually use Hermes if I’m non-technical""
+
+Short answer: you barely touch the technical layer after the initial setup
+
+The whole experience comes down to 3 things you actually interact with day to day
+
+1. The messaging app you already use (Telegram, WhatsApp, Discord, etc)
+
+You text Hermes the way you'd text a chief of staff.
+
+""Remind me to follow up with Mike Thursday.""
+""Draft 3 replies to the emails from yesterday.""
+""Find me the best flight from Berlin to SF on May 16.""
+
+It just handles it.
+
+2. Slash commands
+
+These are one-word shortcuts you type into the chat so you don't have to write a paragraph every time
+
+For example, one I use is /goals
+
+You type /goals, tell it what you're working on this quarter, and it remembers.
+
+Your daily briefing pulls toward those goals.
+
+When you ask for advice it factors them in.
+When it has free cycles overnight it works on them while you sleep.
+
+Other useful ones:
+
+/schedule for recurring tasks
+/skills to turn capabilities on and off
+/memory to peek at what it already knows about you
+
+3. The dashboard
+
+A web page that shows everything your agent is doing in one view:
+
+> The tasks it's running right now
+> What it did overnight while you were asleep
+> The tools it touched (email read, calendar updated, Slack sent)
+> Token spend per task and per model, so you can see exactly what each workflow is costing you
+> The skills you have enabled and how often each one fires
+
+And a TON more.
+
+So when the agent starts to feel like a black box (like OpenClaw did for me tbh), this dashboard gives you the receipts
+
+And the thing that actually makes Hermes work for non-technical people is skills
+
+Skills are pre-built capabilities you install from a library
+
+Inbox triage, calendar management, managing your ads, solving customer tickets, family scheduling, daily briefing, etc
+
+You browse, tap install, and the new capability shows up in your chat the next time you text the agent
+
+It's the app store moment for personal agents
+
+Once you've connected your messaging app, set your goals, and installed 5-10 skills, you have a real personal agent running in your pocket
+
+And you never had to open a terminal","en","<a href=""https://typefully.com/"" rel=""nofollow"">Typefully</a>","45","620","33","7","1143","66093","true","photo","https://pbs.twimg.com/media/HH5mEvVaYAA7OKs.jpg",,,"https://pbs.twimg.com/media/HH5mEvVaYAA7OKs.jpg","2053190714734137366",,,,"2052710718613360750","1587816802264006657",
+"original","2053308681299616125","2026-05-10T02:58:32.000Z","nateherk","Nate Herk","http://x.com/i/article/2053303508602896394","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","90","888","19","27","2412","459720","false","none",,,,,"2053308681299616125",,,,,,
+"quote","2053308985575362681","2026-05-10T02:59:45.000Z","nateherk","Nate Herk","Hermes actually is the real deal.
+
+I just dropped a one hour course on it. 
+
+All the way from setting one up to understanding how to build an army of them.
+
+Give this a read.","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","268","2765","80","15","5178","336701","true","video","https://pbs.twimg.com/amplify_video_thumb/2053308772638924800/img/NEhEgXjNN6wzbTSR.jpg","https://video.twimg.com/amplify_video/2053308772638924800/vid/avc1/1920x1080/azvtUEWsN4yieE9c.mp4?tag=27","111","https://pbs.twimg.com/amplify_video_thumb/2053308772638924800/img/NEhEgXjNN6wzbTSR.jpg","2053308985575362681",,,,"2053308681299616125","1921674544999489536",
+"original","2053360898501468362","2026-05-10T06:26:02.000Z","emmagine79","Captain Awesome","hermes + discord with gpt 5.5/deepseek v4 has genuinely been life changing!  
+
+here are some of what it did for me this week:
+@NousResearch @Teknium","en","<a href=""http://twitter.com/download/android"" rel=""nofollow"">Twitter for Android</a>","16","513","22","2","809","62995","false","none",,,,,"2053360898501468362",,,,,,
+"original","2053362763842371586","2026-05-10T06:33:27.000Z","intheworldofai","WorldofAI","There’s now a Hermes Agent Desktop App
+
+You can finally run the self-evolving 24/7 autonomous AI agent from Nous Research inside a full native desktop UI instead of only the CLI.
+
+Multi-agent management, persistent memory, autonomous workflows, and local infrastructure support all inside one app. Full demo: https://youtu.be/YBp_PXBbe80","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","83","997","47","12","1296","126406","true","video","https://pbs.twimg.com/amplify_video_thumb/2053361363674660866/img/nCYjBfBk5S7B6Jfa.jpg","https://video.twimg.com/amplify_video/2053361363674660866/vid/avc1/1280x720/TDpPktwkLAbIm29v.mp4?tag=27","34","https://pbs.twimg.com/amplify_video_thumb/2053361363674660866/img/nCYjBfBk5S7B6Jfa.jpg","2053362763842371586",,,,,,
+"original","2053427208346358189","2026-05-10T10:49:31.000Z","zeroxkyle","Kyle","Over the weekend I set up the Hermes agent, and basically force fed it every resource I could find on X to upgrade it. 
+
+I then asked it to rank each resource and provide a simple explanation: 
+
+So yea, here you go. Link to each is below","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","105","1937","49","5","4536","123431","true","photo","https://pbs.twimg.com/media/HH89GKaboAARzIH.png",,,"https://pbs.twimg.com/media/HH89GKaboAARzIH.png","2053427208346358189",,,,,,
+"original","2053609542273909155","2026-05-10T22:54:03.000Z","ghumare64","Rohit Ghumare","You can now give Hermes, Claude Code, and Codex infinite memory.
+
+For free.
+
+Agentmemory is trending on GitHub with 4,000+ Stars.
+
+It records what Claude does during your coding sessions. Compresses it with AI. Injects relevant context back into future sessions.
+
+CLAUDE md dumps 22,000+ tokens into context at 240 observations
+
+agentmemory: 1,900 tokens. same observations. 92% less.
+
+at 1,000 observations, 80% of your built-in memories become invisible. agentmemory keeps 100% searchable.
+
+benchmarked on 240 real coding sessions, not projected
+
+The numbers are wild:
+
+→ Up to 95% fewer tokens per session
+→ 200x more tool calls before hitting context limits
+→ 100% open source
+
+1000 GitHub stars already on one week.
+
+I've shipped 50+ production agents. Context limits have killed more sessions than I can count.
+
+This changes how you build with Claude Code.
+
+No more re-explaining your codebase every session.
+No more losing decisions after /compact.
+No more starting from scratch.
+
+Claude finally remembers.
+
+http://github.com/rohitg00/agentmemory
+
+♻️ Repost if you're tired of context limits.
+🙏 Follow for more production AI tools.","en","<a href=""http://twitter.com/download/android"" rel=""nofollow"">Twitter for Android</a>","170","1348","52","15","2367","96962","true","photo","https://pbs.twimg.com/media/HH_i_wdW4AAOQWo.jpg",,,"https://pbs.twimg.com/media/HH_i_wdW4AAOQWo.jpg","2053609542273909155",,,,,,
+"original","2054026323874689037","2026-05-12T02:30:12.000Z","milesdeutscher","Miles Deutscher","/goal is f*cking insane.
+
+You can literally get your AI agents to work for HOURS without manual intervention.
+
+Already active in Claude Code and Codex - you need to use it now.
+
+Use this prompt and your agents will complete any task on autopilot:","en","<a href=""https://typefully.com/"" rel=""nofollow"">Typefully</a>","228","2380","103","7","4501","165312","true","photo","https://pbs.twimg.com/media/HIFeDnFa0AAHbsm.jpg",,,"https://pbs.twimg.com/media/HIFeDnFa0AAHbsm.jpg","2054026323874689037",,,,,,
+"original","2053759897809076325","2026-05-11T08:51:31.000Z","0xJeff","0xJeff","http://x.com/i/article/2053753720693825536","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","34","380","8","2","686","51684","false","none",,,,,"2053759897809076325",,,,,,
+"quote","2053781764620145065","2026-05-11T10:18:24.000Z","0xJeff","0xJeff","The 4 things that actually matter when setting up Hermes
+​
+1. Model Configuration → The intelligence plumbing that could determine how intelligent your Hermes is
+​
+2. Soul & User Configuration → The persona that takes Hermes from good to great, from generic ChatGPT to specialized agent
+​
+3. Skills Setup → The workflows that took minutes the first time but ended up taking seconds the second time
+​
+4. Tools Setup → The things that enable Hermes to expand its capabilities
+​
+Read this before you waste hours scratching your head, feeling frustrated over bugs, errors, and countless burned tokens","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","28","318","20","1","450","27360","true","photo","https://pbs.twimg.com/media/HIB_lT6asAABky_.jpg",,,"https://pbs.twimg.com/media/HIB_lT6asAABky_.jpg","2053781764620145065",,,,"2053759897809076325","1460252469745782790",
+"original","2054197055476895995","2026-05-12T13:48:37.000Z","itsolelehmann","Ole Lehmann","The top Hermes integrations to give your agent superpowers:
+
+1. Firecrawl
+
+Basically web search built for agents.
+
+It's better than the native Hermes web search because it gives you clean web data, so responses come back faster and uses fewer tokens.
+
+I keep this on by default.
+
+2. Browserbase
+
+Gives Hermes browser access for actually interacting with sites.
+
+Logging in, clicking buttons, booking stuff, anything that needs a real browser session.
+
+Hermes will automatically pick between Firecrawl and Browserbase depending on what the task needs, so you just plug both in.
+
+3. Google Workspace
+
+Gmail, Calendar, Drive, Docs, and Sheets in one connector.
+
+If Hermes can't read your inbox, see your calendar, or write to your docs, it can't really work for you. Plug this in first.
+
+4. Reddit
+
+The best signal you'll find on what people actually think about any product, niche, or problem (bc its real opinions from real users)
+
+Amazing for market research.
+
+5. YouTube transcripts
+
+Pulls captions from any video. Long podcasts, tutorials, interviews etc become searchable notes in seconds.
+
+Probably the highest-leverage research integration nobody plugs in.
+
+6. Discord
+
+I host my business in Discord, so this one's huge for me.
+
+I plug Hermes into different channels and have it run specific workflows in each.
+
+Example: I have a dedicated customer support channel where Hermes scans my email every morning for support tickets and drops them in organized.
+
+7. GitHub
+
+Code, issues, PRs. Turns Hermes into an actual engineering teammate.
+
+Non-negotiable if you write code.
+
+8. Stripe
+
+Payments, customers, failed charges, refunds.
+
+You can just ask ""why did this customer churn"" and get a real answer.
+
+Also can't wait for this...Stripe is releasing agentic payments, so soon Hermes will be able to actually book stuff with your card.
+
+9. Bland (or Twilio)
+
+Gives Hermes a voice so it can place real phone calls (like booking reservations etc).
+
+I love listening to the recordings haha
+
+10. Apify
+
+Pre-built scrapers for X, LinkedIn, Instagram, Google Maps, etc. The way to get X data without paying $5k/mo for the official API.
+
+11. Readwise
+
+Every highlight you've ever saved from books, articles, tweets, and podcasts, all queryable. Solves the ""dead knowledge"" problem.
+
+12. Granola (or Fathom)
+
+Searchable transcripts of every meeting you've had. Hermes can answer ""what did that client say about pricing last month"" instantly.
+
+13. Obsidian
+
+For Karpathy LLM wiki second-brain maxxing.
+
+If I had to set up only 5, I'd do Firecrawl, Browserbase, Google Workspace, GitHub, and Obsidian.
+
+Covers ~80% of what most people need.
+
+I use Composio to add these in one click, makes setup basically zero effort instead of messing w technical stuff.
+
+Anything I'm missing?? What's in your stack?","en","<a href=""https://typefully.com/"" rel=""nofollow"">Typefully</a>","154","1627","68","11","3656","94908","true","photo","https://pbs.twimg.com/media/HIH5VXJb0AE53ZQ.jpg",,,"https://pbs.twimg.com/media/HIH5VXJb0AE53ZQ.jpg","2054197055476895995",,,,,,
+"quote","2053477584068063708","2026-05-10T14:09:42.000Z","shannholmberg","Shann³","Nate Herk just wrote the most thorough Hermes Agent setup guide on the internet
+
+Here are 12 lessons you need to know before you build your own 🧵","en","<a href=""https://typefully.com/"" rel=""nofollow"">Typefully</a>","26","229","14","3","484","83059","true","video","https://pbs.twimg.com/amplify_video_thumb/2053308772638924800/img/NEhEgXjNN6wzbTSR.jpg","https://video.twimg.com/amplify_video/2053308772638924800/vid/avc1/1920x1080/azvtUEWsN4yieE9c.mp4?tag=27","111","https://pbs.twimg.com/amplify_video_thumb/2053308772638924800/img/NEhEgXjNN6wzbTSR.jpg","2053477584068063708",,,,"2053308681299616125",,

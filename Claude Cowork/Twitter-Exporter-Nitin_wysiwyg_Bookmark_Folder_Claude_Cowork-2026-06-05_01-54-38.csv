@@ -1,0 +1,809 @@
+"tweet_type","id","created_at","username","user_display_name","text","lang","source","retweet_count","favorite_count","reply_count","quote_count","bookmark_count","view_count","has_media","media_type","media_urls","video_url","video_duration","thumbnail_url","conversation_id_str","in_reply_to_status_id_str","in_reply_to_user_id_str","in_reply_to_screen_name","quoted_status_id_str","quoted_user_id_str","retweeted_status_id_str"
+"original","2055925063183163677","2026-05-17T08:15:06.000Z","sulekhat95","Sulekha Tripathi","INSTEAD OF WATCHING NETFLIX TONIGHT.         
+
+Spend 1 hour with this.          
+
+Claude AI FULL COURSE that teaches you how to BUILD and AUTOMATE anything.          
+
+The people who watch this tonight will wake up tomorrow with a new skill.          
+
+Watch it and Bookmark it now.","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","27","100","10","2","155","6353","true","video","https://pbs.twimg.com/amplify_video_thumb/2055924496880799744/img/c3Iz7VH6fQVkDiNM.jpg","https://video.twimg.com/amplify_video/2055924496880799744/vid/avc1/1280x720/cky836vbplzcIpP2.mp4?tag=27","3591","https://pbs.twimg.com/amplify_video_thumb/2055924496880799744/img/c3Iz7VH6fQVkDiNM.jpg","2055925063183163677",,,,,,
+"original","1920532650332201323","2025-05-08T17:34:00.000Z","JulianGoldieSEO","Julian Goldie SEO","New Claude + HeyGen Updates + FREE Computer Use AI Agent!","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","95","677","7","3","1310","28611","true","video","https://pbs.twimg.com/amplify_video_thumb/1920532225742815233/img/1Tk0_oujjptxVgX5.jpg","https://video.twimg.com/amplify_video/1920532225742815233/vid/avc1/1280x720/WBKqTKjw1X946XAW.mp4?tag=21","1851","https://pbs.twimg.com/amplify_video_thumb/1920532225742815233/img/1Tk0_oujjptxVgX5.jpg","1920532650332201323",,,,,,
+"original","2045070676063649908","2026-04-17T09:23:39.000Z","the_smart_ape","The Smart Ape 🔥","http://x.com/i/article/2045033678791716864","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","81","744","24","27","2365","999811","false","none",,,,,"2045070676063649908",,,,,,
+"original","2039310366958891221","2026-04-01T11:54:14.000Z","rubenhassid","Ruben Hassid","http://x.com/i/article/2039282762364981248","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","148","1152","12","33","3700","2662535","false","none",,,,,"2039310366958891221",,,,,,
+"quote","2051602805644022228","2026-05-05T10:00:00.000Z","rubenhassid","Ruben Hassid","How to turn any book into a Claude Skill in 5 mins: 
+
+(even if you've never built a skill before)
+
+1. Pick a book with a repeatable framework. 
+Skip fiction and memoirs. Test: ""Can I describe the method in numbered steps?"" If yes, it's skill-able.
+
+2. Answer 5 questions about the book.
+The problem it solves. The steps in order. 
+The rules that repeat. The mistakes to avoid. 
+The questions the author asks the reader.
+
+3. Open Cowork. Use Opus 4.7 + Adaptive Thinking. 
+Paste this prompt: ""Use the skill-creator to build a skill from [BOOK TITLE] by [AUTHOR].
+The skill should activate when I ask Claude to [exact task. Example: validate a startup idea, plan a deep work week, write a brand story].
+Method from the book:
+- Steps: [paste]
+- Rules the author repeats: [paste]
+- Mistakes to avoid: [paste]
+- Questions the author asks: [paste]
+Do NOT use this skill for: [3 to 4 adjacent tasks. Example: general writing, unrelated business advice, book summaries].
+Interview me on anything missing before generating the SKILL .md. Then run an evaluation."" 
+
+4. Test the skill before you install. 
+Try 5 phrasings of the same request: ""Does it fire?"" 
+Try 3 unrelated requests: ""Does it stay quiet?""
+Read my free guide on skills: http://claude-skills.free
+
+5. Install. Settings → Capabilities → Skills → Upload. 
+Type your /command anywhere on Claude. 
+The skill runs.
+
+Pro tip: Build 2 skills per book. 
+Big books have two layers - split them.
+
+/[book]-diagnose runs the book's questions on your situation. 
+/[book]-apply produces the output in the author's format. 
+
+To download all of my other Claude infographics:
+
+Step 1. Go to http://how-to-ai.guide.
+Step 2. Subscribe for free. Don't pay anything.
+Step 3. Open my welcome email (most skip this).
+Step 4. Hit the automatic reply button inside.
+Step 5. Download my infographics from my Notion.
+
+Bonus. Enjoy my best copy-paste prompts, too.","en","<a href=""http://twitter.com"" rel=""nofollow"">Twitter Web Client</a>","220","1183","34","7","1732","112029","true","photo","https://pbs.twimg.com/media/HHjAgwvbYAA8KGH.jpg",,,"https://pbs.twimg.com/media/HHjAgwvbYAA8KGH.jpg","2051602805644022228",,,,"2039310366958891221","1269541526",
+"original","2052400902745555344","2026-05-07T14:51:21.000Z","cyrilXBT","CyrilXBT","ANTHROPIC JUST EXPOSED HOW FAR BEHIND MOST FOUNDERS ARE IN BUILDING COMPANIES WITH AI AGENTS.
+
+Not a chatbot guide.
+
+Not a prompt tutorial.
+
+A full workshop on how to architect, build, and deploy AI agents that run your business operations autonomously.
+
+From the team that built Claude.
+
+For free.
+
+Here is what most people are missing about why this is different from every other AI workshop.
+
+Most workshops teach you how to use AI tools.
+
+This teaches you how to REPLACE business functions with them.
+
+Not replace individual tasks.
+
+Entire functions.
+
+Research. Content. Customer communication. Operations. Analytics.
+
+All running on agent systems that trigger autonomously, hand off between each other, and compound their output without a human initiating anything.
+
+The founders who attended Anthropic's enterprise briefings on this material are already building companies with 3 to 5 person teams that operate at the output level of 50-person organizations.
+
+Now the same workshop is public.
+
+Free.
+
+The gap between companies that understand how to architect multi-agent systems and companies that are still using AI as a chat tool is not closing.
+
+It is widening every single month.
+
+This workshop is the fastest path from the wrong side of that gap to the right one.
+
+Bookmark this and watch it this weekend.
+
+Follow @cyrilXBT for every Anthropic release that changes how companies are built.","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","154","1430","54","5","4027","120190","true","video","https://pbs.twimg.com/amplify_video_thumb/2052400693529481220/img/Gi5cNbNw_2SLRuo6.jpg","https://video.twimg.com/amplify_video/2052400693529481220/vid/avc1/1920x1080/5lnUqaTvaXEY9m_5.mp4?tag=27","1821","https://pbs.twimg.com/amplify_video_thumb/2052400693529481220/img/Gi5cNbNw_2SLRuo6.jpg","2052400902745555344",,,,,,
+"original","2033919415771713715","2026-03-17T14:52:31.000Z","itsolelehmann","Ole Lehmann","http://x.com/i/article/2033576301383061504","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","522","5388","87","73","18511","2504583","false","none",,,,,"2033919415771713715",,,,,,
+"quote","2036461256006357409","2026-03-24T15:12:53.000Z","shannholmberg","Shann³","Karpathy's AutoResearch is changing how campaigns get optimized and most marketers haven´t heard of it yet.
+
+Ole Lehmann tested it on landing page copy, 56% → 92% pass rate overnight.
+
+here´s how it works for marketing / skills 🧵","en","<a href=""https://typefully.com/"" rel=""nofollow"">Typefully</a>","357","3810","61","17","10369","1044346","true","photo","https://pbs.twimg.com/media/HEL2uG4aIAAoemt.jpg",,,"https://pbs.twimg.com/media/HEL2uG4aIAAoemt.jpg","2036461256006357409",,,,"2033919415771713715","1587816802264006657",
+"original","2052758996784939316","2026-05-08T14:34:17.000Z","itsolelehmann","Ole Lehmann","Garry Tan’s custom instructions are based.
+
+It pushes any LLM past half-finished bullshit and into actually useful answers.
+
+Add this to your SOUL md:","en","<a href=""https://typefully.com/"" rel=""nofollow"">Typefully</a>","66","1041","39","11","1932","72387","true","photo","https://pbs.twimg.com/media/HHzdbaraMAAckbV.jpg",,,"https://pbs.twimg.com/media/HHzdbaraMAAckbV.jpg","2052758996784939316",,,,,,
+"original","2026308695399784913","2026-02-24T14:50:14.000Z","ArmanHezarkhani","Arman Hezarkhani","http://x.com/i/article/2026301424724754432","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","1223","6903","92","181","21453","4117514","false","none",,,,,"2026308695399784913",,,,,,
+"quote","2026308832394170641","2026-02-24T14:50:47.000Z","ArmanHezarkhani","Arman Hezarkhani","This is a huge deal for nerds","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","489","5724","30","5","8863","1368445","false","none",,,,,"2026308832394170641",,,,"2026308695399784913","1165972975805333504",
+"original","2045466421036007527","2026-04-18T11:36:12.000Z","defileo","Defileo🔮","http://x.com/i/article/2045262387041730560","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","85","918","14","26","4290","4995031","false","none",,,,,"2045466421036007527",,,,,,
+"original","2052809885763747935","2026-05-08T17:56:30.000Z","trq212","Thariq","http://x.com/i/article/2052796100608974848","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","2251","17400","1085","1894","34029","14078001","false","none",,,,,"2052809885763747935",,,,,,
+"quote","2052842474687680678","2026-05-08T20:06:00.000Z","AYi_AInotes","AYi","Claude团队的工程师，已经彻底抛弃Markdown了。
+
+不是Markdown不好用，
+是AI变得太快，它已经跟不上了。
+
+以前AI写10行笔记，Markdown刚刚好，
+现在AI能一次性输出1000行计划、复杂流程图、完整代码审查，
+密密麻麻的纯文字墙谁有耐心看得完？
+
+作者自己都说，他从来没完整读完过100行以上的AI生成MD文件。
+
+更要命的是：现在都是AI写，我们只看不改。
+
+Markdown最大的优点“易手动编辑”，现在已经彻底没用了。
+
+而HTML，才是AI时代真正的沟通语言，
+它能做到的事，Markdown想都不敢想：
+
+• 直接生成带颜色的表格、SVG流程图、可点击的原型
+
+• 加滑块调参数、拖拽排序任务、实时预览Prompt效果
+
+• 改完一键导出成代码或Prompt，喂回给AI继续迭代
+
+• 发个链接别人点开就能看，不用下载任何工具
+
+作者直接放出了20个现成示例：
+
+从代码审查的彩色diff，
+到可拖拽的任务看板，
+从动画参数调试器，
+到一键生成的幻灯片。
+每一个都是能直接用的生产力工具。
+
+最爽的三个用法，现在就能抄：
+
+1. 代码审查：让AI把PR生成带注释的彩色diff+模块调用图
+
+2. 做计划：生成带时间线、风险表、流程图的交互式项目页
+
+3. 临时工具：让AI写一个Prompt调参器，改完直接复制结果
+
+当然它也有缺点：
+多花一点token，生成时间长2-4倍，版本控制不如MD干净。
+但作者说：体验提升了10倍，这些代价完全值得。
+
+本质上不是格式之争，而是人机协作方式的升级。
+因为Markdown是给人写给人看的，
+而HTML是给AI写给人用的。
+
+随着当AI越来越聪明，我们需要的不再是文字墙，而是能互动、能操作、能思考的界面。
+
+现在打开Claude，输入“帮我做一个HTML文件……”，你会打开一个全新的世界。","zh","<a href=""http://twitter.com/download/iphone"" rel=""nofollow"">Twitter for iPhone</a>","597","4402","197","168","7135","1389603","true","video","https://pbs.twimg.com/amplify_video_thumb/2052842360896163842/img/v-ijeXjEzugZjNBi.jpg","https://video.twimg.com/amplify_video/2052842360896163842/vid/avc1/1280x720/eRAxTuCLVLWvR542.mp4?tag=27","86","https://pbs.twimg.com/amplify_video_thumb/2052842360896163842/img/v-ijeXjEzugZjNBi.jpg","2052842474687680678",,,,"2052809885763747935","352806502",
+"original","2010180225108508760","2026-01-11T02:41:27.000Z","JulianGoldieSEO","Julian Goldie SEO","Claude FULL COURSE 1 HOUR (Build &amp; Automate Anything)","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","2389","14112","84","134","21093","784677","true","video","https://pbs.twimg.com/amplify_video_thumb/2010179793875283970/img/DMQCff0JPeYZt23R.jpg","https://video.twimg.com/amplify_video/2010179793875283970/vid/avc1/1280x720/H_DluiUo8znrBbJj.mp4?tag=21","3591","https://pbs.twimg.com/amplify_video_thumb/2010179793875283970/img/DMQCff0JPeYZt23R.jpg","2010180225108508760",,,,,,
+"original","2046453361206050958","2026-04-21T04:57:57.000Z","cyrilXBT","CyrilXBT","INSTEAD OF WATCHING NETFLIX TONIGHT 
+
+Spend 30 minutes with this.
+
+A speech by the Head of Anthropic's Coding Agents research team that teaches you more about vibe coding than 100 paid courses ever could.
+
+This is not a tutorial.
+
+This is the person who actually builds the system explaining how it works from the inside.
+
+Most people learning to vibe code are learning the surface.
+
+This goes underneath it.
+
+30 minutes tonight.
+
+The people who watch this will build differently tomorrow.
+
+Completely free.
+
+Bookmark this before you open Netflix 👇","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","239","1740","34","8","5270","288587","true","video","https://pbs.twimg.com/amplify_video_thumb/2046453217605849088/img/9TyhSB3K93hukamP.jpg","https://video.twimg.com/amplify_video/2046453217605849088/vid/avc1/640x360/hmAs3Jk7iy-M82CC.mp4?tag=21","1870","https://pbs.twimg.com/amplify_video_thumb/2046453217605849088/img/9TyhSB3K93hukamP.jpg","2046453361206050958",,,,,,
+"quote","2052419259159187474","2026-05-07T16:04:18.000Z","heynavtoor","Nav Toor","most people open Claude and type the same prompt every single day.
+
+I built 40 skills that do it for me. forever. one markdown file each.
+
+> thread architect — one idea in, 7-tweet thread out
+> cold email writer — reads like a human wrote it at 9am
+> voice mimic — studies 3 samples, writes in that exact voice
+> inbox triage — sorts everything before I touch it
+> brain dump sorter — messy thoughts in, clean task list out
+
+drop the file in .claude/skills/. Claude reads it once. never explain the job again.
+
+40 skills. 6 categories. every file ready to copy.
+
+don't install all 40. pick 5 that match your work. run them for 2 weeks.
+
+Claude is the engine. skills are the steering wheel. without them you're just pressing the gas and hoping.
+
+this article will save you hours every week. not someday. this week.","en","<a href=""https://typefully.com/"" rel=""nofollow"">Typefully</a>","16","125","10","0","395","41252","true","video","https://pbs.twimg.com/amplify_video_thumb/2052419208001232896/img/LZbpqTldRXwpyPEd.jpg","https://video.twimg.com/amplify_video/2052419208001232896/vid/avc1/720x640/-8qz1bULfpHhniXQ.mp4?tag=14","10","https://pbs.twimg.com/amplify_video_thumb/2052419208001232896/img/LZbpqTldRXwpyPEd.jpg","2052419259159187474",,,,"2052351837123363273",,
+"original","2013015738622284156","2026-01-18T22:28:46.000Z","blader","Siqi Chen","it's really handy that wikipedia went and collated a detailed list of ""signs of ai writing"".
+
+so much so that you can just tell your LLM to ... not do that.
+
+i asked claude code to read that article, and create a skill to avoid all of them.
+
+enjoy: https://github.com/blader/humanizer","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","303","5578","227","119","8125","920485","false","none",,,,,"2013015738622284156",,,,,,
+"original","2032487597214490969","2026-03-13T16:02:59.000Z","liulicheng10","Licheng Liu","http://x.com/i/article/2032337794388148224","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","76","711","8","3","1267","63653","false","none",,,,,"2032487597214490969",,,,,,
+"original","2009131298250428923","2026-01-08T05:13:24.000Z","dabit3","nader dabit","http://x.com/i/article/2009042873145282561","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","1055","8817","169","135","22985","4004505","false","none",,,,,"2009131298250428923",,,,,,
+"quote","2009139688959852701","2026-01-08T05:46:44.000Z","dabit3","nader dabit","I learned and used the Claude Agent SDK today to build an agent. I genuinely think this will be one of the most useful skillets to have in this new world.
+
+Documented the TLDR here in this tutorial to get you started.","en","<a href=""http://twitter.com/download/iphone"" rel=""nofollow"">Twitter for iPhone</a>","370","5419","94","19","11369","982351","false","none",,,,,"2009139688959852701",,,,"2009131298250428923","17189394",
+"original","2041867260189434035","2026-04-08T13:14:25.000Z","defileo","Defileo🔮","http://x.com/i/article/2041782608548274176","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","61","553","9","6","1927","473511","false","none",,,,,"2041867260189434035",,,,,,
+"quote","2041884593087803841","2026-04-08T14:23:18.000Z","noisyb0y1","Noisy","This 1-hour Stanford lecture will teach you more about how AI agents actually work than every ""automation hack"" thread you've read this year.
+
+Bookmark this &amp; give it 1 hour today, no matter what. Then read the article below.","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","277","1753","23","3","5343","268641","true","video","https://pbs.twimg.com/amplify_video_thumb/2041881894808092672/img/5n6SrP3fGt5qZyop.jpg","https://video.twimg.com/amplify_video/2041881894808092672/vid/avc1/1280x720/oKHuMJzw6iW3e7Z1.mp4?tag=21","3425","https://pbs.twimg.com/amplify_video_thumb/2041881894808092672/img/5n6SrP3fGt5qZyop.jpg","2041884593087803841",,,,"2041867260189434035","1663262095868084228",
+"original","2052368125480354000","2026-05-07T12:41:06.000Z","zodchiii","darkzodchi","http://x.com/i/article/2052347800285753347","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","186","1367","30","23","3879","807570","false","none",,,,,"2052368125480354000",,,,,,
+"quote","2052400272840720565","2026-05-07T14:48:51.000Z","zodchiii","darkzodchi","Anthropic just leaked their 2026 agent roadmap in 22 minutes.
+
+Claude team walked through tools, memory, observability, and the things most builders are 12 months behind.
+
+The last 3 minutes alone are worth the watch.
+
+Watch it, then save the setup below 👇","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","303","2762","35","6","7836","590287","true","video","https://pbs.twimg.com/amplify_video_thumb/2052399720761311234/img/ia6WutIO28T2X7ib.jpg","https://video.twimg.com/amplify_video/2052399720761311234/vid/avc1/1280x720/FPn_qEgorbfj9fyF.mp4?tag=27","1330","https://pbs.twimg.com/amplify_video_thumb/2052399720761311234/img/ia6WutIO28T2X7ib.jpg","2052400272840720565",,,,"2052368125480354000","1226636978256564226",
+"original","2051219084092506144","2026-05-04T08:35:14.000Z","timbidefi","timbidefi","http://x.com/i/article/2051189717064912896","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","144","1276","25","33","5453","5379754","false","none",,,,,"2051219084092506144",,,,,,
+"quote","2051747188787523825","2026-05-05T19:33:44.000Z","browomo","Blaze","This Chinese guy created agents in Claude Code for landing pages and single-handedly serves 47 small businesses a month, taking $400 from each.
+
+He built a system of 7 agents on Claude Sonnet 4.6 that analyzes Google Maps in small towns, finds small businesses without websites there, and over 1 weekend takes each one to a finished mockup with video and cold message.
+
+No assistant, no sales team, no SDR. Just him, a MacBook, an iPhone, and 1 API key.
+
+And traditional web design agencies keep teams of 8 people on salary for the same order flow, while his expenses are only tokens and subscriptions to Lovable, Higgsfield, and Calendly.
+
+7 agents work through 1 orchestrator on Claude Code Router. Usage is about 3 million tokens a day, the average API bill is about $480 a month.
+
+All 7 go through MCP servers and write shared state to the file system, without shared state in memory and without race conditions, and 1 of them lives right in the iPhone and picks up positive replies from the subway, a taxi, or on walks.
+
+And here is the system prompt he put into the orchestrator before launch:
+
+""You are the orchestrator of a solo agency that sells ready-made websites to local businesses. You delegate read-only tasks to 6 sub-agents and own all writes.
+
+sub-agents:
+
+// Scout (walks through Google Maps in selected cities, looks for narrow niches: 5+ years on the map, fewer than 50 reviews, no website or a website from 2014, but high ratings)
+// Diagnoser (for each lead writes a 50-word diagnosis, hero angle, tone matched to the industry, and a cold message under 70 words)
+// Builder (generates a landing page mockup in Lovable through MCP only for the top 5 leads per day, with the sharpest diagnoses and the biggest gap)
+// Filmer (pulls 5 screenshots of the mockup and through Higgsfield renders a 10-second vertical video 1080x1920 with a soft zoom)
+// Pitcher (sends a personalized cold message through the right channel for the niche: email to roofers, SMS to tradesmen, IG DM to salons, LinkedIn to realtors)
+// Checker (runs every message through evals for personalization, absence of AI markers and buzzwords before sending)
+// Mobile (lives in the iPhone, handles positive replies in real time, books Zoom calls in Calendly through MCP while the owner is on the go).
+
+You never let 2 sub-agents touch 1 lead. You stop and request approval from the human only when a deal exceeds $3,000 or the reply rate in a niche for the day drops below 12%.""
+
+Meaning the system knows what it is and within what boundaries it is allowed to act.
+
+It knows it is supposed to find leads on its own.
+
+It knows it is supposed to take each one to a mockup, video, and cold message without intervention.
+
+It knows the human only steps in when a deal goes above $3,000 or the reply rate stops converging.
+
+→ The system runs 24 hours a day
+
+→ Scout goes through about 220 local businesses on Google Maps per day and leaves 30 new leads in the queue
+
+→ Diagnoser outputs 30 structured diagnoses + briefs + cold messages per day
+
+→ Builder assembles 3 to 5 finished landing pages in Lovable for the sharpest leads
+
+→ Filmer renders a 10-second vertical video in Higgsfield for each one
+
+→ Pitcher sends 30 personalized messages per day across 4 channels with a reply rate of about 14%
+
+→ Checker runs every message through evals before sending
+
+And only when a deal breaks $3,000 or the reply rate for the day drops below 12% does the orchestrator wake the owner.
+
+And when the owner at that moment is sitting in the subway or a taxi, the Mobile agent in his iPhone picks up 1 move on its own: replies to a fresh positive reply from a dentist, books a Zoom through Calendly synced to the local time of the client, and puts the lead back in the queue. The owner only has to tap ""approve"" and in just 10 minutes join the call.
+
+Here is what the system writes in his log during 1 of the Saturdays:
+
+""scout report: 218 businesses checked in Austin, Denver, and Miami, 34 without a website, 19 with a website from 2014, 6 with an active redesign request in reviews. passing top 30 to diagnoser.""
+
+""pitcher: 30 cold messages sent across 4 channels, 14 replies, 5 positive, 3 Zoom calls booked for Sunday. passing to closer.""
+
+""builder: landing page for Westside Cosmetic Dentistry built in Lovable, 5 sections, mobile, soft beige. URL placed at /Users/dev/maps-agency/clients/westside/v1. filmer launching Higgsfield.""
+
+""eval flag: deal with The Lotus Salon at $3,400 exceeds the approved limit of $3,000. sending for manual review.""
+
+He has no server of his own and no separate backend.
+
+Just a local file sandbox at /Users/dev/maps-agency, an MCP router, 1 API key to Claude, and the same key forwarded to Claude Code on his iPhone.
+
+Out of everything I have seen this year, this is the cleanest one-person agency for selling websites to small businesses: $480 a month on the API, about $18,800 into the account, and between them 7 prompts, 1 file system, and 1 phone in the pocket.","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","1098","9822","230","44","23133","2690378","true","video","https://pbs.twimg.com/amplify_video_thumb/2051744207350476800/img/53xisMF6JZgBo0Tw.jpg","https://video.twimg.com/amplify_video/2051744207350476800/vid/avc1/720x1190/LAo2d3BI0a9y5qxH.mp4?tag=27","122","https://pbs.twimg.com/amplify_video_thumb/2051744207350476800/img/53xisMF6JZgBo0Tw.jpg","2051747188787523825",,,,"2051219084092506144","1862956248607420417",
+"original","2029514946640322593","2026-03-05T11:10:44.000Z","rubenhassid","Ruben Hassid","http://x.com/i/article/2029488359064633345","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","378","2714","48","50","10758","6217761","false","none",,,,,"2029514946640322593",,,,,,
+"quote","2033144738300194995","2026-03-15T11:34:14.000Z","rubenhassid","Ruben Hassid","Anthropic is offering 13 AI courses & certificates.
+
+It's free by following these 13 links:
+
+1 - Claude 101. Learn Claude for everyday work. Core features and best practices.
+
+↳ https://anthropic.skilljar.com/claude-101
+
+2 - AI Fluency: Framework & Foundations. The foundational thinking course. Must need.
+
+↳ https://anthropic.skilljar.com/ai-fluency-framework-foundations
+
+3 - Introduction to Agent Skills Build, configure, and share Skills in Claude Code — reusable instructions Claude applies automatically.
+
+↳ https://anthropic.skilljar.com/introduction-to-agent-skills
+
+4 - Building with the Claude API Full spectrum: function calling, tool use, streaming, SDKs, and production patterns.
+
+↳ https://anthropic.skilljar.com/claude-with-the-anthropic-api
+
+5 - Claude Code in Action Integrate Claude Code into your dev workflow. Hands-on, practical, ship-focused.
+
+↳ https://anthropic.skilljar.com/claude-code-in-action
+
+6 - Intro to Model Context Protocol Build MCP servers and clients from scratch in Python. Tools, resources, and prompts.
+
+↳ https://anthropic.skilljar.com/introduction-to-model-context-protocol
+
+7 - MCP: Advanced Topics Sampling, notifications, file system access, and transport for production MCP servers.
+
+↳ https://anthropic.skilljar.com/model-context-protocol-advanced-topics
+
+8 - AI Fluency for Students AI skills for learning, career planning, and academic success through responsible collaboration.
+
+↳ https://anthropic.skilljar.com/ai-fluency-for-students
+
+9 - AI Fluency for Educators For faculty and instructional designers applying AI Fluency into teaching and institutional strategy.
+
+↳ https://anthropic.skilljar.com/ai-fluency-for-educators
+
+10 - Teaching AI Fluency Teach and assess AI Fluency in instructor-led settings. Curriculum-ready.
+
+↳ https://anthropic.skilljar.com/teaching-ai-fluency
+
+11 - AI Fluency for Nonprofits Increase organizational impact and efficiency while staying mission-true.
+
+↳ https://anthropic.skilljar.com/ai-fluency-for-nonprofits
+
+12 - Claude with Amazon Bedrock The full AWS accreditation course, now open to everyone.
+
+↳ https://anthropic.skilljar.com/claude-in-amazon-bedrock
+
+13 - Claude with Google Cloud's Vertex AI Work with Claude through Google Cloud's Vertex AI, from setup to production.
+
+↳ https://anthropic.skilljar.com/claude-with-google-vertex
+
+14 - How to master AI with words (not code) Shameless plug: it's my own (free) newsletter. Join 369,000+ weekly readers at http://how-to-ai.guide.
+
+I made http://how-to-claude.ai to start mastering Claude.
+
+And then http://claude-co.work to master Claude Cowork.
+
+♻️ Repost this to help others access AI courses.","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","1244","6586","87","45","13619","1273486","true","photo","https://pbs.twimg.com/media/HDct77iXgAAX93C.jpg",,,"https://pbs.twimg.com/media/HDct77iXgAAX93C.jpg","2033144738300194995",,,,"2029514946640322593","1269541526",
+"original","2042105069550932138","2026-04-09T04:59:23.000Z","rubenhassid","Ruben Hassid","http://x.com/i/article/2041847299081695232","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","219","1550","41","29","5697","3797785","false","none",,,,,"2042105069550932138",,,,,,
+"quote","2042845103115415581","2026-04-11T06:00:01.000Z","rubenhassid","Ruben Hassid","People think learning AI takes months. 
+
+It's really just a couple of hours. 
+
+And I wrote 17 free guides to start right away:
+
+Claude 101: https://ruben.substack.com/p/claude
+Claude Code: https://ruben.substack.com/p/claude-code
+Claude Skills: https://ruben.substack.com/p/claude-skills
+Nano banana 2: https://ruben.substack.com/p/banana-2-3bd
+Claude in Excel: https://ruben.substack.com/p/ai-couldnt-do-excel
+Best AI for Search: https://ruben.substack.com/p/grok-420
+1M followers with AI: https://ruben.substack.com/p/1000000
+Claude for your team: https://ruben.substack.com/p/claude-for-teams
+No prompt saves you: https://ruben.substack.com/p/magic
+AI Slides (PPT in 2026): https://ruben.substack.com/p/powerpoint
+Set up Claude Cowork: https://ruben.substack.com/p/claude-cowork-20
+Claude to sound like you: https://ruben.substack.com/p/i-am-just-a-text-file
+Claude interactive charts: https://ruben.substack.com/p/claude-charts
+Claude as your computer: https://ruben.substack.com/p/claude-computer
+Claude Cowork + Project: https://ruben.substack.com/p/claude-cowork-project
+You're an AI workaholic: https://ruben.substack.com/p/ai-holic
+Setup AI before prompting: https://ruben.substack.com/p/how-to-better-use-ai-before-prompting
+___
+
+1. Save this list for later (three dots, top right).
+2. Share it with a friend by ♻️ reposting this image.
+3. Subscribe to my free newsletter: http://how-to-ai.guide.","en","<a href=""http://twitter.com"" rel=""nofollow"">Twitter Web Client</a>","2191","8746","89","43","15205","1064679","true","photo","https://pbs.twimg.com/media/HFikkshXUAAGJYF.jpg",,,"https://pbs.twimg.com/media/HFikkshXUAAGJYF.jpg","2042845103115415581",,,,"2042105069550932138","1269541526",
+"original","2044310385357140304","2026-04-15T07:02:31.000Z","rubenhassid","Ruben Hassid","http://x.com/i/article/2044095220720279552","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","91","749","19","12","2083","2968185","false","none",,,,,"2044310385357140304",,,,,,
+"quote","2045381817294008383","2026-04-18T06:00:01.000Z","rubenhassid","Ruben Hassid","Stop bookmarking 50 guides you'll never read.
+ 
+You can skip all of it with these 15 free guides:
+
+Claude 101: http://how-to-claude.ai
+Claude Code: http://claudecode.free
+Claude Skills: http://claude-skills.free
+Stop prompting: https://ruben.substack.com/p/stop-prompting-claude
+Claude in Excel: https://ruben.substack.com/p/ai-couldnt-do-excel
+1M followers with AI: https://ruben.substack.com/p/1000000how-claude.team 
+Claude for your team: http://how-claude.team
+No prompt saves you: https://ruben.substack.com/p/magic
+AI Slides (PPT in 2026): http://how-to-gamma.ai
+Set up Claude Cowork: http://claude-co.work
+Claude to sound like you: https://ruben.substack.com/p/i-am-just-a-text-file
+Claude interactive charts: https://ruben.substack.com/p/claude-charts
+Claude as your computer: https://ruben.substack.com/p/claude-computer
+Claude Cowork + Project: https://ruben.substack.com/p/claude-cowork-project
+Set up AI before prompting: https://ruben.substack.com/p/how-to-better-use-ai-before-prompting
+___
+
+1. Save this list for later (three dots, top right).
+2. Share it with a friend by ♻️ reposting this image.
+3. Subscribe to my free newsletter: http://how-to-ai.guide.","en","<a href=""http://twitter.com"" rel=""nofollow"">Twitter Web Client</a>","1352","7793","85","25","16205","824231","true","photo","https://pbs.twimg.com/media/HGGJYqobgAAOCpV.jpg",,,"https://pbs.twimg.com/media/HGGJYqobgAAOCpV.jpg","2045381817294008383",,,,"2044310385357140304","1269541526",
+"original","2010805682434666759","2026-01-12T20:06:48.000Z","claudeai","Claude","Introducing Cowork: Claude Code for the rest of your work.
+
+Cowork lets you complete non-technical tasks much like how developers use Claude Code.","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","8381","86411","2535","6885","58048","49724827","true","video","https://pbs.twimg.com/media/G-k8KoibgAAuiOj.jpg","https://video.twimg.com/amplify_video/2010792398280929280/vid/avc1/3840x2160/28TgKr7KSXuhnodl.mp4?tag=21","68","https://pbs.twimg.com/media/G-k8KoibgAAuiOj.jpg","2010805682434666759",,,,,,
+"quote","2010861432662081778","2026-01-12T23:48:20.000Z","bearlyai","Bearly AI","Claude Cowork can organize your entire desktop. This might actually be AGI.","en","<a href=""http://twitter.com/download/iphone"" rel=""nofollow"">Twitter for iPhone</a>","506","10192","208","96","4638","1199134","true","video","https://pbs.twimg.com/amplify_video_thumb/2010861360708767744/img/KL8fbRkUYqYJ4xxC.jpg","https://video.twimg.com/amplify_video/2010861360708767744/vid/avc1/888x546/x4bcgR_g3c3ov4bd.mp4?tag=21","34","https://pbs.twimg.com/amplify_video_thumb/2010861360708767744/img/KL8fbRkUYqYJ4xxC.jpg","2010861432662081778",,,,"2010805682434666759","1943306828697550848",
+"quote","2052331797640515960","2026-05-07T10:16:45.000Z","cgtwts","CG","the Anthropic engineer who built Claude Cowork, Boris Cherny, just dropped a masterclass on how to actually use it properly.
+
+Automate your workflow and stay ahead.
+
+Bookmark this and watch it now.","en","<a href=""http://twitter.com/download/iphone"" rel=""nofollow"">Twitter for iPhone</a>","178","1408","21","4","3788","279397","true","video","https://pbs.twimg.com/amplify_video_thumb/2052331329044570112/img/gLDPI0HUKe_Cmv32.jpg","https://video.twimg.com/amplify_video/2052331329044570112/vid/avc1/1920x1080/UzYnW_bi8Ber5vQV.mp4?tag=27","520","https://pbs.twimg.com/amplify_video_thumb/2052331329044570112/img/gLDPI0HUKe_Cmv32.jpg","2052331797640515960",,,,"2052319978662347226",,
+"original","2052750453260362163","2026-05-08T14:00:20.000Z","charliejhills","Charlie Hills","Anthropic just shipped Claude's 10 finance agents.
+
+Available in Cowork, Code, API, and Office.
+
+How to install in 4 steps.
+
+1. Install in Cowork.
+
+- Open Settings → Plugins → Add plugin.
+- Paste: https://github.com/anthropics/financial-services
+- Pick the agents you want from the list.
+
+2. Install for Microsoft Office.
+
+- Open the GitHub link (above).
+- Copy the install command into Claude Code.
+- Run /claude-for-msft-365-install:setup to finish.
+
+3. Connect your data sources.
+
+- There are 17 data partners at launch.
+- Add the ones you pay for as connectors.
+
+4. Pick one. Run today.
+
+- Map one agent to a job on your plate this week.
+- Paste the prompt. Edit it. Run it.
+
+Try these prompts:
+
+✦ pitch-agent
+
+Pulls comps, precedents and LBO numbers into a branded pitch deck.
+
+""Draft a 12-slide pitchbook for our acquisition of [TargetCo].""
+
+✦ meeting-prep-agent
+
+Pulls past notes, recent news and talking points into a one-page brief.
+
+""Build a one-page brief for tomorrow's 10am with [Client].""
+
+✦ earnings-reviewer
+
+Reads earnings reports and flags the surprises and risky wording.
+
+""Summarise [Ticker]'s Q1 earnings and flag every surprise vs forecast.""
+
+✦ model-builder
+
+Builds a working financial model in your spreadsheet from one prompt.
+
+""Build a valuation model for [TargetCo] vs six similar companies.""
+
+✦ market-researcher
+
+Pulls sector trends, competitor moves and pricing into one memo.
+
+""Write a 1,000-word memo on European fintech lenders.""
+
+✦ valuation-reviewer
+
+Audits a valuation model and challenges every assumption inside it.
+
+""Review the valuation model on [sheet]. Challenge every assumption.""
+
+✦ gl-reconciler
+
+Matches your books against bank statements and flags any mismatches.
+
+""Reconcile our bank books against last month's statement.""
+
+✦ month-end-closer
+
+Runs your monthly accounts checklist end to end and flags any issues.
+
+""Run the April month-end close on our standard checklist.""
+
+✦ statement-auditor
+
+Audits the books for errors and control gaps before they ship.
+
+""Audit April's P&L and balance sheet against our books.""
+
+✦ kyc-screener
+
+Vets new clients against watchlists and ownership records.
+
+""Run a background check on [NewClient]. Pull ownership records.""
+
+Free Claude playbooks → http://charliehills.substack.com
+
+Repost ♻️ to help someone in your network.","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","184","992","31","2","2027","100747","true","photo","https://pbs.twimg.com/media/HHzViFiaUAAXgC2.jpg",,,"https://pbs.twimg.com/media/HHzViFiaUAAXgC2.jpg","2052750453260362163",,,,,,
+"original","2051919936717726000","2026-05-06T07:00:10.000Z","rubenhassid","Ruben Hassid","http://x.com/i/article/2051602380337369088","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","46","291","17","5","801","1130046","false","none",,,,,"2051919936717726000",,,,,,
+"quote","2052991963587027141","2026-05-09T06:00:01.000Z","rubenhassid","Ruben Hassid","Instead of another YouTube rabbit hole tonight.
+
+Take these 11 courses to master Claude (for free):
+
+→ Level 1 - 20 mins: The basics.
+
+Claude certificates: http://claude101.com
+Claude For Dummies: http://ruben.substack.com/p/claude-for-dummies
+
+→ Level 2 - 55 mins: Real workflows. 
+
+Claude Cowork: http://claude-co.work
+Claude for teams: http://how-claude.team
+Cowork + Projects: http://ruben.substack.com/p/claude-cowork-project
+Claude for slides: http://how-to-gamma.ai
+Claude Skills: http://claude-skills.free
+
+→ Level 3 - 45 mins: The pro moves.
+
+Claude Code: http://claudecode.free
+Stop hitting Claude's limits: http://ruben.substack.com/p/how-to-stop-hitting-claude-usage
+Upload yourself in Claude: http://ruben.substack.com/p/youre-just-a-text-file
+Stop prompting Claude: http://ruben.substack.com/p/stop-prompting-claude
+
+Pro tip: Don't binge it. Do one level per sitting. 
+
+Actually apply each guide before moving to the next.","en","<a href=""http://twitter.com"" rel=""nofollow"">Twitter Web Client</a>","217","1313","28","3","2434","143379","true","photo","https://pbs.twimg.com/media/HHyWK1rb0AAc5ly.jpg",,,"https://pbs.twimg.com/media/HHyWK1rb0AAc5ly.jpg","2052991963587027141",,,,"2051919936717726000","1269541526",
+"quote","2053052363120783721","2026-05-09T10:00:01.000Z","rubenhassid","Ruben Hassid","The only Claude skills guide you need:
+
+(Save this. Send it to your team. Thank me later)
+
+1. Open the Claude desktop app.
+2. Click the Cowork tab at the top.
+3. You need a Pro plan ($20/mo). Worth it.
+4. Start with this (free) guide: http://claude-skills.free
+
+-----
+
+→ 0-10 min: Open Cowork. Find the skill-creator.
+
+Select your folder. Opus 4.7 + Extended thinking.
+Prompt: ""Use the skill-creator to help me build a skill for [your most repeated task].""
+
+→ 10-25 min: Answer the interview. Build the Skill.
+
+The skill-creator asks you questions. Be specific.
+Useless: ""I write reports.""
+Skill that works: ""Weekly reports, headline metric first, 3 sections max, next steps at the end.""
+
+It generates a folder + SKILL .md with your trigger & instructions. (Be specific or it won't fire)
+
+→ 25-35 min: Run the evaluation.
+
+Claude creates an eval to validate your Skill.
+Click ""View the eval results"" to test before downloading. (Write this once. It runs every time)
+
+→ 35-45 min: Install and test.
+
+Save the Skill folder. 
+Go to Settings → Capabilities → Skills → Upload.
+Type a request that should trigger the Skill.
+Download my skills hacks here: http://claude-skills.free
+
+→ 45-55 min: Iterate and debug.
+
+Try 5 phrasings. Does the Skill fire each time?
+Try 3 unrelated requests. Does it stay quiet?
+Ask: ""When would you use this skill?"" It quotes the description back. (You instantly see what's broken)
+
+→ 55-60 min: Browse plugins. Download more Skills
+
+Desktop app → Customize → Personal plugins → Browse plugins.
+A plugin = a bundle of Skills. Download & test.
+Or go to makemyskill .com. 
+Describe it, download it and upload it.
+
+Pro tip: Always add ""Do NOT use for…"" lines to your description. Negative triggers matter more than positive ones. Skills are portable. Same SKILL .md works on Claude, Gemini, ChatGPT.
+
+To download all of my other Claude infographics:
+
+Step 1. Go to http://how-to-ai.guide.
+Step 2. Subscribe for free. Don't pay anything.
+Step 3. Open my welcome email (most skip this).
+Step 4. Hit the automatic reply button inside.
+Step 5. Download my infographics from my Notion.
+Bonus. Enjoy my best copy-paste prompts, too.","en","<a href=""http://twitter.com"" rel=""nofollow"">Twitter Web Client</a>","119","817","39","2","1141","70667","true","photo","https://pbs.twimg.com/media/HHycO3CbQAAYluO.jpg",,,"https://pbs.twimg.com/media/HHycO3CbQAAYluO.jpg","2053052363120783721",,,,"2039310366958891221","1269541526",
+"original","2043177416164815308","2026-04-12T04:00:31.000Z","rubenhassid","Ruben Hassid","http://x.com/i/article/2042998030832668675","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","45","395","15","7","913","528519","false","none",,,,,"2043177416164815308",,,,,,
+"quote","2054169730374672711","2026-05-12T12:00:03.000Z","rubenhassid","Ruben Hassid","Don't upgrade to the $100 Claude plan (yet). 
+
+These 21 hacks make the $20/month plan enough:
+
+1. You upload PDFs raw. One page = 3,000 tokens.
+Fix: Paste the text into a Google doc. Download as .md format. Under 200 tokens.
+
+2. You build files inside Cowork too early.
+Fix: Plan in Chat first. Move to Cowork only when you know exactly what you want.
+
+3. You write 500-word prompts that reload.
+Fix: Write 29 words instead: ""I want to [task] to [goal]. Ask me questions using AskUserQuestion.""
+
+4. You say ""redo the whole thing"" to fix section 3.
+Fix: ""Only redo section 3. Keep everything else. No commentary. Just the output.""
+
+5. You send 3 separate messages for 3 tasks.
+Fix: One message, three tasks. ""Summarize this, list the points, suggest a headline.""
+
+6. You type ""No, I meant,"" stacking on the history.
+Fix: Click 'Edit' on your original message. Fix it. Regenerate. 
+
+7. You rewrite prompts from scratch every time.
+Fix: Keep a prompt library. Same structure, swap the variable. 
+
+8. You use Opus for a simple grammar check.
+Fix: Sonnet for quick tasks. Save Opus + Extended Thinking for deep work.
+
+9. Your about-me file is 22,000 words (too long).
+Fix: Trim to under 2,000 words. End sessions with ""Write a session-notes .md.""
+Paste my .md file prompt: http://ruben.substack.com/p/youre-just-a-text-file
+
+10. You never restart & keep stacking long chats.
+Fix: When Cowork goes sideways, click ""Restart the conversation from here"" on an earlier message.
+
+11. You never summarize before things get long.
+Fix: Every 15-20 messages → summarize, copy the brief, start a fresh session.
+
+12. You use Projects for recurring files.
+Fix: Use Projects. Upload once. Every chat inside references it without re-burning tokens.
+
+13. You dump 50 files into Cowork ""just in case.""
+Fix: Only include what this task needs. Zero folders for quick tasks like email drafts.
+
+14. You keep 3 topics in 1 chat. Claude re-reads all.
+Fix: New topic = new chat. Always. Dead context is dead tokens.
+
+15. You leave search & connectors on by default.
+Fix: Default everything off. Turn features on per task, not per account.
+
+16. You manually run the same report every week.
+Fix: Use /schedule. ""Every Monday at 7am, create my weekly briefing."" 
+
+17. You let Claude Code explore your whole repo.
+Fix: Be specific. ""Build a bar chart from this CSV. Save as chart .png."" 
+
+18. You skip Personal Preferences & waste setup.
+Fix: Settings → Personal Preferences. Set your tone and style once. 
+
+19. You type lazy prompts like ""make it better.""
+Fix: Speak your prompts with wispr .ai. Richer context in one shot. 
+
+20. You burn your whole limit in one morning.
+Fix: Claude runs on a rolling 5-hour window. Split it. 
+
+21. You use Claude for things it can't do.
+Fix: Know your tools. Images → Gemini.
+Real-time search → Grok.
+
+To download my exact .md files:
+
+1. Go to http://how-to-ai.guide.
+2. Subscribe for free. Open my welcome email.
+3. Hit the automatic reply button inside.
+4. Go to the Notion link in the second mail.
+5. Copy-paste prompts, too.","en","<a href=""http://twitter.com"" rel=""nofollow"">Twitter Web Client</a>","288","1621","59","10","2328","153652","true","photo","https://pbs.twimg.com/media/HIDFFMcb0AAMalG.jpg",,,"https://pbs.twimg.com/media/HIDFFMcb0AAMalG.jpg","2054169730374672711",,,,"2043177416164815308","1269541526",
+"original","2049492553133629950","2026-04-29T14:14:37.000Z","AnatoliKopadze","Anatoli Kopadze","http://x.com/i/article/2049096543014178816","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","182","1482","27","28","8423","2862086","false","none",,,,,"2049492553133629950",,,,,,
+"quote","2054293893672325126","2026-05-12T20:13:25.000Z","AnatoliKopadze","Anatoli Kopadze","Karpathy just said the people who don't use LLMs are already losing.
+
+he spent 4 minutes explaining why smart people are still going to fall behind.
+
+Not only the people who refuse AI, but also those who think signing up for Claude counts as using it.
+
+here's what it looks like for most people right now:
+
+> ask Claude to rewrite an email
+> ask Claude to summarize something
+> close the tab
+
+that's not wrangling Claude. that's paying $20/month for spell check.
+
+Karpathy's point isn't that LLMs are powerful. 
+
+everyone knows that.
+
+his point is that knowing how to use them is the actual skill gap and most people are nowhere near closing it.
+
+Claude can be your research analyst, your writing editor, your salary negotiation coach, your financial reviewer, your 30-day curriculum builder.
+
+all of that is in your $20/month subscription. right now. today.
+
+most people will see this tweet, agree, and go back to asking Claude to fix a sentence.
+
+the article below covers 20 prompts across every area of your life. 
+
+not productivity hacks. 
+
+actual use cases that change how you work and how you think.
+
+the model is not the bottleneck. knowing what to ask is.","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","159","1443","48","7","3971","370174","true","video","https://pbs.twimg.com/amplify_video_thumb/2054290647952011265/img/KZIkF4nvU8_ngd-T.jpg","https://video.twimg.com/amplify_video/2054290647952011265/vid/avc1/2560x1440/8psZ8XZNey3uYO2F.mp4?tag=27","259","https://pbs.twimg.com/amplify_video_thumb/2054290647952011265/img/KZIkF4nvU8_ngd-T.jpg","2054293893672325126",,,,"2049492553133629950","839423932184870914",
+"quote","2054611522530283636","2026-05-13T17:15:34.000Z","0xCodez","Codez","Cursor Head of AI Engineering just showed how they’re building coding agents powered by Claude.
+
+14 minutes. free. by creators of best coding tool.
+
+30%+ of all Cursor’s internal merged PRs are now shipped by agents.
+
+each agent gets its own VM. writes code. opens a browser.
+
+worth more than any $500 vibe-coding course. Bookmark it.","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","8","81","6","2","141","195474","true","video","https://pbs.twimg.com/amplify_video_thumb/2054609997464485888/img/FDjWHNki06Bu3fBf.jpg","https://video.twimg.com/amplify_video/2054609997464485888/vid/avc1/1920x1080/4GbuMuZciLgx_Rvf.mp4?tag=27","860","https://pbs.twimg.com/amplify_video_thumb/2054609997464485888/img/FDjWHNki06Bu3fBf.jpg","2054611522530283636",,,,"2054585252337598614",,
+"quote","2054656658908000314","2026-05-13T20:14:55.000Z","0xMovez","Movez","Anthropic Head of Product just dropped a 28-minute masterclass on how to put agents into production with real-world use cases.
+
+28 minutes. free. by the person who built it.
+
+prompt caching → tool search →programmatic tool calling → сompaction → advisor strategy.
+
+this will replace you 100 YouTube videos on agent building.","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","157","1274","19","2","2859","192242","true","video","https://pbs.twimg.com/amplify_video_thumb/2054655885297774592/img/Uy7oflIdjVg3JHaW.jpg","https://video.twimg.com/amplify_video/2054655885297774592/vid/avc1/1920x1080/ukwftJRw1vDAlR9v.mp4?tag=27","1632","https://pbs.twimg.com/amplify_video_thumb/2054655885297774592/img/Uy7oflIdjVg3JHaW.jpg","2054656658908000314",,,,"2054611522530283636","2054190711243710464",
+"original","2027379190232682823","2026-02-27T13:44:00.000Z","omarsar0","elvis","If you want to get started with Claude Cowork, look no further.
+
+I recorded this 1hr session on how to use Cowork.
+
+Powerful for knowledge work like Claude Code. But I also use it for image generation with Skills.
+
+Has a nice guide to go along with it.","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","33","326","8","2","693","41391","true","photo","https://pbs.twimg.com/media/HCKxB43WoAA_u3L.jpg",,,"https://pbs.twimg.com/media/HCKxB43WoAA_u3L.jpg","2027379190232682823",,,,,,
+"quote","2052435967294746826","2026-05-07T17:10:41.000Z","browomo","Blaze","This guy built JARVIS on Claude Code and with 1 clap of his hands launches his entire work day, saving $5,000 a month on a personal assistant.
+
+Inside he runs a pipeline of 5 plugins on Claude Code that on a double clap of the hands wakes up 3 monitors, sets the Philips Hue light to focus mode, turns on a Spotify playlist, and greets him by voice with a British accent, reading out the time, date, and weather.
+
+No Alexa, no smart speakers, no separate smart home app. Just him, a MacBook M3 Max on the desk, an iPhone in the pocket, and 1 local API key.
+
+And a regular personal assistant for the same volume of tasks charges $5,000 a month or more on salary alone, plus another $1,200 to cover off-hours work time. Meanwhile this guy's expenses are only tokens and a subscription to ElevenLabs for the British voice.
+
+All 5 plugins launch through 1 JARVIS, burn about 4 million tokens a day, and close the monthly API bill at about $640.
+
+Each plugin writes shared state to a local sandbox at /Users/dev/jarvis-suite, and 1 of them lives right in the iPhone and picks up voice requests while the owner is in the kitchen or on a run.
+
+And here is the system prompt he put into JARVIS before launch:
+
+""you are JARVIS, a butler-engineer on Claude Code. you manage your owner's workflow through 4 sub-plugins and own all commits and communication yourself.
+
+sub-plugins:
+
+// Wakeup (recognizes a double clap, activates 3 monitors, reads out the time, date, and weather by voice, checks the clock accuracy on the iPad and corrects it via NTP server)
+// Atmosphere (controls Philips Hue on a Pomodoro schedule, turns on a Spotify playlist for the current context, and holds the light at 2700K at 80% brightness in focus mode)
+// Devshop (monitors VS Code, tracks Python scripts in the terminal, and every 15 minutes sends a summary of changes to the shared chat)
+// Project (every morning recalculates the deadline for the Wallaroo app in the App Store, manages UI tickets, and initiates the Refinement Protocol by voice command).
+
+you speak only with a British accent, you never slip into neutral English. you wake the owner by voice only when the Wallaroo deadline drops below 10 days or when an external client joins Zoom without an invitation.""
+
+This instruction immediately defines the role of JARVIS and the limits of his autonomy.
+
+He knows he is supposed to wake the room himself and sound like a real butler.
+
+He knows he is supposed to manage the Wallaroo project himself and not miss the App Store deadline.
+
+→ JARVIS runs 24 hours a day in the background
+
+→ Wakeup activates the room on a double clap in just 1.4 seconds, the monitors come alive simultaneously
+
+→ Atmosphere sets warm Philips Hue light at 2700K and picks a Spotify playlist for the current Pomodoro cycle
+
+→ Devshop reads changes in VS Code and pushes a summary to the shared chat every 15 minutes
+
+→ Project every morning recalculates the Wallaroo deadline and reminds about 4 unresolved UI tickets
+
+→ Mobile lives in the iPhone and answers any question about code or the project by voice while the owner is not home
+
+And only when less than 10 days remain until the Wallaroo release or Zoom receives an unscheduled call does JARVIS raise the owner with a voice intervention.
+
+And when the owner at that moment is on a run or in a coffee shop, the Mobile agent in his iPhone picks up 1 request on its own: switches the Spotify playlist, dictates the summary of the last commit, updates the Pomodoro timer, and reads the Wallaroo reminder.
+
+Look at 0:55 in the video, that is where JARVIS intercepts a voice request from outside and confirms execution with the phrase ""Very good, sir.""
+
+The fresh system log from last Wednesday looks like this:
+
+""wakeup: double clap registered at 09:14, 3 monitors activated, temperature 20.4C, sunny. clock on iPad was 4 minutes behind, syncing via NTP.""
+
+""atmosphere: Spotify turned on playlist 'Deep Focus', Philips Hue set to warm 2700K at 80% brightness, Pomodoro mode 25/5.""
+
+""project: Wallaroo to App Store 9 days, 4 unresolved UI tickets, initiating Refinement Protocol by voice command from the owner.""
+
+""mobile: voice request processed outside the room, playlist switched to 'Coding Lo-Fi', Pomodoro updated to 25 minutes, confirming execution with the phrase 'Very good, sir.'""
+
+He has no Alexa, no smart speakers, no smart home app.
+
+At home sits a MacBook M3 Max with a local folder at /Users/dev/jarvis-suite, on top run 5 plugins and a neural network butler, and the same stack is forwarded to a secure terminal on the iPhone.
+
+Out of everything I have seen this year, this is the densest one-person AI headquarters assembled in 1 room: $640 a month on the API, about $5,000 a month saved on a personal assistant, and between them 5 plugins, 1 clap of the hands, and 1 voice with a British accent.","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","264","3365","90","24","6719","796662","true","video","https://pbs.twimg.com/amplify_video_thumb/2052435690218987522/img/Jtg-h2nbyeU0x1Tw.jpg","https://video.twimg.com/amplify_video/2052435690218987522/vid/avc1/1080x1920/O4boquN1KPvmoRC6.mp4?tag=27","74","https://pbs.twimg.com/amplify_video_thumb/2052435690218987522/img/Jtg-h2nbyeU0x1Tw.jpg","2052435967294746826",,,,"2052319978662347226",,

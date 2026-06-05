@@ -1,0 +1,415 @@
+"tweet_type","id","created_at","username","user_display_name","text","lang","source","retweet_count","favorite_count","reply_count","quote_count","bookmark_count","view_count","has_media","media_type","media_urls","video_url","video_duration","thumbnail_url","conversation_id_str","in_reply_to_status_id_str","in_reply_to_user_id_str","in_reply_to_screen_name","quoted_status_id_str","quoted_user_id_str","retweeted_status_id_str"
+"original","2048823420977119727","2026-04-27T17:55:43.000Z","DeRonin_","Ronin","The Most Comprehensive Codex tutorial on the internet right now
+
+even OpenAI's own team said it's one of the best
+
+in under 2 hours you'll learn how to use Codex + GPT-5.5 (imo the strongest combo available right now)
+
+from skill and plugin setup, to automated workflow building, to multi-threading practical demos
+
+if you're looking for the best practices for vibe coding, this is the one to watch
+
+big shoutout and respect to @rileybrown","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","276","2469","45","10","5097","217968","true","video","https://pbs.twimg.com/amplify_video_thumb/2048822807593639937/img/g_iH396IVO8ADRYF.jpg","https://video.twimg.com/amplify_video/2048822807593639937/vid/avc1/1920x1080/NvSdTf90AzeRCPu_.mp4?tag=21","6193","https://pbs.twimg.com/amplify_video_thumb/2048822807593639937/img/g_iH396IVO8ADRYF.jpg","2048823420977119727",,,,,,
+"original","2033636057690800452","2026-03-16T20:06:33.000Z","reach_vb","Vaibhav (VB) Srivastav","http://x.com/i/article/2033608358494617600","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","38","518","27","19","738","300967","false","none",,,,,"2033636057690800452",,,,,,
+"quote","2049527486124560491","2026-04-29T16:33:25.000Z","aiDotEngineer","AI Engineer","Full Workshop: @OpenAI Codex masterclass
+
+The agent is no longer just one chat window. In this workshop, @reach_vb and @kagigz get into how coding systems start to change when you can delegate work across subagents, split tasks up, and manage more context than a single thread can comfortably hold.
+
+If you're trying to understand where the next generation of coding agents is going, this is a useful look at the shape of that future from inside @OpenAI!
+
+Full Workshop: https://youtube.com/watch?v=MhHEGMFCEB0","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","95","875","23","4","1308","161633","true","photo","https://pbs.twimg.com/media/HHFiU17akAUrsiO.jpg",,,"https://pbs.twimg.com/media/HHFiU17akAUrsiO.jpg","2049527486124560491",,,,"2033636057690800452","874987512850128897",
+"original","2049285752866107856","2026-04-29T00:32:52.000Z","rileybrown","Riley Brown","Learn 95% of Codex in 28 minutes
+
+These are the 7 knowledge work capabilities...
+inside Codex, the super-app
+
+00:00 Intro
+02:19 Capability 1 - Full File Access
+07:41 Capability 2 - Persistent Memory
+10:46 Capability 3 - Plugins
+13:52 Capability 4 - Skills
+19:22  Capability 5 - GPT Image Access
+21:03 Capability 6 - Browser and Computer Use
+23:58 Capability 7 - Automations
+25:31 Bonus Feature - Chronicle
+27:21 Summary","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","470","4584","114","69","9664","958442","true","video","https://pbs.twimg.com/amplify_video_thumb/2049284173408710656/img/ZqpWmpuHmizPtVJT.jpg","https://video.twimg.com/amplify_video/2049284173408710656/vid/avc1/2560x1440/2upwXSvL19bEGucg.mp4?tag=21","1728","https://pbs.twimg.com/amplify_video_thumb/2049284173408710656/img/ZqpWmpuHmizPtVJT.jpg","2049285752866107856",,,,,,
+"original","2056377707819421873","2026-05-18T14:13:45.000Z","cjzafir","CJ Zafir","Codex 5.5 use cases I found so far:
+
+> made my internet faster
+> made my local 6B SLM 3x faster
+> made my macbook pro faster like new
+> made a lightweight suite to write & test metal kernals
+> made a skill to communicate with claude code in realtime
+> made a pipeline to generate SFT dataset using Deepseek v4
+> made a computer use workflow to fine tune models in Google Colab
+> made 4 routines to test workflows on autopilot 3 times/day","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","285","6938","86","48","12958","3313378","false","none",,,,,"2056377707819421873",,,,,,
+"original","2055718860108783838","2026-05-16T18:35:44.000Z","rileybrown","Riley Brown","If you want to get started using Codex here are my last 5 videos:  
+
+Video 1: Learning 95% of Codex in 28 min 
+(Knowledge Work Guide)
+https://x.com/rileybrown/status/2049285752866107856/video/1?s=46
+
+Video 2: Codex Complete Guide 
+(1hr 44 min, most comprehensive)
+https://x.com/rileybrown/status/2046039543468724238/video/1?s=46
+
+Video 3: Set up Codex Mobile
+(Connect ChatGPT app to Codex Desktop)
+https://x.com/rileybrown/status/2055093278161428726/video/1?s=46
+
+Video 4: Vibe Coding with Codex
+(How to build apps, replace Lovable, Replit etc)
+https://x.com/rileybrown/status/2052440152765796677/video/1?s=46
+
+Video 5: Motion Graphic Videos with Codex
+(Remotion full guide - launch videos + overlay)
+https://x.com/rileybrown/status/2047813013395427587/video/1?s=46","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","62","495","22","8","776","37160","true","photo","https://pbs.twimg.com/media/HIdgwAdboAAg_P6.jpg",,,"https://pbs.twimg.com/media/HIdgwAdboAAg_P6.jpg","2055718860108783838",,,,,,
+"quote","2055238100079808996","2026-05-15T10:45:22.000Z","Av1dlive","Avid","Cursor pays engineers $1,100,000 a year to run teams of AI agents that ship code while they sleep.
+
+[The CEO of Cursor explained in 9 minutes how they ship at 100x speed using team of agents]
+
+↓ Save this before everyone copies the playbook
+
+1. Engineers no longer babysit one assistant. They manage dozens of agent colleagues working in parallel, each on its own remote machine
+
+2. Validation contract before code, not after. Humans only at scoping and review.
+
+3. The agent team handles the full loop : planning, coding, testing, shipping PRs with each agent specialised for a role.
+
+Watch the guide. Then read the guide below by @eng_khairallah1","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","213","2445","98","16","6665","627034","true","video","https://pbs.twimg.com/amplify_video_thumb/2055237607102275584/img/H4NmAUz6Dh-Ed08r.jpg","https://video.twimg.com/amplify_video/2055237607102275584/vid/avc1/1920x1080/tjoSX7bdWLttk-kj.mp4?tag=27","577","https://pbs.twimg.com/amplify_video_thumb/2055237607102275584/img/H4NmAUz6Dh-Ed08r.jpg","2055238100079808996",,,,"2055215784092401966",,
+"original","2055093278161428726","2026-05-15T01:09:53.000Z","rileybrown","Riley Brown","OpenAI released Codex Mobile App
+Directly on ChatGPT
+
+Here's everything you need to know:
+1. How to set it up
+2. How to fully vibecode from Codex Mobile
+3. How to control your computer with Codex Mobile
+
+00:00 Setting Up Codex Mobile on @ChatGPTapp 
+02:15 Changing Settings - Chats First
+03:01 Voice Mode
+04:05 Plugins and Skills
+05:07 Notifications and Permissions
+06:52 Flaws of Vibe Coding Out of the Box
+07:13 Vibe Coding Skill (Yolo Mode w @vercel)
+10:28 Using ChatGPT app as Full Vibe Coding Platform
+12:15 Using ChatGPT to Control my computer
+13:33 Where I put  all my Agent Skills @chorusskills","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","57","716","45","11","788","90920","true","video","https://pbs.twimg.com/amplify_video_thumb/2055093021218308096/img/FR7aK6dpQOvSzs2H.jpg","https://video.twimg.com/amplify_video/2055093021218308096/vid/avc1/1920x1080/6r3RsSR8ndxli8t-.mp4?tag=27","861","https://pbs.twimg.com/amplify_video_thumb/2055093021218308096/img/FR7aK6dpQOvSzs2H.jpg","2055093278161428726",,,,,,
+"original","2028955292025962534","2026-03-03T22:06:52.000Z","Kangwook_Lee","Kangwook Lee","http://x.com/i/article/2028952607256170496","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","303","2559","39","36","5557","1012420","false","none",,,,,"2028955292025962534",,,,,,
+"quote","2028956112737775684","2026-03-03T22:10:08.000Z","DimitrisPapail","Dimitris Papailiopoulos","Holy smokes. What??? “Investigating” is putting it lightly","en","<a href=""http://twitter.com/download/iphone"" rel=""nofollow"">Twitter for iPhone</a>","87","1690","10","0","2935","413938","false","none",,,,,"2028956112737775684",,,,"2028955292025962534","57182201",
+"original","1970694098454798338","2025-09-24T03:37:41.000Z","_xjdr","xjdr","This is the command most people should run when using codex-cli 
+
+codex --search --model=gpt-5-codex -c model_reasoning_effort=""high"" --sandbox workspace-write -c sandbox_workspace_write.network_access=true","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","32","876","39","6","1290","77079","false","none",,,,,"1970694098454798338",,,,,,
+"original","2006809193916055584","2026-01-01T19:26:11.000Z","0xSero","0xSero","How I use Codex:
+
+step 1: 
+
+- Setup GPT-5.2-XHIGH and tell it to read every files under what directory I want to work in 
+- Have it produce a map of the code, and a scope that is relevant to the big goal I want to accomplish
+- Have it make a directory called /tasks where it makes 1 http://task-00.md file in a sequence
+
+step 2:
+
+- Switch to gpt-5.2-codex-xhigh
+- Attach the scope, the rules, and the http://task-00.md
+- Push the same message but change the number http://task-01.md
+
+The scope is the big picture. What we are trying to do, what it touches, why we made certain decisions etc.. 
+
+The rules file is the instructions it has to follow during development:
+
+1. checkout new branch when starting a task
+2. complete the task as described, attempt to reduce code not make more for older projects. 
+3. run type-check, lint, full test suite (not deleting or skipping tests), commit and push
+4. update documentation
+
+Each task will take between 15 minutes and 1 hour, you can stack them on top each other so codex only sees 1 per turn. 
+
+2-24 hour runs depending on how well you specify
+all code is typically functional
+improved, cleaner code,","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","113","1536","57","11","2433","134489","true","photo","https://pbs.twimg.com/media/G9mcacCX0AciRQx.jpg",,,"https://pbs.twimg.com/media/G9mcacCX0AciRQx.jpg","2006809193916055584",,,,,,
+"original","2028814227004395561","2026-03-03T12:46:19.000Z","systematicls","sysls","http://x.com/i/article/2028694727600623616","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","1001","8781","188","255","28010","3776895","false","none",,,,,"2028814227004395561",,,,,,
+"quote","2028841178381090941","2026-03-03T14:33:25.000Z","Hesamation","ℏεsam","this is such a well written article on how to squeeze most out of Claude Code or Codex:
+> keep your setup barebones, frontier companies absorb what works best
+> give agents only the context they need 
+> separate research from implementation. decide the approach, then build fresh 
+>  use neutral prompts. don’t lead agents toward predetermined answers
+> refine agents by using other agents
+> iterate rules and skills every once in a while","en","<a href=""http://twitter.com/download/iphone"" rel=""nofollow"">Twitter for iPhone</a>","142","2194","23","5","4370","383639","false","none",,,,,"2028841178381090941",,,,"2028814227004395561","1779775861589504000",
+"original","2041556496320700626","2026-04-07T16:39:33.000Z","NielsRogge","Niels Rogge","New blog post: converting 30k @arxiv papers to Markdown using SOTA OCR models to enable chat with paper functionality
+
+Includes:
+&gt; leveraging an open OCR model (Chandra 2 by @datalabto)
+&gt; running on GPU infra - @huggingface Jobs 
+&gt; using Codex with a SKILL.md","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","69","536","12","3","515","55093","true","photo","https://pbs.twimg.com/media/HFUNmXCXIAYJ5If.jpg",,,"https://pbs.twimg.com/media/HFUNmXCXIAYJ5If.jpg","2041556496320700626",,,,,,
+"original","2043366810494337354","2026-04-12T16:33:06.000Z","TheAhmadOsman","Ahmad","This is how I run parallel agents:
+
+Either tell an agent to fan out
+or use scripts for deterministic runs
+
+&gt; Spin up workers
+&gt; Isolate in git worktrees
+&gt; Gate with diffs
+&gt; Add backups, rules, logs, etc when deterministic
+&gt; Merge what passes
+
+Turning this into a Skill for you guys","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","27","340","17","3","546","63926","true","photo","https://pbs.twimg.com/media/HFt9lhHboAA3dH-.jpg",,,"https://pbs.twimg.com/media/HFt9lhHboAA3dH-.jpg","2043366810494337354",,,,,,
+"quote","2043380120602190052","2026-04-12T17:25:59.000Z","TheAhmadOsman","Ahmad","Skill for Parallel Agentic Workflows is now live
+
+Works w/ any CLI agent harness
+(Codex, Claude, Kimi, OpenCode, Droid, etc) 
+
+Be warned this was vibecoded from my workflows, not fully tested
+
+Should be a GREAT STARTING POINT nevertheless
+
+Give the screenshot below to your agent","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","22","200","10","1","221","21607","true","photo","https://pbs.twimg.com/media/HFuK125XQAAGOlS.jpg",,,"https://pbs.twimg.com/media/HFuK125XQAAGOlS.jpg","2043380120602190052",,,,"2043366810494337354","248951926",
+"original","2046039543468724238","2026-04-20T01:33:35.000Z","rileybrown","Riley Brown","The Codex Super-App (Full Beginners Guide)
+The All Purpose Interface for AI Agents
+
+Part 1: Codex Basics
+Install Codex, Projects, Chats, Documents, Plugins, Custom Skills, Automations
+
+Part 2: Multitasking with Codex
+- iOS App Designs
+- Build an iOS App
+- Landing Page
+- Launch Video
+- Investor Deck
+- Social Media Automation
+
+TIMESTAMPS:
+
+Part 1: Codex Basics
+00:00 Intro
+02:54 Downloading Codex
+03:20 Overview of Codex interface
+03:56 Chats, Prompting, & Built in Search
+04:53 Creating Projects
+07:37 Creating Spreadsheet
+09:43 How Files are stored and mentioned within projects
+10:42 Quick Codex Overview 
+12:47 Search (CMD G) and Folder Organization
+14:29 Skills and Plugins
+16:29 Using Calendar Plugin
+18:07 Creating Automations on Codex 
+19:18 Learn about Plugins (Figma)
+21:37 Built in Image Gen
+22:37 MCP Example (Paper for Design)
+24:17 Opening Chats in mini-window
+25:26 Steering vs Queueing the Agent
+27:35 Creating Own Skill with API's
+31:34 Using YouTube Researcher Skill (That we created)
+33:24 Creating Automation with your custom skill
+
+Part 2: Multitasking (More chaotic and fun)
+35:27 Part 2 Multitasking: Building iOS App, Web App, Investor Deck, Launch Video, Mobile Designs, and Automated X Posts
+37:54 Creating Project 
+38:31 Planning my 6 Projects
+40:25 Mobile Design Skill
+41:47 Setting up iOS App
+45:08 Implementing Desings into Mobile app
+46:13 Creating a landing page that collects user info
+46:45 Tally for form submission (Great for lead magnets)
+49:43 Organizing and Renaming Chats for multitasking
+52:12 Database for Mobile App (Supabase)
+53:19 Generating app icons
+54:08 Launch Video (Remotion) 
+59:32 Remotion Video Timeline and Seeing the Video Editor
+01:05:37 Editing instructions for Remotion (Gridlines)
+01:07:11 Editing Web App
+01:09:46 Using CLAUDE CODE Inside Codex for Design (Terminal)
+01:17:20 Forking a Chat to create investor deck
+01:19:09 Using Claude 4.7 Opus for Designing Deck
+01:20:22 Testing Canva Export (It's good) 
+01:22:33 Running Mobile App on Actual Phone (Not Simulator)
+01:28:58 Finishing up All Projects (Mobile App, Landing Page Launch Video)
+01:31:56 Exporting Deck and making changes in Canva
+01:33:13 Deploy to Vercel using the Vercel Plugin
+01:33:44 Adding Song to Remotion Video
+01:35:26 Setting up x Post automations (Typefully)
+01:37:57 Our App is on Testflight! 
+01:39:58 Final Remotion Video 
+01:41:04 Final Thoughts, Reflections, Summary","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","433","3487","96","55","6982","425519","true","video","https://pbs.twimg.com/amplify_video_thumb/2046032366280519680/img/IKc1erkOZJBIWUTk.jpg","https://video.twimg.com/amplify_video/2046032366280519680/vid/avc1/1920x1080/6vFoxuCl1Q_LfwXF.mp4?tag=21","6193","https://pbs.twimg.com/amplify_video_thumb/2046032366280519680/img/IKc1erkOZJBIWUTk.jpg","2046039543468724238",,,,,,
+"original","2050654867371495657","2026-05-02T19:13:14.000Z","TheRohanVarma","Rohan Varma","Anyone making lots of high quality videos on how to get started with Codex that we can amplify?
+
+Asking for my dad, but also more and more people are going to need / want this content.
+
+The champagne problem is that all our videos go out of date very quickly with all the new stuff 😅","en","<a href=""http://twitter.com/download/iphone"" rel=""nofollow"">Twitter for iPhone</a>","2","129","31","1","69","44449","true","photo","https://pbs.twimg.com/media/HHVjvBCbAAAy4zU.jpg",,,"https://pbs.twimg.com/media/HHVjvBCbAAAy4zU.jpg","2050654867371495657",,,,,,
+"quote","2050676619262734794","2026-05-02T20:39:40.000Z","rileybrown","Riley Brown","Learn the basics of Codex in 30 minutes: 
+Below  is a more in depth 100min codex guide ⬇️","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","27","260","8","1","318","31613","true","video","https://pbs.twimg.com/amplify_video_thumb/2049284173408710656/img/ZqpWmpuHmizPtVJT.jpg","https://video.twimg.com/amplify_video/2049284173408710656/vid/avc1/2560x1440/2upwXSvL19bEGucg.mp4?tag=21","1728","https://pbs.twimg.com/amplify_video_thumb/2049284173408710656/img/ZqpWmpuHmizPtVJT.jpg","2050676619262734794",,,,"2050654867371495657","24655040",
+"original","2040162154398064704","2026-04-03T20:18:56.000Z","TheAhmadOsman","Ahmad","You don’t pick an Inference Engine
+
+  You pick a Hardware Strategy
+   and the Engine follows
+
+Inference Engines Breakdown
+ (Cheat Sheet at the bottom)
+
+> llama.cpp
+runs anywhere
+CPU, GPU, Mac, weird edge boxes
+best when VRAM is tight and RAM is plenty
+hybrid offload, GGUF, ultimate portability
+not built for serious multi-node scale
+
+> MLX
+Apple Silicon weapon
+unified memory = “fits” bigger models
+than VRAM would allow but also slower than GPUs
+clean dev stack (Python/Swift/C++)
+sits on Metal (and expanding beyond)
+now supports CUDA + distributed too
+great for Mac-first workflows, not prod serving
+
+> ExLlamaV2
+single RTX box go brrr
+EXL2 quant, fast local inference
+perfect for 1/2/3/4 GPU(s) setups (4090/3090)
+not meant for clusters or non-CUDA
+
+> ExLlamaV3
+same idea, but bigger ambition
+multi-GPU, MoE, EXL3 quant
+consumer rigs pretending to be datacenters
+still CUDA-first, still rough edges depending on model
+
+> vLLM
+default answer for prod serving
+continuous batching, KV cache magic
+tensor / pipeline / data parallel
+runs on CUDA + ROCm (and some CPUs)
+this is your “serve 100s of users” engine
+
+> SGLang
+vLLM but more systems-brained
+routing, disaggregation, long-context scaling
+expert parallel for MoE
+built for ugly workloads at scale
+lives on top of CUDA / ROCm clusters
+this is infra nerd territory
+
+> TensorRT-LLM
+maximum NVIDIA performance
+FP8/FP4, CUDA graphs, insane throughput
+multi-node, multi-GPU, fully optimized
+pure CUDA stack, zero portability
+
+  (And underneath all of it:
+  Transformers → model architecture
+  layer → CUDA / ROCm / TT-Metal
+  → compute layer)
+
+What actually happens under the hood:
+
+> Transformers defines the model
+> CUDA / ROCm executes it
+> TT-Metal (if you’re insane) lets you write the kernel yourself
+
+  The Inference Engine is just
+  the orchestrator (simplified)
+
+When running LLMs locally,
+the bottleneck isn’t just “VRAM size”
+
+ It isn’t even the model
+
+It’s:
+- memory bandwidth (the real limiter)
+- KV cache (explodes with long context)
+- interconnect (PCIe vs NVLink vs RDMA)
+- scheduler quality (batching + engine design)
+- runtime overhead (activations, graphs, etc)
+
+  (and your compute stack decides all of this)
+
+ P.S. Unified Memory is way slower than VRAM
+
+Cheat Sheet / Rules of Thumb
+
+> laptop / edge / weird hardware → llama.cpp
+> Mac workflows → MLX
+> 1–4 RTX GPUs → ExLlamaV2/V3
+> general serving → vLLM
+> complex infra / long context / MoE → SGLang
+> NVIDIA max performance → TensorRT-LLM","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","64","793","40","11","1091","125847","false","none",,,,,"2040162154398064704",,,,,,
+"quote","2051389218686116045","2026-05-04T19:51:17.000Z","TheAhmadOsman","Ahmad","Let me make local AI easy for you
+
+Give Codex Cli the tweet below &amp; tell it:
+
+- Infer the right Inference Engine from your hardware + tweet content below
+- Use uv+venv
+- Pick the right kernels
+- Tune flags, batching, KVCache, etc
+- Optimize for your hardware &amp; chosen model
+
+Enjoy","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","21","343","9","2","520","31288","false","none",,,,,"2051389218686116045",,,,"2040162154398064704","248951926",
+"original","2051783339502375418","2026-05-05T21:57:23.000Z","sama","Sam Altman","5.5 in codex is so good for non-coding tasks.
+
+i keep assuming it won't be able to do something, but a lot of the time i am pleasantly surprised.","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","107","4030","565","37","219","445014","false","none",,,,,"2051783339502375418",,,,,,
+"quote","2051787568480690215","2026-05-05T22:14:11.000Z","rileybrown","Riley Brown","Codex is so good for non-coding tasks","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","37","537","17","1","672","77652","true","video","https://pbs.twimg.com/amplify_video_thumb/2049284173408710656/img/ZqpWmpuHmizPtVJT.jpg","https://video.twimg.com/amplify_video/2049284173408710656/vid/avc1/2560x1440/2upwXSvL19bEGucg.mp4?tag=21","1728","https://pbs.twimg.com/amplify_video_thumb/2049284173408710656/img/ZqpWmpuHmizPtVJT.jpg","2051787568480690215",,,,"2051783339502375418","1605",
+"original","2052110266566107321","2026-05-06T19:36:28.000Z","cjzafir","CJ Zafir","Codex 5.5 hack:
+
+""Are you 100% confident in this strategy? If not, find all possible loopholes, suggest proper fixes and run this loop until you are factually 100% confident in the new startegy""
+
+This works like charm. It makes Codex 5.5 high perform even better than codex 5.5 extra high. 
+
+Why? Codex 5.5 is the only model i noticed that is self aware. It never makes high claims unless the model verifies everything. 
+
+This doesn't work with Opus 4.7 cuz that's a very insecure model. You can paste this prompt over and over again, the model keeps saying ""you're absolutely right,....."" 
+
+But with codex, after 2-3 iterations you'll notice yourself it actually patched all loopholes and this genuinely sounds like a good strategy. 
+
+Try this out, thanks me later.","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","273","4248","82","66","7111","847105","false","none",,,,,"2052110266566107321",,,,,,
+"original","2052440152765796677","2026-05-07T17:27:19.000Z","rileybrown","Riley Brown","Vibe Coding with Codex - Complete Guide
+
+Build a Web App, Desktop App & iOS App 
+with Codex + GPT‑5.5
+
+(No Coding Needed, Beginner Friendly)
+
+In this video you will learn: 
+> Vibe Coding Basics + Vocab
+> How to build a web app using Codex
+> Add db, auth + storage with @Firebase 
+> Github Basics
+> Add AI Features (API's)
+> Deploy to internet (@vercel)
+> Convert Web App into Desktop app & iOS App
+
+Chapters
+00:00 Intro
+01:12 Setting up Codex
+01:57 The basics of Vibe Coding and Codex
+02:20 Projects, Files, App
+03:45 Example App - Microsoft Paint
+04:25 Running app locally
+06:39 Save My Code - Use Github
+10:37 Quick Review before building app
+12:24 Building a web app - The Prompt
+15:32 Creating Web App Project
+16:34 Explaining Firebase (Database, Storage, Auth)
+18:42 Setting up Firebase Project
+22:54 Prompting Codex to build our app
+24:49 Inspect Element - Console
+26:24 Verify Data being Stored in Database
+27:51 Making Changes to App 
+31:29 Fixing Storage Permissions with Codex
+32:20 GPT API - Adding AI to our app
+36:20 Making more changes using screenshots
+39:02 Queuing vs Steering
+40:23 Deploying our app to Vercel (App on Internet) 
+43:09 Convert web app to desktop app and iOS app
+47:15 Web App and Desktop App work Now
+48:36 Now let's run the iOS app
+50:27 All three apps work!
+51:11 Making Changes to iOS app
+52:51 Testing agent skill feature of our app
+53:55 Summary of what we did","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","237","1597","59","20","2520","141668","true","video","https://pbs.twimg.com/amplify_video_thumb/2052437874419892224/img/H3pqFTPoHdhST0Ef.jpg","https://video.twimg.com/amplify_video/2052437874419892224/vid/avc1/1920x1080/AGO8ISGVlbGe3kVM.mp4?tag=27","3324","https://pbs.twimg.com/amplify_video_thumb/2052437874419892224/img/H3pqFTPoHdhST0Ef.jpg","2052440152765796677",,,,,,
+"original","2054617730104328257","2026-05-13T17:40:14.000Z","dr_cintas","Alvaro Cintas","You can use now Codex in Claude Code 🤯
+
+OpenAI has dropped a plugin that lets you run Codex directly inside Claude Code.
+
+Code reviews, adversarial reviews, background tasks…one command to install:
+
+/plugin install codex@openai-codex","en","<a href=""http://twitter.com/download/iphone"" rel=""nofollow"">Twitter for iPhone</a>","142","1526","71","29","2041","304087","true","video","https://pbs.twimg.com/amplify_video_thumb/2054617675574161408/img/Azrq4Fd_LnF5GWXf.jpg","https://video.twimg.com/amplify_video/2054617675574161408/vid/avc1/1280x720/S_zAHrifglFLDFKM.mp4?tag=27","39","https://pbs.twimg.com/amplify_video_thumb/2054617675574161408/img/Azrq4Fd_LnF5GWXf.jpg","2054617730104328257",,,,,,

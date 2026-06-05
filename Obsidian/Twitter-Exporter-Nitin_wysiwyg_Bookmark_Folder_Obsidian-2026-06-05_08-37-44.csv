@@ -1,0 +1,471 @@
+"tweet_type","id","created_at","username","user_display_name","text","lang","source","retweet_count","favorite_count","reply_count","quote_count","bookmark_count","view_count","has_media","media_type","media_urls","video_url","video_duration","thumbnail_url","conversation_id_str","in_reply_to_status_id_str","in_reply_to_user_id_str","in_reply_to_screen_name","quoted_status_id_str","quoted_user_id_str","retweeted_status_id_str"
+"original","2059266993950277656","2026-05-26T13:34:45.000Z","bonsaixbt","Bonsai 🌳","http://x.com/i/article/2059242988073631744","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","73","548","34","23","2626","1281137","false","none",,,,,"2059266993950277656",,,,,,
+"quote","2060768042347372865","2026-05-30T16:59:23.000Z","Asteri_eth","Asteri","Karpathy found a way to reduce token consumption by 90%
+
+The problem is that the LLM re-reads the same files over and over again, loses context between documents, and provides less accurate answers as a result
+
+The solution is called Wiki Layer the LLM cleans, structures, and links all your data once, after which it never works with raw files again
+
+Three folders `raw/` for originals, `wiki/` for a clean knowledge base in Markdown, and files with rules for the agent
+
+Result up to 90% token savings on repeat queries, automatic links between documents, and a visual knowledge graph in Obsidian
+
+Everything stays on your local machine nothing goes to the cloud","en","<a href=""http://twitter.com/download/android"" rel=""nofollow"">Twitter for Android</a>","430","4306","154","23","8807","1063270","true","video","https://pbs.twimg.com/ext_tw_video_thumb/2060767986160381959/pu/img/45ratXEUe8w_8QsV.jpg","https://video.twimg.com/ext_tw_video/2060767986160381959/pu/vid/avc1/704x1254/ukZ8TH2y8E5P14EY.mp4?tag=25","32","https://pbs.twimg.com/ext_tw_video_thumb/2060767986160381959/pu/img/45ratXEUe8w_8QsV.jpg","2060768042347372865",,,,"2059266993950277656","1520907771788603392",
+"original","2060653619116974089","2026-05-30T09:24:42.000Z","DamiDefi","Dami-Defi","http://x.com/i/article/2060307282269802496","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","66","460","21","11","1095","135800","false","none",,,,,"2060653619116974089",,,,,,
+"original","2060163007783612502","2026-05-29T00:55:11.000Z","cyrilXBT","CyrilXBT","http://x.com/i/article/2059468437504602112","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","115","918","28","19","2722","863614","false","none",,,,,"2060163007783612502",,,,,,
+"quote","2060291475036889506","2026-05-29T09:25:40.000Z","leopardracer","leopardracer","THIS CHINESE DEVELOPER’S NEURAL NETWORK VISUALIZATION IS EXACTLY HOW YOUR OBSIDIAN VAULT SHOULD WORK
+
+every node connects to every other node and the whole thing gets smarter the more data flows through it, same way a real knowledge system should work but almost nobody builds it like that
+
+most people throw everything into folders and tags and call it a second brain but what they actually built is an archive that gets harder to use every month
+
+claude reads across everything you ever captured and finds the connection you need right when you need it
+
+here’s how to build the version that actually compounds ↓","en","<a href=""http://twitter.com/download/iphone"" rel=""nofollow"">Twitter for iPhone</a>","152","1428","49","8","2642","229022","true","video","https://pbs.twimg.com/amplify_video_thumb/2060291384645459973/img/gNoP6JYEeSkc6Nf_.jpg","https://video.twimg.com/amplify_video/2060291384645459973/vid/avc1/576x1024/CJbZUJcSGKb-pYJm.mp4?tag=27","32","https://pbs.twimg.com/amplify_video_thumb/2060291384645459973/img/gNoP6JYEeSkc6Nf_.jpg","2060291475036889506",,,,"2060163007783612502","1373665408193036293",
+"original","2058373087330959829","2026-05-24T02:22:41.000Z","cyrilXBT","CyrilXBT","http://x.com/i/article/2057568624345563136","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","173","1536","29","27","6360","7261483","false","none",,,,,"2058373087330959829",,,,,,
+"original","2056555832805089310","2026-05-19T02:01:34.000Z","cyrilXBT","CyrilXBT","http://x.com/i/article/2056174105821401090","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","135","1185","37","6","3004","407594","false","none",,,,,"2056555832805089310",,,,,,
+"original","2055249160782389690","2026-05-15T11:29:19.000Z","heynavtoor","Nav Toor","http://x.com/i/article/2055147456963420160","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","151","933","17","10","2089","130672","false","none",,,,,"2055249160782389690",,,,,,
+"original","2042203352054771748","2026-04-09T11:29:56.000Z","polydao","Mr. Buzzoni","http://x.com/i/article/2040467358272155648","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","74","658","23","7","2397","394564","false","none",,,,,"2042203352054771748",,,,,,
+"quote","2055237756318781502","2026-05-15T10:44:00.000Z","polydao","Mr. Buzzoni","This beginner guide to Karpathy's LLM Wiki is one of the most useful AI videos i've shared this year
+
+Karpathy's idea: instead of asking AI questions every time, make it build you a permanent knowledge base that grows smarter over time
+
+> drop your documents into a folder
+> Claude reads them and builds a structured wiki in Obsidian
+> every time you add a new source, Claude Sonnet updates existing pages and links new ideas
+> ask complex questions - Claude Opus answers from the organized wiki, not raw files
+
+it's like having a researcher who never forgets and connects dots across everything you've ever given it
+
+full setup guide is in the video above","en","<a href=""http://twitter.com"" rel=""nofollow"">Twitter Web Client</a>","37","280","17","4","492","58677","true","video","https://pbs.twimg.com/amplify_video_thumb/2055128381465804800/img/mk0eBqw7-7cE16D9.jpg","https://video.twimg.com/amplify_video/2055128381465804800/vid/avc1/1920x1080/UryvZ5TPJ0v5nWcS.mp4?tag=27","861","https://pbs.twimg.com/amplify_video_thumb/2055128381465804800/img/mk0eBqw7-7cE16D9.jpg","2055237756318781502",,,,"2042203352054771748","1412131273280212996",
+"original","2035454870204100810","2026-03-21T20:33:52.000Z","sourfraser","Fraser Cottrell | Ad Creative For Meta & TikTok","http://x.com/i/article/2034695637988458496","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","496","4727","85","55","14247","2019747","false","none",,,,,"2035454870204100810",,,,,,
+"quote","2054823237054329176","2026-05-14T07:16:51.000Z","DataChaz","Charly Wargnier","this guy literally breaks down the exact Claude + Obsidian playbook to build your own AI employee in a single afternoon 🤯","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","294","1954","36","8","4268","350594","true","photo","https://pbs.twimg.com/media/HIQyyZDXgAAScJh.jpg; https://pbs.twimg.com/media/HIQy0I9WwAE3BuZ.jpg",,,"https://pbs.twimg.com/media/HIQyyZDXgAAScJh.jpg","2054823237054329176",,,,"2035454870204100810","16314737",
+"original","2054379666316693719","2026-05-13T01:54:15.000Z","cyrilXBT","CyrilXBT","http://x.com/i/article/2053282385433673728","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","129","1037","24","23","3189","537834","false","none",,,,,"2054379666316693719",,,,,,
+"quote","2054666206314213829","2026-05-13T20:52:52.000Z","rohit4verse","Rohit","this is how the founder of obsidian actually takes notes in his own app.
+
+most users get this wrong.
+
+barely any folders. heavy internal linking. categories live as properties on the note itself.
+
+article below teaches how to build personal knowledge base. video above is the underrated masterclass.","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","141","1303","32","3","3433","231236","true","video","https://pbs.twimg.com/amplify_video_thumb/2054664331380592640/img/xQWweySAIGxRgAS4.jpg","https://video.twimg.com/amplify_video/2054664331380592640/vid/avc1/1920x1080/zE-8ntCwf1blfGjm.mp4?tag=27","200","https://pbs.twimg.com/amplify_video_thumb/2054664331380592640/img/xQWweySAIGxRgAS4.jpg","2054666206314213829",,,,"2054379666316693719","1373665408193036293",
+"original","2013045749580259680","2026-01-19T00:28:01.000Z","arscontexta","Heinrich","http://x.com/i/article/2013040190512599041","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","222","2633","84","42","8761","1250692","false","none",,,,,"2013045749580259680",,,,,,
+"quote","2022188887641395296","2026-02-13T05:59:35.000Z","garrytan","Garry Tan","Claude Code all the things","en","<a href=""http://twitter.com/download/iphone"" rel=""nofollow"">Twitter for iPhone</a>","91","1390","45","5","2049","332263","false","none",,,,,"2022188887641395296",,,,"2013045749580259680","1915489112787718144",
+"original","2025286163641118915","2026-02-21T19:07:04.000Z","koylanai","Muratcan Koylan","http://x.com/i/article/2025249985722224640","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","860","6224","137","137","18149","2781142","false","none",,,,,"2025286163641118915",,,,,,
+"quote","2025386547176956077","2026-02-22T01:45:57.000Z","Hesamation","ℏεsam","this is one of the best technical articles i’ve read lately. what separates you from anyone else that’s using AI is your ability to steer the LLM and squeeze what you want from it, not what it decides to offer. commit to the long-term investment of recording your “taste”.","en","<a href=""http://twitter.com/download/iphone"" rel=""nofollow"">Twitter for iPhone</a>","237","3023","37","5","6017","612815","false","none",,,,,"2025386547176956077",,,,"2025286163641118915","1603551009854423040",
+"original","2040937372909531286","2026-04-05T23:39:23.000Z","jonoringer","Jon Oringer","This is huge : @X released an MCP server today..
+
+How to Connect X to your 🦞 :
+
+**Step 1: Run the XMCP Server**  
+
+git clone https://github.com/xdevplatform/xmcp.git  
+cd xmcp  
+cp env.example .env  
+
+Edit the .env file with your X OAuth consumer key and secret. Set the callback URL to http://127.0.0.1:8976/oauth/callback in your X Developer app.  
+
+For safety, add an allowlist such as:  
+X_API_TOOL_ALLOWLIST=searchPostsRecent,createPosts,getUsersMe,getPostsById,likePost,repostPost  
+
+Then run:  
+python -m venv .venv && source .venv/bin/activate  
+pip install -r requirements.txt  
+python http://server.py  
+
+The server will be available at http://127.0.0.1:8000/mcp. Complete the OAuth flow on first run and keep this process active.
+
+**Step 2: Add XMCP in @OpenClaw**  
+
+Use the following command:  
+
+openclaw mcp set x '{  
+  ""url"": ""http://127.0.0.1:8000/mcp""  
+}'  
+
+Verify with:  
+openclaw mcp list  
+openclaw mcp show x  
+
+**Step 3: Test the Integration**  
+
+Restart the OpenClaw agent or reload MCP configuration if required.  
+
+Test by sending these prompts to OpenClaw in your chat app:  
+- Search recent posts about MCP on X and summarize the top trends  
+- Draft and post this thread on X  
+- Get my X profile information  
+- Like the latest post from @xdevplatform  
+
+OpenClaw will use the XMCP tools automatically when relevant.
+
+**Key Benefits**  
+
+- OpenClaw provides persistent memory and works across multiple messaging platforms.  
+- XMCP delivers standardized access to X API functionality.  
+- Combined, they enable an agent that can research trends, post content, engage with posts, and report results within your existing chat workflows.
+
+**Safety and Configuration Notes**  
+
+Start with a minimal tool allowlist in the XMCP .env file. Expand gradually after testing.  
+The allowlist can be updated and requires restarting the XMCP server.  
+Monitor logs in both the XMCP server and OpenClaw for troubleshooting.  
+X actions performed by the agent are public.
+
+XMCP repository: https://github.com/xdevplatform/xmcp  
+OpenClaw MCP documentation: https://docs.openclaw.ai/cli/mcp","en","<a href=""http://twitter.com/download/iphone"" rel=""nofollow"">Twitter for iPhone</a>","212","2006","79","36","4457","310809","false","none",,,,,"2040937372909531286",,,,,,
+"original","2026846215644787196","2026-02-26T02:26:09.000Z","AlphaSignalAI","AlphaSignal AI","http://x.com/i/article/2026463674773512192","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","25","179","3","0","273","13342","false","none",,,,,"2026846215644787196",,,,,,
+"original","2032528386745315553","2026-03-13T18:45:04.000Z","Atenov_D","Atenov int.","http://x.com/i/article/2032160760042758144","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","157","1381","42","27","3648","448318","false","none",,,,,"2032528386745315553",,,,,,
+"original","2047711260188323997","2026-04-24T16:16:23.000Z","poetengineer__","Kat ⊷ the Poet Engineer","trying to use topological data analysis to map the shape of my x bookmarks through mapper + embedding extraction and generated 3 views:                                                                                                                 
+- density: where attention keeps gravitating
+- pca: the dominant axes of variation
+- centroid:  center vs edge (typical -> outlier)","en","<a href=""http://twitter.com/download/iphone"" rel=""nofollow"">Twitter for iPhone</a>","638","6202","139","92","4748","770528","true","video","https://pbs.twimg.com/amplify_video_thumb/2047711170308489216/img/JPU09IzzV0KiuoLH.jpg","https://video.twimg.com/amplify_video/2047711170308489216/vid/avc1/1920x1080/D019TzXmd6buBdP9.mp4?tag=21","24","https://pbs.twimg.com/amplify_video_thumb/2047711170308489216/img/JPU09IzzV0KiuoLH.jpg","2047711260188323997",,,,,,
+"original","2042241063612502162","2026-04-09T13:59:47.000Z","defileo","Defileo🔮","http://x.com/i/article/2041858771123617793","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","980","9653","203","152","45850","7263048","false","none",,,,,"2042241063612502162",,,,,,
+"quote","2042952545514008864","2026-04-11T13:06:57.000Z","Bober_smart","Bober_smart","http://1.Download Obsidian → create a new vault (folder)
+http://2.Download Claude Desktop (Claude Code)
+3.Point Claude to the path of your vault
+4.Paste the prompt from the article
+
+> Just 4 steps and 10 minutes of your time
+
+The face I made when I realized I had been suffering all this time, not knowing such simple things","en","<a href=""http://twitter.com/download/iphone"" rel=""nofollow"">Twitter for iPhone</a>","455","6220","109","16","20138","1776743","true","video","https://pbs.twimg.com/amplify_video_thumb/2042952357831692288/img/gSddeAEBwbZHY-0J.jpg","https://video.twimg.com/amplify_video/2042952357831692288/vid/avc1/1880x1080/eGAliFHw5W_pJs_r.mp4?tag=21","16","https://pbs.twimg.com/amplify_video_thumb/2042952357831692288/img/gSddeAEBwbZHY-0J.jpg","2042952545514008864",,,,"2042241063612502162","1663262095868084228",
+"quote","2013058057836605756","2026-01-19T01:16:56.000Z","arscontexta","Heinrich","if youre getting into ai assisted knowledge management, these are the pointers i wish i had when i started
+
+@kepano was one of the first people i ever gifted a buymeacoffee back then for his theme work. following him since the early days of obsidian and now hes cofounder working on claude skills
+
+@nickmilo helped me a lot with his LYT framework when i transitioned to obsidian during early beta and he still creates valuable videos on youtube
+
+@neuranne inspired me to make a living with my knowledge work. lots of interesting stuff on ness labs
+
+@andy_matuschak and his concept of evergreen notes changed how i think about notes forever. so much value on his website that i spent days there trying to read everything. the panes structure is beautiful for thinking and i might steal that idea
+
+@fortelabs taught me note taking philosophy through his books and im still using a PARA like system in my other vault
+
+@soenke_ahrens wrote ""how to take smart notes"" which redefined the tools for thought space for me. short read but hands down the most dense and valuable book on the topic
+
+@zsviczian did amazing work with the excalidraw plugin but beyond that hes a great systematic thinker with nice youtube videos
+
+@tfthacker is an og in knowledge management with many contributions and valuable insights over the years
+
+@n_vanderhoeven made videos i watched religiously back then. even tho theyre older now theyre still worth watching because this is evergreen content
+
+@eleanorkonik did lots of community work for obsidian and her newsletter kept me updated on everything happening in the space
+
+@tallguyjenks was literally my entry to all this. he also copes with adhd and used these systems to find structure. so happy i found you
+
+@shuomi3 makes high quality youtube videos on ai and obsidian
+
+@mckaywrigley is a legend in the ai and vibe coding space with super insightful tutorials and he also dives into ai assisted knowledge management with obsidian
+
+@rileybrown inspired me to start ai tiktok back then. i tried to copy him and went from 0 to 10k in under 30 days. now hes one of the voices in vibe coding and still produces so much value
+
+if you want to go deeper i wrote an article about how i let claude code orchestrate my obsidian vaults","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","86","1139","24","3","2522","186081","false","none",,,,,"2013058057836605756",,,,"2013045749580259680","1915489112787718144",
+"original","2016594876096204981","2026-01-28T19:30:59.000Z","arscontexta","Heinrich","claude code + obsidian is infrastructure for agents to think in
+
+heres how to get started:","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","59","1105","32","10","2779","146011","false","none",,,,,"2016594876096204981",,,,,,
+"original","2023957499183829467","2026-02-18T03:07:25.000Z","arscontexta","Heinrich","http://x.com/i/article/2023918991673061376","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","903","8809","208","199","25704","4066295","false","none",,,,,"2023957499183829467",,,,,,
+"quote","2024446317599056014","2026-02-19T11:29:49.000Z","johncodes","John McBride","Obsidian being an AI company was not on my 2026 bingo card.","en","<a href=""http://twitter.com/download/iphone"" rel=""nofollow"">Twitter for iPhone</a>","77","2209","45","10","2670","453322","false","none",,,,,"2024446317599056014",,,,"2023957499183829467","1915489112787718144",
+"original","2026036464287412412","2026-02-23T20:48:29.000Z","gregisenberg","GREG ISENBERG","how to use obsidian + claude code to build a 24/7 personal operating system and build your startup:
+
+1. write everything in markdown (daily notes, projects, beliefs, people, meetings)
+
+2. link your notes together so they mirror how your brain actually thinks.
+
+3. install obsidian cli so claude code can read your entire vault + the relationships.
+
+4. stop reexplaining projects every session. use reference files instead.
+
+5. build custom slash commands:
+
+/context → load your full life + work state
+/trace → see how an idea evolved over months
+/connect → bridge two domains you’ve been circling
+/ideas → generate startup ideas from your vault
+/graduate → promote daily thoughts into real assets
+
+6. keep a strict rule: human writes the vault. agents read it, suggest, execute.
+
+7. let claude aka clode surface patterns you’ve been unconsciously circling for years.
+
+8. delegate from inside your notes. one sentence in obsidian → agent handles the rest.
+
+9. treat writing as leverage.the more you write, the more context your agents have.
+
+10. understand this:markdown files are the oxygen of llms.
+
+i really enjoyed seeing how to use obsidian thanks to @internetvin 
+
+vin uses ai like a thinking partner wired into his life’s work.
+
+99.99% of people won’t do this because it requires reflection + setup.
+
+but once the vault exists, the agent stops being generic.
+it starts thinking in your voice.
+
+episode is live on @startupideaspod (more there)
+
+this one is different. send this tweet to a friend.
+
+im still processing how game changer obsidian + claude code is, maybe you too
+
+watch","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","881","7881","350","118","17200","1123363","true","video","https://pbs.twimg.com/amplify_video_thumb/2026031854407622657/img/YGXFRZwyEiyJ0YLf.jpg","https://video.twimg.com/amplify_video/2026031854407622657/vid/avc1/1280x720/hupumaZWEforq4b-.mp4?tag=21","3536","https://pbs.twimg.com/amplify_video_thumb/2026031854407622657/img/YGXFRZwyEiyJ0YLf.jpg","2026036464287412412",,,,,,
+"original","2026383675735048248","2026-02-24T19:48:11.000Z","phosphenq","Phosphen","this russian guy found a way to learn anything 10x faster🚨
+
+saved 1,460h
+
+NotebookLM + Gemini + Obsidian
+
+dumps any source > AI strips duplicates > keeps only what u don't know yet
+
+20 YouTube videos on the same topic
+each one repeats the same 20% of information
+this bundle removes the other 80%
+
+what used to take a month > 15 min
+
+yt: zproger","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","1336","12076","179","57","22253","955457","true","video","https://pbs.twimg.com/amplify_video_thumb/2026381671214276609/img/XdynZvzP1CiqaYDZ.jpg","https://video.twimg.com/amplify_video/2026381671214276609/vid/avc1/1920x1080/L1rt85VqopcQRl-x.mp4?tag=21","800","https://pbs.twimg.com/amplify_video_thumb/2026381671214276609/img/XdynZvzP1CiqaYDZ.jpg","2026383675735048248",,,,,,
+"quote","2026552743738094041","2026-02-25T07:00:00.000Z","polydao","Mr. Buzzoni","THIS IS HOW YOU COMPRESS 100 HOURS INTO 10 MINUTES
+
+> just tried NotebookLM + Obsidian combo
+
+and honestly… this is insane
+
+> i didn’t expect NotebookLM to be this powerful
+
+the craziest part?
+
+> the ""YouTube to NotebookLM"" extension
+
+you can literally pull entire channels, dump all videos into NotebookLM and get a structured mega-summary in minutes
+
+> but two features completely blew my mind:
+
+Audio Overviews:
+> turns any PDF, report or notes into a podcast-style dialogue between two hosts
+> perfect for listening while walking or driving
+
+Book Filter:
+> upload your Obsidian knowledge base + a new book
+ask: ""Is there anything new for me here?""
+
+if the answer is ""no""  skip it and save dozens of hours
+
+> this feels like compression for knowledge
+
+if you’re serious about learning fast, here’s the stack:
+
+📁 NotebookLM
+↳ https://notebooklm.google.com
+
+📁 YouTube to NotebookLM Chrome Extension
+↳ https://chromewebstore.google.com/detail/youtube-to-notebooklm/kobncfkmjelbefaoohoblamnbackjggk
+
+📁 Google Gemini
+↳ https://gemini.google.com/app
+
+this combo + Obsidian vault = unfair advantage","en","<a href=""http://twitter.com"" rel=""nofollow"">Twitter Web Client</a>","199","2171","32","6","4081","215190","true","video","https://pbs.twimg.com/amplify_video_thumb/2026518916877398016/img/ZwUohpvPeNyeQeBC.jpg","https://video.twimg.com/amplify_video/2026518916877398016/vid/avc1/1080x1080/BuFwtGRqo4gk3B9U.mp4?tag=21","16","https://pbs.twimg.com/amplify_video_thumb/2026518916877398016/img/ZwUohpvPeNyeQeBC.jpg","2026552743738094041",,,,"2026383675735048248","1735890082190553088",
+"original","2026628809424781787","2026-02-25T12:02:15.000Z","jameesy","james bedford","http://x.com/i/article/2026585600627798016","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","194","2059","45","24","6396","733782","false","none",,,,,"2026628809424781787",,,,,,
+"quote","2026801420872093708","2026-02-25T23:28:09.000Z","Hesamation","ℏεsam","this Obsidian + AI is the new hot combo.
+few people know that the CEO of Obsidian @kepano has made multiples skills for Claude Code and Codex that you can use right now both for your codebase and your personal vault.","en","<a href=""http://twitter.com/download/iphone"" rel=""nofollow"">Twitter for iPhone</a>","211","3134","52","11","5925","440698","true","photo","https://pbs.twimg.com/media/HCClJmHXQAARvP7.jpg",,,"https://pbs.twimg.com/media/HCClJmHXQAARvP7.jpg","2026801420872093708",,,,"2026628809424781787","1025386932791074816",
+"original","2042683393247449148","2026-04-10T19:17:26.000Z","kepano","kepano","I can't go back to the regular YouTube UI after this 😅
+
+Obsidian Reader now makes the transcript interactive so you can scrub, highlight, auto-scroll. It feels so nice.","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","836","12228","225","103","10368","763802","true","video","https://pbs.twimg.com/amplify_video_thumb/2042678525627633664/img/r-KNUFvnCDyqk2O3.jpg","https://video.twimg.com/amplify_video/2042678525627633664/vid/avc1/2756x2160/Pn6Y6f1MjrW6JOIS.mp4?tag=21","206","https://pbs.twimg.com/amplify_video_thumb/2042678525627633664/img/r-KNUFvnCDyqk2O3.jpg","2042683393247449148",,,,,,
+"original","2043762213597397179","2026-04-13T18:44:17.000Z","defileo","Defileo🔮","http://x.com/i/article/2043662409521356800","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","116","970","13","16","3170","1020023","false","none",,,,,"2043762213597397179",,,,,,
+"quote","2043763616030073150","2026-04-13T18:49:52.000Z","noisyb0y1","Noisy","Chinese student spent $4,000 on two Mac Studios and a Mac Mini and built a Claude + Obsidian bot
+
+Claude and Obsidian scan hundreds of factors simultaneously. a human physically can't work with more than 2-3 processes at once. the machine does 12 microprocesses in seconds.
+
+three commands: 
+/wiki - initialization
+/save - save the conversation
+/autoresearch - deep research on a topic with automatic citations.
+
+stuck stickers on them: UI/UX. DEV. ADMIN
+
+Three computers do one thing: Claude + Obsidian pulls live data that the developer feeds in and builds the product. updates every 1-3 hours running 24/7","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","371","3797","98","18","6689","892575","true","video","https://pbs.twimg.com/amplify_video_thumb/2043763113301082112/img/PhmeF7zDoGWg4vne.jpg","https://video.twimg.com/amplify_video/2043763113301082112/vid/avc1/1920x1080/7oTu2HT6fTxfgrWW.mp4?tag=21","13","https://pbs.twimg.com/amplify_video_thumb/2043763113301082112/img/PhmeF7zDoGWg4vne.jpg","2043763616030073150",,,,"2043762213597397179","1663262095868084228",
+"original","2052235121416188114","2026-05-07T03:52:36.000Z","cyrilXBT","CyrilXBT","http://x.com/i/article/2052202263263744010","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","505","4234","120","68","15530","3574366","false","none",,,,,"2052235121416188114",,,,,,
+"quote","2052361597000032594","2026-05-07T12:15:10.000Z","cyrilXBT","CyrilXBT","Obsidian + Claude Code = 24/7 personal operating system.
+
+Works while you sleep.
+
+The people who build this tonight will never work the same way again.
+
+Watch it and Bookmark it now.","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","317","2614","72","13","6728","439237","true","video","https://pbs.twimg.com/amplify_video_thumb/2052360473471823881/img/UYZr6J32iiQoRV-L.jpg","https://video.twimg.com/amplify_video/2052360473471823881/vid/avc1/1280x720/5oHJq9zufKAxgv52.mp4?tag=27","3536","https://pbs.twimg.com/amplify_video_thumb/2052360473471823881/img/UYZr6J32iiQoRV-L.jpg","2052361597000032594",,,,"2052235121416188114","1373665408193036293",
+"original","2052714650483970066","2026-05-08T11:38:04.000Z","DamiDefi","Dami-Defi","http://x.com/i/article/2052313324927258628","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","28","213","15","3","322","75646","false","none",,,,,"2052714650483970066",,,,,,
+"quote","2052753374160838896","2026-05-08T14:11:57.000Z","alphabatcher","Alpha Batcher","Most Obsidian vaults fail at the same place:
+
+capture works, return never happens.
+
+You save ideas, highlights, numbers, hooks, screenshots.
+
+Then 6 months later the vault has 400 notes and no idea what to write next.
+
+Build the return path instead:
+
+1. Use 5 folders
+
+00-INBOX
+01-CAPTURES
+02-CONNECTIONS
+03-BRIEFS
+04-PUBLISHED
+
+2. Sort captures by type, not topic
+
+> observations
+> reactions
+> patterns
+> questions
+> numbers
+
+Topic folders hide useful collisions. Type folders help Claude connect ""attention psychology"" to ""X hook performance.""
+
+3. Put Claude Code files where Claude actually reads them
+
+> ./CLAUDE.md or ./.claude/CLAUDE.md
+> .claude/skills/process-inbox/SKILL.md
+> .claude/skills/weekly-connections/SKILL.md
+> .claude/skills/generate-brief/SKILL.md
+> .claude/skills/write-content/SKILL.md
+
+4. Log performance in every published post
+
+> impressions
+> bookmarks
+> hook_used
+> top_comment
+> what_worked
+
+Build the path that turns saved notes into briefs, posts, and performance data:
+
+capture -> connection -> brief -> post -> result -> next brief","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","25","333","30","1","659","50331","true","video","https://pbs.twimg.com/amplify_video_thumb/2052751586602971144/img/5p64bc3PbKDCaL5T.jpg","https://video.twimg.com/amplify_video/2052751586602971144/vid/avc1/640x360/4l4SuTjgfLkSz3KL.mp4?tag=27","1293","https://pbs.twimg.com/amplify_video_thumb/2052751586602971144/img/5p64bc3PbKDCaL5T.jpg","2052753374160838896",,,,"2052714650483970066","552936387",
+"original","2052923836090167526","2026-05-09T01:29:18.000Z","cyrilXBT","CyrilXBT","http://x.com/i/article/2052392363578834945","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","40","452","17","8","1303","156408","false","none",,,,,"2052923836090167526",,,,,,
+"quote","2053095235471761714","2026-05-09T12:50:23.000Z","cyrilXBT","CyrilXBT","Obsidian + Claude Code = 24/7 personal operating system.
+
+Works while you sleep.
+
+The people who build this tonight will never work the same way again.
+
+Watch it and Bookmark it now.","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","84","783","28","4","1799","231021","true","video","https://pbs.twimg.com/amplify_video_thumb/2053095035260784640/img/9sA6jmvfI584vh_z.jpg","https://video.twimg.com/amplify_video/2053095035260784640/vid/avc1/640x360/7nCBSLnv2X80agh0.mp4?tag=27","883","https://pbs.twimg.com/amplify_video_thumb/2053095035260784640/img/9sA6jmvfI584vh_z.jpg","2053095235471761714",,,,"2052923836090167526","1373665408193036293",
+"quote","2053229819824136675","2026-05-09T21:45:10.000Z","0xCortexl","Cortex","22-YEAR-OLD FROM SEOUL BUILT A SECOND BRAIN WITH CLAUDE AND OBSIDIAN AND NOW MAKES $17,000 A MONTH FROM IT
+
+Every morning at 7:30 AM a cron job fires before he gets out of bed - Claude has already read everything he saved overnight, written summaries for 12–15 articles and updated his daily briefing with open tasks and priority changes from the last 24 hours.
+
+His Obsidian graph has over 3,400 connected nodes across 6 layers of knowledge, all cross-referenced automatically without him touching a single file manually.
+
+He packaged the entire setup into a $97 course on Gumroad and sold 175 copies in the first 3 weeks.
+
+Then launched a $49/month membership for ongoing system updates and hit 280 active subscribers by month 2.
+
+$17,000 a month from a knowledge system that runs itself, built by a guy who just refused to forget things the normal way.","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","13","184","2","0","372","27407","true","video","https://pbs.twimg.com/amplify_video_thumb/2053228868484440066/img/f9JJLgl8E7si2VmS.jpg","https://video.twimg.com/amplify_video/2053228868484440066/vid/avc1/1920x1080/lhb_dPMvNhf6iRMy.mp4?tag=27","79","https://pbs.twimg.com/amplify_video_thumb/2053228868484440066/img/f9JJLgl8E7si2VmS.jpg","2053229819824136675",,,,"2042241063612502162","1663262095868084228",
+"original","2053241837453029439","2026-05-09T22:32:56.000Z","ziwenxu_","Ziwen","http://x.com/i/article/2052866079391612933","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","103","967","20","15","3798","571894","false","none",,,,,"2053241837453029439",,,,,,
+"quote","2053260015901765693","2026-05-09T23:45:10.000Z","ziwenxu_","Ziwen","INSTEAD OF SCROLLING ALL NIGHT.
+
+Spend 60 minutes with this instead.
+
+Obsidian + Browser-use = 24/7 Knowledge Ingest.
+
+Your assistant builds its own brain while you sleep.
+
+The people who implement this tonight will never wake up the same.
+
+Read it and Bookmark it now.","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","274","2410","38","6","7059","402578","true","video","https://pbs.twimg.com/amplify_video_thumb/2053244775608860674/img/PpnJulPx-uqwzm12.jpg","https://video.twimg.com/amplify_video/2053244775608860674/vid/avc1/1280x720/MTidHX5LoQD20UkD.mp4?tag=27","3536","https://pbs.twimg.com/amplify_video_thumb/2053244775608860674/img/PpnJulPx-uqwzm12.jpg","2053260015901765693",,,,"2053241837453029439","1781009683743997952",
+"original","2048744219221905505","2026-04-27T12:41:00.000Z","DamiDefi","Dami-Defi","Claude Code cannot read 300 files at once.
+
+So someone built a system that lets it control NotebookLM from the terminal instead. The results are wild.
+
+Here is the full workflow nobody is talking about:
+
+The Setup
+→ Claude Code connects to NotebookLM via a command line interface
+→ Claude searches YouTube, finds relevant videos, uploads them as sources automatically
+→ NotebookLM processes up to 300 sources simultaneously and returns cited, grounded answers
+→ Everything syncs back into your Obsidian vault with passage-level citations you can click to verify
+
+Why This Changes Research Forever
+→ No more 20 browser tabs you never close
+→ No more copy-pasting outputs into random notes
+→ No more hallucinated answers with no sources to back them up
+→ 60% of citations verified as strong matches in accuracy audits - answers are grounded in real data
+
+What Claude Can Do From the Terminal
+→ Search YouTube for relevant videos on any topic and rank by relevance
+→ Create a new NotebookLM notebook and add 20 sources in parallel automatically
+→ Ask questions and export cited answers directly into Obsidian with wikilinks
+→ Set custom personas per notebook - concise, no filler, no preamble
+→ Generate audio overviews and save them as MP3 files into your vault
+→ Build mind maps, flashcard decks, and research dashboards from your sources
+→ Search arXiv for academic papers and feed them directly into NotebookLM
+→ Upload competitor blog posts, podcast episodes, PDFs, and your own vault notes
+
+The Obsidian Output
+→ Every answer arrives with clickable citations that link to the exact passage in the source video or article
+→ Graph view shows connections between all 20 sources and the topics they share
+→ Q&A log tracks every question asked and the grounded response received
+→ Source dashboard shows citation frequency, topics extracted, and which questions each source answered
+
+Use Cases Worth Building Today
+→ Academic research with arXiv papers, full citation traceability
+→ Competitor analysis from their YouTube channels and blog posts
+→ Company knowledge base for onboarding, new employees ask NotebookLM instead of interrupting teammates
+→ Podcast research, feed 4-hour Lex Fridman episodes and ask what's new in AI this week
+→ Personal second brain, 300 daily notes uploaded and queryable in one notebook
+
+Before this system existed you needed 20 tabs, hours of manual reading, and no guarantee the answers were real.
+
+Now you type one prompt in the terminal and Claude does all of it for you.
+
+The research stack of 2026 is not a browser. It is a terminal connected to everything","en","<a href=""http://twitter.com"" rel=""nofollow"">Twitter Web Client</a>","155","1384","46","12","3046","102836","true","video","https://pbs.twimg.com/amplify_video_thumb/2048696817903161344/img/dbBA8aXe3bB9lMoY.jpg","https://video.twimg.com/amplify_video/2048696817903161344/vid/avc1/1920x1078/DqsQ80XE6zsaU9Ql.mp4?tag=21","1970","https://pbs.twimg.com/amplify_video_thumb/2048696817903161344/img/dbBA8aXe3bB9lMoY.jpg","2048744219221905505",,,,,,
+"original","2053498460918485092","2026-05-10T15:32:39.000Z","NainsiDwiv50980","Nainsi Dwivedi","http://x.com/i/article/2053497544148406272","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","81","504","25","10","1220","410695","false","none",,,,,"2053498460918485092",,,,,,
+"quote","2053498623560909197","2026-05-10T15:33:18.000Z","Suryanshti777","Suryansh Tiwari","Your Obsidian vault is probably dead.
+
+Not empty.
+
+Dead.
+
+Because saving information is not the same thing as building intelligence.
+
+Right now millions of people are spending hours building “second brains” that never think back.
+
+Beautiful folders.
+Perfect tags.
+Endless highlights.
+
+And absolutely zero cognitive leverage.
+
+The scary part?
+
+AI is about to make this gap brutally obvious.
+
+Most people will use AI like a smarter Google:
+ask question → get answer → forget answer.
+
+But a small group is building something way more dangerous:
+
+AI connected to years of personal context.
+
+Their notes.
+Their ideas.
+Their unfinished thoughts.
+Their reading history.
+Their obsessions.
+Their patterns.
+
+At that point AI stops acting like a chatbot.
+
+And starts acting like a cognitive extension of the person using it.
+
+That changes everything.
+
+Because the biggest advantage in the AI era will not be prompts.
+
+It will be accumulated context.
+
+People with connected knowledge systems are going to think faster, write better, learn quicker, and spot opportunities earlier than everyone else.
+
+Not because they’re smarter.
+
+Because they stopped starting from zero every day.
+
+Most vaults are storage systems.
+
+The best ones become intelligence systems.","en","<a href=""http://twitter.com/download/android"" rel=""nofollow"">Twitter for Android</a>","383","2364","56","10","4729","301218","true","photo","https://pbs.twimg.com/media/HH9-G0maIAEeaRb.jpg",,,"https://pbs.twimg.com/media/HH9-G0maIAEeaRb.jpg","2053498623560909197",,,,"2053498460918485092","1994840137336066051",

@@ -1,0 +1,1702 @@
+"tweet_type","id","created_at","username","user_display_name","text","lang","source","retweet_count","favorite_count","reply_count","quote_count","bookmark_count","view_count","has_media","media_type","media_urls","video_url","video_duration","thumbnail_url","conversation_id_str","in_reply_to_status_id_str","in_reply_to_user_id_str","in_reply_to_screen_name","quoted_status_id_str","quoted_user_id_str","retweeted_status_id_str"
+"original","2061887251181945099","2026-06-02T19:06:43.000Z","adxtyahq","aditya","again saying there's never been a better time to work on multi-agent systems.
+
+learn rag, orchestration, evals, memory, routing, tool calling, validation loops, fix loops, split learning, context engineering. all of it.
+
+getting an llm to answer questions is becoming the easy part
+
+getting multiple agents, tools, and workflows to work together reliably in production without breaking every other day is where the real challenge is.
+
+we're entering a phase where building the model matters less than building everything around it.","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","88","811","42","5","909","325887","true","photo","https://pbs.twimg.com/media/HJ1LMNcacAApQ_k.jpg",,,"https://pbs.twimg.com/media/HJ1LMNcacAApQ_k.jpg","2061887251181945099",,,,,,
+"quote","2062090077296283932","2026-06-03T08:32:40.000Z","adxtyahq","aditya","for anyone asking where to learn this stuff:
+
+• RAG → https://weaviate.io/blog/introduction-to-rag
+• Agentic RAG → https://weaviate.io/blog/what-is-agentic-rag
+• AI Agents → https://www.anthropic.com/research/building-effective-agents
+• Multi-Agent Systems → https://resources.anthropic.com/building-effective-ai-agents
+• LangGraph → https://docs.langchain.com/oss/python/langgraph/overview
+• LangGraph (code) → https://github.com/langchain-ai/langgraph
+• MCP → https://modelcontextprotocol.io
+• Memory Systems → https://www.letta.com
+• Evals → https://docs.smith.langchain.com
+• Context Engineering → search ""Context Engineering Survey"" on arXiv
+
+and please skip the ""build an ai agent in 10 minutes"" videos
+build something, watch it fail, then figure out why.","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","661","3931","53","13","7474","319895","false","none",,,,,"2062090077296283932",,,,"2061887251181945099","1035145780754087936",
+"original","2061877533885473181","2026-06-02T18:28:06.000Z","mvanhorn","Matt Van Horn","http://x.com/i/article/2061440101411102721","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","270","2510","105","64","7627","676449","false","none",,,,,"2061877533885473181",,,,,,
+"reply","2061912053422727268","2026-06-02T20:45:16.000Z","siddaniagi","Sid Dani","@rileybrown Bro, you really need to study harness engineering. You built one yourself, and I can't believe you're still saying those things. 
+
+https://github.com/walkinglabs/learn-harness-engineering","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","0","3","2","0","8","390","false","none",,,,,"2061821779547394372","2061821779547394372","1601693298707628035","rileybrown",,,
+"original","2033945654377283643","2026-03-17T16:36:47.000Z","rohit4verse","Rohit","http://x.com/i/article/2028491712692383744","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","309","2597","89","87","9465","1534589","false","none",,,,,"2033945654377283643",,,,,,
+"quote","2061168127166280140","2026-05-31T19:29:10.000Z","rohit4verse","Rohit","2 months ago, I wrote ""The Harness Is Everything""  1.3M views.
+
+Last week's Life-Harness paper: 116 of 126 model-environment setups improved by patching the harness alone. 
+
+Model frozen. 88.5% mean lift across 18 backbones.
+
+↓ how Claude Code and Codex actually work under the hood","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","153","1069","64","9","1682","139825","true","photo","https://pbs.twimg.com/media/HJq8t1kaEAITfct.jpg",,,"https://pbs.twimg.com/media/HJq8t1kaEAITfct.jpg","2061168127166280140",,,,"2033945654377283643","1605975892677001218",
+"original","2028814227004395561","2026-03-03T12:46:19.000Z","systematicls","sysls","http://x.com/i/article/2028694727600623616","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","1001","8781","188","255","28011","3776662","false","none",,,,,"2028814227004395561",,,,,,
+"quote","2060675167152648270","2026-05-30T10:50:19.000Z","systematicls","sysls","I wrote this ~3 months ago, and since then, 
+
+1) Memory has been more or less fully integrated with the frontier models
+
+2) Almost all features that made OpenClaw unique as a harness has been fully absorbed by the frontier models (e.g. schedules, loops, goals, memory, etc.)
+
+3) New, vertical killing features and capabilities are being added every other week 
+
+--
+All that being said, agentic engineering is still an incredibly high skill affair.
+
+It is now obvious to me that there is a gulf of know-how and tacit knowledge between those that CAN remove humans-out-of-the-loop and actually produce a working product, and the rest of the world insisting that agents are still producing ""slop"".","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","140","1838","46","16","3173","232496","false","none",,,,,"2060675167152648270",,,,"2028814227004395561","1779775861589504000",
+"original","2058745340895870985","2026-05-25T03:01:53.000Z","TheAhmadOsman","Ahmad","http://x.com/i/article/2058742259261014016","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","124","902","18","5","1967","205899","false","none",,,,,"2058745340895870985",,,,,,
+"original","2057590224729911346","2026-05-21T22:31:52.000Z","TheAhmadOsman","Ahmad","http://x.com/i/article/2057582083208257538","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","98","650","20","21","1837","262576","false","none",,,,,"2057590224729911346",,,,,,
+"quote","2057590791241896254","2026-05-21T22:34:07.000Z","TheAhmadOsman","Ahmad","INCREDIBLE
+
+The MOST COMPLETE GUIDE for understanding LLMs from first principles is now available online to read for free
+
+Covers the model mechanics
+
+- Tokens / tokenizers
+- Transformers
+- Attention
+- KV cache
+- Prefill vs decode
+- Decoding controls
+- Model packages
+- Chat templates
+- Long context
+- RAG
+- Agents / tools
+- Fine-tuning
+- Multimodal models
+
+Then connects that to running models locally
+
+- What ""local"" really means
+- Open-weight vs opensource
+- Quantization
+- VRAM math
+- Hardware tiers
+- File formats / load safety
+- Runtimes / serving modes
+- Model selection
+- Privacy
+- Failure modes
+- Benchmarks
+- Practical setup paths
+
+You should read this, and if you cannot now then you most definitely wanna bookmark it for later
+
+Opensource AI FTW","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","177","1250","28","5","2391","186109","false","none",,,,,"2057590791241896254",,,,"2057590224729911346","248951926",
+"original","2057183854444843202","2026-05-20T19:37:06.000Z","TheAhmadOsman","Ahmad","http://x.com/i/article/2057179946351534080","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","119","894","22","23","2257","479878","false","none",,,,,"2057183854444843202",,,,,,
+"quote","2057268825326796906","2026-05-21T01:14:44.000Z","TheAhmadOsman","Ahmad","DROP EVERYTHING
+
+The bible for running LLMs locally is now available online to read for free
+
+Covers what to use on
+
+- Laptop / edge / odd hardware
+- Mac-first workflows
+- Single RTX GPUs
+- 2-4+ NVIDIA / CUDA GPUs
+- General production serving
+- Long-context / MoE / routing
+- NVIDIA max performance
+- Cluster orchestration
+
+Software
+
+- llama.cpp
+- MLX / MLX-LM
+- ExLlamaV2
+- ExLlamaV3
+- vLLM
+- SGLang
+- TensorRT-LLM
+- NVIDIA Dynamo
+
+You should read this, and if you cannot now then you most definitely wanna bookmark it for later
+
+Local AI FTW","en","<a href=""http://twitter.com/download/iphone"" rel=""nofollow"">Twitter for iPhone</a>","241","1835","44","8","3558","238231","false","none",,,,,"2057268825326796906",,,,"2057183854444843202","248951926",
+"original","2024806954225357084","2026-02-20T11:22:51.000Z","chiefofautism","chiefofautism","someone built a LOCAL ELEVENLABS that clones ANY voice from 3 seconds of audio and generates speech in 10 languages
+
+its called voicebox, runs ENTIRELY on your laptop, costs $0 FOREVER, no cloud, no subscription, your voice data never leaves your machine
+
+you record or upload a few seconds of anyones voice, voicebox creates a voice profile and from that point you can make it say anything in that voice, natural prosody, emotion, cadence. not robotic TTS, actual human-sounding speech
+
+powered by qwen3-TTS, same class of model the big paid services use, model downloads once, no internet needed after that, mac gets native Metal GPU acceleration, near real-time generation. windows needs NVIDIA but CUDA works out of box
+
+it also has a full DAW-style timeline editor, multi-track, multi-voice. you can build entire podcasts with different cloned voices, arrange clips, mix conversations, this is a production tool
+
+a professional voice actor charges $250-500 per FINISHED MINUTE
+
+ElevenLabs charges $22-99/month and keeps your voice data on their servers
+
+this is one download and your data NEVER leaves your machine","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","273","3188","82","27","4690","188624","true","video","https://pbs.twimg.com/amplify_video_thumb/2024806165478064128/img/aVNj4yn0-wks-KJ-.jpg","https://video.twimg.com/amplify_video/2024806165478064128/vid/avc1/1784x1080/ff1fpP63dTgTvDW8.mp4?tag=21","47","https://pbs.twimg.com/amplify_video_thumb/2024806165478064128/img/aVNj4yn0-wks-KJ-.jpg","2024806954225357084",,,,,,
+"original","2002073445438226505","2025-12-19T17:48:00.000Z","TheAhmadOsman","Ahmad","step-by-step LLM Engineering Projects
+
+each project = one concept learned the hard (i.e. real) way
+
+    Tokenization & Embeddings
+
+> build byte-pair encoder + train your own subword vocab
+> write a “token visualizer” to map words/chunks to IDs
+> one-hot vs learned-embedding: plot cosine distances
+
+    Positional Embeddings
+
+> classic sinusoidal vs learned vs RoPE vs ALiBi: demo all four
+> animate a toy sequence being “position-encoded” in 3D
+> ablate positions—watch attention collapse
+
+    Self-Attention & Multihead Attention
+
+> hand-wire dot-product attention for one token
+> scale to multi-head, plot per-head weight heatmaps
+> mask out future tokens, verify causal property
+
+    transformers, QKV, & stacking
+
+> stack the Attention implementations with LayerNorm and residuals → single-block transformer
+> generalize: n-block “mini-former” on toy data
+> dissect Q, K, V: swap them, break them, see what explodes
+
+    Sampling Parameters: temp/top-k/top-p
+
+> code a sampler dashboard — interactively tune temp/k/p and sample outputs
+> plot entropy vs output diversity as you sweep params
+> nuke temp=0 (argmax): watch repetition
+
+    KV Cache (Fast Inference)
+
+> record & reuse KV states; measure speedup vs no-cache
+> build a “cache hit/miss” visualizer for token streams
+> profile cache memory cost for long vs short sequences
+
+    Long-Context Tricks: Infini-Attention / Sliding Window
+
+> implement sliding window attention; measure loss on long docs
+> benchmark “memory-efficient” (recompute, flash) variants
+> plot perplexity vs context length; find context collapse point
+
+    Mixture of Experts (MoE)
+
+> code a 2-expert router layer; route tokens dynamically
+> plot expert utilization histograms over dataset
+> simulate sparse/dense swaps; measure FLOP savings
+
+    Grouped Query Attention
+
+> convert your mini-former to grouped query layout
+> measure speed vs vanilla multi-head on large batch
+> ablate number of groups, plot latency
+
+    Normalization & Activations
+
+> hand-implement LayerNorm, RMSNorm, SwiGLU, GELU
+> ablate each—what happens to train/test loss?
+> plot activation distributions layerwise
+
+    Pretraining Objectives
+
+> train masked LM vs causal LM vs prefix LM on toy text
+> plot loss curves; compare which learns “English” faster
+> generate samples from each — note quirks
+
+    Finetuning vs Instruction Tuning vs RLHF
+
+> fine-tune on a small custom dataset
+> instruction-tune by prepending tasks (“Summarize: ...”)
+> RLHF: hack a reward model, use PPO for 10 steps, plot reward
+
+    Scaling Laws & Model Capacity
+
+> train tiny, small, medium models — plot loss vs size
+> benchmark wall-clock time, VRAM, throughput
+> extrapolate scaling curve — how “dumb” can you go?
+
+    Quantization
+
+> code PTQ & QAT; export to GGUF/AWQ; plot accuracy drop
+
+    Inference/Training Stacks:
+
+> port a model from HuggingFace to Deepspeed, vLLM, ExLlama
+> profile throughput, VRAM, latency across all three
+
+    Synthetic Data
+
+> generate toy data, add noise, dedupe, create eval splits
+> visualize model learning curves on real vs synth
+
+    each project = one core insight. build. plot. break. repeat.
+
+> don’t get stuck too long in theory
+> code, debug, ablate, even meme your graphs lol
+> finish each and post what you learned
+
+your future self will thank you later","en","<a href=""http://twitter.com/download/android"" rel=""nofollow"">Twitter for Android</a>","33","397","9","0","517","20684","false","none",,,,,"2002073445438226505",,,,,,
+"original","2026279896566186008","2026-02-24T12:55:48.000Z","0xSero","0xSero","Let me make your life better. 
+
+On X go to:
+
+1. Settings / account 
+2. Download Data archive 
+3. Unzip install embedding model (cpu only)
+4. Turn your X posts into a rag 
+5. Talk to your data, get insights. 
+
+GLM-4.7-Flash can do this, I have tested it. 
+
+http://reap-odyssey.vercel.app/","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","13","160","2","1","156","7162","true","photo","https://pbs.twimg.com/media/HB7KfrIXsAAW-vh.jpg",,,"https://pbs.twimg.com/media/HB7KfrIXsAAW-vh.jpg","2026279896566186008",,,,,,
+"original","2002043132213604717","2025-12-19T15:47:33.000Z","Hesamation","ℏεsam","this repo teaches you how to build agents from scratch, step by step. it goes from fundamentals to advanced, all you need to master agents:
+
+→ local LLMs and inference 
+→ LLMs through APIs
+→ prompt engineering
+→ GPU parallel processing
+→ streaming and response control
+→ function calling (tools) 
+→ persistent agentic memory
+→ reasoning and ReACT 
+
+it includes 9 examples, each chapter building on top of the previous.
+
+why is it important to learn how agents work from scratch? because the problem with frameworks is too many abstraction layers. when things go wrong (and they will) debugging them would be very hard, unless you really know what is going on under the hood.
+
+this also means that you will be more expert in creating or customizing agents for your own needs. 
+
+all in all, i really suggest this one.
+
+https://github.com/pguso/ai-agents-from-scratch","en","<a href=""http://twitter.com/download/iphone"" rel=""nofollow"">Twitter for iPhone</a>","241","1642","18","4","2396","87830","true","photo","https://pbs.twimg.com/media/G8ivneYXkAACesp.jpg",,,"https://pbs.twimg.com/media/G8ivneYXkAACesp.jpg","2002043132213604717",,,,,,
+"original","2040128469544108231","2026-04-03T18:05:05.000Z","TheAhmadOsman","Ahmad","DROP EVERYTHING
+
+&gt; install Harbor
+&gt; harbor pull unsloth/gemma-4-31B-it-GGUF:Q4_K_M
+&gt; harbor up llamacpp searxng webui
+&gt; open Open WebUI
+&gt; load Gemma 4
+
+Now your local model has a UI, 
+web search, and a sandboxed stack","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","138","1797","71","10","2338","98538","true","photo","https://pbs.twimg.com/media/HE_9xYvawAAKKPO.jpg",,,"https://pbs.twimg.com/media/HE_9xYvawAAKKPO.jpg","2040128469544108231",,,,,,
+"original","1979200736400675157","2025-10-17T15:00:01.000Z","elliotarledge","Elliot Arledge","in the lectures below, i hold your hand through low-level LLM systems engineering. it includes everything up to TODAY!
+
+1) pytorch tensors
+2) large matmul on cpu vs gpu
+3) JAX (and why xAI uses it instead of pytorch)
+4) raw cuda kernels and global threading indexing
+5) triton design philosophy and softmax example
+6) HIP kernels
+7) mapping out the ENTIRE ecosystem + differences between CUDA and ROCm/HIP (BLAS, FFT, DNN)
+8) cutlass and cute-dsl
+9) pretraining, finetuning, rl, unsloth, axolotl, megatron-lm, deepspeed, nanogpt, nanochat
+10) training vs inference, inference serving problems, throughput vs latency vs concurrency scaling, vllm, sglang, tensorrt-llm, tensorrt, llama.cpp, exllamav2, exllamav3, benchmark comparisons
+11) projects/companies using llms to generate SOTA cuda/triton kernels
+12) luminal inference
+13) mojo/modular/max","en","<a href=""http://twitter.com"" rel=""nofollow"">Twitter Web Client</a>","85","909","32","6","1402","58039","true","video","https://pbs.twimg.com/amplify_video_thumb/1979056087081861120/img/2RsAFqbkOykulSrY.jpg","https://video.twimg.com/amplify_video/1979056087081861120/vid/avc1/2764x2160/2gcJJ4Ga5PAhYXg_.mp4?tag=21","8605","https://pbs.twimg.com/amplify_video_thumb/1979056087081861120/img/2RsAFqbkOykulSrY.jpg","1979200736400675157",,,,,,
+"original","2040103488714068245","2026-04-03T16:25:49.000Z","TheAhmadOsman","Ahmad","http://x.com/i/article/2040093502202171392","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","234","1721","42","28","2711","267250","false","none",,,,,"2040103488714068245",,,,,,
+"original","2025136335565275320","2026-02-21T09:11:42.000Z","godofprompt","God of Prompt","OpenRouter is the most underrated AI tool on the planet.
+
+You just need one OpenRouter account and this specific ""Multi-Chat"" setup. I give a single prompt to Claude 4.6, Gemini 3.1, and Grok 4.20, then simply pick the best response. It’s the closest thing to a ""God-Mode"" for AI productivity.
+
+Steal my setup here:","en","<a href=""https://typefully.com/"" rel=""nofollow"">Typefully</a>","56","467","34","3","716","63675","true","video","https://pbs.twimg.com/amplify_video_thumb/2025136240992161792/img/hcz5kHjrLIpfgng4.jpg","https://video.twimg.com/amplify_video/2025136240992161792/vid/avc1/1388x720/rV3Hhq1XM9KKVR8e.mp4?tag=14","48","https://pbs.twimg.com/amplify_video_thumb/2025136240992161792/img/hcz5kHjrLIpfgng4.jpg","2025136335565275320",,,,,,
+"original","1926250345887396217","2025-05-24T12:14:05.000Z","charliermarsh","Charlie Marsh","You can set `UV_TORCH_BACKEND=auto` and uv will automatically install the right CUDA-enabled PyTorch for your machine, zero configuration","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","221","2474","71","53","1159","191349","true","photo","https://pbs.twimg.com/media/GrtqWUNXgAAwG9c.jpg",,,"https://pbs.twimg.com/media/GrtqWUNXgAAwG9c.jpg","1926250345887396217",,,,,,
+"original","1889010876931551531","2025-02-10T17:57:43.000Z","_apoorvnandan","apoorv","tiny-gpu: learn all the low level details on how GPUs work","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","216","2325","11","8","2831","121426","true","photo","https://pbs.twimg.com/media/Gjcb5GebMAAfB1z.jpg",,,"https://pbs.twimg.com/media/Gjcb5GebMAAfB1z.jpg","1889010876931551531",,,,,,
+"original","1965450489203753167","2025-09-09T16:21:27.000Z","ekzhang1","Eric Zhang","We're thrilled to share Modal Notebooks: a new, powerful cloud-hosted GPU notebook. It has modern real-time collaborative editing and is backed by our AI infrastructure — swap GPUs in seconds.
+
+Modal Notebooks are generally available, and you can start using them now. 🧵","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","71","901","41","46","378","261708","true","video","https://pbs.twimg.com/amplify_video_thumb/1965447430830247936/img/D_eiv1wMyeNevpUS.jpg","https://video.twimg.com/amplify_video/1965447430830247936/vid/avc1/1920x1080/a2SROR7aA_Mi8_nr.mp4?tag=21","78","https://pbs.twimg.com/amplify_video_thumb/1965447430830247936/img/D_eiv1wMyeNevpUS.jpg","1965450489203753167",,,,,,
+"original","1923701528143040902","2025-05-17T11:25:59.000Z","svpino","Santiago","Top 1 upgrade for your development environment:
+
+Start using Dev Containers.
+
+During every cohort of my Machine Learning Engineering program, 100+ developers try to run a complex system on their computers. I was wasting 10+ hours every week troubleshooting individual configurations.
+
+It was exhausting!
+
+I started using Dev Container, and now people are up and running in 2 minutes with no issues.
+
+Dev Containers are probably one of the best upgrades you'll make to your environment.
+
+They asked me to record a video in class to show them how to create a Dev Container for any project.
+
+Here is that video.","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","75","743","18","3","1560","63310","true","video","https://pbs.twimg.com/amplify_video_thumb/1923701172738650112/img/b6ouQ4a74mHeSISp.jpg","https://video.twimg.com/amplify_video/1923701172738650112/vid/avc1/1920x1080/qnIUNzQR06tGSUFz.mp4?tag=21","1438","https://pbs.twimg.com/amplify_video_thumb/1923701172738650112/img/b6ouQ4a74mHeSISp.jpg","1923701528143040902",,,,,,
+"original","2032887132130554364","2026-03-14T18:30:36.000Z","TeksEdge","David Hendrickson","🚨 Want to parse complex PDFs with SOTA accuracy, 100% locally? 📄🔍
+
+At just 0.9B parameters, you can drop GLM-OCR straight into LM Studio and run it on almost any machine! 🥔
+
+🧠 0.9B total parameters
+💾 Runs on < 1.5GB VRAM (or ~1GB quantized!)
+💸 Zero API costs
+🔒 Total data privacy
+
+Desktop document AI is officially here. 💻⚡","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","215","2350","52","19","3188","329069","true","photo","https://pbs.twimg.com/media/HDZD5RZbQAA-UpC.jpg",,,"https://pbs.twimg.com/media/HDZD5RZbQAA-UpC.jpg","2032887132130554364",,,,,,
+"quote","2033270552694042976","2026-03-15T19:54:10.000Z","NielsRogge","Niels Rogge","Quick video showing how to run GLM-OCR 100% locally!
+
+I cover the following things:
+&gt; llama cpp
+&gt; GGUF
+&gt; @lmstudio
+&gt; OpenAI-compatible Python API
+&gt; transcribe tables, images, and more","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","57","375","13","3","487","32986","true","video","https://pbs.twimg.com/amplify_video_thumb/2033268627663630336/img/VxDhu_9q_THw2jz8.jpg","https://video.twimg.com/amplify_video/2033268627663630336/vid/avc1/1668x1080/9AX-oGZ8nRtJeXon.mp4?tag=21","906","https://pbs.twimg.com/amplify_video_thumb/2033268627663630336/img/VxDhu_9q_THw2jz8.jpg","2033270552694042976",,,,"2032887132130554364","1682428283135336449",
+"original","2016345743754232164","2026-01-28T03:01:01.000Z","TheAhmadOsman","Ahmad","nobody should use ollama btw
+
+&gt; slower than llama.cpp on windows
+&gt; slower than mlx on mac
+&gt; slop useless wrapper
+
+alternatives?
+
+&gt; lmstudio
+&gt; llama.cpp
+&gt; exllamav2/v3
+&gt; vllm
+&gt; sglang
+
+like literally anythingʼs better than ollama lmao","en","<a href=""http://twitter.com/download/android"" rel=""nofollow"">Twitter for Android</a>","53","1296","99","10","993","112679","false","none",,,,,"2016345743754232164",,,,,,
+"original","2051403410528989262","2026-05-04T20:47:40.000Z","TheAhmadOsman","Ahmad","PRO TIP
+
+Using local LLMs? Give them a web stack
+
+My setup:
+
+- SearXNG: candidate source discovery
+
+- Firecrawl: known-URL scraping and crawling
+
+- Camofox: browser fallback when JS/interaction gets annoying
+
+Search → Extract → Interact
+
+Tell your favorite agent to set this up, then wire it into your local models
+
+> Watch them suddenly become way more useful
+
+You’re welcome","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","77","895","36","8","1522","49490","true","photo","https://pbs.twimg.com/media/HHgMORMacAAlgL3.jpg",,,"https://pbs.twimg.com/media/HHgMORMacAAlgL3.jpg","2051403410528989262",,,,,,
+"original","2052103973377867913","2026-05-06T19:11:28.000Z","kylejeong","Kyle Jeong","http://x.com/i/article/2051523563363147776","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","87","1090","26","20","3024","952148","false","none",,,,,"2052103973377867913",,,,,,
+"quote","2052697237856088114","2026-05-08T10:28:53.000Z","DeRonin_","Ronin","Do you understand what Browserbase just open-sourced???
+
+an agent that learns any website once, then does the job 10x cheaper forever
+
+[ literally how it helps me ]:
+
+- writing scrapers for new sites (used to spend half a day per site, every single time)
+- chasing selectors when sites redesign on a tuesday (lost weeks to this)
+- digging out hidden APIs buried in network traffic (gave up on this too many times)
+- explaining to my team HOW the agent does the job (was impossible until now)
+
+Autobrowse figured all of that out by itself in 3-5 iterations
+and saved the answer as a markdown file the next agent reads BEFORE it starts
+
+[ how it actually works ]:
+
+> give the agent a real task on a real site
+> it tries, fails, learns, tries again
+> 3-5 rounds and it converges on a path that just works
+> writes that path down as SKILL.md
+> next agent loads it and skips straight to the answer
+
+the markdown file IS the memory
+
+every browser agent before this had AMNESIA
+
+figured out the site, then forgot the second the session closed
+
+you've been paying the same discovery tax 100 times in a row.. and not noticing
+
+[ Karpathy's auto-research idea, but applied to the web ]:
+
+same idea, just different approach
+
+Karpathy did it for research and coding loops
+Autobrowse does it for the open web
+
+the new part:
+
+Karpathy's loop got smarter inside ONE session
+Autobrowse SAVES the lesson into a file the next agent reads before it even starts
+
+iteration = graduation
+
+the agent doesn't just learn.. it leaves a note for every agent that comes after
+
+[ the math ]:
+
+Craigslist scrape:
+- generic agent loop: $0.22 / 71 seconds
+- graduated Autobrowse skill: $0.12 / 27 seconds
+
+form-fill task:
+- run 1: $1.40
+- run 4: $0.24
+
+run 1 pays for everything that comes after
+
+[ the part that broke my brain ]:
+
+they pointed it at a federal grants portal
+
+agent dug around and found an undocumented JSON endpoint humans had missed for years
+
+a 28-page scrape collapsed into one fetch
+
+> an agent tried something a person never would
+> and found something a person would never see..
+
+100% OPEN SOURCE, FREE
+
+I was digging inside of it for the whole morning and got impressed when I saw such as savings on tokens spending
+
+literally for scraping 10 websites, I spent just 12 cents instead of basic $1.02
+
+P.S. Sorry if somewhere my reaction was too ""forcing"" to setup it, just wanted to mark by BOLD what's the treasure
+
+you can skip this, it's your deal ❤️","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","144","2062","65","7","4704","314672","true","photo","https://pbs.twimg.com/media/HHylM_IWAAgGI4b.jpg",,,"https://pbs.twimg.com/media/HHylM_IWAAgGI4b.jpg","2052697237856088114",,,,"2052103973377867913","1281175702788702210",
+"quote","2052702607420830193","2026-05-08T10:50:13.000Z","leftcurvedev_","left curve dev","Today I’m doing some testing with the RTX 3070 Ti. Let’s see what we can fit in 8GB VRAM, I’ll split this into two parts:
+
+1) Finding the sweet spot for the -ncmoe parameter for maximum speed on base llama.cpp
+
+2) Trying Turboquant, DFlash and MTP integrations to either fit more context or achieve higher tok/s
+
+I’ll share the full flags and setups as always","en","<a href=""http://twitter.com/download/iphone"" rel=""nofollow"">Twitter for iPhone</a>","10","79","10","2","61","153030","false","none",,,,,"2052702607420830193",,,,"2050588694587830695",,
+"quote","2052812387955151062","2026-05-08T18:06:27.000Z","leftcurvedev_","left curve dev","Anyone with 8GB or 12GB VRAM setups needs to understand that ""-ncmoe"" is the key flag to boost performance on llama.cpp
+
+Here are my results for Qwen3.6 35B A3B, with 64k q8_0 context on a 8GB RTX 3070Ti:
+
+⚪️ no flag → 8.7 tok/s
+RAM: 13.6GB & VRAM: 7.8GB
+
+🔴 -ncmoe 35 → 27.5 tok/s
+RAM: 12.1GB & VRAM: 4.3GB
+
+🟢 -ncmoe 30 → 32.5 tok/s
+RAM: 12GB & VRAM: 5.6GB
+
+🔵 -ncmoe 25 → 40.9 tok/s
+RAM: 12GB & VRAM: 6.9GB
+
+Please note the ram and vram usage you see are total usage of a windows pc, with the model running. My friend's setup: 8GB VRAM and 16GB RAM. You can boost performance by switching to Linux, just something to keep in mind.
+
+Basically, this flag keeps the MoE experts in the first X layers on your CPU + RAM, instead of eating all your VRAM straight away. This is a smart hybrid offload way that lets you run bigger models without OOM while keeping the rest on your GPU for speed.
+
+As we can see on the data, there's a sweet spot. When we lower it from 35 to 25, speed bumps +50% because there are more layers on your GPU (look at the VRAM usage). The key here is to play around with the number and fit as much as possible on your VRAM, goal is to have 1GB/800MB headroom to avoid stress.
+
+↓ server flags below","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","160","1511","63","14","2182","164869","true","video","https://pbs.twimg.com/amplify_video_thumb/2052805146434785281/img/Tyzg9ak1ZXqvxTz0.jpg","https://video.twimg.com/amplify_video/2052805146434785281/vid/avc1/2866x1946/tZIdcgfnkloScjQM.mp4?tag=27","37","https://pbs.twimg.com/amplify_video_thumb/2052805146434785281/img/Tyzg9ak1ZXqvxTz0.jpg","2052812387955151062",,,,"2052702607420830193","1121056853662806016",
+"original","2020227573129809931","2026-02-07T20:06:02.000Z","milesdeutscher","Miles Deutscher","""i dOnT kNoW wHaT tO aUtoMaTe""
+
+bro..
+
+Here are 30 ideas (literally pick any one of these and your life will instantly improve):
+
+1. Morning industry briefing - AI reads 50 sources and gives you a 2-min summary before coffee
+2. Meeting notes > action items > follow-up emails automatically
+3. Monthly spending categorized and summarized without opening a spreadsheet
+4. AI reads your contracts and flags what actually matters
+5. Turn voice memos into organized notes, tasks, or blog posts
+6. Auto-generate social posts from one piece of long-form content
+7. Weekly meal plan + grocery list based on your diet and budget
+8. AI preps you before every meeting - who you're meeting, context, last conversation
+9. Summarize any PDF, report, or research paper in 30 seconds
+10. Auto-sort and label your files and downloads
+11. Turn YouTube videos into notes, summaries, or blog posts
+12. AI reviews your resume and tailors it for each job application
+13. Track your habits and get a weekly performance review from AI
+14. Draft customer/client replies in your tone of voice
+15. Turn a brain dump into a structured project plan
+16. AI reads your bank transactions and tells you subscriptions you forgot about
+17. Generate workout programs based on your goals and equipment
+18. Turn meeting recordings into SOPs for your team
+19. Auto-draft invoices from project completion
+20. AI monitors competitors and gives you a weekly update
+21. Translate and localize content across languages instantly
+22. Turn a rough outline into a full presentation
+23. Daily journaling prompts based on what's happening in your life
+24. Auto-categorize and respond to support tickets
+25. AI reads legal/tax documents and explains them like you're 10
+26. Build a personal CRM - AI reminds you who to follow up with and why
+27. Turn podcast episodes into show notes, tweets, and newsletters
+28. AI reviews your writing and matches it to a specific style or tone
+29. Auto-generate weekly team updates from project management tools
+30. Morning dashboard - AI pulls your calendar, priorities, weather, and news into one briefing
+
+Pro tip: You can combine multiple of these and vibe code a dashboard on Claude to track all of your automations on one dashboard.","en","<a href=""https://typefully.com/"" rel=""nofollow"">Typefully</a>","405","4723","91","19","8817","331399","false","none",,,,,"2020227573129809931",,,,,,
+"original","2028845314506150079","2026-03-03T14:49:51.000Z","UnslothAI","Unsloth AI","You can now fine-tune Qwen3.5 with our free notebook! 🔥
+
+You just need 5GB VRAM to train Qwen3.5-2B LoRA locally!
+
+Unsloth trains Qwen3.5 1.5x faster with 50% less VRAM.
+
+GitHub: https://github.com/unslothai/unsloth
+Guide: https://unsloth.ai/docs/models/qwen3.5/fine-tune
+
+Qwen3.5-4B Colab: https://colab.research.google.com/github/unslothai/notebooks/blob/main/nb/Qwen3_5_(4B)_Vision.ipynb","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","474","3314","58","31","3414","378136","true","photo","https://pbs.twimg.com/media/HCfoCBZbkAACyVn.jpg",,,"https://pbs.twimg.com/media/HCfoCBZbkAACyVn.jpg","2028845314506150079",,,,,,
+"original","2049484163284402482","2026-04-29T13:41:16.000Z","sudoingX","Sudo su","three tools changed how i work forever.
+
+>tmux keeps sessions alive. 
+>tailscale connects every machine.
+>termius puts it all in my pocket. 
+
+this screenshot is me ssh'd into my dgx spark from my phone right now. four tmux sessions running agent, main, monitor, server. all alive while i walk, eat, ride, sleep. 
+
+i have three machines on my tailscale mesh. dgx spark for heavy inference. rog scar 18 5090 for dev and creative work. old nodes for overnight local experiments that save me api costs while i sleep. i wake up to results. i check from my phone before my feet hit the floor. 
+
+if you're building across multiple machines and not running this stack you're working harder than you need to. own your compute. orchestrate from anywhere.","en","<a href=""http://twitter.com/download/android"" rel=""nofollow"">Twitter for Android</a>","21","504","56","8","441","28985","true","photo","https://pbs.twimg.com/media/HHE6-zUaEAA3dBX.jpg",,,"https://pbs.twimg.com/media/HHE6-zUaEAA3dBX.jpg","2049484163284402482",,,,,,
+"original","2025420463715803567","2026-02-22T04:00:43.000Z","TheAhmadOsman","Ahmad","BREAKING
+
+Elon Musk endorsed my Top 26 Essential Papers for Mastering LLMs and Transformers
+
+Implement those and you’ve captured ~90% of the alpha behind modern LLMs.
+
+Everything else is garnish.
+
+This list bridges the Transformer foundations 
+  with the reasoning, MoE, and agentic shift
+
+Recommended Reading Order
+  1. Attention Is All You Need (Vaswani et al., 2017)
+   > The original Transformer paper. Covers self-attention, 
+   > multi-head attention, and the encoder-decoder structure
+   > (even though most modern LLMs are decoder-only.)
+
+2. The Illustrated Transformer (Jay Alammar, 2018)
+   > Great intuition builder for understanding
+   > attention and tensor flow before diving into implementations
+
+3. BERT: Pre-training of Deep Bidirectional Transformers (Devlin et al., 2018)
+   > Encoder-side fundamentals, masked language modeling,
+   > and representation learning that still shape modern architectures
+
+4. Language Models are Few-Shot Learners (GPT-3) (Brown et al., 2020)
+   > Established in-context learning as a real
+   > capability and shifted how prompting is understood
+
+5. Scaling Laws for Neural Language Models (Kaplan et al., 2020)
+   > First clean empirical scaling framework for parameters, data, and compute
+   > Read alongside Chinchilla to understand why most models were undertrained
+
+6. Training Compute-Optimal Large Language Models (Chinchilla) (Hoffmann et al., 2022)
+   > Demonstrated that token count matters more than
+   > parameter count for a fixed compute budget
+
+7. LLaMA: Open and Efficient Foundation Language Models (Touvron et al., 2023)
+   > The paper that triggered the open-weight era
+   > Introduced architectural defaults like RMSNorm, SwiGLU
+   > and RoPE as standard practice
+
+8. RoFormer: Rotary Position Embedding (Su et al., 2021)
+   > Positional encoding that became the modern default for long-context LLMs
+
+9. FlashAttention (Dao et al., 2022)
+   > Memory-efficient attention that enabled long context windows
+   > and high-throughput inference by optimizing GPU memory access.
+
+10. Retrieval-Augmented Generation (RAG) (Lewis et al., 2020)
+   > Combines parametric models with external knowledge sources
+   > Foundational for grounded and enterprise systems
+
+11. Training Language Models to Follow Instructions with Human Feedback (InstructGPT) (Ouyang et al., 2022)
+   > The modern post-training and alignment blueprint
+   > that instruction-tuned models follow
+
+12. Direct Preference Optimization (DPO) (Rafailov et al., 2023)
+   > A simpler and more stable alternative to PPO-based RLHF
+   > Preference alignment via the loss function
+
+13. Chain-of-Thought Prompting Elicits Reasoning in Large Language Models (Wei et al., 2022)
+   > Demonstrated that reasoning can be elicited through prompting
+   > alone and laid the groundwork for later reasoning-focused training
+
+14. ReAct: Reasoning and Acting (Yao et al., 2022 / ICLR 2023)
+   > The foundation of agentic systems
+   > Combines reasoning traces with tool use and environment interaction
+
+15. DeepSeek-R1: Incentivizing Reasoning Capability in LLMs via Reinforcement Learning (Guo et al., 2025)
+   > The R1 paper. Proved that large-scale reinforcement learning without
+   > supervised data can induce self-verification and structured reasoning behavior
+
+16. Qwen3 Technical Report (Yang et al., 2025)
+   > A modern architecture lightweight overview
+   > Introduced unified MoE with Thinking Mode and Non-Thinking
+   > Mode to dynamically trade off cost and reasoning depth
+
+17. Outrageously Large Neural Networks: Sparsely-Gated Mixture of Experts (Shazeer et al., 2017)
+   > The modern MoE ignition point
+   > Conditional computation at scale
+
+18. Switch Transformers (Fedus et al., 2021)
+   > Simplified MoE routing using single-expert activation
+   > Key to stabilizing trillion-parameter training
+
+19. Mixtral of Experts (Mistral AI, 2024)
+   > Open-weight MoE that proved sparse models can match dense quality
+   > while running at small-model inference cost
+
+20. Sparse Upcycling: Training Mixture-of-Experts from Dense Checkpoints (Komatsuzaki et al., 2022 / ICLR 2023)
+    > Practical technique for converting dense checkpoints into MoE models
+    > Critical for compute reuse and iterative scaling
+
+21. The Platonic Representation Hypothesis (Huh et al., 2024)
+    > Evidence that scaled models converge toward shared
+    > internal representations across modalities
+
+22. Textbooks Are All You Need (Gunasekar et al., 2023)
+    > Demonstrated that high-quality synthetic data allows
+    > small models to outperform much larger ones
+
+23. Scaling Monosemanticity: Extracting Interpretable Features from Claude 3 Sonnet (Templeton et al., 2024)
+    > The biggest leap in mechanistic interpretability
+    > Decomposes neural networks into millions of interpretable features
+
+24. PaLM: Scaling Language Modeling with Pathways (Chowdhery et al., 2022)
+    > A masterclass in large-scale training
+    > orchestration across thousands of accelerators
+
+25. GLaM: Generalist Language Model (Du et al., 2022)
+    > Validated MoE scaling economics with massive
+    > total parameters but small active parameter counts
+
+26. The Smol Training Playbook (Hugging Face, 2025)
+    > Practical end-to-end handbook for efficiently training language models
+
+Bonus Material
+    > T5: Exploring the Limits of Transfer Learning with a Unified Text-to-Text Transformer (Raffel et al., 2019)
+    > Toolformer (Schick et al., 2023)
+    > GShard (Lepikhin et al., 2020)
+    > Adaptive Mixtures of Local Experts (Jacobs et al., 1991)
+    > Hierarchical Mixtures of Experts (Jordan and Jacobs, 1994)
+
+If you deeply understand these fundamentals; Transformer core, scaling laws, FlashAttention, instruction tuning, R1-style reasoning, and MoE upcycling, you already understand LLMs better than most
+
+Time to lock-in, good luck!","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","130","1306","33","5","1804","74107","true","photo","https://pbs.twimg.com/media/HBu9G-NWoAAsirI.jpg",,,"https://pbs.twimg.com/media/HBu9G-NWoAAsirI.jpg","2025420463715803567",,,,,,
+"quote","2025631627263582698","2026-02-22T17:59:49.000Z","TheAhmadOsman","Ahmad","> local llms 101
+
+> running a model = inference (using model weights)
+> inference = predicting the next token based on your input plus all tokens generated so far
+> together, these make up the ""sequence""
+
+> tokens ≠ words
+> they're the chunks representing the text a model sees
+> they are represented by integers (token IDs) in the model
+> ""tokenizer"" = the algorithm that splits text into tokens
+> common types: BPE (byte pair encoding), SentencePiece
+> token examples:
+> ""hello"" = 1 token or maybe 2 or 3 tokens
+> ""internationalization"" = 5–8 tokens
+> context window = max tokens model can ""see"" at once (2K, 8K, 32K+)
+> longer context = more VRAM for KV cache, slower decode
+
+> during inference, the model predicts next token
+> by running lots of math on its ""weights""
+> model weights = billions of learned parameters (the knowledge and patterns from training)
+
+> model parameters: usually billions of numbers (called weights) that the model learns during training
+> these weights encode all the model's ""knowledge"" (patterns, language, facts, reasoning)
+> think of them as the knobs and dials inside the model, specifically computed to recognize what could come next
+> when you run inference, the model uses these parameters to compute its predictions, one token at a time
+
+> every prediction is just: model weights + current sequence → probabilities for what comes next
+> pick a token, append it, repeat, each new token becomes part of the sequence for the next prediction
+
+> models are more than weight files
+> neural network architecture: transformer skeleton (layers, heads, RoPE, MQA/GQA, more below)
+> weights: billions of learned numbers (parameters, not ""tokens"", but calculated from tokens)
+> tokenizer: how text gets chunked into tokens (BPE/SentencePiece)
+> config: metadata, shapes, special tokens, license, intended use, etc
+> sometimes: chat template are required for chat/instruct models, or else you get gibberish
+> you give a model a prompt (your text, converted into tokens)
+
+> models differ in parameter size:
+> 7B means ~7 billion learned numbers
+> common sizes: 7B, 13B, 70B
+> bigger = stronger, but eats more VRAM/memory & compute
+> the model computes a probability for every possible next token (softmax over vocab)
+> picks one: either the highest (greedy) or
+> samples from the probability distribution (temperature, top-p, etc)
+> then appends that token to the sequence, then repeats the whole process
+> this is generation:
+> generate; predict, sample, append
+> over and over, one token at a time
+> rinse and repeat
+> each new token depends on everything before it; the model re-reads the sequence every step
+
+> generation is always stepwise: token by token, not all at once
+> mathematically: model is a learned function, f_θ(seq) → p(next_token)
+> all the ""magic"" is just repeating ""what's likely next?"" until you stop
+
+> all conversation ""tokens"" live in the KV cache, or the ""session memory""
+
+> so what's actually inside the model?
+> everything above-tokens, weights, config-is just setup for the real engine underneath
+
+> the core of almost every modern llm is a transformer architecture
+> this is the skeleton that moves all those numbers around
+> it's what turns token sequences and weights into predictions
+> designed for sequence data (like language),
+> transformers can ""look back"" at previous tokens and
+> decide which ones matter for the next prediction
+
+> transformers work in layers, passing your sequence through the same recipe over and over
+> each layer refines the representation, using attention to focus on the important parts of your input and context
+> every time you generate a new token, it goes through this stack of layers-every single step
+
+> inside each transformer layer:
+> self-attention: figures out which previous tokens are important to the current prediction
+> MLPs (multi-layer perceptrons): further process token representations, adding non-linearity and expressiveness
+> layer norms and residuals: stabilize learning and prediction, making deep networks possible
+> positional encodings (like RoPE): tell the model where each token sits in the sequence
+> so ""cat"" and ""catastrophe"" aren't confused by position
+
+> by stacking these layers (sometimes dozens or even hundreds)
+> transformers build a complex understanding of your prompt, context, and conversation history
+
+> transformer recap:
+> decoder-only: model only predicts what comes next, each token looks back at all previous tokens
+> self-attention picks what to focus on (MQA/GQA = efficient versions for less memory)
+> feed-forward MLP after attention for every token (usually 2 layers, GELU activation)
+> everything's wrapped in layer norms + linear layers (QKV projections, MLPs, outputs)
+> residuals + norms = stable, trainable, no exploding/vanishing gradients
+> RoPE (rotary embeddings): tells the model where each token sits in the sequence
+> stack N layers of this → final logits → pick the next token
+> scale up: more layers, more heads, wider MLPs = bigger brains
+
+> VRAM: memory, the bottleneck
+> VRAM must must fit:
+> 1. weights (main model, whether quantized or not)
+> 2. KV cache (per token, per layer, per head)
+> weights:
+> FP16: ~2 bytes/param → 7B = ~14GB
+> 8-bit: ~1 byte/param → 7B = ~7GB
+> 4-bit: ~0.5 byte/param → 7B = ~3.5GB
+> add 10–30% for runtime overheads
+> KV cache:
+> rule of thumb: 0.5MB per token (Llama-like 7B, 32 layers, 4K tokens = ~2GB)
+> some runtimes support KV cache quantization (8/4-bit) = big savings
+
+> throughput = memory bandwidth + GPU FLOPs + attention implementation (FlashAttention/SDPA help) + quantization + batch size
+> offload to CPU? expect MASSIVE slowdown
+
+> GPU or bust: CPUs run quantized models (slow), but any real context/model needs CUDA/ROCm/Metal
+> CPU spill = sadness (check device_map and memory fit)
+
+> quantization: reduce precision for memory wins (sometimes a tiny quality hit)
+> FP32/FP16/BF16 = full/floored
+> INT8/INT4/NF4 = quantized
+> 4-bit (NF4/GPTQ/AWQ) = sweet spot for most consumer GPUs (big memory win, small quality hit for most tasks)
+> math-heavy or finicky tasks degrade first (math, logic, coding)
+
+> KV cache quantization: even more memory saved for long contexts (check runtime support)
+
+> formats/runtimes:
+> PyTorch + safetensors: flexible, standard, GPU/TPU/CPU
+> GGUF (llama.cpp): CPU/GPU/portable, best for quant + edge devices
+> ONNX, TensorRT-LLM, MLC: advanced flavors for special hardware/use
+> protip: avoid legacy .bin (pickle risk), use safetensors for safety
+
+> everything is a tradeoff
+> smaller = fits anywhere, less power
+> more context = more latency + VRAM burn
+> quantization = speed/memory, but maybe less accurate
+> local = more control/knobs, more work
+
+> what happens when you ""load a model""?
+> download weights, tokenizer, config
+> resolve license/trust (don't use trust_remote_code unless you really trust the author)
+> load to VRAM/CPU (check memory fit)
+> warmup: kernels/caches initialized, first pass is slowest
+> inference: forward passes per token, updating KV cache each step
+
+> decoding = how next token is chosen:
+> greedy: always top-1 (robotic)
+> temperature: softens or sharpens probabilities (higher = more random)
+> top-k: pick from top k
+> top-p: pick from smallest set with ≥p prob
+> typical sampling, repetition penalty, no-repeat n-gram: extra controls
+> deterministic = set a seed and no sampling
+> tune for your use-case: chat, summarization, code
+
+> serving options?
+> vLLM for high throughput, parallel serving
+> llama.cpp server (OpenAI-compatible API)
+> ExLlama V2/V3 w/ Tabby API (OpenAI-compatible API)
+> run as a local script (CLI)
+> FastAPI/Flask for local API endpoint
+
+> local ≠ offline; run it, serve it, or build apps on top
+
+> fine-tuning, ultra-brief:
+> LoRA / QLoRA = adapter layers (efficient, minimal VRAM)
+> still need a dataset and eval plan; adapters can be merged or kept separate
+> most users get far with prompting + retrieval (RAG) or few-shot for niche tasks
+
+> common pitfalls
+> OOM? out of memory. Model or context too big, quantize or shrink context
+> gibberish? used a base model with a chat prompt, or wrong template; check temperature/top_p
+> slow? offload to CPU, wrong drivers, no FlashAttention; check CUDA/ROCm/Metal, memory fit
+> unsafe? don't use random .bin or trust_remote_code; prefer safetensors, verify source
+
+> why run locally?
+> control: all the knobs are yours to tweak:
+> sampler, chat templates, decoding, system prompts, quantization, context
+> cost: no per-token API billing-just upfront hardware
+> privacy: prompts and outputs stay on your machine
+> latency: no network roundtrips, instant token streaming
+
+> challenges:
+> hardware limits (VRAM/memory = max model/context)
+> ecosystem variance (different runtimes, quant schemes, templates)
+> ops burden (setup, drivers, updates)
+
+> running local checklist:
+> pick a model (prefer chat-tuned, sized for your VRAM)
+> pick precision (4-bit saves RAM, FP16 for max quality)
+> install runtime (vLLM, llama.cpp, Transformers+PyTorch, etc)
+> run it, get tokens/sec, check memory fit
+> use correct chat template (apply_chat_template)
+> tune decoding (temp/top_p)
+> benchmark on your task
+> serve as local API (or go wild and fine-tune it)
+
+> glossary:
+> token: smallest unit (subword/char)
+> context window: max tokens visible to model
+> KV cache: session memory, per-layer attention state
+> quantization: lower precision for memory/speed
+> RoPE: rotary position embeddings (for order)
+> GQA/MQA: efficient attention for memory bandwidth
+> decoding: method for picking next token
+> RAG: retrieval-augmented generation, add real info
+
+> misc:
+> common architectures: LLaMA, Falcon, Mistral, GPT-NeoX, etc
+> base model: not fine-tuned for chat (LLaMA, Falcon, etc)
+> chat-tuned: fine-tuned for dialogue (Alpaca, Vicuna, etc)
+> instruct-tuned: fine-tuned for following instructions (LLaMA-2-Chat, Mistral-Instruct, etc)
+
+> chat/instruct models usually need a special prompt template to work well
+> chat template: system/user/assistant markup is required; wrong template = junk output
+> base models can do few-shot chat prompting, but not as well as chat-tuned ones
+
+> quantized: weights stored in lower precision (8-bit, 4-bit) for memory savings, at some quality loss
+> quantization is a tradeoff: memory/speed vs quality
+> 4-bit (NF4/GPTQ/AWQ) is the sweet spot for most consumer GPUs (huge memory win, minor quality drop for most tasks)
+> math-heavy or finicky tasks degrade first (math, logic, code)
+> quantization types: FP16 (full), INT8 (quantized), INT4/NF4 (more quantized), etc.
+> some runtimes support quantized KV cache (8/4-bit), big savings for long contexts
+
+> formats/runtrites:
+> PyTorch + safetensors: flexible, standard, works on GPU/TPU/CPU
+> GGUF (llama.cpp): CPU/GPU, portable, best for quant + edge devices
+> ONNX, TensorRT-LLM, MLC: advanced options for special hardware
+
+> avoid legacy .bin (pickle risk), use safetensors for safety
+
+> everything is a tradeoff:
+> smaller = fits anywhere, less power
+> more context = more latency + VRAM burn
+> quantization = faster/leaner, maybe less accurate
+> local = full control/knobs, but more work
+
+> final words:
+> local LLMs = memory math + correct formatting
+> fit weights and KV cache in memory
+> use the right chat template and decoding strategy
+> know your knobs: quantization, context, decoding, batch, hardware
+
+> master these, and you can run (and reason about) almost any modern model locally","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","27","243","14","1","254","15821","false","none",,,,,"2025631627263582698",,,,"2025420463715803567","248951926",
+"original","2031488099725754821","2026-03-10T21:51:20.000Z","CloudflareDev","Cloudflare Developers","Introducing the new /crawl endpoint - one API call and an entire site crawled.
+
+No scripts. No browser management. Just the content in HTML, Markdown, or JSON.","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","1671","19682","763","1490","25190","10623170","true","photo","https://pbs.twimg.com/media/HDFLHhnaMAQhhlM.jpg",,,"https://pbs.twimg.com/media/HDFLHhnaMAQhhlM.jpg","2031488099725754821",,,,,,
+"original","2049548305408131349","2026-04-29T17:56:09.000Z","rohit4verse","Rohit","http://x.com/i/article/2048881094637080576","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","257","1753","48","53","6858","2867461","false","none",,,,,"2049548305408131349",,,,,,
+"quote","2049613859623677978","2026-04-29T22:16:38.000Z","DeRonin_","Ronin","Andrej Karpathy: ""90% of what AI twitter tells you to learn will be dead in 6 months""
+
+Here are 10 things senior AI engineers stopped wasting time on:
+
+1. AutoGen / AG2: moved to community maintenance, releases stalled. dead for production
+
+2. CrewAI: demos well, breaks in production. engineers building real systems already moved off it
+
+3. Autonomous agent pitches: the AutoGPT / BabyAGI wave is dead in product form. the industry settled on supervised, bounded, evaluated agents
+
+4. Agent app stores / marketplaces: promised since 2023, zero enterprise traction
+
+5. SWE-bench leaderboard chasing: researchers proved nearly every public benchmark can be gamed without solving the underlying task
+
+6. Microsoft Semantic Kernel: unless you're locked into Microsoft enterprise stack, it's not where the ecosystem is heading
+
+7. DSPy: philosophical merit, niche audience. not a general agent framework
+
+8. Horizontal ""build any agent"" platforms: Google Agentspace, AWS Bedrock Agents, Copilot Studio. confusing, slow-shipping, the math still favors building yourself
+
+9. Per-seat SaaS pricing for agent products: market moved to outcome-based. per-seat is already dead
+
+10. The framework that went viral on HN this week: wait 6 months. if it still matters, it'll be obvious
+
+what actually compounds instead:
+
+- context engineering
+- tool design
+- orchestrator-subagent pattern
+- eval discipline
+- the harness mindset (harness > model, always)
+- MCP as the protocol layer
+
+be few steps ahead than your competitors and outperform this market till it became mass-opinion
+
+study this.","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","273","2463","89","21","5982","412083","true","video","https://pbs.twimg.com/amplify_video_thumb/2049613119408812032/img/AIVIvDINn3RjHVOB.jpg","https://video.twimg.com/amplify_video/2049613119408812032/vid/avc1/1920x1080/yDP8PIFBGrZcqIlv.mp4?tag=21","2345","https://pbs.twimg.com/amplify_video_thumb/2049613119408812032/img/AIVIvDINn3RjHVOB.jpg","2049613859623677978",,,,"2049548305408131349","1605975892677001218",
+"original","1937209604552741152","2025-06-23T18:02:15.000Z","TheAhmadOsman","Ahmad","http://x.com/i/article/1937207829422841856","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","84","656","18","5","1920","136394","false","none",,,,,"1937209604552741152",,,,,,
+"quote","2020441993873166808","2026-02-08T10:18:03.000Z","TheAhmadOsman","Ahmad","@anuragtech5 Ask and you shall receive :)
+
+https://x.com/TheAhmadOsman/status/1937209604552741152","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","4","27","2","0","83","2382","false","none",,,,,"2020433115584335949","2020441818270191867","1320677715880628226","anuragtech5","1937209604552741152","248951926",
+"original","2038562686280061403","2026-03-30T10:23:13.000Z","simplifyinAI","Simplifying AI","this peanut-sized chinese model beats gemini at reading documents.. 💀
+
+it’s called glm-ocr. it’s a tiny 0.9b parameter vision-language model that is about to replace every expensive ocr api you use.
+
+And it’s 100% open-source.","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","190","2210","35","8","2282","120802","true","photo","https://pbs.twimg.com/media/HEptt11akAAvCOI.jpg",,,"https://pbs.twimg.com/media/HEptt11akAAvCOI.jpg","2038562686280061403",,,,,,
+"original","2049509658797224042","2026-04-29T15:22:35.000Z","defileo","Defileo🔮","http://x.com/i/article/2048369059310256128","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","33","341","17","16","1224","3613052","false","none",,,,,"2049509658797224042",,,,,,
+"quote","2049802195642839223","2026-04-30T10:45:01.000Z","defileo","Defileo🔮","Cancelled ChatGPT -> Built JARVIS -> Pays $0 -> it works offline + it's smarter than the $20/month version.
+
+No WiFi needed, no cloud, no API keys, no rate limits, no queues, no $20/month just to ask a server in Virginia for the weather.
+
+Just a local model running directly on the laptop hardware, voice activated, system integrated, controlling apps, answering questions, doing the work.
+
+Iron Man had JARVIS embedded in his suit, this guy has it embedded in his MacBook and it works on a plane, in a basement, on a remote cabin with zero signal.
+
+OpenAI is burning $700,000 a day on infrastructure to deliver something this guy runs for free.
+
+Anthropic charges $200/month for unlimited Claude access, microsoft built Copilot into every product they sell.
+
+This guy skipped all of it, downloaded a model and made his laptop the smartest device in the room.
+
+No subscription. No login. No internet. No data sent anywhere ever.
+
+The most powerful AI assistant on earth is now the one running locally on hardware you already own.
+
+ChatGPT charges you to think slower, he pays nothing and thinks alone, he made it himself.","en","<a href=""https://typefully.com/"" rel=""nofollow"">Typefully</a>","69","721","51","4","1158","153054","true","video","https://pbs.twimg.com/amplify_video_thumb/2049802143893528576/img/ZjIpltNfvRexknaS.jpg","https://video.twimg.com/amplify_video/2049802143893528576/vid/avc1/576x1024/nflNqnfyvB4pSduN.mp4?tag=14","15","https://pbs.twimg.com/amplify_video_thumb/2049802143893528576/img/ZjIpltNfvRexknaS.jpg","2049802195642839223",,,,"2049509658797224042","1663262095868084228",
+"original","2050866949643477241","2026-05-03T09:15:58.000Z","Maor_Elkarat","Maor Elkarat","Stop buying more VRAM.
+
+Everyone’s posting Qwen 3.6 configs running insanely fast on 12GB cards.
+
+But do you actually understand the flags making it possible? Weights are only half the story. KV cache is eating your VRAM alive.
+
+The secret isn’t just 4-bit weights it’s the KV cache sorcery everyone’s missing.
+
+Here’s the annotated command & real tricks explained:
+@elonmusk @grok #Ai","en","<a href=""http://twitter.com/download/android"" rel=""nofollow"">Twitter for Android</a>","151","1432","33","8","2508","94135","true","photo","https://pbs.twimg.com/media/HHYknkGaoAAPaLv.jpg",,,"https://pbs.twimg.com/media/HHYknkGaoAAPaLv.jpg","2050866949643477241",,,,,,
+"original","1997816634006745383","2025-12-07T23:52:57.000Z","TheAhmadOsman","Ahmad","> you are
+> a person neck-deep in LLMs, wading through a sea of jargon
+> “shards,” “experts,” “layers across nodes,” “tensor parallelism,”
+> “pipeline parallelism,” “data parallelism”
+> you keep hearing epic claims like
+  > “8 million tokens/sec on 1024 GPUs”
+  > and wonder, what the hell does that even look like on real hardware?
+> we'll start with what “layers” even are,
+> then walk the five parallelism axes,
+> and then show how they combine
+
+> is every GPU running a full copy of the model?
+> or are the weights sharded across the cluster?
+> are layers sliced up? what are “layers” to begin with?
+  > a “layer” = attention + MLP + residual glue
+  > ≈ a transformer block; then we stack 24 to 160 of them
+  > more on that below
+> do whole blocks migrate to different nodes?
+> does the batch get carved into pieces?
+> is the context length split? or both?
+> when do all these devices need to chat with each other?
+> and what are they sending?
+> what’s an “expert” in a Mixture-of-Experts model?
+> and why do people make it sound like air-traffic control for tokens?
+
+> as LLMs got bigger, nothing fit on one GPU
+> so parallelism became the only way out
+> but the word “parallelism” hides a zoo of strategies
+> each one optimized for a different kind of problem
+
+> sometimes you duplicate the model for raw throughput
+  > data parallelism
+> sometimes you break each giant matrix multiply across devices
+  > tensor/model parallelism
+> sometimes you hand off entire layers to the next GPU
+  > pipeline parallelism
+> sometimes you dispatch tokens to “experts” scattered all over
+  > expert parallelism
+> and sometimes, when the context is massive
+  > you even split the sequence itself
+
+inference vs training? whole different beast
+> inference:
+  > cares about context length
+  > key/value cache (KV cache)  size
+  > serving tons of requests with minimal idle time
+  > prefill vs decode become separate bottlenecks
+> training:
+  > wants big batches
+  > needs fast gradient sync
+  > huge memory for activations
+  > relentless all-reduce ops
+
+so, when you see those monster numbers and wild claims, ask:
+> what’s split?
+> what’s duplicated?
+> what’s just being pipelined through?
+> who’s doing all the talking?
+  > GPUs?
+  > CPUs?
+  > or the people writing the framework hacks?
+
+parallelism 101 isn’t just for LLM nerds
+> it’s survival for anyone who wants to
+  > train
+  > fine-tune
+  > or serve
+> models bigger than a single graphics card
+> and we’re gonna break it all down, once and for all
+
+first, a quick recap of how LLMs work
+> llms are giant next-token guessers
+> feed in tokens, model returns probabilities for what comes next
+> this is conditional modeling: p(x_{t+1} | x_{1:t}); all ""reasoning"" is just maximizing next-token prediction over long contexts
+> parallelism pressure: high accuracy means bigger models, longer contexts; both shatter single-device limits
+
+> inference: just a loop
+> sample → append → feed back in; repeat until done
+> really two stages: prefill (encode the prompt, attention-heavy) and decode (one token at a time, cache-heavy)
+> parallelism pressure: prefill wants maximum compute in parallel; decode needs memory bandwidth and batching
+
+> training: minimizes how wrong those guesses are
+> cross-entropy loss between predicted and actual token
+> scale up data, parameters, context → better loss, but optimizer states and gradients balloon memory usage
+> parallelism pressure: gradient sync and optimizer memory dominate; communication overhead becomes a first-class problem
+
+> inside the model: a tall stack of transformer blocks
+> each processes a sequence of vectors (tokens → embeddings)
+> all blocks edit a shared “residual stream”
+> parallelism hint: deep? pipeline split; wide? tensor split
+
+> each block does two things
+> self-attention: mix info across tokens (global context)
+> mlp: rewrite each token’s vector (local transform)
+> this global-then-local alternates for dozens to hundreds of layers
+> parallelism hint: attention is sequence-bottlenecked, MLPs are flop-bottlenecked; each wants its own split
+
+> layernorm + residuals keep things stable
+> helps gradients flow; most use pre-norm
+> deep stacks become trainable, but activations stay huge
+> parallelism hint: activation memory = batch × seq × hidden; target for sequence/context sharding and activation checkpointing
+
+> self-attention = queries, keys, values
+> dot-products score “who attends to whom”; softmax makes weights; multi-heads see different relationships
+> compute is O(L²) during prefill, O(L) per token in decode
+> parallelism hint: quadratic prefill drives context parallelism; big KV drives KV sharding
+
+> to scale: GQA / MQA (grouped/multi-query attention)
+> fewer key/value sets per head, saves bandwidth/memory
+> tiny quality hit, huge efficiency win (at ≤128 k context; when tuned)
+> smaller KV → more requests/longer contexts per GPU
+  > rough rule: every extra 65k tokens at 70B costs ~2 GB/GPU even with GQA—yes, that adds up fast
+> parallelism hint: makes tensor/data parallel more efficient with fixed memory
+
+> position info: added or rotated
+> learned embeddings or rotary encodings (RoPE)
+> lets models generalize to longer sequences; RoPE directly encodes relative position in attention
+> parallelism hint: long contexts make context/sequence parallelism indispensable
+
+> mlp is the heavy lifter
+> expand → activate → project down
+> MoE = many mlps, only a few active per token; scale params without scaling compute, but adds network overhead
+> dense MLPs dominate FLOPs; MoE swaps dense compute for routing and all-to-all comms
+> parallelism hint: dense → tensor/pipeline, MoE → expert parallel + token shuffling
+
+> top of the model: one last layernorm, then lm head
+> maps hidden states to vocab logits; often reuses input embedding weights
+> weight tying helps parameter and cache efficiency
+> parallelism hint: LM head is another big matmul; follows tensor/pipeline split of previous layers
+
+> decoding: pick a sampler
+> greedy, temp, top-k/p, beam, speculative; just ways to choose the next token
+> speculative/batch schedulers keep GPUs busy
+> parallelism hint: data parallel absorbs throughput, tensor/context sharding fights latency for long prompts
+
+> alignment (rlhf, dpo, etc.): guide preferences
+> tweaks outputs, core compute is unchanged
+> fine-tunes shift sampling tendencies, not compute graph
+> parallelism hint: training still needs gradient sync, same memory/comm bottlenecks
+
+> systems view: 95% is big matrix multiplies (gemms)
+> rest is cheap elementwise ops
+> hardware lives or dies by gemm performance
+> memory bandwidth, interconnect, and collectives (all-reduce/all-to-all) are the real ceilings
+> parallelism hint: pick the axis that minimizes your dominant comms pattern
+
+> two compute phases:
+> prefill: quadratic attention, load whole prompt
+> decode: one token at a time, kv cache is bottleneck
+> kv cache per layer ≈ (B × L × 2 × n_kv × d_head × bytes); multiply by layers = why memory vanishes
+> parallelism hint: prefill likes context/sequence sharding, decode likes batching and kv sharding
+
+> why split the model at all? simple concept, ugly in practice:
+  > VRAM runs out
+  > bandwidth bottlenecks
+  > FLOPS max out
+> only way out: parallelism
+> weights, work, and state are each huge; but for different reasons
+  > and each one pushes you toward a different split axis
+
+parallelism 101
+> single GPU:
+  > can’t hold the weights
+  > can’t fit the KV cache
+  > doesn’t have enough compute
+> doesn’t scale to real LLMs
+> goal:
+  > break up the compute
+  > split the memory
+  > keep every GPU doing something useful
+  > avoid idle cycles and bottlenecks
+
+tensor parallelism (TP)
+> step up: model is too big, so shard within layers (split big matmuls/attn heads across GPUs)
+> for inference:
+  > single prompt can use all TP devices; shard weights and KV cache across GPUs
+  > unlocks longer context/one-shot mega-prompts (because each GPU only needs its chunk)
+  > minimal latency penalty; comms are per-token and per-layer, but hidden in GEMM (if intra-node NVLink)
+  > first thing you do when the model won’t fit in one GPU but you want max single-query performance
+> for training:
+  > you split GEMMs (e.g., QKV/MLP) across N devices; everyone computes a slice, then you all-reduce at the end of the layer
+  > comms: ~2 all-reduce ops per layer forward/backward
+  > all math, no waiting for whole layers to finish
+  > works best when all GPUs on fast local links (NVLink/NVSwitch), otherwise, you’re bottlenecked
+  > pair with “sequence parallelism” (SP): shard along sequence axis for even bigger speedups/memory wins
+> rule: TP is your go-to for splitting big layers/weights/KV; always keep it intra-node if you can
+
+pipeline parallelism (PP)
+> think “assembly line”: split the model by layers into stages, put each stage on a GPU (or group)
+> for inference:
+  > each token passes through the pipeline (latency = num_stages × per-stage time)
+  > adds overhead for low concurrency (pipeline bubbles)
+  > but: lets you split very tall models across more GPUs (and multiple nodes)
+  > often combined with TP (per stage) + DP (across nodes)
+> for training:
+  > feed microbatches in like cars on a factory line
+  > early GPUs start on batch N+1 while late GPUs are still finishing batch N
+  > scheduling: “1F1B” (one-forward-one-backward) is classic, interleaved is better (reduces bubbles, keeps more cards hot)
+  > comms: point-to-point; just send activations/gradients to the next/prev stage
+  > fills/drains pipeline at start/end, so latency is worse for small batches
+> rule: use PP when model depth > what fits per device/group; throughput wins, single-token latency suffers
+
+data parallelism (DP)
+> start simple: every GPU/node gets a full copy of the model
+> for inference: each replica can serve requests independently; easy throughput scaling, zero comms
+  > but: each replica needs its own KV cache; you burn VRAM linearly with batch count
+> for training: each works on a different chunk of the data, then they sync gradients (all-reduce)
+  > memory: each replica has full weights, grads, optimizer state
+  > comms: one big all-reduce per step (bottleneck: slow interconnect or huge models)
+  > modern fix: ZeRO/FSDP; shard optimizer states, grads, even params across devices
+    > ZeRO-3: sharded everything; now any one GPU sees a fraction of the model/optimizer
+    > lets you squeeze 100B+ params onto commodity hardware
+> rule: DP is how you get more throughput; for bigger models, combine with model parallelism
+
+expert parallelism (EP, MoE)
+> Mixture of Experts (MoE): only some parameters get used per token; rest sleep, save FLOPs
+> for inference:
+  > tokens routed to experts (ideally local); all-to-all overhead dominates small batch serving unless you get smart with locality/routing
+  > top-1 routing + local experts is the new meta; keeps network from killing tail latency
+  > MoE good for “big brain, small budget”; huge capacity, modest compute, but only if you nail the routing and don’t bottleneck network
+> for training:
+  > “experts” (sub-MLPs) spread across GPUs; router sends each token to top-1/2/4 experts
+  > comms: two big all-to-all shuffles per MoE layer (tokens to experts, then back)
+  > modern tricks: Expert-Choice, dropless routing, hierarchical shuffles; less network pain, better load balance
+  > only the selected experts do work, so you scale parameter count without scaling compute linearly
+  > parallelize: TED = Tensor × Expert × Data (often add Pipeline for 4D grid)
+> rule: use EP to unlock parameter scaling beyond dense; just mind the network, and tune routing for your hardware
+
+sequence/context parallelism (SP/CP)
+> the bonus round: split the sequence axis, not just layers or weights
+  > why: LLMs with 128k, 1M, or more context tokens = “KV cache and attention matrices are the new bottleneck”
+> for inference/training:
+  > shard activations/KV cache across sequence positions (instead of model dims or layers)
+  > Megatron Context Parallelism, DeepSpeed-Ulysses, Ring-Attention: new tricks for linear scaling with context size
+  > pairs well with TP/PP/EP, especially for long-context, high-concurrency serving
+> rule: add SP/CP when context/KV cache eats your VRAM, or you want fast prefill for million-token prompts
+
+putting it together: real-world layouts
+> serving LLMs (inference)
+  > model fits on one GPU? just use DP, batch requests, done
+  > model too big? add TP (intra-node, 2-4 GPUs, shard weights/KV)
+  > still too big? PP (split layers), then DP for multi-node throughput
+  > long contexts? CP/SP (shard sequence/KV), paged attention, GQA/MQA to shrink KV
+  > MoE? use EP, but always fight for local experts and top-1 routing
+> training LLMs
+  > start with DP (and ZeRO/FSDP) for throughput/memory relief
+  > model too wide? add TP
+  > model too deep? add PP, interleave for less pipeline bubble
+  > MoE? grid up: TED (+ PP), tune batch/expert per device for best balance
+  > context too big? SP/CP and activation checkpointing
+  > always checkpoint activations if memory is tight; mix and match as needed
+
+a quick bridge to parallelism (what each axis “fixes”):
+
+> data parallelism (dp)
+> replicate the whole model, split the batches
+> fixes throughput and gradient noise, but not per-replica memory
+> unless you also shard optimizer/params (e.g. ZeRO, FSDP)
+
+> tensor (or model) parallelism (tp)
+> shard within layers (split big matmuls/attn)
+> fixes single-layer width/weight size and per-token compute;
+> introduces per-layer collective ops
+
+> pipeline parallelism (pp)
+> shard across layers (depth)
+> fixes total weight memory by spreading blocks across stages;
+> introduces pipeline bubbles; hide with micro-batching
+
+> expert parallelism (ep)
+> shard MoE experts across devices, route tokens to a few experts
+> fixes param count without dense compute; 
+> introduces all-to-all comms and load-balancing.
+
+> sequence/context parallelism (sp/cp)
+> shard along the sequence axis
+> fixes long-context prefill and kv memory by splitting tokens/devices;
+> pairs well with tp and paged kv caches
+
+systems cheat sheet: when to use what
+> DP: for throughput and data sharding; ZeRO/FSDP to cut memory; inference just replicas
+> TP: for single-model multi-GPU (shard big layers, weights, KV); keep within fast local links
+> PP: for tall models (split by layer); more stages = more bubble, but necessary for true giants
+> EP (MoE): for max params at fixed compute; tune routing and batch; network is the limiter
+> SP/CP: for ultra-long context or when KV cache dominates; essential for 128k+ or high concurrency
+> Combine: 3D, 4D, even 5D grids (e.g., TP×EP×DP×PP×SP) for trillion-param monsters
+
+modern tricks
+> paged attention, continuous batching (vLLM, TensorRT-LLM): unlock huge batch + context + utilization
+> GQA/MQA: shrink KV cache and bandwidth, scale to long prompts
+> context parallelism: finally scales prefill to dozens of GPUs for million-token demos
+> interleaved pipelines: +10% throughput, almost free
+> MoE: top-1 routing + expert-choice/hierarchical shuffling = practical at scale
+
+keep this map in mind: always ask; what’s your bottleneck?
+> weights, work, or state? 
+> the right parallelism makes the big thing smaller,
+> without making communication the new bottleneck
+
+> you made it to the end
+> now you know: every parallelism axis is a lever, not a panacea
+> the real move is combining axes for your exact bottleneck; fit, throughput, context, or tail latency
+> next time you see “we train at 8M tokens/sec on 1024 GPUs,” read between the lines: it’s all about how they split the problem
+
+tl;dr: llms are simple, just brutal at scale
+> hardware-aware optimization is survival
+> the real skill is matching bottleneck to the right parallelism; otherwise you’re just moving the problem","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","13","132","11","2","144","9720","false","none",,,,,"1997816634006745383",,,,,,
+"original","2002825756938752234","2025-12-21T19:37:25.000Z","TheAhmadOsman","Ahmad","- local llms 101
+
+- tired of guides that just tell you to run a script and call it a day?
+- want to actually know what your GPU is doing, not just trust a black box?
+- here's what really happens when you run a local LLM
+- what gets loaded, why, and how it all fits together
+- no gatekeeping, just the real explanations nobody gives you
+- the elite don't want you to know this
+
+- running a model = inference (using model weights)
+- inference = predicting the next token based on your input plus all tokens generated so far
+- together, these make up the ""sequence""
+
+- tokens ≠ words
+- they're the chunks representing the text a model sees
+- they are represented by integers (token IDs) in the model
+- ""tokenizer"" = the algorithm that splits text into tokens
+- common types: BPE (byte pair encoding), SentencePiece
+- token examples:
+- ""hello"" = 1 token or maybe 2 or 3 tokens
+- ""internationalization"" = 5–8 tokens
+- context window = max tokens model can ""see"" at once (2K, 8K, 32K+)
+- longer context = more VRAM for KV cache, slower decode
+
+- during inference, the model predicts next token
+- by running lots of math on its ""weights""
+- model weights = billions of learned parameters (the knowledge and patterns from training)
+
+- model parameters: usually billions of numbers (called weights) that the model learns during training
+- these weights encode all the model's ""knowledge"" (patterns, language, facts, reasoning)
+- think of them as the knobs and dials inside the model, specifically computed to recognize what could come next
+- when you run inference, the model uses these parameters to compute its predictions, one token at a time
+
+- every prediction is just: model weights + current sequence → probabilities for what comes next
+- pick a token, append it, repeat, each new token becomes part of the sequence for the next prediction
+
+- models are more than weight files
+- neural network architecture: transformer skeleton (layers, heads, RoPE, MQA/GQA, more below)
+- weights: billions of learned numbers (parameters, not ""tokens"", but calculated from tokens)
+- tokenizer: how text gets chunked into tokens (BPE/SentencePiece)
+- config: metadata, shapes, special tokens, license, intended use, etc
+- sometimes: chat template are required for chat/instruct models, or else you get gibberish
+- you give a model a prompt (your text, converted into tokens)
+
+- models differ in parameter size:
+- 7B means ~7 billion learned numbers
+- common sizes: 7B, 13B, 70B
+- bigger = stronger, but eats more VRAM/memory & compute
+- the model computes a probability for every possible next token (softmax over vocab)
+- picks one: either the highest (greedy) or
+- samples from the probability distribution (temperature, top-p, etc)
+- then appends that token to the sequence, then repeats the whole process
+- this is generation:
+- generate; predict, sample, append
+- over and over, one token at a time
+- rinse and repeat
+- each new token depends on everything before it; the model re-reads the sequence every step
+
+- generation is always stepwise: token by token, not all at once
+- mathematically: model is a learned function, f_θ(seq) → p(next_token)
+- all the ""magic"" is just repeating ""what's likely next?"" until you stop
+
+- all conversation ""tokens"" live in the KV cache, or the ""session memory""
+
+- so what's actually inside the model?
+- everything above-tokens, weights, config-is just setup for the real engine underneath
+
+- the core of almost every modern llm is a transformer architecture
+- this is the skeleton that moves all those numbers around
+- it's what turns token sequences and weights into predictions
+- designed for sequence data (like language),
+- transformers can ""look back"" at previous tokens and
+- decide which ones matter for the next prediction
+
+- transformers work in layers, passing your sequence through the same recipe over and over
+- each layer refines the representation, using attention to focus on the important parts of your input and context
+- every time you generate a new token, it goes through this stack of layers-every single step
+
+- inside each transformer layer:
+- self-attention: figures out which previous tokens are important to the current prediction
+- MLPs (multi-layer perceptrons): further process token representations, adding non-linearity and expressiveness
+- layer norms and residuals: stabilize learning and prediction, making deep networks possible
+- positional encodings (like RoPE): tell the model where each token sits in the sequence
+- so ""cat"" and ""catastrophe"" aren't confused by position
+
+- by stacking these layers (sometimes dozens or even hundreds)
+- transformers build a complex understanding of your prompt, context, and conversation history
+
+- transformer recap:
+- decoder-only: model only predicts what comes next, each token looks back at all previous tokens
+- self-attention picks what to focus on (MQA/GQA = efficient versions for less memory)
+- feed-forward MLP after attention for every token (usually 2 layers, GELU activation)
+- everything's wrapped in layer norms + linear layers (QKV projections, MLPs, outputs)
+- residuals + norms = stable, trainable, no exploding/vanishing gradients
+- RoPE (rotary embeddings): tells the model where each token sits in the sequence
+- stack N layers of this → final logits → pick the next token
+- scale up: more layers, more heads, wider MLPs = bigger brains
+
+- VRAM: memory, the bottleneck
+- VRAM must must fit:
+1. weights (main model, whether quantized or not)
+2. KV cache (per token, per layer, per head)
+- weights:
+- FP16: ~2 bytes/param → 7B = ~14GB
+- 8-bit: ~1 byte/param → 7B = ~7GB
+- 4-bit: ~0.5 byte/param → 7B = ~3.5GB
+- add 10–30% for runtime overheads
+- KV cache:
+- rule of thumb: 0.5MB per token (Llama-like 7B, 32 layers, 4K tokens = ~2GB)
+- some runtimes support KV cache quantization (8/4-bit) = big savings
+
+- throughput = memory bandwidth + GPU FLOPs + attention implementation (FlashAttention/SDPA help) + quantization + batch size
+- offload to CPU? expect MASSIVE slowdown
+
+- GPU or bust: CPUs run quantized models (slow), but any real context/model needs CUDA/ROCm/Metal
+- CPU spill = sadness (check device_map and memory fit)
+
+- quantization: reduce precision for memory wins (sometimes a tiny quality hit)
+- FP32/FP16/BF16 = full/floored
+- INT8/INT4/NF4 = quantized
+- 4-bit (NF4/GPTQ/AWQ) = sweet spot for most consumer GPUs (big memory win, small quality hit for most tasks)
+- math-heavy or finicky tasks degrade first (math, logic, coding)
+
+- KV cache quantization: even more memory saved for long contexts (check runtime support)
+
+- formats/runtimes:
+- PyTorch + safetensors: flexible, standard, GPU/TPU/CPU
+- GGUF (llama.cpp): CPU/GPU/portable, best for quant + edge devices
+- ONNX, TensorRT-LLM, MLC: advanced flavors for special hardware/use
+- protip: avoid legacy .bin (pickle risk), use safetensors for safety
+
+- everything is a tradeoff
+- smaller = fits anywhere, less power
+- more context = more latency + VRAM burn
+- quantization = speed/memory, but maybe less accurate
+- local = more control/knobs, more work
+
+- what happens when you ""load a model""?
+- download weights, tokenizer, config
+- resolve license/trust (don't use trust_remote_code unless you really trust the author)
+- load to VRAM/CPU (check memory fit)
+- warmup: kernels/caches initialized, first pass is slowest
+- inference: forward passes per token, updating KV cache each step
+
+- decoding = how next token is chosen:
+- greedy: always top-1 (robotic)
+- temperature: softens or sharpens probabilities (higher = more random)
+- top-k: pick from top k
+- top-p: pick from smallest set with ≥p prob
+- typical sampling, repetition penalty, no-repeat n-gram: extra controls
+- deterministic = set a seed and no sampling
+- tune for your use-case: chat, summarization, code
+
+- serving options?
+- vLLM for high throughput, parallel serving
+- llama.cpp server (OpenAI-compatible API)
+- ExLlama V2/V3 w/ Tabby API (OpenAI-compatible API)
+- run as a local script (CLI)
+- FastAPI/Flask for local API endpoint
+
+- local ≠ offline; run it, serve it, or build apps on top
+
+- fine-tuning, ultra-brief:
+- LoRA / QLoRA = adapter layers (efficient, minimal VRAM)
+- still need a dataset and eval plan; adapters can be merged or kept separate
+- most users get far with prompting + retrieval (RAG) or few-shot for niche tasks
+
+- common pitfalls
+- OOM? out of memory. Model or context too big, quantize or shrink context
+- gibberish? used a base model with a chat prompt, or wrong template; check temperature/top_p
+- slow? offload to CPU, wrong drivers, no FlashAttention; check CUDA/ROCm/Metal, memory fit
+- unsafe? don't use random .bin or trust_remote_code; prefer safetensors, verify source
+
+- why run locally?
+- control: all the knobs are yours to tweak:
+- sampler, chat templates, decoding, system prompts, quantization, context
+- cost: no per-token API billing-just upfront hardware
+- privacy: prompts and outputs stay on your machine
+- latency: no network roundtrips, instant token streaming
+
+- challenges:
+- hardware limits (VRAM/memory = max model/context)
+- ecosystem variance (different runtimes, quant schemes, templates)
+- ops burden (setup, drivers, updates)
+
+- running local checklist:
+- pick a model (prefer chat-tuned, sized for your VRAM)
+- pick precision (4-bit saves RAM, FP16 for max quality)
+- install runtime (vLLM, llama.cpp, Transformers+PyTorch, etc)
+- run it, get tokens/sec, check memory fit
+- use correct chat template (apply_chat_template)
+- tune decoding (temp/top_p)
+- benchmark on your task
+- serve as local API (or go wild and fine-tune it)
+
+- glossary:
+- token: smallest unit (subword/char)
+- context window: max tokens visible to model
+- KV cache: session memory, per-layer attention state
+- quantization: lower precision for memory/speed
+- RoPE: rotary position embeddings (for order)
+- GQA/MQA: efficient attention for memory bandwidth
+- decoding: method for picking next token
+- RAG: retrieval-augmented generation, add real info
+
+- misc:
+- common architectures: LLaMA, Falcon, Mistral, GPT-NeoX, etc
+- base model: not fine-tuned for chat (LLaMA, Falcon, etc)
+- chat-tuned: fine-tuned for dialogue (Alpaca, Vicuna, etc)
+- instruct-tuned: fine-tuned for following instructions (LLaMA-2-Chat, Mistral-Instruct, etc)
+
+- chat/instruct models usually need a special prompt template to work well
+- chat template: system/user/assistant markup is required; wrong template = junk output
+- base models can do few-shot chat prompting, but not as well as chat-tuned ones
+
+- quantized: weights stored in lower precision (8-bit, 4-bit) for memory savings, at some quality loss
+- quantization is a tradeoff: memory/speed vs quality
+- 4-bit (NF4/GPTQ/AWQ) is the sweet spot for most consumer GPUs (huge memory win, minor quality drop for most tasks)
+- math-heavy or finicky tasks degrade first (math, logic, code)
+- quantization types: FP16 (full), INT8 (quantized), INT4/NF4 (more quantized), etc.
+- some runtimes support quantized KV cache (8/4-bit), big savings for long contexts
+
+- formats/runtimes:
+- PyTorch + safetensors: flexible, standard, works on GPU/TPU/CPU
+- GGUF (llama.cpp): CPU/GPU, portable, best for quant + edge devices
+- ONNX, TensorRT-LLM, MLC: advanced options for special hardware
+
+- avoid legacy .bin (pickle risk), use safetensors for safety
+
+- everything is a tradeoff:
+- smaller = fits anywhere, less power
+- more context = more latency + VRAM burn
+- quantization = faster/leaner, maybe less accurate
+- local = full control/knobs, but more work
+
+- final words:
+- local LLMs = memory math + correct formatting
+- fit weights and KV cache in memory
+- use the right chat template and decoding strategy
+- know your knobs: quantization, context, decoding, batch, hardware
+
+- master these, and you can run (and reason about) almost any modern model locally","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","23","222","11","5","308","15927","false","none",,,,,"2002825756938752234",,,,,,
+"original","2031870162702381515","2026-03-11T23:09:31.000Z","gregisenberg","GREG ISENBERG","karpathy just broke the internet with something called auto research
+
+it’s basically an ai research agent that runs experiments for you 24/7
+
+you give it a goal like
+
+“make this model better”
+“find a higher converting landing page”
+“lower customer acquisition cost”
+
+then it runs a loop:
+
+1) plan an experiment
+2) edit the code or config
+3) run a short test on a gpu
+4) read the metrics
+5) keep the winner
+6) try again
+
+over and over
+
+while you sleep
+
+by the morning you wake up to the best version
+
+actual tested improvements
+
+think of it like a robot research intern that runs hundreds of experiments and only keeps the winners
+
+this is link to his repo http://github.com/karpathy/autoresearch for your to mess around with it
+
+in the latest episode of @startupideaspod
+
+i break down:
+
+• what auto research actually is
+• how it works step by step
+• 10 business ideas you can build with it
+• how to install it and start using it
+
+this one is saucy 
+
+because tools like this change how startups get built
+
+watch","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","424","4101","193","35","8074","434192","true","video","https://pbs.twimg.com/amplify_video_thumb/2031869890551037952/img/gIqXgDEznF2xBE23.jpg","https://video.twimg.com/amplify_video/2031869890551037952/vid/avc1/1280x720/4BOWhiSqCgYPu84y.mp4?tag=21","1461","https://pbs.twimg.com/amplify_video_thumb/2031869890551037952/img/gIqXgDEznF2xBE23.jpg","2031870162702381515",,,,,,
+"original","2050062045471740303","2026-05-01T03:57:34.000Z","TheAhmadOsman","Ahmad","http://x.com/i/article/2050058966072524800","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","49","608","14","7","1540","256900","false","none",,,,,"2050062045471740303",,,,,,
+"original","2053772065149423648","2026-05-11T09:39:52.000Z","HowToAI_","How To AI","Google has killed the GPU mafia 🤯
+
+VS Code now connects directly to Google Colab.
+
+→ You get a free T4 GPU inside your editor.
+→ Your local files. Their compute.","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","351","3416","90","20","3460","320389","true","video","https://pbs.twimg.com/amplify_video_thumb/2053771663200903168/img/0fHBrYhxARJ_wemp.jpg","https://video.twimg.com/amplify_video/2053771663200903168/vid/avc1/2876x2160/-j7Zi9_birnbqeP7.mp4?tag=27","27","https://pbs.twimg.com/amplify_video_thumb/2053771663200903168/img/0fHBrYhxARJ_wemp.jpg","2053772065149423648",,,,,,
+"original","2049574123630940418","2026-04-29T19:38:44.000Z","JackWoth98","Jack Wotherspoon","http://x.com/i/article/2049540553398976513","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","48","442","20","17","319","197697","false","none",,,,,"2049574123630940418",,,,,,
+"quote","2049875287924465715","2026-04-30T15:35:28.000Z","geminicli","Gemini CLI","Gemini CLI v0.40.0 Release Notes📝
+
+• New tiered memory system 🧠
+• Automatic skills generated based on past sessions 🛠️
+• Gemma support for local routing 💎
+• Streamlined UI with compact tools and topics 💭
+
+Checkout all the details below 👇","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","218","1672","62","36","507","139743","false","none",,,,,"2049875287924465715",,,,"2049574123630940418","1862257064",
+"original","2025630878198620200","2026-02-22T17:56:50.000Z","dr_cintas","Alvaro Cintas","""I don’t have a GPU"" is no longer an excuse 🤯
+
+You can now train LLMs directly in VS Code using a free Google Colab runtime.
+
+→ Connect any fine-tuning notebook to Colab
+→ Train locally or on a free cloud GPU
+→ Works with Unsloth","en","<a href=""http://twitter.com/download/iphone"" rel=""nofollow"">Twitter for iPhone</a>","122","1138","38","3","1438","86140","true","video","https://pbs.twimg.com/amplify_video_thumb/2025630821189570560/img/rHVtwqVKoV60Iz72.jpg","https://video.twimg.com/amplify_video/2025630821189570560/vid/avc1/1588x1080/7Yy9ObP9bnFwrgxP.mp4?tag=21","38","https://pbs.twimg.com/amplify_video_thumb/2025630821189570560/img/rHVtwqVKoV60Iz72.jpg","2025630878198620200",,,,,,
+"original","2029222636006326367","2026-03-04T15:49:12.000Z","victorialslocum","Victoria Slocum","𝗟𝗮𝘁𝗲 𝗶𝗻𝘁𝗲𝗿𝗮𝗰𝘁𝗶𝗼𝗻 𝗺𝗼𝗱𝗲𝗹𝘀 like ColBERT, ColPali and ColQwen are game changers for 𝗶𝗻𝗳𝗼𝗿𝗺𝗮𝘁𝗶𝗼𝗻-𝗱𝗲𝗻𝘀𝗲 𝗼𝗿 𝗺𝘂𝗹𝘁𝗶𝗺𝗼𝗱𝗮𝗹 𝗱𝗮𝘁𝗮, especially with PDFs.
+
+Here's how they work:
+
+Dense retrieval models can be categorized by their type of ""interaction"" - how they compute whether a document matches a search query. There are three main approaches:
+
+1️⃣ 𝗡𝗼-𝗜𝗻𝘁𝗲𝗿𝗮𝗰𝘁𝗶𝗼𝗻: Creates a single embedding per document, compares to query embedding. Less nuance able to be encoded in the embedding means less accuracy with information-dense text. This is most standard embedding models.
+
+2️⃣ 𝗙𝘂𝗹𝗹-𝗜𝗻𝘁𝗲𝗿𝗮𝗰𝘁𝗶𝗼𝗻: Processes query and document together (like cross-encoders). Great for reranking, but doesn't scale - requires a lot of compute power.
+
+3️⃣ 𝗟𝗮𝘁𝗲 𝗜𝗻𝘁𝗲𝗿𝗮𝗰𝘁𝗶𝗼𝗻: Store 𝘁𝗼𝗸𝗲𝗻-𝗹𝗲𝘃𝗲𝗹 multi-vector embeddings instead of a single document embedding, then calculate the maximum similarity score between query tokens and document tokens at a later stage, after precomputing embeddings offline. This means you get the detailed contextual understanding of full-interaction models with the scalability of no-interaction models.
+
+𝗖𝗼𝗹𝗕𝗘𝗥𝗧 pioneered this approach for text retrieval and then 𝗖𝗼𝗹𝗣𝗮𝗹𝗶 and 𝗖𝗼𝗹𝗤𝘄𝗲𝗻 extend late interaction to visual content using Vision Language Models (VLMs).
+
+ColBERT and ColQwen are great for 𝗣𝗗𝗙 𝗽𝗿𝗼𝗰𝗲𝘀𝘀𝗶𝗻𝗴 because they treat entire PDF documents as images, which means you don't have to use OCR or complex chunking strategies.
+
+𝗣𝗗𝗙 𝗽𝗿𝗼𝗰𝗲𝘀𝘀𝗶𝗻𝗴 𝗽𝗶𝗽𝗲𝗹𝗶𝗻𝗲 𝘄𝗶𝘁𝗵 𝗺𝘂𝗹𝘁𝗶𝗺𝗼𝗱𝗮𝗹 𝗺𝗼𝗱𝗲𝗹𝘀:
+• Convert the entire PDF to an image
+• Process it through a VLM encoder (PaliGemma for ColPali, Qwen2-VL for ColQwen)
+• Generate multi-vector embeddings for image patches
+• Use late interaction mechanism to match against text queries
+
+This means figures in documents stay contextually placed with the text, and documents are processed similarly to how a human would read them. Great for RAG pipelines over financial documents, legal contracts, research papers - anything with mixed content formats and dense information.
+𝗜 𝗷𝘂𝘀𝘁 𝘄𝗿𝗼𝘁𝗲 𝗮 𝗯𝗹𝗼𝗴 𝗽𝗼𝘀𝘁 𝗼𝗻 𝗵𝗼𝘄 𝘁𝗼 𝗯𝘂𝗶𝗹𝗱 𝘁𝗵𝗶𝘀 𝗳𝗼𝗿 𝗹𝗲𝗴𝗮𝗹 𝗱𝗼𝗰𝘂𝗺𝗲𝗻𝘁 𝗥𝗔𝗚: https://weaviate.io/blog/legal-rag-app?utm_source=channels&utm_medium=vs_social&utm_campaign=agent_skills&utm_content=ee064dca-3522-46aa-9653-8675fc2f27a6
+
+Late interaction models require more memory because of those multi-vector embeddings, but strategies like MUVERA compensate for this. The richer contextual understanding and simplified preprocessing pipeline often makes it worth it for information dense text or data where you need multimodal understanding.","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","34","229","5","0","198","10281","true","photo","https://pbs.twimg.com/media/HCk_MRXWgAALIg9.jpg",,,"https://pbs.twimg.com/media/HCk_MRXWgAALIg9.jpg","2029222636006326367",,,,,,
+"original","2048090441367875766","2026-04-25T17:23:07.000Z","TimJayas","Tim Jayas","🚨 BREAKING: Never pay for AI voice tools again!
+
+MICROSOFT just open sourced their voice AI tool
+
+Their most powerful voice AI that was once watermarked for safety controls. They re-released it for Free.
+
+> Clone any voice from 10sec of audio
+> Generate 90min of audio
+> Supports 50+ languages
+> Real time streaming 
+> Runs locally
+
+100% Open Source and Free.","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","120","730","34","5","930","46380","true","video","https://pbs.twimg.com/amplify_video_thumb/2048086252600311808/img/4o2WlJoI-MFTDW1E.jpg","https://video.twimg.com/amplify_video/2048086252600311808/vid/avc1/1600x1500/pvxUMl25rVh09FRx.mp4?tag=21","6","https://pbs.twimg.com/amplify_video_thumb/2048086252600311808/img/4o2WlJoI-MFTDW1E.jpg","2048090441367875766",,,,,,
+"original","2050963464915743150","2026-05-03T15:39:29.000Z","itsjayyy_07","Jayanth","http://x.com/i/article/2050962201788448768","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","17","184","3","5","561","197888","false","none",,,,,"2050963464915743150",,,,,,
+"quote","2050963647988740178","2026-05-03T15:40:13.000Z","itsjayyy_07","Jayanth","KV Cache Explained","et","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","106","983","8","3","1476","194999","false","none",,,,,"2050963647988740178",,,,"2050963464915743150","1688916944341348353",
+"original","2053217139369095252","2026-05-09T20:54:47.000Z","Michaelzsguo","Michael Guo","http://x.com/i/article/2053201839114334212","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","35","201","4","8","551","73242","false","none",,,,,"2053217139369095252",,,,,,
+"quote","2053229425555050734","2026-05-09T21:43:36.000Z","Michaelzsguo","Michael Guo","If you understand these terms in the article, you are already halfway into local LLMs.","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","26","265","5","1","385","34579","true","photo","https://pbs.twimg.com/media/HH6JLS9XQAErjJw.jpg",,,"https://pbs.twimg.com/media/HH6JLS9XQAErjJw.jpg","2053229425555050734",,,,"2053217139369095252","1479852652150337542",
+"original","1999467482025767113","2025-12-12T13:12:50.000Z","marc_lelarge","Marc Lelarge 🌻","Learn 𝗚𝗣𝗨 𝗽𝗿𝗼𝗴𝗿𝗮𝗺𝗺𝗶𝗻𝗴 from the ground up: begin with Numba for low-level control, then progress to Triton to write high-performance kernels in a Python-like language. A hands-on Jupyter notebook to get you started quickly.","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","124","1226","11","2","1352","54545","true","photo","https://pbs.twimg.com/media/G7-IH7oXEAA40tD.png; https://pbs.twimg.com/media/G7-IKnGWQAE0u69.png",,,"https://pbs.twimg.com/media/G7-IH7oXEAA40tD.png","1999467482025767113",,,,,,
+"original","2005609493141524788","2025-12-29T11:59:00.000Z","TheAhmadOsman","Ahmad","HUGE
+
+just came across this comprehensive GPU document
+
+it covers
+
+&gt; CUDA cores, SMs, tensor cores, warp schedulers
+
+&gt; kernels, threads, PTX, memory hierarchy
+
+&gt; occupancy, latency hiding, roofline, divergence
+
+&gt; nvcc, nvidia-smi, cuBLAS, Nsight, libcuda
+
+amazing resource to have","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","88","769","20","1","834","40914","true","photo","https://pbs.twimg.com/media/G9VUoUgXcAEl5gU.jpg",,,"https://pbs.twimg.com/media/G9VUoUgXcAEl5gU.jpg","2005609493141524788",,,,,,
+"original","2029254060243841237","2026-03-04T17:54:04.000Z","xoaanya","Aanya","If you hate paying monthly software subscriptions, save this.
+
+🔗 http://github.com/awesome-selfhosted/awesome-selfhosted
+
+One of the largest open-source directories on the internet.
+
+• 180K+ GitHub stars 
+• Open-source alternatives to almost every SaaS you pay for (Slack, Notion, Shopify, etc.) 
+• 100% free to fork, modify, and host yourself 
+• Covers analytics, project management, AI tools, and databases 
+• The ultimate cheat code for bootstrapping founders
+
+The anti-subscription playbook 🐐","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","364","2935","46","9","4579","151298","false","none",,,,,"2029254060243841237",,,,,,
+"original","2029768207377256952","2026-03-06T03:57:06.000Z","sudoingX","Sudo su","if you have a single RTX 3090 and want the best local inference setup right now, here's what i landed on after testing 5 open source models across 7 GPU configs this month.
+
+GPU: 1x RTX 3090 24GB
+model: Qwen 3.5 27B Dense Q4_K_M (16.7GB)
+context: 262K (native max)
+speed: 35 tok/s generation, flat from 4K to 300K+
+reasoning: built in chain of thought, survives Q4 quant
+
+config:
+llama-server -ngl 99 -c 262144 -fa on --cache-type-k q4_0 --cache-type-v q4_0
+
+what this gives you:
+
+- 27B params all active every token
+- no speed degradation as context fills
+- full reasoning mode on a consumer GPU
+- 7GB VRAM headroom after model load
+
+tested MoE (faster but less depth per token) and dense hermes (same speed, degraded under load). qwen dense hit the sweet spot for single GPU. more architecture comparisons dropping soon.
+
+what's your single GPU setup? curious what configs people are running.","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","57","686","68","5","830","46521","false","none",,,,,"2029768207377256952",,,,,,
+"original","2049957128421724363","2026-04-30T21:00:40.000Z","meta_alchemist","Meta Alchemist","if you wanna get a $20 monthly plan for vibe coding definitely don't get Claude, not even Codex.
+
+you should get:
+- GLM 5.1
+- Minimax 2.7
+- Kimi 2.6
+- or Deepseek v4
+
+All these will give you so much more usage for the buck, and you won't get stopped at the start or mid-session.","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","10","367","64","4","142","73685","false","none",,,,,"2049957128421724363",,,,,,
