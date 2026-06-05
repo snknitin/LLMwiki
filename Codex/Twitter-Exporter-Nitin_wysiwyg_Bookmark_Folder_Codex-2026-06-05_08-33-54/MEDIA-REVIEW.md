@@ -1,0 +1,17 @@
+# Media Review — Videos
+
+Tweets with video content that require manual viewing. Videos cannot be auto-transcribed.
+
+**Total: 9 videos**
+
+| Date | Author | Tweet | Video URL | Duration | Thumbnail |
+|------|--------|-------|-----------|----------|-----------|
+| 2026-04-27 | [@DeRonin_](https://x.com/DeRonin_/status/2048823420977119727) | The Most Comprehensive Codex tutorial on the inter... | [▶](https://video.twimg.com/amplify_video/2048822807593639937/vid/avc1/1920x1080/NvSdTf90AzeRCPu_.mp4?tag=21) | 6193s | [thumb](https://pbs.twimg.com/amplify_video_thumb/2048822807593639937/img/g_iH396IVO8ADRYF.jpg) |
+| 2026-04-29 | [@rileybrown](https://x.com/rileybrown/status/2049285752866107856) | Learn 95% of Codex in 28 minutes  These are the 7 ... | [▶](https://video.twimg.com/amplify_video/2049284173408710656/vid/avc1/2560x1440/2upwXSvL19bEGucg.mp4?tag=21) | 1728s | [thumb](https://pbs.twimg.com/amplify_video_thumb/2049284173408710656/img/ZqpWmpuHmizPtVJT.jpg) |
+| 2026-05-15 | [@Av1dlive](https://x.com/Av1dlive/status/2055238100079808996) | Cursor pays engineers $1,100,000 a year to run tea... | [▶](https://video.twimg.com/amplify_video/2055237607102275584/vid/avc1/1920x1080/tjoSX7bdWLttk-kj.mp4?tag=27) | 577s | [thumb](https://pbs.twimg.com/amplify_video_thumb/2055237607102275584/img/H4NmAUz6Dh-Ed08r.jpg) |
+| 2026-05-15 | [@rileybrown](https://x.com/rileybrown/status/2055093278161428726) | OpenAI released Codex Mobile App Directly on ChatG... | [▶](https://video.twimg.com/amplify_video/2055093021218308096/vid/avc1/1920x1080/6r3RsSR8ndxli8t-.mp4?tag=27) | 861s | [thumb](https://pbs.twimg.com/amplify_video_thumb/2055093021218308096/img/FR7aK6dpQOvSzs2H.jpg) |
+| 2026-04-20 | [@rileybrown](https://x.com/rileybrown/status/2046039543468724238) | The Codex Super-App (Full Beginners Guide) The All... | [▶](https://video.twimg.com/amplify_video/2046032366280519680/vid/avc1/1920x1080/6vFoxuCl1Q_LfwXF.mp4?tag=21) | 6193s | [thumb](https://pbs.twimg.com/amplify_video_thumb/2046032366280519680/img/IKc1erkOZJBIWUTk.jpg) |
+| 2026-05-02 | [@rileybrown](https://x.com/rileybrown/status/2050676619262734794) | Learn the basics of Codex in 30 minutes:  Below  i... | [▶](https://video.twimg.com/amplify_video/2049284173408710656/vid/avc1/2560x1440/2upwXSvL19bEGucg.mp4?tag=21) | 1728s | [thumb](https://pbs.twimg.com/amplify_video_thumb/2049284173408710656/img/ZqpWmpuHmizPtVJT.jpg) |
+| 2026-05-05 | [@rileybrown](https://x.com/rileybrown/status/2051787568480690215) | Codex is so good for non-coding tasks | [▶](https://video.twimg.com/amplify_video/2049284173408710656/vid/avc1/2560x1440/2upwXSvL19bEGucg.mp4?tag=21) | 1728s | [thumb](https://pbs.twimg.com/amplify_video_thumb/2049284173408710656/img/ZqpWmpuHmizPtVJT.jpg) |
+| 2026-05-07 | [@rileybrown](https://x.com/rileybrown/status/2052440152765796677) | Vibe Coding with Codex - Complete Guide  Build a W... | [▶](https://video.twimg.com/amplify_video/2052437874419892224/vid/avc1/1920x1080/AGO8ISGVlbGe3kVM.mp4?tag=27) | 3324s | [thumb](https://pbs.twimg.com/amplify_video_thumb/2052437874419892224/img/H3pqFTPoHdhST0Ef.jpg) |
+| 2026-05-13 | [@dr_cintas](https://x.com/dr_cintas/status/2054617730104328257) | You can use now Codex in Claude Code 🤯  OpenAI ha... | [▶](https://video.twimg.com/amplify_video/2054617675574161408/vid/avc1/1280x720/S_zAHrifglFLDFKM.mp4?tag=27) | 39s | [thumb](https://pbs.twimg.com/amplify_video_thumb/2054617675574161408/img/Azrq4Fd_LnF5GWXf.jpg) |
