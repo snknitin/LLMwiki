@@ -1,4 +1,4 @@
-﻿---
+---
 title: "This is how I run parallel agents:"
 author: "Ahmad"
 username: "@TheAhmadOsman"
