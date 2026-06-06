@@ -1,4 +1,4 @@
-﻿---
+---
 title: "Nothing, absolutely NOTHING stops you from creating a Claude Code skill named /security-check, addin..."
 author: "Arvid Kahl"
 username: "@arvidkahl"

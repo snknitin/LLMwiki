@@ -1,4 +1,4 @@
-﻿---
+---
 title: "Claude Code idea: Smart fork detection."
 author: "Zac"
 username: "@PerceptualPeak"

@@ -1,4 +1,4 @@
-﻿---
+---
 title: "/ui-skills now installable via"
 author: "Ibelick"
 username: "@Ibelick"

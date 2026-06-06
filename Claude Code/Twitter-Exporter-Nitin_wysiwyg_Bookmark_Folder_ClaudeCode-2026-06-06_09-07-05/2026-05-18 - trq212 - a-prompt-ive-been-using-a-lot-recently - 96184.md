@@ -1,4 +1,4 @@
-﻿---
+---
 title: "a prompt I've been using a lot recently:"
 author: "Thariq"
 username: "@trq212"

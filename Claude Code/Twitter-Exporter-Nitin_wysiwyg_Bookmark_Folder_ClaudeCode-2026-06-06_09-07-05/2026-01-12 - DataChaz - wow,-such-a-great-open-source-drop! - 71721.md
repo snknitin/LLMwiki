@@ -1,4 +1,4 @@
-﻿---
+---
 title: "Wow, such a great open-source drop!"
 author: "Charly Wargnier"
 username: "@DataChaz"

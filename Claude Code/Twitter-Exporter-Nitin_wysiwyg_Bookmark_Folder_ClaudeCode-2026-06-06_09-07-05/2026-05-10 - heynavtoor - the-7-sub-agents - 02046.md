@@ -1,4 +1,4 @@
-﻿---
+---
 title: "The 7 Sub-Agents"
 author: "Nav Toor"
 username: "@heynavtoor"

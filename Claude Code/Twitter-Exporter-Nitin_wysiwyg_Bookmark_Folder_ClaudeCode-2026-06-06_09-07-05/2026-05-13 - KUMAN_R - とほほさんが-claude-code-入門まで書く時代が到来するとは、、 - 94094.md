@@ -1,4 +1,4 @@
-﻿---
+---
 title: "とほほさんが Claude Code 入門まで書く時代が到来するとは、、"
 author: "Kuman"
 username: "@KUMAN_R"

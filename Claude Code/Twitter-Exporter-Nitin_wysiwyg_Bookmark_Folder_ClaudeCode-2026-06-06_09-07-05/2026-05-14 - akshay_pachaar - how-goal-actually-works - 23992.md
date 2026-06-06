@@ -1,4 +1,4 @@
-﻿---
+---
 title: "How /goal Actually Works"
 author: "Akshay 🚀"
 username: "@akshay_pachaar"

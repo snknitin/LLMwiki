@@ -1,4 +1,4 @@
-﻿---
+---
 title: "Claude has been out for two years. Most people who use it every day are still using 10% of what it c..."
 author: "Anatoli Kopadze"
 username: "@AnatoliKopadze"

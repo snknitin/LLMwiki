@@ -1,4 +1,4 @@
-﻿---
+---
 title: "Most people bookmark tweets and never look at them again"
 author: "Sharbel"
 username: "@sharbel"
