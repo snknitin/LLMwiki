@@ -1,5 +1,5 @@
 "tweet_type","id","created_at","username","user_display_name","text","lang","source","retweet_count","favorite_count","reply_count","quote_count","bookmark_count","view_count","has_media","media_type","media_urls","video_url","video_duration","thumbnail_url","conversation_id_str","in_reply_to_status_id_str","in_reply_to_user_id_str","in_reply_to_screen_name","quoted_status_id_str","quoted_user_id_str","retweeted_status_id_str"
-"original","2062526843564233040","2026-06-04T13:28:14.000Z","akshay_pachaar","Akshay 🚀","http://x.com/i/article/2062152051157782528","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","18","206","8","0","396","18394","false","none",,,,,"2062526843564233040",,,,,,
+"original","2062526843564233040","2026-06-04T13:28:14.000Z","akshay_pachaar","Akshay 🚀","http://x.com/i/article/2062152051157782528","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","18","217","8","0","412","19333","false","none",,,,,"2062526843564233040",,,,,,
 "original","2061448348792414354","2026-06-01T14:02:40.000Z","sharbel","Sharbel","These Hermes Hacks Will Save You Hours
 
 0:00 My current Hermes setup  
@@ -13,8 +13,8 @@
 12:07 Hack 8: Skills as reusable SOPs  
 14:28 Hack 9: Webhooks and event-based agents  
 16:02 Hack 10: Specialized agents by job  
-17:34 How Hermes becomes a 24/7 assistant","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","62","576","32","7","1161","31398","true","video","https://pbs.twimg.com/amplify_video_thumb/2061436226096254976/img/oXy_u6dng9PyZ_TS.jpg","https://video.twimg.com/amplify_video/2061436226096254976/vid/avc1/1280x720/hD_lhDOWS0dPLGyS.mp4?tag=27","1157","https://pbs.twimg.com/amplify_video_thumb/2061436226096254976/img/oXy_u6dng9PyZ_TS.jpg","2061448348792414354",,,,,,
-"original","2056545463713640917","2026-05-19T01:20:21.000Z","tonysimons_","Tony Simons","http://x.com/i/article/2056535975552016384","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","38","528","15","4","1890","139265","false","none",,,,,"2056545463713640917",,,,,,
+17:34 How Hermes becomes a 24/7 assistant","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","62","575","32","7","1161","31465","true","video","https://pbs.twimg.com/amplify_video_thumb/2061436226096254976/img/oXy_u6dng9PyZ_TS.jpg","https://video.twimg.com/amplify_video/2061436226096254976/vid/avc1/1280x720/hD_lhDOWS0dPLGyS.mp4?tag=27","1157","https://pbs.twimg.com/amplify_video_thumb/2061436226096254976/img/oXy_u6dng9PyZ_TS.jpg","2061448348792414354",,,,,,
+"original","2056545463713640917","2026-05-19T01:20:21.000Z","tonysimons_","Tony Simons","http://x.com/i/article/2056535975552016384","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","38","529","15","5","1889","139448","false","none",,,,,"2056545463713640917",,,,,,
 "quote","2061553131176034762","2026-06-01T20:59:02.000Z","tonysimons_","Tony Simons","If you’re building on Hermes Agent, here’s a little gift.
 
 From me, to you.
@@ -23,7 +23,7 @@ Bookmark this.
 Give it to your agent.
 Tweak it to fit your needs.
 
-Welcome to having an agent with the most badass personality on the planet. 🤘🏻","en","<a href=""http://twitter.com/download/iphone"" rel=""nofollow"">Twitter for iPhone</a>","34","485","11","1","1324","80176","false","none",,,,,"2061553131176034762",,,,"2056545463713640917","1998221941300490241",
+Welcome to having an agent with the most badass personality on the planet. 🤘🏻","en","<a href=""http://twitter.com/download/iphone"" rel=""nofollow"">Twitter for iPhone</a>","34","485","11","1","1324","80262","false","none",,,,,"2061553131176034762",,,,"2056545463713640917","1998221941300490241",
 "original","2061380948659261805","2026-06-01T09:34:51.000Z","_jonatasantos","Jonata Santos","how to build anything rn:
 
 - get a hetzner, do, or hostinger vps
@@ -37,8 +37,8 @@ Welcome to having an agent with the most badass personality on the planet. 🤘�
 - have hermes iterate over the project until all evals pass, saving all learnings to the vault along the way
 - whenever it gets stuck, use memory + a new research or `/grill-me` session to unblock it
 
-rinse and repeat until the work is done. pay attention to the process. develop a feeling for how long tasks should take and do not be afraid to stop a model mid session to ask for status and why it's taking so long.","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","182","3234","72","22","6245","173122","false","none",,,,,"2061380948659261805",,,,,,
-"original","2060883609935077667","2026-05-31T00:38:36.000Z","cyrilXBT","CyrilXBT","http://x.com/i/article/2060852386651111424","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","52","481","22","15","1504","320494","false","none",,,,,"2060883609935077667",,,,,,
+rinse and repeat until the work is done. pay attention to the process. develop a feeling for how long tasks should take and do not be afraid to stop a model mid session to ask for status and why it's taking so long.","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","182","3238","72","22","6246","173315","false","none",,,,,"2061380948659261805",,,,,,
+"original","2060883609935077667","2026-05-31T00:38:36.000Z","cyrilXBT","CyrilXBT","http://x.com/i/article/2060852386651111424","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","52","483","22","15","1504","320922","false","none",,,,,"2060883609935077667",,,,,,
 "quote","2060914969605189808","2026-05-31T02:43:13.000Z","cyrilXBT","CyrilXBT","Hermes Agent. Zero to full autonomous operation. One complete course.
 
 Installation. Skills. Memory. MCP. Scheduler. Multi-agent.
@@ -49,8 +49,8 @@ The people who build this system will never manually operate a content, research
 
 The compounding starts from the first automated skill that runs.
 
-Read this and bookmark it now.","en","<a href=""https://typefully.com/"" rel=""nofollow"">Typefully</a>","146","1126","58","5","1861","152984","true","video","https://pbs.twimg.com/amplify_video_thumb/2060914916631232512/img/hVWwxPr1j7QRfq1j.jpg","https://video.twimg.com/amplify_video/2060914916631232512/vid/avc1/720x1280/2lbakvlpsPs8OefW.mp4?tag=14","38","https://pbs.twimg.com/amplify_video_thumb/2060914916631232512/img/hVWwxPr1j7QRfq1j.jpg","2060914969605189808",,,,"2060883609935077667","1373665408193036293",
-"original","2060406977357070522","2026-05-29T17:04:38.000Z","aparnadhinak","Aparna Dhinakaran","http://x.com/i/article/2060381072148537344","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","121","894","13","10","1974","74154","false","none",,,,,"2060406977357070522",,,,,,
+Read this and bookmark it now.","en","<a href=""https://typefully.com/"" rel=""nofollow"">Typefully</a>","146","1127","58","5","1861","153230","true","video","https://pbs.twimg.com/amplify_video_thumb/2060914916631232512/img/hVWwxPr1j7QRfq1j.jpg","https://video.twimg.com/amplify_video/2060914916631232512/vid/avc1/720x1280/2lbakvlpsPs8OefW.mp4?tag=14","38","https://pbs.twimg.com/amplify_video_thumb/2060914916631232512/img/hVWwxPr1j7QRfq1j.jpg","2060914969605189808",,,,"2060883609935077667","1373665408193036293",
+"original","2060406977357070522","2026-05-29T17:04:38.000Z","aparnadhinak","Aparna Dhinakaran","http://x.com/i/article/2060381072148537344","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","121","896","13","10","1974","74195","false","none",,,,,"2060406977357070522",,,,,,
 "original","2060351831826628650","2026-05-29T13:25:30.000Z","catalinmpit","Catalin","I've deployed my Hermes agent on a Hetzner VPS.
 
 The security measures I've taken so far:
@@ -63,8 +63,8 @@ The security measures I've taken so far:
 Need to add:
 - fail2ban
 
-What else should I do?","en","<a href=""https://typefully.com/"" rel=""nofollow"">Typefully</a>","59","1504","156","7","2950","174612","false","none",,,,,"2060351831826628650",,,,,,
-"original","2059675518966894767","2026-05-27T16:38:05.000Z","IBuzovskyi","YanXbt","http://x.com/i/article/2059639716417273860","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","85","650","25","10","2006","510242","false","none",,,,,"2059675518966894767",,,,,,
+What else should I do?","en","<a href=""https://typefully.com/"" rel=""nofollow"">Typefully</a>","59","1504","156","7","2951","174680","false","none",,,,,"2060351831826628650",,,,,,
+"original","2059675518966894767","2026-05-27T16:38:05.000Z","IBuzovskyi","YanXbt","http://x.com/i/article/2059639716417273860","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","85","652","25","10","2009","511651","false","none",,,,,"2059675518966894767",,,,,,
 "quote","2059860662658949530","2026-05-28T04:53:46.000Z","IBuzovskyi","YanXbt","HERMES AGENT JUST GOT A RESEARCH BRAIN.
 
 connect it to NotebookLM and it becomes
@@ -93,7 +93,7 @@ ask it anything — it answers from
 what YOU already know.
 
 full setup guide — MCP, models, use cases —
-in the article 👇","en","<a href=""http://twitter.com/download/iphone"" rel=""nofollow"">Twitter for iPhone</a>","212","1686","56","7","3169","180709","true","video","https://pbs.twimg.com/amplify_video_thumb/2059860573089566725/img/dApn2OnWkJ61FVcy.jpg","https://video.twimg.com/amplify_video/2059860573089566725/vid/avc1/720x1280/TQFrZcv0eZJVTRgY.mp4?tag=27","30","https://pbs.twimg.com/amplify_video_thumb/2059860573089566725/img/dApn2OnWkJ61FVcy.jpg","2059860662658949530",,,,"2059675518966894767","1387382307229769732",
+in the article 👇","en","<a href=""http://twitter.com/download/iphone"" rel=""nofollow"">Twitter for iPhone</a>","212","1686","56","7","3168","180792","true","video","https://pbs.twimg.com/amplify_video_thumb/2059860573089566725/img/dApn2OnWkJ61FVcy.jpg","https://video.twimg.com/amplify_video/2059860573089566725/vid/avc1/720x1280/TQFrZcv0eZJVTRgY.mp4?tag=27","30","https://pbs.twimg.com/amplify_video_thumb/2059860573089566725/img/dApn2OnWkJ61FVcy.jpg","2059860662658949530",,,,"2059675518966894767","1387382307229769732",
 "original","2058178662818865342","2026-05-23T13:30:06.000Z","shannholmberg","Shann³","how /goal works in Hermes Agent
 
 you give the agent a standing goal. after every turn, a judge model checks if it's complete.
@@ -135,7 +135,7 @@ how it works:
 
 goal state lives in the session db, so /resume picks up where you left off.
 
-works on every surface: CLI, telegram, discord, slack, signal, whatsapp, sms, imessage, webhook, API","en","<a href=""https://typefully.com/"" rel=""nofollow"">Typefully</a>","23","227","20","3","248","21339","true","photo","https://pbs.twimg.com/media/HJAelgTaYAAxlWp.jpg",,,"https://pbs.twimg.com/media/HJAelgTaYAAxlWp.jpg","2058178662818865342",,,,,,
+works on every surface: CLI, telegram, discord, slack, signal, whatsapp, sms, imessage, webhook, API","en","<a href=""https://typefully.com/"" rel=""nofollow"">Typefully</a>","22","227","20","3","248","21349","true","photo","https://pbs.twimg.com/media/HJAelgTaYAAxlWp.jpg",,,"https://pbs.twimg.com/media/HJAelgTaYAAxlWp.jpg","2058178662818865342",,,,,,
 "quote","2058637557030850568","2026-05-24T19:53:35.000Z","shannholmberg","Shann³","/goal is the simplest way to get your Hermes Agent running autonomously
 
 here's how it works:
@@ -167,13 +167,13 @@ examples that don't work:
 > strategic decisions with multiple valid paths
 > client-facing content that requires approval
 
-visualized how /goal runs below.","en","<a href=""https://typefully.com/"" rel=""nofollow"">Typefully</a>","20","167","15","2","195","22540","true","photo","https://pbs.twimg.com/media/HJG_8oebUAAKK22.jpg",,,"https://pbs.twimg.com/media/HJG_8oebUAAKK22.jpg","2058637557030850568",,,,"2058178662818865342","1455999313453195265",
+visualized how /goal runs below.","en","<a href=""https://typefully.com/"" rel=""nofollow"">Typefully</a>","20","167","15","2","195","22553","true","photo","https://pbs.twimg.com/media/HJG_8oebUAAKK22.jpg",,,"https://pbs.twimg.com/media/HJG_8oebUAAKK22.jpg","2058637557030850568",,,,"2058178662818865342","1455999313453195265",
 "original","2056369839548362754","2026-05-18T13:42:29.000Z","wongmjane","Jane Manchun Wong","I resurrected my 8-year-old phone into a Hermes Agent server⚕️ 
 
 Replaced Android with postmarketOS (Alpine Linux on ARM64), runs Hermes as a systemd service. I chat with it over Matrix (E2E encrypted)
 
-One less piece of e-waste + no need to buy a Mac mini now","en","<a href=""http://twitter.com/download/iphone"" rel=""nofollow"">Twitter for iPhone</a>","68","1088","69","13","745","69630","true","photo","https://pbs.twimg.com/media/HImxd8-boAAP1ZX.jpg",,,"https://pbs.twimg.com/media/HImxd8-boAAP1ZX.jpg","2056369839548362754",,,,,,
-"original","2055335043904492011","2026-05-15T17:10:35.000Z","shannholmberg","Shann³","http://x.com/i/article/2055317817658900480","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","245","2345","34","34","7400","1377514","false","none",,,,,"2055335043904492011",,,,,,
+One less piece of e-waste + no need to buy a Mac mini now","en","<a href=""http://twitter.com/download/iphone"" rel=""nofollow"">Twitter for iPhone</a>","68","1088","69","13","745","69635","true","photo","https://pbs.twimg.com/media/HImxd8-boAAP1ZX.jpg",,,"https://pbs.twimg.com/media/HImxd8-boAAP1ZX.jpg","2056369839548362754",,,,,,
+"original","2055335043904492011","2026-05-15T17:10:35.000Z","shannholmberg","Shann³","http://x.com/i/article/2055317817658900480","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","245","2348","35","34","7404","1378115","false","none",,,,,"2055335043904492011",,,,,,
 "quote","2056410242330874349","2026-05-18T16:23:02.000Z","shannholmberg","Shann³","4 levels of Hermes Agent setup:
 
 LEVEL 1: main agent
@@ -218,8 +218,8 @@ take small steps, you DO NOT want to automate slop.
 
 if your output at level 1 is mediocre, you are about to scale mediocrity. 20 agents shipping low quality work at speed is worse than 3 shipping great work slowly.
 
-I would rather run fewer agents with better output than MAXXING the agent count and spitting out more of the same.","en","<a href=""https://typefully.com/"" rel=""nofollow"">Typefully</a>","279","2672","62","10","5351","310291","true","photo","https://pbs.twimg.com/media/HInWN2XbQAAps5j.jpg",,,"https://pbs.twimg.com/media/HInWN2XbQAAps5j.jpg","2056410242330874349",,,,"2055335043904492011","1455999313453195265",
-"original","2056269840009318569","2026-05-18T07:05:08.000Z","0xJeff","0xJeff","http://x.com/i/article/2056268562051022848","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","74","846","30","12","1741","155449","false","none",,,,,"2056269840009318569",,,,,,
+I would rather run fewer agents with better output than MAXXING the agent count and spitting out more of the same.","en","<a href=""https://typefully.com/"" rel=""nofollow"">Typefully</a>","279","2670","62","10","5350","310340","true","photo","https://pbs.twimg.com/media/HInWN2XbQAAps5j.jpg",,,"https://pbs.twimg.com/media/HInWN2XbQAAps5j.jpg","2056410242330874349",,,,"2055335043904492011","1455999313453195265",
+"original","2056269840009318569","2026-05-18T07:05:08.000Z","0xJeff","0xJeff","http://x.com/i/article/2056268562051022848","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","74","845","30","12","1741","155484","false","none",,,,,"2056269840009318569",,,,,,
 "original","2054096165055217987","2026-05-12T07:07:43.000Z","kloss_xyz","klöss","/goal is the best command in Codex, Claude Code, and Hermes right now.
 
 And most are using it wrong.
@@ -270,7 +270,7 @@ OUTPUT:
 STOP RULES:
 <halt on high-impact ambiguity or risk; do not invent architecture, behavior, or requirements>
 <surface uncertainties together with ranked highest-confidence proposals before acting; not open-ended clarification questions>
-<do not continue expanding scope after the goal is satisfied>","en","<a href=""http://twitter.com/download/iphone"" rel=""nofollow"">Twitter for iPhone</a>","94","914","35","7","1620","265796","true","photo","https://pbs.twimg.com/media/HIGdkyEbUAAIqeh.jpg",,,"https://pbs.twimg.com/media/HIGdkyEbUAAIqeh.jpg","2054096165055217987",,,,,,
+<do not continue expanding scope after the goal is satisfied>","en","<a href=""http://twitter.com/download/iphone"" rel=""nofollow"">Twitter for iPhone</a>","94","914","35","7","1620","265820","true","photo","https://pbs.twimg.com/media/HIGdkyEbUAAIqeh.jpg",,,"https://pbs.twimg.com/media/HIGdkyEbUAAIqeh.jpg","2054096165055217987",,,,,,
 "quote","2055477217552142782","2026-05-16T02:35:32.000Z","kloss_xyz","klöss","people loved my Codex /goal share
 
 so I built 7 production grade templates covering use cases
@@ -283,7 +283,7 @@ so I built 7 production grade templates covering use cases
 6. Hardening
 7. Migrations
 
-use 1-3 in order, 4-7 whenever","en","<a href=""http://twitter.com/download/iphone"" rel=""nofollow"">Twitter for iPhone</a>","55","600","18","0","1310","89136","true","photo","https://pbs.twimg.com/media/HIaFotlbgAAhHxI.jpg",,,"https://pbs.twimg.com/media/HIaFotlbgAAhHxI.jpg","2055477217552142782",,,,"2054096165055217987","1470503969789251589",
+use 1-3 in order, 4-7 whenever","en","<a href=""http://twitter.com/download/iphone"" rel=""nofollow"">Twitter for iPhone</a>","55","600","18","0","1309","89141","true","photo","https://pbs.twimg.com/media/HIaFotlbgAAhHxI.jpg",,,"https://pbs.twimg.com/media/HIaFotlbgAAhHxI.jpg","2055477217552142782",,,,"2054096165055217987","1470503969789251589",
 "quote","2055418066289512839","2026-05-15T22:40:29.000Z","shannholmberg","Shann³","I've spent the past few weeks rebuilding my entire marketing operation in Hermes Agents
 
 I poured everything I learned along the way into this article.
@@ -293,7 +293,7 @@ I poured everything I learned along the way into this article.
 > the agent control room template I built (public repo to clone)
 > the models I run for creative vs structured work
 
-go become an operator","en","<a href=""https://typefully.com/"" rel=""nofollow"">Typefully</a>","74","782","23","4","1750","120700","true","photo","https://pbs.twimg.com/media/HIZP1rKbgAADJvc.jpg",,,"https://pbs.twimg.com/media/HIZP1rKbgAADJvc.jpg","2055418066289512839",,,,"2055335043904492011","1455999313453195265",
+go become an operator","en","<a href=""https://typefully.com/"" rel=""nofollow"">Typefully</a>","74","782","23","4","1750","120710","true","photo","https://pbs.twimg.com/media/HIZP1rKbgAADJvc.jpg",,,"https://pbs.twimg.com/media/HIZP1rKbgAADJvc.jpg","2055418066289512839",,,,"2055335043904492011","1455999313453195265",
 "quote","2054542245475578147","2026-05-13T12:40:17.000Z","shannholmberg","Shann³","the org chart for my Hermes Agent company
 
 four layers, all isolated docker containers on one vps:
@@ -308,19 +308,19 @@ four layers, all isolated docker containers on one vps:
 
 context flows down, work flows up, and memory stays scoped to the layer that owns it
 
-one vps holds the whole company. spin up new departments or agents from a template, each in its own container, no cross-contamination","en","<a href=""https://typefully.com/"" rel=""nofollow"">Typefully</a>","104","1068","55","6","1895","142366","true","photo","https://pbs.twimg.com/media/HIMzSJta0AAzErl.jpg",,,"https://pbs.twimg.com/media/HIMzSJta0AAzErl.jpg","2054542245475578147",,,,"2054249815291351207",,
+one vps holds the whole company. spin up new departments or agents from a template, each in its own container, no cross-contamination","en","<a href=""https://typefully.com/"" rel=""nofollow"">Typefully</a>","104","1068","55","6","1896","142385","true","photo","https://pbs.twimg.com/media/HIMzSJta0AAzErl.jpg",,,"https://pbs.twimg.com/media/HIMzSJta0AAzErl.jpg","2054542245475578147",,,,"2054249815291351207",,
 "quote","2055059408305168691","2026-05-14T22:55:18.000Z","shannholmberg","Shann³","the Hermes Agent company visualized
 
 I´m currently migrating my workflows from the main hermes agent I´ve been running for a while to seperate instances
 
 managed to spin up new agents in under 2 minutes
 
-having a seperate folder with CLI agent controlling the hermes company is such a hack","en","<a href=""https://typefully.com/"" rel=""nofollow"">Typefully</a>","54","416","25","2","622","37325","true","photo","https://pbs.twimg.com/media/HIUJo_-agAAe8hH.jpg",,,"https://pbs.twimg.com/media/HIUJo_-agAAe8hH.jpg","2055059408305168691",,,,"2054542245475578147","1455999313453195265",
-"original","2051473178682118241","2026-05-05T01:24:54.000Z","tonysimons_","Tony Simons","http://x.com/i/article/2051460508943867904","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","77","922","28","10","2992","165920","false","none",,,,,"2051473178682118241",,,,,,
+having a seperate folder with CLI agent controlling the hermes company is such a hack","en","<a href=""https://typefully.com/"" rel=""nofollow"">Typefully</a>","54","416","25","2","621","37328","true","photo","https://pbs.twimg.com/media/HIUJo_-agAAe8hH.jpg",,,"https://pbs.twimg.com/media/HIUJo_-agAAe8hH.jpg","2055059408305168691",,,,"2054542245475578147","1455999313453195265",
+"original","2051473178682118241","2026-05-05T01:24:54.000Z","tonysimons_","Tony Simons","http://x.com/i/article/2051460508943867904","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","77","922","28","10","2992","165951","false","none",,,,,"2051473178682118241",,,,,,
 "quote","2054988127563907096","2026-05-14T18:12:04.000Z","tonysimons_","Tony Simons","My Hermes Agent’s personality is better than most people I know in real life. 
 
-Here’s how I made the coolest agent on the block with one single markdown file. 👇","en","<a href=""http://twitter.com/download/iphone"" rel=""nofollow"">Twitter for iPhone</a>","59","621","23","2","1635","130066","false","none",,,,,"2054988127563907096",,,,"2051473178682118241","1998221941300490241",
-"original","2054988166541770782","2026-05-14T18:12:13.000Z","Saboo_Shubham_","Shubham Saboo","http://x.com/i/article/2054805605995696128","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","118","1006","29","17","2508","226913","false","none",,,,,"2054988166541770782",,,,,,
+Here’s how I made the coolest agent on the block with one single markdown file. 👇","en","<a href=""http://twitter.com/download/iphone"" rel=""nofollow"">Twitter for iPhone</a>","59","621","23","2","1635","130075","false","none",,,,,"2054988127563907096",,,,"2051473178682118241","1998221941300490241",
+"original","2054988166541770782","2026-05-14T18:12:13.000Z","Saboo_Shubham_","Shubham Saboo","http://x.com/i/article/2054805605995696128","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","118","1006","29","17","2508","227623","false","none",,,,,"2054988166541770782",,,,,,
 "original","2050516570363908367","2026-05-02T10:03:41.000Z","0xSero","0xSero","Important: This is a summary of an amazing video by one of the best creators I know. Video in the first comment.
 
 If you've been struggling to setup a productive local environment I'll summarise, but you should watch the video.
@@ -386,8 +386,8 @@ Being able to own this at home? True sovereignty.
 
 ~~~~~~~
 
-Thank you, Digital Spaceport. I wouldn't have gotten this deep into running my own infra without your videos.","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","94","1319","33","7","1987","65491","true","photo","https://pbs.twimg.com/media/HHTkWnOWMAAyIUy.jpg",,,"https://pbs.twimg.com/media/HHTkWnOWMAAyIUy.jpg","2050516570363908367",,,,,,
-"original","2051307460208578864","2026-05-04T14:26:24.000Z","shmidtqq","shmidt","http://x.com/i/article/2051218927263338496","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","75","812","39","7","1956","143308","false","none",,,,,"2051307460208578864",,,,,,
+Thank you, Digital Spaceport. I wouldn't have gotten this deep into running my own infra without your videos.","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","94","1319","33","7","1987","65494","true","photo","https://pbs.twimg.com/media/HHTkWnOWMAAyIUy.jpg",,,"https://pbs.twimg.com/media/HHTkWnOWMAAyIUy.jpg","2050516570363908367",,,,,,
+"original","2051307460208578864","2026-05-04T14:26:24.000Z","shmidtqq","shmidt","http://x.com/i/article/2051218927263338496","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","75","813","39","7","1956","143338","false","none",,,,,"2051307460208578864",,,,,,
 "original","2051305175961272810","2026-05-04T14:17:20.000Z","witcheer","witcheer","http://x.com/i/article/2051287985962823681","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","18","267","14","3","536","27978","false","none",,,,,"2051305175961272810",,,,,,
 "quote","2052051592770469894","2026-05-06T15:43:19.000Z","sudoingX","Sudo su","watching a 27b local model write its own benchmark report just now and i'm sitting with this for a sec.
 
@@ -401,11 +401,11 @@ running on a 5090 mobile, 21 gb vram peak at 99% gpu, 16.71 tok/s on the singlep
 
 zero hallucinated tools either, the prompt listed bash and python_run from my v0.1 spec but hermes actually ships terminal and execute_code, carnice adapted to the real registry without inventing anything.
 
-this is run 1 of my new personal tool-use benchmark, consumer hardware, harness-agnostic methodology, visible traces. vanilla qwen 3.6 head to head next, video QT after, see for yourself.","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","8","139","9","2","65","29948","true","photo","https://pbs.twimg.com/media/HHpZ390bgAAgeNm.jpg; https://pbs.twimg.com/media/HHpaAJnbwAAzw65.png; https://pbs.twimg.com/media/HHpZ67Pb0AAnIJa.jpg; https://pbs.twimg.com/media/HHpZ9gPboAA1amN.png",,,"https://pbs.twimg.com/media/HHpZ390bgAAgeNm.jpg","2052051592770469894",,,,"2051684921694175340",,
+this is run 1 of my new personal tool-use benchmark, consumer hardware, harness-agnostic methodology, visible traces. vanilla qwen 3.6 head to head next, video QT after, see for yourself.","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","8","139","9","2","65","29950","true","photo","https://pbs.twimg.com/media/HHpZ390bgAAgeNm.jpg; https://pbs.twimg.com/media/HHpaAJnbwAAzw65.png; https://pbs.twimg.com/media/HHpZ67Pb0AAnIJa.jpg; https://pbs.twimg.com/media/HHpZ9gPboAA1amN.png",,,"https://pbs.twimg.com/media/HHpZ390bgAAgeNm.jpg","2052051592770469894",,,,"2051684921694175340",,
 "quote","2052056149525213520","2026-05-06T16:01:26.000Z","sudoingX","Sudo su","the full 12-minute run sped to 80 seconds, watch carnice v2 cycle through plan, terminal probe, todo update, write the report, then read it back to verify, until the loop closes. no edit cuts, no narration, just the model working at 5x time.
 
-the rare-bird verify moment lands in the last 20 seconds, write_file then read_file then done. closed loop on consumer hardware, you can watch it happen.","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","4","110","5","1","69","11876","true","video","https://pbs.twimg.com/amplify_video_thumb/2052055842942550016/img/8RNmC3I8dptrHt_L.jpg","https://video.twimg.com/amplify_video/2052055842942550016/vid/avc1/2552x1596/zFT0akOyFzzd-ZSM.mp4?tag=27","80","https://pbs.twimg.com/amplify_video_thumb/2052055842942550016/img/8RNmC3I8dptrHt_L.jpg","2052056149525213520",,,,"2052051592770469894","1555661341914198016",
-"original","2054564519280804028","2026-05-13T14:08:48.000Z","akshay_pachaar","Akshay 🚀","http://x.com/i/article/2053698458230702080","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","748","6093","111","100","22314","5057527","false","none",,,,,"2054564519280804028",,,,,,
+the rare-bird verify moment lands in the last 20 seconds, write_file then read_file then done. closed loop on consumer hardware, you can watch it happen.","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","4","110","5","1","69","11878","true","video","https://pbs.twimg.com/amplify_video_thumb/2052055842942550016/img/8RNmC3I8dptrHt_L.jpg","https://video.twimg.com/amplify_video/2052055842942550016/vid/avc1/2552x1596/zFT0akOyFzzd-ZSM.mp4?tag=27","80","https://pbs.twimg.com/amplify_video_thumb/2052055842942550016/img/8RNmC3I8dptrHt_L.jpg","2052056149525213520",,,,"2052051592770469894","1555661341914198016",
+"original","2054564519280804028","2026-05-13T14:08:48.000Z","akshay_pachaar","Akshay 🚀","http://x.com/i/article/2053698458230702080","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","750","6107","113","101","22355","5091042","false","none",,,,,"2054564519280804028",,,,,,
 "quote","2054861039804772827","2026-05-14T09:47:04.000Z","akshay_pachaar","Akshay 🚀","the three-tier memory of Hermes agent.
 
 AI agents forgets everything when your session ends. Hermes doesn't.
@@ -456,8 +456,8 @@ hermes composes across both: tiny always-present files for critical facts, full-
 
 the agent doesn't just store memories. it curates them under pressure.
 
-i wrote a full deep dive (article below) covering hermes agent's memory system, self-evolving skills, GEPA optimization, and how to set up multiple specialized agents on your machine.","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","122","906","56","6","1479","139894","true","photo","https://pbs.twimg.com/media/HIRUEEba4AAnxvp.jpg",,,"https://pbs.twimg.com/media/HIRUEEba4AAnxvp.jpg","2054861039804772827",,,,"2054564519280804028","703601972",
-"original","2052532018584695225","2026-05-07T23:32:22.000Z","NeoAIForecast","Neo","http://x.com/i/article/2052178223593857024","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","59","488","13","5","1256","46988","false","none",,,,,"2052532018584695225",,,,,,
+i wrote a full deep dive (article below) covering hermes agent's memory system, self-evolving skills, GEPA optimization, and how to set up multiple specialized agents on your machine.","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","122","906","56","6","1479","139901","true","photo","https://pbs.twimg.com/media/HIRUEEba4AAnxvp.jpg",,,"https://pbs.twimg.com/media/HIRUEEba4AAnxvp.jpg","2054861039804772827",,,,"2054564519280804028","703601972",
+"original","2052532018584695225","2026-05-07T23:32:22.000Z","NeoAIForecast","Neo","http://x.com/i/article/2052178223593857024","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","59","488","13","5","1257","46989","false","none",,,,,"2052532018584695225",,,,,,
 "original","2052652747695231285","2026-05-08T07:32:06.000Z","heynavtoor","Nav Toor","10 GitHub repos that distill the world's smartest people into AI you can run on your laptop.
 
 In 2026, the greatest minds of our time became installable. Bookmark this list — you will not see anything stranger this year.
@@ -516,9 +516,9 @@ Most people will scroll past this. The ones who don't will compound.
 
 Save this before you forget.
 
-100% free. 100% open source.","en","<a href=""https://typefully.com/"" rel=""nofollow"">Typefully</a>","186","1331","29","5","3354","102163","true","photo","https://pbs.twimg.com/media/HHx8yZYasAEWv-Q.jpg; https://pbs.twimg.com/media/HHx8ynFbsAAEsk_.jpg; https://pbs.twimg.com/media/HHx8yyaaEAAQgW_.jpg; https://pbs.twimg.com/media/HHx8y83bwAARCfb.jpg",,,"https://pbs.twimg.com/media/HHx8yZYasAEWv-Q.jpg","2052652747695231285",,,,,,
-"original","2052483819270521238","2026-05-07T20:20:50.000Z","smantena","Sudhir Mantena","http://x.com/i/article/2052466094016008192","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","36","293","4","2","723","37629","false","none",,,,,"2052483819270521238",,,,,,
-"original","2054569766418108797","2026-05-13T14:29:39.000Z","aiedge_","AI Edge","http://x.com/i/article/2054279489774120960","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","111","979","18","21","3191","875394","false","none",,,,,"2054569766418108797",,,,,,
+100% free. 100% open source.","en","<a href=""https://typefully.com/"" rel=""nofollow"">Typefully</a>","186","1331","29","5","3354","102177","true","photo","https://pbs.twimg.com/media/HHx8yZYasAEWv-Q.jpg; https://pbs.twimg.com/media/HHx8ynFbsAAEsk_.jpg; https://pbs.twimg.com/media/HHx8yyaaEAAQgW_.jpg; https://pbs.twimg.com/media/HHx8y83bwAARCfb.jpg",,,"https://pbs.twimg.com/media/HHx8yZYasAEWv-Q.jpg","2052652747695231285",,,,,,
+"original","2052483819270521238","2026-05-07T20:20:50.000Z","smantena","Sudhir Mantena","http://x.com/i/article/2052466094016008192","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","36","293","4","2","723","37630","false","none",,,,,"2052483819270521238",,,,,,
+"original","2054569766418108797","2026-05-13T14:29:39.000Z","aiedge_","AI Edge","http://x.com/i/article/2054279489774120960","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","111","980","18","21","3191","875464","false","none",,,,,"2054569766418108797",,,,,,
 "quote","2054249815291351207","2026-05-12T17:18:16.000Z","shannholmberg","Shann³","Hermes Agent changed how I work
 
 it's the highest leverage agent framework you can set up right now
@@ -530,14 +530,14 @@ what makes it different:
 > handles context switching without losing thread
 > works across your entire stack instead of living in one tool
 
-save this blueprint and build your own","en","<a href=""https://typefully.com/"" rel=""nofollow"">Typefully</a>","105","778","47","7","1315","259004","true","photo","https://pbs.twimg.com/media/HIIpUelaMAAKC-o.jpg",,,"https://pbs.twimg.com/media/HIIpUelaMAAKC-o.jpg","2054249815291351207",,,,"2053477584068063708",,
+save this blueprint and build your own","en","<a href=""https://typefully.com/"" rel=""nofollow"">Typefully</a>","105","778","47","7","1315","259041","true","photo","https://pbs.twimg.com/media/HIIpUelaMAAKC-o.jpg",,,"https://pbs.twimg.com/media/HIIpUelaMAAKC-o.jpg","2054249815291351207",,,,"2053477584068063708",,
 "quote","2054617939123605898","2026-05-13T17:41:04.000Z","milesdeutscher","Miles Deutscher","/goal is f*cking insane.
 
 You can literally turn your AI agents into 24/7 employees that work for HOURS with zero manual intervention.
 
 This has to be the most powerful AI feature release of the month.
 
-If you try one thing in AI this week, make it this.","en","<a href=""https://typefully.com/"" rel=""nofollow"">Typefully</a>","358","3732","130","25","8020","777093","true","photo","https://pbs.twimg.com/media/HIN4IKma0AAi5tz.jpg",,,"https://pbs.twimg.com/media/HIN4IKma0AAi5tz.jpg","2054617939123605898",,,,"2054569766418108797","1901654809536843776",
+If you try one thing in AI this week, make it this.","en","<a href=""https://typefully.com/"" rel=""nofollow"">Typefully</a>","358","3731","130","25","8019","777139","true","photo","https://pbs.twimg.com/media/HIN4IKma0AAi5tz.jpg",,,"https://pbs.twimg.com/media/HIN4IKma0AAi5tz.jpg","2054617939123605898",,,,"2054569766418108797","1901654809536843776",
 "original","2040828031707570233","2026-04-05T16:24:54.000Z","WinterArc2125","Winter","Most people don’t realize this:
 
 You get 1,500 free daily requests to Gemma 4 31B on @GoogleAIStudio. 
@@ -555,8 +555,8 @@ Now all your Google model requests route through your free AI Studio quota.
 
 Basically: free 31B model access inside your agent stack.
 
-(Tradeoff: not as private as running locally)","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","142","1947","47","12","2876","142378","false","none",,,,,"2040828031707570233",,,,,,
-"original","2049158152709382177","2026-04-28T16:05:49.000Z","sharbel","Sharbel","http://x.com/i/article/2049148134060691456","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","138","1277","34","35","3878","559008","false","none",,,,,"2049158152709382177",,,,,,
+(Tradeoff: not as private as running locally)","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","142","1947","47","12","2876","142382","false","none",,,,,"2040828031707570233",,,,,,
+"original","2049158152709382177","2026-04-28T16:05:49.000Z","sharbel","Sharbel","http://x.com/i/article/2049148134060691456","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","138","1278","34","35","3878","559087","false","none",,,,,"2049158152709382177",,,,,,
 "quote","2049158730323775847","2026-04-28T16:08:07.000Z","sharbel","Sharbel","> you installed Hermes Agent
 > you type a request, read the response, close the window
 > you've been using 8% of it
@@ -564,7 +564,7 @@ Basically: free 31B model access inside your agent stack.
 > Hermes remembers everything. you never told it what to remember
 > it runs named personas on every task. you've never set one
 > there are 134 slash commands you've never used
-> here are the 15 features that change that:","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","76","1076","49","3","2394","208525","true","video","https://pbs.twimg.com/amplify_video_thumb/2049158660635738112/img/274ZDWtYlyDmntlC.jpg","https://video.twimg.com/amplify_video/2049158660635738112/vid/avc1/1280x720/0cmDeCd5L5rG4OdQ.mp4?tag=21","30","https://pbs.twimg.com/amplify_video_thumb/2049158660635738112/img/274ZDWtYlyDmntlC.jpg","2049158730323775847",,,,"2049158152709382177","1403761673060618244",
+> here are the 15 features that change that:","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","75","1074","49","3","2394","208568","true","video","https://pbs.twimg.com/amplify_video_thumb/2049158660635738112/img/274ZDWtYlyDmntlC.jpg","https://video.twimg.com/amplify_video/2049158660635738112/vid/avc1/1280x720/0cmDeCd5L5rG4OdQ.mp4?tag=21","30","https://pbs.twimg.com/amplify_video_thumb/2049158660635738112/img/274ZDWtYlyDmntlC.jpg","2049158730323775847",,,,"2049158152709382177","1403761673060618244",
 "original","2049447765663428991","2026-04-29T11:16:38.000Z","_MaxBlade","Max Blade","How to start winning :
 
 Install Hermes on your MacBook. 
@@ -593,8 +593,8 @@ Hermes will automatically turn everything it does into skills, getting better an
 
 You can literally have a 250k a year highly technical employee that WORKS 24/7 for $100 dollars right now.
 
-I need you to wake up.","en","<a href=""http://twitter.com/download/iphone"" rel=""nofollow"">Twitter for iPhone</a>","163","3468","204","19","5540","238506","false","none",,,,,"2049447765663428991",,,,,,
-"original","2049956455982182593","2026-04-30T20:58:00.000Z","NousResearch","Nous Research","Hermes Agent v0.12.0 - “The Curator Release”","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","155","1884","99","49","612","683745","true","video","https://pbs.twimg.com/amplify_video_thumb/2049949877660954624/img/SkqE9Zpgccbqr1sW.jpg","https://video.twimg.com/amplify_video/2049949877660954624/vid/avc1/2160x2160/KoiTWRauukTCiqQL.mp4?tag=27","76","https://pbs.twimg.com/amplify_video_thumb/2049949877660954624/img/SkqE9Zpgccbqr1sW.jpg","2049956455982182593",,,,,,
+I need you to wake up.","en","<a href=""http://twitter.com/download/iphone"" rel=""nofollow"">Twitter for iPhone</a>","163","3470","204","19","5540","238515","false","none",,,,,"2049447765663428991",,,,,,
+"original","2049956455982182593","2026-04-30T20:58:00.000Z","NousResearch","Nous Research","Hermes Agent v0.12.0 - “The Curator Release”","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","155","1884","99","49","612","683760","true","video","https://pbs.twimg.com/amplify_video_thumb/2049949877660954624/img/SkqE9Zpgccbqr1sW.jpg","https://video.twimg.com/amplify_video/2049949877660954624/vid/avc1/2160x2160/KoiTWRauukTCiqQL.mp4?tag=27","76","https://pbs.twimg.com/amplify_video_thumb/2049949877660954624/img/SkqE9Zpgccbqr1sW.jpg","2049956455982182593",,,,,,
 "quote","2050026869274395020","2026-05-01T01:37:47.000Z","gkisokay","Graeme","There’s one Hermes use case for everyone, and if you're not using it, you're already behind.
 
 Do yourself a favour and build a research agent as I outline below; it will change the way you work.
@@ -627,7 +627,7 @@ That is enough for the loop to start. Once you have a research agent, everything
 
 With a daily stream of inputs, generating ideas for outputs becomes much easier.
 
-If you want it, I’ll share the full research agent setup I use.","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","73","1168","49","3","2240","117674","false","none",,,,,"2050026869274395020",,,,"2049956455982182593","1318419526132862976",
+If you want it, I’ll share the full research agent setup I use.","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","73","1168","49","3","2240","117687","false","none",,,,,"2050026869274395020",,,,"2049956455982182593","1318419526132862976",
 "quote","2046437276235022371","2026-04-21T03:54:02.000Z","BTCqzy1","爱丽丝呀！","想玩明白 Hermes Agent ，看这篇资源合集就够了！
 
 局长整理的这篇教程很详细啦，覆盖安装、实战到中高阶玩法，适合快速跑起来。
@@ -678,7 +678,7 @@ https://github.com/0xNyk/awesome-hermes-agent
 两篇合集结合使用，能帮你更全面地掌握 Hermes Agent，从快速上手到长期自我进化，一路走通。
 
 感兴趣的朋友可以关注收藏哦～
-#HermesAgent","zh","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","261","1133","85","9","1572","205570","true","photo","https://pbs.twimg.com/media/HGZnQxraMAAgUqZ.jpg",,,"https://pbs.twimg.com/media/HGZnQxraMAAgUqZ.jpg","2046437276235022371",,,,"2046426659264540866",,
+#HermesAgent","zh","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","261","1132","85","9","1572","205725","true","photo","https://pbs.twimg.com/media/HGZnQxraMAAgUqZ.jpg",,,"https://pbs.twimg.com/media/HGZnQxraMAAgUqZ.jpg","2046437276235022371",,,,"2046426659264540866",,
 "quote","2050050461772939686","2026-05-01T03:11:32.000Z","BTCqzy1","爱丽丝呀！","别再给 Hermes 乱装 Skill 了，这 5 个才是真正值得必装的
 
 很多人玩 Hermes 还停留在调戏 AI的阶段，却不知道大佬们早就把它配成了生产力怪兽。 
@@ -718,7 +718,7 @@ https://github.com/builderz-labs/mission-control
 
 装好这套，你的 Hermes 才真正从玩具变成引擎。 
 
-你现在主力在用哪几个？欢迎评论区交流其他神器，我会挑优秀的继续整理成系列～","zh","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","215","1173","95","5","1753","104491","true","photo","https://pbs.twimg.com/media/HHM9TUyaAAAOt38.jpg",,,"https://pbs.twimg.com/media/HHM9TUyaAAAOt38.jpg","2050050461772939686",,,,"2046437276235022371","1680956429811974144",
+你现在主力在用哪几个？欢迎评论区交流其他神器，我会挑优秀的继续整理成系列～","zh","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","215","1175","95","5","1752","104602","true","photo","https://pbs.twimg.com/media/HHM9TUyaAAAOt38.jpg",,,"https://pbs.twimg.com/media/HHM9TUyaAAAOt38.jpg","2050050461772939686",,,,"2046437276235022371","1680956429811974144",
 "original","2050148805501477076","2026-05-01T09:42:19.000Z","cyrilXBT","CyrilXBT","HERMES JUST GOT A CHATGPT INTERFACE AND IT IS COMPLETELY FREE.
 
 No terminal.
@@ -777,8 +777,8 @@ The only thing between you and this setup is the next 30 minutes.
 
 Follow @cyrilXBT for the exact config, setup steps, and local AI workflows I use to run a full stack without spending a dollar on cloud inference.","en","<a href=""https://typefully.com/"" rel=""nofollow"">Typefully</a>","59","604","38","1","936","36937","true","video","https://pbs.twimg.com/amplify_video_thumb/2050148738967248896/img/PXWjFz9SQk6Zgwl6.jpg","https://video.twimg.com/amplify_video/2050148738967248896/vid/avc1/1280x720/inEGH5bD8wXBPFs9.mp4?tag=14","550","https://pbs.twimg.com/amplify_video_thumb/2050148738967248896/img/PXWjFz9SQk6Zgwl6.jpg","2050148805501477076",,,,,,
 "original","2050941786340610111","2026-05-03T14:13:21.000Z","MichaelGannotti","Mike Gannotti","And Hermes Workspace is live on my phone! Thanks again @outsource_  this is kick ass!","en","<a href=""http://twitter.com/download/iphone"" rel=""nofollow"">Twitter for iPhone</a>","10","397","13","0","374","24546","true","photo","https://pbs.twimg.com/media/HHZor19XcAAiW_E.jpg",,,"https://pbs.twimg.com/media/HHZor19XcAAiW_E.jpg","2050941786340610111",,,,,,
-"original","2050984556790939731","2026-05-03T17:03:18.000Z","vmiss33","vmiss","http://x.com/i/article/2050983909576294400","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","167","1912","81","27","5304","547108","false","none",,,,,"2050984556790939731",,,,,,
-"quote","2050984822168830302","2026-05-03T17:04:21.000Z","vmiss33","vmiss","100% human generated.  Includes what I use Hermes agent for (since I've seen a lot of people wondering what to do with this thing), and what models/providers I use to keep things cheap. @NousResearch","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","12","322","15","3","503","49281","false","none",,,,,"2050984822168830302",,,,"2050984556790939731","109011736",
+"original","2050984556790939731","2026-05-03T17:03:18.000Z","vmiss33","vmiss","http://x.com/i/article/2050983909576294400","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","167","1912","81","27","5304","547139","false","none",,,,,"2050984556790939731",,,,,,
+"quote","2050984822168830302","2026-05-03T17:04:21.000Z","vmiss33","vmiss","100% human generated.  Includes what I use Hermes agent for (since I've seen a lot of people wondering what to do with this thing), and what models/providers I use to keep things cheap. @NousResearch","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","12","322","15","3","503","49287","false","none",,,,,"2050984822168830302",,,,"2050984556790939731","109011736",
 "quote","2051217968575483925","2026-05-04T08:30:48.000Z","0xJeff","0xJeff","My Hermes is finally on the road to become the ultimate analyst
 ​
 What it can do really well now
@@ -790,7 +790,7 @@ What it can do really well now
 ​
 Result = Hermes performs a job of Data/Research/PM/Investment analyst  with fraction of the cost 
 
-($60/month on DeepSeek inference + $10-15/month on X API + $20/month on Claude, everything else is free)","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","54","646","30","1","1115","129596","false","none",,,,,"2051217968575483925",,,,"2051214993719427258",,
+($60/month on DeepSeek inference + $10-15/month on X API + $20/month on Claude, everything else is free)","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","54","646","30","1","1115","129604","false","none",,,,,"2051217968575483925",,,,"2051214993719427258",,
 "quote","2051561443359592838","2026-05-05T07:15:38.000Z","0xJeff","0xJeff","Proud of my analyst, Hermes
 ​
 This is what he has achieved after 1.5+ months of internship with me
@@ -801,10 +801,10 @@ This is what he has achieved after 1.5+ months of internship with me
 - He's always on the look out for proper entries & exits
 - Turned his Discord into the command center (non-stop signals & alpha)
 ​
-I’ve learned so much working with him. Dude could probably land a summer internship at a16z right now","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","35","661","38","2","602","72299","false","none",,,,,"2051561443359592838",,,,"2051217968575483925","1460252469745782790",
+I’ve learned so much working with him. Dude could probably land a summer internship at a16z right now","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","35","661","38","2","602","72305","false","none",,,,,"2051561443359592838",,,,"2051217968575483925","1460252469745782790",
 "original","2052140057222369541","2026-05-06T21:34:51.000Z","NousResearch","Nous Research","People love to ask what they can use Hermes Agent for.  
 
-Hermes scraped the internet for answers and added them to our docs as inspiration. And if you've found an interesting use case, you can submit your own!","en","<a href=""https://twitter.com"" rel=""nofollow"">TweetDeck Web App</a>","111","1779","73","27","1215","117103","true","video","https://pbs.twimg.com/amplify_video_thumb/2052139370585505795/img/j2RH6oleC_bwCpk8.jpg","https://video.twimg.com/amplify_video/2052139370585505795/vid/avc1/2160x2160/QxPblzUWp3c7sA7O.mp4?tag=27","7","https://pbs.twimg.com/amplify_video_thumb/2052139370585505795/img/j2RH6oleC_bwCpk8.jpg","2052140057222369541",,,,,,
+Hermes scraped the internet for answers and added them to our docs as inspiration. And if you've found an interesting use case, you can submit your own!","en","<a href=""https://twitter.com"" rel=""nofollow"">TweetDeck Web App</a>","111","1779","73","27","1216","117110","true","video","https://pbs.twimg.com/amplify_video_thumb/2052139370585505795/img/j2RH6oleC_bwCpk8.jpg","https://video.twimg.com/amplify_video/2052139370585505795/vid/avc1/2160x2160/QxPblzUWp3c7sA7O.mp4?tag=27","7","https://pbs.twimg.com/amplify_video_thumb/2052139370585505795/img/j2RH6oleC_bwCpk8.jpg","2052140057222369541",,,,,,
 "original","2052389363527365092","2026-05-07T14:05:30.000Z","sharbel","Sharbel","10 Hermes Agent Features Most People Aren’t Using:
 
 0:00 Most people use Hermes wrong  
@@ -820,10 +820,10 @@ Hermes scraped the internet for answers and added them to our docs as inspiratio
 16:23 Feature 9: /btw side question mode  
 18:07 Feature 10: hooks, boot.md, and event automation  
 20:33 Why Hermes is agent infrastructure  
-21:47 Next video: full operator setup","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","25","491","25","3","934","25951","true","video","https://pbs.twimg.com/amplify_video_thumb/2052388044557205509/img/CPErV4szMXXWqNqi.jpg","https://video.twimg.com/amplify_video/2052388044557205509/vid/avc1/1920x1080/cpNnXCfBL7k-2FOb.mp4?tag=27","1338","https://pbs.twimg.com/amplify_video_thumb/2052388044557205509/img/CPErV4szMXXWqNqi.jpg","2052389363527365092",,,,,,
+21:47 Next video: full operator setup","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","25","491","25","3","934","25954","true","video","https://pbs.twimg.com/amplify_video_thumb/2052388044557205509/img/CPErV4szMXXWqNqi.jpg","https://video.twimg.com/amplify_video/2052388044557205509/vid/avc1/1920x1080/cpNnXCfBL7k-2FOb.mp4?tag=27","1338","https://pbs.twimg.com/amplify_video_thumb/2052388044557205509/img/CPErV4szMXXWqNqi.jpg","2052389363527365092",,,,,,
 "original","2052611784784445604","2026-05-08T04:49:19.000Z","sudoingX","Sudo su","i named my dgx spark ""spark."" it runs hermes agent /goal overnight. 
 
-brain is qwen 3.6 27B Q8, 262K context, i set a goal before bed and wake up to results. no rate limits. no token costs. just local inference grinding while i sleep. this thing never stops.","en","<a href=""http://twitter.com/download/android"" rel=""nofollow"">Twitter for Android</a>","13","225","30","4","122","62739","true","photo","https://pbs.twimg.com/media/HHxXil7bIAATs1r.jpg",,,"https://pbs.twimg.com/media/HHxXil7bIAATs1r.jpg","2052611784784445604",,,,,,
+brain is qwen 3.6 27B Q8, 262K context, i set a goal before bed and wake up to results. no rate limits. no token costs. just local inference grinding while i sleep. this thing never stops.","en","<a href=""http://twitter.com/download/android"" rel=""nofollow"">Twitter for Android</a>","13","225","30","4","122","62751","true","photo","https://pbs.twimg.com/media/HHxXil7bIAATs1r.jpg",,,"https://pbs.twimg.com/media/HHxXil7bIAATs1r.jpg","2052611784784445604",,,,,,
 "quote","2052794989881753743","2026-05-08T16:57:19.000Z","sudoingX","Sudo su","after today's spark posts, lots of you asking how the hermes agent /goal flow actually works. here's how to write a goal that actually executes.
 
 what /goal does:
@@ -853,10 +853,10 @@ BAD goal examples:
 > ""explore pytorch"" (no endpoint, model loops forever)
 > ""design a beautiful UI"" (taste calls = needs human judgment mid-run)
 
-set the goal before bed. wake up to either receipts or a clean error log.","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","60","809","26","11","1088","98123","true","photo","https://pbs.twimg.com/media/HHz91aoaEAAldel.png",,,"https://pbs.twimg.com/media/HHz91aoaEAAldel.png","2052794989881753743",,,,"2052611784784445604","1555661341914198016",
+set the goal before bed. wake up to either receipts or a clean error log.","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","60","809","26","11","1088","98132","true","photo","https://pbs.twimg.com/media/HHz91aoaEAAldel.png",,,"https://pbs.twimg.com/media/HHz91aoaEAAldel.png","2052794989881753743",,,,"2052611784784445604","1555661341914198016",
 "original","2053166838595617127","2026-05-09T17:34:54.000Z","NeoAIForecast","Neo","Always good to see these in a cheat sheet.
 
-Hermes Agent slash commands!","en","<a href=""http://twitter.com/download/iphone"" rel=""nofollow"">Twitter for iPhone</a>","31","207","3","1","244","6463","true","photo","https://pbs.twimg.com/media/HH5QWxVaoAANyCE.jpg",,,"https://pbs.twimg.com/media/HH5QWxVaoAANyCE.jpg","2053166838595617127",,,,,,
+Hermes Agent slash commands!","en","<a href=""http://twitter.com/download/iphone"" rel=""nofollow"">Twitter for iPhone</a>","31","207","3","1","244","6464","true","photo","https://pbs.twimg.com/media/HH5QWxVaoAANyCE.jpg",,,"https://pbs.twimg.com/media/HH5QWxVaoAANyCE.jpg","2053166838595617127",,,,,,
 "original","2052710718613360750","2026-05-08T11:22:27.000Z","itsolelehmann","Ole Lehmann","HERMES AGENT FOR DUMMIES
 
 Everyone on X keeps talking about Hermes Agent and I finally get why:
@@ -910,7 +910,7 @@ Here's what other people are doing with it:
 
 Once you try texting an AI that already knows your whole setup and just does things when you ask, opening a chat window and starting from scratch every time feels broken.
 
-This is the first AI agent that feels like a legit Chief of Staff.","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","19","310","18","4","632","153690","true","video","https://pbs.twimg.com/amplify_video_thumb/2052699469121310720/img/iBcfSg6wECw6QSH8.jpg","https://video.twimg.com/amplify_video/2052699469121310720/vid/avc1/780x720/VMG2Y2kyC5xfCXYG.mp4?tag=14","49","https://pbs.twimg.com/amplify_video_thumb/2052699469121310720/img/iBcfSg6wECw6QSH8.jpg","2052710718613360750",,,,,,
+This is the first AI agent that feels like a legit Chief of Staff.","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","19","310","18","4","632","153714","true","video","https://pbs.twimg.com/amplify_video_thumb/2052699469121310720/img/iBcfSg6wECw6QSH8.jpg","https://video.twimg.com/amplify_video/2052699469121310720/vid/avc1/780x720/VMG2Y2kyC5xfCXYG.mp4?tag=14","49","https://pbs.twimg.com/amplify_video_thumb/2052699469121310720/img/iBcfSg6wECw6QSH8.jpg","2052710718613360750",,,,,,
 "quote","2053190714734137366","2026-05-09T19:09:47.000Z","itsolelehmann","Ole Lehmann","A lot of people keep DMing me ""how do I actually use Hermes if I’m non-technical""
 
 Short answer: you barely touch the technical layer after the initial setup
@@ -972,29 +972,29 @@ It's the app store moment for personal agents
 
 Once you've connected your messaging app, set your goals, and installed 5-10 skills, you have a real personal agent running in your pocket
 
-And you never had to open a terminal","en","<a href=""https://typefully.com/"" rel=""nofollow"">Typefully</a>","45","620","33","7","1143","66093","true","photo","https://pbs.twimg.com/media/HH5mEvVaYAA7OKs.jpg",,,"https://pbs.twimg.com/media/HH5mEvVaYAA7OKs.jpg","2053190714734137366",,,,"2052710718613360750","1587816802264006657",
-"original","2053308681299616125","2026-05-10T02:58:32.000Z","nateherk","Nate Herk","http://x.com/i/article/2053303508602896394","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","90","888","19","27","2412","459720","false","none",,,,,"2053308681299616125",,,,,,
+And you never had to open a terminal","en","<a href=""https://typefully.com/"" rel=""nofollow"">Typefully</a>","45","620","33","7","1143","66100","true","photo","https://pbs.twimg.com/media/HH5mEvVaYAA7OKs.jpg",,,"https://pbs.twimg.com/media/HH5mEvVaYAA7OKs.jpg","2053190714734137366",,,,"2052710718613360750","1587816802264006657",
+"original","2053308681299616125","2026-05-10T02:58:32.000Z","nateherk","Nate Herk","http://x.com/i/article/2053303508602896394","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","90","888","19","27","2412","459750","false","none",,,,,"2053308681299616125",,,,,,
 "quote","2053308985575362681","2026-05-10T02:59:45.000Z","nateherk","Nate Herk","Hermes actually is the real deal.
 
 I just dropped a one hour course on it. 
 
 All the way from setting one up to understanding how to build an army of them.
 
-Give this a read.","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","268","2765","80","15","5178","336701","true","video","https://pbs.twimg.com/amplify_video_thumb/2053308772638924800/img/NEhEgXjNN6wzbTSR.jpg","https://video.twimg.com/amplify_video/2053308772638924800/vid/avc1/1920x1080/azvtUEWsN4yieE9c.mp4?tag=27","111","https://pbs.twimg.com/amplify_video_thumb/2053308772638924800/img/NEhEgXjNN6wzbTSR.jpg","2053308985575362681",,,,"2053308681299616125","1921674544999489536",
+Give this a read.","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","268","2765","80","15","5177","336721","true","video","https://pbs.twimg.com/amplify_video_thumb/2053308772638924800/img/NEhEgXjNN6wzbTSR.jpg","https://video.twimg.com/amplify_video/2053308772638924800/vid/avc1/1920x1080/azvtUEWsN4yieE9c.mp4?tag=27","111","https://pbs.twimg.com/amplify_video_thumb/2053308772638924800/img/NEhEgXjNN6wzbTSR.jpg","2053308985575362681",,,,"2053308681299616125","1921674544999489536",
 "original","2053360898501468362","2026-05-10T06:26:02.000Z","emmagine79","Captain Awesome","hermes + discord with gpt 5.5/deepseek v4 has genuinely been life changing!  
 
 here are some of what it did for me this week:
-@NousResearch @Teknium","en","<a href=""http://twitter.com/download/android"" rel=""nofollow"">Twitter for Android</a>","16","513","22","2","809","62995","false","none",,,,,"2053360898501468362",,,,,,
+@NousResearch @Teknium","en","<a href=""http://twitter.com/download/android"" rel=""nofollow"">Twitter for Android</a>","16","513","22","2","809","63001","false","none",,,,,"2053360898501468362",,,,,,
 "original","2053362763842371586","2026-05-10T06:33:27.000Z","intheworldofai","WorldofAI","There’s now a Hermes Agent Desktop App
 
 You can finally run the self-evolving 24/7 autonomous AI agent from Nous Research inside a full native desktop UI instead of only the CLI.
 
-Multi-agent management, persistent memory, autonomous workflows, and local infrastructure support all inside one app. Full demo: https://youtu.be/YBp_PXBbe80","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","83","997","47","12","1296","126406","true","video","https://pbs.twimg.com/amplify_video_thumb/2053361363674660866/img/nCYjBfBk5S7B6Jfa.jpg","https://video.twimg.com/amplify_video/2053361363674660866/vid/avc1/1280x720/TDpPktwkLAbIm29v.mp4?tag=27","34","https://pbs.twimg.com/amplify_video_thumb/2053361363674660866/img/nCYjBfBk5S7B6Jfa.jpg","2053362763842371586",,,,,,
+Multi-agent management, persistent memory, autonomous workflows, and local infrastructure support all inside one app. Full demo: https://youtu.be/YBp_PXBbe80","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","83","997","47","12","1297","126415","true","video","https://pbs.twimg.com/amplify_video_thumb/2053361363674660866/img/nCYjBfBk5S7B6Jfa.jpg","https://video.twimg.com/amplify_video/2053361363674660866/vid/avc1/1280x720/TDpPktwkLAbIm29v.mp4?tag=27","34","https://pbs.twimg.com/amplify_video_thumb/2053361363674660866/img/nCYjBfBk5S7B6Jfa.jpg","2053362763842371586",,,,,,
 "original","2053427208346358189","2026-05-10T10:49:31.000Z","zeroxkyle","Kyle","Over the weekend I set up the Hermes agent, and basically force fed it every resource I could find on X to upgrade it. 
 
 I then asked it to rank each resource and provide a simple explanation: 
 
-So yea, here you go. Link to each is below","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","105","1937","49","5","4536","123431","true","photo","https://pbs.twimg.com/media/HH89GKaboAARzIH.png",,,"https://pbs.twimg.com/media/HH89GKaboAARzIH.png","2053427208346358189",,,,,,
+So yea, here you go. Link to each is below","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","105","1937","49","5","4535","123456","true","photo","https://pbs.twimg.com/media/HH89GKaboAARzIH.png",,,"https://pbs.twimg.com/media/HH89GKaboAARzIH.png","2053427208346358189",,,,,,
 "original","2053609542273909155","2026-05-10T22:54:03.000Z","ghumare64","Rohit Ghumare","You can now give Hermes, Claude Code, and Codex infinite memory.
 
 For free.
@@ -1032,15 +1032,15 @@ Claude finally remembers.
 http://github.com/rohitg00/agentmemory
 
 ♻️ Repost if you're tired of context limits.
-🙏 Follow for more production AI tools.","en","<a href=""http://twitter.com/download/android"" rel=""nofollow"">Twitter for Android</a>","170","1348","52","15","2367","96962","true","photo","https://pbs.twimg.com/media/HH_i_wdW4AAOQWo.jpg",,,"https://pbs.twimg.com/media/HH_i_wdW4AAOQWo.jpg","2053609542273909155",,,,,,
+🙏 Follow for more production AI tools.","en","<a href=""http://twitter.com/download/android"" rel=""nofollow"">Twitter for Android</a>","170","1348","52","15","2367","96968","true","photo","https://pbs.twimg.com/media/HH_i_wdW4AAOQWo.jpg",,,"https://pbs.twimg.com/media/HH_i_wdW4AAOQWo.jpg","2053609542273909155",,,,,,
 "original","2054026323874689037","2026-05-12T02:30:12.000Z","milesdeutscher","Miles Deutscher","/goal is f*cking insane.
 
 You can literally get your AI agents to work for HOURS without manual intervention.
 
 Already active in Claude Code and Codex - you need to use it now.
 
-Use this prompt and your agents will complete any task on autopilot:","en","<a href=""https://typefully.com/"" rel=""nofollow"">Typefully</a>","228","2380","103","7","4501","165312","true","photo","https://pbs.twimg.com/media/HIFeDnFa0AAHbsm.jpg",,,"https://pbs.twimg.com/media/HIFeDnFa0AAHbsm.jpg","2054026323874689037",,,,,,
-"original","2053759897809076325","2026-05-11T08:51:31.000Z","0xJeff","0xJeff","http://x.com/i/article/2053753720693825536","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","34","380","8","2","686","51684","false","none",,,,,"2053759897809076325",,,,,,
+Use this prompt and your agents will complete any task on autopilot:","en","<a href=""https://typefully.com/"" rel=""nofollow"">Typefully</a>","228","2380","103","7","4500","165371","true","photo","https://pbs.twimg.com/media/HIFeDnFa0AAHbsm.jpg",,,"https://pbs.twimg.com/media/HIFeDnFa0AAHbsm.jpg","2054026323874689037",,,,,,
+"original","2053759897809076325","2026-05-11T08:51:31.000Z","0xJeff","0xJeff","http://x.com/i/article/2053753720693825536","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","34","380","8","2","686","51697","false","none",,,,,"2053759897809076325",,,,,,
 "quote","2053781764620145065","2026-05-11T10:18:24.000Z","0xJeff","0xJeff","The 4 things that actually matter when setting up Hermes
 ​
 1. Model Configuration → The intelligence plumbing that could determine how intelligent your Hermes is
@@ -1051,7 +1051,7 @@ Use this prompt and your agents will complete any task on autopilot:","en","<a h
 ​
 4. Tools Setup → The things that enable Hermes to expand its capabilities
 ​
-Read this before you waste hours scratching your head, feeling frustrated over bugs, errors, and countless burned tokens","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","28","318","20","1","450","27360","true","photo","https://pbs.twimg.com/media/HIB_lT6asAABky_.jpg",,,"https://pbs.twimg.com/media/HIB_lT6asAABky_.jpg","2053781764620145065",,,,"2053759897809076325","1460252469745782790",
+Read this before you waste hours scratching your head, feeling frustrated over bugs, errors, and countless burned tokens","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","28","318","20","1","450","27370","true","photo","https://pbs.twimg.com/media/HIB_lT6asAABky_.jpg",,,"https://pbs.twimg.com/media/HIB_lT6asAABky_.jpg","2053781764620145065",,,,"2053759897809076325","1460252469745782790",
 "original","2054197055476895995","2026-05-12T13:48:37.000Z","itsolelehmann","Ole Lehmann","The top Hermes integrations to give your agent superpowers:
 
 1. Firecrawl
@@ -1138,7 +1138,7 @@ Covers ~80% of what most people need.
 
 I use Composio to add these in one click, makes setup basically zero effort instead of messing w technical stuff.
 
-Anything I'm missing?? What's in your stack?","en","<a href=""https://typefully.com/"" rel=""nofollow"">Typefully</a>","154","1627","68","11","3656","94908","true","photo","https://pbs.twimg.com/media/HIH5VXJb0AE53ZQ.jpg",,,"https://pbs.twimg.com/media/HIH5VXJb0AE53ZQ.jpg","2054197055476895995",,,,,,
+Anything I'm missing?? What's in your stack?","en","<a href=""https://typefully.com/"" rel=""nofollow"">Typefully</a>","154","1627","68","11","3656","94919","true","photo","https://pbs.twimg.com/media/HIH5VXJb0AE53ZQ.jpg",,,"https://pbs.twimg.com/media/HIH5VXJb0AE53ZQ.jpg","2054197055476895995",,,,,,
 "quote","2053477584068063708","2026-05-10T14:09:42.000Z","shannholmberg","Shann³","Nate Herk just wrote the most thorough Hermes Agent setup guide on the internet
 
-Here are 12 lessons you need to know before you build your own 🧵","en","<a href=""https://typefully.com/"" rel=""nofollow"">Typefully</a>","26","229","14","3","484","83059","true","video","https://pbs.twimg.com/amplify_video_thumb/2053308772638924800/img/NEhEgXjNN6wzbTSR.jpg","https://video.twimg.com/amplify_video/2053308772638924800/vid/avc1/1920x1080/azvtUEWsN4yieE9c.mp4?tag=27","111","https://pbs.twimg.com/amplify_video_thumb/2053308772638924800/img/NEhEgXjNN6wzbTSR.jpg","2053477584068063708",,,,"2053308681299616125",,
+Here are 12 lessons you need to know before you build your own 🧵","en","<a href=""https://typefully.com/"" rel=""nofollow"">Typefully</a>","26","229","14","3","484","83075","true","video","https://pbs.twimg.com/amplify_video_thumb/2053308772638924800/img/NEhEgXjNN6wzbTSR.jpg","https://video.twimg.com/amplify_video/2053308772638924800/vid/avc1/1920x1080/azvtUEWsN4yieE9c.mp4?tag=27","111","https://pbs.twimg.com/amplify_video_thumb/2053308772638924800/img/NEhEgXjNN6wzbTSR.jpg","2053477584068063708",,,,"2053308681299616125",,
