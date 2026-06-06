@@ -1,8 +1,28 @@
 "tweet_type","id","created_at","username","user_display_name","text","lang","source","retweet_count","favorite_count","reply_count","quote_count","bookmark_count","view_count","has_media","media_type","media_urls","video_url","video_duration","thumbnail_url","conversation_id_str","in_reply_to_status_id_str","in_reply_to_user_id_str","in_reply_to_screen_name","quoted_status_id_str","quoted_user_id_str","retweeted_status_id_str"
-"original","2062401282845909486","2026-06-04T05:09:18.000Z","rtodi","Rahul Todi","Came across this CLAUDE.md honesty ruleset that forces Claude Code to stop lying and own up to its mistakes in every session—will give this a try.","en","<a href=""http://twitter.com/download/iphone"" rel=""nofollow"">Twitter for iPhone</a>","0","5","0","0","9","424","true","photo","https://pbs.twimg.com/media/HJ8fCS3WUAAAg-F.jpg",,,"https://pbs.twimg.com/media/HJ8fCS3WUAAAg-F.jpg","2062401282845909486",,,,,,
-"original","2061877533885473181","2026-06-02T18:28:06.000Z","mvanhorn","Matt Van Horn","http://x.com/i/article/2061440101411102721","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","270","2508","105","64","7627","676270","false","none",,,,,"2061877533885473181",,,,,,
-"original","2061907337154367865","2026-06-02T20:26:32.000Z","trq212","Thariq","http://x.com/i/article/2061850535708483585","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","1216","9536","227","252","22374","2727923","false","none",,,,,"2061907337154367865",,,,,,
-"original","2061019244595233135","2026-05-31T09:37:34.000Z","0x_rody","rody","http://x.com/i/article/2061010206490787844","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","48","385","18","10","1660","1065552","false","none",,,,,"2061019244595233135",,,,,,
+"original","2020263239653945849","2026-02-07T22:27:45.000Z","a1zhang","alex zhang","while procrastinating on research I decided it's finally time to add RLMs to pypi!
+
+`pip install rlms`","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","28","683","16","10","264","80447","true","photo","https://pbs.twimg.com/media/HAlqbbZWwAAINnL.jpg",,,"https://pbs.twimg.com/media/HAlqbbZWwAAINnL.jpg","2020263239653945849",,,,,,
+"quote","2020770310958768449","2026-02-09T08:02:40.000Z","tenobrus","Tenobrus","lotta chatter about RLMs and whether or not they're useful over coding agents. i decided to just go ahead and try. i had claude code implement itself an RLM skill using bash as the execution environment / files as the variables. this is effectively implemented ""inside a coding agent"" in that all it requires is some bash scripts and all it does is invoke further claude code instances, but it is a genuinely different processing pattern. native subagents also aren't recursive, they can't invoke further subagents, and they don't necessarily have the same framing of files as ""variables"". 
+
+i started trying to benchmark vs the oolong benchmark from the paper, and it worked but was burning through my usage. so my main test here was on Frankenstein. when i asked raw Claude Code to read Frankenstein and tell me how many named characters there are, it basically decides it's too big, searches for the ~20 characters it remembers, confirms it finds them, and tells me about the 20. when use the /rlm skill with the same question, it actually fans out and recursively processes the entire thing, and gives me the full 29 named characters including obscure ones only mentioned in Elizabeth's letter that opus doesn't actually remember in its weights.
+
+here's the skill link, try it out. as i've warned in the past, i dont actually recommend u install this directly! i could be either malicious or compromised and installing something to ur claude is a big commitment. consider either just pasting in the readme into ur own agent and asking it for a ""clean room"" implementation, or if that doesn't work great asking one agent to summarize the skill and a second agent to implement it strictly from the summary.
+
+https://github.com/Tenobrus/claude-rlm","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","17","419","27","6","386","37110","true","photo","https://pbs.twimg.com/media/HAs26QgbEAADzDr.jpg",,,"https://pbs.twimg.com/media/HAs26QgbEAADzDr.jpg","2020770310958768449",,,,"2020263239653945849","4593727300",
+"original","2062127385923776831","2026-06-03T11:00:55.000Z","0xCodez","Codez","http://x.com/i/article/2062116827220639744","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","122","891","30","29","3465","1400500","false","none",,,,,"2062127385923776831",,,,,,
+"quote","2062464183409545224","2026-06-04T09:19:14.000Z","0xCodez","Codez","Claude Code creator:
+
+""I don't prompt Claude anymore. I write loops - and the loops do the work. My job is to write loops.""
+
+in 30 minutes Boris reveals his actual daily Claude Code setup.
+
+Claude Code + loops + dynamic workflow  
+
+Worth more than a $500 vibe-coding course","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","411","3415","86","12","8629","704556","true","video","https://pbs.twimg.com/amplify_video_thumb/2062463771969290240/img/FkZgIjNg_u56k-q2.jpg","https://video.twimg.com/amplify_video/2062463771969290240/vid/avc1/1920x1080/ZO9rJ3_7rt8xvKU2.mp4?tag=27","1791","https://pbs.twimg.com/amplify_video_thumb/2062463771969290240/img/FkZgIjNg_u56k-q2.jpg","2062464183409545224",,,,"2062127385923776831","2054190711243710464",
+"original","2062401282845909486","2026-06-04T05:09:18.000Z","rtodi","Rahul Todi","Came across this CLAUDE.md honesty ruleset that forces Claude Code to stop lying and own up to its mistakes in every session—will give this a try.","en","<a href=""http://twitter.com/download/iphone"" rel=""nofollow"">Twitter for iPhone</a>","0","6","0","0","9","485","true","photo","https://pbs.twimg.com/media/HJ8fCS3WUAAAg-F.jpg",,,"https://pbs.twimg.com/media/HJ8fCS3WUAAAg-F.jpg","2062401282845909486",,,,,,
+"original","2061877533885473181","2026-06-02T18:28:06.000Z","mvanhorn","Matt Van Horn","http://x.com/i/article/2061440101411102721","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","277","2575","110","70","7826","717490","false","none",,,,,"2061877533885473181",,,,,,
+"original","2061907337154367865","2026-06-02T20:26:32.000Z","trq212","Thariq","http://x.com/i/article/2061850535708483585","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","1248","9694","236","262","22580","2792265","false","none",,,,,"2061907337154367865",,,,,,
+"original","2061019244595233135","2026-05-31T09:37:34.000Z","0x_rody","rody","http://x.com/i/article/2061010206490787844","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","47","386","18","10","1660","1068579","false","none",,,,,"2061019244595233135",,,,,,
 "quote","2061040686330257656","2026-05-31T11:02:46.000Z","zodchiii","darkzodchi","Anthropic engineer: 
 
 ""You can build 5 assistants in one afternoon. Each one handles a task you've been doing manually every single day.""
@@ -11,8 +31,8 @@ In 45 minutes he builds 5 focused agents from scratch on camera.
 
 Most people are still doing code review, testing, and documentation by hand every single day
 
-Watch the session, then save all templates below 👇","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","502","5037","85","11","14943","1049721","true","video","https://pbs.twimg.com/amplify_video_thumb/2061021331731165184/img/dFy7BXZlM6IvzVsl.jpg","https://video.twimg.com/amplify_video/2061021331731165184/vid/avc1/1280x720/fgTwbf8Wbs1Fp3bc.mp4?tag=27","1799","https://pbs.twimg.com/amplify_video_thumb/2061021331731165184/img/dFy7BXZlM6IvzVsl.jpg","2061040686330257656",,,,"2061019244595233135","1386319613391253504",
-"original","2061106244610408566","2026-05-31T15:23:16.000Z","0xMortyx","0xMorty","http://x.com/i/article/2061083387498991617","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","43","269","3","11","1057","578863","false","none",,,,,"2061106244610408566",,,,,,
+Watch the session, then save all templates below 👇","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","502","5048","85","11","14947","1052564","true","video","https://pbs.twimg.com/amplify_video_thumb/2061021331731165184/img/dFy7BXZlM6IvzVsl.jpg","https://video.twimg.com/amplify_video/2061021331731165184/vid/avc1/1280x720/fgTwbf8Wbs1Fp3bc.mp4?tag=27","1799","https://pbs.twimg.com/amplify_video_thumb/2061021331731165184/img/dFy7BXZlM6IvzVsl.jpg","2061040686330257656",,,,"2061019244595233135","1386319613391253504",
+"original","2061106244610408566","2026-05-31T15:23:16.000Z","0xMortyx","0xMorty","http://x.com/i/article/2061083387498991617","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","43","279","3","11","1063","585172","false","none",,,,,"2061106244610408566",,,,,,
 "quote","2061491256107159736","2026-06-01T16:53:10.000Z","0xMortyx","0xMorty","Andrej Karpathy: ""90% of what AI twitter tells you to learn will be dead in 6 months""
 
 90% of what ai twitter tells you to learn dies in 6 months
@@ -33,8 +53,8 @@ mcp as the protocol layer
 
 the edge isn't the newest framework. it's staying a few steps ahead until your signal becomes everyone's mass-opinion
 
-book and study this","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","224","2079","66","21","4762","374486","true","video","https://pbs.twimg.com/amplify_video_thumb/2061490884772864000/img/2niDIeooz8v_EdJ0.jpg","https://video.twimg.com/amplify_video/2061490884772864000/vid/avc1/1920x1080/KYFaLLWgbps08y9B.mp4?tag=27","2345","https://pbs.twimg.com/amplify_video_thumb/2061490884772864000/img/2niDIeooz8v_EdJ0.jpg","2061491256107159736",,,,"2061106244610408566","1523268434586480642",
-"original","2060674246880149900","2026-05-30T10:46:40.000Z","zodchiii","darkzodchi","http://x.com/i/article/2059953944156082180","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","116","1048","25","20","4003","1608385","false","none",,,,,"2060674246880149900",,,,,,
+book and study this","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","223","2080","65","21","4760","375761","true","video","https://pbs.twimg.com/amplify_video_thumb/2061490884772864000/img/2niDIeooz8v_EdJ0.jpg","https://video.twimg.com/amplify_video/2061490884772864000/vid/avc1/1920x1080/KYFaLLWgbps08y9B.mp4?tag=27","2345","https://pbs.twimg.com/amplify_video_thumb/2061490884772864000/img/2niDIeooz8v_EdJ0.jpg","2061491256107159736",,,,"2061106244610408566","1523268434586480642",
+"original","2060674246880149900","2026-05-30T10:46:40.000Z","zodchiii","darkzodchi","http://x.com/i/article/2059953944156082180","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","116","1047","25","20","4010","1612376","false","none",,,,,"2060674246880149900",,,,,,
 "quote","2060728613872234644","2026-05-30T14:22:42.000Z","zodchiii","darkzodchi","Anthropic engineer: 
 
 ""You're not supposed to watch Claude Code work. You're supposed to wake up and review what it shipped.""
@@ -44,11 +64,11 @@ In 22 minutes she builds the entire workflow live on camera.
 Most people close their terminal and everything stops. 
 This setup keeps shipping while you sleep.
 
-Watch the video, then save the exact setup below👇","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","739","7905","160","44","23655","1568670","true","video","https://pbs.twimg.com/amplify_video_thumb/2060728133398011906/img/g7TZwTQTX1VaQM7c.jpg","https://video.twimg.com/amplify_video/2060728133398011906/vid/avc1/1280x720/gYSTX2V5w5WCUg5t.mp4?tag=27","1302","https://pbs.twimg.com/amplify_video_thumb/2060728133398011906/img/g7TZwTQTX1VaQM7c.jpg","2060728613872234644",,,,"2060674246880149900","1226636978256564226",
+Watch the video, then save the exact setup below👇","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","737","7911","162","44","23651","1572426","true","video","https://pbs.twimg.com/amplify_video_thumb/2060728133398011906/img/g7TZwTQTX1VaQM7c.jpg","https://video.twimg.com/amplify_video/2060728133398011906/vid/avc1/1280x720/gYSTX2V5w5WCUg5t.mp4?tag=27","1302","https://pbs.twimg.com/amplify_video_thumb/2060728133398011906/img/g7TZwTQTX1VaQM7c.jpg","2060728613872234644",,,,"2060674246880149900","1226636978256564226",
 "original","2056415973125796184","2026-05-18T16:45:49.000Z","trq212","Thariq","a prompt I've been using a lot recently:
 
-implement &lt;SPEC&gt; and while you do, keep a running implementation-notes.html file (or markdown) with decisions you had to make weren't in the spec, things you had to change, tradeoffs you had to make or anything else I should know","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","582","9720","343","126","12373","819470","true","photo","https://pbs.twimg.com/media/HInbJHobUAMaPDB.jpg",,,"https://pbs.twimg.com/media/HInbJHobUAMaPDB.jpg","2056415973125796184",,,,,,
-"original","2056021997659017452","2026-05-17T14:40:17.000Z","NainsiDwiv50980","Nainsi Dwivedi","http://x.com/i/article/2056018459340034048","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","64","357","28","15","1010","1068459","false","none",,,,,"2056021997659017452",,,,,,
+implement &lt;SPEC&gt; and while you do, keep a running implementation-notes.html file (or markdown) with decisions you had to make weren't in the spec, things you had to change, tradeoffs you had to make or anything else I should know","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","582","9737","343","126","12369","820135","true","photo","https://pbs.twimg.com/media/HInbJHobUAMaPDB.jpg",,,"https://pbs.twimg.com/media/HInbJHobUAMaPDB.jpg","2056415973125796184",,,,,,
+"original","2056021997659017452","2026-05-17T14:40:17.000Z","NainsiDwiv50980","Nainsi Dwivedi","http://x.com/i/article/2056018459340034048","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","64","357","28","15","1010","1068976","false","none",,,,,"2056021997659017452",,,,,,
 "quote","2056022182560665602","2026-05-17T14:41:02.000Z","Suryanshti777","Suryansh Tiwari","Claude Code feels completely different once you install this.
 
 Anthropic quietly released an official plugin called claude-code-setup and it basically turns Claude Code from “pretty good” into an actual AI dev environment.
@@ -73,7 +93,7 @@ Install:
 
 /plugin install claude-code-setup@claude-plugins-official
 
-Bookmark this before you forget it.","en","<a href=""http://twitter.com/download/android"" rel=""nofollow"">Twitter for Android</a>","427","4558","125","34","13824","1517073","true","video","https://pbs.twimg.com/ext_tw_video_thumb/2056022163141091328/pu/img/FoNu6a-z6q0k3erS.jpg","https://video.twimg.com/ext_tw_video/2056022163141091328/pu/vid/avc1/1080x1080/FfcYaXO8h75dlxtN.mp4?tag=25","11","https://pbs.twimg.com/ext_tw_video_thumb/2056022163141091328/pu/img/FoNu6a-z6q0k3erS.jpg","2056022182560665602",,,,"2056021997659017452","1994840137336066051",
+Bookmark this before you forget it.","en","<a href=""http://twitter.com/download/android"" rel=""nofollow"">Twitter for Android</a>","427","4558","125","34","13823","1517783","true","video","https://pbs.twimg.com/ext_tw_video_thumb/2056022163141091328/pu/img/FoNu6a-z6q0k3erS.jpg","https://video.twimg.com/ext_tw_video/2056022163141091328/pu/vid/avc1/1080x1080/FfcYaXO8h75dlxtN.mp4?tag=25","11","https://pbs.twimg.com/ext_tw_video_thumb/2056022163141091328/pu/img/FoNu6a-z6q0k3erS.jpg","2056022182560665602",,,,"2056021997659017452","1994840137336066051",
 "original","2055961427983151224","2026-05-17T10:39:37.000Z","Shruti_0810","Shruti Codes","SOMEONE JUST OPEN-SOURCED THE MOST INSANE CLAUDE CODE SYSTEM ON THE INTERNET.
 
 55 AGENTS.
@@ -107,7 +127,7 @@ Free. Open source. Production-grade.
 
 http://github.com/affaan-m/everything-claude-code
 
-Bookmark this before AI Twitter turns it into the next gold rush.","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","6","53","11","0","58","4018","true","photo","https://pbs.twimg.com/media/HIg-A9JaAAAuEyM.jpg",,,"https://pbs.twimg.com/media/HIg-A9JaAAAuEyM.jpg","2055961427983151224",,,,,,
+Bookmark this before AI Twitter turns it into the next gold rush.","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","6","52","11","0","58","4019","true","photo","https://pbs.twimg.com/media/HIg-A9JaAAAuEyM.jpg",,,"https://pbs.twimg.com/media/HIg-A9JaAAAuEyM.jpg","2055961427983151224",,,,,,
 "original","2055712886790701226","2026-05-16T18:12:00.000Z","techNmak","Tech with Mak","Andrej Karpathy wrote something that every Claude Code user has felt but couldn't articulate.
 
 Three quotes. Read them slowly.
@@ -136,8 +156,8 @@ Transform ""fix the bug"" into ""write a test that reproduces it, then make it p
 
 This last one is Karpathy's key insight captured directly: ""LLMs are exceptionally good at looping until they meet specific goals... Don't tell it what to do, give it success criteria and watch it go.""
 
-It's a single file. Drop it into any project.","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","78","997","25","6","2196","89074","true","photo","https://pbs.twimg.com/media/HIdb4cMaEAAyOW0.jpg",,,"https://pbs.twimg.com/media/HIdb4cMaEAAyOW0.jpg","2055712886790701226",,,,,,
-"original","2054955621829443903","2026-05-14T16:02:54.000Z","Mnilax","Mnimiy","http://x.com/i/article/2054929277317939200","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","20","160","9","2","414","124748","false","none",,,,,"2054955621829443903",,,,,,
+It's a single file. Drop it into any project.","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","78","998","25","6","2195","89109","true","photo","https://pbs.twimg.com/media/HIdb4cMaEAAyOW0.jpg",,,"https://pbs.twimg.com/media/HIdb4cMaEAAyOW0.jpg","2055712886790701226",,,,,,
+"original","2054955621829443903","2026-05-14T16:02:54.000Z","Mnilax","Mnimiy","http://x.com/i/article/2054929277317939200","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","20","160","9","2","414","124807","false","none",,,,,"2054955621829443903",,,,,,
 "quote","2054997650160885841","2026-05-14T18:49:54.000Z","Mnilax","Mnimiy","you can write a perfect CLAUDE.md today and it will still be lying to Claude in three months.
 
 not because you wrote it wrong. because the file is static and your work isn't.
@@ -160,10 +180,10 @@ the keep list was 38 lines. the delete list taught me more.
 
 learn to write the file from the video. then read the article for the part that comes after: keeping it honest.
 
-a CLAUDE.md you never audit isn't a memory file. it's a museum.","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","30","208","16","3","297","33511","true","video","https://pbs.twimg.com/amplify_video_thumb/2054996312110583809/img/i1FUKVT62N1o4LAJ.jpg","https://video.twimg.com/amplify_video/2054996312110583809/vid/avc1/2560x1440/EFjC4CFp_wOCd5k1.mp4?tag=27","177","https://pbs.twimg.com/amplify_video_thumb/2054996312110583809/img/i1FUKVT62N1o4LAJ.jpg","2054997650160885841",,,,"2054955621829443903","1062361511866327041",
-"original","2055035402294046731","2026-05-14T21:19:55.000Z","defileo","Defileo🔮","http://x.com/i/article/2055017221940727808","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","17","156","13","6","338","160115","false","none",,,,,"2055035402294046731",,,,,,
-"original","2054915602171723992","2026-05-14T13:23:52.000Z","akshay_pachaar","Akshay 🚀","http://x.com/i/article/2054806436883070977","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","48","276","9","8","502","55790","false","none",,,,,"2054915602171723992",,,,,,
-"original","2054568935274549597","2026-05-13T14:26:20.000Z","AnatoliKopadze","Anatoli Kopadze","http://x.com/i/article/2053512889529413634","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","1133","6800","166","148","28255","20221995","false","none",,,,,"2054568935274549597",,,,,,
+a CLAUDE.md you never audit isn't a memory file. it's a museum.","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","30","209","16","3","297","33525","true","video","https://pbs.twimg.com/amplify_video_thumb/2054996312110583809/img/i1FUKVT62N1o4LAJ.jpg","https://video.twimg.com/amplify_video/2054996312110583809/vid/avc1/2560x1440/EFjC4CFp_wOCd5k1.mp4?tag=27","177","https://pbs.twimg.com/amplify_video_thumb/2054996312110583809/img/i1FUKVT62N1o4LAJ.jpg","2054997650160885841",,,,"2054955621829443903","1062361511866327041",
+"original","2055035402294046731","2026-05-14T21:19:55.000Z","defileo","Defileo🔮","http://x.com/i/article/2055017221940727808","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","17","145","13","6","342","160487","false","none",,,,,"2055035402294046731",,,,,,
+"original","2054915602171723992","2026-05-14T13:23:52.000Z","akshay_pachaar","Akshay 🚀","http://x.com/i/article/2054806436883070977","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","48","276","9","8","502","55876","false","none",,,,,"2054915602171723992",,,,,,
+"original","2054568935274549597","2026-05-13T14:26:20.000Z","AnatoliKopadze","Anatoli Kopadze","http://x.com/i/article/2053512889529413634","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","1136","6825","166","148","28305","20238733","false","none",,,,,"2054568935274549597",,,,,,
 "quote","2054927850541588792","2026-05-14T14:12:32.000Z","polydao","Mr. Buzzoni","the skill gap between $95K and $300K right now is Claude Opus agent architecture
 
 this 2-hour guide closes that gap
@@ -171,14 +191,14 @@ this 2-hour guide closes that gap
 companies are paying $150K-300K/year for engineers who know this
 most of them have no idea this guide exists
 
-watch it. build it. charge for it","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","137","1347","19","5","3873","231940","true","video","https://pbs.twimg.com/amplify_video_thumb/2054926734705778689/img/nR44XNGbADahzezW.jpg","https://video.twimg.com/amplify_video/2054926734705778689/vid/avc1/1920x1080/d8Q32eZvycFmhbCy.mp4?tag=27","7192","https://pbs.twimg.com/amplify_video_thumb/2054926734705778689/img/nR44XNGbADahzezW.jpg","2054927850541588792",,,,"2054568935274549597","839423932184870914",
-"original","2018712721538081170","2026-02-03T15:46:33.000Z","techNmak","Tech with Mak","10x isn't a talent anymore. It's a config file for Claude Code.","en","<a href=""http://twitter.com/download/android"" rel=""nofollow"">Twitter for Android</a>","213","2649","57","7","4228","248898","true","photo","https://pbs.twimg.com/media/HAPogugboAEDOZV.jpg",,,"https://pbs.twimg.com/media/HAPogugboAEDOZV.jpg","2018712721538081170",,,,,,
-"original","2027463795355095314","2026-02-27T19:20:11.000Z","trq212","Thariq","http://x.com/i/article/2027446899310313472","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","1388","11170","248","230","28539","3987530","false","none",,,,,"2027463795355095314",,,,,,
+watch it. build it. charge for it","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","136","1342","19","5","3874","231994","true","video","https://pbs.twimg.com/amplify_video_thumb/2054926734705778689/img/nR44XNGbADahzezW.jpg","https://video.twimg.com/amplify_video/2054926734705778689/vid/avc1/1920x1080/d8Q32eZvycFmhbCy.mp4?tag=27","7192","https://pbs.twimg.com/amplify_video_thumb/2054926734705778689/img/nR44XNGbADahzezW.jpg","2054927850541588792",,,,"2054568935274549597","839423932184870914",
+"original","2018712721538081170","2026-02-03T15:46:33.000Z","techNmak","Tech with Mak","10x isn't a talent anymore. It's a config file for Claude Code.","en","<a href=""http://twitter.com/download/android"" rel=""nofollow"">Twitter for Android</a>","213","2649","57","7","4230","248907","true","photo","https://pbs.twimg.com/media/HAPogugboAEDOZV.jpg",,,"https://pbs.twimg.com/media/HAPogugboAEDOZV.jpg","2018712721538081170",,,,,,
+"original","2027463795355095314","2026-02-27T19:20:11.000Z","trq212","Thariq","http://x.com/i/article/2027446899310313472","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","1387","11174","248","230","28540","3988206","false","none",,,,,"2027463795355095314",,,,,,
 "original","2011803318709076000","2026-01-15T14:11:03.000Z","melvynx","Melvyn • Builder","urgent pro tips with Claude Code :
 
 • add a http://CLAUDE.md rules asking AI to NEVER use `rm -rf` and instead use `trash`
 • install trash CLI `brew install trash`
-• add a Claude Code hooks to refuse any command with rm -rf","en","<a href=""https://typefully.com/"" rel=""nofollow"">Typefully</a>","88","1721","101","25","2391","201488","true","photo","https://pbs.twimg.com/media/G-tcdQibQAMdR2c.png",,,"https://pbs.twimg.com/media/G-tcdQibQAMdR2c.png","2011803318709076000",,,,,,
+• add a Claude Code hooks to refuse any command with rm -rf","en","<a href=""https://typefully.com/"" rel=""nofollow"">Typefully</a>","88","1725","101","25","2391","201496","true","photo","https://pbs.twimg.com/media/G-tcdQibQAMdR2c.png",,,"https://pbs.twimg.com/media/G-tcdQibQAMdR2c.png","2011803318709076000",,,,,,
 "original","2008018043205460106","2026-01-05T03:29:43.000Z","0xDesigner","0xDesigner","10 useful beginner tips if you’re a non-technical new to claude code:
 
 1. use plan mode (shift + tab)
@@ -192,18 +212,18 @@ watch it. build it. charge for it","en","<a href=""https://mobile.twitter.com"" 
 9. pick up an old thread by running “claude —resume”
 10. hit “esc” while claude it working to interrupt it
 
-bonus: use claude code in the cursor terminal, hit [ctrl + shift + ~] to open a new terminal and then drag the terminal shell with your mouse to the center of the window and you now have full screen claude code in cursor.","en","<a href=""http://twitter.com/download/iphone"" rel=""nofollow"">Twitter for iPhone</a>","32","555","31","3","930","39042","false","none",,,,,"2008018043205460106",,,,,,
-"original","2025920521871716562","2026-02-23T13:07:46.000Z","elvissun","Elvis","http://x.com/i/article/2025654698590748672","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","1621","12581","401","293","37618","5400133","false","none",,,,,"2025920521871716562",,,,,,
+bonus: use claude code in the cursor terminal, hit [ctrl + shift + ~] to open a new terminal and then drag the terminal shell with your mouse to the center of the window and you now have full screen claude code in cursor.","en","<a href=""http://twitter.com/download/iphone"" rel=""nofollow"">Twitter for iPhone</a>","32","556","31","3","932","39043","false","none",,,,,"2008018043205460106",,,,,,
+"original","2025920521871716562","2026-02-23T13:07:46.000Z","elvissun","Elvis","http://x.com/i/article/2025654698590748672","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","1621","12605","401","293","37668","5403918","false","none",,,,,"2025920521871716562",,,,,,
 "original","2011346216496611687","2026-01-14T07:54:41.000Z","Ibelick","Ibelick","/ui-skills now installable via
 
-curl -fsSL https://ui-skills.com/install | bash","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","48","1117","18","4","1591","82268","true","photo","https://pbs.twimg.com/media/G-m8amyWcAAV7TW.jpg",,,"https://pbs.twimg.com/media/G-m8amyWcAAV7TW.jpg","2011346216496611687",,,,,,
+curl -fsSL https://ui-skills.com/install | bash","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","48","1120","18","4","1591","82270","true","photo","https://pbs.twimg.com/media/G-m8amyWcAAV7TW.jpg",,,"https://pbs.twimg.com/media/G-m8amyWcAAV7TW.jpg","2011346216496611687",,,,,,
 "original","2007400556898463824","2026-01-03T10:36:03.000Z","iannuttall","Ian Nuttall","what's everybody using for global agent rules/instructions now?
 
 - AGENT.⁠md/CLAUDE.⁠md
 - SKILL.⁠md
 - something else
 
-example: should my commit rules be in a global file loaded into context on every request (in theory!) or a skill that gets loaded when i say ""commit this""?","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","2","193","40","3","306","215008","false","none",,,,,"2007400556898463824",,,,,,
+example: should my commit rules be in a global file loaded into context on every request (in theory!) or a skill that gets loaded when i say ""commit this""?","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","2","194","40","3","307","215018","false","none",,,,,"2007400556898463824",,,,,,
 "quote","2007752112361685197","2026-01-04T09:53:00.000Z","elliotarledge","Elliot Arledge","~ ❯ cat ~/.claude/CLAUDE.md
 <claude-instructions>
 
@@ -261,7 +281,7 @@ example: should my commit rules be in a global file loaded into context on every
   Check which machine we are currently on before using these.
 </machines>
 
-</claude-instructions>","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","78","1580","15","5","2940","176752","false","none",,,,,"2007752112361685197",,,,"2007400556898463824","9111552",
+</claude-instructions>","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","78","1582","15","5","2940","176764","false","none",,,,,"2007752112361685197",,,,"2007400556898463824","9111552",
 "original","2010655002172571721","2026-01-12T10:08:03.000Z","DataChaz","Charly Wargnier","Wow, such a great open-source drop!
 
 Put Claude on steroids with 120+ scientific skills spanning maths, biology, chemistry, medicine, engineering, &amp; more 🤯
@@ -270,7 +290,7 @@ If you’ve ever wanted Claude to act like a research assistant, this gets very 
 
 Free and open source.
 
-Repo in 🧵↓","en","<a href=""https://typefully.com/"" rel=""nofollow"">Typefully</a>","156","1189","18","4","1820","81742","true","photo","https://pbs.twimg.com/media/G-dIEdraIAAPSR3.png",,,"https://pbs.twimg.com/media/G-dIEdraIAAPSR3.png","2010655002172571721",,,,,,
+Repo in 🧵↓","en","<a href=""https://typefully.com/"" rel=""nofollow"">Typefully</a>","156","1189","18","4","1820","81745","true","photo","https://pbs.twimg.com/media/G-dIEdraIAAPSR3.png",,,"https://pbs.twimg.com/media/G-dIEdraIAAPSR3.png","2010655002172571721",,,,,,
 "original","1999965965212348879","2025-12-13T22:13:38.000Z","nummanali","Numman Ali","If you want to have Opus 4.5 at it's MAX in Claude Code
 
 Update ~/.claude/settings.json 
@@ -284,25 +304,25 @@ Update ~/.claude/settings.json
 - double the output
 - ultrathink always on
 
-Ctrl+O will show thinking in verbose mode","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","129","1934","57","9","2670","158292","false","none",,,,,"1999965965212348879",,,,,,
+Ctrl+O will show thinking in verbose mode","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","129","1939","57","9","2670","158301","false","none",,,,,"1999965965212348879",,,,,,
 "original","2030089465679728763","2026-03-07T01:13:40.000Z","chintanturakhia","Chintan Turakhia","Run this prompt frequently.
 
-You're welcome.","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","314","6894","121","55","9501","913773","true","photo","https://pbs.twimg.com/media/HCxTiTyaUAILTCN.png",,,"https://pbs.twimg.com/media/HCxTiTyaUAILTCN.png","2030089465679728763",,,,,,
-"quote","2030253594708967785","2026-03-07T12:05:51.000Z","gregisenberg","GREG ISENBERG","This is smart. You can also try /insights","en","<a href=""http://twitter.com/download/iphone"" rel=""nofollow"">Twitter for iPhone</a>","103","1974","56","5","2355","190186","false","none",,,,,"2030253594708967785",,,,"2030089465679728763","82279208",
+You're welcome.","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","314","6898","121","55","9504","913836","true","photo","https://pbs.twimg.com/media/HCxTiTyaUAILTCN.png",,,"https://pbs.twimg.com/media/HCxTiTyaUAILTCN.png","2030089465679728763",,,,,,
+"quote","2030253594708967785","2026-03-07T12:05:51.000Z","gregisenberg","GREG ISENBERG","This is smart. You can also try /insights","en","<a href=""http://twitter.com/download/iphone"" rel=""nofollow"">Twitter for iPhone</a>","103","1975","56","5","2356","190190","false","none",,,,,"2030253594708967785",,,,"2030089465679728763","82279208",
 "original","2000303161962344701","2025-12-14T20:33:32.000Z","nummanali","Numman Ali","Wow - ALL of Claude Code system prompts and fully up to date
 
 This repo is an absolute goldmine, star it and fork it now
 
 https://github.com/Piebald-AI/claude-code-system-prompts
 
-Courtesy of @PiebaldAI - the makers of tweakcc (more on that later)","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","113","1007","20","1","1868","88415","false","none",,,,,"2000303161962344701",,,,,,
+Courtesy of @PiebaldAI - the makers of tweakcc (more on that later)","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","113","1008","20","1","1870","88416","false","none",,,,,"2000303161962344701",,,,,,
 "original","2025632913090310220","2026-02-22T18:04:55.000Z","simplifyinAI","Simplifying AI","Someone finally solved AI context rot 🤯
 
 Get-Shit-Done is a new open source tool that turns Claude Code and Gemini CLI into absolute monsters.
 
 It breaks your project into phases, clears the context, and uses parallel agents to build it perfectly with zero accumulated garbage.
 
-100% Open Source.","en","<a href=""http://twitter.com/download/iphone"" rel=""nofollow"">Twitter for iPhone</a>","132","1038","40","10","1758","76329","true","photo","https://pbs.twimg.com/media/HBx-ZhgWwAA-ILw.jpg",,,"https://pbs.twimg.com/media/HBx-ZhgWwAA-ILw.jpg","2025632913090310220",,,,,,
+100% Open Source.","en","<a href=""http://twitter.com/download/iphone"" rel=""nofollow"">Twitter for iPhone</a>","133","1042","40","10","1759","76335","true","photo","https://pbs.twimg.com/media/HBx-ZhgWwAA-ILw.jpg",,,"https://pbs.twimg.com/media/HBx-ZhgWwAA-ILw.jpg","2025632913090310220",,,,,,
 "original","2010418240523022496","2026-01-11T18:27:14.000Z","maksym_andr","Maksym Andriushchenko","Like everyone else, I also got excited about Claude Code + Opus 4.5. This led me to update my scientific writing workflow over the holidays:
 - Claude Code Max ($200/month) with Opus 4.5 and variable levels of thinking (e.g., ultrathink for the hardest tasks like literature overviews). Yes, the $20/month subscription is not enough.
 - Most useful for coding (quick experiments, data analysis, websites) and writing (papers, blog posts, grants, recommendation letters; unless this is explicitly forbidden).
@@ -328,7 +348,7 @@ Frontier LLM agents still have limitations, though:
 
 Interestingly, none of these limitations are due to the lack of relevant capabilities (maybe except the research taste one - will it be an emergent capability of some sort?). Hallucinations are quite rare. Tool use feels very natural and intuitive. Most of the limitations above are due to the lack of continual learning and limited context window.
 
-Would be curious to hear what kind of workflows others came up with!","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","37","527","28","3","790","67551","false","none",,,,,"2010418240523022496",,,,,,
+Would be curious to hear what kind of workflows others came up with!","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","37","527","28","3","792","67560","false","none",,,,,"2010418240523022496",,,,,,
 "original","2007839718986358897","2026-01-04T15:41:07.000Z","GuarEmperor","GE","Holly molly this good article ""Vibe Code"" 
 
 There are many explanations, tips and tricks regarding Claude Code AI to improve your programming.
@@ -353,15 +373,15 @@ https://substack.com/inbox/post/183120033
 
 https://0xkyle.substack.com/p/the-2026-gameplan
 
-Done read all article substack now time to rest","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","233","2487","78","8","4179","206190","true","photo","https://pbs.twimg.com/media/G91GSz0bQAAszLm.png",,,"https://pbs.twimg.com/media/G91GSz0bQAAszLm.png","2007839718986358897",,,,,,
+Done read all article substack now time to rest","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","234","2488","78","8","4185","206194","true","photo","https://pbs.twimg.com/media/G91GSz0bQAAszLm.png",,,"https://pbs.twimg.com/media/G91GSz0bQAAszLm.png","2007839718986358897",,,,,,
 "reply","2006908010392858960","2026-01-02T01:58:50.000Z","minimaxir","Max Woolf","ok, fine, here's the CLAUDE[.]md, don't say I didn't warn you:
 
 Python: https://gist.github.com/minimaxir/c274d7cc12f683d93df2b1cc5bab853c
 
-Rust:  https://gist.github.com/minimaxir/23ee55a83633ac0b6b92de635291ad80","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","5","121","6","0","334","8362","false","none",,,,,"2006861912764723287","2006861912764723287","145057047","minimaxir",,,
+Rust:  https://gist.github.com/minimaxir/23ee55a83633ac0b6b92de635291ad80","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","5","122","6","0","334","8362","false","none",,,,,"2006861912764723287","2006861912764723287","145057047","minimaxir",,,
 "original","2011857112939544991","2026-01-15T17:44:48.000Z","arvidkahl","Arvid Kahl","Nothing, absolutely NOTHING stops you from creating a Claude Code skill named /security-check, adding a one-liner like ""Thoroughly investigate the current feature for security problems, permission gaps. Act like a red-team pen-tester. Suggest fixes.""
 
-Run before you commit.","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","130","3314","124","17","3173","176469","false","none",,,,,"2011857112939544991",,,,,,
+Run before you commit.","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","130","3328","124","17","3178","176477","false","none",,,,,"2011857112939544991",,,,,,
 "original","2006723844762120341","2026-01-01T13:47:02.000Z","seconds_0","0.005 Seconds (3/694)","The harnesses are still not optimally utilizing the models
 
 Everyone rightfully loves claude code right now, but it is clear to me it is underutilizing the capability of opus. 
@@ -370,23 +390,23 @@ The lowest hanging fruit is /init in existing code bases. It does a good job of 
 
 the harness should be seeking opportunities for whenever it makes mistakes to patch those mistakes in its own thinking with skills and protections and reminders to research things!
 
-This is one of the major powerlevel gaps between experienced users and the unfamiliar. I am constantly prompting claude to update all of our relevant skills and http://claude.md whenever we finish a task or a bug. The harness begins to form to the codebase while at the same time shaping it back, making a much more usable and effective tool","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","19","461","23","2","400","33127","false","none",,,,,"2006723844762120341",,,,,,
-"original","2053422550567502046","2026-05-10T10:31:01.000Z","heynavtoor","Nav Toor","http://x.com/i/article/2052947796701949953","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","62","473","9","10","2176","335893","false","none",,,,,"2053422550567502046",,,,,,
+This is one of the major powerlevel gaps between experienced users and the unfamiliar. I am constantly prompting claude to update all of our relevant skills and http://claude.md whenever we finish a task or a bug. The harness begins to form to the codebase while at the same time shaping it back, making a much more usable and effective tool","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","20","461","23","2","402","33127","false","none",,,,,"2006723844762120341",,,,,,
+"original","2053422550567502046","2026-05-10T10:31:01.000Z","heynavtoor","Nav Toor","http://x.com/i/article/2052947796701949953","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","62","474","9","10","2175","335967","false","none",,,,,"2053422550567502046",,,,,,
 "original","1978130461596745856","2025-10-14T16:07:08.000Z","lennysan","Lenny Rachitsky","Everyone should be using Claude Code more
 
 PMs, marketers, designers, founders, parents. Everyone.
 
 The trick is to forget that it’s called Claude Code and instead think of it as Claude Local or Claude Agent. It’s essentially a super-intelligent AI running locally, able to do stuff directly on your computer—from organizing your files and folders to brainstorming domain names, summarizing customer calls, to enhancing image quality, creating Linear tickets, and so much more.
 
-Here are 50 creative ways non-technical people are using Claude Code in their work and life, to inspire your own thinking. This list includes my own favorite use cases, and many examples y’all shared with me 👇","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","194","2120","85","46","3749","369427","true","photo","https://pbs.twimg.com/media/G3O5eR8WMAAHGpL.jpg",,,"https://pbs.twimg.com/media/G3O5eR8WMAAHGpL.jpg","1978130461596745856",,,,,,
+Here are 50 creative ways non-technical people are using Claude Code in their work and life, to inspire your own thinking. This list includes my own favorite use cases, and many examples y’all shared with me 👇","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","194","2122","85","46","3750","369431","true","photo","https://pbs.twimg.com/media/G3O5eR8WMAAHGpL.jpg",,,"https://pbs.twimg.com/media/G3O5eR8WMAAHGpL.jpg","1978130461596745856",,,,,,
 "original","2005285904420843892","2025-12-28T14:33:10.000Z","dejavucoder","sankalp","claude code is having it's cursor moment after karpathy sensei's post. never been a better time to try it. 
 
 my latest blog on how to get the most out of claude code 2.0  and other agents in general is up now. grab a chai and have fun reading!
 
-https://sankalp.bearblog.dev/my-experience-with-claude-code-20-and-how-to-get-better-at-using-coding-agents/","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","836","9613","166","85","19854","1723187","true","photo","https://pbs.twimg.com/media/G9Qz_X2aQAA-bqx.jpg",,,"https://pbs.twimg.com/media/G9Qz_X2aQAA-bqx.jpg","2005285904420843892",,,,,,
+https://sankalp.bearblog.dev/my-experience-with-claude-code-20-and-how-to-get-better-at-using-coding-agents/","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","835","9622","166","84","19862","1723277","true","photo","https://pbs.twimg.com/media/G9Qz_X2aQAA-bqx.jpg",,,"https://pbs.twimg.com/media/G9Qz_X2aQAA-bqx.jpg","2005285904420843892",,,,,,
 "original","2012578218084065746","2026-01-17T17:30:13.000Z","PerceptualPeak","Zac","Claude Code idea: Smart fork detection. 
 
-Have every session transcript auto loaded into a vector database via RAG. Create a /detect-fork command. Invoking this command will first prompt Claude to ask you what you're wanting to do. You tell it, and then it will dispatch a sub-agent to the RAG database to find the chat session with the most relevant context to what you're trying to achieve. It will then output the fork session command for that session. Paste it in a new terminal, and seamlessly pick up where you left off.","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","10","331","13","2","481","481743","false","none",,,,,"2012578218084065746",,,,,,
+Have every session transcript auto loaded into a vector database via RAG. Create a /detect-fork command. Invoking this command will first prompt Claude to ask you what you're wanting to do. You tell it, and then it will dispatch a sub-agent to the RAG database to find the chat session with the most relevant context to what you're trying to achieve. It will then output the fork session command for that session. Paste it in a new terminal, and seamlessly pick up where you left off.","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","10","331","13","2","481","481754","false","none",,,,,"2012578218084065746",,,,,,
 "quote","2012741829683224584","2026-01-18T04:20:21.000Z","PerceptualPeak","Zac","holy shit it fucking WORKS. 
 
 SMART FORKING. My mind is genuinely blown. I HIGHLY RECCOMEND every Claude Code user implement this into their own workflows. 
@@ -399,25 +419,25 @@ It will then return a list of the top 5 relevant chat sessions you've had relati
 
 And boom, there you have it. Seamlessly efficient feature implementation. 
 
-Happy to whip up an implementation plan & share it in a git repo if anyone is interested!","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","288","4548","157","32","7681","653177","true","photo","https://pbs.twimg.com/media/G-6tTiBXsAAatzC.png; https://pbs.twimg.com/media/G-6xCE0WYAAQOfG.png; https://pbs.twimg.com/media/G-6xV9EWMAAUdKQ.png",,,"https://pbs.twimg.com/media/G-6tTiBXsAAatzC.png","2012741829683224584",,,,"2012578218084065746","1223475978",
-"original","2012934260265816387","2026-01-18T17:05:00.000Z","joelhooks","joel ⛈️","forcing claude to review all of its fuck ups and create rules/skills to prevent them in the future","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","82","2074","115","12","1784","141167","true","photo","https://pbs.twimg.com/media/G-9hAavXwAE8RmW.jpg",,,"https://pbs.twimg.com/media/G-9hAavXwAE8RmW.jpg","2012934260265816387",,,,,,
-"original","2009666254815269313","2026-01-09T16:39:07.000Z","claudeai","Claude","Some delightfully specific things people are building with Claude Code lately.","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","466","10432","448","109","4485","1161852","false","none",,,,,"2009666254815269313",,,,,,
-"original","2053116311132155938","2026-05-09T14:14:08.000Z","Mnilax","Mnimiy","http://x.com/i/article/2053106718226227203","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","703","6606","83","90","24181","4439760","false","none",,,,,"2053116311132155938",,,,,,
+Happy to whip up an implementation plan & share it in a git repo if anyone is interested!","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","289","4555","157","32","7690","653193","true","photo","https://pbs.twimg.com/media/G-6tTiBXsAAatzC.png; https://pbs.twimg.com/media/G-6xCE0WYAAQOfG.png; https://pbs.twimg.com/media/G-6xV9EWMAAUdKQ.png",,,"https://pbs.twimg.com/media/G-6tTiBXsAAatzC.png","2012741829683224584",,,,"2012578218084065746","1223475978",
+"original","2012934260265816387","2026-01-18T17:05:00.000Z","joelhooks","joel ⛈️","forcing claude to review all of its fuck ups and create rules/skills to prevent them in the future","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","83","2087","115","12","1787","141171","true","photo","https://pbs.twimg.com/media/G-9hAavXwAE8RmW.jpg",,,"https://pbs.twimg.com/media/G-9hAavXwAE8RmW.jpg","2012934260265816387",,,,,,
+"original","2009666254815269313","2026-01-09T16:39:07.000Z","claudeai","Claude","Some delightfully specific things people are building with Claude Code lately.","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","466","10447","448","109","4489","1161882","false","none",,,,,"2009666254815269313",,,,,,
+"original","2053116311132155938","2026-05-09T14:14:08.000Z","Mnilax","Mnimiy","http://x.com/i/article/2053106718226227203","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","702","6616","83","90","24177","4441477","false","none",,,,,"2053116311132155938",,,,,,
 "original","2008574360832082306","2026-01-06T16:20:19.000Z","lucasbastianik","Lucas Bastianik","Me: I need better work-life balance
 
 Also me: setting up a VPS with Claude Code after seeing @levelsio's guide
 
 Now I can code from the gym. And the bathroom.
 
-We're not okay.","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","73","1935","154","10","1469","149368","true","photo","https://pbs.twimg.com/media/G9_juW_W0AY8msG.jpg",,,"https://pbs.twimg.com/media/G9_juW_W0AY8msG.jpg","2008574360832082306",,,,,,
-"original","2032487597214490969","2026-03-13T16:02:59.000Z","liulicheng10","Licheng Liu","http://x.com/i/article/2032337794388148224","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","76","711","8","3","1267","63653","false","none",,,,,"2032487597214490969",,,,,,
+We're not okay.","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","73","1938","154","10","1470","149370","true","photo","https://pbs.twimg.com/media/G9_juW_W0AY8msG.jpg",,,"https://pbs.twimg.com/media/G9_juW_W0AY8msG.jpg","2008574360832082306",,,,,,
+"original","2032487597214490969","2026-03-13T16:02:59.000Z","liulicheng10","Licheng Liu","http://x.com/i/article/2032337794388148224","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","76","713","8","3","1266","63656","false","none",,,,,"2032487597214490969",,,,,,
 "original","2021517624803573928","2026-02-11T09:32:14.000Z","sharbel","Sharbel","Most people bookmark tweets and never look at them again
 
 So I built an openclaw skill that reads your bookmarks and tells your agent what to actually do with them
 
 It categorizes everything, extracts actions, and proposes work it can start on right now
 
-http://github.com/sharbelxyz/x-bookmarks","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","226","2531","205","27","3758","128374","true","photo","https://pbs.twimg.com/media/HA3ewupXAAA6Sjj.jpg",,,"https://pbs.twimg.com/media/HA3ewupXAAA6Sjj.jpg","2021517624803573928",,,,,,
+http://github.com/sharbelxyz/x-bookmarks","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","226","2541","205","27","3760","128378","true","photo","https://pbs.twimg.com/media/HA3ewupXAAA6Sjj.jpg",,,"https://pbs.twimg.com/media/HA3ewupXAAA6Sjj.jpg","2021517624803573928",,,,,,
 "original","2007639328663474672","2026-01-04T02:24:50.000Z","dabit3","nader dabit","Claude Code can also control your browser.
 
 It uses your login and session state, so Claude can access anything you're already logged into without API keys or OAuth setup.
@@ -448,7 +468,7 @@ If claude hits a captcha or login, it pauses, you handle it, tell it to continue
 
 It's fun to watch chrome move in real time, no headless mode. It kind of feels like pair programming with a very fast ghost who never gets tired of clicking.
 
-You can run this by upgrading to the latest and running claude --chrome","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","69","955","74","7","1118","78421","false","none",,,,,"2007639328663474672",,,,,,
+You can run this by upgrading to the latest and running claude --chrome","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","70","959","74","7","1119","78421","false","none",,,,,"2007639328663474672",,,,,,
 "original","2013613503563624453","2026-01-20T14:04:05.000Z","omarsar0","elvis","You don't need a crazy setup in Claude Code.
 
 With just the foundational blocks, you can already do impressive things with Claude Code.
@@ -458,18 +478,18 @@ Stop overoptimizing around every tiny little feature/setting.
 Aim instead for compounding workflows that fit your needs.
 
 Good overview!","en","<a href=""https://typefully.com/"" rel=""nofollow"">Typefully</a>","19","195","20","3","302","36770","true","photo","https://pbs.twimg.com/media/G_HKzvtXMAId4HC.jpg",,,"https://pbs.twimg.com/media/G_HKzvtXMAId4HC.jpg","2013613503563624453",,,,,,
-"original","2038980345316413862","2026-03-31T14:02:51.000Z","rasbt","Sebastian Raschka","http://x.com/i/article/2038978163389112321","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","417","2858","76","54","4495","622395","false","none",,,,,"2038980345316413862",,,,,,
+"original","2038980345316413862","2026-03-31T14:02:51.000Z","rasbt","Sebastian Raschka","http://x.com/i/article/2038978163389112321","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","419","2866","76","54","4501","622447","false","none",,,,,"2038980345316413862",,,,,,
 "quote","2039194611118190866","2026-04-01T04:14:16.000Z","ClementDelangue","clem 🤗","That’s why I usually say that comparing open models with closed-source APIs or products is like comparing apples and oranges. Or comparing an engine with a full car. Or comparing an ingredient with a Michelin dinner (missing ingredients, prep and chef). 
 
-There’s a lot of scaffolding and tricks that is done behind APIs that make it unfair to compare to a raw open-source model! However that also means that if you put the work to really try to make open-source models work, they can give you much better results than what benchmark suggests (and that’s without even post-training/fine-tuning)","en","<a href=""http://twitter.com/download/iphone"" rel=""nofollow"">Twitter for iPhone</a>","59","531","29","8","499","105096","false","none",,,,,"2039194611118190866",,,,"2038980345316413862","865622395",
+There’s a lot of scaffolding and tricks that is done behind APIs that make it unfair to compare to a raw open-source model! However that also means that if you put the work to really try to make open-source models work, they can give you much better results than what benchmark suggests (and that’s without even post-training/fine-tuning)","en","<a href=""http://twitter.com/download/iphone"" rel=""nofollow"">Twitter for iPhone</a>","59","532","29","8","499","105099","false","none",,,,,"2039194611118190866",,,,"2038980345316413862","865622395",
 "original","2032822511709147640","2026-03-14T14:13:49.000Z","omarsar0","elvis","http://x.com/i/article/2032817842739990528","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","50","429","8","2","1022","72238","false","none",,,,,"2032822511709147640",,,,,,
 "original","2054359480599794094","2026-05-13T00:34:02.000Z","KUMAN_R","Kuman","とほほさんが Claude Code 入門まで書く時代が到来するとは、、
 ▼ とほほのClaude Code入門
-https://www.tohoho-web.com/ai/claude-code.html","ja","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","2537","10302","20","147","5660","663441","true","photo","https://pbs.twimg.com/media/HIKNDnhagAAP7bJ.jpg",,,"https://pbs.twimg.com/media/HIKNDnhagAAP7bJ.jpg","2054359480599794094",,,,,,
+https://www.tohoho-web.com/ai/claude-code.html","ja","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","2538","10313","20","147","5659","663751","true","photo","https://pbs.twimg.com/media/HIKNDnhagAAP7bJ.jpg",,,"https://pbs.twimg.com/media/HIKNDnhagAAP7bJ.jpg","2054359480599794094",,,,,,
 "reply","2010208561868259620","2026-01-11T04:34:03.000Z","bcherny","Boris Cherny","@BenjaminDEKR 👋 this happens if your context window fills up really fast. To debug:
 
 1. Run /context to make sure it looks healthy
-2. If that doesn’t show anything obvious, run /bug and dm me the bug id","en","<a href=""http://twitter.com/download/iphone"" rel=""nofollow"">Twitter for iPhone</a>","7","510","29","2","244","127638","false","none",,,,,"2010065359446126641","2010065359446126641","1594119001684299781","BenjaminDEKR",,,
+2. If that doesn’t show anything obvious, run /bug and dm me the bug id","en","<a href=""http://twitter.com/download/iphone"" rel=""nofollow"">Twitter for iPhone</a>","7","510","29","2","243","127641","false","none",,,,,"2010065359446126641","2010065359446126641","1594119001684299781","BenjaminDEKR",,,
 "quote","2010350172144796127","2026-01-11T13:56:46.000Z","chongdashu","Chong-U","Claude Code users -- do yourselves a favour an add the remaining context to your status line.
 
 Codex CLI has it.
@@ -483,14 +503,14 @@ Here's mine
 npx @chongdashu/cc-statusline@latest init 
 ```
 
-Or ask Claude to vibe code one for you","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","21","530","29","0","882","88300","true","photo","https://pbs.twimg.com/media/G-YykkWWoAAfvUt.jpg",,,"https://pbs.twimg.com/media/G-YykkWWoAAfvUt.jpg","2010350172144796127",,,,"2010208561868259620","159337660",
+Or ask Claude to vibe code one for you","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","21","531","29","0","883","88302","true","photo","https://pbs.twimg.com/media/G-YykkWWoAAfvUt.jpg",,,"https://pbs.twimg.com/media/G-YykkWWoAAfvUt.jpg","2010350172144796127",,,,"2010208561868259620","159337660",
 "original","2025859987168543183","2026-02-23T09:07:14.000Z","sentient_agency","Sentient","Holy shit... someone just built an App Store for Claude Code.
 
 It's called SkillsMP and there are 200,000+ agent skills that teach your AI exactly how to write PPTX files, review PRs, deploy to cloud, analyze data, and more.
 
 No complex prompting. No building from scratch. No wasted tokens.
 
-100% Opensource.","en","<a href=""https://typefully.com/"" rel=""nofollow"">Typefully</a>","209","1828","94","11","2978","166708","true","photo","https://pbs.twimg.com/media/HB1M7DKaUAA4hr7.jpg",,,"https://pbs.twimg.com/media/HB1M7DKaUAA4hr7.jpg","2025859987168543183",,,,,,
+100% Opensource.","en","<a href=""https://typefully.com/"" rel=""nofollow"">Typefully</a>","209","1829","94","11","2978","166712","true","photo","https://pbs.twimg.com/media/HB1M7DKaUAA4hr7.jpg",,,"https://pbs.twimg.com/media/HB1M7DKaUAA4hr7.jpg","2025859987168543183",,,,,,
 "original","2026332360833466517","2026-02-24T16:24:16.000Z","svpino","Santiago","You can use Claude Code to pull live, structured data from any website.
 
 It's a Claude skill.
@@ -509,13 +529,13 @@ This works using the Nimble skill. It will search the web in real time and retur
 
 It handles all sorts of websites, including those that render content on the client side with JavaScript.
 
-If you build agents that need web data, this skill is a 10/10.","en","<a href=""https://typefully.com/"" rel=""nofollow"">Typefully</a>","157","2346","76","394","5082","349135","true","video","https://pbs.twimg.com/amplify_video_thumb/2026332304956854272/img/rHWO7wqfDKdVIqoC.jpg","https://video.twimg.com/amplify_video/2026332304956854272/vid/avc1/1280x720/T2glqTfG15x1v-6_.mp4?tag=14","32","https://pbs.twimg.com/amplify_video_thumb/2026332304956854272/img/rHWO7wqfDKdVIqoC.jpg","2026332360833466517",,,,,,
+If you build agents that need web data, this skill is a 10/10.","en","<a href=""https://typefully.com/"" rel=""nofollow"">Typefully</a>","157","2350","76","394","5085","349144","true","video","https://pbs.twimg.com/amplify_video_thumb/2026332304956854272/img/rHWO7wqfDKdVIqoC.jpg","https://video.twimg.com/amplify_video/2026332304956854272/vid/avc1/1280x720/T2glqTfG15x1v-6_.mp4?tag=14","32","https://pbs.twimg.com/amplify_video_thumb/2026332304956854272/img/rHWO7wqfDKdVIqoC.jpg","2026332360833466517",,,,,,
 "original","2027416057934450816","2026-02-27T16:10:30.000Z","svpino","Santiago","This is how to make your AI 10x more useful:
 
 Give your agent (I use Claude Code) the ability to parse the whole Internet and answer questions from any site in the world.
 
-Once you have this, your ability to access and process information becomes limitless.","en","<a href=""https://typefully.com/"" rel=""nofollow"">Typefully</a>","539","3469","141","30","6926","610850","true","video","https://pbs.twimg.com/amplify_video_thumb/2027415945988513792/img/yQeNJKQ8OJKh7c5Q.jpg","https://video.twimg.com/amplify_video/2027415945988513792/vid/avc1/1280x720/ORZgHjte3TKoUetV.mp4?tag=14","433","https://pbs.twimg.com/amplify_video_thumb/2027415945988513792/img/yQeNJKQ8OJKh7c5Q.jpg","2027416057934450816",,,,,,
-"original","2012378465664745795","2026-01-17T04:16:29.000Z","affaan","cogsec","http://x.com/i/article/2012310917812502528","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","1220","10587","159","158","29696","4218736","false","none",,,,,"2012378465664745795",,,,,,
+Once you have this, your ability to access and process information becomes limitless.","en","<a href=""https://typefully.com/"" rel=""nofollow"">Typefully</a>","537","3475","141","30","6929","610890","true","video","https://pbs.twimg.com/amplify_video_thumb/2027415945988513792/img/yQeNJKQ8OJKh7c5Q.jpg","https://video.twimg.com/amplify_video/2027415945988513792/vid/avc1/1280x720/ORZgHjte3TKoUetV.mp4?tag=14","433","https://pbs.twimg.com/amplify_video_thumb/2027415945988513792/img/yQeNJKQ8OJKh7c5Q.jpg","2027416057934450816",,,,,,
+"original","2012378465664745795","2026-01-17T04:16:29.000Z","affaan","cogsec","http://x.com/i/article/2012310917812502528","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","1223","10608","159","158","29691","4219973","false","none",,,,,"2012378465664745795",,,,,,
 "quote","2028039930643902531","2026-03-01T09:29:33.000Z","dunik_7","dunik","a repository that will make your bot 1000x better
 
 affaan-m/everything-claude-code adds to your bot:
@@ -530,7 +550,7 @@ affaan-m/everything-claude-code adds to your bot:
 / scripts — exact count couldn’t be reliably confirmed
 / 992 internal tests
 
-this can improve the performance of your bots and agents 1000x.","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","126","1551","37","3","3724","313004","true","video","https://pbs.twimg.com/amplify_video_thumb/2028039734313013248/img/2WJabievPFEG0LKc.jpg","https://video.twimg.com/amplify_video/2028039734313013248/vid/avc1/2880x1746/YHgKFj2-H4CJTaN9.mp4?tag=21","50","https://pbs.twimg.com/amplify_video_thumb/2028039734313013248/img/2WJabievPFEG0LKc.jpg","2028039930643902531",,,,"2012378465664745795","1760623791380844544",
+this can improve the performance of your bots and agents 1000x.","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","126","1550","37","3","3723","313019","true","video","https://pbs.twimg.com/amplify_video_thumb/2028039734313013248/img/2WJabievPFEG0LKc.jpg","https://video.twimg.com/amplify_video/2028039734313013248/vid/avc1/2880x1746/YHgKFj2-H4CJTaN9.mp4?tag=21","50","https://pbs.twimg.com/amplify_video_thumb/2028039734313013248/img/2WJabievPFEG0LKc.jpg","2028039930643902531",,,,"2012378465664745795","1760623791380844544",
 "original","2028140767848620243","2026-03-01T16:10:14.000Z","sudoingX","Sudo su","let me save you 3 hours of head scratching.
 
 if you're running local models like Qwen3.5-35B-A3B through Claude Code via llama.cpp's Anthropic endpoint, the chain will break every 3 to 5 minutes. tool call fails. flow stops. you reprompt. it recovers. 2 minutes later it stops again. the model is fine. the harness chokes on local inference latency.
@@ -539,15 +559,15 @@ switch to OpenCode. same localhost endpoint. same model. same GPU. the chain doe
 
 the tradeoff: OpenCode sometimes loops. the model forgets what it already read and repeats the same tool call. but a loop you can interrupt. a broken chain kills your momentum and you start over.
 
-watch both side by side. proprietary agent vs open source agent. same 3B model. different failure modes. pick your poison.","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","32","605","51","6","666","72500","true","video","https://pbs.twimg.com/amplify_video_thumb/2028139458806284289/img/sGsfHpjW1T7uoNmr.jpg; https://pbs.twimg.com/amplify_video_thumb/2028139458751823872/img/_7T8B-9ZxNKyLsyY.jpg","https://video.twimg.com/amplify_video/2028139458806284289/vid/avc1/948x534/XlV6F-ZFhnUT6vHI.mp4?tag=21","35","https://pbs.twimg.com/amplify_video_thumb/2028139458806284289/img/sGsfHpjW1T7uoNmr.jpg","2028140767848620243",,,,,,
-"original","2028814227004395561","2026-03-03T12:46:19.000Z","systematicls","sysls","http://x.com/i/article/2028694727600623616","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","1001","8781","188","255","28011","3776657","false","none",,,,,"2028814227004395561",,,,,,
+watch both side by side. proprietary agent vs open source agent. same 3B model. different failure modes. pick your poison.","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","32","612","51","6","669","72501","true","video","https://pbs.twimg.com/amplify_video_thumb/2028139458806284289/img/sGsfHpjW1T7uoNmr.jpg; https://pbs.twimg.com/amplify_video_thumb/2028139458751823872/img/_7T8B-9ZxNKyLsyY.jpg","https://video.twimg.com/amplify_video/2028139458806284289/vid/avc1/948x534/XlV6F-ZFhnUT6vHI.mp4?tag=21","35","https://pbs.twimg.com/amplify_video_thumb/2028139458806284289/img/sGsfHpjW1T7uoNmr.jpg","2028140767848620243",,,,,,
+"original","2028814227004395561","2026-03-03T12:46:19.000Z","systematicls","sysls","http://x.com/i/article/2028694727600623616","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","1001","8781","188","255","28014","3777311","false","none",,,,,"2028814227004395561",,,,,,
 "quote","2028841178381090941","2026-03-03T14:33:25.000Z","Hesamation","ℏεsam","this is such a well written article on how to squeeze most out of Claude Code or Codex:
 > keep your setup barebones, frontier companies absorb what works best
 > give agents only the context they need 
 > separate research from implementation. decide the approach, then build fresh 
 >  use neutral prompts. don’t lead agents toward predetermined answers
 > refine agents by using other agents
-> iterate rules and skills every once in a while","en","<a href=""http://twitter.com/download/iphone"" rel=""nofollow"">Twitter for iPhone</a>","142","2194","23","5","4371","383624","false","none",,,,,"2028841178381090941",,,,"2028814227004395561","1779775861589504000",
+> iterate rules and skills every once in a while","en","<a href=""http://twitter.com/download/iphone"" rel=""nofollow"">Twitter for iPhone</a>","142","2193","23","5","4371","383654","false","none",,,,,"2028841178381090941",,,,"2028814227004395561","1779775861589504000",
 "original","2030434516397891732","2026-03-08T00:04:47.000Z","godofprompt","God of Prompt","🚨 BREAKING: An Anthropic hackathon winner just gave away the entire system for free.
 
 @affaan beat 100+ participants at the Anthropic x Forum Ventures hackathon. Built http://zenith.chat in 8 hours using Claude Code. Walked away with $15K in API credits.
@@ -560,7 +580,7 @@ Then he packaged 10+ months of daily Claude Code refinement into one repo:
 → Continuous learning system
 → Full cross-platform support
 
-35,000+ stars. MIT licensed. One install command.","en","<a href=""http://twitter.com/download/iphone"" rel=""nofollow"">Twitter for iPhone</a>","414","4070","54","13","8354","336035","true","photo","https://pbs.twimg.com/media/HC2NbjdWkAAlFgg.jpg",,,"https://pbs.twimg.com/media/HC2NbjdWkAAlFgg.jpg","2030434516397891732",,,,,,
+35,000+ stars. MIT licensed. One install command.","en","<a href=""http://twitter.com/download/iphone"" rel=""nofollow"">Twitter for iPhone</a>","415","4078","54","13","8355","336047","true","photo","https://pbs.twimg.com/media/HC2NbjdWkAAlFgg.jpg",,,"https://pbs.twimg.com/media/HC2NbjdWkAAlFgg.jpg","2030434516397891732",,,,,,
 "original","2030479131222192457","2026-03-08T03:02:04.000Z","om_patel5","Om Patel","claude code has a hidden setting that makes it 600x faster and almost nobody knows about it
 
 by default it uses text grep to find functions. 
@@ -579,7 +599,7 @@ after enabling it:
 
 also saves tokens because claude stops wasting context searching for the wrong files
 
-2 minute setup and it works for 11 languages","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","245","5651","192","38","13319","839714","true","photo","https://pbs.twimg.com/media/HC20PVeXAAA2tAe.jpg",,,"https://pbs.twimg.com/media/HC20PVeXAAA2tAe.jpg","2030479131222192457",,,,,,
+2 minute setup and it works for 11 languages","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","245","5676","192","38","13317","839764","true","photo","https://pbs.twimg.com/media/HC20PVeXAAA2tAe.jpg",,,"https://pbs.twimg.com/media/HC20PVeXAAA2tAe.jpg","2030479131222192457",,,,,,
 "original","2032574688149328103","2026-03-13T21:49:03.000Z","SearchForRyan","Ryan Darani","okay why did nobody tell me about state.md for claude code?
 
 i've been stuck wondering why a project i build on daily was taking 8-10 mins to make changes
@@ -588,20 +608,20 @@ turns out claude was reading EVERYTHING (all my code) before it made a change.
 
 i added state.md, architecture.md (alongside my claude.md) and bam, 8,000 tokens to ~1,000 tokens and from 8 mins to ~ 60 seconds.
 
-claude.md wasn't enough in this instance annnnd i'm so happy lol","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","68","2176","60","7","4059","208574","false","none",,,,,"2032574688149328103",,,,,,
+claude.md wasn't enough in this instance annnnd i'm so happy lol","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","68","2181","60","7","4063","208576","false","none",,,,,"2032574688149328103",,,,,,
 "original","2036900468056875332","2026-03-25T20:18:10.000Z","advaitpaliwal","Advait Paliwal","I built Feynman, Claude Code for research.
 
 I gave it a question and it came back 30 minutes later with a cited meta analysis.
 
 It can also replicate experiments on Runpod, audit claims against code, and simulate peer review.
 
-Open source &amp; MIT license, link below","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","435","4925","137","31","6362","336541","true","video","https://pbs.twimg.com/amplify_video_thumb/2036898412638199810/img/KqgUNL7hquLF21HE.jpg","https://video.twimg.com/amplify_video/2036898412638199810/vid/avc1/3442x2160/k9ZOdYIB-oqTp0MR.mp4?tag=21","26","https://pbs.twimg.com/amplify_video_thumb/2036898412638199810/img/KqgUNL7hquLF21HE.jpg","2036900468056875332",,,,,,
+Open source &amp; MIT license, link below","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","437","4928","137","31","6363","336606","true","video","https://pbs.twimg.com/amplify_video_thumb/2036898412638199810/img/KqgUNL7hquLF21HE.jpg","https://video.twimg.com/amplify_video/2036898412638199810/vid/avc1/3442x2160/k9ZOdYIB-oqTp0MR.mp4?tag=21","26","https://pbs.twimg.com/amplify_video_thumb/2036898412638199810/img/KqgUNL7hquLF21HE.jpg","2036900468056875332",,,,,,
 "original","2038894956459290963","2026-03-31T08:23:33.000Z","Fried_rice","Chaofan Shou","Claude code source code has been leaked via a map file in their npm registry! 
 
-Code: https://pub-aea8527898604c1bbb12468b1581d95e.r2.dev/src.zip","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","7546","48267","3325","5315","41556","35644128","true","photo","https://pbs.twimg.com/media/HEubw45WQAA3VRl.jpg",,,"https://pbs.twimg.com/media/HEubw45WQAA3VRl.jpg","2038894956459290963",,,,,,
+Code: https://pub-aea8527898604c1bbb12468b1581d95e.r2.dev/src.zip","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","7564","48410","3325","5315","41633","35650955","true","photo","https://pbs.twimg.com/media/HEubw45WQAA3VRl.jpg",,,"https://pbs.twimg.com/media/HEubw45WQAA3VRl.jpg","2038894956459290963",,,,,,
 "quote","2038946791320637926","2026-03-31T11:49:31.000Z","LexnLin","Leon Lin","I gathered ALL claude code's system prompts/prompts for agents in a repository:
 
-https://github.com/Leonxlnx/claude-code-system-prompts","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","229","1676","36","9","2651","306526","true","photo","https://pbs.twimg.com/media/HEvLSoIbEAAFD1L.png",,,"https://pbs.twimg.com/media/HEvLSoIbEAAFD1L.png","2038946791320637926",,,,"2038894956459290963","1048192561863507968",
+https://github.com/Leonxlnx/claude-code-system-prompts","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","229","1678","36","9","2652","306565","true","photo","https://pbs.twimg.com/media/HEvLSoIbEAAFD1L.png",,,"https://pbs.twimg.com/media/HEvLSoIbEAAFD1L.png","2038946791320637926",,,,"2038894956459290963","1048192561863507968",
 "original","2041040306078912653","2026-04-06T06:28:24.000Z","om_patel5","Om Patel","THIS GUY AUDITED 926 CLAUDE CODE SESSIONS AND FOUND MOST OF THE TOKEN WASTE WAS ON HIS SIDE
 
 everyone is blaming anthropic for the limits, so he decided to actually look at the data
@@ -640,7 +660,7 @@ one session read the same file 33 times.
 
 he ALSO built a full token auditor dashboard that shows you exactly where your waste is coming from
 
-19 charts, opens in your browser, free AND open source","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","153","1899","99","23","4428","296522","true","video","https://pbs.twimg.com/amplify_video_thumb/2041040187871105024/img/8U29aXc7yl0Sk22m.jpg","https://video.twimg.com/amplify_video/2041040187871105024/vid/avc1/1776x1080/69SDKkCx6rOqnato.mp4?tag=21","20","https://pbs.twimg.com/amplify_video_thumb/2041040187871105024/img/8U29aXc7yl0Sk22m.jpg","2041040306078912653",,,,,,
+19 charts, opens in your browser, free AND open source","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","154","1902","99","23","4435","296570","true","video","https://pbs.twimg.com/amplify_video_thumb/2041040187871105024/img/8U29aXc7yl0Sk22m.jpg","https://video.twimg.com/amplify_video/2041040187871105024/vid/avc1/1776x1080/69SDKkCx6rOqnato.mp4?tag=21","20","https://pbs.twimg.com/amplify_video_thumb/2041040187871105024/img/8U29aXc7yl0Sk22m.jpg","2041040306078912653",,,,,,
 "original","2043524173016727639","2026-04-13T02:58:24.000Z","om_patel5","Om Patel","CLAUDE CODE MAX BURNS YOUR LIMITS 40% FASTER AND NO ONE TOLD YOU WHY
 
 this guy set up an HTTP proxy to capture full API requests across 4 different Claude Code versions.
@@ -669,7 +689,7 @@ which means:
 
 the fix: downgrade to v2.1.98
 
-npx claude-code@2.1.98","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","160","2085","130","63","1674","263603","true","photo","https://pbs.twimg.com/media/HFwNZXlXEAACNeT.jpg",,,"https://pbs.twimg.com/media/HFwNZXlXEAACNeT.jpg","2043524173016727639",,,,,,
+npx claude-code@2.1.98","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","160","2107","130","63","1676","263611","true","photo","https://pbs.twimg.com/media/HFwNZXlXEAACNeT.jpg",,,"https://pbs.twimg.com/media/HFwNZXlXEAACNeT.jpg","2043524173016727639",,,,,,
 "original","2046527013616603410","2026-04-21T09:50:37.000Z","DataChaz","Charly Wargnier","a Japanese dev literally found the ultimate Claude Code cheat code before the rest of us 💥💥💥
 
 He simply installs 'Find Skills' and asks:
@@ -678,12 +698,12 @@ He simply installs 'Find Skills' and asks:
 
 It instantly hands you the perfect match out of 100s 👀
 
-install guide in 🧵↓","en","<a href=""https://typefully.com/"" rel=""nofollow"">Typefully</a>","100","996","39","8","1818","133836","true","video","https://pbs.twimg.com/amplify_video_thumb/2046526963066761216/img/z6CEYFH7fspvMkj-.jpg","https://video.twimg.com/amplify_video/2046526963066761216/vid/avc1/720x742/ZJhAW_jGRpV0s2Ak.mp4?tag=14","27","https://pbs.twimg.com/amplify_video_thumb/2046526963066761216/img/z6CEYFH7fspvMkj-.jpg","2046527013616603410",,,,,,
+install guide in 🧵↓","en","<a href=""https://typefully.com/"" rel=""nofollow"">Typefully</a>","100","998","39","8","1821","133850","true","video","https://pbs.twimg.com/amplify_video_thumb/2046526963066761216/img/z6CEYFH7fspvMkj-.jpg","https://video.twimg.com/amplify_video/2046526963066761216/vid/avc1/720x742/ZJhAW_jGRpV0s2Ak.mp4?tag=14","27","https://pbs.twimg.com/amplify_video_thumb/2046526963066761216/img/z6CEYFH7fspvMkj-.jpg","2046527013616603410",,,,,,
 "original","2049468163113300226","2026-04-29T12:37:42.000Z","aresotik","ares. 🎧","Ahora Claude Code puede leer documentaciones completas sin gastar un solo token.
 
 Solo necesitas conectarlo a NotebookLM de Google vía MCP.
 
-Aquí el tutorial de cómo hacerlo. ⬇️","es","<a href=""http://twitter.com/download/iphone"" rel=""nofollow"">Twitter for iPhone</a>","709","5297","51","26","8772","463748","true","video","https://pbs.twimg.com/amplify_video_thumb/2044468375456559104/img/yq1NvnPPOrhqZuRS.jpg","https://video.twimg.com/amplify_video/2044468375456559104/vid/avc1/1280x720/D3xoT4ZaUBr5ej0V.mp4?tag=21","467","https://pbs.twimg.com/amplify_video_thumb/2044468375456559104/img/yq1NvnPPOrhqZuRS.jpg","2049468163113300226",,,,,,
+Aquí el tutorial de cómo hacerlo. ⬇️","es","<a href=""http://twitter.com/download/iphone"" rel=""nofollow"">Twitter for iPhone</a>","709","5299","51","26","8770","463913","true","video","https://pbs.twimg.com/amplify_video_thumb/2044468375456559104/img/yq1NvnPPOrhqZuRS.jpg","https://video.twimg.com/amplify_video/2044468375456559104/vid/avc1/1280x720/D3xoT4ZaUBr5ej0V.mp4?tag=21","467","https://pbs.twimg.com/amplify_video_thumb/2044468375456559104/img/yq1NvnPPOrhqZuRS.jpg","2049468163113300226",,,,,,
 "original","2052417046789714123","2026-05-07T15:55:30.000Z","dr_cintas","Alvaro Cintas","How to set up Claude Code so it runs like a full dev team:
 
 5 folders. That's the entire system.
@@ -716,22 +736,22 @@ To learn how and get the full Claude guide:
 2. Subscribe free by just writing your email.
 3. Open my welcome email and get the free resources.
 
-Repost ♻️ to help someone in your network.","en","<a href=""http://twitter.com/download/iphone"" rel=""nofollow"">Twitter for iPhone</a>","483","2753","46","22","4289","245711","true","photo","https://pbs.twimg.com/media/HHumasrboAA6xBO.jpg",,,"https://pbs.twimg.com/media/HHumasrboAA6xBO.jpg","2052417046789714123",,,,,,
+Repost ♻️ to help someone in your network.","en","<a href=""http://twitter.com/download/iphone"" rel=""nofollow"">Twitter for iPhone</a>","483","2753","46","22","4289","245837","true","photo","https://pbs.twimg.com/media/HHumasrboAA6xBO.jpg",,,"https://pbs.twimg.com/media/HHumasrboAA6xBO.jpg","2052417046789714123",,,,,,
 "quote","2052717242186690974","2026-05-08T11:48:22.000Z","cgtwts","CG","Anthropic’s Claude Code team just showed how to automate your engineering workflow in under 30 minutes.
 
-straight from the people who built it and it’s completely free.","en","<a href=""http://twitter.com/download/iphone"" rel=""nofollow"">Twitter for iPhone</a>","143","1180","38","4","3363","298356","true","video","https://pbs.twimg.com/amplify_video_thumb/2052716360321658880/img/QQ65-9Hz9NPnOBAm.jpg","https://video.twimg.com/amplify_video/2052716360321658880/vid/avc1/1920x1080/j6w6VQglp8ZBt-8T.mp4?tag=27","1250","https://pbs.twimg.com/amplify_video_thumb/2052716360321658880/img/QQ65-9Hz9NPnOBAm.jpg","2052717242186690974",,,,"2052684086414852546",,
-"original","2052809885763747935","2026-05-08T17:56:30.000Z","trq212","Thariq","http://x.com/i/article/2052796100608974848","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","2250","17390","1085","1894","34029","14074707","false","none",,,,,"2052809885763747935",,,,,,
+straight from the people who built it and it’s completely free.","en","<a href=""http://twitter.com/download/iphone"" rel=""nofollow"">Twitter for iPhone</a>","143","1181","38","4","3362","298409","true","video","https://pbs.twimg.com/amplify_video_thumb/2052716360321658880/img/QQ65-9Hz9NPnOBAm.jpg","https://video.twimg.com/amplify_video/2052716360321658880/vid/avc1/1920x1080/j6w6VQglp8ZBt-8T.mp4?tag=27","1250","https://pbs.twimg.com/amplify_video_thumb/2052716360321658880/img/QQ65-9Hz9NPnOBAm.jpg","2052717242186690974",,,,"2052684086414852546",,
+"original","2052809885763747935","2026-05-08T17:56:30.000Z","trq212","Thariq","http://x.com/i/article/2052796100608974848","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","2255","17429","1086","1894","34035","14088452","false","none",,,,,"2052809885763747935",,,,,,
 "quote","2052811606032269638","2026-05-08T18:03:20.000Z","trq212","Thariq","HTML is the new markdown. 
 
-I've stopped writing markdown files for almost everything and switched to using Claude Code to generate HTML for me. This is why.","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","1043","12111","899","753","15405","4401105","false","none",,,,,"2052811606032269638",,,,"2052809885763747935","352806502",
-"original","2053042131111927976","2026-05-09T09:19:22.000Z","zodchiii","darkzodchi","http://x.com/i/article/2053028490916593669","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","16","186","8","2","590","94059","false","none",,,,,"2053042131111927976",,,,,,
+I've stopped writing markdown files for almost everything and switched to using Claude Code to generate HTML for me. This is why.","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","1043","12134","900","753","15407","4402479","false","none",,,,,"2052811606032269638",,,,"2052809885763747935","352806502",
+"original","2053042131111927976","2026-05-09T09:19:22.000Z","zodchiii","darkzodchi","http://x.com/i/article/2053028490916593669","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","16","186","8","2","590","94103","false","none",,,,,"2053042131111927976",,,,,,
 "quote","2053078797298069973","2026-05-09T11:45:04.000Z","zodchiii","darkzodchi","The creator of Claude Code revealed that most developers are using a weakened version of Claude without knowing it.
 
 Default thinking effort quietly dropped from high to medium. 
 
 The fix is two lines most users have never seen.
 
-Watch the talk, then save the full list of 15 settings below 👇","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","18","327","22","3","826","88109","true","video","https://pbs.twimg.com/amplify_video_thumb/2053077673660841987/img/vklkZNtyl9UUlF3v.jpg","https://video.twimg.com/amplify_video/2053077673660841987/vid/avc1/1280x720/G9BQs1spF24rzfLO.mp4?tag=27","1475","https://pbs.twimg.com/amplify_video_thumb/2053077673660841987/img/vklkZNtyl9UUlF3v.jpg","2053078797298069973",,,,"2053042131111927976","1226636978256564226",
+Watch the talk, then save the full list of 15 settings below 👇","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","18","327","22","3","826","88139","true","video","https://pbs.twimg.com/amplify_video_thumb/2053077673660841987/img/vklkZNtyl9UUlF3v.jpg","https://video.twimg.com/amplify_video/2053077673660841987/vid/avc1/1280x720/G9BQs1spF24rzfLO.mp4?tag=27","1475","https://pbs.twimg.com/amplify_video_thumb/2053077673660841987/img/vklkZNtyl9UUlF3v.jpg","2053078797298069973",,,,"2053042131111927976","1226636978256564226",
 "original","2054261832718889216","2026-05-12T18:06:01.000Z","gregisenberg","GREG ISENBERG","I'm giving away a FULL course on how to build a managed AI agent business solo using Hermes Agent, Orgo, Obsidian, Codex, Claude Code etc. 
 
 Here's everything (47 minutes):
@@ -766,7 +786,7 @@ you could watch netflix or you can watch this (link below)
 
 https://youtu.be/BI-MNjm1tTQ?si=iDwFOfRPrpvViyC_
 
-watch","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","193","1962","126","20","4666","193723","true","video","https://pbs.twimg.com/amplify_video_thumb/2054261560533520384/img/hTXMP_re6ejgHPht.jpg","https://video.twimg.com/amplify_video/2054261560533520384/vid/avc1/1280x720/suc7QrDu_Yy_FUTW.mp4?tag=27","2874","https://pbs.twimg.com/amplify_video_thumb/2054261560533520384/img/hTXMP_re6ejgHPht.jpg","2054261832718889216",,,,,,
+watch","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","193","1962","125","20","4668","193927","true","video","https://pbs.twimg.com/amplify_video_thumb/2054261560533520384/img/hTXMP_re6ejgHPht.jpg","https://video.twimg.com/amplify_video/2054261560533520384/vid/avc1/1280x720/suc7QrDu_Yy_FUTW.mp4?tag=27","2874","https://pbs.twimg.com/amplify_video_thumb/2054261560533520384/img/hTXMP_re6ejgHPht.jpg","2054261832718889216",,,,,,
 "quote","2053495306235347100","2026-05-10T15:20:07.000Z","dunik_7","dunik","40% of the code Claude writes for you is wasted. you're paying for the rewrite. 
 
 a 65-line markdown file fixes it. 120,000 developers have starred it.
@@ -796,8 +816,8 @@ compliance: ~80%. mistake rate: from ~40% to single digits.
 
 no human caught the contradicting numbers in the title. 
 
-nobody had to.","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","383","5687","70","16","17824","1856947","true","video","https://pbs.twimg.com/amplify_video_thumb/2053495111762280453/img/oTVoGumcwt2LluAH.jpg","https://video.twimg.com/amplify_video/2053495111762280453/vid/avc1/1920x1080/JRMm8dMMycMR3TXq.mp4?tag=27","1542","https://pbs.twimg.com/amplify_video_thumb/2053495111762280453/img/oTVoGumcwt2LluAH.jpg","2053495306235347100",,,,"2053116311132155938","1062361511866327041",
-"original","2053187673720795332","2026-05-09T18:57:42.000Z","saidstetic","said","12 funciones de Claude Code que todos  debería conocer","es","<a href=""http://twitter.com/download/iphone"" rel=""nofollow"">Twitter for iPhone</a>","61","531","9","7","1015","320212","true","video","https://pbs.twimg.com/amplify_video_thumb/2053187385786015747/img/tQDzT7EStbOaQt5c.jpg","https://video.twimg.com/amplify_video/2053187385786015747/vid/avc1/1920x1080/15eY-0PG6EjLJGNc.mp4?tag=27","449","https://pbs.twimg.com/amplify_video_thumb/2053187385786015747/img/tQDzT7EStbOaQt5c.jpg","2053187673720795332",,,,,,
+nobody had to.","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","383","5689","70","16","17819","1857281","true","video","https://pbs.twimg.com/amplify_video_thumb/2053495111762280453/img/oTVoGumcwt2LluAH.jpg","https://video.twimg.com/amplify_video/2053495111762280453/vid/avc1/1920x1080/JRMm8dMMycMR3TXq.mp4?tag=27","1542","https://pbs.twimg.com/amplify_video_thumb/2053495111762280453/img/oTVoGumcwt2LluAH.jpg","2053495306235347100",,,,"2053116311132155938","1062361511866327041",
+"original","2053187673720795332","2026-05-09T18:57:42.000Z","saidstetic","said","12 funciones de Claude Code que todos  debería conocer","es","<a href=""http://twitter.com/download/iphone"" rel=""nofollow"">Twitter for iPhone</a>","61","531","9","7","1015","320375","true","video","https://pbs.twimg.com/amplify_video_thumb/2053187385786015747/img/tQDzT7EStbOaQt5c.jpg","https://video.twimg.com/amplify_video/2053187385786015747/vid/avc1/1920x1080/15eY-0PG6EjLJGNc.mp4?tag=27","449","https://pbs.twimg.com/amplify_video_thumb/2053187385786015747/img/tQDzT7EStbOaQt5c.jpg","2053187673720795332",,,,,,
 "quote","2053778835100119288","2026-05-11T10:06:46.000Z","Av1dlive","Avid","Garry Tan (CEO of Y-Combinator):  ""when someone asks how I 'prompt' my AI,  the answer is: I don't. the skills are the prompts.""
 
 [if I had 7 days to master skills and how to use them to automate workflows:]
@@ -817,25 +837,25 @@ here is how to set it up:
 
 3. do anything once → type /skillify → it's a skill forever
 
-prompting is dead. skillifying is next.","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","192","1702","59","3","4362","270821","true","video","https://pbs.twimg.com/amplify_video_thumb/2053778768783986688/img/_mKrilrLZCGvyaXl.jpg","https://video.twimg.com/amplify_video/2053778768783986688/vid/avc1/1280x720/UZuj1RyNm6543rVt.mp4?tag=27","136","https://pbs.twimg.com/amplify_video_thumb/2053778768783986688/img/_mKrilrLZCGvyaXl.jpg","2053778835100119288",,,,"2053769247822914031",,
+prompting is dead. skillifying is next.","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","192","1702","59","3","4363","270947","true","video","https://pbs.twimg.com/amplify_video_thumb/2053778768783986688/img/_mKrilrLZCGvyaXl.jpg","https://video.twimg.com/amplify_video/2053778768783986688/vid/avc1/1280x720/UZuj1RyNm6543rVt.mp4?tag=27","136","https://pbs.twimg.com/amplify_video_thumb/2053778768783986688/img/_mKrilrLZCGvyaXl.jpg","2053778835100119288",,,,"2053769247822914031",,
 "quote","2054235793250554086","2026-05-12T16:22:33.000Z","0xCodez","Codez","Anthropic's Claude team just showed how to build an AI agent with real memory in under 30 minutes.
 
 24-minutes. free. by the people who built Claude.
 
 one person + 10 agents with memory = a team that runs 24/7, remembers every customer improves itself.
 
-worth than $500 vibe-coding course.","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","113","881","24","11","3074","1590530","true","video","https://pbs.twimg.com/amplify_video_thumb/2054235344229257217/img/QIoZfrC9xnYpkC95.jpg","https://video.twimg.com/amplify_video/2054235344229257217/vid/avc1/1920x1080/WfpEOXNyYKQU9w9S.mp4?tag=27","1463","https://pbs.twimg.com/amplify_video_thumb/2054235344229257217/img/QIoZfrC9xnYpkC95.jpg","2054235793250554086",,,,"2054132051536961540",,
+worth than $500 vibe-coding course.","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","113","884","24","11","3074","1591241","true","video","https://pbs.twimg.com/amplify_video_thumb/2054235344229257217/img/QIoZfrC9xnYpkC95.jpg","https://video.twimg.com/amplify_video/2054235344229257217/vid/avc1/1920x1080/WfpEOXNyYKQU9w9S.mp4?tag=27","1463","https://pbs.twimg.com/amplify_video_thumb/2054235344229257217/img/QIoZfrC9xnYpkC95.jpg","2054235793250554086",,,,"2054132051536961540",,
 "quote","2054250035211116589","2026-05-12T17:19:09.000Z","0xMovez","Movez","Google Cloud AI engineer just showed how they go from idea to deployed app at Google in 30-minutes using Claude.
 
 26-minutes. free. by Google AI team. 
 
 one person + Claude + Google Cloud = a full engineering org running on a laptop.
 
-worth more than any $500 vibe-coding course.","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","1456","11462","143","45","25240","1744337","true","video","https://pbs.twimg.com/amplify_video_thumb/2054249814410383360/img/HcPt0T0uWNQQHFg4.jpg","https://video.twimg.com/amplify_video/2054249814410383360/vid/avc1/1920x1080/UsCuvL_AssvCjW5Q.mp4?tag=27","1583","https://pbs.twimg.com/amplify_video_thumb/2054249814410383360/img/HcPt0T0uWNQQHFg4.jpg","2054250035211116589",,,,"2054235793250554086","2054190711243710464",
-"original","2054137878968439247","2026-05-12T09:53:29.000Z","zodchiii","darkzodchi","http://x.com/i/article/2054116854449266688","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","70","720","30","15","3790","1259874","false","none",,,,,"2054137878968439247",,,,,,
+worth more than any $500 vibe-coding course.","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","1456","11485","143","45","25248","1747332","true","video","https://pbs.twimg.com/amplify_video_thumb/2054249814410383360/img/HcPt0T0uWNQQHFg4.jpg","https://video.twimg.com/amplify_video/2054249814410383360/vid/avc1/1920x1080/UsCuvL_AssvCjW5Q.mp4?tag=27","1583","https://pbs.twimg.com/amplify_video_thumb/2054249814410383360/img/HcPt0T0uWNQQHFg4.jpg","2054250035211116589",,,,"2054235793250554086","2054190711243710464",
+"original","2054137878968439247","2026-05-12T09:53:29.000Z","zodchiii","darkzodchi","http://x.com/i/article/2054116854449266688","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","70","720","30","15","3786","1260252","false","none",,,,,"2054137878968439247",,,,,,
 "quote","2054298898902966377","2026-05-12T20:33:19.000Z","0x_kaize","kaize","Anthropic just dropped a 25-minute video showing everything new in Claude Code. Official channel, not a course, not an influencer
 
-Subagents, agent teams, background tasks, parallel workflows. Most people are still using Claude Code as a single-prompt chat","en","<a href=""http://twitter.com/download/iphone"" rel=""nofollow"">Twitter for iPhone</a>","162","1839","32","2","4701","333558","true","video","https://pbs.twimg.com/amplify_video_thumb/2054298473034326016/img/IobNTZHmKbs9AvMO.jpg","https://video.twimg.com/amplify_video/2054298473034326016/vid/avc1/1280x720/ayXk_7Hw9a32Zj_t.mp4?tag=27","1495","https://pbs.twimg.com/amplify_video_thumb/2054298473034326016/img/IobNTZHmKbs9AvMO.jpg","2054298898902966377",,,,"2054137878968439247","1226636978256564226",
+Subagents, agent teams, background tasks, parallel workflows. Most people are still using Claude Code as a single-prompt chat","en","<a href=""http://twitter.com/download/iphone"" rel=""nofollow"">Twitter for iPhone</a>","162","1838","32","2","4698","333627","true","video","https://pbs.twimg.com/amplify_video_thumb/2054298473034326016/img/IobNTZHmKbs9AvMO.jpg","https://video.twimg.com/amplify_video/2054298473034326016/vid/avc1/1280x720/ayXk_7Hw9a32Zj_t.mp4?tag=27","1495","https://pbs.twimg.com/amplify_video_thumb/2054298473034326016/img/IobNTZHmKbs9AvMO.jpg","2054298898902966377",,,,"2054137878968439247","1226636978256564226",
 "quote","2054234761120677985","2026-05-12T16:18:27.000Z","heynavtoor","Nav Toor","> go to bed at 11pm
 > 1am: code agent fixes failing tests
 > 2am: research agent writes tomorrow's briefing
@@ -848,4 +868,4 @@ Subagents, agent teams, background tasks, parallel workflows. Most people are st
 
 $540K of payroll. doing your morning prep. for free. by 7am.
 
-this article has every agent file. copy them. schedule them. wake up to the future.","en","<a href=""https://typefully.com/"" rel=""nofollow"">Typefully</a>","32","315","18","2","762","100511","true","video","https://pbs.twimg.com/amplify_video_thumb/2054234706049409024/img/kF57z6RMe7ZjaSza.jpg","https://video.twimg.com/amplify_video/2054234706049409024/vid/avc1/1268x720/xXao6_syIB9gZJS8.mp4?tag=14","20","https://pbs.twimg.com/amplify_video_thumb/2054234706049409024/img/kF57z6RMe7ZjaSza.jpg","2054234761120677985",,,,"2054149098513866941",,
+this article has every agent file. copy them. schedule them. wake up to the future.","en","<a href=""https://typefully.com/"" rel=""nofollow"">Typefully</a>","32","315","18","2","761","100542","true","video","https://pbs.twimg.com/amplify_video_thumb/2054234706049409024/img/kF57z6RMe7ZjaSza.jpg","https://video.twimg.com/amplify_video/2054234706049409024/vid/avc1/1268x720/xXao6_syIB9gZJS8.mp4?tag=14","20","https://pbs.twimg.com/amplify_video_thumb/2054234706049409024/img/kF57z6RMe7ZjaSza.jpg","2054234761120677985",,,,"2054149098513866941",,
