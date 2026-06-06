@@ -1,4 +1,4 @@
-﻿# Media Review — Videos
+# Media Review — Videos
 
 Tweets with video content. Use the direct video URLs below to download manually.
 
