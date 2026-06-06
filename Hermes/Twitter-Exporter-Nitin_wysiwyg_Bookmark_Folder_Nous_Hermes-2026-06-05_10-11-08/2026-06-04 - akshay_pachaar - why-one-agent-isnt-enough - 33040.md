@@ -11,6 +11,7 @@ replies: 8
 bookmarks: 412
 views: 19333
 has_media: false
+extraction_quality: full
 article_id: "2062152051157782528"
 tags: ["twitter-bookmark", "claude", "mcp", "agents"]
 ---

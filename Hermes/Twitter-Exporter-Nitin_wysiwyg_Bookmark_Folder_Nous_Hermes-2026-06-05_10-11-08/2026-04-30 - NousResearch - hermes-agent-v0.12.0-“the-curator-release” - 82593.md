@@ -11,6 +11,7 @@ replies: 99
 bookmarks: 612
 views: 683760
 has_media: true
+extraction_quality: full
 tags: ["twitter-bookmark", "obsidian", "agents"]
 ---
 

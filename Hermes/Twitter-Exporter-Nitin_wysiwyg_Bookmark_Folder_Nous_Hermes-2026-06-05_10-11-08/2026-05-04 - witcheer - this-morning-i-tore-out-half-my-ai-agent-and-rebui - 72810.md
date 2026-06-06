@@ -11,6 +11,7 @@ replies: 14
 bookmarks: 536
 views: 27978
 has_media: false
+extraction_quality: full
 article_id: "2051287985962823681"
 tags: ["twitter-bookmark", "agents"]
 ---

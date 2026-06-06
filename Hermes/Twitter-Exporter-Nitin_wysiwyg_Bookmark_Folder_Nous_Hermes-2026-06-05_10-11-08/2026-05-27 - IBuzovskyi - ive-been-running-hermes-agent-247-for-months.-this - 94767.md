@@ -1,0 +1,613 @@
+﻿---
+title: "I've been running Hermes Agent 24/7 for months. This is everything I learned: installation, models,..."
+author: "YanXbt"
+username: "@IBuzovskyi"
+date: "2026-05-27"
+tweet_url: "https://x.com/IBuzovskyi/status/2059675518966894767"
+tweet_type: "original"
+likes: 652
+retweets: 85
+replies: 25
+bookmarks: 2009
+views: 511651
+has_media: false
+extraction_quality: full
+article_id: "2059639716417273860"
+tags: ["twitter-bookmark", "claude", "mcp", "notebooklm", "llm", "agents"]
+---
+
+# I've been running Hermes Agent 24/7 for months. This is everything I learned: installation, models,...
+
+> **Source:** [@IBuzovskyi](https://x.com/IBuzovskyi) · 2026-05-27 · 👍 652 · 💬 25 · 🔖 2009 · 👁 511651
+
+> 🔗 [View tweet on X](https://x.com/IBuzovskyi/status/2059675518966894767)
+
+## Article Content
+
+I've been running Hermes Agent 24/7 for months. This is everything I learned: installation, models, use cases, the dashboard 99% of people use wrong, self-improvement, security. All of it.
+
+Bookmark this. You'll need it when you start building.
+
+### Table of Contents
+
+1. [What Hermes Agent Actually Is](https://claude.ai/chat/219c14d2-24dc-4bf6-9eda-873b2f195d7c#layer-1)
+2. [Hermes vs OpenClaw vs Claude Code](https://claude.ai/chat/219c14d2-24dc-4bf6-9eda-873b2f195d7c#layer-2)
+3. [Installation](https://claude.ai/chat/219c14d2-24dc-4bf6-9eda-873b2f195d7c#layer-3)
+4. [Model Selection — What to Use for What](https://claude.ai/chat/219c14d2-24dc-4bf6-9eda-873b2f195d7c#layer-4)
+5. [Messaging Platform](https://claude.ai/chat/219c14d2-24dc-4bf6-9eda-873b2f195d7c#layer-5)
+6. [First Things to Do](https://claude.ai/chat/219c14d2-24dc-4bf6-9eda-873b2f195d7c#layer-6)
+7. [The Dashboard](https://claude.ai/chat/219c14d2-24dc-4bf6-9eda-873b2f195d7c#layer-7)
+8. [Use Cases](https://claude.ai/chat/219c14d2-24dc-4bf6-9eda-873b2f195d7c#layer-8)
+9. [Self-Improvement — The Actual Edge](https://claude.ai/chat/219c14d2-24dc-4bf6-9eda-873b2f195d7c#layer-9)
+10. [Security](https://claude.ai/chat/219c14d2-24dc-4bf6-9eda-873b2f195d7c#layer-10)
+11. [Appendix: Complete Command Reference](https://claude.ai/chat/219c14d2-24dc-4bf6-9eda-873b2f195d7c#appendix)
+
+### LAYER 1 — WHAT HERMES AGENT ACTUALLY IS
+
+Hermes Agent is a 247 autonomous AI employee built by Nous Research.
+
+An agent that works while you sleep, proactively figures out tasks aligned with your goals, and gets better every single session.
+
+Three things separate it from everything else:
+
+****Memory.**** Everything lives in markdown files on your computer — not in the cloud, not in a black box. On your machine. You can read it, edit it, delete it. Full transparency.
+
+****Self-improvement.**** Every task it completes, it reviews. What worked. What didn't. How to do it better next time. It edits its own skills after every session.
+
+****Session recall.**** Every conversation you've ever had is logged with FTS5 full-text search and LLM summarization. Ask it what you talked about 3 months ago. It knows.
+
+https://x.com/IBuzovskyi/article/2059675518966894767/media/2059658189960867844
+
+### LAYER 2 — HERMES vs OPENCLAW vs CLAUDE CODE
+
+Three tools. Three different jobs. Here's where each one fits.
+
+Hermes vs OpenClaw
+
+OpenClaw has gotten bloated. Feels slow. And the updates break it — every single one. For someone who lives with AI agents, that's painful. For someone newer to agents, it's a dealbreaker.
+
+Hermes is lighter, snappier, and updates don't destroy your setup. That reliability alone is the reason to switch right now.
+
+Additional Hermes advantages:
+
+- Built-in multi-agent via Kanban (v0.12.0+) — agents claim tasks from a board, work in parallel, hand off when blocked
+- Nous Portal with curated models built in
+- 166 tracked skills (87 bundled + 79 optional) across 26+ categories
+- 20+ messaging platforms: Telegram, Discord, Slack, WhatsApp, Signal, Matrix, Teams, and more
+
+Hermes vs Claude Code vs Codex
+
+Different tools. Different jobs. Use both.
+
+****Hermes**** = your general purpose employee. Day-to-day tasks. Research. Documents. Spreadsheets. Computer administration. Business advisor. Prototypes. Everything that needs to continuously improve over time. Think of it as your Chief of Staff.
+
+****Claude Code / Codex**** = deep focused vibe coding sessions. Large-scale complex applications. End-to-end testing. Two windows open side by side. You're locked in. That's when you reach for Claude Code or Codex.
+
+Hermes handles everything else so you can go deep when you need to.
+
+https://x.com/IBuzovskyi/article/2059675518966894767/media/2059663512012513281
+
+### LAYER 3 — INSTALLATION
+
+One command. That's it.
+
+****Linux / macOS / WSL2:****
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/NousResearch/hermes-agent/main/scripts/install.```sh
+
+****Windows (native, PowerShell) — early beta:****
+
+```
+iex (irm https://raw.githubusercontent.com/NousResearch/hermes-agent/main/scripts/install.ps1)
+```
+
+****Android (Termux):**** same curl one-liner as Linux — installer auto-detects Termux.
+
+After install, start with:
+
+```
+hermes
+```
+
+Quick setup walks you through model selection and messaging platform.
+
+****If you have OpenClaw installed:**** you'll get an option to import memories. Recommendation: start clean. Two separate agents with separate memories and skills is better than merging everything.
+
+https://x.com/IBuzovskyi/article/2059675518966894767/media/2059664614225297409
+
+### LAYER 4 — MODEL SELECTION
+
+Three tiers. The right choice depends on what you're doing, not just budget.
+
+> Expensive — claude-opus-4 / claude-sonnet-4
+
+****Best for:**** complex reasoning, long /goal tasks, nuanced writing, business advisor role. Claude handles ambiguity better than any other model. When Hermes needs to make judgment calls mid-task — opus-4. When you want speed with 90% of opus quality — sonnet-4.
+
+One catch: Anthropic disabled OAuth for agents. API key required — you pay per token. Budget: a few hundred dollars a month with heavy use.
+
+> Moderate — GPT-5.5
+
+****Best for:**** coding tasks, prototyping, budget-conscious daily driver. GPT-5.4 and earlier were nearly useless inside agents. GPT-5.5 changed that. Works with your existing $20/month ChatGPT subscription. Way more usage than Anthropic at a fraction of the cost.
+
+Start here if you're new to Hermes. Switch to Claude once you know what tasks need the upgrade.
+
+> Affordable — Qwen 3.7 Max, Grok, Nous Portal
+
+****Qwen 3.7 Max**** — best for long-horizon autonomous tasks. 35 hours continuous execution, 1,000+ tool calls without losing context. Top model in OpenRouter's curated picker (PR #32809). Use via OpenRouter ($0 per token on free tier up to limits).
+
+****XAI Grok**** — best if you already pay for SuperGrok. OAuth works. Strong on X-related tasks and research. Pairs well with xurl skill.
+
+****Nous Portal**** — $20/month flat, curated models, built by the Hermes team. Starting point for anyone who wants one bill and no API key management.
+
+****Task-to-model quick reference****
+
+https://x.com/IBuzovskyi/article/2059675518966894767/media/2059665049388535809
+
+****Switch models anytime:****
+
+```
+hermes model
+```
+
+No code changes, no reinstall. Different profiles can run different models simultaneously.
+
+https://x.com/IBuzovskyi/article/2059675518966894767/media/2059658858625110017
+
+### LAYER 5 — MESSAGING PLATFORM
+
+Telegram. Set it up. Don't overthink this.
+
+Telegram is the only messaging platform actively building for AI agents. Topics. Agent-to-agent communication. Constantly adding features. Free.
+
+Setup: Hermes walks you through it during install. Copy a token from Telegram's BotFather into Hermes. Done. Five minutes total.
+
+Other supported platforms if you need them: Discord, Slack, WhatsApp, Signal, Matrix, Mattermost, Email, SMS, DingTalk, Feishu, Microsoft Teams, Google Chat, and more. 20+ total from one gateway process.
+
+https://x.com/IBuzovskyi/article/2059675518966894767/media/2059675154939068423
+
+### LAYER 6 — FIRST THINGS TO DO
+
+Day one with a new employee: you tell them who you are.
+
+****Step 1: Tell Hermes about yourself****
+
+Send this as your first message (fill in your details):
+
+```
+Here's who I am and what I'm working on:
+
+Name: [Your name]
+What I do: [your role / business]
+What I'm building: [current projects]
+My goals: [what you want to achieve in the next 3-6 months]
+How I work: [your working style, preferences, timezone]
+```
+
+This goes into memory. Every proactive task Hermes does from now on is filtered through these goals. Skip this step and it's working blind.
+
+****Step 2: Set up your first cron job****
+
+Cron jobs are scheduled autonomous tasks. Plain English. No code.
+
+```
+I want you to schedule a task for yourself to do every single 
+night at 2am. It should be a micro app, UI, or system that helps 
+us get closer to my personal goals and ambitions. It should save 
+us time, make us more productive, or just be generally useful. 
+Make sure it surprises me and makes me happy.
+```
+
+Wake up every morning with something new built for you. That's your agent working.
+
+****Step 3: Learn /goal****
+
+****/goal**** is the most powerful command in Hermes. It turns the agent from reactive chatbot into a background worker. You set an objective, Hermes breaks it into tasks, executes autonomously, and continues until done.
+
+Core**** /goal**** commands:
+
+```
+/goal [description]     # start autonomous execution
+/goal status            # check what's running
+/goal pause             # pause without losing context
+/goal resume            # continue after pause
+/goal clear             # end the current goal
+/subgoal [text]         # add conditions mid-execution
+```
+
+For the complete /goal guide including 21 copy-paste workflows for research, sales, content, email, ops, and dev → [The Complete Hermes /goal Playbook](https://x.com/IBuzovskyi/status/2059303967767593247?s=20)
+
+For a deep dive on writing strong goals, max_turns config, and avoiding the most common mistakes → [Hermes /goal — The Full Guide](https://x.com/IBuzovskyi/status/2056764150936748082?s=20)
+
+https://x.com/IBuzovskyi/article/2059675518966894767/media/2059667859236642816
+
+### LAYER 7 — THE DASHBOARD (99% USE IT WRONG)
+
+```bash
+hermes dashboard
+```
+
+Opens in browser at**** localhost:9119.****
+
+https://x.com/IBuzovskyi/article/2059675518966894767/media/2059668832029958144
+
+Open the Skills tab first. That's where the real value is.
+
+> ****Models tab****
+
+Swap models instantly. No terminal needed. Set different models per profile.
+
+> ****Cron tab****
+
+See all scheduled tasks. Create complex ones manually here with more control than typing in Telegram.
+
+> ****Skills tab****
+
+Every skill Hermes has learned is here. Browse, toggle on/off, read the markdown.
+
+A well-used agent: 150+ skills. It knows your specific workflows by name. It can do things you never explicitly taught it because it learned from watching you.
+
+****Built-in skills you should turn on immediately:****
+
+- ****Browser automation**** — lets Hermes crawl the web, extract data, interact with pages
+- ****Computer use**** — lets Hermes control your screen, move files, open apps
+- ****Image generation**** — connects to OpenAI or Grok image models, generates assets mid-task
+- ****Video generation**** — generates videos directly from your conversations
+
+> ****Plugins tab****
+
+Extra capabilities via API keys. Turn on browser-use, fire-crawl, computer-use. Add any API key you already have to extend what Hermes can do.
+
+> ****Profiles tab****
+
+****This is multi-agent setup.****
+
+One profile = one Hermes agent with its own memories, skills, and model. Create multiple profiles for different roles: Chief of Staff, Head of Content, Research Agent, DevOps Engineer.
+
+Run them simultaneously. Each specialised. Each improving independently.
+
+Kanban board — the most powerful screen
+
+https://x.com/IBuzovskyi/article/2059675518966894767/media/2059659417767882754
+
+****How to use it correctly:****
+
+> Every morning, write down your to-do list. Take every task an AI agent can handle. Drop it into ****Triage****. Walk away. Make breakfast.
+
+****What happens automatically:****
+
+1. Hermes takes each task from Triage
+2. Splits it into subtasks
+3. Moves to To-Do
+4. Assigns subtasks to sub-agents
+5. They execute in parallel
+
+By the time breakfast is done, half your to-do list is finished.
+
+Statuses: ****Triage → To-Do → Ready → In Progress → Blocked → Done****
+
+The daemon runs continuously (v0.16+), checking for new tasks every 60 seconds. No cron-based polling, no wasted tokens between tasks.
+
+### LAYER 8 — USE CASES
+
+****1. Daily Tutor****
+
+Found a useful YouTube video? Don't just watch it and forget it.
+
+> Check this video out. Read the transcript. 
+> Then every morning at 8am remind me of a concept or two from 
+> the video, then quiz me on it.
+> [paste YouTube link]
+
+Hermes pulls the transcript, extracts 10 key concepts, schedules a cron job. Every morning at 8am: lesson + quiz delivered to Telegram.
+
+Use this for every educational video you watch. You stop forgetting everything.
+
+****2. Computer Administrator****
+
+Install [Tailscale](https://tailscale.com/)
+
+ (free) on all your devices. Now Hermes can move across every machine you own.
+
+On your phone, anywhere in the world:
+
+> Get me the agent.md file from my Mac Studio 
+> and drop it on my MacBook Pro.
+
+Done. Any file. Any device. No SSH, no Google Drive, no manual transfer.
+
+Also works for developers: test local hosts running on other machines without being physically at that computer.
+
+****3. Session Recall****
+
+> Remind me of every business idea we discussed last month.
+
+Every conversation logged. Every idea you dropped in — recalled on demand. What links you shared 2 months ago. What you were building 3 months ago.
+
+No other AI agent has this. FTS5 full-text search with LLM summarization across your entire history.
+
+****4. X Content Workflow with xurl****
+
+xurl is a Hermes skill that gives your agent direct access to X — searching posts, reading discussions, publishing content.
+
+On its own it's an execution tool. Combined with /goal, research skills, and memory it becomes a recurring content system.
+
+The workflow that works:
+
+> hermes goal "Every morning and evening, research the latest 
+> AI agent discussions, analyze against my content style, 
+> check previously published topics, generate a thread, 
+> evaluate virality score, and publish via xurl if it passes the bar."
+
+Structure it in stages: Data Collection → Style Check → Repetition Check → Draft → Quality Score → Publish decision.
+
+Key mistake: don't let it publish automatically on day one. Review outputs manually for 5-7 runs first.
+
+For the complete xurl + /goal workflow with step-by-step setup → [How to Make Hermes + xurl Actually Work as a System](https://x.com/IBuzovskyi/status/2057114309616885997?s=20)
+
+****5. Mission Control****
+
+Ask Hermes to build you a custom dashboard:
+
+> Build out a mission control for me where we can 
+> add tools to improve our workflows. Start with:
+> - A content pipeline where I can add ideas and you move them forward
+> - A memory wiki showing everything we've worked on
+> - A docs page showing every artifact we've created
+
+No code required. Describe what you want. It builds it.
+
+Add tools as you need them. Your dashboard becomes a custom interface built for how you work.
+
+https://x.com/IBuzovskyi/article/2059675518966894767/media/2059674797349507073
+
+****6. Prototype Builder****
+
+At the gym. Get an idea. Pull out Telegram.
+
+> Build me a landing page for [idea]. 
+> One page. Hero section, 3 features, pricing, CTA. 
+> Deploy to localhost. Send me the link.
+
+Come back in an hour. Prototype is ready.
+
+Hermes knows your stack from memory. It doesn't ask what framework you use. It uses what you always use.
+
+****7. Business Advisor****
+
+> I'm thinking about [decision or problem]. 
+> Here's the context: [paste context]. 
+> What are the 3 strongest arguments for and against? 
+> What would you do?
+
+Unlike ChatGPT, Hermes knows your business, your goals, your constraints. The advice is filtered through your actual situation, not a generic framework.
+
+****8. Overnight /goal Runs****
+
+Give Hermes a complex task before bed.
+
+> /goal build a competitor research report on [competitor 1], [competitor 2], [competitor 3].
+> Cover: pricing, feature set, content strategy, top performing posts last 30 days, 
+> estimated team size, recent funding or news.
+> Format as a structured markdown doc. Save to file.
+
+Wake up with a research report that would take a human analyst a full day.
+
+Works for: code refactoring, database migrations, full app builds, SEO audits, content calendars.
+
+Set ****max_turns**** higher for complex overnight tasks:
+
+Default is 5-10. Raise it only when the task genuinely needs more steps:
+
+```bash
+hermes config set goals.max_turns 20    # research, reports, content drafts
+hermes config set goals.max_turns 50    # code refactoring, multi-step builds
+```
+
+Don't go higher without a reason. Every turn costs tokens.
+
+****9. Multi-Agent Org Chart****
+
+Multi-agent is where the org chart becomes real.
+
+Create separate profiles for each role:
+
+> Profile: Chief of Staff
+> soul.md: You coordinate all other agents. Morning brief at 7am.
+> Delegate research to Head of Research. Delegate content to Head of Content.
+> Report back with merged summary.
+
+> Profile: Head of Research  
+> soul.md: You find information. Monitor X for top posts in [niche].
+> Track competitor activity. Send weekly intelligence brief.
+
+> Profile: Head of Content
+> soul.md: You produce content. Draft posts based on research briefs.
+> Repurpose articles into 5 formats. Maintain content calendar.
+
+One morning brief in Telegram. Multiple agents working in parallel. You read the output.
+
+https://x.com/IBuzovskyi/article/2059675518966894767/media/2059659774703124485
+
+### LAYER 9 — SELF-IMPROVEMENT (THE ACTUAL EDGE)
+
+The self-improvement loop is what no other agent has.
+
+****The loop:****
+
+1. You give Hermes a task
+2. It executes
+3. After completion, it reviews: what worked, what didn't, optimal path
+4. It saves that as a skill in ****~/.hermes/skills/****
+5. Next time you give it the same task, it uses that skill directly
+
+You correct it once. It never makes that mistake again.
+
+Six months in, it knows your work better than a human assistant would:
+
+- How you like things formatted
+- Which tools work for your specific workflows
+- What tone you prefer in different contexts
+- Which shortcuts to take and which to avoid
+
+****Skills are transparent.**** They live as markdown files on your computer. You can open them, read them, edit them. No black box.
+
+****Updates add new skills automatically.**** Computer use. Video generation. Qwen 3.7 Max support. Every update from Nous Research extends what it can do without breaking what already works.
+
+To see all available tools and configure them:
+
+```bash
+hermes tools
+```
+
+Turn on immediately: ****browser-automation, computer-use****
+
+https://x.com/IBuzovskyi/article/2059675518966894767/media/2059660264488701956
+
+### LAYER 10 — SECURITY (THE HONEST TAKE)
+
+Security concerns with Hermes are vastly overrated for basic use.
+
+It only does what you tell it to do.
+
+Ask it to build a presentation — it builds a presentation. It does not then open your photos folder. Ask it to check a score — it checks the score. It does not leak your messages anywhere.
+
+The only catastrophic security event possible is if you tell it to do something catastrophic. Think before you prompt. That's the basic security model.
+
+****What you don't need for personal use:****
+
+- A separate iCloud account
+- A dedicated Google account
+- A VPS (VPS recommendations from AI YouTubers are sponsored content — they don't use them themselves)
+
+****What you do need:****
+
+- Common sense
+- Reviewing prompts before hitting enter on anything destructive
+- The ground rule in your ****soul.md****: "Never send money to anyone without explicit confirmation"
+
+Install it on your main computer. Use good judgment. That's it.
+
+If something breaks: open the Hermes folder in Claude Code or Codex, say "I have this problem, please fix it." Solves 100% of issues.
+
+****For production agents that touch sensitive systems****, Hermes ships a proper security stack:
+
+****Layer 1 — Bitwarden Secrets Manager**** (credential management)
+
+```
+hermes secrets bitwarden setup   # wizard: installs bws, prompts for token
+hermes secrets bitwarden status  # verify connection
+hermes secrets bitwarden sync    # dry-run: see what gets applied
+```
+
+One bootstrap token in ****.env****. All real credentials live in Bitwarden. Every Hermes instance pulls secrets at startup. Rotate a key once in the web app — every instance picks it up on next restart. Instant revocation from the web UI. Free tier.
+
+****Layer 2 — iron-proxy egress firewall**** (credential protection)
+
+```
+hermes egress install   # downloads iron-proxy binary, SHA-256 verified
+hermes egress setup     # interactive wizard
+hermes egress start     # spawn managed proxy daemon
+hermes egress status    # binary + config + active mappings
+hermes egress setup --from-bitwarden  # pull real credentials from BSM at proxy startup
+```
+
+Instead of injecting real credentials into the sandbox, Hermes gives the agent opaque proxy tokens. iron-proxy intercepts at the network boundary, swaps for the real credential, forwards the request. The sandbox never holds the actual key. Compromise the sandbox — the attacker gets tokens that only work from behind the proxy.
+
+The two layers compose: rotate in Bitwarden, propagates to all sandboxes automatically. One action in a web UI, full propagation across the fleet.
+
+For the full architecture breakdown including how this compares to CrewAI, LangGraph, and LangChain → [Hermes x Bitwarden — The Security Stack AI Agents Actually Need](https://x.com/IBuzovskyi/status/2057914816015249515?s=20)
+
+### The Real Insight
+
+ChatGPT and Claude are powerful. Each conversation starts from zero. No memory. No improvement. No context. Stop using one for a week and it's like you never met.
+
+Hermes compounds.
+
+Day 1: it knows nothing about you. Month 1: it knows how you work and what you're building. Month 6: it knows how you think, which tasks you do every day, and the optimal way to do each one.
+
+Memory. The improvement loop. Trust. Those three things are the bottleneck in AI agents. Models are solved.
+
+Hermes Agent solves all three. Open source. $0 for the agent itself.
+
+The stack is ready. Set it up and use it.
+
+→ ****Follow**** — AI agent blueprints every week
+→ ****Save this**** — the setup prompts are worth bookmarking
+→ ****Comment "HERMES"**** and I'll send you the full soul.md + cron job template for your use case
+
+### Resources
+
+****Official:****
+
+- [Hermes Agent Docs](https://hermes-agent.nousresearch.com/docs)
+
+ — installation, configuration, full CLI reference
+- [Skills Hub](https://agentskills.io/)
+
+ — community skills, browse and install
+- [GitHub](https://github.com/NousResearch/hermes-agent)
+
+ — source, issues, PRs
+
+****My articles on Hermes:****
+
+- [The Complete Hermes /goal Playbook](https://x.com/IBuzovskyi/status/2059303967767593247?s=20)
+
+ — 21 Workflows — copy-paste /goal commands for every business function
+- [Hermes /goal — The Full Guide](https://x.com/IBuzovskyi/status/2056764150936748082?s=20)
+
+— autonomous execution, max_turns, best practices
+- [How to Make Hermes + xurl Actually Work as a System](https://x.com/IBuzovskyi/status/2057114309616885997?s=20)
+
+ — recurring X content workflow
+- [Hermes x Bitwarden — The Security Stack AI Agents Actually Need](https://x.com/IBuzovskyi/status/2057914816015249515?s=20)
+
+ — production credential management + egress firewall
+
+[@NousResearch](https://x.com/@NousResearch)
+
+ [@Teknium](https://x.com/@Teknium)
+
+> 📄 Original article URL: https://x.com/i/article/2059639716417273860
+
+---
+
+## Commentary from Other Bookmarks
+
+### @IBuzovskyi (YanXbt) — 2026-05-28
+
+> HERMES AGENT JUST GOT A RESEARCH BRAIN.
+> 
+> connect it to NotebookLM and it becomes
+> a 247 research system that builds
+> knowledge over time.
+> 
+> it resources. connects ideas across sources.
+> uses that context in every real task.
+> 
+> setup in 4 steps:
+> 
+> 1. install Hermes with MCP enabled
+> 2. download NotebookLM skill from GitHub
+> 3. add endpoint to MCP servers in config
+> 4. restart Hermes
+> 
+> what your agent can now do:
+> 
+> → query your notebooks instead of the open web
+> → connect ideas across multiple sources
+> → build knowledge session after session
+> → use your curated context in every /goal
+> → zero hallucinations from your own verified sources
+> 
+> ask it anything — it answers from
+> what YOU already know.
+> 
+> full setup guide — MCP, models, use cases —
+> in the article 👇
+
+[→ View quote tweet](https://x.com/IBuzovskyi/status/2059860662658949530)
+
+⚠️ Quote tweet has **video** — see [[MEDIA-REVIEW]] for link.
+

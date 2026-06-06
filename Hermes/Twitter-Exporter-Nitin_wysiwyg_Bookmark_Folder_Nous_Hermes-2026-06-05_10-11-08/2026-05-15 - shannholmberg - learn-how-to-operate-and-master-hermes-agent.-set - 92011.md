@@ -11,6 +11,7 @@ replies: 35
 bookmarks: 7404
 views: 1378115
 has_media: false
+extraction_quality: full
 article_id: "2055317817658900480"
 tags: ["twitter-bookmark", "obsidian", "claude", "mcp", "llm", "agents"]
 ---

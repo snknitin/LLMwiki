@@ -11,6 +11,7 @@ replies: 30
 bookmarks: 122
 views: 62751
 has_media: true
+extraction_quality: full
 tags: ["twitter-bookmark", "agents"]
 ---
 
@@ -25,8 +26,6 @@ tags: ["twitter-bookmark", "agents"]
 i named my dgx spark "spark." it runs hermes agent /goal overnight. 
 
 brain is qwen 3.6 27B Q8, 262K context, i set a goal before bed and wake up to results. no rate limits. no token costs. just local inference grinding while i sleep. this thing never stops.
-
-![](https://pbs.twimg.com/media/HHxXil7bIAATs1r?format=jpg&name=small)
 
 ## Media
 

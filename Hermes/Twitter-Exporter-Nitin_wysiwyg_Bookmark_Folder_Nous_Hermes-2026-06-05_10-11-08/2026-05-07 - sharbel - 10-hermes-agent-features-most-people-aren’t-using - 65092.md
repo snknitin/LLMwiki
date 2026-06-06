@@ -11,6 +11,7 @@ replies: 25
 bookmarks: 934
 views: 25954
 has_media: true
+extraction_quality: full
 tags: ["twitter-bookmark", "claude", "agents"]
 ---
 

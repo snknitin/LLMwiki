@@ -11,6 +11,7 @@ replies: 69
 bookmarks: 745
 views: 69635
 has_media: true
+extraction_quality: full
 tags: ["twitter-bookmark", "agents"]
 ---
 
@@ -22,7 +23,7 @@ tags: ["twitter-bookmark", "agents"]
 
 ## Tweet Content
 
-I resurrected my 8-year-old phone into a Hermes Agent server⚕️
+I resurrected my 8-year-old phone into a Hermes Agent server 
 
 Replaced Android with postmarketOS (Alpine Linux on ARM64), runs Hermes as a systemd service. I chat with it over Matrix (E2E encrypted)
 

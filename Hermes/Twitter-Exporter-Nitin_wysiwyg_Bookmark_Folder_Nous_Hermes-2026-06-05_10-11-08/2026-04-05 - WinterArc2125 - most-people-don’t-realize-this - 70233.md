@@ -11,6 +11,7 @@ replies: 47
 bookmarks: 2876
 views: 142382
 has_media: false
+extraction_quality: full
 tags: ["twitter-bookmark", "agents"]
 ---
 
@@ -24,11 +25,15 @@ tags: ["twitter-bookmark", "agents"]
 
 Most people don’t realize this:
 
-You get 1,500 free daily requests to Gemma 4 31B on @GoogleAIStudio.
+You get 1,500 free daily requests to Gemma 4 31B on 
+@GoogleAIStudio
+. 
 
 That’s plenty of free inference (imo).
 
-And you can route it into @NousResearch  Hermes Agent via Vercel’s AI Gateway:
+And you can route it into 
+@NousResearch
+  Hermes Agent via Vercel’s AI Gateway:
 
 1. Create an API key on Google AI Studio
 2. Add it under BYOK (Google) in Vercel AI Gateway

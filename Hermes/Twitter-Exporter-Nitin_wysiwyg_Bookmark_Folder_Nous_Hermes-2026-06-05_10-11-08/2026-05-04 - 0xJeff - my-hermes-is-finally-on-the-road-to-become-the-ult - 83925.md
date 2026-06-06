@@ -11,6 +11,7 @@ replies: 30
 bookmarks: 1115
 views: 129604
 has_media: false
+extraction_quality: full
 tags: ["twitter-bookmark", "claude"]
 ---
 

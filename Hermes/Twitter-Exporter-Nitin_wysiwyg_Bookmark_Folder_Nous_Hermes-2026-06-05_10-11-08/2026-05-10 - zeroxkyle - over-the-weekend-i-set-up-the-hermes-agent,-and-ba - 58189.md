@@ -11,6 +11,7 @@ replies: 49
 bookmarks: 4535
 views: 123456
 has_media: true
+extraction_quality: full
 tags: ["twitter-bookmark", "agents"]
 ---
 
@@ -27,8 +28,6 @@ Over the weekend I set up the Hermes agent, and basically force fed it every res
 I then asked it to rank each resource and provide a simple explanation: 
 
 So yea, here you go. Link to each is below
-
-![](https://pbs.twimg.com/media/HH89GKaboAARzIH?format=png&name=900x900)
 
 ## Media
 

@@ -11,6 +11,7 @@ replies: 39
 bookmarks: 1956
 views: 143338
 has_media: false
+extraction_quality: full
 article_id: "2051218927263338496"
 tags: ["twitter-bookmark", "claude", "llm", "agents"]
 ---

@@ -11,6 +11,7 @@ replies: 38
 bookmarks: 936
 views: 36937
 has_media: true
+extraction_quality: full
 tags: ["twitter-bookmark"]
 ---
 

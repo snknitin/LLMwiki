@@ -11,6 +11,7 @@ replies: 18
 bookmarks: 3191
 views: 875464
 has_media: false
+extraction_quality: full
 article_id: "2054279489774120960"
 tags: ["twitter-bookmark", "claude", "agents"]
 ---
@@ -186,6 +187,23 @@ A section on /goal pro tips:
 - Give your agent .md files for tracking
 
 This is a good article to read on optimizing /goal inside Codex for those interested:
+
+https://x.com/ChrisHayduk
+
+****Chris Hayduk****
+
+@ChrisHayduk
+
+·
+
+[May 11](https://x.com/ChrisHayduk/status/2053807198870880743)
+
+** Article**
+
+**Using Codex Goals Effectively**
+
+Perceptive Codex users have noticed that the /goal command is now available in the Codex app - just start your prompt with /goal, and specify what you want your agent to do.
+This will trigger Codex to...
 
 ### Closing
 

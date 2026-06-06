@@ -11,6 +11,7 @@ replies: 3
 bookmarks: 244
 views: 6464
 has_media: true
+extraction_quality: full
 tags: ["twitter-bookmark", "agents"]
 ---
 
@@ -25,8 +26,6 @@ tags: ["twitter-bookmark", "agents"]
 Always good to see these in a cheat sheet.
 
 Hermes Agent slash commands!
-
-![](https://pbs.twimg.com/media/HH5QWxVaoAANyCE?format=jpg&name=small)
 
 ## Media
 

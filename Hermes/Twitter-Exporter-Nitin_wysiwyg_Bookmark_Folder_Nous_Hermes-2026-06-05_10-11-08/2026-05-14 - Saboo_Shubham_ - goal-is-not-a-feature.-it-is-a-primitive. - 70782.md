@@ -11,6 +11,7 @@ replies: 29
 bookmarks: 2508
 views: 227623
 has_media: false
+extraction_quality: full
 article_id: "2054805605995696128"
 tags: ["twitter-bookmark", "claude", "agents"]
 ---
@@ -122,6 +123,26 @@ something blows up.
 ```
 
 Hermes broke the request into six cards.
+
+https://x.com/Saboo_Shubham_
+
+****Shubham Saboo****
+
+@Saboo_Shubham_
+
+·
+
+[May 12](https://x.com/Saboo_Shubham_/status/2054260705365475609)
+
+Codex /goal builds it.
+
+Claude Code /goal review and refines it.
+
+Hermes /goal manages the orchestration and handoff. 
+
+All tracked on a single Kanban Board and agents keep running in the loop.
+
+![](https://pbs.twimg.com/amplify_video_thumb/2054258018699907072/img/j7iAavVam2Elm_Hj.jpg)
 
 ****Card 1: Spec.**** Hermes wrote SPEC.md itself, capturing the stack, repo path, read-only constraints, mock mode requirements, tests, and verification commands. Owned by the PM role.
 

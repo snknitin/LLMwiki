@@ -11,6 +11,7 @@ replies: 29
 bookmarks: 3354
 views: 102177
 has_media: true
+extraction_quality: full
 tags: ["twitter-bookmark", "claude", "llm", "agents"]
 ---
 
@@ -28,43 +29,81 @@ In 2026, the greatest minds of our time became installable. Bookmark this list �
 
 1. andrej-karpathy-skills
 A single markdown file distilling Andrej Karpathy's wisdom on AI coding. 109K+ stars. The most starred single-file repo in GitHub history.
-Repo → https://github.com/forrestchang/andrej-karpathy-skills
+Repo → 
+https://
+github.com/forrestchang/a
+ndrej-karpathy-skills
+…
 
 2. MemPalace
 Milla Jovovich, the Resident Evil actress, co-built this AI memory system using Claude Code. Near-perfect score on the LongMemEval benchmark.
-Repo → https://github.com/MemPalace/mempalace
+Repo → 
+https://
+github.com/MemPalace/memp
+alace
+…
 
 3. autoresearch
 Karpathy's own research automation framework. 23K stars in three days. The closest thing to having Karpathy as your research partner.
-Repo → https://github.com/karpathy/autoresearch
+Repo → 
+https://
+github.com/karpathy/autor
+esearch
+…
 
 4. awesome-claude-code
 The canonical playbook for Claude Code, the AI coding tool used inside FAANG, OpenAI, and Anthropic.
-Repo → https://github.com/hesreallyhim/awesome-claude-code
+Repo → 
+https://
+github.com/hesreallyhim/a
+wesome-claude-code
+…
 
 5. SuperClaude Framework
 The complete Claude Code methodology distilled into a deployable framework. Personas, commands, prompts, workflows.
-Repo → https://github.com/SuperClaude-Org/SuperClaude_Framework
+Repo → 
+https://
+github.com/SuperClaude-Or
+g/SuperClaude_Framework
+…
 
 6. AI-Agents-for-Beginners
 Microsoft's free 12-lesson course on building AI agents. Real code, real exercises, real production patterns.
-Repo → https://github.com/microsoft/ai-agents-for-beginners
+Repo → 
+https://
+github.com/microsoft/ai-a
+gents-for-beginners
+…
 
 7. awesome-llm-apps
 106K+ stars. The most comprehensive collection of working AI applications on GitHub.
-Repo → https://github.com/Shubhamsaboo/awesome-llm-apps
+Repo → 
+https://
+github.com/Shubhamsaboo/a
+wesome-llm-apps
+…
 
 8. mattpocock/skills
 TypeScript wizard Matt Pocock's daily coding workflow, open-sourced. Planning, TDD, architecture, git guardrails.
-Repo → https://github.com/mattpocock/skills
+Repo → 
+https://
+github.com/mattpocock/ski
+lls
+…
 
 9. hermes-agent
 The self-evolving AI agent. Extracts skills from every conversation and gets smarter the more you use it.
-Repo → https://github.com/NousResearch/hermes-agent
+Repo → 
+https://
+github.com/NousResearch/h
+ermes-agent
+…
 
 10. qlib
 Microsoft's full quant investment platform. The brain of a hedge fund analyst, free to clone.
-Repo → https://github.com/microsoft/qlib
+Repo → 
+https://
+github.com/microsoft/qlib
 
 Here's the wildest part:
 

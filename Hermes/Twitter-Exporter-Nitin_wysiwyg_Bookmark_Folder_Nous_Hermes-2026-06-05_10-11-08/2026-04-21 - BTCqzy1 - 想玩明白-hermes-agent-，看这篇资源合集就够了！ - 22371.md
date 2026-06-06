@@ -11,6 +11,7 @@ replies: 85
 bookmarks: 1572
 views: 205725
 has_media: true
+extraction_quality: full
 tags: ["twitter-bookmark", "agents"]
 ---
 
@@ -22,56 +23,98 @@ tags: ["twitter-bookmark", "agents"]
 
 ## Tweet Content
 
-想玩明白 Hermes Agent ，看这篇资源合集就够了！
+Want to master Hermes Agent? This resource collection has you covered!
 
-局长整理的这篇教程很详细啦，覆盖安装、实战到中高阶玩法，适合快速跑起来。
+The tutorial compiled by the Chief is super detailed, covering installation, hands-on practice, and mid-to-high-level techniques—perfect for getting up and running fast.
 
-下面我也整理了一份合集，聚焦 Hermes Agent 的持久记忆、自动提炼技能、跨会话成长等自我进化能力，帮你把 Hermes 打造成长期运行的生产力引擎：
+I've also put together a collection below, focusing on Hermes Agent's persistent memory, automatic skill extraction, cross-session growth, and other self-evolution capabilities to help you turn Hermes into a long-term productivity engine:
 
-一、入门必看：先让 Hermes 跑起来！
+I. Must-See for Beginners: Get Hermes Running First!
 
-1. 最全面官方文档：从安装到基础使用，再到高级架构解析。
-https://hermes-agent.nousresearch.com/docs/
+1. The Most Comprehensive Official Documentation: From installation to basic usage, all the way to advanced architecture breakdowns.
 
-2. Hermes Agent 主引擎：Nous Research 官方核心仓库。
-https://github.com/NousResearch/hermes-agent
+https://
+hermes-agent.nousresearch.com/docs/
 
-二、进阶核心：理解 Hermes 系统
+2. Hermes Agent Main Engine: Nous Research's official core repository.
 
-1. Hermes-Wiki：基于源码自动生成的 Wiki，Agent 自解释实现文档同步。
-https://github.com/cclank/Hermes-Wiki
+https://
+github.com/NousResearch/h
+ermes-agent
+…
 
-2. Hermes 生态地图 (Atlas)：社区维护的 80+ 工具与技能全景图，支持 RAG 查询。
-https://github.com/ksimback/hermes-ecosystem
+II. Advanced Core: Understanding the Hermes System
 
-3. Hermes Control Interface：自托管仪表盘，统一调度多 Agent、长程任务与记忆。
-https://github.com/xaspx/hermes-control-interface
+1. Hermes-Wiki: A Wiki auto-generated from source code, with Agent self-explanatory implementation docs kept in sync.
 
-三、高阶玩法：构建长期运行的自我进化 Agent
+https://
+github.com/cclank/Hermes-
+Wiki
+…
 
-1. Hermes Skill Factory：通过任务复盘自动生成并安装新技能，实现武器自造。
-https://github.com/Romanescu11/hermes-skill-factory
+2. Hermes Ecosystem Map (Atlas): Community-maintained panoramic view of 80+ tools and skills, supporting RAG queries.
 
-2. Maestro：基于 Beads 架构的指挥官框架，支持跨 Agent 协作与结构化记忆管理。
-https://github.com/ReinaMacCredy/maestro
+https://
+github.com/ksimback/herme
+s-ecosystem
+…
 
-3. Hermes Agent Camel：内置信任边界与安全协议，适合生产环境防护。
-https://github.com/nativ3ai/hermes-agent-camel
+3. Hermes Control Interface: Self-hosted dashboard for unified scheduling of multiple Agents, long-term tasks, and memory.
 
-四、工具增强：提升使用体验
+https://
+github.com/xaspx/hermes-c
+ontrol-interface
+…
 
-1. Hermes HUD：基于 Textual 的 TUI 监控终端，实时可视化意识流与内存状态。
-https://github.com/joeynyc/hermes-hud
+III. High-Level Techniques: Building a Long-Running Self-Evolving Agent
 
-2. Hermes Alpha：一键部署模板，简化云端环境配置与快速原型开发。
-https://github.com/kaminocorp/hermes-alpha
+1. Hermes Skill Factory: Automatically generates and installs new skills through task debriefs, enabling self-forged weaponry.
 
-3. Awesome Hermes Agent：社区驱动的精选插件、提示词与教程列表。
-https://github.com/0xNyk/awesome-hermes-agent
+https://
+github.com/Romanescu11/he
+rmes-skill-factory
+…
 
-两篇合集结合使用，能帮你更全面地掌握 Hermes Agent，从快速上手到长期自我进化，一路走通。
+2. Maestro: A commander framework based on Beads architecture, supporting cross-Agent collaboration and structured memory management.
 
-感兴趣的朋友可以关注收藏哦～
+https://
+github.com/ReinaMacCredy/
+maestro
+…
+
+3. Hermes Agent Camel: Built-in trust boundaries and security protocols, ideal for production environment protection.
+
+https://
+github.com/nativ3ai/herme
+s-agent-camel
+…
+
+IV. Tool Enhancements: Elevate the User Experience
+
+1. Hermes HUD: A TUI monitoring terminal based on Textual, providing real-time visualization of consciousness streams and memory states.
+
+https://
+github.com/joeynyc/hermes
+-hud
+…
+
+2. Hermes Alpha: One-click deployment template to simplify cloud environment setup and rapid prototyping.
+
+https://
+github.com/kaminocorp/her
+mes-alpha
+…
+
+3. Awesome Hermes Agent: Community-curated list of top plugins, prompts, and tutorials.
+
+https://
+github.com/0xNyk/awesome-
+hermes-agent
+…
+
+Combining these two collections will give you a fuller grasp of Hermes Agent—from quick onboarding to long-term self-evolution—all the way through.
+
+Friends who are interested, feel free to follow and save this～
 #HermesAgent
 
 ## Media

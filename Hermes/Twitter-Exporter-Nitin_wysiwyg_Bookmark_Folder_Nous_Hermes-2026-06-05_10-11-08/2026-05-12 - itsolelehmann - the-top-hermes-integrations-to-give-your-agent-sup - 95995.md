@@ -11,6 +11,7 @@ replies: 68
 bookmarks: 3656
 views: 94919
 has_media: true
+extraction_quality: full
 tags: ["twitter-bookmark", "obsidian", "llm", "agents"]
 ---
 
@@ -109,8 +110,6 @@ Covers ~80% of what most people need.
 I use Composio to add these in one click, makes setup basically zero effort instead of messing w technical stuff.
 
 Anything I'm missing?? What's in your stack?
-
-![](https://pbs.twimg.com/media/HIH5VXJb0AE53ZQ?format=jpg&name=small)
 
 ## Media
 

@@ -11,6 +11,7 @@ replies: 52
 bookmarks: 2367
 views: 96968
 has_media: true
+extraction_quality: full
 tags: ["twitter-bookmark", "claude", "agents"]
 ---
 
@@ -64,8 +65,6 @@ memory
 
  Repost if you're tired of context limits.
  Follow for more production AI tools.
-
-![](https://pbs.twimg.com/media/HH_i_wdW4AAOQWo?format=jpg&name=small)
 
 ## Media
 
