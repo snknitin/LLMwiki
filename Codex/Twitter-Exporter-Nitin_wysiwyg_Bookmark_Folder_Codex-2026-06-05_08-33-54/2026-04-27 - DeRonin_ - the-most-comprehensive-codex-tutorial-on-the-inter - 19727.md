@@ -1,4 +1,4 @@
-﻿---
+---
 title: "The Most Comprehensive Codex tutorial on the internet right now"
 author: "Ronin"
 username: "@DeRonin_"
