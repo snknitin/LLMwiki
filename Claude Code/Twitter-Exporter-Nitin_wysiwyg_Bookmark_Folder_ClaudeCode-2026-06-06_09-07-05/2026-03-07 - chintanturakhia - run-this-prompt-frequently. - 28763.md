@@ -1,4 +1,4 @@
-﻿---
+---
 title: "Run this prompt frequently."
 author: "Chintan Turakhia"
 username: "@chintanturakhia"

@@ -1,4 +1,4 @@
-﻿---
+---
 title: "ok, fine, here's the CLAUDE[.]md, don't say I didn't warn you:"
 author: "Max Woolf"
 username: "@minimaxir"

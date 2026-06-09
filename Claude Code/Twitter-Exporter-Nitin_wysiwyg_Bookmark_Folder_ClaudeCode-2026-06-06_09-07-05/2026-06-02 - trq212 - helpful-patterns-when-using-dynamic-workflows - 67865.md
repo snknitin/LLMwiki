@@ -1,4 +1,4 @@
-﻿---
+---
 title: "Helpful patterns when using dynamic workflows"
 author: "Thariq"
 username: "@trq212"
