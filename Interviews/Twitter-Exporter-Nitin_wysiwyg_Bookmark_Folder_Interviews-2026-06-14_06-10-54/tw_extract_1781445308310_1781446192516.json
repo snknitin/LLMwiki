@@ -1,0 +1,616 @@
+{
+  "runId": "1781445308310",
+  "extracts": {
+    "2062867034623623637": {
+      "id": "2062867034623623637",
+      "runId": "1781445308310",
+      "type": "tweet",
+      "url": "https://x.com/adaption_ai/status/2062867034623623637",
+      "title": "",
+      "markdown": "The AutoScientist Challenge is open.\n\n$50,000 in prizes. Four weeks. 10 categories.\n\nMost people don't get to build frontier AI. That changes today.",
+      "images": [],
+      "replies": []
+    },
+    "2064818346202132532": {
+      "id": "2064818346202132532",
+      "runId": "1781445308310",
+      "type": "tweet",
+      "url": "https://x.com/silviasapora/status/2064818346202132532",
+      "title": "",
+      "markdown": "After interviewing for Research Scientist roles at DeepMind, Isomorphic, Meta, Cohere and more, I wrote up everything I learned. Technical prep, logistics, negotiation, and emotional breakdowns. Check out my guide: \nhttps://\nsilviasapora.github.io/blog/ml-interv\niews.html\n…",
+      "images": [],
+      "replies": []
+    },
+    "2005755471009857764": {
+      "id": "2005755471009857764",
+      "runId": "1781445308310",
+      "type": "tweet",
+      "url": "https://x.com/Hesamation/status/2005755471009857764",
+      "title": "",
+      "markdown": "Harvard's just open-sourced their ML Systems textbook. it's extremely practical for not just learning how to build and train models, but to build production systems (the skill that actually matters). topics are cool af:\n> building autograd, optimizers, attention, and a mini-pytorch from scratch to truly learn how an ML framework runs. (i love this the most)\n> basics of DL, batch sizes, precision, model architectures, and training\n> ML performance optimization, HW acceleration, benchmarking, efficiency\n\nso this is not just an intro to machine learning, it's the full package from the beginning to the actual end. right now you can read the book and access the code for free. this is one of the best books I've seen dropping in 2025, so don't sleep on it. \n\nhere's the repo (you can find the book link there): \nhttps://\ngithub.com/harvard-edge/c\ns249r_book\n…",
+      "images": [],
+      "replies": []
+    },
+    "2026649450203197609": {
+      "id": "2026649450203197609",
+      "runId": "1781445308310",
+      "type": "tweet",
+      "url": "https://x.com/akshay_pachaar/status/2026649450203197609",
+      "title": "",
+      "markdown": "You’re in an ML Engineer interview at Google.\n\nInterviewer: We need to train an LLM across 1,000 GPUs. How would you make sure all GPUs share what they learn?\n\nYou: Use a central parameter server to aggregate and redistribute the weights.\n\nInterview over.\n\nHere’s what you missed:",
+      "images": [],
+      "replies": []
+    },
+    "2049892160552788406": {
+      "id": "2049892160552788406",
+      "runId": "1781445308310",
+      "type": "tweet",
+      "url": "https://x.com/kmeanskaran/status/2049892160552788406",
+      "title": "",
+      "markdown": "My LLM Engineering stack:\n\n1. PySpark for Data Engineering\n2. HuggingFace datasets for data\n3. Unsloth for SFT/RLHF/QLoRA fine-tuning\n4. vLLM for Inference optimization\n5. FastAPI for backend \n6. Redis for cache\n7. Qdrant for vector database\n8. Celery for task queue\n9. Kafka for event-driven scenario\n10. Perfect for orchestration\n11. LangGraph for agents \n12. DeepEval for LLM evaluation\n11. Langsmith for LLM observability\n12. Ollama for naive LLM calls\n13. Postgres for storing data and conversations\n14. Docker for containerization \n15. AWS for deploying compute-heavy system (Kubernetes cluster)\n16. Railway for agentic projects\n17. Next JS for UI \n18. Prometheus/Grafana for system observability\n19. Ray for distributed systems\n20. Slack for system alerts\n\nWhat else am I missing?",
+      "images": [],
+      "replies": []
+    },
+    "1985602240271552638": {
+      "id": "1985602240271552638",
+      "runId": "1781445308310",
+      "type": "tweet",
+      "url": "https://x.com/sleenyre/status/1985602240271552638",
+      "title": "",
+      "markdown": "Here's a fun ML engineering question. \nIn TorchTitan / Lingua, qkv projections are unfused (i.e. separate three linear layers) which is known to be inefficient. Is this on purpose? If so, why?",
+      "images": [],
+      "replies": []
+    },
+    "1956019480997347723": {
+      "id": "1956019480997347723",
+      "runId": "1781445308310",
+      "type": "tweet",
+      "url": "https://x.com/benln/status/1956019480997347723",
+      "title": "",
+      "markdown": "Marc Andreessen’s career advice for the AI era:",
+      "images": [],
+      "replies": []
+    },
+    "1960976538838381040": {
+      "id": "1960976538838381040",
+      "runId": "1781445308310",
+      "type": "tweet",
+      "url": "https://x.com/giffmana/status/1960976538838381040",
+      "title": "",
+      "markdown": "At which of these places did you have the coolest interview in your career?\n\nI know it's an ill-posed poll, but what am i gonna do with only 4 options?!\n\nI tried grouping them by interview similarity to the best of my knowledge. Comment if \"other\". Might make a second round.",
+      "images": [],
+      "replies": []
+    },
+    "2035979583758143774": {
+      "id": "2035979583758143774",
+      "runId": "1781445308310",
+      "type": "tweet",
+      "url": "https://x.com/gudanglifehack/status/2035979583758143774",
+      "title": "",
+      "markdown": "Claude Cowork can apply to 50 jobs in under 30 minutes.\n\nHere's how to set it up.￼",
+      "images": [],
+      "replies": []
+    },
+    "1999493414904299883": {
+      "id": "1999493414904299883",
+      "runId": "1781445308310",
+      "type": "tweet",
+      "url": "https://x.com/goyal__pramod/status/1999493414904299883",
+      "title": "",
+      "markdown": "I rarely say this \n\nBut this is the greatest repo to master Python",
+      "images": [],
+      "replies": []
+    },
+    "1986909385713721780": {
+      "id": "1986909385713721780",
+      "runId": "1781445308310",
+      "type": "tweet",
+      "url": "https://x.com/10x_er/status/1986909385713721780",
+      "title": "",
+      "markdown": "basically all you need to pass interviews in 2025",
+      "images": [],
+      "replies": []
+    },
+    "2011682593239155017": {
+      "id": "2011682593239155017",
+      "runId": "1781445308310",
+      "type": "tweet",
+      "url": "https://x.com/vivoplt/status/2011682593239155017",
+      "title": "",
+      "markdown": "Don’t overcomplicate it.\n\n• Build a Password Manager to learn file handling, hashing (not full crypto)\n• Build a URL Shortener to understand routing, IDs, and persistence\n• Build a Todo App with deadlines to practice CRUD and basic state\n• Build a Web Scraper to learn requests, parsing, and rate limits\n• Build a CLI Expense Tracker to master logic, files, and edge cases\n• Build a Log Analyzer to work with files, timestamps, and patterns\n• Build a Simple Recommender using similarity rules (not ML magic)\n• Build an Email Automation Script using SMTP and scheduling\n\nProjects. Not tutorials.",
+      "images": [],
+      "replies": []
+    },
+    "2000153383420797182": {
+      "id": "2000153383420797182",
+      "runId": "1781445308310",
+      "type": "tweet",
+      "url": "https://x.com/0xlelouch_/status/2000153383420797182",
+      "title": "",
+      "markdown": "Eventually you’ll realize that distributed systems aren’t some mystical, gate-kept domain either.\n\nYou can just… do them.\n\n• you can learn networking basics (TCP, UDP, latency, packet loss)\n• you can learn how requests actually move through systems\n• you can understand consistency, availability, and trade-offs (not just CAP buzzwords)\n• you can build a simple client–server system\n• you can simulate failures on purpose and watch things break\n• you can learn replication by writing a primary–replica toy DB\n• you can learn sharding by splitting data across nodes\n• you can implement retries, timeouts, and backoff\n• you can learn why idempotency matters by breaking it once\n• you can understand queues by building a slow consumer and a fast producer\n• you can implement leader election in a weekend project\n• you can learn consensus by reading Raft and coding a tiny version\n• you can reason about backpressure instead of “just scaling”\n• you can debug race conditions instead of fearing them\n• you can learn observability (logs, metrics, traces) by needing them\n• you can design for failure instead of pretending it won’t happen\n• you can make boring systems that don’t wake you up at 3am\n• you can build systems that degrade gracefully instead of exploding\n• you can learn when not to use Kafka, Redis, or microservices\n• you can design for the scale you have, not the scale you imagine\n\nDistributed systems aren’t reserved for PhDs or hyperscalers.\n\nThey’re learned the same way as everything else: small steps, concrete systems, broken assumptions, and repetition.\n\nYou don’t become “good at distributed systems” one day. You become someone who isn’t afraid of them anymore.",
+      "images": [],
+      "replies": []
+    },
+    "2037043493462565338": {
+      "id": "2037043493462565338",
+      "runId": "1781445308310",
+      "type": "tweet",
+      "url": "https://x.com/MatternJustus/status/2037043493462565338",
+      "title": "",
+      "markdown": "Planning my next BLR trip rn - a big focus this time will be recruiting for \n@ProximalHQ\n!\n\nWe have a super talent-dense team in our Bangalore office - some of our teammates are ex YC founders that have successfully sold companies or worked as quants at companies like Jane Street!",
+      "images": [],
+      "replies": []
+    },
+    "1977740096221614588": {
+      "id": "1977740096221614588",
+      "runId": "1781445308310",
+      "type": "tweet",
+      "url": "https://x.com/lochan_twt/status/1977740096221614588",
+      "title": "",
+      "markdown": "ai internship DSA question",
+      "images": [],
+      "replies": []
+    },
+    "2041172050211983500": {
+      "id": "2041172050211983500",
+      "runId": "1781445308310",
+      "type": "tweet",
+      "url": "https://x.com/Hesamation/status/2041172050211983500",
+      "title": "",
+      "markdown": "Wow, in just 1 day this repo got 8K stars on GitHub. this is a signal that your competitions are using AI for faster job application, whether you like it or not.",
+      "images": [],
+      "replies": []
+    },
+    "1981255166860136571": {
+      "id": "1981255166860136571",
+      "runId": "1781445308310",
+      "type": "tweet",
+      "url": "https://x.com/ArmenAgha/status/1981255166860136571",
+      "title": "",
+      "markdown": "Guess I need to change my interview questions, this one was my favorite :)\n\nThe two classical ways to do this are 1) do an ema on the cut-off for the topk operator (threshold @ k), use this during inference for token-choice like routing. 2) MoD style, learn a linear layer that predicts token choice wise from EC ground truths, use stop gradient to not impact representations.",
+      "images": [],
+      "replies": []
+    },
+    "1780691682461171799": {
+      "id": "1780691682461171799",
+      "runId": "1781445308310",
+      "type": "tweet",
+      "url": "https://x.com/cremieuxrecueil/status/1780691682461171799",
+      "title": "",
+      "markdown": "What's more convincing?\n\np = 0.04 in a sample of 10 or p = 0.04 in a sample of 1,000,000?",
+      "images": [],
+      "replies": []
+    },
+    "2020316657575477376": {
+      "id": "2020316657575477376",
+      "runId": "1781445308310",
+      "type": "tweet",
+      "url": "https://x.com/techNmak/status/2020316657575477376",
+      "title": "",
+      "markdown": "I have one interview question I use to find real ML engineers: \"Explain Backpropagation. No, not the concept. The math. From scratch.\"\n\n9 out of 10 candidates can't. They can use a library. They can't build one.\n\nThe 1/10 who can? They've all built the foundation.\n\nThis 26-video playlist is that foundation. For free.\n\nWhile everyone else is chasing the newest \"AI agent\" or prompt hack, they're building on a foundation of sand.\n\nThis free course from Professor Bryce is the foundation. It's a full university-level curriculum on the math that actually makes AI work.\n\nThe syllabus is pure signal, no noise:\n The Data Analysis Pipeline (DL 05) \n Feed-Forward Neural Networks (DL 07) \n Backpropagation from scratch (DL 08) \n Activation & Loss functions (DL 09) \n Making it fast with Vectorization (DL 10) \n Debugging Vanishing/Exploding Gradients (DL 11)\n\nStop chasing hype. Master the fundamentals that will last a decade.\n\n(I will put the playlist in the comments.)\n\n Repost to save someone $$$ and a lot of confusion.",
+      "images": [],
+      "replies": []
+    },
+    "2043631178570440950": {
+      "id": "2043631178570440950",
+      "runId": "1781445308310",
+      "type": "tweet",
+      "url": "https://x.com/vivoplt/status/2043631178570440950",
+      "title": "",
+      "markdown": "Research papers you must read for AI Engineer interviews:\n\n1. Attention is all you need (Transformers)\n2.  LoRA (Low rank adaption)\n3. PEFT ( Parameter Efficient Fine Tuning)\n4. VIT (Vision Transformers)\n5. VAE (Variational Auto Encoder)\n6. GANs ( Generative Adversarial Networks)\n7. BERT ( Bidirectional Encoder Representation from Transformers)\n8. Diffusion Models (Stable Diffusion)\n9. RAG (Retrieval Augment Generation)\n10. GPT (Generative Pre-trained Transformers)",
+      "images": [],
+      "replies": []
+    },
+    "1712978529867211127": {
+      "id": "1712978529867211127",
+      "runId": "1781445308310",
+      "type": "tweet",
+      "url": "https://x.com/cHHillee/status/1712978529867211127",
+      "title": "",
+      "markdown": "An allreduce has 2N comm volume.\nReduce-scatter and all-gather both have N comm volume.\nAllreduce can be created from a combination of reduce-scatter + all-gather.\n\nDDP: Do allreduce after getting your gradients.\nZero-1: Split allreduce into reduce-scatter + all-gather (allows you to shard optimizer state)\nYou can now also move your all-gather into the forwards pass of the next iteration.\nZero-3: Note that if you move your all-gather into the forwards pass of the next iteration, then at the beginning of your iteration your weights are actually sharded. However, your peak memory doesn't change, because after you all-gather your weights your weights will be replicated again.\n\nSo, in order to keep your peak memory low, you just reshard your weights after using them. However, you need to use your weights again in the backwards pass, so you need another all-gather then.\n\nIn total:\n\nDDP: one Allreduce => 2N\nZero-1: one ReduceScatter + one allgather => 2N\nZero-3/FSDP: one reducescatter + 2 allgathers (one in forwards and one in backwards) => 3N\n\n3N/2N = 1.5",
+      "images": [],
+      "replies": []
+    },
+    "2050158196610965857": {
+      "id": "2050158196610965857",
+      "runId": "1781445308310",
+      "type": "tweet",
+      "url": "https://x.com/ravikiran_dev7/status/2050158196610965857",
+      "title": "",
+      "markdown": "As an AI Infrastructure Engineer.\n\nPlease learn:\n\n- GPU/VRAM fundamentals, quantization & batching\n- vLLM / TensorRT-LLM / inference optimization\n- KV caching, speculative decoding & token throughput\n- Distributed training basics (DDP/FSDP/DeepSpeed)\n- Model serving & autoscaling\n- Vector DB retrieval pipelines\n- Prompt caching & cost optimization\n- Observability for LLM apps\n\nThis is what production AI teams actually care about.",
+      "images": [],
+      "replies": []
+    },
+    "2036461040842543615": {
+      "id": "2036461040842543615",
+      "runId": "1781445308310",
+      "type": "tweet",
+      "url": "https://x.com/dabit3/status/2036461040842543615",
+      "title": "",
+      "markdown": "If you want to get hired, open the screen recorder on your computer and create a short, tailored intro / pitch video to the company you want to get an interview with. \n\nDM this video along with a short introduction and link to your 1 page resume to someone in the company responsible for the role you are hiring for.\n\nMost importantly, only do this for roles you actually think you’re capable of.\n\nIt will work 1,000x better than this slop.",
+      "images": [],
+      "replies": []
+    },
+    "1986880055071670645": {
+      "id": "1986880055071670645",
+      "runId": "1781445308310",
+      "type": "tweet",
+      "url": "https://x.com/10x_er/status/1986880055071670645",
+      "title": "",
+      "markdown": "how many of you can do this?",
+      "images": [],
+      "replies": []
+    },
+    "2023963568647864471": {
+      "id": "2023963568647864471",
+      "runId": "1781445308310",
+      "type": "tweet",
+      "url": "https://x.com/Amank1412/status/2023963568647864471",
+      "title": "",
+      "markdown": "Someone built a web-based System Design Simulator,\n\nwhere you drag & drop architecture components and actually simulate traffic, failures, latency, and scaling in real time,\n\nSystem design just got way more interactive.",
+      "images": [],
+      "replies": []
+    },
+    "2038693996294238227": {
+      "id": "2038693996294238227",
+      "runId": "1781445308310",
+      "type": "tweet",
+      "url": "https://x.com/T3chFalcon/status/2038693996294238227",
+      "title": "",
+      "markdown": "You turn on your VPN and your IP changes. It feels like you should be invisible, but some websites still know exactly where you are.\n\nYour IP is just one clue. Websites also look at your browser’s timezone (for example, \"Asia/Kolkata\" doesn’t match a German IP), your Accept-Language header (en-IN gives you away), and your DNS resolver, which is probably still set to your ISP’s servers back home instead of your VPN’s.\n\nOne of the sneakiest trick is WebRTC. Your browser has a built-in feature for video calls that can fetch your real IP address at the operating system level, completely bypassing the VPN tunnel. A website can get it with just 10 lines of JavaScript. Some VPNs don’t block this by default.\n\nAnd if you’re logged in, it’s game over. Netflix, Google and Spotify don’t care about your IP address. They care about your account. Your registered country is stored in their database, not in your connection. Using a VPN while logged in means the VPN isn’t helping you at all.\n\nA VPN gives you a different postal address, but your timezone, language, DNS, WebRTC, browser fingerprint, and login details are still the same.",
+      "images": [],
+      "replies": []
+    },
+    "2006970447133651057": {
+      "id": "2006970447133651057",
+      "runId": "1781445308310",
+      "type": "tweet",
+      "url": "https://x.com/techNmak/status/2006970447133651057",
+      "title": "",
+      "markdown": "It is dangerously easy to build a neural network today without actually understanding how it works.\n\nWe live in an era of 'import torch'. You can train a model in three lines of code, but the moment you need to debug a collapsing loss function or a vanishing gradient, syntax won't save you. You need first principles.\n\nI recently went through this notebook collection by Simon J.D. Prince, and it is the antidote to tutorial hell.\n\nInstead of just showing you the code, it forces you to visualize the mechanics:\n1./ The Math => It builds the intuition for shallow networks and regions before adding complexity.\n2./ The Optimization => It doesn't just use an optimizer; it compares Line Search, SGD, and Adam so you see why they behave differently.\n3./ The Modern Stack => It connects the dots from basic backpropagation all the way to Self-Attention and Graph Neural Networks.\n\nMove from running code to engineering systems => this is a goldmine.",
+      "images": [],
+      "replies": []
+    },
+    "2041887471391404480": {
+      "id": "2041887471391404480",
+      "runId": "1781445308310",
+      "type": "tweet",
+      "url": "https://x.com/HowToPrompt__/status/2041887471391404480",
+      "title": "",
+      "markdown": "BREAKING: Someone just built a web-based System Design Simulator.\n\nIt's called Paperdraw. It lets you drag and drop components to see how they handle real-world conditions like traffic, failures, latency, and scaling in real time.\n\n100% free to try.",
+      "images": [],
+      "replies": []
+    },
+    "2037915114322669698": {
+      "id": "2037915114322669698",
+      "runId": "1781445308310",
+      "type": "tweet",
+      "url": "https://x.com/daniel_mac8/status/2037915114322669698",
+      "title": "",
+      "markdown": "This is amazing. Do this.",
+      "images": [],
+      "replies": []
+    },
+    "2022777231681229290": {
+      "id": "2022777231681229290",
+      "runId": "1781445308310",
+      "type": "tweet",
+      "url": "https://x.com/FaroukAdeleke3/status/2022777231681229290",
+      "title": "",
+      "markdown": "there's a bunch more companies hiring for DSPy roles\n\n(GoPuff)-\nhttps://\nlinkedin.com/jobs/view/4315\n350356/\n…\n(Prime Intellect)-\nhttps://\nx.com/i/jobs/1971478\n884467212293\n…\n(GPTZero)-\nhttps://\nindeed.com/viewjob?jk=27b\n34ccaa37f63ab&from=shareddesktop_copy\n…\n(Blue Origin)-\nhttps://\nlinkedin.com/jobs/view/4282\n273046/\n…\n(Amazon)-\nhttps://\nlinkedin.com/jobs/view/sr-a\npplied-ai-data-scientist-amazon-nova-at-amazon-web-services-aws-4265703379\n…\n(Okta)-\nhttps://\nlinkedin.com/jobs/view/staf\nf-machine-learning-engineer-aifs-auth0-at-okta-4299589388/\n…\n(Samsung)-\nhttps://\nindeed.com/viewjob?jk=82f\nafe7b6ba68153\n…\n(LG)-\nhttps://\nlinkedin.com/posts/gagandee\npsbajaj_careers-lg-ad-solutions-activity-7401677766708101121-04G2\n…\n\ngood signal",
+      "images": [],
+      "replies": []
+    },
+    "1999176298212868188": {
+      "id": "1999176298212868188",
+      "runId": "1781445308310",
+      "type": "tweet",
+      "url": "https://x.com/cloneofsimo/status/1999176298212868188",
+      "title": "",
+      "markdown": "Heres my standards for 2026:\n\n- uses muP over SP\n- uses muon over adam\n- can clearly explain difference between independence and zero mutual information\n- explain the problem with unscaled projections in transformers\n- explain 3 flaws with chinchilla scaling law, and what one would do to resolve them\n- explain what and why one would choose e3m4 over e2m5, without observing the weight distribution\n- explain the benefit of VP/sub-VP diffusion process over VE process\n\n- occasionally able to pet lavender\n- good looking is bonus",
+      "images": [],
+      "replies": []
+    },
+    "1988788469066268672": {
+      "id": "1988788469066268672",
+      "runId": "1781445308310",
+      "type": "article",
+      "url": "https://x.com/yacinelearning/article/1990168103284801633",
+      "title": "",
+      "markdown": "ok just to make it very clear this is a ****social networking**** guide not a telecom networking guide.\n\nI've been chilling and networking in SF for a whole week and met really great people.\n\nhttps://x.com/yacinelearning/article/1990168103284801633/media/1990165492590641152\n\nwhat a nice city\n\na few of them I would qualify as \"hardened technical introverts\".\n\namazing folks, but with a heavy thick shell of introversion. when it came to the topic of how they could get more opportunities and realize their career goals I nudged these souls to network with others (to their disarray).\n\nso if you clenched just now at that word this article is also for you.\n\nyou may think: \"yacine why should I network? I just want to do cool technical work man fuck this clown shit\"\n\nI hear you 100%.\n\nbut you gotta take 2 things into consideration:\n\n1. the world is vast. \n\nlike real big and (no disrespect) no one cares about you particularly.\n\nnot because they are mean or that they hate you. \n\nthere is just so much going on in everyone's lives that they won't go out of their way to find you in your cave.\n2. the majority of technical work has a massive social component even more so the cutting-edge research stuff.\n\nso. drop a bit your guard for 12 seconds open your mind just a tiny bit and answer me this:\n\nQ: who would you prefer to work with?\n\n- ****person A:**** you don't know them but they have very good technical skills.\n- ****person B:**** you do know them well (and like them) and they have matching technical skills.\n\nyessss that's it it's ****person B**** ding ding ding.\n\nhttps://x.com/yacinelearning/article/1990168103284801633/media/1990158421430304768\n\nka-tching\n\nnow the sad brutal truth is that you could reduce the technical skill component of person B by a ****pretty large margin**** and that person would still be the de-facto preferred candidate.\n\nyes yes it suck. what a waste. the world would be a better place if the person with the most impeccable technical skill always got hired yes.\n\nso let's make the world a better place by getting you out of your hardened introverted shell and into people's radar shall we?\n\n### warnings\n\nI don't want you to burst out of your introvert cocoon into a hellish sociopathic butterfly.\n\nhttps://x.com/yacinelearning/article/1990168103284801633/media/1990158802432458753\n\nplease don't\n\nno people CRM.\n\nno \"how to make friends and get people to like you\" type of garbage.\n\nthe purpose of social networking is to build a social harness that you can feed and leverage.\n\nwe're going for making a net positive karmic contribution to the broader social networking graph ok?\n\n### mindset: building a social graph\n\nI was reading this management book a whole while ago about networking (don't remember the name sorry) and boy was I prepared for corporate cringe.\n\nI was literally ready to throw the book in the garbage before even reading the first page.\n\nhowever it turned out it was a fantastic well balanced read (and actually got me more out there and shaking hands).\n\nthe gist of it is that you could encode all of your social connections as a weighted undirected graph with you in the middle of it.\n\nhttps://x.com/yacinelearning/article/1990168103284801633/media/1990159404596187136\n\nremember these bad boys\n\neverybody you ever met in life is a node in this graph.\n\nnow some edge are super strong (like with your immediate family) and some edge are barely there (your 2nd grade crush you barely talked to sorry joannie).\n\nwhat they found out was that the \"power networker\" who seemed to get all the opportunities, close the most sales, hire the best people were the one with the...\n\nhttps://x.com/yacinelearning/article/1990168103284801633/media/1990159916024348672\n\nsuspense\n\nthe largest weak edge social graph.\n\nthis really opened up my eyes because this has massive implications on what exactly is effective networking.\n\n### activity: effective networking is weak edge graph building\n\nnow that this deep secret is out your objective is clear.\n\nyou just need to create a whole lot of weak edges in your social graph!\n\nso you should definetly use one of these LinkedIn auto-messaging spammer bot and create a billion weak edges.\n\nRIGHT?\n\nhttps://x.com/yacinelearning/article/1990168103284801633/media/1990160529437151233\n\nLETS CONNECT RIGHT???\n\nstop right there my nascent socipath and linger in the cocoon for like a few more minutes.\n\nyou actually have to make a ****meaningful weak-edge social graph****. one that you can feed with something useful and can leverage whenever needed.\n\nkind of like a natural symbiotic relationship.\n\nsome folks are amazing but useless from a weak edges graph building perspective.\n\nfor instance the 15+ aunties your mom knows are probably not going to help you much with your agentic AI career.\n\nthe activity is therefore to find two things:\n\n1. what population of folks would you like to be closer to that would be able to help you in future endeavors? (don't think short term)\n2. what slice of this population can you help in a way that is appreciated?\n\nthe first part is self-evident you are networking to potentially make use of an opportunity that will pop out of this graph at some point in the future.\n\nthe second part is one that is often overlooked but is absolutely crucial for a proper weak edge to form.\n\nlet's give an example:\n\n- you find a population of tech enthusiasts in the RL space you really want to get closer with because you wanna work in RLVR building environment in the near future for enterprise SaaS in the automotive sector (wohou).\n- you message every single one of them a BIG paragraph telling them everything about your life story from the moment you were born to that one trip you took in bulgaria that made you think about RL in this very niche conference...\n\nma man you are not going to get any edges out of these interactions.\n\nthe thing that is creating and sustaining the edges in your social graph is both nodes exchanging bits of information back and forth in a way that is conducive to exchanging more in the future.\n\ndoing this well without becoming a social monstruosity is the name of the game.\n\n### karmic graph theory: how to make good edges\n\nalright folks let's put on our little jhanas tin foil hat for a few minutes please.\n\nhttps://x.com/yacinelearning/article/1990168103284801633/media/1990161600247177216\n\nlet's discuss and exchange about B2B RLaaS for the automotive sector.\n\nthe big fat secret of how to be really good at networking in a way that doesn't feel like you are a sleazy account executive with a PIP damocles gun over your head is to adopt some karmic-woo-woo moral compass.\n\nconcretly you are trying to feed your network much more than you are taking out of it.\n\nI repeat.\n\nat any point in time you are giving more through the edges in your social graph than you are taking.\n\nyou will quickly realize that for some nodes you can't give anything much. others it's very easy..\n\nyou will also realize that there is a repetitive pattern in the form of help you provide to some nodes.\n\nthis is great because as a smart technical person you are in the unique position to scale that help you provide to the graph through education or technical solutions.\n\nalso as your graph grows you will start to feel it's network effect:\n\n- some people will start to initiate connections.\n- some nodes that were not accessible will start to open up.\n- and you will now be able to help some people you couldn't before through the power of your weak edges graph by giving them connection bridges.\n\nbut it all comes down to what you can give to that social weak edges graph.\n\nbtw you don't have to start shoveling their driveway or repairing each of your connection roofs.\n\nwe're building weak edges here not trying to make 10,000 best friends.\n\n### \"concretely man what the hell do I do?\"\n\nokok it's very simple and it looks like this (in-person or online):\n\n> you: hey man how's it going\n\n> other: hey doing great thanks\n\n> you: I see you are in ____ what do you do exactly?\n\n> other: yes I'm in _____ I do _____ and also ____\n\n> you: oh wow that's nice I also dabble in ____ are you working with ____ or _____?\n\n> other: oh no no we actually work with ____.\n\n> you: that's very cool, but watch out for _____ because that fucking sucked in project AELLA we were trying to spin up.\n\n> other: ok cool thanks for the headsup.\n\n> .... (might stop there)\n\n> other: what do YOU do in ____ btw?\n\n> you: ah me I do _____ it's actually a silly story I was in bulgaria and [...]\n\nI want you to notice a few things my dear chrysalis:\n\n1. you are curious about their thing.\n2. you are not absolutely clueless about the thing they do.\n3. you don't trauma dump 78 paragraph worth of discussion topic.\n4. 🚨🚨🚨 ****YOU STOP THE CONVERSATION AT SOME POINT. ****🚨🚨🚨\n\nat some point some people are done talking to you.\n\ndon't take it personal man their dog might be dying right now they don't care about anything you might say.\n\nthis is the jolly power of LOTS of weak edges graph building.\n\nbecause you can start many of these conversations and some of them will go further than others.\n\nsome might restart after some time. some might just continue to a ridiculous degree and YOU will need to abort.\n\nbut overall you are able to slowly help this social graph and after a while before you know it you are a ****person B ****which people really want to work with!\n\nhope it help buddy best of luck out there.\n\nalso side note while networking you will have the beautiful opportunity to find kindred spirit that you will not be able to resist creating stronger edges with.\n\ndo it. it's the best part.\n\n###",
+      "images": [],
+      "replies": []
+    },
+    "2040820834428658008": {
+      "id": "2040820834428658008",
+      "runId": "1781445308310",
+      "type": "tweet",
+      "url": "https://x.com/Hesamation/status/2040820834428658008",
+      "title": "",
+      "markdown": "bro created an AI job search system for Claude Code that scored 700+ job applications and actually got him a job. \n\nAND IT'S NOW OPEN-SOURCE.\n\nIt scans multiple company career pages, rewrites your CV per job, and even fills application forms. The repo has:\n> 14 skill modes (evaluate, scan, PDF, ...)\n> Go terminal dashboard\n> ATS-optimized PDF generation via Playwright\n> 45+ companies pre-configured (Anthropic, OpenAI, ElevenLabs, Stripe...)\n\nGitHub: \nhttps://\ngithub.com/santifer/caree\nr-ops\n…",
+      "images": [],
+      "replies": []
+    },
+    "1714003928717905994": {
+      "id": "1714003928717905994",
+      "runId": "1781445308310",
+      "type": "tweet",
+      "url": "https://x.com/sw2pnil/status/1714003928717905994",
+      "title": "",
+      "markdown": "PhD application season is upon us! In the spirit of paying it forward, I'm making my statement of purpose (CS/Systems PhD) public: \nhttp://\nswapnilgandhi.com/sop/swapnil-so\np.pdf\n… \n\nI learnt a ton from reading other SOPs. Hope this helps!",
+      "images": [],
+      "replies": []
+    },
+    "2059723075365851369": {
+      "id": "2059723075365851369",
+      "runId": "1781445308310",
+      "type": "tweet",
+      "url": "https://x.com/juleslogs/status/2059723075365851369",
+      "title": "",
+      "markdown": "lowkey one of the best things about ML right now is how many legit research paths exist outside the traditional PhD route\n\n- MATS\n- OpenAI Residency\n- Anthropic Fellows\n- DeepMind Student Researcher\n- ML Collective\n- FAR. AI\n- Mila\n- INSAIT\n- EleutherAI\n- Redwood Research\n- Apart Research\n- Encode\n- AI2, LAION\n- Berkeley BAIR\n- Stanford SAIL\n- MIT CSAIL\n- Vector Institute\n- HuggingFace also quietly has some insanely strong open source contributors btw\n\nstupidly exciting time to be in ML if you genuinely like building and researching things",
+      "images": [],
+      "replies": []
+    },
+    "2049219131980038550": {
+      "id": "2049219131980038550",
+      "runId": "1781445308310",
+      "type": "tweet",
+      "url": "https://x.com/kmeanskaran/status/2049219131980038550",
+      "title": "",
+      "markdown": "\"AI will take your job.\"\n\nBut\nThese opportunities will rise:\n\n- Inference Engineering for LLMs/VLMs\n- Demand Forecasting with RL Agents\n- Data Engineering at scale (evergreen)\n- GTM Engineering & Strategist\n- AI Product Managers\n- DevRel for B2B AI\n- Mathematician for AI Research\n- Federated/Distributed Engineering\n- Networking and Security for AI\n- AGI R&D Engineering\n- CUDA GPU kernels\n- Technical Content Creation with human taste\n- Sales & Marketing (evergreen)\n- Teaching AI by Humans\n- Observability in AI\n- Solo founder with AI team\n- Quant Finance with ML\n- Multi-agent system engineering\n- Cloud Deployment for AI services\n- LLMs/SLMs in IoT\n\nAll technical skills require architecture design, business alignment, and distribution.\n\nCoding will never be that tough, but understanding the basics is important. Why? So things won’t be a black box for you. Basics mean concepts, not syntax.\n\nLearning these is mandatory to stay relevant:\n\n1. Neural Networks\n2. Transformers & LLMs\n3. RL\n4. Inference for LLMs\n5. Linear Algebra\n6. Distributed Systems\n7. Ops\n8. Content Creation (text or video)\n9. Marketing and Sales\n10. Public Speaking\n\nKeep basics clean to stay relevant in next tech wave.",
+      "images": [],
+      "replies": []
+    },
+    "2006032225087938982": {
+      "id": "2006032225087938982",
+      "runId": "1781445308310",
+      "type": "tweet",
+      "url": "https://x.com/initlayers/status/2006032225087938982",
+      "title": "",
+      "markdown": "Attended an interview today, and honestly I don't know what role I was being evaluated for. The recruiter said that it was just a resume screening round, but fun twist, the interviewer never checked my resume and directly started firing ML questions.\n\nQuestions asked (Core ML):\n1) What is a decision tree? how does it work?\n2) Difference between decision trees and boosting.\n3) What is logistic regression? Why do we use sigmoid hypothesis?\n4) Why not use softmax instead of sigmoid?\n5) What is K-means clustering?\n6) What is the difference between K-means and KNN?\n7) If I give you a point and K-means predicts a cluster for it, will KNN also predict the same cluster?\n\nRelated to my research:\n8) How many models did you train, is it a single model, or a cluster?\n9) What are the modalities you dealt with?\n\nQuestions asked (CNN/DL):\n10) What is a filter? Why is it used?\n11) What is a kernel? (Just to check)\n12) What is the effect of increasing the kernel size on training?\n13) If we are capturing hand moments using an CNN, I started with a 4×4 kernel and increased it till 32×32 where I found the best result yet, should I go ahead with 64×64?\n14) What is max pooling?\n15) Why not use min pooling over max pooling?\n16) Explain a bit about attention mechanism?\n17) Why not use attention with max pooling?\n18) What is attention pooling? Is it better over traditional max pooling?\n19) What is GeLU, and where do we use it?\n\nIt was for a Bangalore-based start-up. I answered almost all of these, so fingers crossed. If things go well, the next round is an assignment.",
+      "images": [],
+      "replies": []
+    },
+    "2060448164545802513": {
+      "id": "2060448164545802513",
+      "runId": "1781445308310",
+      "type": "tweet",
+      "url": "https://x.com/TamazGadaev/status/2060448164545802513",
+      "title": "",
+      "markdown": "It's so great, there are so many of them!  \nHere are more fellowships, that were not mentioned in the list:  \n\n- MARS, Cambridge AI Safety Hub \n- AI Safety Camp (AISC) \n- PRISM \n- CAIS AI & Society Fellowship \n@CAIS\n\n- Cooperative AI Research Fellowship: CAIF / PIBBSS / UCT / AI Safety South Africa \n@AI_Safety_SA\n \n@coop_ai\n\n- GovAI Summer/Winter Fellowship in Oxford \n@GovAIOrg\n\n- Future Impact Group Fellowship \n- Arcadia Impact: AI Governance Taskforce \n- Sydney AI Safety Fellowship \n- LawAI / Law & AI Institute Summer Research Fellowship \n@law_ai_\n\n\nAlso, check out this post with even more fellowships: \nhttps://\nx.com/avgaydashenko/\nstatus/2060361461357044139\n…",
+      "images": [],
+      "replies": []
+    },
+    "2060361461357044139": {
+      "id": "2060361461357044139",
+      "runId": "1781445308310",
+      "type": "tweet",
+      "url": "https://x.com/avgaydashenko/status/2060361461357044139",
+      "title": "",
+      "markdown": "Such a good list! I'd also add:\n- Astra Fellowship by \n@ConstellOrg\n    \n- SPAR by \n@KairosAIS\n \n- LASR Labs\n- AI Safety Research Fellowship by \n@pivotal_org\n \n- Cambridge ERA:AI Fellowship (\n@era_cambridge\n)\n- Algoverse AI Safety Fellowship\n- PIBBSS\n- CHAI\n\nThere's a host of non-technical fellowships as well, lmk if it'd be useful to compile such list",
+      "images": [],
+      "replies": []
+    },
+    "2050308570399285380": {
+      "id": "2050308570399285380",
+      "runId": "1781445308310",
+      "type": "tweet",
+      "url": "https://x.com/yacinelearning/status/2050308570399285380",
+      "title": "",
+      "markdown": "this networking guide really works btw",
+      "images": [],
+      "replies": []
+    },
+    "1984666683865514093": {
+      "id": "1984666683865514093",
+      "runId": "1781445308310",
+      "type": "tweet",
+      "url": "https://x.com/lochan_twt/status/1984666683865514093",
+      "title": "",
+      "markdown": "ai engineer interview question",
+      "images": [],
+      "replies": []
+    },
+    "2052371239520629243": {
+      "id": "2052371239520629243",
+      "runId": "1781445308310",
+      "type": "tweet",
+      "url": "https://x.com/akshay_pachaar/status/2052371239520629243",
+      "title": "",
+      "markdown": "A tricky LLM interview question:\n\nYour RAG system scores 90% retrieval accuracy on 5k company docs.\n\nBut scaling to 500k docs drops the accuracy to just 50%, with the same embedding model and retriever.\n\nWhy did this happen?\n\nThe simplest answer is that more documents mean more competition for the top-k retrieval slots. That is true, but it doesn't explain why accuracy drops this dramatically.\n\nThe answer comes down to how enterprise docs are distributed in the embedding space.\n\nToday, a single product decision in a company generates meeting transcripts, Slack threads, Confluence docs, Jira tickets, and email threads.\n\nThey are related to the same event, so they all land in a similar region of the embedding space.\n\nAs the company operates over months, this pattern repeats for every project/customer/roadmap, and the embedding space fills up with clusters of closely related documents.\n\nBut all related docs don't contain the same facts.\n\n→ Slack thread covers the decision made\n→ Jira has the implementation deadline\n→ Confluence has the technical spec\n→ Email thread has the customer request\n\nWhen a query is about a specific fact (like a deadline), the answer lives in one of those docs.\n\nAt a 5K corpus size, there might be 3-5 docs touching that topic, and the correct one easily lands in the top-k results.\n\nBut at a 500K corpus size, there could be 40-60 total docs, and the one containing the actual answer can easily get pushed out of the top-k by other topically relevant docs, degrading retrieval.\n\nA recent research paper from Onyx documented this.\n\nThe researchers used their newly open-sourced EnterpriseRAG-Bench dataset.\n\nIt has 500k+ synthetic enterprise documents spread across Slack, Gmail, Jira, GitHub, Confluence, Google Drive, HubSpot, Fireflies, and Linear, with realistic noise like misfiled documents, near-duplicates, and conflicting versions.\n\nThey ran the same retrievers at five corpus sizes from 5K to 500K.\n\n→ Vector search accuracy dropped from 90.7% at 5K documents to 50.6% at 500K docs.\n\n→ BM25 degraded more gracefully, from 85.8% to 68.4%.\n\n→ At every scale, higher neighborhood density in the embedding space monotonically correlated with lower recall.\n\nThe practical implication here is that retrieval accuracy on a 5k test set tells you almost nothing about production-scale performance.\n\nAlways test at a realistic volume to measure the neighborhood density in your embedding space to estimate how much headroom the retriever actually has.\n\nThe entire EnterpriseRAG-Bench dataset (500K docs with questions, and the whole evaluation harness) is open-source.\n\nRun your retriever against it at 5K, then at 500K, and see where your own accuracy curve breaks.\n\nI have shared the GitHub repo in the replies.",
+      "images": [],
+      "replies": []
+    },
+    "2064049919288303793": {
+      "id": "2064049919288303793",
+      "runId": "1781445308310",
+      "type": "tweet",
+      "url": "https://x.com/sarahookr/status/2064049919288303793",
+      "title": "",
+      "markdown": "Our first wave of acceptances for the AutoScientist Challenge have gone out. \n\nAnother round goes out on Wednesday.  \n\nApply before then to be considered for the next wave.",
+      "images": [],
+      "replies": []
+    },
+    "1956062084342362210": {
+      "id": "1956062084342362210",
+      "runId": "1781445308310",
+      "type": "tweet",
+      "url": "https://x.com/Hesamation/status/1956062084342362210",
+      "title": "",
+      "markdown": "NASA published a free Systems Engineering book that you can self study. It’s definitely worth to touch on this topic, it turns you into a hiring magnet for many companies.\n\nAlso, systems thinking is absolutely critical for every AI application.",
+      "images": [],
+      "replies": []
+    },
+    "1998889010509578304": {
+      "id": "1998889010509578304",
+      "runId": "1781445308310",
+      "type": "tweet",
+      "url": "https://x.com/VoidAsuka/status/1998889010509578304",
+      "title": "",
+      "markdown": "Here's my standards for 2026:\n\n- good-looking east asian guy eg John Cho \n- well dressed\n- thick hair and perfect hairline\n- light brown eyes\n- shy and introvert\n- wit and romantic\n- soft and gentle\n- read and write\n- into deep tech \n- think of universe sometimes\n- movie lover\n- don't like masculine sports\n- medium testosterone level\n- small and chubby hands\n- ktv's default song is creep\n- love sweets\n- mischievous\n- love me, see me, kiss me\n- allow me to love him intensely \n\ni'm not asking too much.",
+      "images": [],
+      "replies": []
+    },
+    "1981237332163645543": {
+      "id": "1981237332163645543",
+      "runId": "1781445308310",
+      "type": "tweet",
+      "url": "https://x.com/cloneofsimo/status/1981237332163645543",
+      "title": "",
+      "markdown": "I dont get this post by semi, isnt EC simply incompatible with causal attention? Is there some famous work that made EC compatible with causal attention that I dont know?",
+      "images": [],
+      "replies": []
+    },
+    "1961232442720706705": {
+      "id": "1961232442720706705",
+      "runId": "1781445308310",
+      "type": "tweet",
+      "url": "https://x.com/sainingxie/status/1961232442720706705",
+      "title": "",
+      "markdown": "good question... thinking back to pre-LLM interviews I experienced (before 2019)… they were all in-person on-site, no chance of ''llm cheating,'' very different across places, and somehow way more memorable.\n\n> old deepmind had brutal ''quizzes'' -- 2-hour marathons with 100+ math/stats/ML concept questions. \n\n> meta FAIR was basically academia interview with a bit of coding, but the highlight was chatting vision research with piotr, ross and kaiming.\n\n> google brain/research was similar. the \n@NoamShazeer\n was my coding interviewer, who kindly kept it simple with just a two-pointer q. we spent most of the time discussing research, where I explained how I had applied something called a transformer to visual data (point clouds) -- a topic that, at the time, hardly anyone cared about.\n\n> but the coolest? openai in 2018: whiteboard coding, a research talk, and a *~5-hour* session in a tiny room to work on an RL problem (variance collapse in cross entropy methods). I knew almost nothing about RL, but that was the point. They handed you a self-contained problem description, handwritten by \n@johnschulman2\n, and expected you to learn, research, solve, write up in a notebook, and present. \n\nfeeling a bit nostalgic. makes me wonder if interviews like that still happen anywhere. If they do, I’d love to know. :)",
+      "images": [],
+      "replies": []
+    },
+    "2062922750759772160": {
+      "id": "2062922750759772160",
+      "runId": "1781445308310",
+      "type": "article",
+      "url": "https://x.com/itsreallyvivek/article/2062924410588406118",
+      "title": "some notes on getting into frontier ai labs",
+      "markdown": "A few days ago I wrote that getting into a frontier AI lab mostly comes down to two things: proven research and trench engineering.\n\nThe more I think about it, the less these feel like separate skills.\n\nBoth are expressions of the same underlying ability.\n\nMost of education is built around known answers. The textbook knows the answer. The professor knows the answer. The interviewer usually knows the answer. Even difficult problems are often exercises in recovering something that already exists.\n\nFrontier labs operate in a different regime.\n\nNobody knows the answer.\n\nNobody knows which architectural decisions will look obvious in five years. Nobody knows which bottlenecks are fundamental. Nobody knows which capabilities are missing. Nobody knows which assumptions will survive the next generation of models.\n\nThe map is incomplete.\n\nThis is why research matters.\n\nPeople often think research is valuable because it produces papers. Papers are merely the visible artifact. The deeper purpose of research is that it trains a person to operate without a map. You start with uncertainty, form a hypothesis, confront reality, discover that reality disagrees, update your beliefs, and repeat.\n\nThe output is not the paper.\n\nThe output is a refined ability to make progress when certainty is unavailable.\n\nThe engineering side is surprisingly similar.\n\nPeople often imagine trench engineering as exceptional coding ability. The phrase usually evokes someone moving quickly through enormous codebases, solving difficult bugs, or writing highly optimized systems.\n\nBut I think the deeper skill is something else.\n\nAs systems grow, expertise undergoes a transition.\n\nIt stops being about accumulation and starts becoming about compression.\n\nA student can understand an entire class project. An early startup engineer can understand most of the company's infrastructure. But eventually systems become too detailed for any individual to hold in their head simultaneously.\n\nModern AI infrastructure resembles a city more than a machine.\n\nNew districts are constantly being built. Old roads remain because too many other things depend on them. Some areas are carefully designed. Others emerged from historical accidents. Different people understand different neighborhoods. Nobody possesses a perfectly accurate map of the whole thing.\n\nUnderstanding becomes distributed.\n\nThe challenge is no longer learning every detail.\n\nThe challenge is constructing a useful abstraction.\n\nPhysicists do not simulate every molecule in a hurricane. They create concepts such as pressure, temperature, and velocity. These abstractions discard nearly all available information while preserving the information that matters.\n\nWithout abstraction there is no understanding.\n\nGreat engineers operate the same way.\n\nWhen they encounter a system containing millions of lines of code, they are not trying to understand every component. They are searching for the small number of ideas that explain the behavior of the larger system.\n\nWhich assumptions does everything depend on?\n\nWhere are the bottlenecks?\n\nWhich subsystem exerts the most influence?\n\nWhich details can safely be ignored?\n\nThe goal is not comprehensive knowledge.\n\nThe goal is a compressed model that predicts reality.\n\nThis is why experienced engineers often seem almost unnaturally effective. They are not evaluating every possibility. They are eliminating possibilities. Their mental models are organized around causal structure. They know which facts explain other facts.\n\nIn a large distributed training system, there may be hundreds of plausible explanations for a failure. The best engineers rarely investigate all of them. They rapidly narrow the search space because they understand where leverage exists.\n\nResearch and engineering begin to look surprisingly similar when viewed through this lens.\n\nA researcher is confronted with an overwhelming number of possible experiments. Every paper suggests three new directions. Every result raises more questions than it answers. The challenge is not generating possibilities; the challenge is deciding which possibility deserves attention. The history of science is full of examples where progress came not from solving a difficult problem, but from recognizing the importance of a problem that everyone else overlooked. Richard Hamming often argued that great scientists distinguish themselves less by intelligence than by working on important questions. Before a breakthrough can be discovered, someone has to identify where the breakthrough is likely to be hiding.\n\nEngineering operates under a remarkably similar dynamic. Large systems produce an endless supply of anomalies, bottlenecks, bugs, performance regressions, and unexpected behaviors. Most are unimportant. Some are symptoms rather than causes. A few reveal something fundamental about the system. The engineer's task is not to investigate every possibility. It is to rapidly reduce the search space and focus attention on the handful of explanations that are capable of explaining everything else.\n\nIn both cases, the scarce resource is not information.\n\nIt is judgment.\n\nHerbert Simon observed that intelligence is constrained by bounded rationality: the world contains far more information than any individual can process. As a result, expertise is not the ability to consider every possibility. Expertise is the ability to discard most possibilities while retaining the ones that matter. The best researchers and engineers develop an intuition for where the signal is likely to be found long before they possess complete information.\n\nSeen this way, frontier AI labs are selecting for something deeper than raw intelligence. They are selecting for people who can build useful abstractions in environments where understanding is incomplete. Research is, in some sense, the compression of uncertainty. Engineering is the compression of complexity. Both involve taking a reality that is far too large to reason about directly and reducing it to a model that is simple enough to guide action while remaining faithful to the underlying structure.\n\nThis becomes increasingly important as models grow more capable. Knowledge is becoming cheaper. Access to information is becoming cheaper. Even the production of code is becoming cheaper. What remains scarce is the ability to decide what deserves attention in the first place. Which research direction is worth another six months? Which anomalous result is worth investigating? Which subsystem deserves another week of engineering effort? These decisions cannot be automated away by simply providing more information. They require taste, judgment, and an understanding of the system's underlying structure.\n\nMost people describe frontier AI as a race for intelligence.\n\nI increasingly suspect it is a race for better abstractions.",
+      "images": [],
+      "replies": []
+    },
+    "2048234466519236818": {
+      "id": "2048234466519236818",
+      "runId": "1781445308310",
+      "type": "tweet",
+      "url": "https://x.com/TheAhmadOsman/status/2048234466519236818",
+      "title": "",
+      "markdown": "You don’t “run a model”\nYou run Kernels\n\nThe model is just a graph\n\nThe Inference Engine is scheduler / optimizer / executor\n\nBut the actual work? That happens in the Kernels\n\n- MatMul Kernels\n- Attention Kernels\n- RMSNorm Kernels\n- KV cache Kernels\n- Quantized linear Kernels\n- Sampling Kernels\n- Fused “please don’t write this back to memory 9 times” Kernels\n\nSame model, same GPU, same VRAM\nWildly different performance\n\nBecause one stack is using optimized fused Kernels that understand your hardware\n\nAnd the other stack is playing hot potato with tensors through 47 tiny launches and pretending the GPU is the problem\n\nBad Kernels make people say:\n“this model is slow”\n\nGood Kernels make people say:\n“wait how is this running locally?”\n\nThis is why Inference Engines and the Kernels implemented within them matter\n\nThe model is the recipe\nThe hardware is the kitchen\nThe Kernels are the knives, pans, burners, and the chef not cutting onions with a spoon\n\nMost people benchmark models\nThe real ones benchmark the Kernels underneath",
+      "images": [],
+      "replies": []
+    },
+    "2020433115584335949": {
+      "id": "2020433115584335949",
+      "runId": "1781445308310",
+      "type": "tweet",
+      "url": "https://x.com/TheAhmadOsman/status/2020433115584335949",
+      "title": "",
+      "markdown": "any cs person can go from zero to deeply knowledgeable in llms and ai in ~2 years, top to bottom\n\nkey topics on how llms work:\n\n> tokenization and embeddings\n> positional embeddings (absolute, rope, alibi)\n> self attention and multihead attention\n> transformers\n> qkv\n> sampling params: temperature, top-k top-p\n> kv cache (and why inference is fast)\n> infini attention & sliding window (long context tricks)\n> mixture of experts (moe routing layers)\n> grouped query attention\n> normalization and activations\n> pretraining objectives (causal, masked, etc)\n> finetuning vs instruction tuning vs rlhf\n> scaling laws and model capacity curves\n\nbonus topics:\n\n> quantizations - qat vs ptq (ggufs, awq, etc)\n> training vs inference stacks (deepspeed, vllm, etc)\n> synthetic data generation\n\nthe elite don't want you to know this",
+      "images": [],
+      "replies": []
+    },
+    "1956496920664485956": {
+      "id": "1956496920664485956",
+      "runId": "1781445308310",
+      "type": "tweet",
+      "url": "https://x.com/ShreyaR/status/1956496920664485956",
+      "title": "",
+      "markdown": "the only things to look for when hiring AI/ML people is\n- do they have a good sense of how to evaluate if something (model/system) works. can they go really deep into setting up evals, data, cohorts, etc.\n- do they set up a high throughput experimentation harness\n- do they keep up with research news\n\npeople think that good research is about getting good ideas, but ideas are really cheap and a good system for experimentation and actually, truly evaluating if your ideas are good or bad will already put you in the 90th percentile",
+      "images": [],
+      "replies": []
+    },
+    "2038563170282086767": {
+      "id": "2038563170282086767",
+      "runId": "1781445308310",
+      "type": "tweet",
+      "url": "https://x.com/manixh/status/2038563170282086767",
+      "title": "",
+      "markdown": "Interviewer:\n\nYou use a VPN.\nWhy do some websites still detect your real country?",
+      "images": [],
+      "replies": []
+    },
+    "2028866729791660339": {
+      "id": "2028866729791660339",
+      "runId": "1781445308310",
+      "type": "tweet",
+      "url": "https://x.com/jeankaddour/status/2028866729791660339",
+      "title": "",
+      "markdown": "ML interview question: What is happening here?",
+      "images": [],
+      "replies": []
+    },
+    "2048413820259832050": {
+      "id": "2048413820259832050",
+      "runId": "1781445308310",
+      "type": "tweet",
+      "url": "https://x.com/TheAhmadOsman/status/2048413820259832050",
+      "title": "",
+      "markdown": "How to go about learning all of this?\n\n1st: Start with the serving engine view\n\n- vLLM: PagedAttention, continuous batching, prefix caching, CUDA graphs\n\n- SGLang: RadixAttention/prefix reuse, speculative decoding, MoE, structured/agent workloads\n\n- TensorRT-LLM: NVIDIA peak stack, FP8/FP4, Wide-EP, disaggregated serving\n\n- FlashInfer: reusable kernel/operator library for attention/GEMM/MoE/sampling\n\n2nd: Go down the stack\n\n- Triton tutorials → custom fused kernels\n\n- CUTLASS/CuTe → Tensor Core GEMM and Blackwell/Hopper details\n\n- FlashAttention papers → attention algorithm/kernel co-design\n\n- PagedAttention paper → KV-cache memory management\n\n- MoE docs → routing + grouped GEMM + all-to-all\n\n- Nsight profiling → stop guessing\n\n3rd: Do this mini-project sequence\n\n1. Implement RMSNorm in Triton; compare to PyTorch\n\n2. Implement fused SiLU × gate\n\n3. Implement simple FP16 matmul; compare to cuBLAS/rocBLAS\n\n4. Implement paged KV lookup for decode attention\n\n5. Add FP8 KV cache with per-block scales\n\n6. Implement toy top-k sampling on GPU\n\n7. Implement tiny MoE dispatch + grouped GEMM\n\n8. Integrate one custom op into vLLM or SGLang and profile end-to-end",
+      "images": [],
+      "replies": []
+    },
+    "2046439371017245041": {
+      "id": "2046439371017245041",
+      "runId": "1781445308310",
+      "type": "tweet",
+      "url": "https://x.com/itsnotbernhard/status/2046439371017245041",
+      "title": "",
+      "markdown": "Waterloo kids learned how to cold DM",
+      "images": [],
+      "replies": []
+    },
+    "1999879014497112543": {
+      "id": "1999879014497112543",
+      "runId": "1781445308310",
+      "type": "tweet",
+      "url": "https://x.com/samirande_/status/1999879014497112543",
+      "title": "",
+      "markdown": "Eventually you'll realise that you can just do things \n\n- you can learn coding \n- you can learn hardware\n- you can learn designing \n- you can study math\n- you can study space\n- you can start content creation \n- you can learn musical instruments \n- you can read books\n- you can go to the gym  \n- you can start writing \n- you can play games\n- you can learn cooking \n- you can learn editing \n- you can learn new languages\n- you can learn drawing \n- you can improve your communication \n- you can learn how to market yourself \n- you can build your SaaS \n- you can learn a new hobby",
+      "images": [],
+      "replies": []
+    },
+    "1712658766028853519": {
+      "id": "1712658766028853519",
+      "runId": "1781445308310",
+      "type": "tweet",
+      "url": "https://x.com/DuaneJRich/status/1712658766028853519",
+      "title": "",
+      "markdown": "I used to write. Then I stopped, probably because Quora became a bit of a weird place.\n\nBut online forums get weird all the time - can't let that ruin a nice thing. So I took all my good stuff, cleaned it up and collected it into a website: \n\n\nhttps://\ntruetheta.io/concepts\n\nand I'll be adding more, sporadically.. until either the sun explodes or I die, whichever comes first.",
+      "images": [],
+      "replies": []
+    },
+    "2048716849022382339": {
+      "id": "2048716849022382339",
+      "runId": "1781445308310",
+      "type": "tweet",
+      "url": "https://x.com/Benn_X1/status/2048716849022382339",
+      "title": "",
+      "markdown": "Job application hack:\n\nSave your CV as 001-[firstname]-[lastname].pdf\n\nThis will force the downloaded CV to have a high rank in the recruiter's download folder. It will most likely be the first file in the folder.\nI used this a lot back in the day. Same name format for cover letters too.",
+      "images": [],
+      "replies": []
+    },
+    "1804700685994164340": {
+      "id": "1804700685994164340",
+      "runId": "1781445308310",
+      "type": "tweet",
+      "url": "https://x.com/EugeneVinitsky/status/1804700685994164340",
+      "title": "",
+      "markdown": "This page of common pytorch mistakes is pretty invaluable \nhttps://\nuvadlc-notebooks.readthedocs.io/en/latest/tuto\nrial_notebooks/guide3/Debugging_PyTorch.html\n…",
+      "images": [],
+      "replies": []
+    },
+    "2005945981888524433": {
+      "id": "2005945981888524433",
+      "runId": "1781445308310",
+      "type": "tweet",
+      "url": "https://x.com/MatternJustus/status/2005945981888524433",
+      "title": "",
+      "markdown": "On my way to Bangalore for the next few weeks! If you’re around and interested in coding agents and post-training data, HMU!",
+      "images": [],
+      "replies": []
+    },
+    "2006488738898296932": {
+      "id": "2006488738898296932",
+      "runId": "1781445308310",
+      "type": "tweet",
+      "url": "https://x.com/maddiedreese/status/2006488738898296932",
+      "title": "",
+      "markdown": "As a vibe coder who’s won four hackathons this year, here’s how I find hackathons to compete in:\n\nX. Most hackathons are posted here on X. At least once a week, I do targeted searches including visiting the profiles of all major vibe coding tools. That covers most of them. Then, I also search for the following keywords on all of X: “vibe coding” “vibe coders” “hackathon” “vibe coding competition” “vibe coding contest” “ai coding.” This combined effort pulls up a decent amount of the ones that have been posted.\n\n\n@contra\n. Sign up for a Contra account. They’re always running fun challenges with great sponsors. I just won second place ($2,500) at one last night!\n\n\n@Reddit\n. The subreddits /r/vibecoding /r/vibecodersnest /r/hackathon and /r/vibecodedevs often have smaller competitions being advertised through posts. I found a competition that I won 1st place and $1,000 through from a post in one of those subreddits.\n\nWeb search. Usually Google. Keywords like “vibe coding hackathon” “vibe coding competition” “vibe coding contest” etc. all work well. Don’t forget to use Boolean operators to narrow down your search parameters!\n\nCommunity. I am very grateful to have a lot of great friends on here who tag me in hackathons \n\nGood luck, and let me know if you find any cool hackathons to compete in!",
+      "images": [],
+      "replies": []
+    }
+  },
+  "failures": {}
+}
