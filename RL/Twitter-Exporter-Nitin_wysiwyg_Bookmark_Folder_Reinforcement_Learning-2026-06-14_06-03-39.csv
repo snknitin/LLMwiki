@@ -1,0 +1,186 @@
+"tweet_type","id","created_at","username","user_display_name","text","lang","source","retweet_count","favorite_count","reply_count","quote_count","bookmark_count","view_count","has_media","media_type","media_urls","video_url","video_duration","thumbnail_url","conversation_id_str","in_reply_to_status_id_str","in_reply_to_user_id_str","in_reply_to_screen_name","quoted_status_id_str","quoted_user_id_str","retweeted_status_id_str"
+"original","2063295181131247674","2026-06-06T16:21:20.000Z","sheriyuo","Xiuyu Li","http://x.com/i/article/2063294118101688321","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","189","1942","17","15","4853","362197","false","none",,,,,"2063295181131247674",,,,,,
+"quote","2063736553357394025","2026-06-07T21:35:11.000Z","pradheepraop","pradheep","wrote my answers for this rl interview questions 2026 list here:
+
+https://app.notion.com/p/RL-Interview-Questions-2026-378802359a2a80079bbff139272e0aee
+
+the questions were genuinely good. most of my time went into just staring at the wall and thinking through the answers properly 😅
+
+kept the notion doc open with comments too, so feedback/corrections are very welcome if i’ve explained something wrong anywhere. raw/unfiltered notes for now -- spelling mistakes included, bear with me 😅 and setup was something like a split tab bw notion and x article","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","23","342","4","0","690","31002","true","photo","https://pbs.twimg.com/media/HKPdYaabUAACarT.jpg",,,"https://pbs.twimg.com/media/HKPdYaabUAACarT.jpg","2063736553357394025",,,,"2063295181131247674","2018976131849039872",
+"original","2063976849827655744","2026-06-08T13:30:02.000Z","arjunkocher","Arjun","RL Algorithm Interview Questions 2026
+
+(as compiled by @sheriyuo)
+
+http://k-a.in/rl-algo.html","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","170","1753","11","1","2956","95736","true","photo","https://pbs.twimg.com/media/HKS3b6BboAA3_kU.jpg",,,"https://pbs.twimg.com/media/HKS3b6BboAA3_kU.jpg","2063976849827655744",,,,,,
+"quote","2063957500114960592","2026-06-08T12:13:09.000Z","neural_avb","AVB","Generally, I don't bookmark anything on X. If I find something I MUST revisit later, I'd just put it on Apple Notes... a place my eyes instinctively stumbles upon every single day.
+
+4.1k people bookmarked this great resource, 1% will return unfortunately.","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","9","187","4","0","310","22670","true","photo","https://pbs.twimg.com/media/HKSlvOSbQAEwSUQ.jpg",,,"https://pbs.twimg.com/media/HKSlvOSbQAEwSUQ.jpg","2063957500114960592",,,,"2063295181131247674","2018976131849039872",
+"original","2061827001204240599","2026-06-02T15:07:18.000Z","cwolferesearch","Cameron R. Wolfe, Ph.D.","Interested in learning how to run RL at scale? Here are the best resources to read…
+
+Research on Scaling RL
+1. The Art of Scaling RL compute for LLMs: https://arxiv.org/abs/2510.13786
+2. Scaling Behaviors of LLM RL Post-Training: https://arxiv.org/abs/2509.25300
+3. Optimally Scaling Sampling Compute for LLM RL: https://arxiv.org/abs/2603.12151
+4. Scaling up RL: https://arxiv.org/abs/2507.12507
+5. ProRL V2 - Prolonged Training Validates RL Scaling Laws: https://hijkzzz.notion.site/prorl-v2
+6. Polaris - A Recipe for Scaling RL with Reasoning Models: https://hkunlp.github.io/blog/2025/Polaris/
+
+RL Frameworks
+1. Hybrid Flow (early outline of the verl framework): https://arxiv.org/abs/2409.19256
+    a. More up-to-date info can be found here: https://arxiv.org/abs/2601.18150
+2. AReal - Large-Scale Async RL: https://arxiv.org/abs/2505.24298
+3. PipelineRL - Fast On-Policy RL: https://arxiv.org/abs/2509.19128
+4. AsyncFlow - Async Streaming RL: https://arxiv.org/abs/2507.01663
+
+RL for Agents
+1. DeepSWE - Open Coding Agent Trained w/ RL: https://www.together.ai/blog/deepswe
+2. AutoForge - Environment Synthesis for Agentic RL: https://arxiv.org/abs/2512.22857
+3. Agent-R1 - Training Agents w/ End-to-End RL: https://arxiv.org/abs/2511.14460
+4. AgentRL - Scaling RL for Multi-Turn, Multi-Task Agents: https://arxiv.org/abs/2510.04206
+5. The Landscape of Agentic RL: https://arxiv.org/abs/2509.02547
+6. Training SWE Agents with RL: https://arxiv.org/abs/2508.03501
+
+Case Studies & Tech Reports
+1. Kimi tech reports:
+    a. Kimi K2 - Open Agentic Intelligence: https://arxiv.org/abs/2507.20534
+    b. Kimi End-to-end Agentic RL: https://moonshotai.github.io/Kimi-Researcher/
+    c. Kimi K1.5 - Scaling RL for LLMs: https://arxiv.org/abs/2501.12599
+2. Composer series from Cursor:
+    a. Composer 2: https://arxiv.org/abs/2603.24477
+    b. Composer 2.5: https://cursor.com/blog/composer-2-5
+3. Olmo 3 (also has open code / data): https://arxiv.org/abs/2512.13961
+4. MiniMax tech reports:
+    a. MiniMax-M2: https://arxiv.org/abs/2605.26494
+    b. MiniMax-M1: https://arxiv.org/abs/2506.13585
+5. Nemotron 3 (NVIDIA): https://arxiv.org/abs/2512.20856","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","136","800","18","2","1200","34377","true","photo","https://pbs.twimg.com/media/HJ0ULhtWkAAyYf6.jpg",,,"https://pbs.twimg.com/media/HJ0ULhtWkAAyYf6.jpg","2061827001204240599",,,,,,
+"original","2061509262069923868","2026-06-01T18:04:43.000Z","whatthelukh","Luke J. Huang","New blog! Is frontier asynchronous RL solved?
+
+The blog covers Async RL theory and infrastructure, surveying 8 open-weight frontier labs for the algorithmic techniques and systems fixes to handle train-inference mismatch. Also answered: why do current methods still fail at high policy lag? Which methods scale with horizon and compute?","en","<a href=""http://twitter.com/download/iphone"" rel=""nofollow"">Twitter for iPhone</a>","134","1133","16","14","1755","238110","true","photo","https://pbs.twimg.com/media/HJtQfeeaUAAfZS_.jpg",,,"https://pbs.twimg.com/media/HJtQfeeaUAAfZS_.jpg","2061509262069923868",,,,,,
+"original","2058208360944853329","2026-05-23T15:28:07.000Z","Gorden_Sun","Gorden Sun","ZOZO（日本最大服装电商）开源了他们内部的物理仿真接触求解器 ppf-contact-solver。
+这套工具专门解决布料、绳索、软体在仿真中的碰撞接触问题，能保证完全无穿透、面料拉伸严格不越界（不会像游戏一样穿模），单个场景能处理超过1.8亿个接触点，有Blender插件。
+Github：https://github.com/st-tech/ppf-contact-solver","zh","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","874","6165","123","79","4165","661396","true","video","https://pbs.twimg.com/amplify_video_thumb/2058208273141235712/img/BekaFm2ykfQnmzUY.jpg","https://video.twimg.com/amplify_video/2058208273141235712/vid/avc1/960x540/medDbW7p4DkWjI_S.mp4?tag=27","60","https://pbs.twimg.com/amplify_video_thumb/2058208273141235712/img/BekaFm2ykfQnmzUY.jpg","2058208360944853329",,,,,,
+"reply","1877023018213327342","2025-01-08T16:02:15.000Z","natolambert","Nathan Lambert","@interconnectsai Also continuing to plug away at rlhf book https://rlhfbook.com/ but waiting to announce until v1","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","1","19","0","0","7","2112","false","none",,,,,"1877020436246204596","1877020601736433829","2939913921","natolambert",,,
+"original","2008035254246777211","2026-01-05T04:38:06.000Z","cwolferesearch","Cameron R. Wolfe, Ph.D.","Understanding vanilla GRPO is not enough. There are many tricks / modifications needed to avoid things things like training instability and entropy collapse, especially at scale.
+
+In a new blog, I outline (or at least try my best) all of the practical tricks and best practices that have been recently proposed for GRPO. The overview will be released tomorrow morning. It includes 10+ papers and is 13,000 words long. Super excited for this one!","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","81","756","17","3","762","53776","true","photo","https://pbs.twimg.com/media/G935IlZXYAAMK4A.jpg",,,"https://pbs.twimg.com/media/G935IlZXYAAMK4A.jpg","2008035254246777211",,,,,,
+"original","1806354173279031323","2024-06-27T15:49:30.000Z","pietromazzaglia","Pietro Mazzaglia","🚨Introducing GenRL! 
+An embodied AI agent that learns multimodal foundation world models 🌍
+
+By connecting the multimodal knowledge of foundation models with the embodied knowledge of world models for RL, GenRL enables turning vision and language prompts into actions!","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","55","254","4","4","183","32320","true","video","https://pbs.twimg.com/ext_tw_video_thumb/1806343514311041025/pu/img/sJQYqXk3vNmBVrRU.jpg","https://video.twimg.com/ext_tw_video/1806343514311041025/pu/vid/avc1/1280x720/iiIoRzOjdL-cGBb1.mp4?tag=12","59","https://pbs.twimg.com/ext_tw_video_thumb/1806343514311041025/pu/img/sJQYqXk3vNmBVrRU.jpg","1806354173279031323",,,,,,
+"original","1681394697619795969","2023-07-18T20:05:09.000Z","jsuarez","Joseph Suarez 🐡","Funny how much AI Twitter has cooled down on reinforcement learning ... the most immediate problems don't require any genius breakthroughs or even GPUs to solve. Here are three hard but straightforward engineering tasks that would significantly accelerate research (1/5)","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","8","70","3","2","45","17496","false","none",,,,,"1681394697619795969",,,,,,
+"original","2029871034279542971","2026-03-06T10:45:42.000Z","maximelabonne","Maxime Labonne","I'm releasing 53 slides on post-training, covering core algorithms like DPO and GRPO, as well as data quality, synthetic data pipelines, and on-policy training.
+
+I had the pleasure of presenting it yesterday as a guest lecturer in Cambridge, UK","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","106","1117","16","2","1013","55761","true","photo","https://pbs.twimg.com/media/HCuMzRPaUAMz25i.jpg",,,"https://pbs.twimg.com/media/HCuMzRPaUAMz25i.jpg","2029871034279542971",,,,,,
+"original","1825483514411704602","2024-08-19T10:42:40.000Z","YouJiacheng","You Jiacheng","Just noticed the author of this great blog is John Schulman.🤯🤯🤯
+http://joschu.net/blog/kl-approx.html
+I initially found this blog in CleanRL about 2 years ago (figure 1).
+And I just found it is written by John Schulman when I read DeepSeekMath paper to learn GRPO (figure 2).","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","20","121","0","1","96","17838","true","photo","https://pbs.twimg.com/media/GVVqRakasAARBv8.png; https://pbs.twimg.com/media/GVVrVjEaIAAusdK.jpg",,,"https://pbs.twimg.com/media/GVVqRakasAARBv8.png","1825483514411704602",,,,,,
+"quote","1825600314432684479","2024-08-19T18:26:47.000Z","vwxyzjn","Costa Huang","Yeah, @johnschulman2's blog post on KL divergence is amazing. I tried it out with TRL at some point, but the k3 estimator exploded for some reason 👀. It's cool to see GRPO use it successfully, though; maybe it's time to revisit.","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","6","88","2","0","71","8461","true","photo","https://pbs.twimg.com/media/GVXUijeXIAA4LtZ.jpg",,,"https://pbs.twimg.com/media/GVXUijeXIAA4LtZ.jpg","1825600314432684479",,,,"1825483514411704602","3426190841",
+"original","1888098051040100498","2025-02-08T05:30:29.000Z","svlevine","Sergey Levine","Scaling laws in deep RL? Turns out that batch size, learning rate, and UTD (update-to-data) for getting the most efficient and scalable deep RL has predictable relationships. Checkout the analysis in new work by @_oleh &amp; collaborators: https://arxiv.org/abs/2502.04327","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","88","555","10","7","418","43466","true","video","https://pbs.twimg.com/ext_tw_video_thumb/1888097768440561664/pu/img/LFjEax72qfiyTpMZ.jpg","https://video.twimg.com/ext_tw_video/1888097768440561664/pu/vid/avc1/1128x720/aeg_fgzkc6RG3lZf.mp4?tag=12","29","https://pbs.twimg.com/ext_tw_video_thumb/1888097768440561664/pu/img/LFjEax72qfiyTpMZ.jpg","1888098051040100498",,,,,,
+"original","2050038277454143918","2026-05-01T02:23:07.000Z","willccbb","will brown","http://x.com/i/article/2050010745375768576","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","262","1964","46","39","3534","482514","false","none",,,,,"2050038277454143918",,,,,,
+"quote","2050067900820840791","2026-05-01T04:20:50.000Z","sheriyuo","Xiuyu Li","This is exceptionally well-written. If you’re into RL, definitely give it a read","en","<a href=""http://twitter.com/download/iphone"" rel=""nofollow"">Twitter for iPhone</a>","50","765","4","0","1366","162014","false","none",,,,,"2050067900820840791",,,,"2050038277454143918","3064259332",
+"original","2049916107923034300","2026-04-30T18:17:40.000Z","akshay_pachaar","Akshay 🚀","http://x.com/i/article/2049896113206149120","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","37","323","5","2","573","93897","false","none",,,,,"2049916107923034300",,,,,,
+"quote","2050114132515623168","2026-05-01T07:24:33.000Z","akshay_pachaar","Akshay 🚀","RL isn't always the right answer!
+
+(Berkeley beat GRPO without a GPU)
+
+Same task, same base model, 10 points higher on the benchmark.
+
+The technique is called 𝗚𝗘𝗣𝗔. It came out of Berkeley in mid-2025, got accepted at ICLR 2026, and is now a first-class optimizer in DSPy.
+
+The reason it works points at something most teams get wrong about reinforcement learning on language models.
+
+Every team running agents in production is sitting on a pile of rollouts. A rollout is just one full run of your agent on a task, from the user query down to the final answer, with everything that happened in between.
+
+Most teams have thousands of these traces and no real idea what to do with them beyond eyeballing a few when something breaks.
+
+This is the part worth paying attention to. Each rollout is roughly a 5,000-token document containing reasoning steps, tool calls, compiler errors, and judge rationales. Rich, structured, and full of signal.
+
+𝗚𝗥𝗣𝗢 compresses all of that to +1 or -1, scalar reward signal.
+
+That single bit gets back-propagated across every token in the policy. The information that told you what went wrong and where gets thrown away on the way to the gradient.
+
+This is why RL needs tens of thousands of rollouts to converge. The signal was never sparse, the optimizer made it sparse.
+
+𝗚𝗘𝗣𝗔 reads the trace instead.
+
+A reflection LLM ingests the full rollout, diagnoses the failure, localizes it to one module in the pipeline, and rewrites that module's prompt.
+
+Same rollout, vastly more signal extracted. Weights become prompts, and opaque becomes readable.
+
+This is also why GEPA shines on multi-module workflows. Most real agents are pipelines of several modules glued together, and GEPA lets you target the exact module you want to improve instead of nudging the whole system at once.
+
+The honest framing is this. RL changes what the model knows, while GEPA changes how you ask.
+
+If your base model genuinely can't do the task, no prompt evolution will save you and you should fine-tune.
+
+But most of what teams currently route to GRPO is the second case, not the first. The model can already do it, and the prompt is the bottleneck.
+
+Reading a rollout costs less than running ten thousand more.
+
+If you want to go deeper, here's the paper and the DSPy implementation:
+
+Paper: http://arxiv.org/abs/2507.19457
+GEPA in DSPy: http://dspy.ai/api/optimizers/GEPA/overview/
+
+The article below is a deep dive into exactly how GEPA works. Do give it a read.","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","95","661","19","1","678","69734","true","photo","https://pbs.twimg.com/media/HHN2W_raMAAfaZz.jpg",,,"https://pbs.twimg.com/media/HHN2W_raMAAfaZz.jpg","2050114132515623168",,,,"2049916107923034300","703601972",
+"original","1985368549720817953","2025-11-03T15:28:43.000Z","ben_burtenshaw","Ben Burtenshaw","New guide on RL for agentic environments. This guide integrates OpenEnv, textarena, and TRL for training language models on reasoning games like wordle.
+
+Instead of relying only on static reward functions, you can now hook up your model to interactive environments (browsers, coding, games, git) and get real feedback during training.
+
+The guide walks through:
+- Connecting to OpenEnv environments
+- How to set up a custom rollout function
+- Getting environment-based rewards back into your training loop
+- using vLLM for inference
+
+Basically useful if you want your model to learn from doing things, not just from predicting text.","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","57","308","15","3","260","28697","true","photo","https://pbs.twimg.com/media/G41gpCxW0AEpr_R.jpg",,,"https://pbs.twimg.com/media/G41gpCxW0AEpr_R.jpg","1985368549720817953",,,,,,
+"quote","2038914573227667505","2026-03-31T09:41:30.000Z","arora_mrinaal","Mrinaal Arora","After a couple of weeks of learning RL from scratch, I finally got my first trending up reward curve.
+
+Trained Qwen3-1.7B to play Wordle using GRPO via huggingface TRL's GRPOTrainer, connected to a live TextArena Wordle environment running on a HF Space.","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","11","68","2","1","46","8158","true","photo","https://pbs.twimg.com/media/HEut63jboAAlKkV.jpg",,,"https://pbs.twimg.com/media/HEut63jboAAlKkV.jpg","2038914573227667505",,,,"1985368549720817953","1756048819676987392",
+"original","2041501879222284776","2026-04-07T13:02:31.000Z","jsuarez","Joseph Suarez 🐡","http://x.com/i/article/2037604550165602304","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","88","788","11","18","863","109441","false","none",,,,,"2041501879222284776",,,,,,
+"quote","2041509192008339731","2026-04-07T13:31:35.000Z","neural_avb","AVB","RL boys and girls, get on this PufferLib stuff asap
+
+I did not fully understand what happened but it feels really good that it happened","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","16","354","2","0","401","48350","true","video","https://pbs.twimg.com/amplify_video_thumb/2041508415097442304/img/9zlulO8pUpbGeWkj.jpg","https://video.twimg.com/amplify_video/2041508415097442304/vid/avc1/718x416/VRVbqPIqNcgeBO28.mp4?tag=21","15","https://pbs.twimg.com/amplify_video_thumb/2041508415097442304/img/9zlulO8pUpbGeWkj.jpg","2041509192008339731",,,,"2041501879222284776","1102622174274310149",
+"original","2050722609994813488","2026-05-02T23:42:25.000Z","paperpaper886","paperpaper","比较有趣的入门教程
+
+该项目希望用一条更“实践优先”的路径来学习现代强化学习：从经典控制出发，逐步连接到 LLM 后训练基础、DPO/GRPO/RLVR、Agentic RL 和 VLM RL 等现代应用。
+
+GitHub: https://github.com/walkinglabs/hands-on-modern-rl
+WebPage: https://walkinglabs.github.io/hands-on-modern-rl/","zh","<a href=""http://twitter.com/download/iphone"" rel=""nofollow"">Twitter for iPhone</a>","99","654","3","5","1182","260000","true","photo","https://pbs.twimg.com/media/HHWg1R2akAAW-OH.jpg; https://pbs.twimg.com/media/HHWhWDfaoAA1xQ5.jpg",,,"https://pbs.twimg.com/media/HHWg1R2akAAW-OH.jpg","2050722609994813488",,,,,,
+"quote","2051095447524323586","2026-05-04T00:23:56.000Z","realsigridjin","Sigrid Jin 🌈🙏","learning rl is brutal because you have to know everything
+
+theory, infra, pretraining, inference. most modern llm tutorials skip the actual foundations like q learning
+
+finally found a proper beginner guide so you don't have to blindly stumble around like i did
+
+making these notes is pure torture and barely gets views, but having industry heavyweights read them makes the grind totally worth it","en","<a href=""http://twitter.com/download/iphone"" rel=""nofollow"">Twitter for iPhone</a>","29","383","10","2","569","56042","false","none",,,,,"2051095447524323586",,,,"2050722609994813488","2023237675537604608",
+"original","2007122635507880251","2026-01-02T16:11:41.000Z","rasbt","Sebastian Raschka","Another really interesting paper from my 2025 bookmarked papers: On the Interplay of Pre-Training, Mid-Training, and RL on Reasoning Language Models (https://arxiv.org/abs/2512.07783).
+
+In short, RL is most effective when applied to data that is neither too close to nor too far from the pre-training distribution. 
+
+If the data is too in-distribution, RL adds little beyond supervised training. If it is too far out-of-distribution, RL struggles because the model lacks the necessary priors.
+
+This has been known before, but it's nice to see it formalized with data and figures to reference.","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","140","913","21","3","757","49324","true","photo","https://pbs.twimg.com/media/G9q7X0sXwAAsQ99.jpg",,,"https://pbs.twimg.com/media/G9q7X0sXwAAsQ99.jpg","2007122635507880251",,,,,,
+"original","1878080308903284866","2025-01-11T14:03:33.000Z","naklecha","naklecha","today, i'm excited to release a reinforcement learning guide that carefully explains the intuition and implementation details behind every single fundamental algorithm in the field. enjoy :)
+
+http://naklecha.com/reinforcement-learning","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","324","2442","87","34","2944","230454","true","photo","https://pbs.twimg.com/media/GhBFYDWX0AEhvER.jpg",,,"https://pbs.twimg.com/media/GhBFYDWX0AEhvER.jpg","1878080308903284866",,,,,,
+"quote","2050859627177562524","2026-05-03T08:46:52.000Z","retr0sushi_","himanshu","since the weekend is about to end, here are some of the papers and blogs i loved reading this week in no particular order : 
+
+1. https://www.thoughtfullab.com/letting-ai-posttrain-ai.html
+2. https://arxiv.org/pdf/2601.18795
+3. https://yumoxu.notion.site/multi-teacher-on-policy-distillation
+4. https://x.com/yacinelearning/status/1990168103284801633?s=20
+5. https://x.com/willccbb/status/2050038277454143918?s=20
+6. https://x.com/yifan_zhang_/status/2048052313449783401?s=20
+7. https://x.com/a1zhang/status/2048381699013083243?s=20
+8. https://x.com/iwiwi/status/2046426984902017209?s=20
+9. https://x.com/1a1n1d1y/status/2046036764872376511?s=20
+
+kind of want to make this a weekly thing as well, will keep me accountable and i can keep myself in check that i am always reading something :)","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","62","634","5","0","1123","59948","false","none",,,,,"2050859627177562524",,,,"2050038277454143918","3064259332",
+"quote","2054605079349485675","2026-05-13T16:49:58.000Z","latentchiz","Chiz","Finished going through, studying and taking detailed notes on Parts I & II of the Reinforcement Learning bible by @RichardSSutton & Barto. Part III covers neuroscience and psychology which are better understood if read from the book. My notes can be found in the link below:
+
+https://chizkidd.github.io/RL-Sutton-Barto-notes/","en","<a href=""http://twitter.com/download/iphone"" rel=""nofollow"">Twitter for iPhone</a>","12","81","1","1","128","33418","true","photo","https://pbs.twimg.com/media/HINsbZ0WAAAeXPV.jpg; https://pbs.twimg.com/media/HINsbZ9W8AAzFxG.jpg; https://pbs.twimg.com/media/HINsbawXgAASMkF.jpg; https://pbs.twimg.com/media/HINsbZ3XEAAapin.jpg",,,"https://pbs.twimg.com/media/HINsbZ0WAAAeXPV.jpg","2054605079349485675",,,,"2038701413702783010",,
+"quote","2054749035861602458","2026-05-14T02:22:00.000Z","neural_avb","AVB","This guy went on really nice adventure! 👏🏼
+
+Made a website with notes from the legendary Sutton &amp; Barto RL book.","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","38","452","2","0","489","31157","true","photo","https://pbs.twimg.com/media/HIOO8vda4AAN-yM.jpg",,,"https://pbs.twimg.com/media/HIOO8vda4AAN-yM.jpg","2054749035861602458",,,,"2054605079349485675","2013517098106974208",

@@ -1,0 +1,656 @@
+"tweet_type","id","created_at","username","user_display_name","text","lang","source","retweet_count","favorite_count","reply_count","quote_count","bookmark_count","view_count","has_media","media_type","media_urls","video_url","video_duration","thumbnail_url","conversation_id_str","in_reply_to_status_id_str","in_reply_to_user_id_str","in_reply_to_screen_name","quoted_status_id_str","quoted_user_id_str","retweeted_status_id_str"
+"reply","1712978529867211127","2023-10-13T23:48:01.000Z","cHHillee","Horace He","An allreduce has 2N comm volume.
+Reduce-scatter and all-gather both have N comm volume.
+Allreduce can be created from a combination of reduce-scatter + all-gather.
+
+DDP: Do allreduce after getting your gradients.
+Zero-1: Split allreduce into reduce-scatter + all-gather (allows you to shard optimizer state)
+You can now also move your all-gather into the forwards pass of the next iteration.
+Zero-3: Note that if you move your all-gather into the forwards pass of the next iteration, then at the beginning of your iteration your weights are actually sharded. However, your peak memory doesn't change, because after you all-gather your weights your weights will be replicated again.
+
+So, in order to keep your peak memory low, you just reshard your weights after using them. However, you need to use your weights again in the backwards pass, so you need another all-gather then.
+
+In total:
+
+DDP: one Allreduce => 2N
+Zero-1: one ReduceScatter + one allgather => 2N
+Zero-3/FSDP: one reducescatter + 2 allgathers (one in forwards and one in backwards) => 3N
+
+3N/2N = 1.5","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","4","150","5","1","100","17417","false","none",,,,,"1712972009142132937","1712972009142132937","175282603","jeremyphoward",,,
+"original","1714003928717905994","2023-10-16T19:42:35.000Z","sw2pnil","Swapnil Gandhi","PhD application season is upon us! In the spirit of paying it forward, I'm making my statement of purpose (CS/Systems PhD) public: http://swapnilgandhi.com/sop/swapnil-sop.pdf 
+
+I learnt a ton from reading other SOPs. Hope this helps!","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","15","168","6","1","144","14288","false","none",,,,,"1714003928717905994",,,,,,
+"original","1780691682461171799","2024-04-17T20:15:55.000Z","cremieuxrecueil","Crémieux","What's more convincing?
+
+p = 0.04 in a sample of 10 or p = 0.04 in a sample of 1,000,000?
+
+🧵","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","161","1007","79","56","1255","297154","false","none",,,,,"1780691682461171799",,,,,,
+"original","2064818346202132532","2026-06-10T21:13:50.000Z","silviasapora","Silvia Sapora","After interviewing for Research Scientist roles at DeepMind, Isomorphic, Meta, Cohere and more, I wrote up everything I learned. Technical prep, logistics, negotiation, and emotional breakdowns. Check out my guide: https://silviasapora.github.io/blog/ml-interviews.html","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","300","3634","46","16","6860","232575","false","none",,,,,"2064818346202132532",,,,,,
+"original","2062867034623623637","2026-06-05T12:00:01.000Z","adaption_ai","adaption","The AutoScientist Challenge is open.
+
+$50,000 in prizes. Four weeks. 10 categories.
+
+Most people don't get to build frontier AI. That changes today.","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","29","204","10","6","235","56183","true","photo","https://pbs.twimg.com/media/HKDBBUSXYAA2j9u.jpg",,,"https://pbs.twimg.com/media/HKDBBUSXYAA2j9u.jpg","2062867034623623637",,,,,,
+"quote","2064049919288303793","2026-06-08T18:20:23.000Z","sarahookr","Sara Hooker","Our first wave of acceptances for the AutoScientist Challenge have gone out. 
+
+Another round goes out on Wednesday.  🔥
+
+Apply before then to be considered for the next wave.","en","<a href=""http://twitter.com/download/iphone"" rel=""nofollow"">Twitter for iPhone</a>","15","88","5","0","60","15927","true","photo","https://pbs.twimg.com/media/HKT6dpBaYAAvGO9.jpg",,,"https://pbs.twimg.com/media/HKT6dpBaYAAvGO9.jpg","2064049919288303793",,,,"2062867034623623637","1973575436706914304",
+"original","2062924410588406118","2026-06-05T15:48:01.000Z","itsreallyvivek","vivek","http://x.com/i/article/2062922750759772160","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","55","971","16","22","1942","165783","false","none",,,,,"2062924410588406118",,,,,,
+"original","2059723075365851369","2026-05-27T19:47:03.000Z","juleslogs","jules","lowkey one of the best things about ML right now is how many legit research paths exist outside the traditional PhD route
+
+- MATS
+- OpenAI Residency
+- Anthropic Fellows
+- DeepMind Student Researcher
+- ML Collective
+- FAR. AI
+- Mila
+- INSAIT
+- EleutherAI
+- Redwood Research
+- Apart Research
+- Encode
+- AI2, LAION
+- Berkeley BAIR
+- Stanford SAIL
+- MIT CSAIL
+- Vector Institute
+- HuggingFace also quietly has some insanely strong open source contributors btw
+
+stupidly exciting time to be in ML if you genuinely like building and researching things","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","122","2166","48","13","2787","460504","false","none",,,,,"2059723075365851369",,,,,,
+"quote","2060448164545802513","2026-05-29T19:48:18.000Z","TamazGadaev","Tamaz Gadaev","It's so great, there are so many of them!  
+Here are more fellowships, that were not mentioned in the list:  
+
+- MARS, Cambridge AI Safety Hub 
+- AI Safety Camp (AISC) 
+- PRISM 
+- CAIS AI & Society Fellowship @CAIS
+- Cooperative AI Research Fellowship: CAIF / PIBBSS / UCT / AI Safety South Africa @AI_Safety_SA @coop_ai
+- GovAI Summer/Winter Fellowship in Oxford @GovAIOrg
+- Future Impact Group Fellowship 
+- Arcadia Impact: AI Governance Taskforce 
+- Sydney AI Safety Fellowship 
+- LawAI / Law & AI Institute Summer Research Fellowship @law_ai_
+
+Also, check out this post with even more fellowships: https://x.com/avgaydashenko/status/2060361461357044139","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","30","344","6","1","530","19657","false","none",,,,,"2060448164545802513",,,,"2059723075365851369","2027449728888393728",
+"quote","2060361461357044139","2026-05-29T14:03:46.000Z","avgaydashenko","Anastasiia Gaidashenko","Such a good list! I'd also add:
+- Astra Fellowship by @ConstellOrg    
+- SPAR by @KairosAIS 
+- LASR Labs
+- AI Safety Research Fellowship by @pivotal_org 
+- Cambridge ERA:AI Fellowship (@era_cambridge)
+- Algoverse AI Safety Fellowship
+- PIBBSS
+- CHAI
+
+There's a host of non-technical fellowships as well, lmk if it'd be useful to compile such list","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","65","801","15","3","1373","84688","false","none",,,,,"2060361461357044139",,,,"2059723075365851369","2027449728888393728",
+"original","2011682593239155017","2026-01-15T06:11:20.000Z","vivoplt","Vivo","Don’t overcomplicate it.
+
+• Build a Password Manager to learn file handling, hashing (not full crypto)
+• Build a URL Shortener to understand routing, IDs, and persistence
+• Build a Todo App with deadlines to practice CRUD and basic state
+• Build a Web Scraper to learn requests, parsing, and rate limits
+• Build a CLI Expense Tracker to master logic, files, and edge cases
+• Build a Log Analyzer to work with files, timestamps, and patterns
+• Build a Simple Recommender using similarity rules (not ML magic)
+• Build an Email Automation Script using SMTP and scheduling
+
+Projects. Not tutorials.","en","<a href=""http://twitter.com/download/iphone"" rel=""nofollow"">Twitter for iPhone</a>","310","3873","62","9","5355","210240","false","none",,,,,"2011682593239155017",,,,,,
+"original","2006488738898296932","2025-12-31T22:12:48.000Z","maddiedreese","Maddie D. Reese","As a vibe coder who’s won four hackathons this year, here’s how I find hackathons to compete in:
+
+X. Most hackathons are posted here on X. At least once a week, I do targeted searches including visiting the profiles of all major vibe coding tools. That covers most of them. Then, I also search for the following keywords on all of X: “vibe coding” “vibe coders” “hackathon” “vibe coding competition” “vibe coding contest” “ai coding.” This combined effort pulls up a decent amount of the ones that have been posted.
+
+@contra. Sign up for a Contra account. They’re always running fun challenges with great sponsors. I just won second place ($2,500) at one last night!
+
+@Reddit. The subreddits /r/vibecoding /r/vibecodersnest /r/hackathon and /r/vibecodedevs often have smaller competitions being advertised through posts. I found a competition that I won 1st place and $1,000 through from a post in one of those subreddits.
+
+Web search. Usually Google. Keywords like “vibe coding hackathon” “vibe coding competition” “vibe coding contest” etc. all work well. Don’t forget to use Boolean operators to narrow down your search parameters!
+
+Community. I am very grateful to have a lot of great friends on here who tag me in hackathons 🧡
+
+Good luck, and let me know if you find any cool hackathons to compete in!","en","<a href=""http://twitter.com/download/iphone"" rel=""nofollow"">Twitter for iPhone</a>","61","785","54","0","956","40685","false","none",,,,,"2006488738898296932",,,,,,
+"original","1804700685994164340","2024-06-23T02:19:07.000Z","EugeneVinitsky","Eugene Vinitsky 🦋","This page of common pytorch mistakes is pretty invaluable https://uvadlc-notebooks.readthedocs.io/en/latest/tutorial_notebooks/guide3/Debugging_PyTorch.html","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","104","815","4","4","1047","80585","true","photo","https://pbs.twimg.com/media/GQuVrNLa8AADP4g.jpg",,,"https://pbs.twimg.com/media/GQuVrNLa8AADP4g.jpg","1804700685994164340",,,,,,
+"original","1712658766028853519","2023-10-13T02:37:24.000Z","DuaneJRich","DJ","I used to write. Then I stopped, probably because Quora became a bit of a weird place.
+
+But online forums get weird all the time - can't let that ruin a nice thing. So I took all my good stuff, cleaned it up and collected it into a website: 
+
+https://truetheta.io/concepts
+
+and I'll be adding more, sporadically.. until either the sun explodes or I die, whichever comes first.","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","113","756","12","1","726","127190","true","photo","https://pbs.twimg.com/media/F8SQhSVaoAAaB76.jpg",,,"https://pbs.twimg.com/media/F8SQhSVaoAAaB76.jpg","1712658766028853519",,,,,,
+"original","2050158196610965857","2026-05-01T10:19:38.000Z","ravikiran_dev7","Ray🫧","As an AI Infrastructure Engineer.
+
+Please learn:
+
+- GPU/VRAM fundamentals, quantization & batching
+- vLLM / TensorRT-LLM / inference optimization
+- KV caching, speculative decoding & token throughput
+- Distributed training basics (DDP/FSDP/DeepSpeed)
+- Model serving & autoscaling
+- Vector DB retrieval pipelines
+- Prompt caching & cost optimization
+- Observability for LLM apps
+
+This is what production AI teams actually care about.","en","<a href=""http://twitter.com/download/android"" rel=""nofollow"">Twitter for Android</a>","51","499","37","1","523","17684","false","none",,,,,"2050158196610965857",,,,,,
+"original","2020433115584335949","2026-02-08T09:42:47.000Z","TheAhmadOsman","Ahmad","any cs person can go from zero to deeply knowledgeable in llms and ai in ~2 years, top to bottom
+
+key topics on how llms work:
+
+> tokenization and embeddings
+> positional embeddings (absolute, rope, alibi)
+> self attention and multihead attention
+> transformers
+> qkv
+> sampling params: temperature, top-k top-p
+> kv cache (and why inference is fast)
+> infini attention & sliding window (long context tricks)
+> mixture of experts (moe routing layers)
+> grouped query attention
+> normalization and activations
+> pretraining objectives (causal, masked, etc)
+> finetuning vs instruction tuning vs rlhf
+> scaling laws and model capacity curves
+
+bonus topics:
+
+> quantizations - qat vs ptq (ggufs, awq, etc)
+> training vs inference stacks (deepspeed, vllm, etc)
+> synthetic data generation
+
+the elite don't want you to know this","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","66","973","27","3","1403","44982","false","none",,,,,"2020433115584335949",,,,,,
+"original","1999493414904299883","2025-12-12T14:55:53.000Z","goyal__pramod","Pramod Goyal","I rarely say this 
+
+But this is the greatest repo to master Python","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","194","2603","17","1","3479","110896","true","photo","https://pbs.twimg.com/media/G7-gbNmW0AMqeRb.jpg",,,"https://pbs.twimg.com/media/G7-gbNmW0AMqeRb.jpg","1999493414904299883",,,,,,
+"original","2020316657575477376","2026-02-08T02:00:01.000Z","techNmak","Tech with Mak","I have one interview question I use to find real ML engineers: ""Explain Backpropagation. No, not the concept. The math. From scratch.""
+
+9 out of 10 candidates can't. They can use a library. They can't build one.
+
+The 1/10 who can? They've all built the foundation.
+
+This 26-video playlist is that foundation. For free.
+
+While everyone else is chasing the newest ""AI agent"" or prompt hack, they're building on a foundation of sand.
+
+This free course from Professor Bryce is the foundation. It's a full university-level curriculum on the math that actually makes AI work.
+
+The syllabus is pure signal, no noise:
+➡️ The Data Analysis Pipeline (DL 05) 
+➡️ Feed-Forward Neural Networks (DL 07) 
+➡️ Backpropagation from scratch (DL 08) 
+➡️ Activation & Loss functions (DL 09) 
+➡️ Making it fast with Vectorization (DL 10) 
+➡️ Debugging Vanishing/Exploding Gradients (DL 11)
+
+Stop chasing hype. Master the fundamentals that will last a decade.
+
+(I will put the playlist in the comments.)
+
+♻️ Repost to save someone $$$ and a lot of confusion.","en","<a href=""http://twitter.com"" rel=""nofollow"">Twitter Web Client</a>","168","1256","25","1","1968","66427","true","photo","https://pbs.twimg.com/media/HAlWlx9bUAALSiR.jpg",,,"https://pbs.twimg.com/media/HAlWlx9bUAALSiR.jpg","2020316657575477376",,,,,,
+"original","2006970447133651057","2026-01-02T06:06:56.000Z","techNmak","Tech with Mak","It is dangerously easy to build a neural network today without actually understanding how it works.
+
+We live in an era of 'import torch'. You can train a model in three lines of code, but the moment you need to debug a collapsing loss function or a vanishing gradient, syntax won't save you. You need first principles.
+
+I recently went through this notebook collection by Simon J.D. Prince, and it is the antidote to tutorial hell.
+
+Instead of just showing you the code, it forces you to visualize the mechanics:
+1./ The Math => It builds the intuition for shallow networks and regions before adding complexity.
+2./ The Optimization => It doesn't just use an optimizer; it compares Line Search, SGD, and Adam so you see why they behave differently.
+3./ The Modern Stack => It connects the dots from basic backpropagation all the way to Self-Attention and Graph Neural Networks.
+
+Move from running code to engineering systems => this is a goldmine.","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","368","2847","33","10","3937","121890","true","photo","https://pbs.twimg.com/media/G9ovmWMaMAAe8ue.jpg",,,"https://pbs.twimg.com/media/G9ovmWMaMAAe8ue.jpg","2006970447133651057",,,,,,
+"original","2048234466519236818","2026-04-26T02:55:25.000Z","TheAhmadOsman","Ahmad","You don’t “run a model”
+You run Kernels
+
+The model is just a graph
+
+The Inference Engine is scheduler / optimizer / executor
+
+But the actual work? That happens in the Kernels
+
+- MatMul Kernels
+- Attention Kernels
+- RMSNorm Kernels
+- KV cache Kernels
+- Quantized linear Kernels
+- Sampling Kernels
+- Fused “please don’t write this back to memory 9 times” Kernels
+
+Same model, same GPU, same VRAM
+Wildly different performance
+
+Because one stack is using optimized fused Kernels that understand your hardware
+
+And the other stack is playing hot potato with tensors through 47 tiny launches and pretending the GPU is the problem
+
+Bad Kernels make people say:
+“this model is slow”
+
+Good Kernels make people say:
+“wait how is this running locally?”
+
+This is why Inference Engines and the Kernels implemented within them matter
+
+The model is the recipe
+The hardware is the kitchen
+The Kernels are the knives, pans, burners, and the chef not cutting onions with a spoon
+
+Most people benchmark models
+The real ones benchmark the Kernels underneath","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","100","971","38","7","803","154406","true","photo","https://pbs.twimg.com/media/HGzKSSraQAElKQ7.jpg",,,"https://pbs.twimg.com/media/HGzKSSraQAElKQ7.jpg","2048234466519236818",,,,,,
+"quote","2048413820259832050","2026-04-26T14:48:07.000Z","TheAhmadOsman","Ahmad","How to go about learning all of this?
+
+1st: Start with the serving engine view
+
+- vLLM: PagedAttention, continuous batching, prefix caching, CUDA graphs
+
+- SGLang: RadixAttention/prefix reuse, speculative decoding, MoE, structured/agent workloads
+
+- TensorRT-LLM: NVIDIA peak stack, FP8/FP4, Wide-EP, disaggregated serving
+
+- FlashInfer: reusable kernel/operator library for attention/GEMM/MoE/sampling
+
+2nd: Go down the stack
+
+- Triton tutorials → custom fused kernels
+
+- CUTLASS/CuTe → Tensor Core GEMM and Blackwell/Hopper details
+
+- FlashAttention papers → attention algorithm/kernel co-design
+
+- PagedAttention paper → KV-cache memory management
+
+- MoE docs → routing + grouped GEMM + all-to-all
+
+- Nsight profiling → stop guessing
+
+3rd: Do this mini-project sequence
+
+1. Implement RMSNorm in Triton; compare to PyTorch
+
+2. Implement fused SiLU × gate
+
+3. Implement simple FP16 matmul; compare to cuBLAS/rocBLAS
+
+4. Implement paged KV lookup for decode attention
+
+5. Add FP8 KV cache with per-block scales
+
+6. Implement toy top-k sampling on GPU
+
+7. Implement tiny MoE dispatch + grouped GEMM
+
+8. Integrate one custom op into vLLM or SGLang and profile end-to-end","en","<a href=""http://twitter.com/download/iphone"" rel=""nofollow"">Twitter for iPhone</a>","128","1325","27","7","2141","135656","false","none",,,,,"2048413820259832050",,,,"2048234466519236818","248951926",
+"original","1999879014497112543","2025-12-13T16:28:07.000Z","samirande_","Sam ☕","Eventually you'll realise that you can just do things 
+
+- you can learn coding 
+- you can learn hardware
+- you can learn designing 
+- you can study math
+- you can study space
+- you can start content creation 
+- you can learn musical instruments 
+- you can read books
+- you can go to the gym  
+- you can start writing 
+- you can play games
+- you can learn cooking 
+- you can learn editing 
+- you can learn new languages
+- you can learn drawing 
+- you can improve your communication 
+- you can learn how to market yourself 
+- you can build your SaaS 
+- you can learn a new hobby","en","<a href=""http://twitter.com/download/android"" rel=""nofollow"">Twitter for Android</a>","194","1819","69","24","816","100639","false","none",,,,,"1999879014497112543",,,,,,
+"quote","2000153383420797182","2025-12-14T10:38:22.000Z","0xlelouch_","Abhishek Singh","Eventually you’ll realize that distributed systems aren’t some mystical, gate-kept domain either.
+
+You can just… do them.
+
+• you can learn networking basics (TCP, UDP, latency, packet loss)
+• you can learn how requests actually move through systems
+• you can understand consistency, availability, and trade-offs (not just CAP buzzwords)
+• you can build a simple client–server system
+• you can simulate failures on purpose and watch things break
+• you can learn replication by writing a primary–replica toy DB
+• you can learn sharding by splitting data across nodes
+• you can implement retries, timeouts, and backoff
+• you can learn why idempotency matters by breaking it once
+• you can understand queues by building a slow consumer and a fast producer
+• you can implement leader election in a weekend project
+• you can learn consensus by reading Raft and coding a tiny version
+• you can reason about backpressure instead of “just scaling”
+• you can debug race conditions instead of fearing them
+• you can learn observability (logs, metrics, traces) by needing them
+• you can design for failure instead of pretending it won’t happen
+• you can make boring systems that don’t wake you up at 3am
+• you can build systems that degrade gracefully instead of exploding
+• you can learn when not to use Kafka, Redis, or microservices
+• you can design for the scale you have, not the scale you imagine
+
+Distributed systems aren’t reserved for PhDs or hyperscalers.
+
+They’re learned the same way as everything else: small steps, concrete systems, broken assumptions, and repetition.
+
+You don’t become “good at distributed systems” one day. You become someone who isn’t afraid of them anymore.","en","<a href=""http://twitter.com/download/android"" rel=""nofollow"">Twitter for Android</a>","81","742","6","3","816","38433","false","none",,,,,"2000153383420797182",,,,"1999879014497112543","1863590792557977600",
+"original","2005755471009857764","2025-12-29T21:39:04.000Z","Hesamation","ℏεsam","Harvard's just open-sourced their ML Systems textbook. it's extremely practical for not just learning how to build and train models, but to build production systems (the skill that actually matters). topics are cool af:
+> building autograd, optimizers, attention, and a mini-pytorch from scratch to truly learn how an ML framework runs. (i love this the most)
+> basics of DL, batch sizes, precision, model architectures, and training
+> ML performance optimization, HW acceleration, benchmarking, efficiency
+
+so this is not just an intro to machine learning, it's the full package from the beginning to the actual end. right now you can read the book and access the code for free. this is one of the best books I've seen dropping in 2025, so don't sleep on it. 
+
+here's the repo (you can find the book link there): https://github.com/harvard-edge/cs249r_book","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","645","5137","50","11","7545","280198","true","photo","https://pbs.twimg.com/media/G9XcbXaXUAAA7ZT.jpg",,,"https://pbs.twimg.com/media/G9XcbXaXUAAA7ZT.jpg","2005755471009857764",,,,,,
+"original","2023963568647864471","2026-02-18T03:31:32.000Z","Amank1412","Aman","Someone built a web-based System Design Simulator,
+
+where you drag &amp; drop architecture components and actually simulate traffic, failures, latency, and scaling in real time,
+
+System design just got way more interactive.","en","<a href=""http://twitter.com/download/android"" rel=""nofollow"">Twitter for Android</a>","549","6950","132","45","7508","476444","true","video","https://pbs.twimg.com/ext_tw_video_thumb/2023963539011190784/pu/img/WBmiXdZGXVX_22w7.jpg","https://video.twimg.com/ext_tw_video/2023963539011190784/pu/vid/avc1/1280x720/RFdMepZM013sf_BT.mp4?tag=19","51","https://pbs.twimg.com/ext_tw_video_thumb/2023963539011190784/pu/img/WBmiXdZGXVX_22w7.jpg","2023963568647864471",,,,,,
+"original","2052371239520629243","2026-05-07T12:53:29.000Z","akshay_pachaar","Akshay 🚀","A tricky LLM interview question:
+
+Your RAG system scores 90% retrieval accuracy on 5k company docs.
+
+But scaling to 500k docs drops the accuracy to just 50%, with the same embedding model and retriever.
+
+Why did this happen?
+
+The simplest answer is that more documents mean more competition for the top-k retrieval slots. That is true, but it doesn't explain why accuracy drops this dramatically.
+
+The answer comes down to how enterprise docs are distributed in the embedding space.
+
+Today, a single product decision in a company generates meeting transcripts, Slack threads, Confluence docs, Jira tickets, and email threads.
+
+They are related to the same event, so they all land in a similar region of the embedding space.
+
+As the company operates over months, this pattern repeats for every project/customer/roadmap, and the embedding space fills up with clusters of closely related documents.
+
+But all related docs don't contain the same facts.
+
+→ Slack thread covers the decision made
+→ Jira has the implementation deadline
+→ Confluence has the technical spec
+→ Email thread has the customer request
+
+When a query is about a specific fact (like a deadline), the answer lives in one of those docs.
+
+At a 5K corpus size, there might be 3-5 docs touching that topic, and the correct one easily lands in the top-k results.
+
+But at a 500K corpus size, there could be 40-60 total docs, and the one containing the actual answer can easily get pushed out of the top-k by other topically relevant docs, degrading retrieval.
+
+A recent research paper from Onyx documented this.
+
+The researchers used their newly open-sourced EnterpriseRAG-Bench dataset.
+
+It has 500k+ synthetic enterprise documents spread across Slack, Gmail, Jira, GitHub, Confluence, Google Drive, HubSpot, Fireflies, and Linear, with realistic noise like misfiled documents, near-duplicates, and conflicting versions.
+
+They ran the same retrievers at five corpus sizes from 5K to 500K.
+
+→ Vector search accuracy dropped from 90.7% at 5K documents to 50.6% at 500K docs.
+
+→ BM25 degraded more gracefully, from 85.8% to 68.4%.
+
+→ At every scale, higher neighborhood density in the embedding space monotonically correlated with lower recall.
+
+The practical implication here is that retrieval accuracy on a 5k test set tells you almost nothing about production-scale performance.
+
+Always test at a realistic volume to measure the neighborhood density in your embedding space to estimate how much headroom the retriever actually has.
+
+The entire EnterpriseRAG-Bench dataset (500K docs with questions, and the whole evaluation harness) is open-source.
+
+Run your retriever against it at 5K, then at 500K, and see where your own accuracy curve breaks.
+
+I have shared the GitHub repo in the replies.","en","<a href=""https://typefully.com/"" rel=""nofollow"">Typefully</a>","52","441","31","6","614","62336","false","none",,,,,"2052371239520629243",,,,,,
+"original","1990168103284801633","2025-11-16T21:20:26.000Z","yacinelearning","Yacine Mahdid","http://x.com/i/article/1988788469066268672","zxx","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","110","1583","33","16","3591","480414","false","none",,,,,"1990168103284801633",,,,,,
+"quote","2050308570399285380","2026-05-01T20:17:10.000Z","yacinelearning","Yacine Mahdid","this networking guide really works btw","en","<a href=""http://twitter.com/download/iphone"" rel=""nofollow"">Twitter for iPhone</a>","88","1540","12","1","2153","217758","true","photo","https://pbs.twimg.com/media/HHQox3WXUAA9U12.jpg",,,"https://pbs.twimg.com/media/HHQox3WXUAA9U12.jpg","2050308570399285380",,,,"1990168103284801633","1080908329289961472",
+"original","2049892160552788406","2026-04-30T16:42:30.000Z","kmeanskaran","Karan🧋","My LLM Engineering stack:
+
+1. PySpark for Data Engineering
+2. HuggingFace datasets for data
+3. Unsloth for SFT/RLHF/QLoRA fine-tuning
+4. vLLM for Inference optimization
+5. FastAPI for backend 
+6. Redis for cache
+7. Qdrant for vector database
+8. Celery for task queue
+9. Kafka for event-driven scenario
+10. Perfect for orchestration
+11. LangGraph for agents 
+12. DeepEval for LLM evaluation
+11. Langsmith for LLM observability
+12. Ollama for naive LLM calls
+13. Postgres for storing data and conversations
+14. Docker for containerization 
+15. AWS for deploying compute-heavy system (Kubernetes cluster)
+16. Railway for agentic projects
+17. Next JS for UI 
+18. Prometheus/Grafana for system observability
+19. Ray for distributed systems
+20. Slack for system alerts
+
+What else am I missing?","en","<a href=""http://twitter.com/download/iphone"" rel=""nofollow"">Twitter for iPhone</a>","108","855","14","1","1151","30697","false","none",,,,,"2049892160552788406",,,,,,
+"original","2049219131980038550","2026-04-28T20:08:08.000Z","kmeanskaran","Karan🧋","""AI will take your job.""
+
+But
+These opportunities will rise:
+
+- Inference Engineering for LLMs/VLMs
+- Demand Forecasting with RL Agents
+- Data Engineering at scale (evergreen)
+- GTM Engineering & Strategist
+- AI Product Managers
+- DevRel for B2B AI
+- Mathematician for AI Research
+- Federated/Distributed Engineering
+- Networking and Security for AI
+- AGI R&D Engineering
+- CUDA GPU kernels
+- Technical Content Creation with human taste
+- Sales & Marketing (evergreen)
+- Teaching AI by Humans
+- Observability in AI
+- Solo founder with AI team
+- Quant Finance with ML
+- Multi-agent system engineering
+- Cloud Deployment for AI services
+- LLMs/SLMs in IoT
+
+All technical skills require architecture design, business alignment, and distribution.
+
+Coding will never be that tough, but understanding the basics is important. Why? So things won’t be a black box for you. Basics mean concepts, not syntax.
+
+Learning these is mandatory to stay relevant:
+
+1. Neural Networks
+2. Transformers & LLMs
+3. RL
+4. Inference for LLMs
+5. Linear Algebra
+6. Distributed Systems
+7. Ops
+8. Content Creation (text or video)
+9. Marketing and Sales
+10. Public Speaking
+
+Keep basics clean to stay relevant in next tech wave.","en","<a href=""http://twitter.com/download/iphone"" rel=""nofollow"">Twitter for iPhone</a>","128","936","14","1","1015","35218","false","none",,,,,"2049219131980038550",,,,,,
+"original","2048716849022382339","2026-04-27T10:52:14.000Z","Benn_X1","Ben X","Job application hack:
+
+Save your CV as 001-[firstname]-[lastname].pdf
+
+This will force the downloaded CV to have a high rank in the recruiter's download folder. It will most likely be the first file in the folder.
+I used this a lot back in the day. Same name format for cover letters too.","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","338","8269","66","22","7543","506512","false","none",,,,,"2048716849022382339",,,,,,
+"original","2046439371017245041","2026-04-21T04:02:21.000Z","itsnotbernhard","berni","Waterloo kids learned how to cold DM","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","123","8185","63","39","3675","1906857","true","photo","https://pbs.twimg.com/media/HGZpkNGbMAAPLvd.png",,,"https://pbs.twimg.com/media/HGZpkNGbMAAPLvd.png","2046439371017245041",,,,,,
+"original","2043631178570440950","2026-04-13T10:03:36.000Z","vivoplt","Vivo","Research papers you must read for AI Engineer interviews:
+
+1. Attention is all you need (Transformers)
+2.  LoRA (Low rank adaption)
+3. PEFT ( Parameter Efficient Fine Tuning)
+4. VIT (Vision Transformers)
+5. VAE (Variational Auto Encoder)
+6. GANs ( Generative Adversarial Networks)
+7. BERT ( Bidirectional Encoder Representation from Transformers)
+8. Diffusion Models (Stable Diffusion)
+9. RAG (Retrieval Augment Generation)
+10. GPT (Generative Pre-trained Transformers)","en","<a href=""http://twitter.com/download/iphone"" rel=""nofollow"">Twitter for iPhone</a>","292","2431","54","4","3282","111131","false","none",,,,,"2043631178570440950",,,,,,
+"original","2041887471391404480","2026-04-08T14:34:44.000Z","HowToPrompt__","How To Prompt","🚨 BREAKING: Someone just built a web-based System Design Simulator.
+
+It's called Paperdraw. It lets you drag and drop components to see how they handle real-world conditions like traffic, failures, latency, and scaling in real time.
+
+100% free to try.","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","486","4091","49","17","5166","360675","true","video","https://pbs.twimg.com/amplify_video_thumb/2041887185008459776/img/xP79PkPUdexJdDIs.jpg","https://video.twimg.com/amplify_video/2041887185008459776/vid/avc1/1920x1080/R_9l5zXA3UCZeruZ.mp4?tag=21","51","https://pbs.twimg.com/amplify_video_thumb/2041887185008459776/img/xP79PkPUdexJdDIs.jpg","2041887471391404480",,,,,,
+"original","2040820834428658008","2026-04-05T15:56:18.000Z","Hesamation","ℏεsam","bro created an AI job search system for Claude Code that scored 700+ job applications and actually got him a job. 
+
+AND IT'S NOW OPEN-SOURCE.
+
+It scans multiple company career pages, rewrites your CV per job, and even fills application forms. The repo has:
+> 14 skill modes (evaluate, scan, PDF, ...)
+> Go terminal dashboard
+> ATS-optimized PDF generation via Playwright
+> 45+ companies pre-configured (Anthropic, OpenAI, ElevenLabs, Stripe...)
+
+GitHub: https://github.com/santifer/career-ops","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","2275","28048","387","309","58697","5761105","true","video","https://pbs.twimg.com/amplify_video_thumb/2040818746910978048/img/wayJJZHW_KkFPB_a.jpg","https://video.twimg.com/amplify_video/2040818746910978048/vid/avc1/1664x1080/hXJQrtrck3A0Uxv1.mp4?tag=21","22","https://pbs.twimg.com/amplify_video_thumb/2040818746910978048/img/wayJJZHW_KkFPB_a.jpg","2040820834428658008",,,,,,
+"quote","2041172050211983500","2026-04-06T15:11:54.000Z","Hesamation","ℏεsam","Wow, in just 1 day this repo got 8K stars on GitHub.⭐️ this is a signal that your competitions are using AI for faster job application, whether you like it or not.","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","25","385","11","2","248","37764","true","photo","https://pbs.twimg.com/media/HFOyyjCWYAAUkoG.jpg",,,"https://pbs.twimg.com/media/HFOyyjCWYAAUkoG.jpg","2041172050211983500",,,,"2040820834428658008","1836078160653246464",
+"original","2038563170282086767","2026-03-30T10:25:09.000Z","manixh","Manish Kumar","Interviewer:
+
+You use a VPN.
+Why do some websites still detect your real country?","en","<a href=""http://twitter.com/download/android"" rel=""nofollow"">Twitter for Android</a>","11","307","40","11","144","643645","false","none",,,,,"2038563170282086767",,,,,,
+"quote","2038693996294238227","2026-03-30T19:05:00.000Z","T3chFalcon","IT Guy","You turn on your VPN and your IP changes. It feels like you should be invisible, but some websites still know exactly where you are.
+
+Your IP is just one clue. Websites also look at your browser’s timezone (for example, ""Asia/Kolkata"" doesn’t match a German IP), your Accept-Language header (en-IN gives you away), and your DNS resolver, which is probably still set to your ISP’s servers back home instead of your VPN’s.
+
+One of the sneakiest trick is WebRTC. Your browser has a built-in feature for video calls that can fetch your real IP address at the operating system level, completely bypassing the VPN tunnel. A website can get it with just 10 lines of JavaScript. Some VPNs don’t block this by default.
+
+And if you’re logged in, it’s game over. Netflix, Google and Spotify don’t care about your IP address. They care about your account. Your registered country is stored in their database, not in your connection. Using a VPN while logged in means the VPN isn’t helping you at all.
+
+A VPN gives you a different postal address, but your timezone, language, DNS, WebRTC, browser fingerprint, and login details are still the same.","en","<a href=""http://twitter.com"" rel=""nofollow"">Twitter Web Client</a>","663","5560","82","25","3687","448635","false","none",,,,,"2038693996294238227",,,,"2038563170282086767","1752022872015417344",
+"original","2037915114322669698","2026-03-28T15:30:00.000Z","daniel_mac8","Dan McAteer","This is amazing. Do this.","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","1131","15567","73","66","15046","924872","true","photo","https://pbs.twimg.com/media/HEgOapPagAA68nE.jpg",,,"https://pbs.twimg.com/media/HEgOapPagAA68nE.jpg","2037915114322669698",,,,,,
+"original","2005945981888524433","2025-12-30T10:16:05.000Z","MatternJustus","Justus Mattern","On my way to Bangalore for the next few weeks! If you’re around and interested in coding agents and post-training data, HMU!","en","<a href=""http://twitter.com/download/iphone"" rel=""nofollow"">Twitter for iPhone</a>","2","202","25","1","31","42227","false","none",,,,,"2005945981888524433",,,,,,
+"quote","2037043493462565338","2026-03-26T05:46:29.000Z","MatternJustus","Justus Mattern","Planning my next BLR trip rn - a big focus this time will be recruiting for @ProximalHQ!
+
+We have a super talent-dense team in our Bangalore office - some of our teammates are ex YC founders that have successfully sold companies or worked as quants at companies like Jane Street!","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","14","331","20","3","119","108170","false","none",,,,,"2037043493462565338",,,,"2005945981888524433","1371519617550663687",
+"original","2035979583758143774","2026-03-23T07:18:54.000Z","gudanglifehack","Tips Excel","Claude Cowork can apply to 50 jobs in under 30 minutes.
+
+Here's how to set it up.￼","en","<a href=""http://twitter.com/download/iphone"" rel=""nofollow"">Twitter for iPhone</a>","567","10638","102","255","24213","4413567","false","none",,,,,"2035979583758143774",,,,,,
+"quote","2036461040842543615","2026-03-24T15:12:02.000Z","dabit3","nader dabit","If you want to get hired, open the screen recorder on your computer and create a short, tailored intro / pitch video to the company you want to get an interview with. 
+
+DM this video along with a short introduction and link to your 1 page resume to someone in the company responsible for the role you are hiring for.
+
+Most importantly, only do this for roles you actually think you’re capable of.
+
+It will work 1,000x better than this slop.","en","<a href=""http://twitter.com/download/iphone"" rel=""nofollow"">Twitter for iPhone</a>","278","4884","114","64","5598","766233","false","none",,,,,"2036461040842543615",,,,"2035979583758143774","1579754929605861376",
+"original","2028866729791660339","2026-03-03T16:14:57.000Z","jeankaddour","Jean Kaddour","ML interview question: What is happening here?","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","19","562","155","2","555","145629","true","photo","https://pbs.twimg.com/media/HCf7RiDWIAAt68Z.jpg",,,"https://pbs.twimg.com/media/HCf7RiDWIAAt68Z.jpg","2028866729791660339",,,,,,
+"original","2026649450203197609","2026-02-25T13:24:16.000Z","akshay_pachaar","Akshay 🚀","You’re in an ML Engineer interview at Google.
+
+Interviewer: We need to train an LLM across 1,000 GPUs. How would you make sure all GPUs share what they learn?
+
+You: Use a central parameter server to aggregate and redistribute the weights.
+
+Interview over.
+
+Here’s what you missed:","en","<a href=""https://typefully.com/"" rel=""nofollow"">Typefully</a>","70","1026","28","3","1698","336983","false","none",,,,,"2026649450203197609",,,,,,
+"original","2022777231681229290","2026-02-14T20:57:28.000Z","FaroukAdeleke3","Farouk","there's a bunch more companies hiring for DSPy roles
+
+(GoPuff)-https://www.linkedin.com/jobs/view/4315350356/
+(Prime Intellect)-https://x.com/i/jobs/1971478884467212293
+(GPTZero)-https://www.indeed.com/viewjob?jk=27b34ccaa37f63ab&from=shareddesktop_copy
+(Blue Origin)-https://www.linkedin.com/jobs/view/4282273046/
+(Amazon)-https://www.linkedin.com/jobs/view/sr-applied-ai-data-scientist-amazon-nova-at-amazon-web-services-aws-4265703379
+(Okta)-https://www.linkedin.com/jobs/view/staff-machine-learning-engineer-aifs-auth0-at-okta-4299589388/
+(Samsung)-https://www.indeed.com/viewjob?jk=82fafe7b6ba68153
+(LG)-https://www.linkedin.com/posts/gagandeepsbajaj_careers-lg-ad-solutions-activity-7401677766708101121-04G2
+
+good signal","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","22","199","3","2","219","18211","true","photo","https://pbs.twimg.com/media/HBJY-z-akAMck0Q.jpg",,,"https://pbs.twimg.com/media/HBJY-z-akAMck0Q.jpg","2022777231681229290",,,,,,
+"original","2006032225087938982","2025-12-30T15:58:47.000Z","initlayers","initlayers","Attended an interview today, and honestly I don't know what role I was being evaluated for. The recruiter said that it was just a resume screening round, but fun twist, the interviewer never checked my resume and directly started firing ML questions.
+
+Questions asked (Core ML):
+1) What is a decision tree? how does it work?
+2) Difference between decision trees and boosting.
+3) What is logistic regression? Why do we use sigmoid hypothesis?
+4) Why not use softmax instead of sigmoid?
+5) What is K-means clustering?
+6) What is the difference between K-means and KNN?
+7) If I give you a point and K-means predicts a cluster for it, will KNN also predict the same cluster?
+
+Related to my research:
+8) How many models did you train, is it a single model, or a cluster?
+9) What are the modalities you dealt with?
+
+Questions asked (CNN/DL):
+10) What is a filter? Why is it used?
+11) What is a kernel? (Just to check)
+12) What is the effect of increasing the kernel size on training?
+13) If we are capturing hand moments using an CNN, I started with a 4×4 kernel and increased it till 32×32 where I found the best result yet, should I go ahead with 64×64?
+14) What is max pooling?
+15) Why not use min pooling over max pooling?
+16) Explain a bit about attention mechanism?
+17) Why not use attention with max pooling?
+18) What is attention pooling? Is it better over traditional max pooling?
+19) What is GeLU, and where do we use it?
+
+It was for a Bangalore-based start-up. I answered almost all of these, so fingers crossed. If things go well, the next round is an assignment.","en","<a href=""http://twitter.com/download/android"" rel=""nofollow"">Twitter for Android</a>","27","443","34","1","687","43733","false","none",,,,,"2006032225087938982",,,,,,
+"quote","1998889010509578304","2025-12-10T22:54:12.000Z","VoidAsuka","Asuka Zheng🎀","Here's my standards for 2026:
+
+- good-looking east asian guy eg John Cho 
+- well dressed
+- thick hair and perfect hairline
+- light brown eyes
+- shy and introvert
+- wit and romantic
+- soft and gentle
+- read and write
+- into deep tech 
+- think of universe sometimes
+- movie lover
+- don't like masculine sports
+- medium testosterone level
+- small and chubby hands
+- ktv's default song is creep
+- love sweets
+- mischievous
+- love me, see me, kiss me
+- allow me to love him intensely 
+
+i'm not asking too much.","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","0","61","16","3","29","57546","false","none",,,,,"1998889010509578304",,,,"1996949765100077527",,
+"quote","1999176298212868188","2025-12-11T17:55:47.000Z","cloneofsimo","Simo Ryu","Heres my standards for 2026:
+
+- uses muP over SP
+- uses muon over adam
+- can clearly explain difference between independence and zero mutual information
+- explain the problem with unscaled projections in transformers
+- explain 3 flaws with chinchilla scaling law, and what one would do to resolve them
+- explain what and why one would choose e3m4 over e2m5, without observing the weight distribution
+- explain the benefit of VP/sub-VP diffusion process over VE process
+
+- occasionally able to pet lavender
+- good looking is bonus","en","<a href=""http://twitter.com/download/android"" rel=""nofollow"">Twitter for Android</a>","11","423","11","2","397","41516","false","none",,,,,"1999176298212868188",,,,"1998889010509578304","2758050649",
+"original","1986880055071670645","2025-11-07T19:34:54.000Z","10x_er","10x'er","how many of you can do this?","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","2","108","8","2","101","139200","true","photo","https://pbs.twimg.com/media/G5LQ3aebIAMlK9R.jpg",,,"https://pbs.twimg.com/media/G5LQ3aebIAMlK9R.jpg","1986880055071670645",,,,,,
+"quote","1986909385713721780","2025-11-07T21:31:27.000Z","10x_er","10x'er","basically all you need to pass interviews in 2025","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","39","1197","18","5","1655","169922","true","photo","https://pbs.twimg.com/media/G5Lrd0XbIAQFJEM.jpg",,,"https://pbs.twimg.com/media/G5Lrd0XbIAQFJEM.jpg","1986909385713721780",,,,"1986880055071670645","1025787398",
+"original","1985602240271552638","2025-11-04T06:57:19.000Z","sleenyre","NYRE","Here's a fun ML engineering question. 
+In TorchTitan / Lingua, qkv projections are unfused (i.e. separate three linear layers) which is known to be inefficient. Is this on purpose? If so, why?","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","2","147","8","0","102","16417","false","none",,,,,"1985602240271552638",,,,,,
+"quote","1977740096221614588","2025-10-13T14:15:58.000Z","lochan_twt","spidey","ai internship DSA question","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","44","1060","56","14","1230","690168","true","photo","https://pbs.twimg.com/media/G3JYAXCWQAA1ML8.png",,,"https://pbs.twimg.com/media/G3JYAXCWQAA1ML8.png","1977740096221614588",,,,"1976708670919786625",,
+"quote","1984666683865514093","2025-11-01T16:59:45.000Z","lochan_twt","spidey","ai engineer interview question","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","149","3481","109","13","3543","587224","true","photo","https://pbs.twimg.com/media/G4rzwVgXUAAnC3o.png",,,"https://pbs.twimg.com/media/G4rzwVgXUAAnC3o.png","1984666683865514093",,,,"1977740096221614588","1791534089998114816",
+"quote","1981237332163645543","2025-10-23T05:52:44.000Z","cloneofsimo","Simo Ryu","I dont get this post by semi, isnt EC simply incompatible with causal attention? Is there some famous work that made EC compatible with causal attention that I dont know?","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","4","87","4","2","108","63987","false","none",,,,,"1981237332163645543",,,,"1981234647343518162",,
+"quote","1981255166860136571","2025-10-23T07:03:36.000Z","ArmenAgha","Armen Aghajanyan","Guess I need to change my interview questions, this one was my favorite :)
+
+The two classical ways to do this are 1) do an ema on the cut-off for the topk operator (threshold @ k), use this during inference for token-choice like routing. 2) MoD style, learn a linear layer that predicts token choice wise from EC ground truths, use stop gradient to not impact representations.","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","4","229","5","5","387","56976","false","none",,,,,"1981255166860136571",,,,"1981237332163645543","1529156127006392320",
+"original","1960976538838381040","2025-08-28T08:03:34.000Z","giffmana","Lucas Beyer (bl16)","At which of these places did you have the coolest interview in your career?
+
+I know it's an ill-posed poll, but what am i gonna do with only 4 options?!
+
+I tried grouping them by interview similarity to the best of my knowledge. Comment if ""other"". Might make a second round.","en","<a href=""http://twitter.com/download/iphone"" rel=""nofollow"">Twitter for iPhone</a>","5","184","41","4","187","365811","false","none",,,,,"1960976538838381040",,,,,,
+"quote","1961232442720706705","2025-08-29T01:00:26.000Z","sainingxie","Saining Xie","good question... thinking back to pre-LLM interviews I experienced (before 2019)… they were all in-person on-site, no chance of ''llm cheating,'' very different across places, and somehow way more memorable.
+
+> old deepmind had brutal ''quizzes'' -- 2-hour marathons with 100+ math/stats/ML concept questions. 
+
+> meta FAIR was basically academia interview with a bit of coding, but the highlight was chatting vision research with piotr, ross and kaiming.
+
+> google brain/research was similar. the @NoamShazeer was my coding interviewer, who kindly kept it simple with just a two-pointer q. we spent most of the time discussing research, where I explained how I had applied something called a transformer to visual data (point clouds) -- a topic that, at the time, hardly anyone cared about.
+
+> but the coolest? openai in 2018: whiteboard coding, a research talk, and a *~5-hour* session in a tiny room to work on an RL problem (variance collapse in cross entropy methods). I knew almost nothing about RL, but that was the point. They handed you a self-contained problem description, handwritten by @johnschulman2, and expected you to learn, research, solve, write up in a notebook, and present. 
+
+feeling a bit nostalgic. makes me wonder if interviews like that still happen anywhere. If they do, I’d love to know. :)","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","120","2418","22","14","1649","299696","true","photo","https://pbs.twimg.com/media/GzevKDEWIAAQdPl.jpg; https://pbs.twimg.com/media/Gzexpw9XoAAOVcL.jpg",,,"https://pbs.twimg.com/media/GzevKDEWIAAQdPl.jpg","1961232442720706705",,,,"1960976538838381040","2236047510",
+"original","1956496920664485956","2025-08-15T23:23:10.000Z","ShreyaR","shreya rajpal","the only things to look for when hiring AI/ML people is
+- do they have a good sense of how to evaluate if something (model/system) works. can they go really deep into setting up evals, data, cohorts, etc.
+- do they set up a high throughput experimentation harness
+- do they keep up with research news
+
+people think that good research is about getting good ideas, but ideas are really cheap and a good system for experimentation and actually, truly evaluating if your ideas are good or bad will already put you in the 90th percentile","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","57","1074","23","7","968","107291","false","none",,,,,"1956496920664485956",,,,,,
+"original","1956062084342362210","2025-08-14T18:35:17.000Z","Hesamation","ℏεsam","NASA published a free Systems Engineering book that you can self study. It’s definitely worth to touch on this topic, it turns you into a hiring magnet for many companies.
+
+Also, systems thinking is absolutely critical for every AI application.","en","<a href=""http://twitter.com/download/iphone"" rel=""nofollow"">Twitter for iPhone</a>","472","3587","28","13","5183","235177","true","photo","https://pbs.twimg.com/media/GyVUF4la4AEzQ3Y.jpg; https://pbs.twimg.com/media/GyVUF4na4AYdYca.jpg",,,"https://pbs.twimg.com/media/GyVUF4la4AEzQ3Y.jpg","1956062084342362210",,,,,,
+"original","1956019480997347723","2025-08-14T15:46:00.000Z","benln","Ben Lang","Marc Andreessen’s career advice for the AI era:","en","<a href=""https://mobile.twitter.com"" rel=""nofollow"">Twitter Web App</a>","346","3372","50","28","6021","444741","true","photo","https://pbs.twimg.com/media/GyUtV2GWMAMYabV.png",,,"https://pbs.twimg.com/media/GyUtV2GWMAMYabV.png","1956019480997347723",,,,,,
