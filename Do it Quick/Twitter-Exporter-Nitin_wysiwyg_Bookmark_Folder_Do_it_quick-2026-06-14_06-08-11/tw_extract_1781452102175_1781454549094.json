@@ -1,0 +1,2101 @@
+{
+  "runId": "1781452102175",
+  "extracts": {
+    "1709259540129280203": {
+      "id": "1709259540129280203",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/Bankless/status/1709259540129280203",
+      "title": "",
+      "markdown": "Vitalik dropped a big blog post about Ethereum's future\n\nHere's everything you need to know (even if you're non-technical)\n\nA THREAD",
+      "images": [],
+      "replies": []
+    },
+    "1936093434240008663": {
+      "id": "1936093434240008663",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/peach2k2/status/1936093434240008663",
+      "title": "",
+      "markdown": "Dont tell anyone but theres easy way to get unlimited jobs",
+      "images": [],
+      "replies": []
+    },
+    "1709565473753305203": {
+      "id": "1709565473753305203",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/brickroad7/status/1709565473753305203",
+      "title": "",
+      "markdown": "Woah! Showed GPT-4 an image. Asked it to make me a prompt to recreate that image. And got back an almost exact replica.\n\n(This can be used very effectively to overcome copyright issues or simply for synthetic-data generation...)",
+      "images": [],
+      "replies": []
+    },
+    "1895455034248413654": {
+      "id": "1895455034248413654",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/ai_for_success/status/1895455034248413654",
+      "title": "",
+      "markdown": "Best in AI\n\nCoding : Claude 3.7 Sonnet / Grok-3\nMultimodal : Google Gemini\nVideo : Veo-2 \nMath : R1 / o3\nVoice : OpenAI AVM\nWriting : GPT-4.5 / Claude 3.5 Sonnet\nSearch : OpenAI Deep Research / Grok-3 DeepSearch\nWeb Agent : Proxy (Convergence AI)\nWeb Search : Perplexity.\nImage : Midjourney\n\nAgree?",
+      "images": [],
+      "replies": []
+    },
+    "1732222361158431182": {
+      "id": "1732222361158431182",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/RisingSayak/status/1732222361158431182",
+      "title": "",
+      "markdown": "Had a chance to talk to \n@seanfalconer\n for an episode of \n@software_daily\n.\n\nThere are a bunch of things in there:\n\n* \n@huggingface\n and my work there\n* Perspectives on hiring for ML roles\n* My affinity toward open-source",
+      "images": [],
+      "replies": []
+    },
+    "1774543586022801888": {
+      "id": "1774543586022801888",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/suzatweet/status/1774543586022801888",
+      "title": "",
+      "markdown": "This looks phenomenal! \n\n\nhttps://\nmicrosoft.github.io/generative-ai-\nfor-beginners/#/\n…",
+      "images": [],
+      "replies": []
+    },
+    "1764029833086947652": {
+      "id": "1764029833086947652",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/mervenoyann/status/1764029833086947652",
+      "title": "",
+      "markdown": "How to find, shrink, adapt and deploy open-source large language models? \nHere's a 10 min walkthrough on all the tools in \n@huggingface\n  featuring transformers, PEFT, TRL, TGI, Hub, Hugging Chat and more!",
+      "images": [],
+      "replies": []
+    },
+    "1749838863437005119": {
+      "id": "1749838863437005119",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/LightningAI/status/1749838863437005119",
+      "title": "",
+      "markdown": "CodeLlama 13B to chatbot with a single API\n\nRun the Studio, customize it, deploy it\n\n\nhttps://\nlightning.ai/lightning-ai/s\ntudios/llm-chat-api-codellama-13b?section=featured\n…",
+      "images": [],
+      "replies": []
+    },
+    "1882296260805447811": {
+      "id": "1882296260805447811",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/hamptonism/status/1882296260805447811",
+      "title": "",
+      "markdown": "Cracked 16 year old creates a 5 hour complete guide to Mathematics behind Neural Networks and Backpropagation… \nthen completely disappears.",
+      "images": [],
+      "replies": []
+    },
+    "1921962750353301986": {
+      "id": "1921962750353301986",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/mervenoyann/status/1921962750353301986",
+      "title": "",
+      "markdown": "VLMS 2025 UPDATE \n\nWe just shipped a blog on everything latest on vision language models, including\n GUI agents, agentic VLMs, omni models\n multimodal RAG\n video LMs\n smol models\n..and more! \n\nfind it on the next one",
+      "images": [],
+      "replies": []
+    },
+    "1887558730927296759": {
+      "id": "1887558730927296759",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/svpino/status/1887558730927296759",
+      "title": "",
+      "markdown": "Pandas is dying a slow, painful death.\n\nIt's the world's most popular data library, but it's slow, and many libraries have significantly improved over it.\n\nThe problem with many of these alternatives is that nobody wants to learn a new API. Let's face it: people won't migrate their codebase unless they have to.\n\nI heard about FireDucks recently. It's up to 48x faster than Pandas, and you don't have to touch your code.\n\nWell, there are two ways. You can change *one* line of code and get everything else run as-is:\n\n> import fireducks.pandas as pd\n\nYou can also run your code *without* changing a single line by using an import hook:\n\n$ python -mfireducks.imhook yourfile[.]py\n\nFireDucks is a multi-threaded, compiler-accelerated library with a fully compatible pandas API.\n\nIt's also faster than Polars. Below is a link to some benchmarks that compare Pandas, Polars, and FireDucks. FireDucks wins, hands down.",
+      "images": [],
+      "replies": []
+    },
+    "1898464628180742618": {
+      "id": "1898464628180742618",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/fleetwood___/status/1898464628180742618",
+      "title": "",
+      "markdown": "New post  \n\nWorking backwards from the Transformer we derive optimal hardware principles \n\nWill NVDA win the inference market? Is the TPU well designed? \n\n3 months of late nights should be enough to find out.",
+      "images": [],
+      "replies": []
+    },
+    "1886859253648122181": {
+      "id": "1886859253648122181",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/amasad/status/1886859253648122181",
+      "title": "",
+      "markdown": "Whatever you need… make an app for that.\n\nNow on your phone. For everyone. Free.\n\n![](https://pbs.twimg.com/media/GjEXYDVXoAANS00.jpg)",
+      "images": [
+        "https://pbs.twimg.com/media/GjEXYDVXoAANS00.jpg"
+      ],
+      "replies": []
+    },
+    "2032738207100490001": {
+      "id": "2032738207100490001",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/0xSero/status/2032738207100490001",
+      "title": "",
+      "markdown": "Let me make your life better\nDon't skip this one\n\n1. Go to \nhttps://\ntakeout.google.com \n2. Select everything \n3. Request backup \n4. Install zip \n5. Make an offline copy \n6. RAG it, make a skill to search it \n\nIf you're going to hook up an LLM to your Google you need to have a backup",
+      "images": [],
+      "replies": []
+    },
+    "1889215646044430426": {
+      "id": "1889215646044430426",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/abhi1thakur/status/1889215646044430426",
+      "title": "",
+      "markdown": "OMG, THIS IS SUPER COOL! I made a weekend project (chat interface) for fun and shared with the community. Here are some responses from social media:\n- Oh my god. This is just exactly what I'm looking for the past few days.\n- great work ill play with it!\n- aiaio looks more like some beginner-friendly OpenWebUI, without all the setup steps needed -- trimming tech-savviness needs..\n- Oooo very nice!\n- Add MCP support and I’ll love you long time.\n- I'm really impressed by this, this is what I was looking for.\n- Love the simplicity.\n- The name seems to sound similar to Tushar kapoor’s diaogues in Golmaal \n- got it running easily, very intuitive. \nThank you, everyone.  Now time to implement the features you have requested. \naiaio, pronounced as AI-AI-O  is a very simple, lightweight, privacy focussed chat interface that you can install using python and access using a web browser. no data is sent anywhere except the api you choose to use.",
+      "images": [],
+      "replies": []
+    },
+    "1940057240896999568": {
+      "id": "1940057240896999568",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/Hesamation/status/1940057240896999568",
+      "title": "",
+      "markdown": "UC Berkley has two free courses on LLM Agents for foundational and advanced levels. it also has some of the best lecturers from DeepMind, Meta, and top universities.\n\nbasically covers all you need to know about agents from the best resources out there.",
+      "images": [],
+      "replies": []
+    },
+    "1902719460278198658": {
+      "id": "1902719460278198658",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/sidahuj/status/1902719460278198658",
+      "title": "",
+      "markdown": "Built an MCP that lets Claude talk directly to Ableton. Now you can create music with just prompts!\n\nHere’s a demo of me creating a lush, 80s synthwave track in just two prompts. It picks the right instruments, creates melodies, and adds effects like reverb and distortion",
+      "images": [],
+      "replies": []
+    },
+    "1709639111944921443": {
+      "id": "1709639111944921443",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/srush_nlp/status/1709639111944921443",
+      "title": "",
+      "markdown": "Autodiff Puzzle (v0.2, \nhttps://\ngithub.com/srush/Autodiff\n-Puzzles/\n…) - How come my Calculus teacher never taught me the derivative of sort()?\n\n20 one-line puzzles for differentiating all the things.",
+      "images": [],
+      "replies": []
+    },
+    "1954158220727263311": {
+      "id": "1954158220727263311",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/akshay_pachaar/status/1954158220727263311",
+      "title": "",
+      "markdown": "I switched to AI Engineering 2 years ago!\n\nIt was the best career move I ever made.\n\nIf you want to start today, here's a roadmap:",
+      "images": [],
+      "replies": []
+    },
+    "1954159882237530182": {
+      "id": "1954159882237530182",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/victor_explore/status/1954159882237530182",
+      "title": "",
+      "markdown": "Free Google Collab notebooks to implement every Machine Learning Algorithm from scratch\nLink in comment",
+      "images": [],
+      "replies": []
+    },
+    "1704549072236068934": {
+      "id": "1704549072236068934",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/jure/status/1704549072236068934",
+      "title": "",
+      "markdown": "Excited to announce the Stanford Graph Learning Workshop 2023 on Oct 24 2023! Bringing together academia & industry leaders to delve into advances in #MachineLearning & #AI in Relational domains, Foundation models, and Multimodal AI.  Free registration.  Calling for talks & poster/demo submissions! Showcase your innovative work in methodological advancements, diverse domain applications, & ML frameworks.\n\nhttps://\nsnap.stanford.edu/graphlearning-\nworkshop-2023/\n…",
+      "images": [],
+      "replies": []
+    },
+    "1719720650464805259": {
+      "id": "1719720650464805259",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/yoachlacombe/status/1719720650464805259",
+      "title": "",
+      "markdown": "CLAP is to audio what CLIP is to image, and it's just been made even better with new and better checkpoints from \n@laion_ai\n\n\n-> use it for music  , speech  or audio in general  with just 3 lines of code",
+      "images": [],
+      "replies": []
+    },
+    "2043884414774505741": {
+      "id": "2043884414774505741",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/TheAhmadOsman/status/2043884414774505741",
+      "title": "",
+      "markdown": "Using local LLMs?\n\nMake sure to setup web search for them\n\nTell your favorite agent to setup SearNg for you\n\nGive that to your local LLMs (tell an agent to set that up as well)\n\nWatch them become way more intelligent and efficient\n\nYou're welcome",
+      "images": [],
+      "replies": []
+    },
+    "1894728559878369324": {
+      "id": "1894728559878369324",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/filippkowalski/status/1894728559878369324",
+      "title": "",
+      "markdown": "this prompt is amazing for Cursor\n\n\"Reflect on 5-7 different possible sources of the problem, distill those down to 1-2 most likely sources, and then add logs to validate your assumptions before we move onto implementing the actual code fix\"\n\nthanks Ted!",
+      "images": [],
+      "replies": []
+    },
+    "1782922420585898400": {
+      "id": "1782922420585898400",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/HamelHusain/status/1782922420585898400",
+      "title": "",
+      "markdown": "LOVE how the Meta team went hard on explicitly describing the prompt template\n\n\nhttps://\nllama.meta.com/docs/model-car\nds-and-prompt-formats/meta-llama-3/\n…",
+      "images": [],
+      "replies": []
+    },
+    "1901672660137840951": {
+      "id": "1901672660137840951",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/Hesamation/status/1901672660137840951",
+      "title": "",
+      "markdown": "build an LLM from scratch in 1:45 hours by \n@rasbt\n, it doesn’t get more compact than this:\n> coding an LLM architecture\n> normalizing with layer norm\n> feed forward network with GELU\n> Adding shortcut connections\n> Coding the GPT model",
+      "images": [],
+      "replies": []
+    },
+    "1773690458415280525": {
+      "id": "1773690458415280525",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/pyconindia/status/1773690458415280525",
+      "title": "",
+      "markdown": "Huge kudos to everyone who has already submitted their proposals for our Call For Proposals (CFP)! \n\nHaven't sent yours yet? Don't worry, there's still time!\n\nSubmissions close on May 31, 2024. Don't miss out the chance to submit your proposal today! \n\n#CFP #PyConIndia #Python",
+      "images": [],
+      "replies": []
+    },
+    "1701087257992810659": {
+      "id": "1701087257992810659",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/jaschasd/status/1701087257992810659",
+      "title": "",
+      "markdown": "Here is a brain dump of my thoughts about how AI might go wrong:\n\nhttps://\nsohl-dickstein.github.io/2023/09/10/div\nersity-ai-risk.html\n…\n\nAI has the power to change the world in both wonderful and terrible ways. With hard work, I expect AI to lead to far more good than harm. But part of achieving that is thinking about risk.",
+      "images": [],
+      "replies": []
+    },
+    "1928857123653353865": {
+      "id": "1928857123653353865",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/jxnlco/status/1928857123653353865",
+      "title": "",
+      "markdown": "rag is dead, agents will just use tools.. that retrieve things..? \n\nthis free lesson shows how these systems are already outperforming humans on software engineering benchmarks.\n\nthe gap between those who understand these techniques and those who don't is widening daily.",
+      "images": [],
+      "replies": []
+    },
+    "1894911949806465509": {
+      "id": "1894911949806465509",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/VictorTaelin/status/1894911949806465509",
+      "title": "",
+      "markdown": "BTW, this is a great prompt to test your favorite AI:\n\n\nhttps://\ngist.github.com/VictorTaelin/7\na343f542f9c9e46dcab212a246b72dd\n…\n\nGive it to an AI and see if they solve it. The answer should be: \"the functions in show.c aren't following substituted VARs\" (or something on these lines)\n\nOnly Grok identified the problem here!",
+      "images": [],
+      "replies": []
+    },
+    "1880294367338094667": {
+      "id": "1880294367338094667",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/hkproj/status/1880294367338094667",
+      "title": "",
+      "markdown": "Italians have been dropping alpha since a few thousand years and the world is just not paying attention. \n\nLinear layers, convolutions, transformers, recurrent networks, autograd with PyTorch and JAX code. 300 pages of alpha.\n\nThe PDF draft is free. \n\nLink in",
+      "images": [],
+      "replies": []
+    },
+    "1813150298363601102": {
+      "id": "1813150298363601102",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/ZeyuanAllenZhu/status/1813150298363601102",
+      "title": "",
+      "markdown": "If you're attending ICML 2024, join my 2-hour tutorial on Monday July 22 to explore the Physics of Language Model - all 6 parts. Visit: \nhttps://\nphysics.allen-zhu.com and it will be live-streamed on Zoom. BONUS: this is the premiere of Part 2.1 + 2.2, don't miss out!  #ICML2024 #MetaAI",
+      "images": [],
+      "replies": []
+    },
+    "1920511997361131915": {
+      "id": "1920511997361131915",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/abhi1thakur/status/1920511997361131915",
+      "title": "",
+      "markdown": "Happy to announce the first release of Arcee AnyMCP \n Remotely deploy & manage thousands of MCP servers in seconds\n Use with Claude Desktop or any MCP-compatible client\n Fully managed, unlimited customizations\n Supports 1000s of MCP servers — request yours if it’s not listed!\n 100% FREE to use right now\nTry it now and lemme know what features you want and we will make it happen",
+      "images": [],
+      "replies": []
+    },
+    "1840700974840651845": {
+      "id": "1840700974840651845",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/mervenoyann/status/1840700974840651845",
+      "title": "",
+      "markdown": "I have 5k friends on \n@huggingface\n  \n\nI want to follow more people, would be great if folks can leave their profiles below this  also leave some interesting work if you feel like it!",
+      "images": [],
+      "replies": []
+    },
+    "1954390767549427795": {
+      "id": "1954390767549427795",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/unwind_ai_/status/1954390767549427795",
+      "title": "",
+      "markdown": "This workflow is insane \n\nYou can literally generate full n8n automations with plain English using Claude Code and n8n MCP server.",
+      "images": [],
+      "replies": []
+    },
+    "1917144463866028107": {
+      "id": "1917144463866028107",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/kagglingdieter/status/1917144463866028107",
+      "title": "",
+      "markdown": "If you can dedicate over an hour daily, consider \n@kaggle\n  featured (!) competitions - highly competitive wth world experts. \nhttps://\nkaggle.com/competitions?h\nostSegmentIdFilter=1\n… Focus first on learning and less on medals. Skills and results follow. \nAlso recommended: \nhttps://\ncourse.fast.ai by \n@jeremyphoward",
+      "images": [],
+      "replies": []
+    },
+    "1749198065779532118": {
+      "id": "1749198065779532118",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/_akhaliq/status/1749198065779532118",
+      "title": "",
+      "markdown": "Orion-14B-Chat is out on Hugging Face\n\ndemo: \nhttps://\nhuggingface.co/spaces/OrionSt\narAI/Orion-14B-App-Demo\n…\n\nOrion-14B series models are open-source multilingual large language models trained from scratch by OrionStarAI. The base model is trained on 2.5T multilingual corpus, including Chinese, English, Japanese, Korean, etc, and it exhibits superior performance in these languages.",
+      "images": [],
+      "replies": []
+    },
+    "1876718441748472022": {
+      "id": "1876718441748472022",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/Hesamation/status/1876718441748472022",
+      "title": "",
+      "markdown": "Andrej Karpathy explains Tensor Cores and TF32 precision",
+      "images": [],
+      "replies": []
+    },
+    "1904014468889342095": {
+      "id": "1904014468889342095",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/petergyang/status/1904014468889342095",
+      "title": "",
+      "markdown": "MCP is surprisingly easy to get started with.\n\nI just set up a MCP for Claude to browse files on my computer. What are some other easy MCPs to set up and try?",
+      "images": [],
+      "replies": []
+    },
+    "1831015531400568905": {
+      "id": "1831015531400568905",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/perplexity_ai/status/1831015531400568905",
+      "title": "",
+      "markdown": "Students! Get a free month of Perplexity Pro.\n\nPerplexity can explain that confusing physics lecture. Or calculate your football team’s odds at the next home game. Or meal plan based on what’s in your fridge.\n\nYou ask, Perplexity answers—with citations, of course",
+      "images": [],
+      "replies": []
+    },
+    "1763893749455761634": {
+      "id": "1763893749455761634",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/vboykis/status/1763893749455761634",
+      "title": "",
+      "markdown": "I am convinced if more people read this page, and if there was a non-technical version also available, the hype around AGI would go down a little",
+      "images": [],
+      "replies": []
+    },
+    "2037041238030114819": {
+      "id": "2037041238030114819",
+      "runId": "1781452102175",
+      "type": "article",
+      "url": "https://x.com/HamelHusain/article/2037184894540054974",
+      "title": "",
+      "markdown": "Is the heyday of the data scientist over? The Harvard Business Review once called it \"The Sexiest Job of the 21st Century.\" ¹ In tech, data scientist roles were often among the best paid.² The job also demanded an unusual mix of skills:\n\nhttps://x.com/josh_wills\n\n****JosH100****\n\n@josh_wills\n\n·\n\n[May 3, 2012](https://x.com/josh_wills/status/198093512149958656)\n\nData Scientist (n.): Person who is better at statistics than any software engineer and better at software engineering than any statistician.\n\nIn addition to creating a high-barrier to entry, these skills enabled data scientists to build predictive models, measure causality and find patterns in data. Of these, predictive modeling paid best. Companies later peeled that work off into a new title: Machine Learning Engineer (\"MLE\").³\n\nFor years, shipping AI meant keeping data scientists and MLEs on the critical path. With LLMs, this stopped being the default. Foundation-model APIs now allow teams to integrate AI independently.\n\nGetting cut out of the loop rattled data scientists and MLEs I know. If the company no longer needs you to ship AI, it is fair to wonder whether the job still has the same upside. The harsher story people tell themselves: unless you are pretraining at a foundation-model lab, you are not where the action is.\n\n****I read it the other way.**** Training models was never most of the job. The bulk of the work is setting up experiments to test how well the AI generalizes to unseen data, debugging stochastic systems, and designing good metrics. Calling an LLM over an API does not make this work go away.\n\nI recently gave a [talk](https://www.youtube.com/watch?v=lA4MfpgF91Y)\n\n titled \"The Revenge of the Data Scientist\" at [PyAI Conf](https://www.youtube.com/watch?v=lA4MfpgF91Y)\n\n to make that case with examples rather than assertion alone. Below is an annotated version of that presentation.\n\nhttps://x.com/HamelHusain/article/2037184894540054974/media/2037047760730615808\n\n### The Harness Is Data Science\n\nhttps://x.com/HamelHusain/article/2037184894540054974/media/2037179786326593536\n\nOpenAI published a blog post on [harness engineering](https://openai.com/index/harness-engineering/)\n\n that I recommend reading. They describe how Codex worked on a software project for months, autonomously, with agents developing code bounded by a harness of tests and specifications.\n\nhttps://x.com/HamelHusain/article/2037184894540054974/media/2037179864764260352\n\nOne detail in that blog post is easy to miss. The harness includes an observability stack: logs, metrics, and traces exposed to the agent so it can tell when it is going off track. In addition to tests and specifications, there are metrics. That is a key component of the system.\n\nhttps://x.com/HamelHusain/article/2037184894540054974/media/2037179962781061120\n\nAndrej Karpathy's [auto-research project](https://x.com/karpathy/status/1936185694238064845)\n\n shows the same pattern: models iteratively optimize against a validation loss metric. Same idea, different harness.\n\nhttps://x.com/HamelHusain/article/2037184894540054974/media/2037179992615116800\n\n****What I want to convince you of is that a large portion of the harness is data science.****\n\nLet's take a step back and take stock of where we are.\n\nhttps://x.com/HamelHusain/article/2037184894540054974/media/2037180037468999680\n\nYears ago, practitioners spent hours examining data, checking label alignment, and designing metrics. Today, we build on \"vibes,\" ask the model if it did a good job, and grab off-the-shelf metric libraries without looking at the data.\n\nhttps://x.com/HamelHusain/article/2037184894540054974/media/2037180083253977088\n\nThis shows up most around retrieval and evals. Without a data background, engineers fear what they don't understand. They claim \"RAG is dead\" or \"evals are dead,\" yet build systems that depend on those concepts.\n\nThe rest of this post walks through five eval pitfalls I see repeatedly, and what a data scientist would do differently in each case.\n\n### Generic Metrics\n\nThe first pitfall is generic metrics.\n\nhttps://x.com/HamelHusain/article/2037184894540054974/media/2037180121610850304\n\nIt is tempting to reach for an eval framework and use its metrics off the shelf. The problem: you have no idea what is actually broken. Most teams put up a dashboard with helpfulness scores, coherence scores, hallucination scores. These sound reasonable. They are also generic enough to be useless for diagnosing your application's failures.\n\nA data scientist would not adopt metrics off the shelf. They would explore the data, explore the traces, ask \"what is actually breaking here?\", and figure out the highest-value thing to start measuring. There are infinite things to measure. You have to form hypotheses and iterate.\n\n****The best medicine for this pitfall is looking at the data.****\n\nhttps://x.com/HamelHusain/article/2037184894540054974/media/2037180167551148036\n\nWhat does \"looking at the data\" mean in practice? It means reading traces. Code your own custom trace viewer so you can remove friction and customize the display for your domain's quirks. Take notes on problems you find. Do error analysis: categorize failures, figure out what to prioritize, decide what to work on.\n\nhttps://x.com/HamelHusain/article/2037184894540054974/media/2037180201353043969\n\nWhen you look at your data, you end up driving toward application-specific metrics. Off-the-shelf similarity metrics like ROUGE or BLEU rarely fit LLM outputs. The metrics that matter look like \"Calendar Scheduling Failure\" or \"Failure to Escalate To Human.\"\n\nhttps://x.com/HamelHusain/article/2037184894540054974/media/2037180236102881280\n\n****If there is one thing to take away from this post: look at the data.**** How to look at it is a separate question and takes practice. This is the highest ROI activity you can engage in and is often skipped.\n\n### Unverified Judges\n\nThe second pitfall is unverified judges. A lot of teams use an LLM as a judge to figure out whether their AI is working. Most of the time, nobody has a good answer to \"how do you trust the judge?\"\n\nhttps://x.com/HamelHusain/article/2037184894540054974/media/2037180268713541632\n\nThe default: ask an LLM to rate outputs on a scale and use the numbers. A data scientist would treat the judge like a classifier. You have a black box giving you a prediction. How do you trust it? Get human labels, partition the data into train/dev/test, and measure whether the classifier is trustworthy.\n\nhttps://x.com/HamelHusain/article/2037184894540054974/media/2037180306030288898\n\nSource few-shot examples from your training set. Hill-climb your judge's prompt against a dev set. Keep a test set aside to confirm you haven't overfit. If you have done machine learning before, this is boring. But people are not doing it. ****Verifying classifiers has become a lost art in modern AI.****\n\nhttps://x.com/HamelHusain/article/2037184894540054974/media/2037180343657414656\n\nTreat your judge like a classifier in how you report results, too. Everywhere I go I see accuracy reported. If a failure mode occurs 5% of the time, accuracy hides the system's true performance. Use precision and recall.\n\n### Bad Experimental Design\n\nThe third pitfall is experimental design. There are many dimensions to this. Here are two that come up most.\n\nhttps://x.com/HamelHusain/article/2037184894540054974/media/2037180422317367300\n\nThe first is constructing test sets. Most teams generate synthetic data by prompting an LLM: \"Give me 50 test queries.\" They get generic, unrepresentative data. A data scientist would look at real production data first, use hypotheses to determine which dimensions matter, then generate synthetic examples along those dimensions.\n\nhttps://x.com/HamelHusain/article/2037184894540054974/media/2037180458606399488\n\nGround synthetic data in real logs or traces. Figure out what dimensions to vary. Inject edge cases. Base the synthetic data off real data.\n\nhttps://x.com/HamelHusain/article/2037184894540054974/media/2037180485903015938\n\nThe second is metric design. Teams bundle entire rubrics into a single LLM call and default to 1-5 Likert scales. A data scientist would reduce complexity, make each metric actionable, and tie it to a business outcome. ****Replace subjective scales with binary pass/fail on scoped criteria.**** Likert scales hide ambiguity and kick the can down the road on hard decisions about system performance.\n\n### Bad Data and Labels\n\nThe fourth pitfall is bad data and labels. Data scientists don't trust the data. They don't trust the labels. They don't trust anything. They are skeptical by training. AI engineers at large have not built this muscle yet.\n\nhttps://x.com/HamelHusain/article/2037184894540054974/media/2037180533508366344\n\nWhen it comes to labeling, most teams make it someone else's problem. Labeling seems unglamorous, so it gets delegated to the dev team or outsourced. A data scientist would insist that domain experts label the data, stay skeptical of the labels, and look at the data.\n\nhttps://x.com/HamelHusain/article/2037184894540054974/media/2037180566781784065\n\nBut labeling matters for a deeper reason than label quality. It is impossible to know what you want unless you look at the data. There is a concept called \"criteria drift,\" validated in a [paper by Shreya Shankar and colleagues](https://arxiv.org/abs/2404.12272)\n\n: users need criteria to grade outputs, but grading outputs helps users define their criteria. ****People don't know what they want until they see the LLM's outputs.**** The labeling process itself surfaces what matters.\n\nhttps://x.com/HamelHusain/article/2037184894540054974/media/2037180598373199872\n\nData scientists champion this: get domain experts and product managers in front of raw data, not summary scores.\n\n### Automating Too Much\n\nThe fifth pitfall is automating too much. All of this is human work. The temptation is to automate it away.\n\nhttps://x.com/HamelHusain/article/2037184894540054974/media/2037180641612357635\n\nLLMs can help wire things up, write the plumbing, generate boilerplate for evaluations. ****They cannot look at the data for you****, for the exact reason we just discussed: you don't know what you want until you see the outputs.\n\n### Other Pitfalls\n\nWe did not have time to cover every pitfall. Here is a speed run through the rest.\n\nhttps://x.com/HamelHusain/article/2037184894540054974/media/2037180766267072514\n\nMisusing similarity scores. Asking the judge vague questions like \"is it helpful?\" Making annotators read raw JSON. Reporting uncalibrated scores without confidence intervals. Data drift, overfitting, not sampling correctly, dashboards that don't make sense.\n\n### The Mapping\n\nIf you zoom out, every pitfall above has the same root cause: missing a data science fundamental.\n\nhttps://x.com/HamelHusain/article/2037184894540054974/media/2037180798928044032\n\nReading traces and categorizing failures is ****Exploratory Data Analysis****. Validating an LLM judge against human labels is ****Model Evaluation****. Building representative test sets from production data is ****Experimental Design****. Getting domain experts to label outputs is ****Data Collection****. Monitoring whether your product works in production is ****Production ML****.\n\n****None of this is new. The names changed, the work did not.****\n\nhttps://x.com/HamelHusain/article/2037184894540054974/media/2037181037219045376\n\nI built an [open-source plugin](https://github.com/hamelsmu/evals-skills)\n\n that goes into more depth. Point it at your eval pipeline and it will tell you what you are doing wrong, or try its best to.\n\n****Always look at the data.****\n\nhttps://x.com/HamelHusain/article/2037184894540054974/media/2037182060679565312\n\nIf you enjoyed the memes in this talk, there are [many more here](https://hamel.dev/notes/llm/evals/memes/#meme-images)\n\n.\n\nThanks for reading.  The original blog post with slides and video is at [hamel.dev/blog/posts/revenge](https://hamel.dev/blog/posts/revenge/)\n\n.\n\nFootnotes\n\n1. [https://hbr.org/2012/10/data-scientist-the-sexiest-job-of-the-21st-century](https://hbr.org/2012/10/data-scientist-the-sexiest-job-of-the-21st-century)\n2. [https://www.forbes.com/sites/louiscolumbus/2018/01/29/data-scientist-is-the-best-job-in-america-according-glassdoors-2018-rankings/](https://www.forbes.com/sites/louiscolumbus/2018/01/29/data-scientist-is-the-best-job-in-america-according-glassdoors-2018-rankings/)\n3. [https://www.mckinsey.com/about-us/new-at-mckinsey-blog/ai-reinvents-tech-talent-opportunities](https://www.mckinsey.com/about-us/new-at-mckinsey-blog/ai-reinvents-tech-talent-opportunities)",
+      "images": [],
+      "replies": []
+    },
+    "1818111127286579448": {
+      "id": "1818111127286579448",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/Saboo_Shubham_/status/1818111127286579448",
+      "title": "",
+      "markdown": "Build a custom AI chatbot with RAG to chat with any GitHub repo using opensource Llama 3.1 405B without writing a single line of Python Code.",
+      "images": [],
+      "replies": []
+    },
+    "1712945048768462855": {
+      "id": "1712945048768462855",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/jeremyphoward/status/1712945048768462855",
+      "title": "",
+      "markdown": "If you're like me and find it easier to read *code* than *math*, and you have access to \n@OpenAI\n GPT 4V (or use \n@bing\n or \n@google\n Bard), try pasting a image of an equation you wanna understand in there.\n\nIt might just blow your mind.\n1/",
+      "images": [],
+      "replies": []
+    },
+    "1747281641230205168": {
+      "id": "1747281641230205168",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/omarsar0/status/1747281641230205168",
+      "title": "",
+      "markdown": "Model Prompting Guides\n\nWe continue expanding the prompt engineering guide. Some updates include:\n\n- we are at ~40K on GitHub\n- surpassed 2.5 million learners worldwide\n- added comprehensive prompting guides for Gemini, Mistral 7B & Phi-2\n- new guides for the prompt chaining technique\n- a new guide for function calling\n- Python notebooks for getting started with RAG, function calling, and other prompting techniques\n- announcing a new section to document and discover new LLM research findings; this is a work in progress but will grow substantially in the coming weeks\n- German translation is now available; now 13 translations available.\n\nThanks to all our contributors, supporters, and community. \n\nA lot more coming soon. Stay tuned!",
+      "images": [],
+      "replies": []
+    },
+    "1709539003312259172": {
+      "id": "1709539003312259172",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/NathanLands/status/1709539003312259172",
+      "title": "",
+      "markdown": "It's been a week since OpenAI blessed some ChatGPT pro users with GPT-4V.\n\nIt's so insane what you can do with multi-modal ChatGPT.\n\nHere are 13 incredible examples:",
+      "images": [],
+      "replies": []
+    },
+    "1736568389865484452": {
+      "id": "1736568389865484452",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/kauravin_/status/1736568389865484452",
+      "title": "",
+      "markdown": "Anyscale blogs are great. I read this one a while ago and liked it. \nhttps://\nanyscale.com/blog/fine-tuni\nng-llama-2-a-comprehensive-case-study-for-tailoring-models-to-unique-applications\n…",
+      "images": [],
+      "replies": []
+    },
+    "1886561584526344554": {
+      "id": "1886561584526344554",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/bilaltwovec/status/1886561584526344554",
+      "title": "",
+      "markdown": "lots of fun quick tpu/performance engineering interview questions in here :D \nhttps://\njax-ml.github.io/scaling-book/",
+      "images": [],
+      "replies": []
+    },
+    "1942418143609033115": {
+      "id": "1942418143609033115",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/omarsar0/status/1942418143609033115",
+      "title": "",
+      "markdown": "Gemini CLI with MCP servers is a match made in heaven!\n\nIt's amazing for coding use cases. \n\nBut it's also great at other creative tasks like transcribing and writing. \n\nJust watch to see what I am talking about:",
+      "images": [],
+      "replies": []
+    },
+    "1709559607314485618": {
+      "id": "1709559607314485618",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/SahilBloom/status/1709559607314485618",
+      "title": "",
+      "markdown": "Here's a simple calendar trick anyone can use:\n\n(bookmark this and try it later)\n\nThere are 4 types of professional time:\n\n1. Management\n2. Creation\n3. Consumption\n4. Ideation\n\nManagement Time is what most of us spend the majority of our professional lives in. Meetings, calls, presentations, email processing, team and people management.\n\nCreation Time is what most of us scramble to fill into the gaps between Management Time blocks. Writing, coding, building, preparing.\n\nConsumption Time is where new ideas for creation and growth are originally planted. Reading, listening, studying.\n\nIdeation Time is where new ideas for creation and growth are cultivated and grown. Brainstorming, journaling, walking, self-reflecting.\n\nBefore you can make improvements to your balance of time, you need to understand your starting point.\n\nStarting on a Monday, at the end of each weekday, color code the events from that day according to this key:\n\n• Red: Management\n• Green: Creation\n• Blue: Consumption\n• Yellow: Ideation\n\nAt the end of the week, look at the overall mix of colors on the calendar.\n\nHere's an example of how this looked for a friend's calendar at the end of the week.\nThis simple exercise should give you a clear picture of what your current baseline mix of professional time looks like.\n\n3 Tips for an Optimal Balance\n\nTip 1: Batch Management Time\n\nCreate discrete blocks of time each day when you will handle major Management Time activities.\n\n1-3 email processing blocks per day. 1-3 call and meeting blocks per day.\n\nThe goal here is to avoid a schedule where the red bleeds out everywhere across every single day.\n\nWe are trying to keep the Management Time windows as discrete as possible to create space for the other types of time.\n\nTip 2: Increase Creation Time\n\nCreation is what propels us forward, with more interesting projects and opportunities. We all need more Creation Time in our days.\n\nRecent data from Microsoft showed that users of their apps are spending much more time on email and meetings than creating.\nAs you batch Management Time, carve out distinct windows for Creation Time.\n\nBlock them on your calendar. Don't check your email or messages during them. Focus on creation during your Creation Time.\n\nTip 3: Create Space for Consumption & Ideation\n\nConsumption and Ideation are the forgotten types of time because we rarely create space for them, but they are critical to long-term, compounding progress.\n\nHistory's most successful people have all made a practice out of creating space for reading, listening, learning, and thinking. We can draw a lesson from this.\n\nTo start, schedule one short block per week for Consumption and one short block per week for Ideation. Stay true to the purpose of the block. Own that before increasing the presence of these types of time in your schedule.\n\nWith these three tips in mind, you're well on your way to finding a more optimal balance across the four types of professional time.\n\nBookmark this post and give it a shot.\n\nIf you enjoyed this or learned something, follow me \n@SahilBloom\n for more in future!",
+      "images": [],
+      "replies": []
+    },
+    "1903213670882017618": {
+      "id": "1903213670882017618",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/_nerdai_/status/1903213670882017618",
+      "title": "",
+      "markdown": "I built my first MCP Server (\n@AnthropicAI\n) this past week, Goodnews MCP. It delivers good news to MCP Clients like Claude Desktop!\n\nSharing a new \n@Medium\n blog post providing a walkthrough of it as well as my thoughts on the experience of building it \n\n\nhttps://\nmedium.com/data-science-c\nollective/goodnews-mcp-good-news-at-your-fingertips-d6cda34d558d?source=social.tw\n…",
+      "images": [],
+      "replies": []
+    },
+    "1923717640075547054": {
+      "id": "1923717640075547054",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/akshay_pachaar/status/1923717640075547054",
+      "title": "",
+      "markdown": "9 MCP, LLM, and AI Agent cheat sheets for AI engineers (with visuals):",
+      "images": [],
+      "replies": []
+    },
+    "1712182295002755353": {
+      "id": "1712182295002755353",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/StanfordOnline/status/1712182295002755353",
+      "title": "",
+      "markdown": "Our next #AI course starts Nov 6! In Machine Learning w/ Graphs taught by \n@jure\n you will:\nExplore computational challenges specific to massive graphs\nMaster #ML techniques to improve prediction and reveal insights\nEnroll \nhttps://\nonline.stanford.edu/courses/xcs224\nw-machine-learning-graphs\n… \n@StanfordAILab\n \n@StanfordHAI",
+      "images": [],
+      "replies": []
+    },
+    "1876346539838439517": {
+      "id": "1876346539838439517",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/rseroter/status/1876346539838439517",
+      "title": "",
+      "markdown": "Feeling behind after the flurry of AI/ML announcements in December? \n\nI asked \n@GoogleAI\n Gemini Deep Research to catch me up, and it studied 43 sites to give me a great recap.\n\nOf course, I also liked human-curated summaries, like this from \n@osanseviero\n: \nhttps://\nthehackerllama.substack.com/p/open-ml-news\n-holidays-edition\n…",
+      "images": [],
+      "replies": []
+    },
+    "1716082524903108843": {
+      "id": "1716082524903108843",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/HeyAbhishek/status/1716082524903108843",
+      "title": "",
+      "markdown": "You can easily create animated characters.\n\nNo more 10+ hours of complex video editing.\n\nHere's how to create Animated AI character with Dall-E 3 in 2 minutes:",
+      "images": [],
+      "replies": []
+    },
+    "1894941788810682765": {
+      "id": "1894941788810682765",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/deedydas/status/1894941788810682765",
+      "title": "",
+      "markdown": "There's a dangerous app that helps you cheat on Leetcode style software engineering interviews without being detected.\n\nDon't use it.\n\nPlease don't engage in cheating. It's morally reprehensible. Don't do it. I'll leave a link here just so you're aware what NOT to use:",
+      "images": [],
+      "replies": []
+    },
+    "1946851813678072007": {
+      "id": "1946851813678072007",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/intellectronica/status/1946851813678072007",
+      "title": "",
+      "markdown": "I read \n@helloiamleonie\n's excellent post \"37 Things I Learned About Information Retrieval...\" and thought, damn, this is stuff I never want to forget. So I create a bunch of flashcards to add to my collection. Maybe it will be useful to you too.",
+      "images": [],
+      "replies": []
+    },
+    "1954830205521940568": {
+      "id": "1954830205521940568",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/Cohere_Labs/status/1954830205521940568",
+      "title": "",
+      "markdown": "Applications are now open for the next cohort of the Cohere Labs Scholars Program! \n\nThis is your chance to collaborate with some of the brightest minds in AI & chart new courses in ML research. Let's change the spaces breakthroughs happen.\n\nApply by Aug 29.",
+      "images": [],
+      "replies": []
+    },
+    "1712518172878778382": {
+      "id": "1712518172878778382",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/mervenoyann/status/1712518172878778382",
+      "title": "",
+      "markdown": "I really liked this app \nhttp://\nemojis.sh but couldn't find model checkpoints so I thought I'd train my own emoji generator, I applied DreamBooth LoRA on SDXL \nhttps://\nhuggingface.co/merve/emoji-dr\neambooth-trained-xl\n… \nHere's emojis as Lana Del Rey, a cat with sunglasses, Harry Styles and Hello Kitty  \nThe script to try this model is in this",
+      "images": [],
+      "replies": []
+    },
+    "1899108194162463189": {
+      "id": "1899108194162463189",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/svpino/status/1899108194162463189",
+      "title": "",
+      "markdown": "MCP is not just another dumb abstraction. So far, I like it a lot, and I think the hype is well-deserved.\n\nHere is an explanation of two of the most exciting features of MCP:\n\n1. Self-describing servers and the ability to dynamically adapt to changes in capabilities.\n\n2. Bi-directional communications and sampling. (Servers can talk to clients!)\n\nI'm slowly building an MCP server to help me manage the system I use in my class. I'm learning as I go, so expect I'll make mistakes. If you have any specific questions, let me know and I'll try to answer them.",
+      "images": [],
+      "replies": []
+    },
+    "1962999826268004848": {
+      "id": "1962999826268004848",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/giffmana/status/1962999826268004848",
+      "title": "",
+      "markdown": "When an article about hpc/optimization is called \"anatomy of\" then you know the authors know their shit.\n\nFor those who don't know, this is basically HPC's \"attention is all you need\" but less overcooked:",
+      "images": [],
+      "replies": []
+    },
+    "1888124202835743151": {
+      "id": "1888124202835743151",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/JulianGoldieSEO/status/1888124202835743151",
+      "title": "",
+      "markdown": "NEW 1-Click Google AI Agents are INSANE!",
+      "images": [],
+      "replies": []
+    },
+    "1936601466547875947": {
+      "id": "1936601466547875947",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/abdiisan/status/1936601466547875947",
+      "title": "",
+      "markdown": "Was hoping someone could drop it on",
+      "images": [],
+      "replies": []
+    },
+    "1714975064578195550": {
+      "id": "1714975064578195550",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/sengineland/status/1714975064578195550",
+      "title": "",
+      "markdown": "How Search Generative Experience works and why retrieval-augmented generation is our future via \n@ipullrank",
+      "images": [],
+      "replies": []
+    },
+    "1752127715556417972": {
+      "id": "1752127715556417972",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/jeremyphoward/status/1752127715556417972",
+      "title": "",
+      "markdown": "I used to find writing CUDA code rather terrifying. But then I discovered a couple of tricks that actually make it quite accessible.\n\nIn this video I introduce CUDA in a way that will be accessible to Python programmers, and I even show how to do it all in \n@GoogleColab\n!",
+      "images": [],
+      "replies": []
+    },
+    "1877257512233161065": {
+      "id": "1877257512233161065",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/ariG23498/status/1877257512233161065",
+      "title": "",
+      "markdown": "Read a paper, and directly go to the `transformers` implementation or the PR that supports its integration.\n\nYou will not only learn, but also know so many more things quickly.\n\nSame with `diffusers`.",
+      "images": [],
+      "replies": []
+    },
+    "1964362446627299598": {
+      "id": "1964362446627299598",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/ashpreetbedi/status/1964362446627299598",
+      "title": "",
+      "markdown": "Grifters like this are wasting your time and their Dunning-Kruger opinions should be ignored by serious builders. You either build on a framework or live long enough to roll your own (which is fine btw). Here’s why:\n\n1. The \"LLM API in a while loop\" is your underlying agentic step - the unit of work in your agent system. You’ll wrap this in a function and call it when you want to run your agent. This is just the starting line, and also where these idiots are usually stuck. \n\n2. As you start building Agents, you turn this function into a class and add logic for prompting, message management, tool calling, retries and error handling. Congrats, you’ve started to roll your own framework.\n\n3. Then, you’ll want to try different models or chain agents to build a workflow. Each has its quirks, custom settings, different response formats, prompting hacks (eg: claude needs \"Do not reflect on the quality of the returned search results in your response\"). You start adding more layers to your homegrown framework.\n\nTill now this is a solvable problem and you can vibecode it.\n\n4. Then things really start to get frustrating. You learn quickly that you need to maintain session history and state across runs because, unlike these grifters, you’re not actually going to run a jupyter notebook in your mom’s basement. Guess what — your agents need a database. You’ll design tables like agent_sessions, wire up session IDs, store/retrieve history and state on each run. Weeks later, you’ll find your schema is inefficient because you forgot to add the right indexes, and now you’ve got to learn about database migrations.\n\nFUCCKKKK! Wasn’t this supposed to just be a while loop? And we haven’t even started with RAG, chunking, embedding, retrieval, context management, tool management, MCP, monitoring, and logging. Why did the grifter grift?\n\nNow we're weeks into a vibecoded nightmare and the CEO is asking when can we launch.\n\n5. Finally, you confront the real problem: how do I serve this as an API and build a product on top of? \n\nYou hack together a FastAPI app, throw it in a container, and think you’re done. You breathe a sigh of relief and hand it to your CEO. He hammers it like a madman, chunks start dropping, agents mix context, and you suddenly need to learn about SSE. You implement SSE, things work well for a while and then your requests start timing out and your container memory blows up - memory leaaakk. You blame python, but deep down, you know, you know.\n\nYou start searching for solutions and come across this code snippet from \n@AgnoAgi\n \n\nIn 25 lines of code you get:\n\n An Agent with memory, state, knowledge, and everything you could ask for.\n Access to 1000s of tools and MCP servers.\n A production-grade FastAPI app with pre-built SSE-compatible endpoints.\n\nYou also get a vibrant community and a team of experts to help you every step of the way. This is a systems engineering problem and you get the right tools for the job.\n\nYou start seeing the light, give up your masochism, and repeat the mantra: JUST USE THE FUCKING FRAMEWORK!",
+      "images": [],
+      "replies": []
+    },
+    "1876210601388650544": {
+      "id": "1876210601388650544",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/maximelabonne/status/1876210601388650544",
+      "title": "",
+      "markdown": "LLM Datasets v2.0\n\nMassive update to the repo that inspired Phi-4 (;)) with new datasets, categories, and tools. I also reworked the text to make explanations clearer and more up-to-date.\n\nCheck it out for your next run: \nhttps://\ngithub.com/mlabonne/llm-d\natasets\n…",
+      "images": [],
+      "replies": []
+    },
+    "1917087154297311401": {
+      "id": "1917087154297311401",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/waltertayannlee/status/1917087154297311401",
+      "title": "",
+      "markdown": "Do you have a recommended reading list (e.g. Ilya's) for someone who wants to get up to speed on becoming a Kaggle Grandmaster?",
+      "images": [],
+      "replies": []
+    },
+    "1714977972078198841": {
+      "id": "1714977972078198841",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/VeryWellVersed/status/1714977972078198841",
+      "title": "",
+      "markdown": "As promised, here's my post on SGE, how it works, and what the threat looks like",
+      "images": [],
+      "replies": []
+    },
+    "1716219646188122471": {
+      "id": "1716219646188122471",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/skalskip92/status/1716219646188122471",
+      "title": "",
+      "markdown": "I'm collecting top foundation and multimodal models.\n\nis there any important model that I'm missing? \n\nfull list here: \nhttps://\ngithub.com/SkalskiP/aweso\nme-foundation-and-multimodal-models\n…",
+      "images": [],
+      "replies": []
+    },
+    "1957636534821437638": {
+      "id": "1957636534821437638",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/maxisawesome538/status/1957636534821437638",
+      "title": "",
+      "markdown": "I offered advice on applying to the Scholars Program and got a bajillion dms about it. Most of the advice overlaps, so I wrote it up in detail on my website and will link it below! I'll also summarize it in this thread",
+      "images": [],
+      "replies": []
+    },
+    "1715863533643255835": {
+      "id": "1715863533643255835",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/Noahpinion/status/1715863533643255835",
+      "title": "",
+      "markdown": "The enemy of techno-optimism isn’t sustainability; it’s short-termism. \n\nHumanity should not build new things to pump up quarterly earnings; we should build them so that our descendants, in whatever form they come, will own the worlds and the stars.",
+      "images": [],
+      "replies": []
+    },
+    "1713004228535619734": {
+      "id": "1713004228535619734",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/NirantK/status/1713004228535619734",
+      "title": "",
+      "markdown": "Wow! Marcellus went from dissing Smallcases to launching one on their platform.\n\nLove it when a great product gets the recognition and distribution it deserves. Congrats, \n@smallcaseHQ\n!\n\nCheck out Marcellus' Smallcase here:\n\nhttps://\nsmallcase.com/smallcase/marc\nellus-meritorq-MCELMO_0003\n…\n\n(I was not paid for this tweet)",
+      "images": [],
+      "replies": []
+    },
+    "1716090957416816902": {
+      "id": "1716090957416816902",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/eshorten300/status/1716090957416816902",
+      "title": "",
+      "markdown": "I'm in the process of learning about Agents \n\n\n@lilianweng\n wrote a great post covering the key components of an LLM-powered autonomous agent system. Here is a short overview of how each piece builds on an LLM:\n\n• Planning: The agent can break down complex tasks into subtasks. It can also learn from its past mistakes to improve future actions. \n\n• Memory: Memory is broken down into short-term and long-term memory. Short-term memory is the in-context learning - aka, this is how you're prompting the LLM. Long-term memory enables the agent to store previous actions/information and use it in the future. This is done by using vector stores, like \n@weaviate_io\n, for fast retrieval. \n\n• Tool Use: The agent can call external APIs and tools, like a calculator, code interpreter, and more. \n\nRead the full post here: \nhttps://\nlilianweng.github.io/posts/2023-06-\n23-agent/\n…",
+      "images": [],
+      "replies": []
+    },
+    "1709704970214506530": {
+      "id": "1709704970214506530",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/sumanthrh/status/1709704970214506530",
+      "title": "",
+      "markdown": "I've done a deep dive into distributed training and efficient fine-tuning of LLMs. I get into the messy internals of DeepSpeed ZeRO and FSDP, summarize practical guidelines and highlight gotchas with multi-GPU training.\n\n\nhttps://\nsumanthrh.com/post/distribut\ned-and-efficient-finetuning/\n…\n\nDo read, should be fun!",
+      "images": [],
+      "replies": []
+    },
+    "1894576702749381082": {
+      "id": "1894576702749381082",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/deedydas/status/1894576702749381082",
+      "title": "",
+      "markdown": "Claude's new Github \"talk to your code\" integration changes how engineers understand software.\n\nFork a repo.\nSelect a folder.\nAsk it anything.\nIt even shows you what %age of the context window each folder takes.\n\nHere it visualizes yt-dlp's (Youtube downloader) flow:",
+      "images": [],
+      "replies": []
+    },
+    "1962751450989343220": {
+      "id": "1962751450989343220",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/KMohan2006/status/1962751450989343220",
+      "title": "",
+      "markdown": "Good morning with a banger resource on vLLM",
+      "images": [],
+      "replies": []
+    },
+    "1718295024788783476": {
+      "id": "1718295024788783476",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/bhutanisanyam1/status/1718295024788783476",
+      "title": "",
+      "markdown": "The definitive guide to RAG in production! \n\n\n@GokuMohandas\n walks us through implementing RAG from scratch, building a scalable app\n\nIt now has updated discussion on embedding fine-tuning, re-ranking and effectively routing requests\n\nI think this is easily the most complete discussion on building RAG Apps\n\nA perfect weekend read to code along:\n\n\nhttps://\nanyscale.com/blog/a-compreh\nensive-guide-for-building-rag-based-llm-applications-part-1\n…",
+      "images": [],
+      "replies": []
+    },
+    "1894071055003664661": {
+      "id": "1894071055003664661",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/srush_nlp/status/1894071055003664661",
+      "title": "",
+      "markdown": "Btw if you don’t care about long context, I still recommend understanding “attention as test-time autoencoding”. It’s an elegant unifying idea which is rare in modern deep learning.",
+      "images": [],
+      "replies": []
+    },
+    "1875625454025240730": {
+      "id": "1875625454025240730",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/andrew_n_carr/status/1875625454025240730",
+      "title": "",
+      "markdown": "Here's a great ML interview question: \n\nFirst ask about regularization. The candidate will likely talk about norm penalties on weights.\n\nThen ask \"why do we do lambda norm penalties, - lambda|w| , instead of directly constraining |w|<R if they're essentially equivalent under KKT?\"\n\nThere are three really nice perspectives \n\n1. Optimization theory \n2. Bayesian theory \n3. ER learning theory",
+      "images": [],
+      "replies": []
+    },
+    "1922781767720706151": {
+      "id": "1922781767720706151",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/gregschoeninger/status/1922781767720706151",
+      "title": "",
+      "markdown": "Took me ~10 minutes to fine-tune Qwen-0.6B on Text2SQL and beat GPT-4.1 accuracy on the same task. \n\nQwen is a smol but mighty king",
+      "images": [],
+      "replies": []
+    },
+    "1902337037682065797": {
+      "id": "1902337037682065797",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/akshay_pachaar/status/1902337037682065797",
+      "title": "",
+      "markdown": "Let's build a real-time Voice RAG Agent, step-by-step:",
+      "images": [],
+      "replies": []
+    },
+    "1941546894532149519": {
+      "id": "1941546894532149519",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/jerryjliu0/status/1941546894532149519",
+      "title": "",
+      "markdown": "Introducing NotebookLlama - an open-source version of NotebookLM! \n\nNotebookLlama is a full implementation of NotebookLM that includes all the capabilities that makes it so great for researchers+business users:\n Create a knowledge repository of documents. Has likely higher accuracy than NotebookLM since it’s using LlamaCloud under the hood for high-quality parsing/extraction over complex docs.\n Generate summaries and knowledge graph mind-maps \n Generate podcasts thanks to \n@ElevenLabs\n \n Agentic chat with docs and view metrics with \n@opentelemetry\n\n\nThis all lives within an open-source repo so you can clone/modify at will to swap in your own components!\n\nHuge shoutout to \n@itsclelia\n for leading this.\n\nRepo: \nhttps://\ngithub.com/run-llama/note\nbookllama\n…\nLlamaCloud helps power the parsing/ingestion. You can always use your own stuff too, but in the meantime you can check out LlamaCloud here: \nhttps://\ncloud.llamaindex.ai",
+      "images": [],
+      "replies": []
+    },
+    "1893358959072801144": {
+      "id": "1893358959072801144",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/itsPaulAi/status/1893358959072801144",
+      "title": "",
+      "markdown": "Anthropic has released a full guide to building AI Agents\n\nThere's both a YT video and a detailed blog post with all the necessary tips.\n\nEverything you need to know below\n\n(And links to resources)",
+      "images": [],
+      "replies": []
+    },
+    "1879727593462841594": {
+      "id": "1879727593462841594",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/luismbat/status/1879727593462841594",
+      "title": "",
+      "markdown": "After a tough car ride, I decided to build a test app with Grok+Replit to tackle motion sickness. The app has a simulated liquid border that reacts to vehicle movements reducing sensory conflict. It took me 15 mins to do it.",
+      "images": [],
+      "replies": []
+    },
+    "1927038272611508353": {
+      "id": "1927038272611508353",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/svpino/status/1927038272611508353",
+      "title": "",
+      "markdown": "Killer project for those building AI Agents!\n\nHere’s how you can run agents at scale on their own cloud computers. (This is a must if you build agents that run code and want to ensure they don't mess up your environment.)\n\nE2B is an open-source infrastructure that gives AI agents their own isolated, cloud-based sandbox.\n\nInside that sandbox, agents can:\n\n• Run code (Python, Node, etc.)\n• Use the terminal\n• Install packages\n• Upload/download files\n• Resume long-running processes\n\nIt's secure, ephemeral, and fast to spin up. It works even when you're running thousands of agent sessions in parallel.\n\nPeople are pushing this very far! A couple of examples:\n\n• Perplexity runs deep research agents and plots AI-generated charts on huge datasets\n\n• Manus powers their general agent with E2B, using 27 tools for task completion\n\n• One engineer let an LLM play Counter-Strike using it\n\nIf you're building anything with long-running agents, evals, or autonomous workflows, I recommend looking at it.\n\nGitHub repository: \nhttp://\ngithub.com/e2b-dev/E2B/\n\nThey just launched a program with free credits for startups and researchers, so check that out.",
+      "images": [],
+      "replies": []
+    },
+    "1707791537138958462": {
+      "id": "1707791537138958462",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/PhysInHistory/status/1707791537138958462",
+      "title": "",
+      "markdown": "The greatest theories in Physics. \n\nA visual thread",
+      "images": [],
+      "replies": []
+    },
+    "1749885053415600320": {
+      "id": "1749885053415600320",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/_nateraw/status/1749885053415600320",
+      "title": "",
+      "markdown": "Hinglish is a mix of Hindi and English spoken quite heavily online. However, you don't see a lot of translation systems for it. \n\nIn this guide, we cover how to train an English-to-Hinglish translator on \n@replicate\n using the awesome axolotl library \n\n\nhttps://\nreplicate.com/blog/fine-tune\n-translation-model-axolotl\n…",
+      "images": [],
+      "replies": []
+    },
+    "1719812000253899127": {
+      "id": "1719812000253899127",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/reach_vb/status/1719812000253899127",
+      "title": "",
+      "markdown": "Insanely fast whisper - now with a CLI\n\nYou can now translate/ transcribe 100s of hours of data across 99 languages! - all from your terminal.\n\nHere's how you can use it:\n1. Install requirements\npip install transformers, accelerate, optimum\n\n2. Grab the transcribe py file and run:\npython transcribe py --file_name <filename or URL>\n\nThat's it! \n\nBonus: This CLI will support the Distil-Whisper checkpoints we'll be releasing tomorrow too!",
+      "images": [],
+      "replies": []
+    },
+    "1922960491736924386": {
+      "id": "1922960491736924386",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/goyal__pramod/status/1922960491736924386",
+      "title": "",
+      "markdown": "It's fascinating how much research went into trying to decrease the quadratic dependency of the attention matrix",
+      "images": [],
+      "replies": []
+    },
+    "1726819595871543715": {
+      "id": "1726819595871543715",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/StasBekman/status/1726819595871543715",
+      "title": "",
+      "markdown": "This is a long overdue section of the ML Engineering \n\nUnderstanding Training Loss Patterns\n\n\nhttps://\ngithub.com/stas00/ml-engi\nneering/blob/master/instabilities/training-loss-patterns.md\n…\n\nI warn you that the \"Understanding\" part is overloaded here since most of the time we don't really understand why certain types of spikes happen. Here \"understanding\" refers to knowing the patterns and what to do about those.\n\nThis is a very early work trying to identify and categorize various training loss patterns and hopefully over time the community will discover the actual explanations or develop better optimizers that just work.\n\nWe discussed doing this as a paper back during BLOOM-176B \n@BigscienceW\n training but somehow it hasn't happened back then so here it is now.\n\nI'm always happy to hear if I missed something or things can be improved.\n\nThank you for reading.\n\np.s. You will love the grokking moment that can be seen in one of the plots",
+      "images": [],
+      "replies": []
+    },
+    "1963843389918446066": {
+      "id": "1963843389918446066",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/mattshumer_/status/1963843389918446066",
+      "title": "",
+      "markdown": "Too many people use frameworks to build agents, when really, all you need are the raw LLM APIs and a while loop.\n\nDon't overcomplicate what doesn't need to be overcomplicated.",
+      "images": [],
+      "replies": []
+    },
+    "1813404515816845316": {
+      "id": "1813404515816845316",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/deedydas/status/1813404515816845316",
+      "title": "",
+      "markdown": "I always hated that when I studied Physics, I had no intuition of what order I could study topics in, except linear.\n\nThe latest LLM use-case I love is feeding the Table of Contents of a textbook and asking it to create the dependency graph of topics!\n\nHere are some: Physics\n\n1/3",
+      "images": [],
+      "replies": []
+    },
+    "1914139690791481766": {
+      "id": "1914139690791481766",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/rileybrown/status/1914139690791481766",
+      "title": "",
+      "markdown": "Struggle to keep up with all the most powerful AI tools?\n\nWell here is a comprehensive overview:\n\nSections:\n1:  AI Tools\n2: AI Automations & AI Agents\n3: VibeCoding\n\nThe Full Mindmap down below   \n\nTIMESTAMPS\n \nA INTRO\n00:00 Introduction\n\nB CHAT TOOLS\n01:50 ChatTools\n01:50 Getting Started with Chat AI Tools\n02:27 Exploring Chat GPT's Capabilities\n04:11 Creating Custom ChatGPT Projects\n07:54 Creating Files (PDF) ChatGPT Projects\n11:44 Upload image and Search the web on ChatGPT\n15:14 Looking at Google Gemini AI Chat Tool\n16:36 Perplexity is another great tool\n18:10 This AI Chat Model Can Analyze Videos (Most underrated AI use cases \n@OfficialLoganK\n you guys need to hype this up more)\n20:16 Recapping Chat Tools\n\nC CREATIVE TOOLS\n21:05 Introduction to AI Image Models\n22:19 Using Chat GPT-4o for Image Editing\n22:30 Using gpt4o images for Business: Repaint Houses\n26:36 Edit Parts of an image gpt4o\n27:55 Midjourney\n28:23 Midjourney is better for exploration\n31:25 Midjourney Editor is fun to use\n\nD: CREATING VIDEOS\n36:29 Image to Video with Kling and Runway\n38:52 Gen4 Turbo\n41:22 Kling is Superior\n42:00 gpt4o Ghibli Image + Video + Sound\n44:58 Ghibli time \n49:15 ElevenLabs Sound Effect for pressing button\n50:00 Generating Voice for Voice Over  \n51:04 Getting Music \n52:07 Video Editing These together\n53:47 Finished the Video - Final Results\n55:02 Video Tool Recap\n56:27 AI Avatars with Heygen\n57:42 Example of good avatar content ROWAN CHUNG\n58:43 Pause and Reflect before Automations\n59:14 Recap of section 1\n\nE: VIBE FLOWS (AUTOMATIONS AND AGENTS)\n59:34 (add here - explanation of workflow automation)\n59:34 Zapier Automation \n01:04:24 Adding Step in Automation\n01:09:45 Stacks, Automations, NOW AGENTS\n01:10:29 Deep Research Agent\n01:13:11 What is Manus? Let's ask Claude to Diagram it\n01:16:25 Prompting Manus\n01:18:20 The Future of Agents will look like Online Poker in 2010\n01:19:15 WHAT DO WE DO WHEN AGENTS ARE WORKING?\n01:19:56 Greg's Theory of \"Vibe Marketing\"\n01:20:44 Manus and Deep Research are done Agenting, let's see what they did\n01:23:32 Ok Lets Reflect and Move to VIBE CODING\n\nF: VIBE CODING\n01:25:35 VIBE CODING!\n01:25:48  Landing Page with Sound, Images, and Video on v0\n01:29:07 Generating Video for v0 site\n01:31:31 Adding Video and AUDIO to v0 site (ElevenLabs)\n01:33:36 Using API's in your Vibe Code Apps (Power Ups)\n01:35:26 What makes the best App Idea\n01:37:41 Build a simple app with an API with Cursor\n01:42:57 Diagraming how the API key works in the Bill Splitter\n01:43:25 Structured vs Unstructured text to text API's\n01:44:41 Building a mobile app using built in API's from your phone \n01:47:31 Creating native share features on ios app\n01:49:21 What we talked about in this video (Where to Find the MindMap)\n\nTools mentioned:\n1:ChatGPT, Google Gemini, Anthropic Claude, Perplexity, Grok, GPT‑4o Images / DALL·E 3, MidJourney, Cling 2.0, Krea AI, Runway Gen‑4, Google Veo, Luma Labs, Pika Labs, Heygen, Suno, ElevenLabs\n2: Zapier,n8n, Manus, Deep Research, Canva, CapCut, Premiere Pro\n3: Cursor, V0, OpenAI API, Replicate, Vercel, Replit, Firebase, Supabase, Claude 3, DeepSeek, Grok, Llama",
+      "images": [],
+      "replies": []
+    },
+    "1723942517996208303": {
+      "id": "1723942517996208303",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/marc_lelarge/status/1723942517996208303",
+      "title": "",
+      "markdown": "𝗣𝗿𝗮𝗰𝘁𝗶𝗰𝗮𝗹 𝗱𝗲𝗲𝗽 𝗹𝗲𝗮𝗿𝗻𝗶𝗻𝗴 𝗰𝗼𝘂𝗿𝘀𝗲: 𝗭𝗲𝗿𝗼-𝘀𝗵𝗼𝘁 𝗰𝗹𝗮𝘀𝘀𝗶𝗳𝗶𝗰𝗮𝘁𝗶𝗼𝗻 𝘄𝗶𝘁𝗵 𝗖𝗟𝗜𝗣\nLearn how prompt engineering can help you with image classification!\ncourse: \nhttps://\ndataflowr.github.io/website/module\ns/19-clip/\n…\ncode: \nhttps://\ngithub.com/dataflowr/note\nbooks/blob/master/Module19/Zeroshot_with_CLIP.ipynb\n…",
+      "images": [],
+      "replies": []
+    },
+    "1864513697424789574": {
+      "id": "1864513697424789574",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/daddynohara/status/1864513697424789574",
+      "title": "",
+      "markdown": "I interviewed 300+ candidates in India for deep learning roles last year. Here's my experience: (1/n)",
+      "images": [],
+      "replies": []
+    },
+    "1709229402985480430": {
+      "id": "1709229402985480430",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/itsPaulAi/status/1709229402985480430",
+      "title": "",
+      "markdown": "ChatGPT can now access the Internet again.\n\nThis allows it to do things that weren't possible before.\n\nHere are 8 examples of what you can do with this internet integration:",
+      "images": [],
+      "replies": []
+    },
+    "1757376052102385874": {
+      "id": "1757376052102385874",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/helloiamleonie/status/1757376052102385874",
+      "title": "",
+      "markdown": "A recent survey on Retrieval-Augmented Generation (RAG) mentions an evolving paradigm:\nModular RAG. \n\nModular RAG is comprised of various functional modules. Thus, modular RAG is not standalone. Instead, different RAG patterns are composed of different modules.   \n\nFor example, the following animation shows: \n The original naive RAG paradigm consists of the “Retrieval”, \"Augmentation,\" and \"Generation\" modules.\n\n After naive RAG has shown some limitations, advanced RAG has emerged as a new paradigm. A typical pattern of Advanced RAG builds upon the foundation of Naive RAG by adding “Rewrite” and “Rerank” modules. \n\n Different RAG patterns, such as DSP, can be composed of entirely different modules.  \n\nThe modular RAG paradigm is slowly becoming the norm in the RAG domain due to its versatility and flexibility, allowing: \n- the adaption of modules within the RAG process to suit your specific problem, \n- for a serialized pipeline or an end-to-end training approach across multiple modules.\n\nI definitely recommend checking out the full survey if you want to catch up on recent advancements in the RAG domain:  \n \nhttps://\narxiv.org/pdf/2312.10997\n.pdf\n…",
+      "images": [],
+      "replies": []
+    },
+    "1956301158668009475": {
+      "id": "1956301158668009475",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/gaur_manu/status/1956301158668009475",
+      "title": "",
+      "markdown": "stuck in Paris, speedrunning \n@giffmana\n’s recent talk on VLMs. really great stuff, especially at the end!",
+      "images": [],
+      "replies": []
+    },
+    "1879731240838086784": {
+      "id": "1879731240838086784",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/amasad/status/1879731240838086784",
+      "title": "",
+      "markdown": "From idea to app in 15 mins with Grok and Replit!",
+      "images": [],
+      "replies": []
+    },
+    "1740870968447476106": {
+      "id": "1740870968447476106",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/jeremyphoward/status/1740870968447476106",
+      "title": "",
+      "markdown": "I've been gradually making my way through the fascinating work of \n@eric_is_weird\n who's been studying the history of 20th century R&D labs.\n\nHighly recommended for anyone interested in how the top R&D labs worked in practice.",
+      "images": [],
+      "replies": []
+    },
+    "1721022025660289049": {
+      "id": "1721022025660289049",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/NirantK/status/1721022025660289049",
+      "title": "",
+      "markdown": "6 Quick tips on doing RAG better:\n\n1.  Retrieval and ranking matter quite a lot:\n\n1a) Chunking: Including section title in your chunks improves that, so does keywords from the documents\n\n1b) Different token-efficient separators in your chunks e.g. ### is a single token in GPT",
+      "images": [],
+      "replies": []
+    },
+    "1953841151645266091": {
+      "id": "1953841151645266091",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/deedydas/status/1953841151645266091",
+      "title": "",
+      "markdown": "Huge computer science result:\n\nA Tsinghua professor JUST discovered the fastest shortest path algorithm for graphs in 40yrs.\n\nThis improves on Turing award winner Tarjan’s O(m + nlogn) with Dijkstra’s, something every Computer Science student learns in college.",
+      "images": [],
+      "replies": []
+    },
+    "1942871371765440788": {
+      "id": "1942871371765440788",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/iannuttall/status/1942871371765440788",
+      "title": "",
+      "markdown": "Anthropic just launched a technical Build with Claude course:\n\n- using Claude API\n- building agents\n- MCP servers\n- Claude Code tips\n- RAG\n- Prompt engineering\n- tool use\n- more\n\nEveryone should do this (link below)",
+      "images": [],
+      "replies": []
+    },
+    "1942612984481870068": {
+      "id": "1942612984481870068",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/karpathy/status/1942612984481870068",
+      "title": "",
+      "markdown": "This is what the ideal grocery store looks like. Minimally processed (NOVA Group 1) food only (no \"edible food-like substances\"), organic, local, fresh. Food should not be more complex than this, yet I don't believe this exists.",
+      "images": [],
+      "replies": []
+    },
+    "1942272188968755684": {
+      "id": "1942272188968755684",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/ai_for_success/status/1942272188968755684",
+      "title": "",
+      "markdown": "YC backed Vogent AI just dropped Voicelab, a voice AI and TTS API platform for developers .\n\nSesame CSM-1B is probably the best TTS model right now and sounds just like a human.\n\nVogent has optimized top open-source models like Sesame CSM-1B, Dia, Orpheus, and more into simple, developer-friendly APIs.\n\n> Voice AI and TTS in one platform.\n> Clone voices or generate speech.\n> Custom voices and fine-tuning.\n> Easy integration for devs.\n> High-quality output.",
+      "images": [],
+      "replies": []
+    },
+    "1956872446771896555": {
+      "id": "1956872446771896555",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/TheAhmadOsman/status/1956872446771896555",
+      "title": "",
+      "markdown": "dense with insight\n\nwhat a remarkable technical blog post",
+      "images": [],
+      "replies": []
+    },
+    "1912404804216995945": {
+      "id": "1912404804216995945",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/iScienceLuvr/status/1912404804216995945",
+      "title": "",
+      "markdown": "I am telling you guys\n\nif you really want to truly grasp diffusion models\n\nyou MUST read all of \n@sedielem\n's blog posts!!!",
+      "images": [],
+      "replies": []
+    },
+    "1763967144566382928": {
+      "id": "1763967144566382928",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/mervenoyann/status/1763967144566382928",
+      "title": "",
+      "markdown": "this is one of my all time favorite blog posts on text generation, also main reason why I'm not hyped as Vicki put below (if you haven't read, please give it a read) \nhttps://\nhuggingface.co/blog/how-to-ge\nnerate\n…\nit's also updated last year July with new decoding techniques",
+      "images": [],
+      "replies": []
+    },
+    "2041289054130507835": {
+      "id": "2041289054130507835",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/outsource_/status/2041289054130507835",
+      "title": "",
+      "markdown": "GOOGLE QUIETLY LAUNCHED OFFLINE AI DICTATION APP\n\nSTOP PAYING FOR WISPRFLOW \n\nGoogle just quietly dropped the future of AI dictation. AI Edge Eloquent is 100% offline\n\nGemma-powered, and turns your messy “um… ah… wait” speech into clean, polished text instantly.\n\n No cloud. No tracking.\n Beats Wispr Flow for most people.\n\niPhone (and runs on Mac). Free.\n\nDownload \n\n\nhttps://\napps.apple.com/app/google-ai-\nedge-eloquent/id6756505519\n…\n\nGithub \n\n\nhttps://\ngithub.com/google-ai-edge\n/gallery\n…",
+      "images": [],
+      "replies": []
+    },
+    "1877051879244333268": {
+      "id": "1877051879244333268",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/SamuelMullr/status/1877051879244333268",
+      "title": "",
+      "markdown": "This might be the first time after 10 years that boosted trees are not the best default choice when working with data in tables.\nInstead a pre-trained neural network is, the new TabPFN, as we just published in Nature",
+      "images": [],
+      "replies": []
+    },
+    "1748358033724334217": {
+      "id": "1748358033724334217",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/arpitingle/status/1748358033724334217",
+      "title": "",
+      "markdown": "you will learn a lot about llms by just going through \n@karpathy\n's llama2.c repo",
+      "images": [],
+      "replies": []
+    },
+    "1901711529889730807": {
+      "id": "1901711529889730807",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/isaac_flath/status/1901711529889730807",
+      "title": "",
+      "markdown": "Here's what we'll cover:  \n\n1. Why traditional search fails \n2. Vector embeddings with LanceDB \n3. Why that's not enough \n4. Chunking, hybrid search, and re-ranking  \n\nThe full post can be found here:  \nhttps://\nisaacflath.com/blog/blog_post\n?fpath=posts%2F2025-03-17-Retrieval101.ipynb\n…",
+      "images": [],
+      "replies": []
+    },
+    "1877081848234520827": {
+      "id": "1877081848234520827",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/omarsar0/status/1877081848234520827",
+      "title": "",
+      "markdown": "Agents Overview\n\nGreat write-up on Agents by Chip.\n\nHere are my takeaways:",
+      "images": [],
+      "replies": []
+    },
+    "1751705689964089616": {
+      "id": "1751705689964089616",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/omarsar0/status/1751705689964089616",
+      "title": "",
+      "markdown": "Advances in Multimodal LLMs\n\nIn the last couple of weeks, we saw a spike in multimodal LLMs (MM-LLMs) research papers.\n\nAmong these publications, there was a nice comprehensive survey summarizing 26 existing MM-LLMs.\n\nIt also includes training recipes to enhance these models, insights, and some promising research directions.\n\nIt's incredible how easy it has become to tune and augment these systems. This is also thanks to the recent open-source efforts around MM-LLMs, including datasets, benchmarks, and models.",
+      "images": [],
+      "replies": []
+    },
+    "1816457234236514520": {
+      "id": "1816457234236514520",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/ZeyuanAllenZhu/status/1816457234236514520",
+      "title": "",
+      "markdown": "Incredibly honored and humbled by the overwhelming response to my tutorial, and thank you everyone who attended in person. Truly heartwarming to hear how much you enjoyed it. Many have been asking for a recording, and I prepared one with my own subtitles  \nhttps://\nyoutu.be/yBL7J0kgldU",
+      "images": [],
+      "replies": []
+    },
+    "1761700557490696359": {
+      "id": "1761700557490696359",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/mervenoyann/status/1761700557490696359",
+      "title": "",
+      "markdown": "challenge: can I fine-tune Gemma-2B until my flight's embarkment starts?",
+      "images": [],
+      "replies": []
+    },
+    "1914425736741482726": {
+      "id": "1914425736741482726",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/mati_h/status/1914425736741482726",
+      "title": "",
+      "markdown": "MCP is much more than just having an API.\n\nMCP enables sharing resources and prompts, plus subscribing to events.\n\nConsider a pizza store  with 5-10 endpoints:\n\n- Choose Delivery location\n- Choose Delivery time\n- Get available toppings\n- Discount logic (buy 2, get the 3rd free)\nAnd more\n\nAn LLM like Claude can't inherently understand the correct ordering process, e.g. is the delivery time required before choosing a location?\n\nWith MCP, the pizza store can share a prompt with detailed instructions on the ordering process.\n\nThis allows an LLM to follow the correct procedure accurately without any prior knowledge.",
+      "images": [],
+      "replies": []
+    },
+    "1897277165542269439": {
+      "id": "1897277165542269439",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/svpino/status/1897277165542269439",
+      "title": "",
+      "markdown": "Pandas is the world's most popular data library, but it's slow, and many libraries have significantly improved over it.\n\nBut people don't want to migrate their code base. Pandas is extremely popular, and there aren't enough incentives to make changes unless necessary.\n\nThe good news is that you don't have to change anything to achieve many times the performance you are getting today.\n\nFireDucks is a multi-threaded, compiler-accelerated library with a fully compatible pandas API.\n\nIt's up to 48x faster than Pandas, and you don't have to touch anything to use it.\n\nYou have two options to start using FireDucks:\n\n1. import fireducks.pandas as pd, or\n2. Run your code as-is: python -mfireducks.imhook yourfile[.]py\n\nFireDucks is faster than Pandas and faster than Polars. Below is a link to some benchmarks that compare Pandas, Polars, and FireDucks. FireDucks wins, hands down.",
+      "images": [],
+      "replies": []
+    },
+    "1865987078019764550": {
+      "id": "1865987078019764550",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/elonmusk/status/1865987078019764550",
+      "title": "",
+      "markdown": "Very important to hear this. Forward to friends.",
+      "images": [],
+      "replies": []
+    },
+    "1956271235329089771": {
+      "id": "1956271235329089771",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/Hesamation/status/1956271235329089771",
+      "title": "",
+      "markdown": "There is no better place on the internet to learn about Context Engineering than this repo.\n\nIt's literally a course with a learning path. It gathers the best resources and covers the theory + code for anything related to context, RAG, memory, and agentic systems and more.",
+      "images": [],
+      "replies": []
+    },
+    "1712468167014982047": {
+      "id": "1712468167014982047",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/helloiamleonie/status/1712468167014982047",
+      "title": "",
+      "markdown": "The \n@kaggle\n AI report 2023 is published!\n\nThank you to the judges for naming my entry the winner of the \"Competitions\" category\n\nShoutout to \n@bhutanisanyam1\n for the overview & \n@dk21\n & Nghi for the honorable mentions\n\nReport:\nhttps://\nkaggle.com/AI-Report-2023\nMy entry:\nhttps://\nkaggle.com/code/iamleonie\n/towards-green-ai/\n…",
+      "images": [],
+      "replies": []
+    },
+    "1710284252271559067": {
+      "id": "1710284252271559067",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/omarsar0/status/1710284252271559067",
+      "title": "",
+      "markdown": "How Transformers Work\n\nThis is probably one of the most beautiful visualizations of how today's LLMs work. \n\n\nhttps://\nig.ft.com/generative-ai/",
+      "images": [],
+      "replies": []
+    },
+    "1749206181254414456": {
+      "id": "1749206181254414456",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/ykilcher/status/1749206181254414456",
+      "title": "",
+      "markdown": "New Video\nAlphaGeometry reaches SotA on math olympiad geometry problems using a combination of symbolic solvers and LLMs - and zero(!) human-generated training data.\nWatch here: \nhttps://\nyoutu.be/ZNK4nfgNQpM",
+      "images": [],
+      "replies": []
+    },
+    "1955362523441684645": {
+      "id": "1955362523441684645",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/Hesamation/status/1955362523441684645",
+      "title": "",
+      "markdown": "learn how to build an LLM from scratch, honestly.\n\n@rasbt\n's repo is really a gem. it has notebooks with diagrams and explanations that will teach you 100% of:\n> attention mechanism\n> implementing a GPT model\n> pretraining and fine-tuning\nmy top recommendation for studying LLMs.",
+      "images": [],
+      "replies": []
+    },
+    "1733238229531288009": {
+      "id": "1733238229531288009",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/ferhatkatar9/status/1733238229531288009",
+      "title": "",
+      "markdown": "XGBoost can handle everything :)\n\nI used boosting algorithms for time series forecasting that combined predictions from XGBoost, LightGBM, and CatBoost using stacking. Blended their forecasts with a linear regression meta-model and optimized with Optuna for better performance.",
+      "images": [],
+      "replies": []
+    },
+    "1850634153735454954": {
+      "id": "1850634153735454954",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/_apoorvnandan/status/1850634153735454954",
+      "title": "",
+      "markdown": "all the math you need for neural networks",
+      "images": [],
+      "replies": []
+    },
+    "1941393805783220471": {
+      "id": "1941393805783220471",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/HanchungLee/status/1941393805783220471",
+      "title": "",
+      "markdown": "pydantic is all you need for poor performance spaghetti code. its not langchain you dont like, its pydantic anti-patterns.\n\nmy new blog post identified pydantic anti-patterns - piling pydantic data models within service boundaries, and abusing inheritance over composition",
+      "images": [],
+      "replies": []
+    },
+    "1922771930492399732": {
+      "id": "1922771930492399732",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/giffmana/status/1922771930492399732",
+      "title": "",
+      "markdown": "Yes it's one of my favorites actually.\n\nx[:, None] - x[None, :]\n\nIt's so iconic. I love it.",
+      "images": [],
+      "replies": []
+    },
+    "1963270799709892625": {
+      "id": "1963270799709892625",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/TivadarDanka/status/1963270799709892625",
+      "title": "",
+      "markdown": "Graph theory will seriously enhance your engineering skills.\n\nHere's why you must be familiar with graphs:",
+      "images": [],
+      "replies": []
+    },
+    "1782440997550694682": {
+      "id": "1782440997550694682",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/charles_irl/status/1782440997550694682",
+      "title": "",
+      "markdown": "https://\nkyrylai.com/2024/04/21/how\n-to-fine-tune-llms-in-2024-with-hugging-face-but-with-dagster-and-modal/\n…\n\ngreat, detailed article by \n@truskovskiy\n on setting up an LLM fine-tuning pipeline",
+      "images": [],
+      "replies": []
+    },
+    "1878473742348845476": {
+      "id": "1878473742348845476",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/jason_mayes/status/1878473742348845476",
+      "title": "",
+      "markdown": "Engineers, creatives, designers - lend me your ears, and eyes, to check my1st tech demo of 2025: A #WebAI Agent running entirely client side in the browser, that's capable of controlling a flight search webpage, to get the job done! I'm using \n@Google\n's Gemma 2 (2B) model in #JavaScript via #WebGPU thanks to the MediaPipe Web LLM library, combined with some extra function calling logic to enable advanced user experiences.\n\nIf you like what you see, give this post a share, as I'm just one guy trying to show the world the power of Web AI to do great things. Try it for yourself using the link below after watching the video, but do so on a modernish machine (I have verified it runs on my 6 year old Dell XPS with only an Intel integrated GPU) but use a modern browser like \n@googlechrome\n as it needs WebGPU to run.\n\nWant me to make a demo for your industry? Tell me what you need / want to see next! Let me know what you think, and if you have any questions, then drop them in the comments below! \n\nYouTube Video Link: \nhttps://\nyoutube.com/watch?v=IC256K\nyITLw\n…",
+      "images": [],
+      "replies": []
+    },
+    "1725020286125531546": {
+      "id": "1725020286125531546",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/NirantK/status/1725020286125531546",
+      "title": "",
+      "markdown": "For folks who want to improve focus and task planning, made a \"Focus Friend\"  \n\nIt will figure out deadlines with you, help you slot things and make them interesting and fun to finish. \n\nGive it a spin! \n\n\nhttps://\nchat.openai.com/g/g-CpdOxUVRT-\nfocus-friend\n…",
+      "images": [],
+      "replies": []
+    },
+    "1678558165712113664": {
+      "id": "1678558165712113664",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/jeremyphoward/status/1678558165712113664",
+      "title": "",
+      "markdown": "I've spent the last few months interviewing >60 experts in law, economics, AI, alignment, etc, on the impacts of AI, and safety interventions.\n\nToday I'm publishing my first article, showing regulation designed to increase AI safety may backfire badly!",
+      "images": [],
+      "replies": []
+    },
+    "1709601456620515638": {
+      "id": "1709601456620515638",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/jeremyphoward/status/1709601456620515638",
+      "title": "",
+      "markdown": "If you use \n@huggingface\n PEFT, then you'll have noticed that calling `get_peft_model` is *really* slow...\n\nHowever, you can make it nearly instant by running this magic snippet first!",
+      "images": [],
+      "replies": []
+    },
+    "1944813975209726110": {
+      "id": "1944813975209726110",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/daniel_mac8/status/1944813975209726110",
+      "title": "",
+      "markdown": "Google announced: Gemini Embeddings\n\na cost effective embeddings model at $0.15/mil tokens\n\nfew things you can implement with it:\n\n>> semantic search\n>> doc classification and tagging\n>> recsys\n\ndon't sleep on the embeddings models y'all",
+      "images": [],
+      "replies": []
+    },
+    "1898398856926416977": {
+      "id": "1898398856926416977",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/svpino/status/1898398856926416977",
+      "title": "",
+      "markdown": "The Model Context Protocol (MCP) is not just \"another API lookalike.\" If you think, \"Bro, these two ideas are the same,\" it means you still don't get it.\n\nLet's start with a traditional API:\n\nAn API exposes its functionality using a set of fixed and predefined endpoints. For example, /products, /orders, /invoices.\n\nIf you want to add new capabilities to an API, you must create a new endpoint or modify an existing one. Any client that requires this new capability will also need modifications to accommodate the changes.\n\nThat issue alone is a colossal nightmare, but there's more.\n\nLet's say you need to change the number of parameters required for one endpoint. You can't make this change without breaking every client that uses your API! This problem brought us \"versioning\" in APIs, and anyone who's built one knows how painful this is to maintain.\n\nDocumentation is another issue. If you are building a client to consume an API, you need to find its documentation, which is separate from the API itself (and sometimes nonexistent.)\n\nMCP works very differently:\n\nFirst, an MCP server will expose its capabilities as \"tools\" with semantic descriptions. This is important! Every tool is self-describing and includes information about what the tool does, the meaning of each parameter, expected outputs, and constraints and limitations.\n\nYou don't need separate documentation because the interface itself is that documentation!\n\nOne of my favorite parts is when you need to make changes:\n\nLet's say you change the number of parameters required by one of the tools in your server. Contrary to the API world, with MCP, you won't break any clients using your server. They will adapt dynamically to the changes!\n\nIf you add a new tool, you don't need to modify the clients either. They will discover the tool automatically and start using it when appropriate!\n\nBut this is just the beginning of the fun:\n\nYou can set your tools so they are available based on context. For example, an MCP server can expose a tool to send messages only to those clients who have logged in first.\n\nThere's a ton more, but I don't think I need to keep beating this dead horse.\n\nAI + MCP > AI + API\n\n*micdrop*",
+      "images": [],
+      "replies": []
+    },
+    "1941115075630158009": {
+      "id": "1941115075630158009",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/vitransformer/status/1941115075630158009",
+      "title": "",
+      "markdown": "New blog post: We've never enjoyed working on Kernels more than this.\n\nWe have some very fast AI-generated kernels with a simple multi-agent system. They're running close to or even surpassing Pytorch shipped kernels.\n(1/6)\n\n[ link in final post]",
+      "images": [],
+      "replies": []
+    },
+    "1749433723643134454": {
+      "id": "1749433723643134454",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/ph_singer/status/1749433723643134454",
+      "title": "",
+      "markdown": "Very simple trick for improving output of many small LLMs (<2b) is to set repetition_penalty=1.1. They often have issues with being stuck on repetitive output without it.",
+      "images": [],
+      "replies": []
+    },
+    "1887322047149150717": {
+      "id": "1887322047149150717",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/iScienceLuvr/status/1887322047149150717",
+      "title": "",
+      "markdown": "If someone says RL is so simple and easy, ask them if they've read these blog posts",
+      "images": [],
+      "replies": []
+    },
+    "1540393791827243008": {
+      "id": "1540393791827243008",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/ZakJost/status/1540393791827243008",
+      "title": "",
+      "markdown": "Announcing my new (FREE) course: Basics of Graph Neural Networks (\nhttps://\nbit.ly/3NjylWu).  The focus is to give you a fast, high-level overview of common Graph Machine Learning algorithms.  Video lectures, one-click deployable coding exercises, quizzes and expert interviews.",
+      "images": [],
+      "replies": []
+    },
+    "1884794315463156003": {
+      "id": "1884794315463156003",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/Swarooprm7/status/1884794315463156003",
+      "title": "",
+      "markdown": "If you are looking for a Research Scientist / Engineer or a Research Intern position (summer 2025) at \n@GoogleDeepMind\n , please fill the form below. Experience with LLM and RL is a plus.",
+      "images": [],
+      "replies": []
+    },
+    "1717065563942391812": {
+      "id": "1717065563942391812",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/predict_addict/status/1717065563942391812",
+      "title": "",
+      "markdown": "“Forecasting using N Hits”, great video by \n@nixtlainc\n \n@MergenthalerMax\n, \n@fede_gr\n and team from the presentation at TAFS.\n\n\nhttps://\nyoutube.com/watch?v=vmb79c\n-RsIU\n…\n\n#timeseries #forecasting #machinelearning",
+      "images": [],
+      "replies": []
+    },
+    "1850375646373196113": {
+      "id": "1850375646373196113",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/sytelus/status/1850375646373196113",
+      "title": "",
+      "markdown": "I think this can serve as good interview question ;)\n\nYou measure loss and accuracy over some validation set:\n\nAnd you end up with plots like below. What's going on?",
+      "images": [],
+      "replies": []
+    },
+    "1747868626948907325": {
+      "id": "1747868626948907325",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/aphysicist/status/1747868626948907325",
+      "title": "",
+      "markdown": "Milei's 2024 Davos talk, directly translated to English by AI (by heygen), in his own accent. Better than the dubbed version imo.",
+      "images": [],
+      "replies": []
+    },
+    "1815398483756552420": {
+      "id": "1815398483756552420",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/mattshumer_/status/1815398483756552420",
+      "title": "",
+      "markdown": "Massively underutilized AI trick: after asking the AI to build/code/write something for you, ask it to \"Make it better\", on repeat.\n\nDo this five times, and you'll end up with a far better version of whatever you asked for.\n\nBonus, you can say \"First, critique your output.\"",
+      "images": [],
+      "replies": []
+    },
+    "2036791764565045248": {
+      "id": "2036791764565045248",
+      "runId": "1781452102175",
+      "type": "article",
+      "url": "https://x.com/jameesy/article/2036795753096421843",
+      "title": "",
+      "markdown": "The settings, theming and plugins that I have been using in my Obsidian vault for the last six years.\n\nEver since I started posting my [@obsdmd](https://x.com/@obsdmd)\n\n setup on X, I have had a barrage of questions about my setup. What theme is this? What font is this? What plugins do you use?\n\nThis is going to be a walkthrough of all my set up. By the end of this article, you will have a vault that looks identical to my own.\n\nHow Obsidian looks is a big reason I use it and have been using it for six plus years now. It’s simplicity is beautiful. We are very fortunate we have a piece of software and a tool that is flexible enough that we can customise it to be exactly how we want.\n\nMy vault is the fruit of six years of tweaking and getting it just right. I hope you enjoy.\n\n### Theming\n\nThe theme I use, and always have used, is [“Minimal” by Kepano](https://github.com/kepano/obsidian-minimal)\n\n.\n\nhttps://x.com/jameesy/article/2036795753096421843/media/2036792761773649921\n\nThere are some plugins I will discuss later down the line that change the look and feel of the theme even more. However I love how clean and, well, “minimal”, it is by default.\n\n### Fonts\n\nI use two main fonts in my vault.\n\n****iA Writer Quattro**** is the main font and this is one I get asked about a lot. Back in the day i used to use the writing app iA Writer - and the font and clean UI was one of my favourite things about the app. This feeling was something I wanted to replicate in Obsidian.\n\nhttps://x.com/jameesy/article/2036795753096421843/media/2036792836738383872\n\n[It is available as a free download here](https://github.com/iaolo/iA-Fonts/tree/master)\n\n.\n\nFor the monospace font (which isn’t something that is used an awful lot across my vault) I use ****Geist Mono**** by [@vercel](https://x.com/@vercel)\n\n .\n\nhttps://x.com/jameesy/article/2036795753096421843/media/2036793057941561344\n\n[This can be downloaded for free here](https://vercel.com/font?type=mono)\n\n.\n\nDo check out the pixel variety too! Really nice :)\n\n### Plugins\n\nMy ethos with plugins has always been to keep it quite simple. Hence I don’t use many plugins.\n\nIn all honesty, I found it a bit overwhelming the amount of different things that can be installed, and I was very hesitant to build workflows around plugins that were ultimately created by the community and there was no guarantee that they would be continued to be developed. I wanted to build a note-taking system that would last a long long time, and this was a brittleness I didn’t want to introduce.\n\nI keep my usage to seven plugins, and I have been using these now for years. They are all installable via the community plugins finder, so I won’t include links to them specifically.\n\n****Calendar****\n\nThis works really well with the daily note core plugin - and is something I use pretty heavily. It shows a calendar in the sidebar, and you can easily transverse to a particularly daily note. It also visually shows you the days where you created a daily note with dots.\n\nI use this often when going back to the previous week to look for what I wrote on a specific day.\n\n****Hider****\n\nHider lets you hide/change parts of the Obsidian UI, and this is a critical plugin for getting the clean/minimalist aesthetic.\n\nThe settings I use are as follows:\n\n```\nHide tab bar: Off\nHide status bar: On\nHide vault name: On\nHide scroll bars: On\nHide sidebar toggle buttons: Off\nHide tooltips: On\nHide file explorer buttons: On\nHide search suggestions: Off\nHide count of search term matches: Off\nHide instructions: On\nHide properties in reading view: Off\n```\n\n****Kanban****\n\nI use the kanban plugin specifically to keep on top of writing tasks in my vault. This isn’t one I use extensively, but its definitely a nice quality of life improvement to be able to visualise the state of the different pieces of writing that sit within my vault.\n\nIt lives within my “Outputs” folder.\n\n### Minimal Theme Settings\n\nAnother plugin focused on styling! This handily lets you control some of the different elements of the Minimal theme.\n\nI get asked a lot how you change the look of the navigation in Obsidian, and this is where this is controlled via the “Text labels for primary navigation”.\n\nMy settings are as follows:\n\n```\nColour scheme: Flexoki for light and dark\nBackground contrast: Default\nText labels for primary navigation: On\nColourful window frame: Off\nColourful active states: Off\nColourful headings: Off\nMinimal status bar: On\nTrim file names in sidebars: On\nWorkspace borders: On\nFocus mode: Off\nUnderline internal links: On\nUnderline external links: On\nMaximize media: On\n```\n\nThen for the typography I use the following settings:\n\nhttps://x.com/jameesy/article/2036795753096421843/media/2036793434086793216\n\n****Outliner****\n\nComing to Obsidian from Roam Research, I got very used to working with nested bullets. This replicates some of the same behaviour that you found in Roam, and being able to traverse lots of nested bullets.\n\nMy writing has moved more away from nested bullets now, so I am not sure whether this is still completely necessary for my vault and the way that I work - however it does no harm so I keep it! :)\n\n****Style Settings****\n\nThere are a tonne of options here to control every aspect of visual settings of you vault. However, most of what I keep here is default. The one thing that it does change however is the styling for my tags.\n\nI use tags a lot, and every note I have in my vault uses tags at the top of the page that will act as metadata. Being able to move away from the standard “pill” shape of the tags and have plain text was important.\n\nThe only setting I have changed in this plugin is:\n\n```\nPlain tags: On\n```\n\n****Terminal****\n\nThe most recent addition, and I have installed this to use as an integrated terminal when speaking with [@claudeai](https://x.com/@claudeai)\n\n.\n\nThis is still something that I am working out though - I find myself using it sometimes, and other times using my default terminal ([@warpdotdev](https://x.com/@warpdotdev)\n\n) and having both Warp and Obsidian open at the same time. Only time will tell which I prefer I guess!\n\nhttps://x.com/jameesy/article/2036795753096421843/media/2036793563187445760\n\n### \n\n### Custom CSS\n\nI have only written custom CSS for one small aspect of my vault, which is the callouts.\n\nIMO callouts are a pretty underutilised feature in Obsidian generally, in that I rarely see others using them. If you have used Notion, you are likely familiar with the callout box, and that is something I use often there also.\n\nHaving a custom colour to match the monochrome nature of my vault was something I wanted to do - and it’s pretty easy in the sense you just create a .css file and then drop it in your ./obsidian/snippets folder. This can then be loaded under the “Appearance” tab in settings.\n\nThe CSS for my callout snippet is:\n\n```css\n.callout[data-callout=”north-star”] {\n--callout-color: 158, 158, 158;\n--callout-icon: sparkle;\n}\n```\n\nThis controls the colour, but it also controls the icon that appears at the top of the callout. I use the callout in my daily note for my daily goals, and have used a star icon.\n\n### Conclusion\n\nThe flexibility of Obsidian can be overwhelming for folks - and this is one of the biggest sticking points I have found as to why people don’t continue with it. Taking a small amount of time to get your vault feeling as you want it to I think is a worthwhile investment of time.\n\nOf course, its all very tempting to continuously tweak things (been there done that) but I am pleased to say that these configurations have been pretty consistent in my vault for the last four/five years now and my tweaking is kept to a minimal!\n\nIf there is any other aspect of my vault that you would like to find out more about, or for me to dive deeper into then please let me know by leaving a comment below or reaching out to me directly.\n\nSubscribers to my newsletter [The Thinkers Club](https://www.thethinkers.club/)\n\n get access to articles about Obsidian, thinking with AI and tools for thought before I share them anywhere else. Be sure to sign up for free ✌️",
+      "images": [],
+      "replies": []
+    },
+    "1959797476321616014": {
+      "id": "1959797476321616014",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/siphyshu/status/1959797476321616014",
+      "title": "",
+      "markdown": "i found a very cool algorithm: poisson disc sampling\n\nit lets you place objects in a random but uniform & natural looking way\n\nit's surprising how often this algorithm shows up where you'd expect plain old .random() to work just fine\n\nit's widely used in gamedev for procedural object placement (trees, enemies, props) and computer graphics. i discovered it when i needed to place a bunch of assets scattered on a BG layer\n\nsee the difference b/w random vs. poisson disc sampling:",
+      "images": [],
+      "replies": []
+    },
+    "1940552799173202222": {
+      "id": "1940552799173202222",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/daniel_dhawan/status/1940552799173202222",
+      "title": "",
+      "markdown": "tbh we were already sold on Soham Parekh after this email\n\ntook 2 months to convince him to join – super stoked\n\ncontrarian views & great sales/communication skills which is rare",
+      "images": [],
+      "replies": []
+    },
+    "1894789818925609124": {
+      "id": "1894789818925609124",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/mattshumer_/status/1894789818925609124",
+      "title": "",
+      "markdown": "Super easy way to improve the effectiveness of coding models:\n\nFirst, take your prompt and add \"Don't write the code yet — just write a fantastic, detailed implementation spec.\"\n\nThen, after the AI responds, say \"Now, implement this perfectly.\"\n\nMakes a huge difference.",
+      "images": [],
+      "replies": []
+    },
+    "1866672295747682385": {
+      "id": "1866672295747682385",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/A_K_Nain/status/1866672295747682385",
+      "title": "",
+      "markdown": "I am back to writing math-heavy yet intuitive blog posts. Almost two years ago, I wrote the diffusion tutorials with a similar intention. This time, I am targeting the fundamental concepts of LLMs and MLLMs. And here is the first post in that direction: Rotary Position Encodings. \n\nThis post took me more time than I anticipated Well, I call that the curse of a writing break. Also, feedback is always welcome. Enjoy reading! \n\nPS: Link to the post is in the thread!",
+      "images": [],
+      "replies": []
+    },
+    "1941211973875909102": {
+      "id": "1941211973875909102",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/llama_index/status/1941211973875909102",
+      "title": "",
+      "markdown": "Extracting the core knowledge from documents is a common problem for many people, from students to corporate employees - and many people have found \n@NotebookLM\n useful .\nBut what if you could have your own, fully open-source NotebookLM, running on your computer at any time you want?\n\nThat's exactly what we built at LlamaIndex: NotebookLlaMa, your smart assistant for your smartest tasks.\nWe built it on top of our very own LlamaCloud, with best-in-class agentic- and OCR-driven parsing to get the best out of your files, as well as highly intelligent extraction agents to find the most valuable knowledge across your documents, and  accurate, fully-automated document ingestion, indexing and retrieval pipelines so that your knowledge is always only a question away!\nAnd we're just getting started: we do not only provide you with a document chat, a summary of your document, the highlights of it and a detailed Q&A section, but we also create mind maps, leveraging the structured output capabilities of \n@OpenAI\n, and in-depth, podcast-like audio conversations, about your document employing \n@ElevenLabs\n text-to-speech models!\nTo cap it all, we also integrate with \n@opentelemetry\n giving you real-time insights on your workflows.\n\nCurious to give it a try?\nYou can set it up from the GitHub repo: \nhttps://\ngithub.com/run-llama/note\nbookllama\n…\nAnd don't forget to explore our LlamaCloud services: \nhttps://\ncloud.llamaindex.ai\nAnd learn more about it in our docs: \nhttps://\ndocs.cloud.llamaindex.ai",
+      "images": [],
+      "replies": []
+    },
+    "1898074560655962177": {
+      "id": "1898074560655962177",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/Steve8708/status/1898074560655962177",
+      "title": "",
+      "markdown": "How I use Cursor (+ my best tips) \nhttps://\nx.com/i/broadcasts/1\nmnxegbjQybGX\n…",
+      "images": [],
+      "replies": []
+    },
+    "1904173845998882984": {
+      "id": "1904173845998882984",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/DavidSHolz/status/1904173845998882984",
+      "title": "",
+      "markdown": "scaling laws mean you need exponentially more money to get linear gains in intelligence - if linear gains in intelligence aren't exponentially more valuable you hit a wall where it's not financially justifiable to continue - everyone is afraid to talk about this - the solution to this \"funding problem\" is to exponentially hype up linear gains in intelligence",
+      "images": [],
+      "replies": []
+    },
+    "1850220484283003002": {
+      "id": "1850220484283003002",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/Hesamation/status/1850220484283003002",
+      "title": "",
+      "markdown": "good summarization prompt (possibly) \nit's fascinating how we can squeeze more intelligence out of llms simply by changing how we talk to them",
+      "images": [],
+      "replies": []
+    },
+    "1821146012817215992": {
+      "id": "1821146012817215992",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/dk21/status/1821146012817215992",
+      "title": "",
+      "markdown": "I couldn’t stop myself from checking out fasthtml by \n@jeremyphoward\n, and it’s been a breeze! My personal website was long due for an update, migrated from fastpages to fasthtml here: \nhttps://\nskok.ai",
+      "images": [],
+      "replies": []
+    },
+    "1923460472847663430": {
+      "id": "1923460472847663430",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/Hesamation/status/1923460472847663430",
+      "title": "",
+      "markdown": "Hugging Face  just released a free MCP course that has already passed +3000 students, covering:\n> architecture and key concepts\n> mcp client and servers\n> building an mcp application \nthere’s no better time to learn about MCP.",
+      "images": [],
+      "replies": []
+    },
+    "1936460206424113331": {
+      "id": "1936460206424113331",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/omarsar0/status/1936460206424113331",
+      "title": "",
+      "markdown": "Every AI dev should know how to implement these types of agentic systems.   \n\nAll important building blocks for developing advanced agentic AI systems.\n\nLearn it once and apply it everywhere. \n\nCheck out my new 4.5 hr course (with code examples) to learn more:",
+      "images": [],
+      "replies": []
+    },
+    "1943716958257721671": {
+      "id": "1943716958257721671",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/TivadarDanka/status/1943716958257721671",
+      "title": "",
+      "markdown": "Most people think math is just numbers.\n\nBut after 20 years with it, I see it more like a mirror.\n\nHere are 10 surprising lessons math taught me about life, work, and thinking clearly:",
+      "images": [],
+      "replies": []
+    },
+    "1764378763503059327": {
+      "id": "1764378763503059327",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/Yampeleg/status/1764378763503059327",
+      "title": "",
+      "markdown": "I just finished reading \n\n\"Fuck You, Show Me The Prompt.\"\nby \n@HamelHusain\n \n\nThis is a M-U-S-T.\nEvery single word is pure gold.\n\nMost LLM frameworks are not only unnecessary but are actively crippling you and slowing you.\n\nTheir only value is their prompts\n\n\nhttps://\nhamel.dev/blog/posts/pro\nmpt/\n…",
+      "images": [],
+      "replies": []
+    },
+    "1749456036111568901": {
+      "id": "1749456036111568901",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/omarsar0/status/1749456036111568901",
+      "title": "",
+      "markdown": "LLM Course\n\nThis is such a beautiful and comprehensive resource on LLMs. \n\nIt includes notebooks, key references, and roadmaps.\n\nThere is something to learn for everyone. For students, researchers, and practitioners.\n\nThe Prompt Engineering Guide is also referenced, which is cool to see. \n\nOne observation as I was reviewing the references is how much hard work the ML community dedicates toward open and high-quality education. This resource does a great job of organizing all those incredible LLM educational resources that exist out there. \n\nOne topic I would add is LLMOps. But to be fair, the majority of the topics are roughly covered in the LLM Engineer Roadmap.\n\nHighly recommended! \n\nAnd last but not least, many thanks to \n@maximelabonne\n for releasing this excellent resource.",
+      "images": [],
+      "replies": []
+    },
+    "1920527493494419828": {
+      "id": "1920527493494419828",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/Shahules786/status/1920527493494419828",
+      "title": "",
+      "markdown": "We’ve spent the past two years working closely with AI teams, shipping eval loops, and improving LLM systems. Today, I’ve distilled everything we’ve learned into one practical guide.\n\nhttps://\nblog.ragas.io/hard-earned-le\nssons-from-2-years-of-improving-ai-applications\n…",
+      "images": [],
+      "replies": []
+    },
+    "2043608032035414024": {
+      "id": "2043608032035414024",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/HowToPrompt__/status/2043608032035414024",
+      "title": "",
+      "markdown": "Someone just open-sourced a full 3d building editor that runs 100% in your browser.\n\nno autocad. no revit. no $5,000 annual licenses. open-source.",
+      "images": [],
+      "replies": []
+    },
+    "1715081091818893711": {
+      "id": "1715081091818893711",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/HamelHusain/status/1715081091818893711",
+      "title": "",
+      "markdown": "I wrote some notes about a very **uncool topic** - looking at and curating your LLM data\n\nTLDR; I highly recommend building your own data curation/annotation tools if you are working with LLMs.\n\nMade some specific tool recommendations here:\n\n\nhttps://\nhamel.dev/notes/llm/04_d\nata_cleaning.html\n…",
+      "images": [],
+      "replies": []
+    },
+    "1936444144873844794": {
+      "id": "1936444144873844794",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/neural_avb/status/1936444144873844794",
+      "title": "",
+      "markdown": "This is a great service for content creators/shitposters! I wrote a python script to do this with  yt-dlp and movie-py (ffmpeg) and I use it a LOT. Albeit locally.",
+      "images": [],
+      "replies": []
+    },
+    "1897811576566284290": {
+      "id": "1897811576566284290",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/MatthewBerman/status/1897811576566284290",
+      "title": "",
+      "markdown": "Major AI breakthrough: Diffusion Large Language Models are here!\n\nThey're 10x faster and 10x cheaper than traditional LLMs.\n\nHere's everything you need to know:",
+      "images": [],
+      "replies": []
+    },
+    "1774728136967516336": {
+      "id": "1774728136967516336",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/ds_serena_/status/1774728136967516336",
+      "title": "",
+      "markdown": "Time Series for Climate Change: Forecasting Wind Power \nhttps://\ntowardsdatascience.com/time-series-fo\nr-climate-change-forecasting-wind-power-8ed6d653a255?source=social.tw\n…",
+      "images": [],
+      "replies": []
+    },
+    "1942267367486283985": {
+      "id": "1942267367486283985",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/ycombinator/status/1942267367486283985",
+      "title": "",
+      "markdown": ".\n@VogentAI\n Voicelab is a high-performance API to run top open-source voice models, like Sesame CSM-1B, Dia, and more.\n\nVoicelab optimizes inference for each model so you can run them quickly and scalably— and they post-train select models to improve performance and reliability.\n\n\nhttps://\nycombinator.com/launches/NuX-v\nogent-voicelab-api-to-run-top-open-source-voice-models-like-csm-1b\n…",
+      "images": [],
+      "replies": []
+    },
+    "1941714473074688100": {
+      "id": "1941714473074688100",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/Riazi_Cafe_en/status/1941714473074688100",
+      "title": "",
+      "markdown": "Stanford's \"Machine Learning\" lecture notes  \n\n\nhttps://\ncs229.stanford.edu/main_notes.pdf\n\n(audio generated by NotebookLM)",
+      "images": [],
+      "replies": []
+    },
+    "1894039989526155341": {
+      "id": "1894039989526155341",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/srush_nlp/status/1894039989526155341",
+      "title": "",
+      "markdown": "Linear Attention and Beyond: Interactive Tutorial with Songlin Yang (\n@SonglinYang4\n MIT/Flash Linear Attention)\n\nI didn’t follow some of the recent results, so I zoomed Songlin and she explained it all to me for two hours \n\n\nhttps://\nyoutu.be/d0HJvGSWw8A",
+      "images": [],
+      "replies": []
+    },
+    "1880380056251560402": {
+      "id": "1880380056251560402",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/arnitly/status/1880380056251560402",
+      "title": "",
+      "markdown": "You can now practice and learn CUDA online, without a GPU! \nLeetGPU",
+      "images": [],
+      "replies": []
+    },
+    "1720902383486812290": {
+      "id": "1720902383486812290",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/aniketmaurya/status/1720902383486812290",
+      "title": "",
+      "markdown": "Built a discord bot to answer questions on PyTorch Lightning and Lit-GPT\n\nIt is open-source!\nDo checkout and hit the  if you like the project: \nhttps://\ngithub.com/aniketmaurya/d\niscord-llm-bot\n…",
+      "images": [],
+      "replies": []
+    },
+    "1944391222765695458": {
+      "id": "1944391222765695458",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/clcoding/status/1944391222765695458",
+      "title": "",
+      "markdown": "List of Books which are available in Free \n\nDeep Learning with Python, Second Edition by François Chollet - Free PDF \n\nhttps://\nlnkd.in/d35uZ4ra\n\nThe Little Book of Deep Learning François Fleuret (Free PDF) \nhttps://\nlnkd.in/dJmhKuFe\n\nClean Architectures in Python (Free PDF) \n\nhttps://\nlnkd.in/dbiJSaMD\n\nLearning Python, 5th Edition (Free PDF) \n\n\nhttps://\nlnkd.in/dCfAN8QB\n\nAlgorithms for Decision Making (Free PDF) \nhttps://\nlnkd.in/dUvxAX4S\n\nPython for Excel: A Modern Environment for Automation and Data Analysis (Free PDF) \nhttps://\nlnkd.in/dU5PBgsf \n\nPython for Excel: A Modern Environment for Automation and Data Analysis (Free PDF) \nhttps://\nlnkd.in/dU5PBgsf \n\nIntroducing Microsoft Power BI Alberto Ferrari and Marco Russo (Free PDF) \nhttps://\nlnkd.in/d5QQgFZ2 \n\nThink Stats (3rd Edition) by Allen B. Downey (Free Book) \n\n\nhttps://\nlnkd.in/d8chgxZh\n\n Introduction to Modern Statistics (2e) (Free PDF) \n\nhttps://\nlnkd.in/dbtHwYWc\n\nThink Python (3rd Edition) by Allen B. Downey (Free Book) \nhttps://\nlnkd.in/d6JXc_Pf\n\nAI Value Creators: Beyond the Generative AI Mindset (FreePDF) \n\nhttps://\nlnkd.in/dJpwW-hx",
+      "images": [],
+      "replies": []
+    },
+    "1750463847226388574": {
+      "id": "1750463847226388574",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/talrid23/status/1750463847226388574",
+      "title": "",
+      "markdown": "JSON format is becoming the de facto standard for output generation with LLM.\n\nHowever, is it the optimal format ? \nWe claim that not - YAML outputs are shorter and simpler, leading to faster inference, with higher quality:",
+      "images": [],
+      "replies": []
+    },
+    "1898109392341385509": {
+      "id": "1898109392341385509",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/mckaywrigley/status/1898109392341385509",
+      "title": "",
+      "markdown": "MCP is *amazing* and has real staying power.\n\nDon’t get the what/why of MCP? Still skeptical?\n\nThis aims to teach you + change your mind.\n\nWatch for my 10min lightning talk that explains MCP in a way that’s easy to understand.",
+      "images": [],
+      "replies": []
+    },
+    "1678456192803250180": {
+      "id": "1678456192803250180",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/predict_addict/status/1678456192803250180",
+      "title": "",
+      "markdown": "A new 150 pages review paper on the applications of machine learning in finance.\n\n#machinelearning #finance\n\n\nhttps://\npapers.ssrn.com/sol3/papers.cf\nm?abstract_id=4501707\n…",
+      "images": [],
+      "replies": []
+    },
+    "1876855682529480844": {
+      "id": "1876855682529480844",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/andrew_n_carr/status/1876855682529480844",
+      "title": "",
+      "markdown": "Another great interview question!\n\nFor linear regression, we can directly compute the minimizer as β= = (X^TX)^{-1}X^Ty. So why do we often use gradient descent instead?",
+      "images": [],
+      "replies": []
+    },
+    "1707915717176402168": {
+      "id": "1707915717176402168",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/jeremyphoward/status/1707915717176402168",
+      "title": "",
+      "markdown": "Wanna know how to data science like it's 2011? I spilled all my secrets here...",
+      "images": [],
+      "replies": []
+    },
+    "1941322807729848429": {
+      "id": "1941322807729848429",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/jxnlco/status/1941322807729848429",
+      "title": "",
+      "markdown": "holy shit lmfao \n\nclaude code has been writing a prompt, looking at 200 failures and updated the prmopt, it went from \n\nv1 recall@1 60 -> 80\nv2 recall@1 6 -> 52",
+      "images": [],
+      "replies": []
+    },
+    "1762875809616798074": {
+      "id": "1762875809616798074",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/mervenoyann/status/1762875809616798074",
+      "title": "",
+      "markdown": "You asked, I served, here's the notebook with explanations on each step: \nhttps://\ncolab.research.google.com/drive/12OkGVWu\nh2lcrokExYhskSJeKrLzdmq4T?usp=sharing\n…",
+      "images": [],
+      "replies": []
+    },
+    "1782428720839438631": {
+      "id": "1782428720839438631",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/JayAlammar/status/1782428720839438631",
+      "title": "",
+      "markdown": "If the rise of LLMs caught you by surprise, here's your chance to get a preview of what's likely to be the next monumental jump in AI capabilities:\n\nLLM-backed agents that use software tools\n\nIn this video, I'll walk you through the concepts and code of building an LLM-backed agent with \n@Cohere\n Command R+ and \n@langchain\n.",
+      "images": [],
+      "replies": []
+    },
+    "1962935654238847279": {
+      "id": "1962935654238847279",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/gregisenberg/status/1962935654238847279",
+      "title": "",
+      "markdown": "lee from cursor JUST showed me the future of coding in this 29 min tutorial.\n\nwhat if instead of thinking about coding as you sitting alone in front of a screen , you started to think about it as you and a swarm of agents each taking on very specific roles, each showing up exactly when you need them, each running in the background without ever needing a coffee break.\n\nimagine a bugbot that doesn’t just review your pull request but triages the issue instantly, leaves intelligent comments, and in some cases even proposes a fix before a teammate has had the chance to read the description. \n\nimagine a security agent that quietly scans your code for vulnerabilities and flags them long before they become liabilities.\n\nimagine an agent dedicated to software culture, enforcing the little rules your team has decided matter, whether that’s never skipping loading states, banning certain lazy marketing phrases in your code comments, or making sure tests are always included.\n\nlee walked me through how all of this already exists inside cursor. \n\nhe spun up custom commands like /code-review or /security-review that behave less like toys and more like trusted coworkers who have internalized the way your team thinks about quality. \n\nand when he combined that with rails, type safety, linters, formatting rules, test suites.... the agents learned to check themselves against the rails and fix mistakes automatically. \n\nyou end up with a system where the codebase begins to feel alive, constantly watching itself, constantly healing.\n\nanother thing i learned from lee was watching how he  doesn’t pile everything into one giant context and hope for magic. \n\nhe creates new chats for every new task, sometimes twenty or more in a single day, each one a fresh brain that isn’t bogged down by yesterday’s details. it’s a discipline that keeps the agents sharp and the outputs clean.\n\npro tip, thanks \n@leerob\n.\n\nthis was a cool glimpse into the future of coding and some tips on how to squeeze the most out of cursor.\n\nanything is possible.",
+      "images": [],
+      "replies": []
+    },
+    "1893147738381947098": {
+      "id": "1893147738381947098",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/tedx_ai/status/1893147738381947098",
+      "title": "",
+      "markdown": "Ayeee, that's my prompt",
+      "images": [],
+      "replies": []
+    },
+    "1922729343115038876": {
+      "id": "1922729343115038876",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/HanchungLee/status/1922729343115038876",
+      "title": "",
+      "markdown": "Agents Are Workflows  \nAgent's sequential decision making can be modeled with Bellman's Equations and unrolled into DAGs and agglomerated into FSMs.\n\nMy blog post shows how to reason step by step and use this mental model to help you build and ship agentic systems faster.",
+      "images": [],
+      "replies": []
+    },
+    "1944877527044120655": {
+      "id": "1944877527044120655",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/trq212/status/1944877527044120655",
+      "title": "",
+      "markdown": "Claude Code is All You Need\n\nWhen I first joined Anthropic I was surprised to learn that lots of the team used Claude Code as a general agent, not just for code.\n\nI’ve since become a convert! I use Claude Code to help me with almost all the work I do now, here’s how:",
+      "images": [],
+      "replies": []
+    },
+    "1956241967136039197": {
+      "id": "1956241967136039197",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/_avichawla/status/1956241967136039197",
+      "title": "",
+      "markdown": "8 RAG architectures all AI Engineers should know:",
+      "images": [],
+      "replies": []
+    },
+    "1896403561246081271": {
+      "id": "1896403561246081271",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/drewecherd/status/1896403561246081271",
+      "title": "",
+      "markdown": "Say `Hello`  to FastHTML and MonsterUI\n\nModern Python web development  made easy!\n\nThanks \n@jeremyphoward\n and \n@isaac_flath\n!",
+      "images": [],
+      "replies": []
+    },
+    "1941293952566689799": {
+      "id": "1941293952566689799",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/casper_hansen_/status/1941293952566689799",
+      "title": "",
+      "markdown": "i don't think you understand\n\nyou train on Text-to-SQL\n\nit gets 73.7% on Spider\n\nyou train on Text-to-Cypher\n\nit gets 5.5% exact match\n\nyou realize they share abstractions\n\nschema grounding, joins, filtering\n\nyou train on both\n\nSpider jumps to 76.5%\n\nText2Cypher hits 6.2%\n\nyou add Chain-of-Thought\n\nit starts explaining its queries\n\nyou add reinforcement learning\n\nit learns from execution feedback\n\nyou design a topology-aware reward\n\nit understands graph edit distance\n\nyou realize SQL helps Cypher\n\nand Cypher helps SQL\n\ncross-formalism transfer is real\n\nyou test on MongoDB Query Language\n\nnever trained on it\n\nit still works\n\nyou test on table QA\n\nnever trained on it\n\n62.5% exact match\n\nyou test on knowledge graph QA\n\nnever trained on it\n\n86.3% accuracy\n\nyou realize\n\nyou didn't train a SQL model\n\nyou didn't train a Cypher model\n\nyou trained structured reasoning itself\n\nsomeone says \"but it's just 32B parameters\"\n\nyou point to QwQ-32B-trained-Both\n\nit beats o3 on Text2Cypher\n\nthey say \"but the datasets overlap\"\n\nyou show the ablations\n\neven single-task training transfers\n\nthey say \"but it's not real understanding\"\n\nyour model generalizes to unseen query languages\n\nthey go quiet\n\nyou realize\n\nyou didn't build a parser\n\nyou built a bridge\n\nbetween natural language\n\nand every structured formalism\n\nthat will ever exist\n\ntell me you hate this type of post, but do read the paper\n\nhttps://\narxiv.org/abs/2506.21575",
+      "images": [],
+      "replies": []
+    },
+    "1781956600724345190": {
+      "id": "1781956600724345190",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/Thom_Wolf/status/1781956600724345190",
+      "title": "",
+      "markdown": "Llama3 was trained on 15 trillion tokens of public data. But where can you find such datasets and recipes??\n\nHere comes the first release of Fineweb. A high quality large scale filtered web dataset out-performing all current datasets of its scale. We trained 200+ ablation models to craft this dataset carefully parsing and filtering Common Crawl.\n\nAll recipes, data, ablations models, hyper-parameters are open-source and we plan to improve Fineweb over time so stay tuned for future versions.\n\nFinally we made a number of surprising observations along the way (all Common crawl years are not equal, the influence of ChatGPT in latest webdata, etc) that we’re compiling in a longer tech blog post to be released in the coming days for the fine data lovers.\n\nEnjoy",
+      "images": [],
+      "replies": []
+    },
+    "2043315327250075913": {
+      "id": "2043315327250075913",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/Techjunkie_Aman/status/2043315327250075913",
+      "title": "",
+      "markdown": "You don’t need BlueStacks anymore.\n\nGoogle made its own Android emulator for Windows.\n\nAnd it’s actually good.\n\nGoogle Play Games:\n\n• runs Android 14 natively  \n• lightweight (no heavy emulator lag)  \n• uses Hyper-V for better performance  \n• supports keyboard & mouse controls  \n• install APKs using ADB (no extra tools)  \n\nSetup is simple:\n\n• enable virtualization (Hyper-V / VM Platform)  \n• install emulator  \n• login → done  \n\nNo ads. No bloat.\n\nWatch this to set it up in minutes",
+      "images": [],
+      "replies": []
+    },
+    "1912098582611759556": {
+      "id": "1912098582611759556",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/victorialslocum/status/1912098582611759556",
+      "title": "",
+      "markdown": "‘Agent’ might be the most misused term in tech right now \n\nHere's what separates real agents from glorified chatbots:\nAt their core, AI agents are LLMs with a specific role and task that have access to memory and external tools. They use reasoning capabilities to plan steps and take actions to complete tasks.\n\nFour components that make an agent \"agentic\":\n• An LLM (with a defined role and task)\n• Memory systems (both short-term and long-term)\n• Planning capabilities (to determine required steps)\n• Tools (like databases, web search, or APIs)\n\n𝗦𝗶𝗻𝗴𝗹𝗲-𝗔𝗴𝗲𝗻𝘁 𝗦𝘆𝘀𝘁𝗲𝗺𝘀:\nIn its simplest form, a single-agent RAG architecture functions as a router. This approach can combine reasoning, retrieval, and answer generation in one agent.\n\n𝗠𝘂𝗹𝘁𝗶-𝗔𝗴𝗲𝗻𝘁 𝗦𝘆𝘀𝘁𝗲𝗺𝘀:\nThese systems chain multiple specialized agents together, often with a master agent coordinating the process. For example:\n• One agent might intelligently retrieve information from various internal data sources\n• Another could access, augment and clean the data\n• A third might specialize returning personalized results to a user\n\n𝗖𝗵𝗲𝗰𝗸 𝗼𝘂𝘁 𝘁𝗵𝗶𝘀 𝗲𝘃𝗲𝗻𝘁 to learn how to build a system with these three types of agents: \nhttps://\nlinkedin.com/events/7315738\n000468893696/comments/\n…\n\nAgents exist on a spectrum of autonomy. The level of \"agentic\" behavior largely depends on how much decision-making authority is delegated to the LLMs. \n\nAnyone here using multi-agent systems in production yet?",
+      "images": [],
+      "replies": []
+    },
+    "1774956274767311110": {
+      "id": "1774956274767311110",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/jazco/status/1774956274767311110",
+      "title": "",
+      "markdown": "we all know how important LLM evaluation is.. \n\ni’m excited to FINALLY announce that we are starting a new  recipe-based evals team!!! \n\nfor our first study, we compared 5 LLM-generated chili recipes with the prompt: “Give me a chili recipe with an interesting twist” (1/n)",
+      "images": [],
+      "replies": []
+    },
+    "1897392194572705988": {
+      "id": "1897392194572705988",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/Karmedge/status/1897392194572705988",
+      "title": "",
+      "markdown": "MCP is really powerful. I made for myself in 1 day workflow to:\n1. scrape linkedin profile\n2. send personalized invitation letter with for my product\n3. Scrape email from apollo. send it\n4. Update notion CRM!\nIf you guys need i can make it open source",
+      "images": [],
+      "replies": []
+    },
+    "1711449293003907257": {
+      "id": "1711449293003907257",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/cto_junior/status/1711449293003907257",
+      "title": "",
+      "markdown": "Insane work by anthropic. \n\nHaving quite fun playing around with their feature explorer. \n\nCan't believe their specificity and sensitivity is so good. Almost all activations contain the feature.  And the next logits also match what would be the usual continuation.\n\n\nhttps://\ntransformer-circuits.pub/2023/monoseman\ntic-features/vis/a4.html?ordering=count&search_text=shape\n…",
+      "images": [],
+      "replies": []
+    },
+    "1710336851393839433": {
+      "id": "1710336851393839433",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/LorenaABarba/status/1710336851393839433",
+      "title": "",
+      "markdown": "I wrote a thing! A little lesson on using #JupyterAI for my students and colleagues, and my peeps everywhere. \n\nhttps://\ngo.gwu.edu/engcomp7lesson1\n#Jupyter #OpenAI #EngineersCode",
+      "images": [],
+      "replies": []
+    },
+    "1898615456862261460": {
+      "id": "1898615456862261460",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/RayFernando1337/status/1898615456862261460",
+      "title": "",
+      "markdown": "“I’d rather hire devs who use Cursor well than developers who refuse and hand code everything. I want a developer who works as leanly and efficiently as possible.”\n\nBrilliant video! I’m glad he’s saying this out loud.",
+      "images": [],
+      "replies": []
+    },
+    "1744465161963077689": {
+      "id": "1744465161963077689",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/ESYudkowsky/status/1744465161963077689",
+      "title": "",
+      "markdown": "Dall-E 3 captioning hack:  Tell ChatGPT to put spaces in the text it sends to Dall-E 3, but also to tell Dall-E 3 to remove the spaces.  This lets Dall-E see the individual letters without tokenization halping.  Before and after:",
+      "images": [],
+      "replies": []
+    },
+    "1729924040230629485": {
+      "id": "1729924040230629485",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/AndrewYNg/status/1729924040230629485",
+      "title": "",
+      "markdown": "New short course on sophisticated RAG (Retrieval Augmented Generation) techniques is out! Taught by \n@jerryjliu0\n and \n@datta_cs\n of \n@llama_index\n and \n@truera_ai\n , this teaches advanced techniques that help your LLM generate good answers. \n\nTopics include:\n- Sentence-window retrieval, which retrieves not just the most relevant sentence, but a window of sentences around it for higher quality context.\n- Auto-merging retrieval, which organizes your document into a hierarchical tree structure, where each parent node's text is split among its child nodes. Based on the relevance of the child nodes to a user query, this lets you better decide whether the entire parent node should be provided as context to the LLM.\n- Evaluation methodology for separately evaluating the quality of the key steps of RAG (context relevance, answer relevance, groundedness) so that you can perform error analysis, identify which part of your pipeline needs work, and tune components systematically. \n\nPlease check out the course!\n\nhttps://\ndeeplearning.ai/short-courses/\nbuilding-evaluating-advanced-rag/\n…",
+      "images": [],
+      "replies": []
+    },
+    "1927461293335728144": {
+      "id": "1927461293335728144",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/Hesamation/status/1927461293335728144",
+      "title": "",
+      "markdown": "Anthropic released a free interactive course on prompt engineering, an essential skill for everyone.\n> how to structure a good prompt\n> avoiding common pitfalls\n> making a killer prompt library \n> 80/20 rules and addressing them\n\nIt has 9 step-by-step chapters with exercises.",
+      "images": [],
+      "replies": []
+    },
+    "1894821841715503129": {
+      "id": "1894821841715503129",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/Kamil_SaaS/status/1894821841715503129",
+      "title": "",
+      "markdown": "After shutting down my YC company, I spent >6 months looking for a job and grinding leetcode alone, despite having interned at \n@nvidia\n and \n@amazon\n.\n\nSo I built an AI to do live mock coding interviews with and finally landed a great role.\n\nHopefully I’m the last solo leetcoder.",
+      "images": [],
+      "replies": []
+    },
+    "1879297941611171941": {
+      "id": "1879297941611171941",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/chipro/status/1879297941611171941",
+      "title": "",
+      "markdown": "Script to generate this heatmap:",
+      "images": [],
+      "replies": []
+    },
+    "1781953413938557276": {
+      "id": "1781953413938557276",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/gui_penedo/status/1781953413938557276",
+      "title": "",
+      "markdown": "We have just released  FineWeb: 15 trillion tokens of high quality web data.\nWe filtered and deduplicated all CommonCrawl between 2013 and 2024.\nModels trained on FineWeb outperform RefinedWeb, C4, DolmaV1.6, The Pile and SlimPajama!",
+      "images": [],
+      "replies": []
+    },
+    "2011426702505718175": {
+      "id": "2011426702505718175",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/damianplayer/status/2011426702505718175",
+      "title": "",
+      "markdown": "go to grok and paste a profile url.   \n\nask it “scrape tweets above 1k likes about [keyword]” for any account in your niche.  \n\ngrab 5-10 of yours plus 5-10 from 3 top accounts in your space.  \n\nnow build a context profile:  \n\n• paste all tweets into claude  \n• ask it to find patterns in hooks, tone, angles, and structure \n• have it create a style guide based on what performs  \n\nsave this as your base. \n\nthen create separate system prompts for:  \n\n[emails] [ads] [content] [writing copy] [outreach scripts] etc. \n\neach one references your context file but adjusts format and length.\n\nyou should probably save this..",
+      "images": [],
+      "replies": []
+    },
+    "1749620700430860496": {
+      "id": "1749620700430860496",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/jeremyphoward/status/1749620700430860496",
+      "title": "",
+      "markdown": "My \n@fastdotai\n cofounder \n@math_rachel\n has been studying immunology for the last couple of years, & she's discovered some fascinating opportunities for AI in immunology.\n\nHer new post summarises recent research on using AI/ML to uncover immune cell networks\n\nhttps://\nfast.ai/posts/2024-01-\n23-cytokines/\n…",
+      "images": [],
+      "replies": []
+    },
+    "1898082481251008929": {
+      "id": "1898082481251008929",
+      "runId": "1781452102175",
+      "type": "tweet",
+      "url": "https://x.com/RichardSSutton/status/1898082481251008929",
+      "title": "",
+      "markdown": "I am pretty happy with this 30-minute summary of my views on the current state of AI and alignment.",
+      "images": [],
+      "replies": []
+    }
+  },
+  "failures": {
+    "1791123272521678910": {
+      "id": "1791123272521678910",
+      "runId": "1781452102175",
+      "type": "fail",
+      "url": "https://x.com/AravSrinivas/status/1791123272521678910",
+      "error": "short markdown: 0 chars",
+      "timestamp": "2026-06-14T16:28:03.848Z"
+    },
+    "1965435549357047997": {
+      "id": "1965435549357047997",
+      "runId": "1781452102175",
+      "type": "fail",
+      "url": "https://x.com/goyal__pramod/status/1965435549357047997",
+      "error": "short markdown: 5 chars",
+      "timestamp": "2026-06-14T16:28:20.776Z"
+    },
+    "1923071167616692464": {
+      "id": "1923071167616692464",
+      "runId": "1781452102175",
+      "type": "fail",
+      "url": "https://x.com/IlyasHairline/status/1923071167616692464",
+      "error": "short markdown: 14 chars",
+      "timestamp": "2026-06-14T16:28:33.155Z"
+    },
+    "1873576885067943951": {
+      "id": "1873576885067943951",
+      "runId": "1781452102175",
+      "type": "fail",
+      "url": "https://x.com/waitbutwhy/status/1873576885067943951",
+      "error": "short markdown: 0 chars",
+      "timestamp": "2026-06-14T16:27:07.905Z"
+    }
+  }
+}
