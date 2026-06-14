@@ -1,4 +1,4 @@
-﻿---
+---
 title: "What Claude for Excel Actually Is"
 author: "Arman Hezarkhani"
 username: "@ArmanHezarkhani"
