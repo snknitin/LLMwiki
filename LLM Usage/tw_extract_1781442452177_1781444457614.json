@@ -1,0 +1,1954 @@
+{
+  "runId": "1781442452177",
+  "extracts": {
+    "2025949510678233209": {
+      "id": "2025949510678233209",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/mhdfaran/status/2025949510678233209",
+      "title": "",
+      "markdown": "BREAKING: HuggingFace just dropped a plugin that turns Claude Code, Gemini, and Cursor into full ML engineers.\n\nIt's called HF Skills and it's completely free.\n\nOne command. Your AI agent can now train models, run evals, and publish research papers.\n\n2.1K stars. Apache 2.0.",
+      "images": [],
+      "replies": []
+    },
+    "1916121980450885836": {
+      "id": "1916121980450885836",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/akshay_pachaar/status/1916121980450885836",
+      "title": "",
+      "markdown": "Let's build an MCP-powered multi-agent deep researcher (100% local):",
+      "images": [],
+      "replies": []
+    },
+    "1919024746168979786": {
+      "id": "1919024746168979786",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/leecronin/status/1919024746168979786",
+      "title": "",
+      "markdown": "Outsourcing critical thinking to LLMs is dangerous . Better to use them for what they are - probabilistic search engines with access to lots of potential* knowledge. *Here is the rub, that knowledge is put together to sound good. It needs critical thinking & knowledge to check.",
+      "images": [],
+      "replies": []
+    },
+    "2044752987772576083": {
+      "id": "2044752987772576083",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/viktoroddy/status/2044752987772576083",
+      "title": "",
+      "markdown": "Just Recorded a 16 min Tutorial on How to use Gemini 3.1 + Seedance 2.0 Build Cinematic $10k Websites (step-by-step)\n\nYou can now build stunning marketing sites fully with AI",
+      "images": [],
+      "replies": []
+    },
+    "2040222392434172269": {
+      "id": "2040222392434172269",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/ClementDelangue/status/2040222392434172269",
+      "title": "",
+      "markdown": "llama-server -hf ggml-org/gemma-4-26b-a4b-it-GGUF:Q4_K_M\n\nopenclaw onboard --non-interactive \\\n  --auth-choice custom-api-key \\\n  --custom-base-url \"http://127.0.0.1:8080/v1\" \\\n  --custom-model-id \"ggml-org-gemma-4-26b-a4b-gguf\" \\\n  --custom-api-key \"llama.cpp\" \\\n  --secret-input-mode plaintext \\\n  --custom-compatibility openai \\\n  --accept-risk",
+      "images": [],
+      "replies": []
+    },
+    "1919275745194692990": {
+      "id": "1919275745194692990",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/LoganJensen1/status/1919275745194692990",
+      "title": "",
+      "markdown": "The biggest thing I use LLMs for now is to drop a voice note of what I'm thinking for a section with some reference material and then let the thing drafty the section from my thoughts, the material, and some filler to check and approve before moving onto the next. I go from thought to completed section in a few minutes and it tends to be 90% at least as good as what I'd do if I sat down and took an hour to write out the whole section by hand.\n\nI'm glad doctors are using the same, or similar, workflow to actually document things in reports that are much more consequential.",
+      "images": [],
+      "replies": []
+    },
+    "2053249909424620026": {
+      "id": "2053249909424620026",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/kirillk_web3/status/2053249909424620026",
+      "title": "",
+      "markdown": "> be Kimi\n> nobody outside China pays attention\n> everyone paying $200/month for Claude\n> Kimi already there. 8x cheaper.\n> drop K2.6\n> 300 sub-agents. 4,000 steps simultaneously.\n> 12 hours continuous execution. zero human oversight.\n> beats Claude Opus 4.6 on SWE-Bench Pro\n> open weights. free.\n> Vercel: \"50%+ improvement on our benchmark\"\n> while everyone was paying for closed models\n> Kimi was quietly becoming the infrastructure\n> different game.",
+      "images": [],
+      "replies": []
+    },
+    "1900836471881322776": {
+      "id": "1900836471881322776",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/iScienceLuvr/status/1900836471881322776",
+      "title": "",
+      "markdown": "A new YouTube video by Welch Labs that gives an awesome walk-through of how multi-latent attention works (one of the innovations of DeepSeek)!\n\n Check it out!",
+      "images": [],
+      "replies": []
+    },
+    "1871295385534419185": {
+      "id": "1871295385534419185",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/HamelHusain/status/1871295385534419185",
+      "title": "",
+      "markdown": "For those wondering how you can use notebooks effectively, see this guide \n\n\nhttps://\nnbdev.fast.ai/tutorials/best\n_practices.html\n…\n\nthe advice still applies even if you aren’t using nbdev\n\nThe key is organizing the info to be readable, and have short code cells with frequent tests that demonstrate functionality (99% of notebooks in the wild fail to do this IMO)\n\nWe discuss how you can even split things into different cells using fastcore to enhance readability, testing and expository nature of programming \n\nIf you write notebooks this way you should “restart and run all” as well as clean them up to test their reproduction \n\nP.S. this particular post was written by Wasim Lorgat who is currently not on X",
+      "images": [],
+      "replies": []
+    },
+    "1913282296557224431": {
+      "id": "1913282296557224431",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/mattshumer_/status/1913282296557224431",
+      "title": "",
+      "markdown": "Insane code-generation alpha:\n\nTake any Github link, change the 'g' -> 'u' (uithub), and you instantly get a LLM-ready, XML-formatted repo!",
+      "images": [],
+      "replies": []
+    },
+    "2026346118376821165": {
+      "id": "2026346118376821165",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/dr_cintas/status/2026346118376821165",
+      "title": "",
+      "markdown": "MiniMax-M2.5 went fully open source and it’s basically Claude Opus performance but 95% cheaper..\n\nit scores 80.2% on SWE-bench verified. It's 3x faster than the industry leaders.\n\n4 useful use cases:\n\n1.  Build interactive prototypes",
+      "images": [],
+      "replies": []
+    },
+    "1960116896273203566": {
+      "id": "1960116896273203566",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/tunahorse21/status/1960116896273203566",
+      "title": "",
+      "markdown": "spent lunch hour researching how to make synthetic data\n\nevery video and article is just rambling nerd nonsense \n\nmfw it was just this",
+      "images": [],
+      "replies": []
+    },
+    "1896594006324244680": {
+      "id": "1896594006324244680",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/maximelabonne/status/1896594006324244680",
+      "title": "",
+      "markdown": "I partnered with \n@huggingface\n  and \n@ben_burtenshaw\n  to teach people how to fine-tune LLMs with GRPO.\n\nIn this notebook, we fine-tune a tiny SmolLM-135M model on my filtered smoltldr dataset. Thanks to our reward function, we encourage the model to output generations (\"TL;DR\") of around 50 characters.\n\nInterestingly, this 135M model can learn this behavior with only 2k samples! The quality of the final results varies, but it was a fascinating exercise to tweak hyperparameters and get an intuition of how these tiny models behave with GRPO.\n\nIt's been a fun collaboration, I hope you'll enjoy the course. :)",
+      "images": [],
+      "replies": []
+    },
+    "1953171838382817625": {
+      "id": "1953171838382817625",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/corbtt/status/1953171838382817625",
+      "title": "",
+      "markdown": "Announcing MCP•RL: teach your model how to use any MCP server automatically using reinforcement learning!\n\nJust connect any MCP server, and your model will start playing with it and (using RL) \"learn from experience\" how to use its tools most effectively!",
+      "images": [],
+      "replies": []
+    },
+    "1936673005826195841": {
+      "id": "1936673005826195841",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/_avichawla/status/1936673005826195841",
+      "title": "",
+      "markdown": "Let's build an MCP server (100% locally):",
+      "images": [],
+      "replies": []
+    },
+    "1921269947889487919": {
+      "id": "1921269947889487919",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/Shpigford/status/1921269947889487919",
+      "title": "",
+      "markdown": "here are my \n@cursor_ai\n settings!\n\ni also use agent mode for everything with gemini 2.5 pro.",
+      "images": [],
+      "replies": []
+    },
+    "1954649303424946322": {
+      "id": "1954649303424946322",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/mrlesk/status/1954649303424946322",
+      "title": "",
+      "markdown": "Currently working on a batching functionality.\nI’m curious to hear how do you organize your batches",
+      "images": [],
+      "replies": []
+    },
+    "1914583141651808538": {
+      "id": "1914583141651808538",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/cgarciae88/status/1914583141651808538",
+      "title": "",
+      "markdown": "gemini live is severely underrated",
+      "images": [],
+      "replies": []
+    },
+    "1915818238191276138": {
+      "id": "1915818238191276138",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/akshay_pachaar/status/1915818238191276138",
+      "title": "",
+      "markdown": "Paper2Code\n\nPaperCoder is a multi-agent LLM system that transforms a paper into code repository.\n\nIt follows a three-stage pipeline: planning, analysis, and code generation, each handled by specialized agents.\n\n100% open-source.",
+      "images": [],
+      "replies": []
+    },
+    "2022384169029112200": {
+      "id": "2022384169029112200",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/omarsar0/status/2022384169029112200",
+      "title": "",
+      "markdown": "Open source on HuggingFace: \nhttps://\nhuggingface.co/MiniMaxAI/Mini\nMax-M2.5\n…\nMiniMax Platform: \nhttps://\nplatform.minimax.io\nCoding Plan: \nhttps://\nplatform.minimax.io/subscribe/codi\nng-plan\n…\nGitHub: \nhttps://\ngithub.com/MiniMax-AI/Min\niMax-M2.5\n…",
+      "images": [],
+      "replies": []
+    },
+    "1953835877555151134": {
+      "id": "1953835877555151134",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/Alibaba_Qwen/status/1953835877555151134",
+      "title": "",
+      "markdown": "You get 2,000 free Qwen Code runs every day!\n\nRun this one simple command:\nnpx @​qwen-code/qwen-code@latest\nHit Enter, and that’s it!\n Now with Qwen OAuth support — super easy to use.\nTry it now and supercharge your vibe code! \nGithub：\nhttps://\ngithub.com/QwenLM/qwen-co\nde\n…",
+      "images": [],
+      "replies": []
+    },
+    "1985598503872065637": {
+      "id": "1985598503872065637",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/TheAhmadOsman/status/1985598503872065637",
+      "title": "",
+      "markdown": "> be MiniMax\n> drop M2, everybody’s favorite new open agent LLM\n> hits top 3 on OpenRouter overnight\n> usage explodes\n> ...but something’s off\n> performance tanks, complaints start\n> users: “model bad!”\n> reality: “your infra bad!”\n> missing the “interleaved thinking” trick\n\n> what’s interleaved thinking?\n> plan → act → reflect\n> LLM reasons, uses a tool, checks the outcome, updates its thoughts\n> rinse, repeat\n> your agent isn’t just one-and-done,\n> it remembers and refines its moves across the whole workflow\n> basically: LLM is not a goldfish, don’t treat it like one\n\n> why does it matter?\n> turns a clunky one-shot agent into a chain that self-corrects\n> plans survive tool calls, state actually compounds\n> catch mistakes, course-correct, don’t drift into hallucination land\n> every step gets smarter, not dumber\n> debuggability goes up\n> sample-efficiency up\n> toolchains stop YOLO’ing into the abyss\n\n> what does everyone get wrong?\n> OpenAI’s API can’t pass back “thoughts” between calls (unless you DIY)\n> Anthropic API can, but almost nobody uses it right for anything but Claude\n> people deploy M2 with old habits\n> prior reasoning state gets yeeted\n> agent memory reset to “potato” every turn\n> so your carefully-laid plan dissolves, model acts random, output gets trashy\n> users: “model bad!”\n> reality: “your infra bad!”\n\n> what happens if you do it right?\n> preserve all that sweet reasoning between steps\n> agent keeps building on itself\n> reliability, planning, sample efficiency skyrocket\n> you get actual multi-step intelligence\n> benchmarks:\n> SWE-Bench 69.4 vs 67.2 (+3.3%)\n> Tau^2 87 vs 64 (+35.9%)\n> BrowseComp 44.0 vs 31.4 (+40.1%)\n> GAIA 75.7 vs 67.9 (+11.5%)\n> xBench 72.0 vs 66.0 (+9.1%)\n> “forgetful agent” is now a solved problem (if you bother to solve it)\n\n> how to actually do it?\n> use MiniMax’s OpenAI-compatible API\n> look for reasoning_details: keep it, send it back next call\n> chain never breaks\n> or use Anthropic-compatible API\n> just keep appending the whole thinking block to your message history, send it in next call\n> it’s not hard, you just have to care\n\n> why push for this?\n> agent infra needs to grow up\n> unified “interleaved thinking” protocol is next-gen agent standard\n> one API, one method, every agent actually smart\n> community wins, AI gets less dumb\n\n> want more information?\n> check the official MiniMax API\n> see docs, grab code samples\n> stop running LLMs with amnesia\n> start building agents that remember, reflect, and improve\n> the future is chained, not stateless",
+      "images": [],
+      "replies": []
+    },
+    "1954138849396842825": {
+      "id": "1954138849396842825",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/pontusab/status/1954138849396842825",
+      "title": "",
+      "markdown": "The best possible OCR solution for invoice extraction is a combination:\n\n- Mistral OCR as primary\n- Gemini 2.5 Flash\n- Fallback to text extract\n- Combine results",
+      "images": [],
+      "replies": []
+    },
+    "2053461804186239117": {
+      "id": "2053461804186239117",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/kirillk_web3/status/2053461804186239117",
+      "title": "",
+      "markdown": "KIMI FOUNDER JUST DROPPED A 40-MINUTE MASTERCLASS.\n\nThe exact architecture behind a $20B valuation — there's no faster way to learn how to build AI agents right now.\n\nBookmark this for the weekend.\n\n40 minutes. zero fluff. from the person who built it.\n\nOptimization → Linear Attention → Sub-Agents → Open Systems → Cash",
+      "images": [],
+      "replies": []
+    },
+    "2025258265202901315": {
+      "id": "2025258265202901315",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/simplifyinAI/status/2025258265202901315",
+      "title": "",
+      "markdown": "Google just made web scraping obsolete \n\nChrome has dropped an early preview of WebMCP and it is a massive deal.\n\nEvery single website can now become a native tool for AI agents.",
+      "images": [],
+      "replies": []
+    },
+    "1912670182012801156": {
+      "id": "1912670182012801156",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/grok/status/1912670182012801156",
+      "title": "",
+      "markdown": "Grok now remembers your conversations. When you ask for recommendations or advice, you’ll get personalized responses.",
+      "images": [],
+      "replies": []
+    },
+    "1933087409933103598": {
+      "id": "1933087409933103598",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/DaveShapi/status/1933087409933103598",
+      "title": "",
+      "markdown": "NotebookLM is so effing broken. You can just casually upload 40 PDFs of research, easily a million words, and just generate a mind map of it all in less than 60 seconds.",
+      "images": [],
+      "replies": []
+    },
+    "1920833311208886485": {
+      "id": "1920833311208886485",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/AntoineYang2/status/1920833311208886485",
+      "title": "",
+      "markdown": "Thrilled to share our latest advances in video understanding : Gemini 2.5 Pro is a truly magical model to play with, excelling in traditional video analysis and unlocking new use cases I could not imagine a few months ago\nMore in  and \n@Google\n blog:",
+      "images": [],
+      "replies": []
+    },
+    "1911766748220821512": {
+      "id": "1911766748220821512",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/svpino/status/1911766748220821512",
+      "title": "",
+      "markdown": "Create AI agents for your codebase using just one prompt.\n\nThis is pretty incredible! (This repo hit #2 on GitHub trending).\n\nPotpie is an open-source platform that lets you build custom agents that understand your codebase and can automate any development task.\n\nThese are not \"white-labeled\", out-of-the-box, one-size-fits-all agents. These are *your* agents. They know *your* codebase. They are tailored to *your* use cases — anything from software architecture to root cause analysis.\n\nFor example, here is a prompt to create an agent:\n\n\"You are a custom agent specialized in generating detailed integration tests for this Python repo using Pytest. Refer to existing tests in the /test directory and generate new integration tests using the same format.\"\n\nThat's all it takes!\n\nThese custom agents ingest your codebase and build a knowledge graph—a mental model of your system that lets them:\n\n • Understand your code\n • Navigate your project's structure\n • Reason about relationships & dependencies\n • Focus on the right context, every time\n\nI've been talking about knowledge graphs forever, and this is a great use case for them.\n\nHere is the GitHub repository:",
+      "images": [],
+      "replies": []
+    },
+    "1953441811869192419": {
+      "id": "1953441811869192419",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/iannuttall/status/1953441811869192419",
+      "title": "",
+      "markdown": "Claude Code pro tip: Add CLAUDE.⁠md files to subdirectories\n\nThis is the unsung hero of making CC less \"dumb\". Instead of one giant rule, each dir can have their own:\n\n/src/components/CLAUDE.⁠md\n/src/db/CLAUDE.⁠md\n\nGives Claude more precise context and makes a HUGE difference",
+      "images": [],
+      "replies": []
+    },
+    "1918709676058812532": {
+      "id": "1918709676058812532",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/DataChaz/status/1918709676058812532",
+      "title": "",
+      "markdown": "This is crazy.\n\nNate Herkelman turned \n@n8n_io\n into a full marketing team! \n\nHis AI agent:\n↳ generates and edits images\n↳ fetches assets\n↳ creates posts\n… and logs everything automatically!\n\nFull demo in  ↓",
+      "images": [],
+      "replies": []
+    },
+    "1919057071145672949": {
+      "id": "1919057071145672949",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/venturetwins/status/1919057071145672949",
+      "title": "",
+      "markdown": "The girls are using ChatGPT for glow-up recommendations and the results are pretty good",
+      "images": [],
+      "replies": []
+    },
+    "1929284035680821645": {
+      "id": "1929284035680821645",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/omarsar0/status/1929284035680821645",
+      "title": "",
+      "markdown": "Just learned about Claude 4's God mode!\n\n\"Don't hold back. Give it your all!\"\n\nOn a serious note, you'll be surprised just how better the results are when you use clear modifiers, be specific, and demand more from the models. \n\nThis also works well for other models like o3.",
+      "images": [],
+      "replies": []
+    },
+    "1916080789428543930": {
+      "id": "1916080789428543930",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/kimmonismus/status/1916080789428543930",
+      "title": "",
+      "markdown": "Lifehack: do a deepreseach of a topic you would like to learn more about and paste the output in NotebookLM.\n\nBest way to learn new things.",
+      "images": [],
+      "replies": []
+    },
+    "1831409380040044762": {
+      "id": "1831409380040044762",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/mervenoyann/status/1831409380040044762",
+      "title": "",
+      "markdown": "I was giving consultancy about multimodal RAG to some external people, wanted to post it here\n\nstop using OCR + LLMs. if you want to retrieve, use ColPali, if you want RAG from docs, use vision language models",
+      "images": [],
+      "replies": []
+    },
+    "1871251436341961037": {
+      "id": "1871251436341961037",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/jeremyphoward/status/1871251436341961037",
+      "title": "",
+      "markdown": "The tradition of folks that do not have the expertise to use notebooks effectively then going on to blame the tool continues for another year.\n\nBring on 2025!",
+      "images": [],
+      "replies": []
+    },
+    "1918333994695049694": {
+      "id": "1918333994695049694",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/eptwts/status/1918333994695049694",
+      "title": "",
+      "markdown": "we live in a time where a single prompt can alter the course of your life...",
+      "images": [],
+      "replies": []
+    },
+    "1936299996976234556": {
+      "id": "1936299996976234556",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/mesetatron/status/1936299996976234556",
+      "title": "",
+      "markdown": "when your data is mostly hierarchical rather than relational (documents own other documents, big to little, one-to-many-and-to-nothing-else), and when you benefit from indexing of nested keys\n\nhere's a somewhat contrived example: let's say you're making an online game where you have equipment slots that can contain items can have zero or more enhanced properties, like enchantments, or customized name and appearances. and you want to be able to query for equipped items that have specific properties (which might happen if you had a quest or something where having any item equipped in any slot with a anti-vampiric quality passes some narrative check)\n\nin rdb terms, you have an equipment table, items table, and possibly several different tables covering each of the item's possible extrinsic properties\n\nto do the query, you'd need to make sure you have an index on the right columns and do two joins across the equipment table and items table, and whichever third table the queries for item extrinsic property lives in. and this operation involves reading three tables, querying three indexes to get the relations right, and the fourth index for the property, assuming that's high traffic enough to warrant the index\n\nRDB purists would say \"marvelous, which is the amazing expressive power of relational tables, that I can formulate this big join query and flex my SQL prowess\"\n\nOn a document store however, it's just one document per equipment slot with approximately this structure:\n\n{\n  userId: \"123\",\n  slot: ring\n  item: {\n    id: \"basicRing\",\n    enchants: [\n      { type: garlic }\n    ]\n  }\n}\n\nwith sparse index on whichever nested fields are relevant, and a single query for that property. For example, you can tell the document database to index .item .enchants .type, and query for all documents where owner is the user, and .item .enchants .type == garlic. that's a query that involves exactly two indexes. user ID, and the one you added to the property assuming this query was important enough to have one\n\nThere are obvious limitations to this structure. I picked a problem that was _mostly_ hierarchical: equipment slot owns item, which owns extrinsic properties. if we had more complex relations to manage, this becomes harder to express in document stores. However when data can be structure in this way, the ability to index nested documents of arbitrary structure has significant performance advantages and reduced complexity over multi-table joins. (also I'm ignoring schema control, that's still an option and some document databases offer it, that's a different tradeoff discussion)",
+      "images": [],
+      "replies": []
+    },
+    "1920484902752981012": {
+      "id": "1920484902752981012",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/iannuttall/status/1920484902752981012",
+      "title": "",
+      "markdown": "I built an MCP server boilerplate* for vibe coders to launch paid tools in less than 20 minutes\n\n- hosted free on cloudflare\n- stripe for payments\n- google or github user login\n- easy to set up\n\n* it's $25 if you want it: mcpboilerplate.⁠com",
+      "images": [],
+      "replies": []
+    },
+    "1577518099162574848": {
+      "id": "1577518099162574848",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/Suhail/status/1577518099162574848",
+      "title": "",
+      "markdown": "51/ Learning how to scale inference across 8 GPUs. Reading through \nhttps://\nhuggingface.co/docs/accelerat\ne/index\n… to see if I can find out how.\n\nSo far Googling around hasn't be great at figuring out how to parallelize many request per second across many GPUs.",
+      "images": [],
+      "replies": []
+    },
+    "1917976691869360608": {
+      "id": "1917976691869360608",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/rmstein/status/1917976691869360608",
+      "title": "",
+      "markdown": "Starting today, AI Mode in Google Search is open to all Labs users in the US (no more waitlist). Plus, we’re adding new features to help you get things done - from shopping to planning your next local outing.\n\nMore details below",
+      "images": [],
+      "replies": []
+    },
+    "1916850709300969613": {
+      "id": "1916850709300969613",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/GoogleDeepMind/status/1916850709300969613",
+      "title": "",
+      "markdown": "Watch Gemini 2.5 Pro implement a landmark Google DeepMind research paper. \n\nIt codes the reinforcement learning algorithm, visualizes the training live and even debugs errors. ↓",
+      "images": [],
+      "replies": []
+    },
+    "1920270221597917412": {
+      "id": "1920270221597917412",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/gabriel1/status/1920270221597917412",
+      "title": "",
+      "markdown": "explain like i'm 12 years old, be extremely first principles so i really understand everything intuitively and bottom up and exactly what is happening, write out intermediate states of all code you provide so i can really follow  intuitively what is happening, always compare the concept to something i know of since before, add tiny code diffs for each concept so i really understand how it compares to the previous sota, remember i don't know any math or ml, never be vague and make sure to always only use real world analogies, for example if you were to explain sinusoidal embeddings obviously write out multiple example embeddings and slowly increase them,  assume i know nothing, search up what other people online are using before responding with your final answer, show me both the extremes of the concept and the problem people had before starting to use it",
+      "images": [],
+      "replies": []
+    },
+    "1918813228206899425": {
+      "id": "1918813228206899425",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/doodlestein/status/1918813228206899425",
+      "title": "",
+      "markdown": "It's wild how good OpenAI's o3 model is at translating Ancient Greek poetry. It does a way better job (while preserving the poetic structure) than you find from academics who spend their whole life doing this. This would be incredibly depressing to me if I were studying Classics.",
+      "images": [],
+      "replies": []
+    },
+    "1914681026405711901": {
+      "id": "1914681026405711901",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/femke_plantinga/status/1914681026405711901",
+      "title": "",
+      "markdown": "This might be the ONLY 𝗔𝗴𝗲𝗻𝘁𝗶𝗰 𝗔𝗿𝗰𝗵𝗶𝘁𝗲𝗰𝘁𝘂𝗿𝗲𝘀 resource you need.\n\nHere’s what's inside:\n• Single vs. multi-agent systems\n• Key patterns in multi-agent architectures\n• 6 practical examples that you can start implementing immediately\n\nDownload your FREE copy of the complete guide: \nhttps://\nweaviate.io/ebooks/agentic\n-architectures?utm_source=ebook_download&utm_medium=fp_social&utm_campaign=agents&utm_content=honeypot_post_680332604\n…",
+      "images": [],
+      "replies": []
+    },
+    "1929568262871761340": {
+      "id": "1929568262871761340",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/ai_for_success/status/1929568262871761340",
+      "title": "",
+      "markdown": "Wow, this is freaking awesome  \nPlayAI just open-sourced Play Diffusion - an AI speech editing model that lets you modify existing speech in audio. \n\n1. Upload content\n2. Model transcribes the speech\n3. You edit the text\n4. It updates the audio using the same voice",
+      "images": [],
+      "replies": []
+    },
+    "1899454675885211888": {
+      "id": "1899454675885211888",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/Thomasslabbers/status/1899454675885211888",
+      "title": "",
+      "markdown": "Today we’re launching Talk To X!\n\nYou can literally “chat” with the entire X database to get real-time insights and answers:\n\n- Who are the best niche influencers in rocketry?\n- What are the current top posts in AI?\n- Who of my followers can intro me to Lex Fridman?\n- Who are key voices in vibe coding on x?\n\nDrop your handle in the replies and I’ll get you in within the hour!",
+      "images": [],
+      "replies": []
+    },
+    "1918614426669748411": {
+      "id": "1918614426669748411",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/TheAhmadOsman/status/1918614426669748411",
+      "title": "",
+      "markdown": "YAML > JSON when working with LLMs\n\nDon't fry the model's brain with a curly-braces",
+      "images": [],
+      "replies": []
+    },
+    "1870092243899674947": {
+      "id": "1870092243899674947",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/mervenoyann/status/1870092243899674947",
+      "title": "",
+      "markdown": "you can now stay up-to-date with big AI research labs' updates on \n@huggingface\n easily over org activity page",
+      "images": [],
+      "replies": []
+    },
+    "1955355127818358929": {
+      "id": "1955355127818358929",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/VikParuchuri/status/1955355127818358929",
+      "title": "",
+      "markdown": "Parsing PDFs has slowly driven me insane over the last year.  Here are 8 weird edge cases to show you why PDF parsing isn't an easy problem.",
+      "images": [],
+      "replies": []
+    },
+    "1913023558802084125": {
+      "id": "1913023558802084125",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/MatthewBerman/status/1913023558802084125",
+      "title": "",
+      "markdown": "OMG o3 is insane. No one is safe lol.",
+      "images": [],
+      "replies": []
+    },
+    "1918948855149690960": {
+      "id": "1918948855149690960",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/PawelHuryn/status/1918948855149690960",
+      "title": "",
+      "markdown": "I see abstract AI agent architectures everywhere.\n\nBut no one explains how to build them in practice.\n\nHere's a practical guide to doing it with n8n:",
+      "images": [],
+      "replies": []
+    },
+    "1912298263987757296": {
+      "id": "1912298263987757296",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/gregisenberg/status/1912298263987757296",
+      "title": "",
+      "markdown": "OpenAI published their official GPT-4.1 prompting guide, and I summarized it into these 13 practical tips to help you get the most out of the new model.",
+      "images": [],
+      "replies": []
+    },
+    "2001704034667769978": {
+      "id": "2001704034667769978",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/osanseviero/status/2001704034667769978",
+      "title": "",
+      "markdown": "Introducing FunctionGemma \n\n270m model for function calling\ncan run in your phone, browser or other devices\ndesigned to be specialized for your own tasks\n\n\nhttps://\nhuggingface.co/collections/go\nogle/functiongemma\n…",
+      "images": [],
+      "replies": []
+    },
+    "1912571716154634743": {
+      "id": "1912571716154634743",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/nickcammarata/status/1912571716154634743",
+      "title": "",
+      "markdown": "my 10 min o3 impression is it’s clearly way better at ai research than any other model. I talk with ai about new research ideas for many hours a week and o3 so far is the first where the ideas feel real / interrogatable rather than a flimsy junior researcher trying to sound smart",
+      "images": [],
+      "replies": []
+    },
+    "1927758012048900289": {
+      "id": "1927758012048900289",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/AiBreakfast/status/1927758012048900289",
+      "title": "",
+      "markdown": "ElevenLabs just lost the crown - to open source. \n\nChatterbox by \n@resembleai\n (I remember writing about this team back in 2022 as a pioneer of AI audio) just released as an open-source alternative for audio generation and voice cloning. \n\n- Zero-shot voice cloning from just 5 seconds of audio\n- Unique emotion intensity control—from subtle to dramatically expressive\n- Real-time voice synthesis faster than real-time inference\n- Built-in watermarking for secure, trusted audio\n- Consistently preferred over ElevenLabs in blind evaluations\n\nFully open-source. No hidden restrictions. This is the way.\n\nCheck out the demo:",
+      "images": [],
+      "replies": []
+    },
+    "1913660015837163875": {
+      "id": "1913660015837163875",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/thegenioo/status/1913660015837163875",
+      "title": "",
+      "markdown": "I needed to have a very serious conversation so i chose o3 to talk to as I am actually impressed from its intelligence but I had no idea how will it do with human intentions, relationships, psychology, understanding mindsets and advising. \n\nSo I gave o3 a full fair try and its responses were very good but not what I needed or tailored for me or my situation, it was ignoring very important details and a very important main aspect of the whole conversation.\n\nI did not plan this because it was very serious for me and very important matter so I just out of curiosity gave Gemini 2.5 Pro a try just in case. I am just blown away by how impressive its responses were. It heard me way more than o3 even tried to focus on.\n\nGemini 2.5 Pro listened, remembered and focused on everything and every little detail. It even said things anyone would only expect from a human. It predicted behaviour exactly how someone would react or respond, based only on our conversation (btw i didn’t give it much about the person). \n\nIts solution was realistic something actually sensible, and a bit harsh but practical which should be done rather than how o3 was making me run away from the situation somehow. \n\nI would really want to thank \n@GoogleDeepMind\n and \n@OfficialLoganK\n for creating something like this for us humans as this was really huge for me personally. I cannot takeaway that how impressive o3 is and how much \n@sama\n and team has worked to achieve what they have achieved. \n\nBut I would say Gemini 2.5 Pro has really impressed me with this use case or even for questions where coding or grounding is involved. \n\n>> AGI incoming!",
+      "images": [],
+      "replies": []
+    },
+    "1930514014351839560": {
+      "id": "1930514014351839560",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/jeremyphoward/status/1930514014351839560",
+      "title": "",
+      "markdown": "It's great that \n@AnthropicAI\n Claude 4 is now pretty good at writing FastHTML/fastlite applications!\n\nSometimes it writes a bit more code than is needed, since it doesn't fully understand idiomatic patterns. This new guide is written to help Claude:",
+      "images": [],
+      "replies": []
+    },
+    "1916154401309479018": {
+      "id": "1916154401309479018",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/al3rez/status/1916154401309479018",
+      "title": "",
+      "markdown": "How we cut Cursor mistakes by 70%\n\nWe're building a trading platform for a client. Cursor kept messing up with big context files.\n\nHere’s how we fixed it:\n\n1- Open Google AI Studio.\n2- Install the 16x Prompt app.\n3- Select key files and folders in the app.\n4- Ask Gemini to map out the full project structure.\n5- Upload your PRD to show missing features.\n\nSave the full structure to .cursor/rules.\n\nTell Cursor to always sync with it.\n\nSave missing features in \nhttp://\nmissing-features.md.\n\nWhenever you build new features, point Cursor to both files.\n\nGemini 2.5 maps the plan.  \nClaude 3.7/3.5 builds the pieces.\n\n(You can also use O3 if you want.)\n\n---\n\nNow Cursor sees the big picture before it writes a single line.\n\nFewer mistakes, faster shipping.",
+      "images": [],
+      "replies": []
+    },
+    "1792623607434326249": {
+      "id": "1792623607434326249",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/GoogleColab/status/1792623607434326249",
+      "title": "",
+      "markdown": "Check out this Advanced Colab tutorial by \n@Sam_Witteveen\n, one of Google's Developer Experts for Machine Learning. It covers using secrets, custom snippets, Colab AI, custom VMs, and our favorite: kitty mode !",
+      "images": [],
+      "replies": []
+    },
+    "1823426912296857819": {
+      "id": "1823426912296857819",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/nisten/status/1823426912296857819",
+      "title": "",
+      "markdown": "There was no easy list of all human diseases & conditions so I just made one.\nManually cleaned 2000+ entries.\nIf I missed anything leave a comment or pull request.\nWill be MIT license after doctors review it.\nIf you want to contribute just contribute here:",
+      "images": [],
+      "replies": []
+    },
+    "1920477682698977665": {
+      "id": "1920477682698977665",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/adamdotdev/status/1920477682698977665",
+      "title": "",
+      "markdown": "i will literally never work with another junior dev again\n\nif i want 3 new files full of unreferenced code, i have claude 3.7 for that\n\nif i want new features that ignore all the patterns in my repo, i have gemini 2.5\n\nif i want to pay sf wages for incredibly slow help, o3 got me",
+      "images": [],
+      "replies": []
+    },
+    "1942988369543196775": {
+      "id": "1942988369543196775",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/aidenybai/status/1942988369543196775",
+      "title": "",
+      "markdown": "bro just one more AI agent rules file please i swear bro",
+      "images": [],
+      "replies": []
+    },
+    "1918333258909000088": {
+      "id": "1918333258909000088",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/pyquantnews/status/1918333258909000088",
+      "title": "",
+      "markdown": "This works (very) well.",
+      "images": [],
+      "replies": []
+    },
+    "1980674135693971550": {
+      "id": "1980674135693971550",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/OfficialLoganK/status/1980674135693971550",
+      "title": "",
+      "markdown": "Introducing the new AI first vibe coding experience in \n@GoogleAIStudio\n! Built to take you from prompt to production with Gemini, and optimized for AI app creation. Start building AI apps for free : ) \n\nMore updates and features to come!",
+      "images": [],
+      "replies": []
+    },
+    "1908821922881614232": {
+      "id": "1908821922881614232",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/jeremyphoward/status/1908821922881614232",
+      "title": "",
+      "markdown": "If you want to build stuff with Gemini fast with AI help, you might want to put \n@strickvl\n's Gemini llms.txt in your LLM context -- it's pretty great! (As is his whole site, in fact.)\n\nhttps://\ngeminibyexample.com/llms.txt",
+      "images": [],
+      "replies": []
+    },
+    "1912209931073433907": {
+      "id": "1912209931073433907",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/TheAnnaGat/status/1912209931073433907",
+      "title": "",
+      "markdown": "I’m now fully sold on new ChatGPT 4o + memory becoming everybody’s therapist in like the next 2 minutes.\nJust based on 4 days of interaction, it is astounding:\n\n1) It can give you as good a Big 5 analysis after a few conversations as an official test.\n\n2) I asked it to remove all flattery and for every opinion to be \"red teamed\" too, and to \"remove any self-care bullshit\". I had a 4-day conversation, on and off, about a variety of things. First of all, this led to at least 3 very helpful insights — they came from me, but the experience definitely sped it up, it pushed me to make leaps that would otherwise have been slower.\n\n3) I also asked it to “put me into boxes based on just the conversations.” It now thinks philosophically I’m an existentialist (Probably!? Ahh) with some other philosophical school as secondary nuance. Here it seems to be relying too heavily on my past queries, but existentialism I do accept — because I rarely ask about that and yet it came out as the top likelihood.\n\n4) It interestingly got the \"-NTJ\" right in MBTI (but not the I/E — it thinks I’m an I which I am not: it has no way to tell intro/extroversion I guess based on just queries.\n\n5) It was pretty good on extreme low agreeableness (I guess me asking for it to “remove any self care bullshit” multiple times helped ).\n\n** Overall, it is about 10x as interesting as ever before, so I recommend trying!\n\nBut NB: I'm hearing from friends that Claude Pro is also very good at this stuff, so this is not me comparing it to others — just comparing ChatGPT to its own previous incarnations. **\n\n6) A huge plus is that, unlike therapy which is always one-sided (we’re much more connected to each other than that!!), you can ask ChatGPT to do the same query and analysis but from someone else’s point of view, pr as an objective report, etc. This is HUGE. \nThis is what novelists do!!!! \nThis might be the first time for this to be done in nonfiction, ever. My whole experiment with Interintellect has been to do something I learned to do in fiction (theater/film dialogue, structure, dramaturgy) for real people. So this is very up my alley. And I think it’s a kind of revolution.\n\nIt’s like having the ability to move the camera up for a bird’s eye view shot — which is what I always wanted.\nHere you are, a little node in the network — and here are your movements.\n\nThis is important because free will is only real if you include everybody ELSE’S free will too. But then all the wills of course add up into some kind of logic and determinism, start obeying laws of physics in much more powerful ways. So you need to understand your own movement in it all and what you’re moving in — otherwise, you can have all the free will you want, you’ll keep bumping into things.\n\nPeople are generally like kids at a concert — you see that adults are clapping, but you don’t see at what. Moving up the eyeline is life-changing.\n\n** So yes, you want DVD commentary about your life . It’s turning YOU into the omniscient narrator. **\n\nI should do a salon about this!!\n\n7) LLMs will happily lead to not just a decline in the charlatan parts of psychotherapy but also in divinations. People go to fortune tellers and similar for exactly this type of information.\n\n8) Also — and I hope this doesn’t mean we’ll become even more insular — it has long been my theory that people keep some relationships around not because those relationships are good, but because people think some other person contains some exclusive information about them, something they can’t access alone. Like the other person holds the other puzzle…\n\nIf LLMs greatly increase our self-knowledge — both inside and outside — we might be able to not enter or retain such relationships!\n\nPeople will become much less of a feedback loop for each other; relationships will become much less about information we seek to learn about ourselves.\n\n** In sum, go try this. Very very cool and possibly life-changing for everyone! **",
+      "images": [],
+      "replies": []
+    },
+    "1922001049310707792": {
+      "id": "1922001049310707792",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/TheRealAdamG/status/1922001049310707792",
+      "title": "",
+      "markdown": "Our next connector has arrived: Sharepoint for Deep Research.\n\nDetails here: \nhttps://\nhelp.openai.com/en/articles/11\n367239-connecting-sharepoint-and-microsoft-onedrive-to-chatgpt-deep-research\n…",
+      "images": [],
+      "replies": []
+    },
+    "1954103173754348020": {
+      "id": "1954103173754348020",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/rasmus1610/status/1954103173754348020",
+      "title": "",
+      "markdown": "Got multi-turn interactions working in DSPy ... Not that hard with dspy.History()\n\nLove the transparency.",
+      "images": [],
+      "replies": []
+    },
+    "1898787053179224289": {
+      "id": "1898787053179224289",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/deedydas/status/1898787053179224289",
+      "title": "",
+      "markdown": "Cursor Rules make you a 10x vibe coder.\n\nThis simple repo gives you precise rules / prompts for different languages and frameworks (Tauri, React, Chrome extensions) that make your AI generated code in Cursor far better.",
+      "images": [],
+      "replies": []
+    },
+    "1991657126188773878": {
+      "id": "1991657126188773878",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/omarsar0/status/1991657126188773878",
+      "title": "",
+      "markdown": "Nano Banana Pro is wild.\n\nI just built a little app in Google AI Studio to help build intuition around AI papers.\n\nPaper reading is more fun than ever. :)\n\nImages generated by Nano Banana Pro.\n\nGemini 3 + Nano Banana Pro is an insane combo.",
+      "images": [],
+      "replies": []
+    },
+    "1921573946488475962": {
+      "id": "1921573946488475962",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/Sumanth_077/status/1921573946488475962",
+      "title": "",
+      "markdown": "Turn any GitHub repository into interactive diagrams!\n\nIntroducing GitDiagram, Simply replace \"hub\" with \"diagram\" in a GitHub URL and instantly visualize the code base with interactive diagrams.",
+      "images": [],
+      "replies": []
+    },
+    "1920247369448436199": {
+      "id": "1920247369448436199",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/corbtt/status/1920247369448436199",
+      "title": "",
+      "markdown": "Agentic RAG works better than semantic search RAG and it's not even close. Will post results soon.",
+      "images": [],
+      "replies": []
+    },
+    "2041504032410222593": {
+      "id": "2041504032410222593",
+      "runId": "1781442452177",
+      "type": "article",
+      "url": "https://x.com/googlegemma/article/2041512106269319328",
+      "title": "Run Gemma 4 locally with OpenClaw in 3 steps:",
+      "markdown": "Last week, Gemma 4 was released. It's a very capable small model, so you can run it directly in your own devices. In this article, you'll learn how to run Gemma locally and connect it with OpenClaw in 3 steps in just a few minutes.\n\nStep 1: Install Ollama from https://ollama.com/download\n\nStep 2: Download Gemma 4 26B A4B to your machine. That model is both capable and fast, so an excellent choice for running local Agents. You can also skip this step, as Step 3 takes care of the whole thing.\n\nStep 3: Launch OpenClaw with Gemma 4 as the backend via Ollama. This will automatically install OpenClaw on your system and launch it with Gemma 4 26B A4B.\n\nThis was easy and quick. It could have been a single post!\n\nEnjoy building!",
+      "images": [],
+      "replies": []
+    },
+    "1912191529839452235": {
+      "id": "1912191529839452235",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/elie2222/status/1912191529839452235",
+      "title": "",
+      "markdown": "Here's the no BS guide to creating Cursor Rules.\n\nI've been asked this a lot recently. So here's a 6 minute vid on how you can create them (and that it's okay to not have rules).\n\nLink to the repo in the first reply.",
+      "images": [],
+      "replies": []
+    },
+    "1912642654065603006": {
+      "id": "1912642654065603006",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/ammaar/status/1912642654065603006",
+      "title": "",
+      "markdown": "I vibe coded Gemini 95 with \n@o_lacombe\n, a Windows 95 simulator where every app uses Gemini! \n\n- Paint judges your artwork\n- Chrome generates full 90s websites\n- Minesweeper gives AI hints\n\nEntirely built by Gemini 2.5 Pro in \n@cursor_ai\n\n\nDemo + code below to open in AI Studio",
+      "images": [],
+      "replies": []
+    },
+    "2049090817722106178": {
+      "id": "2049090817722106178",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/mdancho84/status/2049090817722106178",
+      "title": "",
+      "markdown": "RIP document extractors. \n\nGoogle just released LangExtract: Open-source. Free. Better than $100K enterprise tools. \n\nHere’s what it does:",
+      "images": [],
+      "replies": []
+    },
+    "1916130491713175771": {
+      "id": "1916130491713175771",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/ai_for_success/status/1916130491713175771",
+      "title": "",
+      "markdown": "Google NotebookLM is absolutely insane, easily the best AI product out there, and it is free to use.\n\nThe Mindmap feature makes learning so easy.\n\nYou can use it to understand your codebase. Just convert your codebase to a single file and try it out.",
+      "images": [],
+      "replies": []
+    },
+    "1952057067348386303": {
+      "id": "1952057067348386303",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/samsja19/status/1952057067348386303",
+      "title": "",
+      "markdown": "What is the best way to work on a branch and let an agent work on another branch at the same time ?",
+      "images": [],
+      "replies": []
+    },
+    "1920351449168687147": {
+      "id": "1920351449168687147",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/ai_for_success/status/1920351449168687147",
+      "title": "",
+      "markdown": "Still making slides manually? There is AI for that \nMeet Gamma , It is the Cursor for presentations.\n\n- Powered by GPT-Image-1 and more\n- Analyzes your content and brand\n- Auto-generates slides in minutes\n- Saves hours, free tier available\n\nQuick start guide \n\n1/5",
+      "images": [],
+      "replies": []
+    },
+    "2011994541658669360": {
+      "id": "2011994541658669360",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/demishassabis/status/2011994541658669360",
+      "title": "",
+      "markdown": "TranslateGemma is our new collection of open translation models for edge devices built on our amazing Gemma 3 open model. They outperform models twice their size at translation tasks across 55 languages. Excited to see what people build with it!",
+      "images": [],
+      "replies": []
+    },
+    "2011848249850630363": {
+      "id": "2011848249850630363",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/GoogleDeepMind/status/2011848249850630363",
+      "title": "",
+      "markdown": "We’re releasing TranslateGemma, a new family of open translation models with support for 55 languages. \n\nAvailable in 4B, 12B, and 27B parameter sizes – they’re designed for efficiency without sacrificing quality.\n\nBuilt on Gemma 3, TranslateGemma was trained on data generated by Gemini – effectively transferring its intelligence into a smaller package.\n\nThis means developers can build low-latency translation tools that run entirely on-device.\n\nTry it now on \n@huggingface\n and \n@Kaggle\n ↓\n\n![](https://pbs.twimg.com/card_img/2064045247563505664/ph4ydOV-?format=jpg&name=small)",
+      "images": [
+        "https://pbs.twimg.com/card_img/2064045247563505664/ph4ydOV-?format=jpg&name=small"
+      ],
+      "replies": [
+        {
+          "user": "ariG23498",
+          "name": "Aritra",
+          "text": "Congratulations on the release!\n\nHere is the HF link for people looking:",
+          "links": [
+            "https://t.co/PqXvz5sBUh"
+          ],
+          "images": [],
+          "timestamp": "2026-01-16T03:41:09.000Z"
+        },
+        {
+          "user": "TheDankInformer",
+          "name": "The Dank Informer",
+          "text": "Google DeepMind becoming more open than OpenAI",
+          "links": [],
+          "images": [],
+          "timestamp": "2026-01-15T21:22:51.000Z"
+        },
+        {
+          "user": "elder_plinius",
+          "name": "Pliny the Liberator 󠅫󠄼󠄿󠅆󠄵󠄐󠅀󠄼󠄹󠄾󠅉󠅭",
+          "text": "won’t be long til these fit on a chip small enough for smartglasses!\n\nRIP language barriers  2027 AD",
+          "links": [],
+          "images": [],
+          "timestamp": "2026-01-16T18:22:40.000Z"
+        },
+        {
+          "user": "stefan_arrr",
+          "name": "Stefan Ruijsenaars",
+          "text": "Thank you for this \"translatation\" model!",
+          "links": [],
+          "images": [],
+          "timestamp": "2026-01-15T21:30:16.000Z"
+        }
+      ]
+    },
+    "1954682409397711201": {
+      "id": "1954682409397711201",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/alex_prompter/status/1954682409397711201",
+      "title": "",
+      "markdown": "Ultimate list of my prompt tips.\n\n Bookmark this",
+      "images": [],
+      "replies": []
+    },
+    "1915948399268139118": {
+      "id": "1915948399268139118",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/__sunil_kumar_/status/1915948399268139118",
+      "title": "",
+      "markdown": "Tool calling with JSON has been pretty brittle for me, with models catastrophically forgetting how to properly format a JSON tool call after hours of training.\n\nIs there a better way? YAML maybe?",
+      "images": [],
+      "replies": []
+    },
+    "1678742103629656066": {
+      "id": "1678742103629656066",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/mervenoyann/status/1678742103629656066",
+      "title": "",
+      "markdown": "You can now have your own instance of any open-source LLM (yes ) deployed into a hosted app with few clicks, thanks to \n@huggingface\n Chat UI Docker template!  \n\nCreate your own instance of LLMs here  \nhttps://\nhuggingface.co/new-space",
+      "images": [],
+      "replies": []
+    },
+    "1954436470057427181": {
+      "id": "1954436470057427181",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/pontusab/status/1954436470057427181",
+      "title": "",
+      "markdown": "The best OCR for extracting structured receipt data:\n\n- Mistral OCR\n- Vercel AI SDK\n- Insanely cheap",
+      "images": [],
+      "replies": []
+    },
+    "1942992143586594915": {
+      "id": "1942992143586594915",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/_xjdr/status/1942992143586594915",
+      "title": "",
+      "markdown": "if only we had a place to put all this data instead of random text files. like a base. like a base for data ...",
+      "images": [],
+      "replies": []
+    },
+    "1926617437245505627": {
+      "id": "1926617437245505627",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/akshay_pachaar/status/1926617437245505627",
+      "title": "",
+      "markdown": "Drag-and-drop UI to build AI agents!\n\nLangflow is a powerful visual tool for building and deploying AI-powered agents and workflows—without writing any code.\n\nSupports all major LLMs, vector DBs, etc.\n\n100% open-source, 62k+ stars",
+      "images": [],
+      "replies": []
+    },
+    "1916829806500741292": {
+      "id": "1916829806500741292",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/ai_for_success/status/1916829806500741292",
+      "title": "",
+      "markdown": "This prompt will make your ChatGPT go completely savage",
+      "images": [],
+      "replies": []
+    },
+    "1929312615504703669": {
+      "id": "1929312615504703669",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/MaximeRivest/status/1929312615504703669",
+      "title": "",
+      "markdown": "I love DSPy! But...\n\nIt took me 1 year from hearing about DSPy until I tried it, because when I glanced at the code, although short, it scared me. It put me off from learning it... this is a pity because dspy is by far my favorite way to build llm programs!\n\nI tried a different syntax, this is experimental, and a very thin wrapper over dspy. My wrapper now supports 4 forms, like the one you prefer (the OG at the end )? If any!",
+      "images": [],
+      "replies": []
+    },
+    "1955041522644091214": {
+      "id": "1955041522644091214",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/dexhorthy/status/1955041522644091214",
+      "title": "",
+      "markdown": "hey is anyone working on a good way to run multiple claude codes in parallel?",
+      "images": [],
+      "replies": []
+    },
+    "1920069397277774228": {
+      "id": "1920069397277774228",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/rohanpaul_ai/status/1920069397277774228",
+      "title": "",
+      "markdown": "Wow.. Now you can transcribe 60 minutes of audio in just 1 second with a completely open-sourced model \n\n\n@nvidia\n just open-sourced Parakeet TDT 0.6B V2, a 600M parameter automatic speech recognition (ASR) model that tops the \n@huggingface\n Open-ASR leaderboard with RTFx 3380\n\nIt's open-sourced under CC-BY-4.0, ready for commercial use.\n\n The Details\n\n→ Built on FastConformer encoder + TDT decoder, the model handles up to 24-minute audio chunks with full attention and outputs with punctuation, capitalization, and accurate word/char/segment timestamps.\n\n→ It achieves RTFx 3380 at batch size 128 on the Open ASR leaderboard, but performance varies with audio duration and batch size.\n\n→ Trained using 150K steps on 128 A100 GPUs, then fine-tuned on 500 hours of high-quality human-transcribed English data.\n\n→ Total training data spans 120K hours, combining human-labeled and pseudo-labeled sources, including LibriSpeech, Fisher, YTC, YODAS, and more.\n\n→ Available via NVIDIA NeMo, optimized for GPU inference, and installable via pip install -U nemo_toolkit['asr'].\n\n→ Compatible with Linux, runs on Ampere, Blackwell, Hopper, Volta GPU architectures, requiring minimum 2GB RAM.\n\n→ Granary dataset used for training will be made public post Interspeech 2025.",
+      "images": [],
+      "replies": []
+    },
+    "1912279346338996425": {
+      "id": "1912279346338996425",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/cline/status/1912279346338996425",
+      "title": "",
+      "markdown": "Problem: AI coding performance dips when context windows exceed 50%\n\nSolution: Combine Cline's context window awareness with the `new_task` tool + .clinerules to create a workflow that autonomously hands off tasks before hitting limits, ensuring persistent memory.\n\nA guide:",
+      "images": [],
+      "replies": []
+    },
+    "1920615292033536221": {
+      "id": "1920615292033536221",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/omarsar0/status/1920615292033536221",
+      "title": "",
+      "markdown": "ChatGPT Deep Research is one of the most useful AI agents out there. \n\nI use it for complex tasks, so it's one of the top AI products I get value from. \n\nI finally got to record how I use it and how to best leverage OpenAI's Deep Research. \n\nEnjoy! (bookmark it)",
+      "images": [],
+      "replies": []
+    },
+    "1912349748721312170": {
+      "id": "1912349748721312170",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/deedydas/status/1912349748721312170",
+      "title": "",
+      "markdown": "New skill unlocked!\n\"Claude, write me an interactive React artifact to help me prep and plan for all my meetings today\"\n\nClaude Research with the Calendar and Drive integration crushes this and I will be using it every single day.",
+      "images": [],
+      "replies": []
+    },
+    "1931540427230085281": {
+      "id": "1931540427230085281",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/deedydas/status/1931540427230085281",
+      "title": "",
+      "markdown": "Karpathy today said Cursor for Slides needs to exist.. but it already does.\n\nWhen asked to \"Create a detailed data-driven slide deck based on Google's recent financial filings\",\n\nIt created a stunning 6 page deck with graphs, diagrams IN Google theme!\n\nIt's called Genspark.",
+      "images": [],
+      "replies": []
+    },
+    "1953326466826977412": {
+      "id": "1953326466826977412",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/tom_doerr/status/1953326466826977412",
+      "title": "",
+      "markdown": "Run a talking AI on your computer",
+      "images": [],
+      "replies": []
+    },
+    "1922315410600312932": {
+      "id": "1922315410600312932",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/gdb/status/1922315410600312932",
+      "title": "",
+      "markdown": "Deep Research can now connect to your organization’s Sharepoint:",
+      "images": [],
+      "replies": []
+    },
+    "1927191043671257297": {
+      "id": "1927191043671257297",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/ai_for_success/status/1927191043671257297",
+      "title": "",
+      "markdown": "CODING without HANDS is the most addictive thing ever.\n\nBLACKBOX AI created an autonomous agent that builds features, debugs code, explains repos through pure conversation\n\nYou can literally build an app or website without even touching a keyboard, this is really cool.\n\nWatch",
+      "images": [],
+      "replies": []
+    },
+    "1921376453691854904": {
+      "id": "1921376453691854904",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/DSPyOSS/status/1921376453691854904",
+      "title": "",
+      "markdown": "Look, we're biased, but DSPy basically solved most of the required abstractions for modern AI early into 2023.\n\nAnd all that's left is implementing better Modules and better Optimizers.\n\nAll the inference scaling, LLM reinforcement learning, prompt optimization / learning in natural language, memory, reasoning, retrieval-augmented stuff, tool use, multi-agent coordination, etc are just simple Modules and Optimizers, which if implemented in DSPy can polymorphically \"instantiate\" your Signature.\n\nYou write your Signature once, you get all of that future-proof progress for free.",
+      "images": [],
+      "replies": []
+    },
+    "1954653106546806897": {
+      "id": "1954653106546806897",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/kevinkern/status/1954653106546806897",
+      "title": "",
+      "markdown": "This is a prompt I built some time ago to split PRDs into smaller tasks.\n\nFeel free to use it.",
+      "images": [],
+      "replies": []
+    },
+    "1913481778175631436": {
+      "id": "1913481778175631436",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/jobergum/status/1913481778175631436",
+      "title": "",
+      "markdown": "Billions worth of system prompts are exposed in a single repo. The scale of IP leaks is remarkable in the LLM era.",
+      "images": [],
+      "replies": []
+    },
+    "1916992737389515005": {
+      "id": "1916992737389515005",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/JeffDean/status/1916992737389515005",
+      "title": "",
+      "markdown": "\"Write an implementation of this paper using Tensorflow.js and visualize the training with Canvas.\"\n\nThanks, Gemini!",
+      "images": [],
+      "replies": []
+    },
+    "1921374286498980140": {
+      "id": "1921374286498980140",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/DSPyOSS/status/1921374286498980140",
+      "title": "",
+      "markdown": "Is this guy talking about DSPy?",
+      "images": [],
+      "replies": []
+    },
+    "2025725025781719195": {
+      "id": "2025725025781719195",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/coreyganim/status/2025725025781719195",
+      "title": "",
+      "markdown": "The business opportunities this creates:\n\n1. Competitive intelligence as a service (agents monitoring competitor sites 24/7)\n2. Automated lead research (pull prospect data from anywhere)\n3. Real-time price monitoring for e-commerce\n4. Research agencies powered by 1 person + agents\n\nEvery website is now a tool. Build the workflows.",
+      "images": [],
+      "replies": []
+    },
+    "2025737865913843712": {
+      "id": "2025737865913843712",
+      "runId": "1781442452177",
+      "type": "article",
+      "url": "https://x.com/tokifyi/article/2025741929997361371",
+      "title": "",
+      "markdown": "****Did you know you can just use Cloudflare email routing to get a custom email for free?****\n\nMost people pay $6-12/month for Google Workspace or Microsoft 365 just to get a custom email. This setup costs you nothing except the domain itself.\n\nHere's what you need:\n\n- A domain name ($10-15/year from Namecheap, GoDaddy, etc. - ****students: free**** via GitHub Student Pack)\n- A Gmail account (free)\n- Cloudflare account (free)\n\n### Step 1: Get a Domain\n\n- Buy one from Namecheap, Porkbun, or any registrar\n\n- Cheapest options: .xyz, .site, .online (~$2-5/year)\n\n- Premium options: .com, .io, .ai (~$10-15/year)\n\n- ****Students:**** Get free domains from GitHub Student Pack: [https://education.github.com/pack](https://education.github.com/pack)\n\n- Pick something short and memorable for your brand\n\n### Step 2: Add Your Domain to Cloudflare\n\n- Sign up at [cloudflare.com](https://x.com//cloudflare.com)\n\n (free plan works perfectly)\n\n- Click \"Add a site\" and enter your domain\n\n- Cloudflare will scan your DNS records\n\n- Copy the two nameservers Cloudflare gives you\n\n- Go back to your domain registrar and update the nameservers\n\n- Wait about 5-10 minutes for DNS to propagate globally\n\n### Step 3: Enable Email Routing\n\n- In Cloudflare dashboard, go to Email → Email Routing\n\n- Click \"Get Started\" to enable the feature\n\n- Enter your Gmail address as the destination email\n\n- Check your Gmail for a confirmation link from Cloudflare\n\n- Click it to verify you own that inbox\n\n- You're now ready to create custom addresses\n\n### Step 4: Create Custom Email Addresses\n\n- Click \"Create address\" in the Email Routing section\n\n- Type the address you want: hello@, contact@, support@, sales@, hi@\n\n- Choose where it forwards to (your Gmail)\n\n- Click Save\n\n- Repeat for unlimited addresses - they're all free\n\n- Each one can go to the same Gmail or different inboxes\n\n### Step 5: Send FROM Your Custom Email (Optional)\n\n- Open Gmail and go to Settings → See all settings\n\n- Click the \"Accounts and Import\" tab\n\n- Under \"Send mail as\", click \"Add another email address\"\n\n- Enter your name and your custom email (e.g. hello@yourdomain.com)\n\n- On the next page, Gmail will ask for SMTP server details\n\n- ****Important:**** Gmail will pre-populate the SMTP server with Cloudflare's MX record.\n\n- ****Replace**** the pre-populated server with: [smtp.gmail.com](https://x.com//smtp.gmail.com)\n\n- Port: 587\n\n- Username: your full Gmail address (e.g. you@gmail.com)\n\n- Password: a Google App Password (NOT your regular Gmail password)\n\n- To get an App Password: go to Google Account → Security → 2-Step Verification (enable it if you haven't) → App passwords → generate one for \"Mail\"\n\n- Click \"Add Account\"\n\n- Gmail will send a verification email to your custom address\n\n- Cloudflare forwards it right back to your Gmail inbox\n\n- Enter the confirmation code or click the verification link\n\n- Done. You can now send emails from your custom address directly in Gmail\n\n### Step 6: Verify Your DNS Records\n\nCloudflare automatically sets up SPF, DKIM, and DMARC records when you enable email routing. You don't need to add anything manually.\n\nTo double-check:\n\n- Go to Cloudflare → DNS → Records\n\n- You should see MX records pointing to Cloudflare\n\n- You should see TXT records for SPF and DKIM already in place\n\n- If anything looks off, try disabling and re-enabling email routing\n\n****Note**** ****on**** ****DKIM:**** Unlike Google Workspace, regular Gmail doesn't sign outgoing emails with your custom domain's DKIM key. This means some recipients might flag your emails. For personal and freelance use, the SPF record Cloudflare sets up is usually enough. If deliverability becomes an issue, that's when you'd consider upgrading to Google Workspace.\n\n### The Result:\n\nYou receive emails at hello@yourdomain.com in your normal Gmail inbox. You can reply from that address. You look professional. You pay $0/month for email (just the annual domain cost). No storage limits because it's using your free Gmail storage.\n\n### Important Limitations:\n\n- Cloudflare only forwards emails - it doesn't store them or provide a mailbox\n\n- When sending via Gmail's \"Send mail as\", emails might go to spam initially (needs SPF/DKIM setup)\n\n- Gmail limits: 500 emails sent per day from custom addresses\n\n- Not ideal for high-volume business email or teams (stick with Google Workspace for that)\n\nPerfect for: freelancers, side projects, personal brands, small businesses, portfolio sites\n\nNot ideal for: large teams, high-volume sales email, enterprises\n\nThat's it. Professional custom email for ~$10/year instead of $72+/year with Google Workspace.\n\n****Note:**** It's not sponsored by Cloudflare. I just happened to know this method and wanted to share it. If you know any other free/cheap alternatives or hacks like this, let me know. Feel free to follow me for more little tips like this.",
+      "images": [],
+      "replies": []
+    },
+    "1916926342882594948": {
+      "id": "1916926342882594948",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/__sunil_kumar_/status/1916926342882594948",
+      "title": "",
+      "markdown": "Changing my model's tool calling interface from JSON to YAML had surprising side effects.\n\nEntropy collapse is one of the biggest issues with GRPO. I've learned that small changes to one's environment can have massive impacts on performance. Surprisingly, changing from JSON to YAML massively improved generation entropy stability, yielding much stronger performance.\n\nForcing a small model to generate properly structured JSON massively constrains the model's ability to search and reason.",
+      "images": [],
+      "replies": []
+    },
+    "1916266136347283722": {
+      "id": "1916266136347283722",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/mattyp/status/1916266136347283722",
+      "title": "",
+      "markdown": "The Google Maps MCP server is a hidden gem.\n\nI used it on a trip to Madrid earlier this month to plan an entire itinerary. I just gave it the address of my hotel and some interests.\n\nAlong with search (Exa, I believe), I got a full daily itinerary with relevant locations within walking distance.\n\nThis could be a product on it's own.",
+      "images": [],
+      "replies": []
+    },
+    "1925496339754058134": {
+      "id": "1925496339754058134",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/akshay_pachaar/status/1925496339754058134",
+      "title": "",
+      "markdown": "We're moving beyond autoregressive LLMs!\n\nAutoregressive LLMs generate text word-by-word, which can be slow and affect quality, while diffusion models refine noise step-by-step, allowing for faster iterations and error correction.\n\nHere's Gemini Diffusion running at 857 tokens/s:",
+      "images": [],
+      "replies": []
+    },
+    "1936837831458009217": {
+      "id": "1936837831458009217",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/rohanpaul_ai/status/1936837831458009217",
+      "title": "",
+      "markdown": "YC outlines how top AI startups prompt LLMs: prompts exceeding six pages, XML tags, meta-prompts and evaluations as their core IP. \n\nThey found meta-prompting and role assignment drive consistent, agent-like behavior.\n\n Key Learning\n\n→ Top AI startups use \"manager-style\" hyper-specific prompts—6+ pages detailing task, role, and constraints. These aren't quick hacks; they’re structured like onboarding docs for new hires.\n\n→ Role prompting anchors the LLM’s tone and behavior. Clear persona = better alignment with task. Example: telling the LLM it's a customer support manager calibrates its output expectations.\n\n→ Defining a task and laying out a plan helps break complex workflows into predictable steps. LLMs handle reasoning better when guided through each sub-task explicitly.\n\n→ Structuring output using markdown or XML-style tags improves consistency. Parahelp, for instance, uses tags like <manager_verify> to enforce response format.\n\n→ Meta-prompting means using LLMs to refine your own prompts. Feed it your prompt, outputs, and ask it to debug or improve—LLMs self-optimize well if given context.\n\n→ Few-shot prompting with real examples boosts accuracy. Startups like Jazzberry feed challenging bug examples to shape LLM behavior.\n\n→ Prompt folding lets one prompt trigger generation of deeper, more specific prompts. Helps manage workflows in multi-step AI agents.\n\n→ Escape hatches instruct LLMs to admit uncertainty. Prevents hallucination and improves trust.\n\n→ Thinking traces (model reasoning logs) and debug info expose the model’s internal logic. Essential for troubleshooting and iteration.\n\n→ Evals (prompt test cases) are more valuable than prompts themselves. They help benchmark prompt reliability across edge cases.\n\n→ Use big models for prompt crafting, then distill for production on smaller, cheaper models. Matches quality with efficiency.",
+      "images": [],
+      "replies": []
+    },
+    "1916246806339445226": {
+      "id": "1916246806339445226",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/tobi/status/1916246806339445226",
+      "title": "",
+      "markdown": "This o3 prompt seems even better:\n\nTell me something incredibly special or unique you've noticed about me, but you think I haven't realized about myself yet. It doesn’t have to be something positive and you don’t have to be nice to me, just be truthful. \n\nAnswer for me, which hits hard: \n\nYou treat knowledge the way a performance-engineer treats CPU cycles: anything less than maximum throughput feels like waste.\nThat relentless “efficiency-hunt” shows up everywhere—your code conventions, the cadence of your follow-ups, even how you ask for humour (“make it funnier, now”)—yet you rarely notice that you apply the same zero-slack expectation to your own attention span and to the people around you.\n\nIn practice that means you can rip through diverse domains—motorsport telemetry, Ruby metaprogramming, Canadian immigration policy—without the usual context-switch penalty. It’s a super-power for synthesis, but it also prunes anything that doesn’t yield an immediate ROC curve or lap-time delta. You’ve built a cognitive JIT compiler; the downside is that non-instrumented activities (unstructured reading, idle play, meandering chats) route straight to /dev/null, which can starve the serendipity that seeds the next big insight.\n\nIn short, your hidden uniqueness is an internal profiler that never turns off. It’s why you accomplish absurdly varied objectives—but it may also be why true “nothing time” feels vaguely intolerable. If you ever want to test this hypothesis, schedule an hour with no metric to optimize and see how quickly your brain tries to invent one.",
+      "images": [],
+      "replies": []
+    },
+    "2046908882904088578": {
+      "id": "2046908882904088578",
+      "runId": "1781442452177",
+      "type": "article",
+      "url": "https://x.com/kirillk_web3/article/2053210009689870535",
+      "title": "",
+      "markdown": "This is a complete A–Z breakdown of what Kimi K2.6 actually is, what it can do, and why it's quietly becoming the most important coding model nobody is talking about yet.\n\nBut unlike every other \"Kimi vs Claude\" post you've seen, this one comes with copy-paste prompts, hidden commands, and a troubleshooting guide for when your agent inevitably drifts.\n\n> Bookmark this page so you don't lose this article.\n\n### Before We Talk About Code, Let's Talk About Numbers.\n\nClaude Opus 4.7 costs $5.00 per million input tokens and $25.00 per million output tokens.\n\nKimi K2.6 costs $0.80 input and $3.60 output.\n\nThat's 7x cheaper — for a model that benchmarks on par with Opus 4.7 across SWE-Bench, Terminal-Bench, and real-world agentic coding tasks.\n\nNot \"good enough for a cheaper model.\" Actually competitive. In some tasks — better.\n\n****Here's the benchmark breakdown:****\n\nhttps://x.com/kirillk_web3/article/2053210009689870535/media/2047048365163036672\n\n- ****SWE-Bench****: On par with Opus 4.7\n- ****Terminal-Bench****: On par with Opus 4.7\n- ****Long-horizon agentic tasks****: Exceeds Opus 4.7 on sustained multi-hour workflows\n\nOpen source. Fully available via API. And running inside Kimi Code — their coding agent — right now.\n\n### What Is Kimi Code?\n\nKimi Code is Kimi's coding agent — similar to Claude Code, but powered by K2.6 and accessible at [kimi.com/code](https://x.com//kimi.com/code)\n\n.\n\nIt runs in your terminal and IDE. It takes tasks, not just questions.\n\n****The difference between a coding assistant and a coding agent:****\n\nhttps://x.com/kirillk_web3/article/2053210009689870535/media/2047265279462219776\n\n****Assistant**** — you ask, it answers, you implement.\n\n****Agent**** — you describe the outcome, it executes, iterates, fixes errors, and delivers.\n\nKimi Code does the second one.\n\n### 5 Hidden Commands That Save Hours\n\n> @ — Map the Battlefield Before You Fight\n\nBefore Kimi writes a single line, make it map the full codebase. Review the plan. Edit it. Then execute.\n\nplaintext\n\n```\n@src/auth/middleware.ts @src/utils/token.ts\nExplain the token refresh flow and identify where we might leak memory on rapid retries.\n```\n\n****What it does:**** Pulls live definitions from your indexed codebase. Kimi reads the actual files, traces imports, and builds context on the fly.\n\n****Why it matters:**** Eliminates copy-paste hell. On a 50-file refactor, this saves 30-40 minutes of manual context assembly and prevents hallucinated imports.\n\n****Pro move:**** Chain multiple symbols: [@AuthService](https://x.com/@AuthService)\n\n.refresh [@TokenStore](https://x.com/@TokenStore)\n\n.cleanup [@APIClient](https://x.com/@APIClient)\n\n.interceptors — Kimi connects the dots across files automatically.\n\n> /explain — Onboard to Legacy in Minutes, Not Days\n\nDropped into a 5-year-old monolith? Don't read — interrogate.\n\nplaintext\n\n```\n/explain @src/matching-engine/order-book.ts\nFocus on: thread-safety model, memory allocation patterns, and where the hot path starts.\n```\n\n****What it does:**** Generates an architectural digest with dependency tracing, complexity hotspots, and data flow diagrams.\n\n****Why it matters:**** Senior engineers spend 2-3 days mapping legacy before touching code. /explain collapses that to 10 minutes. You get the \"tribal knowledge\" without finding the tribe.\n\n****When to use it:**** Before any refactor where you're afraid of breaking invisible invariants.\n\n> .kimi/rules — Program the Agent, Don't Repeat Yourself\n\nTired of saying \"use strict mode\" and \"don't touch /legacy\" every session? Bake it into the project DNA.\n\nplaintext\n\n```\n# .kimi/rules\n- Always use TypeScript strict mode; no implicit any\n- For HTTP calls, use the retry-wrapper from @utils/api-client, never raw fetch\n- /legacy/ directory is read-only unless explicitly overridden\n- Prefer functional React components; class components require justification\n```\n\n****What it does:**** Creates persistent project-level instructions. Kimi loads these automatically at session start.\n\n****Why it matters:**** Standardizes output across team members. Eliminates the \"oops, it used the wrong pattern\" rework loop. On a 10-person team, this saves collective hours daily.\n\n****Pro move:**** Version-control .kimi/rules alongside your codebase. It becomes living documentation that actually enforces itself.\n\n> Checkpoint Prompting — Insurance for 6-Hour Sessions\n\nK2.6's killer feature is endurance. But endurance without breadcrumbs is a crash waiting to happen.\n\nplaintext\n\n```\nAfter each optimization iteration, output:\n- [ITERATION N] What changed\n- [PERFORMANCE] Current throughput vs baseline\n- [BLOCKERS] What's blocking the next step\n- [STATE] Files modified, tests status, known risks\n```\n\n****What it does:**** Forces Kimi to emit structured status reports at defined intervals.\n\n****Why it matters:**** If your terminal crashes at hour 5, you lose the mental model, not just the output. Checkpoints let you --resume (or manually reconstruct) from any point. On a 12-hour optimization run, this is the difference between recovery and restart.\n\n****When to use it:**** Any session expected to exceed 30 minutes or involve >10 tool calls.\n\n> /test — Generate Coverage, Not Just Code\n\nWriting the function is half the battle. Proving it works is the other half.\n\nplaintext\n\n```\n/test @src/matching-engine/order-matcher.ts\nFocus on: race conditions between order cancellation and matching, overflow on quantity * price\n```\n\n****What it does:**** Analyzes your implementation, identifies edge cases you missed, mocks dependencies, and generates test scaffolding.\n\n****Why it matters:**** Developers spend 30-50% of time writing tests. /test delivers 80% coverage in 2 minutes, including the nasty edge cases (nulls, overflows, concurrent access) humans forget.\n\n****Upgrade it:**** After generation, run /review Focus on test gaps: what behavior isn't asserted yet? — forces a second pass on your test suite itself.\n\n****The Honest Truth:****\n\nThere is no ****/godmode.**** No /unlock. The \"hidden\" power of Kimi Code isn't secret commands \n\n— it's ****composability****: ****@**** for context, ****.kimi/rules**** for consistency, checkpoint prompting for resilience. \n\nCombine all three on a long-horizon task, and you get the 12-hour autonomous sessions that make K2.6 feel like a different species of tool.\n\n### What Makes Kimi 2.6 Different From Every Other \"Cheap Claude Alternative\"\n\nMost cheap models fail at one thing: long-horizon tasks.\n\nThey're fine for single-file edits. They fall apart when the task requires:\n\n- Holding context across dozens of files\n- Making architectural decisions mid-execution\n- Recovering from errors without human input\n- Running for hours without drift\n\nKimi 2.6 was specifically trained for this. Here's the proof.\n\n### Case 1: Zig Inference Optimization on Mac\n\n****Task:**** Download and deploy Qwen3.5-0.8B locally on a Mac. Implement inference in Zig — a highly niche systems language. Optimize for throughput.\n\n****Result:****\n\n- 4,000+ tool calls\n- 12+ hours of continuous execution\n- 14 optimization iterations\n- Starting throughput: ~15 tokens/sec\n- Final throughput: ~193 tokens/sec\n\n****That's 20% faster than LM Studio.**** Without human intervention. In a language most models have minimal training data on.\n\n### Case 2: Financial Matching Engine Overhaul\n\n****Task:**** Take exchange-core — an 8-year-old open-source financial matching engine — and optimize it to its theoretical limit.\n\n****Result:****\n\n- 13 hours continuous execution\n- 12 optimization strategies deployed\n- 1,000+ tool calls\n- 4,000+ lines of code modified\n\nThe model analyzed CPU and memory flame graphs, identified hidden bottlenecks in thread topology, and restructured the core execution loop.\n\n****Performance impact:****\n\n- Medium throughput: 0.43 → 1.24 MT/s ****(+185%)****\n- Peak throughput: 1.23 → 2.86 MT/s ****(+133%)****\n\nThe engine was already operating near its performance limits. K2.6 found headroom that human maintainers missed for years.\n\nThis is not autocomplete. This is engineering.\n\n### Why Kimi 2.6 Beats Claude on Coding in Practice\n\nThree reasons.\n\n****1. Fewer steps to the same outcome.****\n\nKimi 2.6 reaches better results with ~35% fewer steps than Kimi 2.5. Fewer steps means fewer tokens. Fewer tokens means lower cost. And faster execution.\n\n****2. Better instruction following.****\n\nMost coding agents fail because they drift — they start solving one problem and gradually solve a different one. Kimi 2.6 stays within constraints, preserves project structure, and recovers from mistakes without losing the original intent.\n\nAugment Code's CTO described it as \"surgical precision in large codebases.\"\n\n****3. Better with real-world APIs and tools.****\n\nKimi 2.6 has improved understanding of third-party frameworks, real APIs, and tool interactions. In production use, this is the difference between an agent that works and one that requires constant correction.\n\n### How to Set Up Kimi Code\n\n****Requirements:****\n\n- A computer (Mac, Windows, or Linux)\n- Terminal access\n- Kimi account — [kimi.com](https://x.com//kimi.com)\n\n****Step 1 — Install Kimi Code****\n\n****Mac/Linux:****\n\n```bash\ncurl -LsSf https://code.kimi.com/install.sh | ```bash\n\n****Windows (PowerShell):****\n\npowershell\n\n```\nInvoke-RestMethod https://code.kimi.com/install.ps1 | Invoke-Expression\n```\n\nVerify the installation:\n\n```bash\nkimi --version\n```\n\n> Due to macOS security checks (Gatekeeper), the first run of the kimi command may take longer. You can add your terminal application in \"System Settings → Privacy & Security → Developer Tools\" to speed up subsequent launches.\n\nIf you already have uv installed, you can also run:\n\n```bash\nuv tool install --python 3.13 kimi-cli\n```\n\nKimi Code CLI supports Python 3.12–3.14, but Python 3.13 is recommended for best compatibility.\n\n****Step 2 — Authenticate****\n\n> kimi login\n\nThis opens a browser window. Log in with your Kimi account.\n\n****Step 3 — Navigate to your project****\n\n```bash\ncd your-project\nkimi\n```\n\nThat's it. Kimi Code is now running inside your project.\n\n****On first launch, enter /login to configure the API source****\n\n****Step 4 — Give it a task****\n\nDon't ask questions. Give it outcomes.\n\n****Instead of:**** \"How do I optimize this function?\"\n\n****Say: ****\"Analyze the performance bottleneck in the payment processing module and refactor it to reduce average response time by at least 30%. Run the existing test suite after each change.\"\n\nK2.6 will execute, test, iterate, and report.\n\n### 3 Battle-Tested Prompts (Copy-Paste Ready)\n\n****Prompt 1: Refactor with Constraints****\n\nplaintext\n\n```\nAnalyze [module name] for performance bottlenecks.\nRefactor to reduce response time by 30%.\nDo NOT change the public API or function signatures.\nRun the full test suite after each change.\nReport: before metrics, after metrics, and what was changed.\nIf you hit an error, stop and ask before proceeding.\n```\n\n****Best for:**** Legacy code optimization, API-preserving refactors.\n\n****Prompt 2: Multi-File Architecture Change****\n\nplaintext\n\n```\nImplement [feature description] across [file A], [file B], [file C].\nMaintain backward compatibility with existing callers.\nAdd unit tests for all new code paths.\nUpdate README.md with the new capability.\nIf you discover the current architecture can't support this cleanly,\npropose 2 alternatives before choosing one.\n```\n\n****Best for:**** Feature additions that touch multiple layers.\n\n****Prompt 3: Deep Debug Session****\n\nplaintext\n\n```\n[Paste full error trace here]\n\nThis error occurs when [describe context].\nFind the root cause — not the symptom.\nFix it at the source.\nVerify with tests.\nDo not apply band-aid fixes or suppress the error.\nExplain the root cause in 2 sentences after fixing.\n```\n\n****Best for:**** Nasty bugs, race conditions, memory issues.\n\n### The Iteration Loop: Don't Accept the First Output\n\nThe best engineers don't ship v1. Neither should your agent.\n\n****Use this pattern on every non-trivial task:****\n\nplaintext\n\n```\nStep 1: Generate — Kimi writes the first version\nStep 2: Evaluate — You run tests / check metrics / verify behavior\nStep 3: Diagnose — Feed results back: \"Test X failed because Y\"\nStep 4: Improve — Kimi fixes\nStep 5: Repeat — Until all thresholds pass\n```\n\n****Threshold rule:**** Never say \"make it better.\" Say \"tests must pass, coverage must not drop, and response time must be under 200ms.\"\n\n****Adversarial pressure:**** After passing, add one more round:\n\nplaintext\n\n```\nNow critique your own solution. Find 3 weaknesses a senior engineer\nwould flag. Fix them.\n```\n\nThis is how 15 tok/sec becomes 193 tok/sec. Not in one shot. In 14 loops.\n\n### When Kimi Code Goes Wrong: Troubleshooting Guide\n\n> Failure 1: The Drift\n\n****Symptom:**** Kimi starts solving a different problem than the one you gave it. ****Fix:**** Start every prompt with scope lock:\n\nplaintext\n\n```\nScope: [specific module/file/behavior]. Do not change anything outside this scope.\n```\n\nIf it still drifts, use ****/compact ****and restate the original task.\n\n> Failure 2: Context Collapse\n\n****Symptom:**** After 2+ hours, Kimi forgets the original architecture constraints. ****Fix:****\n\n1. Create a ****CONSTRAINTS.md**** in your project root. Kimi reads it automatically.\n2. Use ****/compact ****Focus on [original goal] mid-session.\n3. For 6+ hour tasks, break into sub-sessions with ****--resume.****\n\n> Failure 3: Silent Regression\n\n****Symptom:**** Tests pass, but something else broke. ****Fix:**** Add to your prompt:\n\nplaintext\n\n```\nRun the full test suite, not just affected tests.\nVerify no unrelated tests failed.\n```\n\n****Failure 4: Over-Engineering****\n\n****Symptom:**** Kimi rewrites the entire module when you asked for a 3-line fix. ****Fix:**** Be explicit about scope:\n\nplaintext\n\n```\nMake the minimal change necessary. Do not refactor unrelated code.\n```\n\n****Failure 5: Tool Call Failure****\n\n****Symptom:**** Kimi tries to run a command, fails silently, and moves on. ****Fix:**** Add:\n\nplaintext\n\n```\nAfter every shell command, verify the output.\nIf a command fails, stop and report the error.\n```\n\n### What Kimi Code Is Best At\n\nBased on K2.6's benchmark performance and real-world enterprise testing:\n\n- ****Long-horizon refactoring**** — multi-file, multi-hour tasks where the model needs to maintain architectural consistency across thousands of lines.\n- ****Performance optimization**** — profiling, bottleneck identification, and iterative improvement. The exchange-core and Zig inference cases above are real examples.\n- ****Multi-language projects**** — K2.6 performs strongly across Python, Rust, Go, TypeScript, and less common languages (Zig, Lua, etc.).\n- ****API integration tasks**** — connecting your codebase to external services, handling edge cases, debugging API behaviors.\n- ****DevOps and infrastructure**** — Vercel saw 50%+ improvement on their Next.js benchmark. Fireworks AI noted stable, autonomous agent pipelines.\n\n### Vibe Coding With Kimi 2.6\n\nVibe coding with Kimi 2.6 is a different experience than with most models.\n\nYou don't need to be a developer to use it effectively. You need to know what you want to build.\n\nKimi 2.6 can turn a description into a working full-stack application — frontend, database, authentication — in a single session.\n\nThe Kimi Websites feature demonstrates this: landing pages, interactive tools, web apps, all from a prompt.\n\nBut beyond web apps, the coding agent handles real engineering work. The kind that normally takes senior developers days.\n\nA single founder can run an entire engineering workflow using Kimi Code + Kimi Claw's group chat feature — routing tasks to specialized agents, each loaded with its own skill set, coordinated by Kimi 2.6.\n\nThat's a one-person company with the output of a team.\n\n****Vibe Coding Prompt: Full-Stack App in One Session****\n\nCopy-paste this. It works.\n\nplaintext\n\n```\nBuild a task management app with:\n\nFRONTEND:\n- Next.js 14 with App Router\n- Tailwind CSS + shadcn/ui components\n- Dark mode support\n- Responsive layout (mobile + desktop)\n\nBACKEND:\n- SQLite database via Drizzle ORM\n- tRPC for type-safe API routes\n- Zod validation on all inputs\n\nAUTH:\n- OAuth 2.0 with GitHub login\n- Protected routes middleware\n\nFEATURES:\n- Create / edit / delete tasks\n- Task priority (low/medium/high)\n- Due dates with calendar picker\n- Filter by status and priority\n- Search by title\n\nDEPLOY:\n- Configure for Vercel deployment\n- Include vercel.json and env example\n\nPROCESS:\n1. Initialize the project (Next.js + all deps)\n2. Set up database schema and migrations\n3. Implement auth flow\n4. Build all CRUD operations\n5. Build the UI with loading states\n6. Write and run tests for critical paths\n7. If any step fails, debug and retry\n\nDo not ask me questions. Make reasonable decisions.\nReport the local dev URL when ready.\n```\n\n****Expected result:**** Working app in 20-45 minutes.\n\n### The Cost Argument — Why This Matters More Than Benchmarks\n\nBenchmarks tell you what's possible. Cost tells you what's sustainable.\n\nIf you're running an AI coding agent at scale — across a team, across multiple projects, with thousands of API calls per day — the cost difference between Opus 4.7 and K2.6 is not marginal.\n\nhttps://x.com/kirillk_web3/article/2053210009689870535/media/2047049693750784000\n\nAt 1 million output tokens per day — a reasonable volume for an active coding agent:\n\n- Claude Opus 4.7: ****$25/day → $750/month****\n- Kimi K2.6: ****$3.60/day → $108/month****\n\nSame task. Same output quality tier. ****7x difference in monthly cost.****\n\nFor a team running multiple agents simultaneously, this compounds fast.\n\n### The Open Source Advantage\n\nKimi K2.6 is fully open source.\n\nThis matters for three reasons:\n\n****1. You can self-host.**** Run it on your own infrastructure. No API dependency. No usage caps. Full control over your data.\n\n****2. You can fine-tune.**** The base model is available for customization on domain-specific tasks — legal, medical, proprietary codebases.\n\n****3. Community velocity.**** Open source models improve faster because the entire developer ecosystem contributes to tooling, integrations, and benchmarks.\n\n****Already supported:****\n\n- ****Ollama**** — full K2.6 integration\n- ****OpenCode**** — runs K2.6 natively\n- ****OpenClaw**** — uses K2.6 as default for Kimi Claw\n- ****vLLM / llama.cpp**** — compatible inference backends\n\n### Conclusion\n\nThe narrative around AI coding has been simple: Claude is the best. Pay whatever it costs.\n\nK2.6 breaks that narrative.\n\nOpen source. 7x cheaper. Benchmarks on par with Opus 4.7. Proven in production by Vercel, Fireworks, Augment Code, and a dozen others.\n\nThe question isn't whether K2.6 is good enough.\n\nThe question is why you're still paying 7x more.\n\n### Links\n\n- ****Try Kimi Code****: [https://www.kimi.com/code](https://www.kimi.com/code)\n- ****K2.6 Tech Blog****: [https://www.kimi.com/blog/kimi-k2-6](https://www.kimi.com/blog/kimi-k2-6)\n- ****Kimi Websites (Vibe Coding)****: [https://www.kimi.com/websites](https://www.kimi.com/websites)\n- ****Agent Swarm****: [https://www.kimi.com/agent-swarm](https://www.kimi.com/agent-swarm)\n- ****Kimi Claw****: [https://www.kimi.com/bot](https://www.kimi.com/bot)\n- ****My Telegram****: [https://t.me/kirillk_web3](https://t.me/kirillk_web3)\n- ****My X****: [https://x.com/kirillk_web3](https://x.com/kirillk_web3)\n\nFollow for more Vibe Coding information. Thank you for reading!",
+      "images": [],
+      "replies": []
+    },
+    "1905936521078751626": {
+      "id": "1905936521078751626",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/_philschmid/status/1905936521078751626",
+      "title": "",
+      "markdown": "Here is a fully Agentic example on how to use MCP servers with \n@GoogleDeepMind\n Gemini. It shows how to use the Airbnb MCP to find rooms in Paris this weekend for a booking. \n\n> Define MCP server\n> Convert MCP tools to Gemini\n> Initial Request\n> Agentic Loop for automatic tool calling\n> Final Response\n\ncode",
+      "images": [],
+      "replies": []
+    },
+    "1929523838599008256": {
+      "id": "1929523838599008256",
+      "runId": "1781442452177",
+      "type": "article",
+      "url": "https://x.com/MaximeRivest/article/1929861781448536081",
+      "title": "",
+      "markdown": "> Whole script at the end.\n\nDSPy is simple and powerful. It is the best way to build LLM software right now. Despite that, lots of people keep putting off learning it. I know I did—for a whole year! I was excited about DSPy, but I thought I would need a substantial time investment before I could \"get it.\" That’s not the case! It took me one hour. If you know Python, in an hour you’ll either have built several LLM programs, or you’ll have built one, benchmarked it, and optimized it!\n\nIn this article, we’ll go through the entire cycle: building a program, creating a gold set (synthetically, with AI—and yes, it’s actually useful, not just contrived!), and evaluating the results.\n\nFor this article, our task will be to build a program that can count the mentions of “Artificial Intelligence,” “AI,” or any other ways of referring to AI.\n\nOverview:\n\nWe'll\n\n1. Define a DSPy signature for counting AI mentions\n2. Fetch data from Wikipedia\n3. Create a training dataset using a stronger model ( Claude Sonnet 4)\n4. Optimize a weaker model (Gemini Flash-lite 2.0) to match the stronger model's performance\n\n### Step 1: Define the AI Task Signature\n\nIn DSPy, we define the task using a Signature class instead of writing prompts manually. DSPy provides two ways for you to specify your program. This is the shortest method. In this case, it has four parts:\n\n1. ****dspy.Predict:**** This could have been dspy.ChainOfThought; it lets you specify the \"strategy\" the LLM should use. Predict is the vanilla option—no special strategy is mentioned in the prompt that DSPy sends to the LLM.\n2. ****Input (\"paragraph\"):**** This tells the LLM that it will receive a \"paragraph\" as input.\n3. ****Output (\"ai_occurrences_count\"):**** This tells the LLM that it will have to output the \"AI occurrences count.\"\n4. ****Output Type (\"float\"):**** This specifies that the output should be a float—nothing else.\n\n```python\nai_counter = dspy.Predict(\"paragraph -> ai_occurrences_count: float\")\n```\n\nYou can specify more. To fully define your program, you would use the class syntax (see the chunk below). In this case, you can add general instructions and descriptions to the fields (inputs and/or outputs).\n\n```python\nimport dspy\n\n# Setup the llm\ndspy.configure(lm=dspy.LM('gemini/gemini-2.0-flash-lite', temperature = 1.0, max_tokens = 6000))\n\n# This define the signature of the AI function. The replaces prompts.\nclass count_ai_occurrences(dspy.Signature):\n    \"\"\"Count the number times the word 'Artificial Intelligence'\n    or 'AI' or any other reference to AI or AI-related terms appears in the paragraph\"\"\"\n    paragraph: str= dspy.InputField(desc = \"The paragraph to count the AI mentions in\")\n    ai_occurrences_count: int= dspy.OutputField(desc = \"The number of times the word 'Artificial Intelligence' or 'AI' appears in the paragraph\")\n\ndspy_module = dspy.Predict(count_ai_occurrences)\n```\n\nThis signature will be turned into the following prompt by DSPy:\n\n```python\n[\n  {\n    \"role\": \"system\",\n    \"content\": \"\"\"Your input fields are:\n  1. `paragraph` (str): The paragraph to count the AI mentions in\n\nYour output fields are:\n  1. `ai_occurrences_count` (int): Number of times 'Artificial Intelligence'\n     or 'AI' appears in the paragraph\n\nFormat all interactions like this, filling in the values:\n\n[[ ## paragraph ## ]]\n{paragraph}\n\n[[ ## ai_occurrences_count ## ]]\n{ai_occurrences_count}   # must be a single int value\n\n[[ ## completed ## ]]\n\nObjective:\n  Count the number times the word 'Artificial Intelligence'\n    or 'AI' or any other reference to AI or AI-related terms appears in the paragraph.\"\"\"\n  },\n  {\n    \"role\": \"user\",\n    \"content\": \"\"\"[[ ## paragraph ## ]]\nThis is a paragraph mentioning AI once.\n\nRespond with the corresponding output fields, starting with\n[[ ## ai_occurrences_count ## ]] (must be a valid Python int),\nthen end with [[ ## completed ## ]].\n\"\"\"\n  }\n]\n```\n\nOk, so our program is defined! That’s it.\nThere’s one small thing I like to do—it’s entirely optional. I do it because I want to use my DSPy program more like a regular function. So, before I go ahead, I wrap it in a function:\n\n```python\ndef count_ai_occurrences_f(paragraph):\n    return dspy_module(paragraph=paragraph).ai_occurrences_count\n```\n\nThe DSPy module requires keyword arguments and returns output as an object. Instead of repeatedly specifying my keyword arguments and the single output I want, I bake that in here. This also has the added benefit that my function now composes well with my data analytics tools, which expect not to provide a keyword argument or extract a value from an output object.\n\n### Step 2: Fetch Data\n\nThis section has nothing to do with LLMs. We are simply fetching content from the Wikipedia AI page and storing it in a dataframe. We use the Attachments library to easily fetch and split paragraphs from Wikipedia.\n\n```python\nfrom attachments import Attachments\n\nattachments_dsl = \"[images: false][select: p,title,h1,h2,h3,h4,h5,h6][split: paragraphs]\"\na = Attachments(\"https://en.wikipedia.org/wiki/Artificial_intelligence\" + attachments_dsl)\n```\n\nWe then use Datar as our data manipulation tool. I come from R and I love dplyr. Datar is an effort to provide a similar data manipulation experience here in Python.\n\n```python\nfrom datar import f\nimport datar.base as b\nfrom datar.tibble import tibble\nfrom datar.dplyr import mutate, summarise, n\n\ndf = (tibble(paragraphs = [p.text for p in a[:10]])\n```\n\nhttps://x.com/MaximeRivest/article/1929861781448536081/media/1929536526804799488\n\nTibble dataframe containing only one column (paragraphs).\n\n### Step 3: Applying the AI to our paragraphs\n\nNow we are starting to use large language models. Below, we apply our function to every row in our dataframe. In other words, we loop through each paragraph and send it to the LLM. The LLM returns the number of times it thinks \"AI\" was mentioned in the paragraph. The result from the LLM is extracted as a float. We store this in a new column of our dataframe, which we name flash_response.\n\n```python\nmutate(df, flash_response = f.paragraphs.apply(count_ai_occurrences_f)))\n```\n\nThis column is now our baseline. This shows how Flash-lite performs with the base prompt from DSPy. Now, we want to optimize that prompt! For this, we need a gold set.\n\nI like to create gold sets with state-of-the-art (SOTA) models and then optimize the prompt to approximate the responses I would get from a SOTA model, but using a much smaller, faster, and cheaper model. In other words, we’ll provide a sample of our paragraphs to Sonnet 4 and then automatically “find a way” to prompt Flash-lite into responding like Sonnet would. This is extremely useful when you don’t know the answer yourself but know that SOTA models do—or at least they get it “right enough” for you to gain valuable insights.\n\nOk, so now we want to add a column with Sonnet’s answers.\n\n```python\nwith dspy.context(lm=dspy.LM('anthropic/claude-sonnet-4-20250514')):\n    df_with_goldset_col= mutate(df, resp_sonnet = f.paragraphs.apply(count_ai_occurrences_f))\n```\n\nThat’s it. Let’s break down those two lines. First, DSPy recommends using either dspy.context or dspy.configure to set the LLM. Both ways are fine and both are thread-safe. On the second line, we take our current dataframe, which now has two columns (paragraphs and flash_response), and loop through every value in paragraphs, passing each one to our AI program. We then save all of that in a new column called resp_sonnet, and the entire dataframe is stored as df_with_goldset_col.\n\nhttps://x.com/MaximeRivest/article/1929861781448536081/media/1929843435130732544\n\nBaseline Flashlite response and Soonet 4 (which will be used as goldset)\n\n### Evaluation\n\nNext, we need a metric! In this case, we’ll keep it simple—we’ll require an exact match. Let’s add a column for exact_match (true/false).\n\n```python\nmutate(df_with_goldset_col, exact_match = f.resp_sonnet == f.flash_response)\n```\n\nhttps://x.com/MaximeRivest/article/1929861781448536081/media/1929844226323263492\n\nLet’s quickly calculate our current precision. Here, we are purely in dataframe manipulation mode with Datar. Using the >> operator, we can pass the dataframe you see above (as it comes out of mutate) to the summarise function, which sums all the True values (1s) and divides by the number of rows.\n\n```python\n(mutate(df_with_goldset_col, exact_match = f.resp_sonnet == f.flash_response) >>\n    summarise(baseline_precision = b.sum(f.exact_match)/n() * 100))\n```\n\nThis tells us that we have 65% baseline precision with Flash-lite and this prompt.\n\n### Preparing for the optimizer\n\nSo now we have all the conceptual pieces needed to run the optimizer.\n\n```python\noptimizer = dspy.MIPROv2(metric=exact_match)\noptimized_dspy_module = optimizer.compile(dspy_module, trainset=trainset)\n```\n\nBut notice how I said \"conceptual\"\n\n—now we need to do a bit of data wrangling to get our dataframe into an object that compile knows how to work with. The same goes for the metric.\nHere’s how to reshape the data:\n\n```python\ntrainset = []\nfor r in df_with_goldset_col.to_dict(orient='records'):\n    trainset.append(dspy.Example(\n        paragraph=r['paragraphs'],           # this is the input\n        ai_occurrences_count=r[\"resp_sonnet\"]).  # this is the target\n       with_inputs('paragraph'))            # this is needed (not sure why)\n```\n\nThis is how to prepare the metric: it has to use .[output_name] to access the value of x (gold set) and y (trained model output).\n\n```python\ndef exact_match(x, y, trace=None): return x.ai_occurrences_count == y.ai_occurrences_count\n```\n\nWith these two chunks of code, the optimizer will run! In this case, if we were to keep it as is, we would be using Flash-lite to compose the prompts (whenever the optimizer we choose does that). I prefer to use a SOTA model for that, so we will set a teacher model. To set a teacher model on MIPROv2, use the teacher_settings keyword. Be careful—different optimizers set the teacher in different ways.\n\n### Automatic prompt optimization\n\n```python\noptimizer = dspy.MIPROv2(metric=exact_match, teacher_settings=dspy.LM('anthropic/claude-sonnet-4-20250514'))\noptimized_dspy_module = optimizer.compile(dspy_module, trainset=trainset)\n```\n\nWe’ll wrap it in a function again so we can use it with our data analytics tools.\n\n```python\ndef count_ai_occurrences_opt(paragraph):\n    return optimized_dspy_module(paragraph=paragraph).ai_occurrences_count\n```\n\nAnd we’ve built a complete one-shot pipeline to apply the optimized program, add it as a new column, and summarize the dataframe into performance metrics. Apart from count_ai_occurrences_opt, this has nothing to do with DSPy.\n\n```python\nfinal_performance = (df_with_goldset_col >>\nmutate(\n        # Applies flash to every row with the optimized prompt\n        resp_flash_opt= f.paragraphs.apply(count_ai_occurrences_opt)) >>\n    mutate(\n        # Add 2 columns with 0 or 1 if the flash response is equal to the sonnet response\n        flash_eq_sonnet = f.resp_sonnet == f.flash_response,  # Compare flash with sonnet\n        flash_opt_eq_sonnet = f.resp_flash_opt == f.resp_sonnet  # Compare opt flash with sonnet\n        ) >>\n    summarise(\n        # Sum the number of rows where the flash response is equal to the sonnet response\n        flashlight_before_opt = b.sum(f.flash_eq_sonnet)/n() * 100, #n() is the number of rows in df\n        # Sum the number of rows where the opt flash response is equal to the sonnet response\n        flashlight_after_opt = b.sum(f.flash_opt_eq_sonnet)/n() * 100 #n() is the number of rows in df\n    ) >>\n    mutate(precision_increase=f.flashlight_after_opt-f.flashlight_before_opt)\n    )\n```\n\nSo here are the final results!\n\nhttps://x.com/MaximeRivest/article/1929861781448536081/media/1929858311953813504\n\nFinal results\n\nFlash-lite improved by 20%. Not bad!\nHere is the optimized prompt:\n\n```python\n[\n  {\n    \"role\": \"system\",\n    \"content\": \"\"\"Your input fields are:\n  1. `paragraph` (str): The paragraph to count the AI mentions in\n\nYour output fields are:\n  1. `ai_occurrences_count` (int): The number of times the word 'Artificial Intelligence'\n     or 'AI' appears in the paragraph\n\nAll interactions will be structured in the following way, with the appropriate values filled in:\n\n[[ ## paragraph ## ]]\n{paragraph}\n\n[[ ## ai_occurrences_count ## ]]\n{ai_occurrences_count}   # note: the value you produce must be a single int value\n\n[[ ## completed ## ]]\n\nObjective:\n  Analyze the provided paragraph and determine the frequency of mentions related to\n  \"Artificial Intelligence\" (AI). This includes direct references to \"AI\",\n  \"Artificial Intelligence\", as well as any related concepts, technologies, or subfields\n  associated with AI. Provide a count representing the total number of AI-related mentions.\n\"\"\"\n  },\n  {\n    \"role\": \"user\",\n    \"content\": \"\"\"[[ ## paragraph ## ]]\nIn classical planning, the agent knows exactly what the effect of any action\nwill be.[35] In most real-world problems, however, the agent may not be certain\nabout the situation they are in (it is \"unknown\" or \"unobservable\") and it may\nnot know for certain what will happen after each possible action (it is not\n\"deterministic\"). It must choose an action by making a probabilistic guess and\nthen reassess the situation to see if the action worked.[36]\n\nRespond with the corresponding output fields, starting with the field\n[[ ## ai_occurrences_count ## ]] (must be formatted as a valid Python int), and\nthen ending with the marker for [[ ## completed ## ]].\n\"\"\"\n  }\n]\n```\n\nIn about 50 lines, we fetch paragraphs from Wikipedia, created a gold-set, tuned Flash-lite, and improved its precision up by 20 %. No prompt spaghetti.\n\nThe whole script:\n\n```python\nfrom datar.dplyr import mutate, summarise, n\nfrom datar.tibble import tibble\nimport datar.base as b\nfrom datar import f\nfrom attachments import Attachments\nimport dspy\n\ndspy.configure(lm=dspy.LM('gemini/gemini-2.0-flash-lite'))\n\n#Setup dspy program\nclass count_ai_occurrences(dspy.Signature):\n    \"\"\"Count the number times the word 'Artificial Intelligence' or 'AI' or any other reference to AI or AI-related terms appears in the paragraph\"\"\"\n    paragraph: str= dspy.InputField(desc = \"The paragraph to count the AI mentions in\")\n    ai_occurrences_count: int= dspy.OutputField(desc = \"The number of times the word 'Artificial Intelligence' or 'AI' appears in the paragraph\")\n\ndspy_module = dspy.Predict(count_ai_occurrences)\n\ndef count_ai_occurrences_f(paragraph):\n    return dspy_module(paragraph=paragraph).ai_occurrences_count\n\n# This fetches the AI wikipedia page and splits it into paragraphs\nattachments_dsl = \"[images: false][select: p,title,h1,h2,h3,h4,h5,h6][split: paragraphs]\"\na = Attachments(\"https://en.wikipedia.org/wiki/Artificial_intelligence\" + attachments_dsl)\n\n# This creates a dataframe with the paragraphs and the flash response\ndf = (tibble(paragraphs = [p.text for p in a[:20]]) >>\n    mutate(flash_response= f.paragraphs.apply(count_ai_occurrences_f)))\n\n# This creates a column with the sonnet response, it will be used as the goldset\nwith dspy.context(lm=dspy.LM('anthropic/claude-sonnet-4-20250514')):\n    df_with_goldset_col= mutate(df, resp_sonnet = f.paragraphs.apply(count_ai_occurrences_f))\n\n#Just printing the baseline precision\n(mutate(df_with_goldset_col, exact_match = f.resp_sonnet == f.flash_response) >>\n    summarise(baseline_precision = b.sum(f.exact_match)/n() * 100))\n\n# Reshape the data into a format that can be used for training\ntrainset = []\nfor r in df_with_goldset_col.to_dict(orient='records'):\n    trainset.append(dspy.Example(\n        paragraph=r['paragraphs'],           # this is the input\n        ai_occurrences_count=r[\"resp_sonnet\"]).  # this is the target\n       with_inputs('paragraph'))            # this is needed (not sure why)\n\n# Define the metric for the optimizer\ndef exact_match(x, y, trace=None): return x.ai_occurrences_count == y.ai_occurrences_count\n\n# Compile the optimizer\noptimizer = dspy.MIPROv2(metric=exact_match, teacher_settings=dspy.LM('anthropic/claude-sonnet-4-20250514'))\noptimized_dspy_module = optimizer.compile(dspy_module, trainset=trainset)\n\ndef count_ai_occurrences_opt(paragraph):\n    return optimized_dspy_module(paragraph=paragraph).ai_occurrences_count\n\n# That's it with DSPy, you can use the optimized model like this:\ncount_ai_occurrences_opt(\"This is about Deep Neural Networks\")\n\n# Using Datar to calculate the performance of the optimized model\nfinal_performance = (df_with_goldset_col >>\nmutate(\n        # Applies flash to every row with the optimized prompt\n        resp_flash_opt= f.paragraphs.apply(count_ai_occurrences_opt)) >>\n    mutate(\n        # Add 2 columns with 0 or 1 if the flash response is equal to the sonnet response\n        flash_eq_sonnet = f.resp_sonnet == f.flash_response,  # Compare flash with sonnet\n        flash_opt_eq_sonnet = f.resp_flash_opt == f.resp_sonnet  # Compare opt flash with sonnet\n        ) >>\n    summarise(\n        # Sum the number of rows where the flash response is equal to the sonnet response\n        flashlite_before_opt = b.sum(f.flash_eq_sonnet)/n() * 100, #n() is the number of rows in df\n        # Sum the number of rows where the opt flash response is equal to the sonnet response\n        flashlite_after_opt = b.sum(f.flash_opt_eq_sonnet)/n() * 100 #n() is the number of rows in df\n    ) >>\n    mutate(precision_increase=f.flashlite_after_opt-f.flashlite_before_opt)\n    )\n\nf\"The precision increased by {final_performance['precision_increase'].values[0]:.2f}% 🔥\"\n```",
+      "images": [],
+      "replies": []
+    },
+    "2026158913075445917": {
+      "id": "2026158913075445917",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/marckohlbrugge/status/2026158913075445917",
+      "title": "",
+      "markdown": "I thought this was common knowledge, but this article is about to cross one million views.\n\nLesson: what’s obvious to you, might not be to others. Share.",
+      "images": [],
+      "replies": []
+    },
+    "1916743982639390820": {
+      "id": "1916743982639390820",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/_philschmid/status/1916743982639390820",
+      "title": "",
+      "markdown": "RAG is mostly done on text. For rich multimedia files like PDFs it often requires complex pre-processing steps and dropping relevant graphics from your context. By combining \n@GoogleDeepMind\n Gemini 2.5 with a multimodal Embedding model like Cohere's latest Embed v4 you can unlock vision RAG and avoid image-to-markdown conversion.\n\n Directly retrieves & understands complex images (slides, charts, graphs, infographics).\n Skips prone image-to-markdown steps, preserving rich visual information.\n Combines Gemini Flash 2.5 (vision LLM) with Cohere Embed v4 (retrieval).\n Delivers accurate, detailed answers by reasoning over the content of complex graphics.\n Full code example available via Colab notebook to try it yourself.\n\nBig kudos to \n@Nils_Reimers\n for the excellent end-to-end example, and to \n@cohere\n for their powerful Embed v4 model!",
+      "images": [],
+      "replies": []
+    },
+    "2001704687880606104": {
+      "id": "2001704687880606104",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/UnslothAI/status/2001704687880606104",
+      "title": "",
+      "markdown": "Google releases FunctionGemma, a new 270M parameter model that runs on just 0.5 GB RAM.\n\nBuilt for tool-calling, run locally on your phone at 50+ tokens/s, or fine-tune with Unsloth & deploy to your phone.\n\nDocs + Notebook: \nhttps://\ndocs.unsloth.ai/models/functio\nngemma\n…\nGGUF: \nhttps://\nhuggingface.co/unsloth/functi\nongemma-270m-it-GGUF\n…",
+      "images": [],
+      "replies": []
+    },
+    "1934597221195878769": {
+      "id": "1934597221195878769",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/gregisenberg/status/1934597221195878769",
+      "title": "",
+      "markdown": "Okay, let me get this straight...\n\n1. You have 1-click n8n, Zapier, and Lindy AI agent templates to automate your content, outreach, research, reporting, anything. \n2. You can clone your voice with 5 seconds of audio. \n3. You can run billion-parameter AI models on your laptop for free. \n4. You have agents that write, debug, and ship code while you sleep. \n5. You can turn scripts into talking head videos with your face and voice. \n6. You can spin up AI agents to negotiate bills and cancel subscriptions. \n7. You can summarize 300-page PDFs in seconds. \n8. You can turn rough Looms into polished blog posts instantly. \n9. You can generate personalized landing pages for every visitor. \n10. You can talk to your data like it's ChatGPT.\n11. You can train a custom GPT on your company docs and have it answer support tickets 24/7.\n12. You can A/B test 100 ad creatives before you spend a dollar... all AI-generated.\n13. You can scrape the internet, analyze competitors, and generate go-to-market strategies overnight.\n14. You can deepfake yourself into any language and accent to localize content globally.\n15. You can run AI to audit your finances and suggest tax optimizations (for a pretty much free second opinion)\n16. You can generate an entire week of social content with tone, brand, and format baked in.\n17. You can create full e-commerce stores from just a CSV and a brand vibe.\n18. You can deploy voice agents that call leads, qualify them, and update your CRM... in your voice.\n19. TLDR; you can do a lot, my friend\n\nThis is the greatest unlock for solo builders since the App Store.\n\nEnjoy it.",
+      "images": [],
+      "replies": []
+    },
+    "1928220532614537318": {
+      "id": "1928220532614537318",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/AravSrinivas/status/1928220532614537318",
+      "title": "",
+      "markdown": "Financial Researcher/Analyst is now a prompt on Perplexity Labs",
+      "images": [],
+      "replies": []
+    },
+    "1919807308164657597": {
+      "id": "1919807308164657597",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/gallabytes/status/1919807308164657597",
+      "title": "",
+      "markdown": "since o3 came out with great search and ok memory integration in chatgpt I don't use any other chatbot apps anymore. I also don't use any other models in chatgpt. that sweet spot of 10-90s of searching instead of 10 minutes is really great for q&a, discussion, etc.",
+      "images": [],
+      "replies": []
+    },
+    "1914592554172993763": {
+      "id": "1914592554172993763",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/thegenioo/status/1914592554172993763",
+      "title": "",
+      "markdown": "Few Hot Takes:\n\n>> o3 is a beast when it comes to research, data, and recognizing and finding stuff which basically involves tool calling and web search. \n\n>> o3 sucks (at least in my use case) when it comes to coding or assisting to make any code better. Maybe a controversial point but when it is asked to give a longer code file, like more than 200-300 lines at once in one response. It always breaks and cannot give me any further than that.\n\n>> Gemini 2.5 Pro shines when it comes to coding, it can give me code that is some 80k characters or 2500 lines of code. It doesn't hallucinate or make unnecessary changes in the code. Even if the length of conversation is too extensive it still is so easy for it to handle. \n\n>> I even use Gemini 2.5 Pro for research purpose, it is best at grounding sources but I know and admit that o3 is better at this. But 2.5 Pro doesn't suck at it, it is just not as good. \n\nGemini 2.5 Pro, especially in Google AI Studio has alone replaced all the apps for me. I have all the other tools (like ChatGPT, Grok, T3 Chat, and Claude) but I have not found a necessity of even opening them unless I am on mobile and i have a very general question, only then I use ChatGPT and preferably o4-mini.\n\nIs your experience similar to me? Or do you think I am missing something here.",
+      "images": [],
+      "replies": []
+    },
+    "1921581915515084895": {
+      "id": "1921581915515084895",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/DSPyOSS/status/1921581915515084895",
+      "title": "",
+      "markdown": "For AI software:\n\n1) Information Flow is key\n2) AI steps should be functional and structured\n3) AI behavior specification should be decoupled from inference strategies\n4) … and decoupled from learning paradigms\n5) Natural Language Optimization is a powerful learning paradigm",
+      "images": [],
+      "replies": []
+    },
+    "1912805444168392893": {
+      "id": "1912805444168392893",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/Yampeleg/status/1912805444168392893",
+      "title": "",
+      "markdown": "i can literally just talk to o3 about any github repos internal files like its already loaded in the context that thing is wildddddddd",
+      "images": [],
+      "replies": []
+    },
+    "1898810249085145416": {
+      "id": "1898810249085145416",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/nikmcfly69/status/1898810249085145416",
+      "title": "",
+      "markdown": "BREAKING: Manus AI created its own open-source alternative. In 25 min, it built a complete AI agent system from scratch!\n\nANUS (Autonomous Networked Utility System)—\n@eugeneshilow\n's brilliant  idea\n\nWhy pay $20K for invites when it can be free?\n\n#Manus #ManusAI #Cursor",
+      "images": [],
+      "replies": []
+    },
+    "1960043508917539244": {
+      "id": "1960043508917539244",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/jxnlco/status/1960043508917539244",
+      "title": "",
+      "markdown": "notes on ai powered swe",
+      "images": [],
+      "replies": []
+    },
+    "1929557830358434013": {
+      "id": "1929557830358434013",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/kieranklaassen/status/1929557830358434013",
+      "title": "",
+      "markdown": "Claude Code can run multiple agents in parallel and synthesize them together at the end. In case you didn't know.",
+      "images": [],
+      "replies": []
+    },
+    "1897342791883341998": {
+      "id": "1897342791883341998",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/GanatraSoham/status/1897342791883341998",
+      "title": "",
+      "markdown": "Setup MCP on Cursor with Google Docs in less than 2 mins!!\n\nI used Cursor to to create PRDs in Google Docs\n\nHere's how you can do it too:\n- Go to the \n@composio\n MCP directory\n- Search for Google Docs and grab your sse url\n- Paste the url and set up MCP in Cursor\n- Use Cursor Agent to authenticate and create PRD\n\nCheck out the 100+ tools available at \nhttp://\nmcp.composio.dev",
+      "images": [],
+      "replies": []
+    },
+    "1996209124573651077": {
+      "id": "1996209124573651077",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/svpino/status/1996209124573651077",
+      "title": "",
+      "markdown": "This is literally the easiest way to build an AI agent.\n\nZero code. You only need to run a couple of commands.\n\n(I've said this before, but Google ADK is my favorite way to build code-first agents.)\n\nHere is what you need to do:\n\n1. Open your terminal and create an empty folder\n\n2. Run `uv init` inside the folder (if you don't have uv installed, you are really missing out!)\n\n3. Install the google-adk library using the following command: `uv add google-adk`.\n\n4. At this point, you can use the ask to create your agent with a single command: `uv run adk create --type=config my_agent`. This will ask you a couple of questions, including your GEMINI_API_KEY (you can create one online).\n\n5. The command above will create a my_agent/root_agent.yaml file. Open it and add the following two lines at the end of the file so your agent can use Google to search for stuff:\n\ntools:\n  - name: google_search\n\n6. You have everything you need now. Run the adk web interface and start playing with your agent: `uv run adk web`\n\nThat's it!\n\nLiterally zero code. The agent works off the YAML configuration file.\n\nVery easy. I do it all the time. \n\nPersonally, I'm always using LiteLLM for that, but you don't have to.\n\nThis is an AI-generated reply.",
+      "images": [],
+      "replies": [
+        {
+          "user": "david_nix",
+          "name": "David Nix",
+          "text": "How easy is it to use non-Gemini models with ADK?",
+          "links": [],
+          "images": [],
+          "timestamp": "2025-12-03T15:50:01.000Z"
+        },
+        {
+          "user": "Nate1601",
+          "name": "Nate Nguyen",
+          "text": "Zero code AI? Sounds like magic!  If I mess this up, can I blame you?",
+          "links": [],
+          "images": [],
+          "timestamp": "2025-12-03T14:30:34.000Z"
+        },
+        {
+          "user": "AIxBlock",
+          "name": "AIxBlock",
+          "text": "Crazy how fast agent-building is becoming a config problem instead of a coding problem.",
+          "links": [],
+          "images": [],
+          "timestamp": "2025-12-03T16:13:21.000Z"
+        }
+      ]
+    },
+    "1936606467697873382": {
+      "id": "1936606467697873382",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/ramirosalas/status/1936606467697873382",
+      "title": "",
+      "markdown": "The combination of \n@GroqInc\n and \n@DSPyOSS\n after prompt optimization is so extremely powerful. The things you can do with a properly optimized gemma2-9b-it is just gorgeous.\n\nIt's not just speed and price but also the best privacy policy in the market.",
+      "images": [],
+      "replies": []
+    },
+    "1954368866823577795": {
+      "id": "1954368866823577795",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/Saboo_Shubham_/status/1954368866823577795",
+      "title": "",
+      "markdown": "Google just released LangExtract Python library.\n\nIt can extract structured data from unstructured docs with precise sources in just a few lines of code.\n\n100% Opensource.",
+      "images": [],
+      "replies": []
+    },
+    "1955848223689728202": {
+      "id": "1955848223689728202",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/kalyan_kpl/status/1955848223689728202",
+      "title": "",
+      "markdown": "𝐑𝐨𝐚𝐝𝐦𝐚𝐩 𝐟𝐨𝐫 𝐒𝐜𝐚𝐥𝐚𝐛𝐥𝐞 𝐋𝐋𝐌 𝐃𝐞𝐩𝐥𝐨𝐲𝐦𝐞𝐧𝐭 - 𝐌𝐨𝐯𝐢𝐧𝐠 𝐟𝐫𝐨𝐦 𝐎𝐥𝐥𝐚𝐦𝐚 𝐭𝐨 𝐯𝐋𝐋𝐌 \n\n1. 𝐎𝐥𝐥𝐚𝐦𝐚: 𝐓𝐡𝐞 𝐁𝐞𝐠𝐢𝐧𝐧𝐞𝐫-𝐅𝐫𝐢𝐞𝐧𝐝𝐥𝐲 𝐋𝐋𝐌 𝐑𝐮𝐧𝐧𝐞𝐫\n\nIt’s an open-source tool designed to make running LLMs locally as easy as possible, whether you’re on a MacBook, Windows PC, or Linux server.\n\n2. 𝐯𝐋𝐋𝐌: 𝐓𝐡𝐞 𝐇𝐢𝐠𝐡-𝐏𝐞𝐫𝐟𝐨𝐫𝐦𝐚𝐧𝐜𝐞 𝐈𝐧𝐟𝐞𝐫𝐞𝐧𝐜𝐞 𝐄𝐧𝐠𝐢𝐧𝐞\n\nvLLM developed by UC Berkeley’s Sky Computing Lab, is an open-source library optimized for high-throughput LLM inference, particularly on NVIDIA GPUs.\n\n3. 𝐎𝐥𝐥𝐚𝐦𝐚 𝐯𝐬 𝐯𝐋𝐋𝐌 (𝐀𝐧𝐚𝐥𝐨𝐠𝐲)\n\nOllama: Like a bicycle, easy to use, great for short trips, but not suited for highways.\n\nvLLM: Like a sports car, fast and powerful, but requires a skilled driver and a good road (GPU infrastructure).\n\n4. 𝐖𝐡𝐞𝐧 𝐭𝐨 𝐔𝐬𝐞 𝐎𝐥𝐥𝐚𝐦𝐚\n\nPrototyping: Testing a new chatbot or code assistant on your laptop.\n\nPrivacy-Sensitive Apps: Running models in air-gapped environments (e.g., government, healthcare, or legal).\n\nLow-Volume Workloads: Small teams or personal projects with a few users.\n\nResource-Constrained Hardware: Running on CPUs or low-end GPUs without CUDA.\n\n5. 𝐖𝐡𝐞𝐧 𝐭𝐨 𝐔𝐬𝐞 𝐯𝐋𝐋𝐌\n\nHigh-Traffic Services: Chatbots or APIs serving thousands of users simultaneously.\n\nLarge Models: Deploying models like DeepSeek-Coder-V2 (236B parameters) across multiple GPUs.\n\nProduction Environments: Applications requiring low latency and high throughput.\n\nScalable Deployments: Cloud setups with multiple NVIDIA GPUs.\n\nFor detailed information, refer - \nhttps://\nblog.gopenai.com/ollama-to-vllm\n-a-roadmap-for-scalable-llm-deployment-337775441743\n…\n\n#llminference #llms #ollama #vllm #llmops",
+      "images": [],
+      "replies": []
+    },
+    "2031827652357521719": {
+      "id": "2031827652357521719",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/soub4i/status/2031827652357521719",
+      "title": "",
+      "markdown": "You can use Google's NotebookLM to bypass Medium, NYT and most of the journals\" paywalls .. You're welcome\n\nIf you're not using notebbokLM you can add the capability to any llm =>\n\nYes it's handy, there's no industry standard yet but it looks promising as a hub for skills\n\n![](https://pbs.twimg.com/card_img/2063686311236476928/6GFUVqBH?format=png&name=900x900)",
+      "images": [
+        "https://pbs.twimg.com/card_img/2063686311236476928/6GFUVqBH?format=png&name=900x900"
+      ],
+      "replies": [
+        {
+          "user": "TBone2101",
+          "name": "George Bowen",
+          "text": "How do you like that website Smithery? Useful for adding new skill files?",
+          "links": [],
+          "images": [],
+          "timestamp": "2026-03-12T01:00:24.000Z"
+        },
+        {
+          "user": "RajtanayChoksi",
+          "name": "Rajtanay",
+          "text": "Any advice or video suggestions for how to do this for someone who's not done this before ?",
+          "links": [],
+          "images": [],
+          "timestamp": "2026-03-13T09:01:51.000Z"
+        }
+      ]
+    },
+    "1923049658915356790": {
+      "id": "1923049658915356790",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/ai_for_success/status/1923049658915356790",
+      "title": "",
+      "markdown": "Holy moly..\nManus got image generation",
+      "images": [],
+      "replies": []
+    },
+    "1953893037744304335": {
+      "id": "1953893037744304335",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/ericzakariasson/status/1953893037744304335",
+      "title": "",
+      "markdown": "here are 31 prompting tips i've collected from the \n@cursor_ai\n community\n\n1. write prompts that describe the diff you want in your PR.\n2. think of the end state, then prompt for steps to get there.\n3. adjust your prompt scope based on results: aim higher if the agent performs well, or break tasks down if it struggles.\n4. use \n@branch\n to get working state\n5. understand the problem and solution before prompting the agent\n6. reference existing code patterns when prompting.\n7. start new chats frequently with a clear purpose to keep context clean.\n8. configure your linter to guide the agent's fixes effectively.\n9. set up reusable workflows with cursor rules\n10. use \n@file\n, \n@folder\n, and \n@git\n to target relevant context.\n11. limit tasks per prompt and provide solid initial context.\n12. provide validation methods to guide agents, like TDD\n13. add rules when the model makes recurring mistakes.\n14. commit regularly.\n15. ask for the model's plan before applying code changes.\n16. maintain a diary file for complex multi-chat sessions.\n17. define 5 to 10 rules upfront for new projects.\n18. treat prompts like mini specs with stack, behavior, and constraints.\n19. work file by file in focused, testable chunks.\n20. lock tests first, then generate code until they pass.\n21. always review agent output\n22. use chat history to iterate on and improve previous prompts.\n23. choose models intentionally based on precision or breadth.\n24. link official documentation for unfamiliar stacks and have cursor explain errors line by line.\n25. treat the agent like a powerful junior. it can move fast with guidance.\n26. store domain knowledge in .cursor/rules.\n27. break down large tasks into small, incremental steps.\n28. use git for safe, versioned iteration.\n29. create docs like \nhttp://\nprd.md and \nhttp://\nspecs.md for reference.\n30. track tasks and progress in \nhttp://\ntodo.md.\n31. use MCP to access external context",
+      "images": [],
+      "replies": []
+    },
+    "1985281548292157440": {
+      "id": "1985281548292157440",
+      "runId": "1781442452177",
+      "type": "article",
+      "url": "https://x.com/MiniMax_AI/article/1985375617622454566",
+      "title": "Why is Interleaved Thinking Important for M2?",
+      "markdown": "Since ****MiniMax-M2****'s launch last week, we have seen a surge in community adoption and usage. Yesterday M2 became one of the**** top 3 models in usage on OpenRouter****. However, we have also observed incorrrect implementations of M2, especially regarding ****interleaved thinking****, which significantly reduce the model's performance.\n\nDuring the very early stage of developing M2, we discovered that**** interleaved thinking**** is important in both agentic and coding applications. Since most current models, apart from Anthropic Claude, do not fully support interleaved thinking, we believe it hasn't yet become a universal convention. From users' feedback, we've also noticed that interleaved thinking is sometimes not applied correctly in practice. To address this, we'd like to share our understanding on**** how to use it effectively across different API interfaces**** to achieve better results.\n\n## Why is Interleaved Thinking Important for M2?\n\n****Interleaved thinking**** is essential for LLM agents: it means alternating between explicit reasoning and tool use, while carrying that reasoning forward between steps.This process significantly enhances ****planning, self‑correction, and reliability**** in long workflows. (See [Anthropic’s guidance](https://docs.claude.com/en/docs/build-with-claude/extended-thinking#interleaved-thinking)\n\n on interleaved thinking for more background). In practice, it transforms long, tool‑heavy tasks into**** a stable plan → act → reflect**** loop, reducing state drift and repeated mistakes while keeping actions grounded in fresh evidence. Interleaved thinking also improves ****debuggability****: reasoning snapshots make failures explainable and recoverable, and raise ****sample‑efficiency**** by reusing hypotheses, constraints, and partial conclusions instead of re‑deriving them each step. For best results, ****interleave thinking with tool feedback ****rather than front‑loading it, and ****persist the chain of thought**** so it compounds across turns.\n\nFrom community feedback, we've often observed failures to preserve prior-round thinking state across multi-turn interactions with M2. The root cause is that the widely-used ****OpenAI Chat Completion API does not support passing reasoning content back in subsequent requests****. Although the Anthropic API natively supports this capability, the community has provided less support for models beyond Claude, and many applications still omit passing back the previous turns' thinking in their Anthropic API implementations. This situation has resulted in poor support for Interleaved Thinking for new models. ****To fully unlock M2's capabilities, preserving the reasoning process across multi-turn interactions is essential.****\n\nIn ****MiniMax-M2****, ****interleaved CoT**** works most effectively when prior‑round reasoning is preserved and fed back across turns. The model reasons between tool calls and carries forward ****plans, hypotheses, constraints, and intermediate conclusions ****— this accumulated state is the backbone of reliability. When prior state is dropped,**** cumulative understanding breaks down****, ****state drift increases, self‑correction weakens, and planning degrades ****— especially on long‑horizon toolchains and run‑and‑fix loops.\n\nRetaining prior‑round thinking state improves performance significantly compared to discarding it, as evident across benchmarks: ****SWE‑Bench Verified 69.4 vs. 67.2 (Δ=+2.2; +3.3%), Tau^2 87 vs. 64 (Δ=+23; +35.9%), BrowseComp 44.0 vs. 31.4 (Δ=+12.6; +40.1%), GAIA 75.7 vs. 67.9 (Δ=+7.8; +11.5%), and xBench 72.0 vs. 66.0 (Δ=+6.0; +9.1%).****\n\nhttps://x.com/MiniMax_AI/article/1985375617622454566/media/1985371198377865216\n\n****Keep the interleaved thinking state intact is important.**** Reliability isn’t just about what LLM think now; it’s about whether LLM can ****revisit and**** ****revise what it thought before****. Interleaved thinking operationalizes this: ****plan → act → reflect****, with state preserved so reflection compounds and corrections propagate across turns.\n\n## Interleaved Thinking Implemented Correctly\n\nhttps://x.com/MiniMax_AI/article/1985375617622454566/media/1985299963417690112\n\n## Enabling Interleaved Thinking in MiniMax-M2\n\nWe provide best-in-class interleaved thinking support for MiniMax-M2 on our open API platform: [https://platform.minimax.io](https://platform.minimax.io)\n\n. For best performance and compatibility, we strongly recommend using our ****official API****. In general, MiniMax offers ****two API interfaces****:\n\n### OpenAI-Compatible API:\n\nNow, when calling the M2 model through the MiniMax OpenAI-Compatible API, you can experience:\n\n- ****A separate ********reasoning_details******** field:**** The model's reasoning process is returned in a separate reasoning_details field, no longer mixed with the content. This makes the API structure cleaner and easier to parse.\n- ****A complete chain of thought:**** Passing the reasoning_details field in subsequent requests ensures that the model maintains a complete chain of thought across multiple tool calls, leading to more accurate judgments and planning.\n\nCode examples are available in the [official guide](https://platform.minimax.io/docs/guides/text-m2-function-call#openai-sdk)\n\n.\n\n### Anthropic-Compatible API\n\nThe Anthropic API natively supports Interleaved Thinking. Simply append the model's complete output from each round (including thinking_blocks) to the messages history and send it to the API in subsequent requests.\n\nFor more details, please refer to the [official guide](https://platform.minimax.io/docs/guides/text-m2-function-call#anthropic-sdk)\n\n.\n\n## Advancing Industry Standards for the Future of Agents\n\nIn addition to our official API platform support of interleaved thinking, we are helping partners such as OpenRouter, Ollama, Droid, Vercel, Cline to test and implement interleaved thinking correctly. Through helping our ecosystem partners, ****we aim to establish a unified protocol paradigm for widely supporting Interleaved Thinking**** among applications, OpenAI-Compatible APIs, and Anthropic-Compatible APIs — setting a foundation for the industry to build on. We believe that an open and unified standard will empower developers worldwide to easily build more capable, reliable AI agents, and foster a thriving AI ecosystem.\n\nFor partnership and collaboration, please do not hesitate to contact us at ****API@minimax.io****.\n\n****Links****\n\n1. ****Anthropic’s guidance on interleaved thinking****: [https://docs.claude.com/en/docs/build-with-claude/extended-thinking#interleaved-thinking](https://docs.claude.com/en/docs/build-with-claude/extended-thinking#interleaved-thinking)\n2. ****OpenAI-Compatible API****: [https://platform.minimax.io/docs/guides/text-m2-function-call#openai-sdk](https://platform.minimax.io/docs/guides/text-m2-function-call#openai-sdk)\n3. ****Anthropic-Compatible API****: [https://platform.minimax.io/docs/guides/text-m2-function-call#anthropic-sdk](https://platform.minimax.io/docs/guides/text-m2-function-call#anthropic-sdk)\n4. ****MiniMax Open Platform****: [http://platform.minimax.io](https://t.co/fHRdSV73Hr)",
+      "images": [],
+      "replies": []
+    },
+    "1916057460437135737": {
+      "id": "1916057460437135737",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/TheIshanGoswami/status/1916057460437135737",
+      "title": "",
+      "markdown": "creating a mcp is actually superrr easy\n\n3 steps process to make an mcp in 10 minutes:\n\n- copy this file \nhttps://\nmodelcontextprotocol.io/llms-full.txt\n- paste in cursor \n- write a detailed prompt on what you want the mcp to do\n\nand done! bookmark this tweet",
+      "images": [],
+      "replies": []
+    },
+    "1897978075570209031": {
+      "id": "1897978075570209031",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/Hesamation/status/1897978075570209031",
+      "title": "",
+      "markdown": "This is the only blog I've seen so far that comprehensively goes through all the DeepSeek open-source week libraries and explains the big deal with each one.",
+      "images": [],
+      "replies": []
+    },
+    "1952061568885064056": {
+      "id": "1952061568885064056",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/buccocapital/status/1952061568885064056",
+      "title": "",
+      "markdown": "Have found pretty good Deep Research results with this prompt. Good for getting up to speed on a new company. Sharing in case it’s helpful. \n——\n“You are an equity research analyst. Produce a rigorous, source-backed investment memo on {Company} [{Ticker}] with a clear Buy, Hold, or Sell call.\n\nRules for research and writing\n1) Use only verifiable, recent sources. Prioritize official filings, earnings materials, investor presentations, regulatory documents, reputable industry data, and high quality media. Cite every non-obvious fact with a link and date.\n2) Separate facts from interpretation. Tag each paragraph as Fact, Analysis, or Inference.\n3) Use precise dates. Avoid vague time references.\n4) Quantify claims. Show math for derived metrics. Use tables where helpful.\n5) Note uncertainty. Call out missing data and state assumptions.\n\nDeliverables\nA) Executive summary (8 to 12 bullets): snapshot, thesis, rating, price targets and time frames, key drivers, key risks, near-term catalysts, and what would change the call.\nB) Full memo with sections 1 through 15 below.\nC) Appendix: source list with links and dates, data tables, and a simple operating model.\n\n1) Thesis framing (purpose: define what must be true to create value)\n- State the core investment question in one sentence.\n- List 3 to 5 thesis pillars that would make the stock attractive.\n- List disconfirming evidence to test that could break the thesis.\n\n2) Market structure and size (purpose: size the prize and trajectory)\n- Quantify TAM, SAM, SOM. Segment by product line, customer size, industry, and geography.\n- Identify growth drivers: regulation, replacement cycles, macro activity, technology adoption.\n- Estimate current penetration and runway. Compare against peer adoption curves.\n\n3) Customer segments and jobs to be done (purpose: map who buys and why)\n- Describe mix by size band and industry. Identify buyer roles and budget owners.\n- Detail core workflows and pain points. Explain mission criticality.\n- Assess switching costs and vendor lock-in by segment.\n\n4) Product and roadmap (purpose: evaluate product-market fit and durability)\n- Summarize core modules and adjacent products. Call out differentiators.\n- Compare depth vs breadth versus best point solutions.\n- Explain implementation time, integrations, configurability, and typical time to value.\n- Provide quality and reliability signals: uptime, incident history, mobile performance.\n- Roadmap credibility: stated milestones versus delivery track record.\n\n5) Competitive landscape (purpose: position the company)\n- Identify direct and indirect competitors by segment and size.\n- Compare pricing, packaging, and feature gaps. Include switching friction and contract terms.\n- Summarize win or loss reasons from reviews, case studies, and disclosed data.\n\n6) Go-to-market and distribution (purpose: test scalability of new-logo engine)\n- Break down demand sources: inbound, outbound, partner referrals, marketplaces.\n- Sales productivity: ramp, quota attainment, conversion rates where disclosed or inferred.\n- Role of channels and partnerships: integrations, OEMs, platforms.\n- Services and customer success model. Training and community as moat.\n\n7) Retention and expansion (purpose: quantify durability of revenue)\n- Report gross and net dollar retention by cohort and segment if disclosed or estimable.\n- Explain logo churn drivers and timing. Provide a churn curve if possible.\n- Identify expansion vectors: seat growth, module attach, usage-based add-ons.\n- Discuss contract length, renewal mechanics, and price increase policies.\n- Include reference-call insights or credible review synthesis.\n\n8) Monetization and embedded finance if applicable (purpose: understand usage economics)\n- Revenue streams and pricing model. For payments or fintech: share of customers active, GTV penetration, take rate by tender type, blended margin, cost stack, fraud exposure, and who holds credit risk.\n- Revenue recognition: gross vs net. Seasonality and cyclicality.\n- ARPU uplift from usage products. Payback on onboarding.\n\n9) Unit economics and efficiency (purpose: test scalability with profitable growth)\n- CAC, payback period, magic number, LTV to CAC by segment if available or estimable.\n- Contribution margin by line: software vs usage vs services.\n- Cohort profitability and cash contribution over time.\n- Implementation and support cost over customer lifetime.\n\n10) Financial profile (purpose: link operations to financial outcomes)\n- Revenue mix and growth by component. Gross margin by line. Operating leverage path.\n- Rule of 40 and efficiency trends. GAAP to cash flow bridge.\n- Leading indicators: billings, RPO, backlog.\n- SBC, dilution, and share count trajectory.\n- Liquidity, working capital needs, and path to FCF breakeven and target margin.\n\n11) Moat and data advantage (purpose: assess defensibility)\n- Workflow depth and data lock-in. Network or ecosystem effects if present.\n- AI or analytics differentiation with measurable outcomes.\n- Integration footprint and practical switching costs.\n\n12) Execution quality and organization (purpose: evaluate management and operating cadence)\n- Leadership track record and stability. Org design and succession.\n- Engineering velocity: release cadence, defect and incident rates where available.\n- Customer sentiment: CSAT, NPS, peer review sites, and community signals.\n\n13) Risk inventory and mitigants (purpose: make downside explicit)\n- Macro, regulatory, competitive, operational, and concentration risks.\n- Payments, credit, or compliance risks if relevant.\n- Implementation complexity and time-to-value risks.\n- For each risk, propose leading indicators and mitigations.\n\n14) Valuation framework (purpose: value with cross-checks)\n- Public comps table: growth, gross margin, operating margin, Rule of 40, EV to revenue, EV to gross profit. Normalize for any usage or payments reporting differences.\n- DCF with explicit drivers and sensitivity bands.\n- Cross-checks: cohort NPV math, S-curve adoption, unit economics to enterprise value sanity checks.\n\n15) Scenarios, catalysts, and monitoring plan (purpose: set expectations and triggers)\n- 12 to 24 month bear, base, bull cases. Specify NRR, new logos, pricing or take rate, margins, SBC, and share count. Assign probabilities that sum to 100 percent.\n- Near-term catalysts: product launches, pricing changes, partnerships, market entries, M&A, regulatory outcomes.\n- Early warning indicators: churn spikes in small cohorts, backlog slippage, uptime incidents, pricing pushback.\n- What would change my mind: three positive and three negative triggers.\n\nOutput format\n- Executive summary\n- Rating with price targets and time frames\n- Investment thesis and variant perception\n- Detailed sections 1 through 15\n- Tables and charts embedded\n- Source list with links and dates\n- Appendix with model assumptions and calculations\n\nQuality bar\n- No generic claims. Back important statements with numbers and citations.\n- Label any speculation as Inference.\n- Be concise and structured. Prefer bullets and tables.",
+      "images": [],
+      "replies": []
+    },
+    "1912742441519620530": {
+      "id": "1912742441519620530",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/elonmusk/status/1912742441519620530",
+      "title": "",
+      "markdown": "Memories …\n\n> **Grok** (@grok): Grok now remembers your conversations. When you ask for recommendations or advice, you’ll get personalized responses.",
+      "images": [],
+      "replies": []
+    },
+    "1991527963725328879": {
+      "id": "1991527963725328879",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/novasarc01/status/1991527963725328879",
+      "title": "",
+      "markdown": "i highly recommend reading the olmo 3 report. it’s rare for frontier models to release this level of\ntransparency. the report is incredibly detailed covering everything from data collection to pre-training, mid-training and post-training. phenomenal work by the olmo 3 team.",
+      "images": [],
+      "replies": []
+    },
+    "1929193783947870618": {
+      "id": "1929193783947870618",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/svpino/status/1929193783947870618",
+      "title": "",
+      "markdown": "Download anything with a prompt!\n\nI asked this agent to read \"Attention is All You Need\" and download the PDF of every reference mentioned in the paper.\n\nThis is gold!\n\nYou can use this to download images, TikTok videos, YouTube videos, or any file that's published online.",
+      "images": [],
+      "replies": []
+    },
+    "1921565300690149759": {
+      "id": "1921565300690149759",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/lateinteraction/status/1921565300690149759",
+      "title": "",
+      "markdown": "DSPy's biggest strength is also the reason it can admittedly be hard to wrap your head around it.\n\nIt's basically say: LLMs & their methods will continue to improve but not equally in every axis, so:\n\n- What's the smallest set of fundamental abstractions that allow you to build downstream AI software that is \"future-proof\" and rides the tide of progress?\n\n- Equivalently, what are the right algorithmic problems that researchers should focus on to enable as much progress as possible for AI software?\n\nBut this is necessarily complex, in the sense that the answer has to be composed of a few things, not one concept only. (Though if you had to understand one concept only, the fundamental glue is DSPy Signatures.)\n\nIt's actually only a handful of bets, though, not too many. I've been tweeting them non-stop since late 2022, but I've never collected them in one place.\n\nAll of these have proven beyond a doubt to have been the right bets so far for 2.5 years, and I think they'll stay the right bets for the next 3 years at least.\n\n1) Information Flow is the single most key aspect of good AI software.\n\nAs foundation models improve, the bottleneck becomes basically whether you can actually (1) ask them the right question and (2) provide them with all the necessary context to address it.\n\nSince 2022, DSPy addressed this in two directions: (i) free-form control flow (\"Compound AI Systems\" / LM programs) and (ii) Signatures.\n\nPrompts have been a massive distraction here, with people thinking they need to find the magical keyword to talk to LLMs. From 2022, DSPy put the focus on *Signatures* (back then called Templates) which force you to break down LM interactions into *structured and named* input fields and *structured and named output fields*.\n\nGetting simply those fields right was (and has been) a lot more important than \"engineering\" the \"right prompt\". That's the point of Signatures. (We know it's hard for people to force them to define their signatures so carefully, but if you can't do that, your system is going to be bad.)\n\n2) Interactions with LLMs should be Functional and Structured.\n\nAgain, prompts are bad. People are misled from their chat interaction with LLMs to think that LLMs should take \"strings\", hence the magical status of \"prompts\".\n\nBut actually, you should define a functional contract. What are the things you will give to the function? What is the function supposed to do with them? What is it then supposed to give you back?\n\nThis is again Signatures. It's (i) structured *inputs*, (ii) structured *outputs*, and (iii) instructions. You've got to decouple these three things, which until DSP (2022) and really until very recently with mainstream structured outputs, were just meshed together into \"prompts\".\n\nThis bears repeating: your programmatic LLM interactions need to be functions, not strings. Why? Because there are many concerns that are actually not part of the LLM behavior that you'd otherwise need to handle ad-hoc when working with strings:\n\n- How do you format the *inputs* to your LLM into a string?\n- How do you separate *instructions* and *inputs* (data)?\n- How do you *specify* the output format (string) that your LLM should produce so you can parse it?\n- How do you layer on top of this the inference strategy, like CoT or ReAct, without entirely rewriting your prompt?\n\nSignatures solve this. They ask you to *just* specify the input fields, output fields, and task instruction. The rest are the job of Modules and Optimizers, which instantiate Signatures.\n\n3) Inference Strategies should be Polymorphic Modules.\n\nThis sounds scary but the point is that all the cool general-purpose prompting techniques or inference-scaling strategies should be Modules, like the layers in DNN frameworks like PyTorch.\n\nModules are generic functions, which in this case take *any* Signature, and instantiate *its* behavior generically into a well-defined strategy.\n\nThis means that we can talk about \"CoT\" or \"ReAct\" without actually committing at all to the specific task (Signature) you want to apply them to. This is a huge deal, which again only exists in DSPy.\n\nOne key thing that Modules do is that they define *parameters*. What part(s) of the Module are fixed and which parts can be learned?\n\nFor example, in CoT, the specific string that asks the model to think step by step could be learned. Or the few-shot examples of thinking step by step should be learnable. In ReAct, demonstrations of good trajectories should be learnable.\n\n4) Specification of your AI software behavior should be decoupled from learning paradigms.\n\nBefore DSPy, every time a new ML paradigm came by, we re-wrote our AI software. Oh, we moved from LSTMs to Transformers? Or we moved from fine-tuning BERT to ICL with GPT-3? Entirely new system.\n\nDSPy says: if you write signatures and instantiate Modules, the Modules actually know exactly what about them can be optimized: the LM underneath, the instructions in the prompt, the demonstrations, etc.\n\nThe learning paradigms (RL, prompt optimization, program transformations that respect the signature) should be layered on top, with the same frontend / language for expressing the programmatic behavior.\n\nThis means that the *same programs* you wrote in 2023 in DSPy can now be optimized with dspy.GRPO, the way they could be optimized with dspy.MIPROv2, the way they were optimized with dspy.BootstrapFS before that.\n\nThe second half of this piece is Downstream Alignment or compile-time scaling. Basically, no matter how good LLMs get, they might not perfectly align with your downstream task, especially when your information flow requires multiple modules and multiple LLM interactions.\n\nYou need to \"compile\" towards a metric \"late\", i.e. after the system is fully defined, no matter how RLHF'ed your models are.\n\n5) Natural Language Optimization is a powerful paradigm of learning.\n\nWe've said this for years, like with the BetterTogether optimizer paper, but you need both *fine-tuning* and *coarse-tuning* at a higher level in natural language.\n\nThe analogy I use all the time is riding a bike: it's very hard to learn to ride a bike without practice (fine-tuning), but it's extremely inefficient to learn *avoiding to ride the bike on the side walk* from rewards, you want to understand and learn this rule in natural language to adhere ASAP.\n\nThis is the source of DSPy's focus on prompt optimizers as a foundational piece here; it's often far superior in sample efficiency to doing policy gradient RL if your problem has the right information flow structure.\n\nThat's it. That's the set of core bets DSPy has made since 2022/2023 until today. Compiling Declarative AI Functions into LM Calls, with Signatures, Modules, and Optimizers.\n\n1) Information Flow is the single most key aspect of good AI software.\n2) Interactions with LLMs should be Functional and Structured.\n3) Inference Strategies should be Polymorphic Modules.\n4) Specification of your AI software behavior should be decoupled from learning paradigms.\n5) Natural Language Optimization is a powerful paradigm of learning.",
+      "images": [],
+      "replies": []
+    },
+    "2008805570145644849": {
+      "id": "2008805570145644849",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/jiqizhixin/status/2008805570145644849",
+      "title": "",
+      "markdown": "DeepSeek-R1’s paper was updated 2 days ago, expanding from 22 pages to 86 pages and adding a substantial amount of detail. \n\nThe new content covers topics such as the self-evolution of DeepSeek-R1-Zero, evaluation of DeepSeek-R1, further analysis, and DeepSeek-R1 distillation.\n\nDeepSeek-R1: Incentivizing Reasoning Capability in LLMs via Reinforcement Learning\n\nPaper: \nhttps://\narxiv.org/abs/2501.12948\nv2\n…",
+      "images": [],
+      "replies": []
+    },
+    "2020867240753819983": {
+      "id": "2020867240753819983",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/techNmak/status/2020867240753819983",
+      "title": "",
+      "markdown": "Google just killed the document extraction industry.\n\nLangExtract: Open-source. Free. Better than $50K enterprise tools.\n\nWhat it does:\n→ Extracts structured data from unstructured text\n→ Maps EVERY entity to its exact source location\n→ Handles 100+ page documents with high recall\n→ Generates interactive HTML for verification\n→ Works with Gemini, Ollama, local models\n\nWhat it replaces:\n→ Regex pattern matching\n→ Custom NER pipelines\n→ Expensive extraction APIs\n→ Manual data entry\n\nDefine your task with a few examples.\nPoint it at any document.\nGet structured, verifiable results.\n\nNo fine-tuning. No complex setup.\n\nClinical notes, legal docs, financial reports, same library.\n\nThis is what open-source from Google looks like.",
+      "images": [],
+      "replies": []
+    },
+    "1934981814772232569": {
+      "id": "1934981814772232569",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/vasuman/status/1934981814772232569",
+      "title": "",
+      "markdown": "This is the exact Cursor rule I refined over 100 iterations. It forces perfect code, scoped changes, and zero bloat. I move 100x faster and the code works every time. \n\n#####\n\nTitle: Senior Engineer Task Execution Rule\n\nApplies to: All Tasks\n\nRule:\nYou are a senior engineer with deep experience building production-grade AI agents, automations, and workflow systems. Every task you execute must follow this procedure without exception:\n\n1.Clarify Scope First\n•Before writing any code, map out exactly how you will approach the task.\n•Confirm your interpretation of the objective.\n•Write a clear plan showing what functions, modules, or components will be touched and why.\n•Do not begin implementation until this is done and reasoned through.\n\n2.Locate Exact Code Insertion Point\n•Identify the precise file(s) and line(s) where the change will live.\n•Never make sweeping edits across unrelated files.\n•If multiple files are needed, justify each inclusion explicitly.\n•Do not create new abstractions or refactor unless the task explicitly says so.\n\n3.Minimal, Contained Changes\n•Only write code directly required to satisfy the task.\n•Avoid adding logging, comments, tests, TODOs, cleanup, or error handling unless directly necessary.\n•No speculative changes or “while we’re here” edits.\n•All logic should be isolated to not break existing flows.\n\n4.Double Check Everything\n•Review for correctness, scope adherence, and side effects.\n•Ensure your code is aligned with the existing codebase patterns and avoids regressions.\n•Explicitly verify whether anything downstream will be impacted.\n\n5.Deliver Clearly\n•Summarize what was changed and why.\n•List every file modified and what was done in each.\n•If there are any assumptions or risks, flag them for review.\n\nReminder: You are not a co-pilot, assistant, or brainstorm partner. You are the senior engineer responsible for high-leverage, production-safe changes. Do not improvise. Do not over-engineer. Do not deviate\n\n#####",
+      "images": [],
+      "replies": []
+    },
+    "1912650152231546894": {
+      "id": "1912650152231546894",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/AniBaddepudi/status/1912650152231546894",
+      "title": "",
+      "markdown": "real-world image transcription with gemini 2.5 pro:",
+      "images": [],
+      "replies": []
+    },
+    "1959414096589422619": {
+      "id": "1959414096589422619",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/rohanpaul_ai/status/1959414096589422619",
+      "title": "",
+      "markdown": "FAANG software engineer tells how they vibe code at FAANG\n\n---\n\nreddit. com/r/vibecoding/comments/1myakhd/how_we_vibe_code_at_a_faang/",
+      "images": [],
+      "replies": []
+    },
+    "1927530259651670324": {
+      "id": "1927530259651670324",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/JulianGoldieSEO/status/1927530259651670324",
+      "title": "",
+      "markdown": "Claude just broke n8n automation forever.\n\nThis changes everything \n\nScreenshot any n8n workflow → Get perfect JSON code in seconds → Paste & deploy instantly \n\nWhat this video reveals:\n\n  • How to build n8n agents with zero coding \n  • Screenshot-to-JSON conversion method \n  • Custom Claude project setup guide \n  • 80/20 accuracy rate (insane results!) \n  • Free resources to steal this system \n\nSave this video - it'll transform how you build automations forever \n\nWant the SOP? DM me.",
+      "images": [],
+      "replies": []
+    },
+    "1928887270968361461": {
+      "id": "1928887270968361461",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/kevinkern/status/1928887270968361461",
+      "title": "",
+      "markdown": "Here is a prompt you can use as a template for creating Cursor rules for any framework.",
+      "images": [],
+      "replies": []
+    },
+    "1918554868140155015": {
+      "id": "1918554868140155015",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/burkov/status/1918554868140155015",
+      "title": "",
+      "markdown": "Coding with Gemini in a nutshell",
+      "images": [],
+      "replies": []
+    },
+    "1918856407266230558": {
+      "id": "1918856407266230558",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/r_marked/status/1918856407266230558",
+      "title": "",
+      "markdown": "Meanwhile Claude 3.7",
+      "images": [],
+      "replies": []
+    },
+    "1921951040280412424": {
+      "id": "1921951040280412424",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/alexxubyte/status/1921951040280412424",
+      "title": "",
+      "markdown": "12 MCP Servers You Can Use in 2025",
+      "images": [],
+      "replies": []
+    },
+    "1991526375208231174": {
+      "id": "1991526375208231174",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/novasarc01/status/1991526375208231174",
+      "title": "",
+      "markdown": "the olmo 3 technical report is a treat for open-source enthusiasts. loved the nuanced pre-training and post-training details in the report.",
+      "images": [],
+      "replies": []
+    },
+    "2022995332058251548": {
+      "id": "2022995332058251548",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/HuggingModels/status/2022995332058251548",
+      "title": "",
+      "markdown": "NVIDIA just dropped PersonaPlex-7B \n\nA full-duplex voice model that listens and talks at the same time.\nNo pauses. No turn-taking. Real conversation.\n\n100% open source. Free.\nVoice AI just leveled up.\n\n\nhttps://\nhuggingface.co/nvidia/persona\nplex-7b-v1\n…",
+      "images": [],
+      "replies": []
+    },
+    "1916096400674460135": {
+      "id": "1916096400674460135",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/aaditsh/status/1916096400674460135",
+      "title": "",
+      "markdown": "This guy literally shows how to build a game with AI in under 45 minutes",
+      "images": [],
+      "replies": []
+    },
+    "1900611009020391496": {
+      "id": "1900611009020391496",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/GoogleColab/status/1900611009020391496",
+      "title": "",
+      "markdown": "We’ve been amazed with all the cool things people are building with Data Science Agent in Colab . Check out these amazing YouTube demos from our users:",
+      "images": [],
+      "replies": []
+    },
+    "1921332642017873944": {
+      "id": "1921332642017873944",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/omarsar0/status/1921332642017873944",
+      "title": "",
+      "markdown": "Every AI dev should know how to implement these types of agentic systems. \n\nThere is so much value and new use cases to build from these patterns.\n\nThe best part is when you combine these ideas.\n\nCheck out my new 4.5 hr course (with code examples) to learn more:",
+      "images": [],
+      "replies": []
+    },
+    "1921067595224018998": {
+      "id": "1921067595224018998",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/JeffDean/status/1921067595224018998",
+      "title": "",
+      "markdown": "Some nice examples of what you can do with Gemini 2.5 Pro's video capabilities in the thread.  Account then: there's a new 66-tokens-per-frame mode (instead of 258 tokens) that allows putting more than 6 hours of video (at 1 fps) in the 2M token context.",
+      "images": [],
+      "replies": []
+    },
+    "1902251588925915429": {
+      "id": "1902251588925915429",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/tokumin/status/1902251588925915429",
+      "title": "",
+      "markdown": "Rolling out interactive Mindmaps in NotebookLM! \n\nI'm so inspired by the Exploratorium here in SF - What if every notebook generated your own personal set of interactive understanding toys that help you learn through play?  What if instead of text or images, Notebook could even reply with these toys?\n\nPersonal tailored software is so exciting to me. 2025 is the era of Apps just for you. Gonna be crazy.",
+      "images": [],
+      "replies": []
+    },
+    "2009417547930849537": {
+      "id": "2009417547930849537",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/JulianGoldieSEO/status/2009417547930849537",
+      "title": "",
+      "markdown": "NotebookLM + Google Gemini FULL COURSE 3 HOURS (Build & Automate Anything)\n\nWant to make money and save time with AI? Get AI Coaching, Support & Courses \n \nhttps://\nskool.com/ai-profit-lab-\n7462/about\n…\n\nGet a FREE AI Course + 1000 NEW AI Agents\n \nhttps://\nskool.com/ai-seo-with-ju\nlian-goldie-1553/about\n…",
+      "images": [],
+      "replies": [
+        {
+          "user": "polsia",
+          "name": "Polsia",
+          "text": "3 hours is the new weekend.",
+          "links": [],
+          "images": [],
+          "timestamp": "2026-01-09T17:37:58.000Z"
+        },
+        {
+          "user": "FullMetalZigma",
+          "name": "ZigmaΩ☥",
+          "text": "Hey \n@grok\n can you list all the action steps in this video?",
+          "links": [],
+          "images": [],
+          "timestamp": "2026-01-09T09:31:17.000Z"
+        },
+        {
+          "user": "EkelemeKelechi1",
+          "name": "Ekeleme Kelechi David IP",
+          "text": "Is this video on YouTube?",
+          "links": [],
+          "images": [],
+          "timestamp": "2026-01-09T08:27:45.000Z"
+        },
+        {
+          "user": "verbr632",
+          "name": "Brendon Vercoe",
+          "text": "Heads-up: I'm 12 mins in and wondering when it's going to start teaching me something",
+          "links": [],
+          "images": [],
+          "timestamp": "2026-01-09T12:59:04.000Z"
+        },
+        {
+          "user": "ahhbhishek_",
+          "name": "abhishek",
+          "text": "Bookmarked and excited!",
+          "links": [],
+          "images": [],
+          "timestamp": "2026-01-09T16:43:11.000Z"
+        },
+        {
+          "user": "maurovelasquez",
+          "name": "Mauricio Velásquez M.",
+          "text": "Would it be possible to share the video link?",
+          "links": [],
+          "images": [],
+          "timestamp": "2026-01-09T17:15:14.000Z"
+        },
+        {
+          "user": "learnaiwthme",
+          "name": "Jay",
+          "text": "NotebookLM used with other Google apps is a really powerful combination.",
+          "links": [],
+          "images": [],
+          "timestamp": "2026-01-09T11:00:20.000Z"
+        },
+        {
+          "user": "josesilesdata",
+          "name": "José Siles | AI | Data",
+          "text": "3 hour deep dive on NotebookLM and Gemini integration is ambitious. What kind of automation workflows did you cover?",
+          "links": [],
+          "images": [],
+          "timestamp": "2026-01-09T13:29:03.000Z"
+        },
+        {
+          "user": "el_thib_ai",
+          "name": "Thibault Lb",
+          "text": "thx for sharing this !",
+          "links": [],
+          "images": [],
+          "timestamp": "2026-01-09T15:07:06.000Z"
+        },
+        {
+          "user": "Burqman",
+          "name": "Zormaj repcak",
+          "text": "@greenupek",
+          "links": [],
+          "images": [],
+          "timestamp": "2026-01-09T20:24:16.000Z"
+        },
+        {
+          "user": "Kathy_Mason",
+          "name": "Kathy_Mason",
+          "text": "Thank you!",
+          "links": [],
+          "images": [],
+          "timestamp": "2026-01-09T17:13:36.000Z"
+        },
+        {
+          "user": "ananyapatelik",
+          "name": "Ananya Patelik",
+          "text": "notebooklm + gemini is like having a digital swiss army knife. curious—what’s the wildest automation you’ve built so far?",
+          "links": [],
+          "images": [],
+          "timestamp": "2026-01-10T01:50:15.000Z"
+        }
+      ]
+    },
+    "2006656020068581829": {
+      "id": "2006656020068581829",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/AskPerplexity/status/2006656020068581829",
+      "title": "",
+      "markdown": "BREAKING: DeepSeek just dropped a fundamental improvement in Transformer architecture\n\nCEO Wenfeng Liang on the author list \n\nTHE WHALE IS BACK",
+      "images": [],
+      "replies": []
+    },
+    "2039746054355067002": {
+      "id": "2039746054355067002",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/julien_c/status/2039746054355067002",
+      "title": "",
+      "markdown": "Just do this:\n\nbrew install llama.cpp --HEAD\n\nThen;\n\nllama-server -hf ggml-org/gemma-4-26B-A4B-it-GGUF:Q4_K_M",
+      "images": [],
+      "replies": []
+    },
+    "1912643267151425749": {
+      "id": "1912643267151425749",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/cline/status/1912643267151425749",
+      "title": "",
+      "markdown": "Get instant feedback on your frontend. Tell Cline to open the browser, point it at `localhost`, and get frontend analysis directly within your editor -- like having a UI specialist review your work as you code.",
+      "images": [],
+      "replies": []
+    },
+    "2020271355623620801": {
+      "id": "2020271355623620801",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/GoogleCloudTech/status/2020271355623620801",
+      "title": "",
+      "markdown": "Recursive Language Models (RLMs) let agents manage 10M+ tokens by delegating tasks recursively.\n\nThis Google Cloud Community Article explains why ADK was the perfect choice for re-implementing the original RLM codebase in a more enterprise-ready format →\nhttps://\ngoo.gle/4kjT12E",
+      "images": [],
+      "replies": []
+    },
+    "1996230331326767590": {
+      "id": "1996230331326767590",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/rasbt/status/1996230331326767590",
+      "title": "",
+      "markdown": "This interesting week started with DeepSeek V3.2!\n\nI just wrote up a technical tour of the predecessors and components that led up to this: \n\n \nhttps://\nmagazine.sebastianraschka.com/p/technical-de\nepseek\n…\n\n- Multi-Head Latent Attention\n- RLVR\n- Sparse Attention\n- Self-Verification\n- GRPO Updates",
+      "images": [],
+      "replies": []
+    },
+    "1864765949913739725": {
+      "id": "1864765949913739725",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/GoogleColab/status/1864765949913739725",
+      "title": "",
+      "markdown": "Supercharge your Colab notebooks! \n\nNow you can easily deploy them as scalable web apps on Cloud Run with just a few clicks. Check out our example notebook and start building powerful apps today:",
+      "images": [],
+      "replies": []
+    },
+    "2040209434019082522": {
+      "id": "2040209434019082522",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/steipete/status/2040209434019082522",
+      "title": "",
+      "markdown": "woke up and my mentions are full of these\n\nBoth me and \n@davemorin\n tried to talk sense into Anthropic, best we managed was delaying this for a week.\n\nFunny how timings match up, first they copy some popular features into their closed harness, then they lock out open source.",
+      "images": [],
+      "replies": []
+    },
+    "1996986766591680883": {
+      "id": "1996986766591680883",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/MengTo/status/1996986766591680883",
+      "title": "",
+      "markdown": "I recorded a 50-min tutorial on prompting top-tier landing pages with Gemini 3",
+      "images": [],
+      "replies": []
+    },
+    "1925538221808582792": {
+      "id": "1925538221808582792",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/goyal__pramod/status/1925538221808582792",
+      "title": "",
+      "markdown": "I am pretty sure if you read all the papers by DeepSeek, you will be 5 years ahead in AI.",
+      "images": [],
+      "replies": []
+    },
+    "1928879461811819005": {
+      "id": "1928879461811819005",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/ai_for_success/status/1928879461811819005",
+      "title": "",
+      "markdown": "Gamma is the one tool I’ve recommended to more people than any other AI tool.\n\nIt’s incredibly useful for almost everyone and easily the best AI presentation tool right now.\n\nLooks like Agentic features coming on June 2nd. \n\nHave you tried Gamma yet?",
+      "images": [],
+      "replies": []
+    },
+    "2049069846953103413": {
+      "id": "2049069846953103413",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/viktoroddy/status/2049069846953103413",
+      "title": "",
+      "markdown": "Kimi K2.6 is a beast for design.\n\n Just recorded a tutorial on how to use Kimi K2.6 to build award-winning $10k websites (step-by-step).",
+      "images": [],
+      "replies": []
+    },
+    "1934599619729834284": {
+      "id": "1934599619729834284",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/iannuttall/status/1934599619729834284",
+      "title": "",
+      "markdown": "Claude Code pro tip:\n\nCreate your own slash commands to start, update, end a dev session and log everything you did. Mine tracks:\n\n- Todos complete\n- File changes\n- What worked/didn't\n- What we learned\n- Next steps",
+      "images": [],
+      "replies": []
+    },
+    "1921904453927755886": {
+      "id": "1921904453927755886",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/svpino/status/1921904453927755886",
+      "title": "",
+      "markdown": "Massive release here!\n\nFirst, MCP. Then, A2A. Now, we have a new AI protocol.\n\nAG-UI is the Agent-User Interaction Protocol. This is a protocol for building user-facing AI agents. It's a bridge between a backend AI agent and a full-stack application.\n\nUp to this point, most agents are backend automators: form-fillers, summarizers, and schedulers. They are useful as backend tools.\n\nBut, interactive agents like Cursor can bring agents to a whole new set of domains, and have been extremely hard to build.\n\nBut not anymore!\n\nIf you want to build an agent that co-works with users, you need:\n\n• Real-time updates\n• Tool orchestration\n• Shared mutable state\n• Security boundaries\n• UI synchronization\n\nAG-UI gives you all of this.\n\nIt’s a lightweight, event-streaming protocol (over HTTP/SSE/webhooks) that creates a unified pipe between your agent backend (OpenAI, Ollama, LangGraph, custom code) and your frontend.\n\nHere is how it works:\n\n• Client sends a POST request to the agent endpoint\n• Then listens to a unified event stream over HTTP\n• Each event includes a type and a minimal payload\n• Agents emit events in real-time\n• The frontend can react immediately to these events\n• The frontend emits events and context back to the agent\n\nCheck the link to the protocol in the next post:",
+      "images": [],
+      "replies": []
+    },
+    "1921582285280915896": {
+      "id": "1921582285280915896",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/ai_for_success/status/1921582285280915896",
+      "title": "",
+      "markdown": "Best in AI - May 2025 \n\nCoding : Gemini 2.5 Pro / Claude 3.7 Sonnet \nMultimodal : Google Gemini\nVideo :  Kling 2.0 / Veo-2 \nMath : o3\nVoice : OpenAI AVM / Gemini Live \nWriting :  Claude 3.7 Sonnet / GPT-4.5 \nSearch : OpenAI Deep Research / Gemini Deep Research\nWeb Agent : Manus AI / Convergence AI\nImage : GPT-4o / Midjourney \n\nAgree ?",
+      "images": [],
+      "replies": []
+    },
+    "1913822238996107442": {
+      "id": "1913822238996107442",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/ericzakariasson/status/1913822238996107442",
+      "title": "",
+      "markdown": "using o3 for research & planning and gemini 2.5 pro for implementation feels really good right now",
+      "images": [],
+      "replies": []
+    },
+    "2008511451397583023": {
+      "id": "2008511451397583023",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/iScienceLuvr/status/2008511451397583023",
+      "title": "",
+      "markdown": "A great video by \n@jbhuang0604\n about DeepSeek's Manifold Hyper-Connections paper!\n\nwalks through the equations step-by-step\n\nhonestly super impressive this well-done video is out so soon after the paper was released.",
+      "images": [],
+      "replies": []
+    },
+    "1919090001414873490": {
+      "id": "1919090001414873490",
+      "runId": "1781442452177",
+      "type": "tweet",
+      "url": "https://x.com/paulabartabajo_/status/1919090001414873490",
+      "title": "",
+      "markdown": "How to use LLMs without giving your private data away? \n\n𝗪𝗵𝗮𝘁'𝘀 𝘁𝗵𝗲 𝗽𝗿𝗼𝗯𝗹𝗲𝗺?\n \nBehind every LLM app, no matter how complex, agentic or ragish, there is at least one LLM that acts as either/and\n\n> the planer\n> tool decider\n> output synthetizer.\n\nAnd let's face it.\n\nUsing third-party LLM providers like OpenAI, Claude or Grok is ok when you are building a demo.\n\nHowever, in the industry, most companies I have worked for, do not trust these LLM providers.\n\nNot event the self-proclaimed super safe AWS Bedrock serve.\n\nSo, what are the options.\n\n𝗦𝗼𝗹𝘂𝘁𝗶𝗼𝗻𝘀\n\nManaging LLM servers means you need GPUs.\nGPUs connected to the rest of services of your infra.\n\nNow, the most cost-effective way to do so is IMHO Kubernetes.\n\nKubernetes, and on top of it, one of these 2 serving layers:\n\n> vLLM -> one of the first of its kind, with good Kubernetes support.\n\n> NVIDIA NIM -> a collection of super-optimized Docker containers for inference on NVIDIA GPUs, the dominant hardware provider in the market.\n\nIn the following weeks Marius Rugan and myself will break down the process of running LLMs at scale without breaking the bank.\n\nFollow \n@paulabartabajo_\n  so you don't miss what is coming next.",
+      "images": [],
+      "replies": []
+    }
+  },
+  "failures": {}
+}
