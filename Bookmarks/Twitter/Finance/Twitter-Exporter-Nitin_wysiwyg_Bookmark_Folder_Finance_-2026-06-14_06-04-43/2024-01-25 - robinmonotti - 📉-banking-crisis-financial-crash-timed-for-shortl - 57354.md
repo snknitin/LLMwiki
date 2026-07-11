@@ -1,4 +1,4 @@
-﻿---
+---
 title: "📉 BANKING CRISIS/ FINANCIAL CRASH TIMED FOR SHORTLY AFTER 11th MARCH 2024"
 author: "Robin Monotti"
 username: "@robinmonotti"
