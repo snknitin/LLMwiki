@@ -1,4 +1,4 @@
-﻿---
+---
 title: "Skills are the long-term memory of a Hermes agent. When the agent solves a hard problem once and sav..."
 author: "Mike Gannotti"
 username: "@MichaelGannotti"

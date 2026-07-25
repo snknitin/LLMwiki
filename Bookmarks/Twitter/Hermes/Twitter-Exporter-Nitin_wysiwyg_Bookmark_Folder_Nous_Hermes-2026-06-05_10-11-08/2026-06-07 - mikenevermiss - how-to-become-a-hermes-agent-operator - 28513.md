@@ -1,4 +1,4 @@
-﻿---
+---
 title: "How to Become a Hermes Agent Operator"
 author: "MIKE"
 username: "@mikenevermiss"

@@ -1,4 +1,4 @@
-﻿---
+---
 title: "مثل یه حرفه‌ای از Hermes استفاده کن! 47 دستور مخفی هرمس که باید یاد بگیری🤔"
 author: "Matin SenPai"
 username: "@MatinSenPai"

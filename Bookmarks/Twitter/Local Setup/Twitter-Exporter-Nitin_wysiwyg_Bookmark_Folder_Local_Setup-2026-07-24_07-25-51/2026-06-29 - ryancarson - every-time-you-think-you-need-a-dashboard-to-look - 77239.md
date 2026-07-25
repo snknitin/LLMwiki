@@ -1,4 +1,4 @@
-﻿---
+---
 title: "Every time you think you need a dashboard to look at data, stop yourself."
 author: "Ryan Carson"
 username: "@ryancarson"

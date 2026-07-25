@@ -1,4 +1,4 @@
-﻿---
+---
 title: "The Hermes Desktop app can now discover and connect to your Hermes Cloud agents."
 author: "Nous Research"
 username: "@NousResearch"
@@ -39,7 +39,7 @@ Already a cloud user? Try Hermes Desktop:
 
 **Video:** [▶ Watch](https://video.twimg.com/amplify_video/2075674301424918528/vid/avc1/2160x2160/z4mkSfQggU9ARFAH.mp4?tag=28) (duration: 21s)
 
-⚠️ Video content — see [[MEDIA-REVIEW]] for full list.
+⚠️ Video content — see[[Bookmarks/Twitter/Local Setup/Twitter-Exporter-Nitin_wysiwyg_Bookmark_Folder_Local_Setup-2026-07-24_07-25-51/MEDIA-REVIEW]]] for full list.
 
 ## Reply Thread Summary
 
