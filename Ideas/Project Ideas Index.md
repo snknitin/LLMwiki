@@ -1,0 +1,179 @@
+---
+type: index
+status: active
+created: 2026-07-27
+scope: personal-first project portfolio
+spec_count: 48
+tags:
+  - ideas
+  - project-specs
+  - local-first
+---
+
+# Project Ideas Index
+
+This index turns the raw idea dump plus two later additions into 48 prototype build specs. The default assumption throughout is: build for one person, run locally when practical, keep every consequential action behind approval, and only add accounts, billing, teams, and cloud infrastructure after the personal workflow is genuinely useful.
+
+Full source-to-spec accounting: [[Source Idea Coverage Map]].
+
+## Urgent Personal Build Program
+
+The current horizon is one month, targeting a durable personal beta by **2026-08-27**. Each tool should reach a useful vertical slice early, then spend the remaining time being dogfooded, instrumented, corrected, and hardened.
+
+1. [[LongVid Learning Studio]]
+2. [[Paper Logbook]]
+3. [[Finance Signals Dashboard]]
+4. [[Net Worth Command Center]]
+5. [[Jobs Search and Apply Tool]]
+6. [[Goal-to-Calendar Planner]]
+7. [[Paisa Vasool Subscriptions]]
+8. [[Language Learning Lab]]
+
+The shared architecture, weekly sequence, and battle-testing gates are in [[First Month Build Program]].
+
+### Existing prototypes on hold
+
+[[Angel and Demon Companion]], [[Half-Blood PDF]], and [[Understand This Paper]] are reported to be roughly 80% complete from prior hackathons. Their current priority is low: inventory the existing code, test the main path, write the missing-20% list, and resume only after the urgent personal betas are stable.
+
+## Portfolio Rules
+
+- **Personal v0 before product v1.** A folder, SQLite database, local web app, Telegram bot, or browser extension is a valid first product.
+- **Free-first, not permanently free.** Prefer open-source tools and existing hardware for learning; use paid models only when they materially improve a measured failure case.
+- **Models are replaceable components.** Put local Ollama or vLLM endpoints and paid providers behind one OpenAI-compatible adapter.
+- **Automations propose before they act.** Publishing, sending messages, purchases, trades, cancellations, calendar edits, and drone movement need a preview and explicit confirmation.
+- **Private inputs stay private by default.** Social messages, finances, journals, health observations, faces, and location data should remain on-device or on the home network.
+- **Personal-prototype assumption.** Current builds are local, single-user tools operating on user-supplied inputs. Copyright, trademark, redistribution, commercial licensing, and public-release compliance are deferred until a project is selected for open-source or product release. Technical access limits, safety, privacy, financial accuracy, medical boundaries, drone control, and live-game fair play still affect the prototype.
+
+## Deferred Release Gate
+
+Do not spend the current build month on product-rights analysis. Before any repository, hosted service, public demo, monetization, or third-party access, run a separate release audit covering assets/data/models, platform terms, privacy, safety, trademarks, payments, and applicable regulation.
+
+## Best First Builds
+
+These give the best combination of immediate personal value, low cash cost, and reusable technical learning.
+
+| Order | Spec | Why start here | Main learning lane | First useful slice |
+|---|---|---|---|---|
+| 1 | [[LongVid Learning Studio]] | Turns saved videos into durable notes and study material | browser capture, queues, transcript provenance | URL/transcript to timestamped note |
+| 2 | [[Paper Logbook]] | A useful daily mobile app with no external API dependence | Expo, local SQLite, offline durability | Fixed daily page, then template iteration |
+| 3 | [[Finance Signals Dashboard]] | Daily evidence-backed conventional-market view | market data, time series, provenance | Ten-item watchlist and morning brief |
+| 4 | [[Net Worth Command Center]] | Makes private finances inspectable immediately | CSV adapters, DuckDB/SQLite, reconciliation | Balances plus one tested importer |
+| 5 | [[Jobs Search and Apply Tool]] | Direct career and income leverage | browser capture, ranking, document generation | Job link to truthful reviewed packet |
+| 6 | [[Goal-to-Calendar Planner]] | Makes goals operational and teaches approval-based automation | Calendar APIs, scheduling, constraint validation | One conflict-free weekly plan |
+| 7 | [[Paisa Vasool Subscriptions]] | Quick verified savings from existing exports | recurrence detection, reminders | Confirmed registry from finance imports |
+| 8 | [[Language Learning Lab]] | Daily learning loop with reusable mobile primitives | Expo, SQLite, FSRS, audio | One language and reviewed starter set |
+
+## Project Families
+
+### Personal intelligence and learning
+
+- [[Personal Signal Intelligence OS]]
+- [[Personal Study Curriculum]]
+- [[LongVid Learning Studio]]
+- [[Bionic Reading Trainer]]
+- [[Half-Blood PDF]]
+- [[Understand This Paper]]
+- [[Language Learning Lab]]
+- [[LeetCode Pattern Curriculum]]
+- [[Handwriting to LaTeX]]
+- [[Visual Token Compiler]]
+- [[EPUB Highlights Bridge]]
+
+### Personal operations, behavior, and wellbeing
+
+- [[Paper Logbook]]
+- [[NPC Mode Personal Coach]]
+- [[Goal-to-Calendar Planner]]
+- [[Jarvis and Alfred]]
+- [[Angel and Demon Companion]]
+- [[Parallel Presence Companions]]
+- [[Measure Life]]
+- [[Feedback Mirror]]
+- [[Physio Atlas]]
+- [[Adaptive Vision Glasses]]
+
+### Money, career, and creator systems
+
+- [[Creator Content Engine]]
+- [[Side-Hustle Radar]]
+- [[Jobs Search and Apply Tool]]
+- [[Net Worth Command Center]]
+- [[Paisa Vasool Subscriptions]]
+- [[Finance Signals Dashboard]]
+- [[Event Market Research Terminal]]
+- [[GiftShelf]]
+- [[Personal Library Website]]
+- [[Event Networking Copilot]]
+
+### Spatial, vision, and media tools
+
+- [[AR Scale Lens]]
+- [[Ambient TV]]
+- [[Drone Mission Mapper]]
+- [[Field Pokedex]]
+- [[Manga-to-Animatic Studio]]
+- [[Song Phrase Mosaic]]
+- [[PhoneScan PDF]]
+- [[Neural Fractal Visualizer]]
+- [[Audio Watermark and Perception Lab]]
+
+### Social simulations, platforms, and games
+
+- [[Marionettist Utopia]]
+- [[Live Chess Tutor]]
+- [[Playo Elo Sports Network]]
+- [[Any App Widget Maker]]
+- [[Motto Agent Council]]
+- [[Yu-Gi-Oh RL Lab]]
+- [[Quiz Poker]]
+- [[Taxonomy Cluster Explorer]]
+
+## Free-First Technology Lanes
+
+| Lane | Use it for | Start with | Graduate to |
+|---|---|---|---|
+| Local automation | Scheduled ingestion, approvals, daily reports | n8n + Python/FastAPI + SQLite + Ollama | Postgres, Redis, workers, LangGraph |
+| Universal mobile/web | Journals, trackers, capture, camera workflows | Expo/React Native + TypeScript + SQLite | Native Kotlin/Swift modules only where needed |
+| Desktop utilities | Files, PDFs, widgets, private dashboards | Tauri + React/Svelte + SQLite | Rust sidecars, OS-specific plugins |
+| Local AI workstation | Private text, vision, speech, embeddings | Ollama for iteration | vLLM on DGX Spark for throughput; paid APIs behind the same adapter |
+| Computer vision and AR | Measurement, pose, species, mirrors | OpenCV + MediaPipe + phone camera | ARCore/ARKit, depth sensors, optimized on-device models |
+| Generative media | Images, storyboards, audio, video experiments | ComfyUI + open checkpoints + FFmpeg | Hosted GPU jobs or paid models for quality/latency |
+| Product web app | Shareable or paid services | Next.js or SvelteKit + Postgres | Managed auth, object storage, billing, observability |
+
+Useful official starting points: [FreshRSS APIs](https://freshrss.github.io/FreshRSS/en/developers/06_GoogleReader_API.html), [Expo](https://docs.expo.dev/), [Tauri](https://v2.tauri.app/start/), [Ollama API](https://docs.ollama.com/api), [n8n](https://github.com/n8n-io/n8n), [n8n self-hosted AI starter kit](https://github.com/n8n-io/self-hosted-ai-starter-kit), [ARCore Depth](https://developers.google.com/ar/develop/depth), and [YouTube Data API](https://developers.google.com/youtube/v3/docs).
+
+## Deep Research Dossiers
+
+Every project spec links directly to its relevant section in one of these primary-source research notes:
+
+- [[Research - Information and Learning Ideas]]
+- [[Research - Personal Systems and Product Ideas]]
+- [[Research - Spatial Media and Experimental Ideas]]
+- [[Research - Existing Product and Shortcut Atlas]]
+
+The specs contain the build decisions; the dossiers preserve deeper prior art, verified API/platform facts, drawbacks, hidden costs, clever shortcuts, paid-service triggers, and direct official-source links.
+
+## Merge Decisions
+
+- **FreshRSS newsletter + authenticated social signal triage + Telegram/Obsidian capture** became [[Personal Signal Intelligence OS]]. They share ingestion, deduplication, ranking, feedback, provenance, and publishing infrastructure; the outputs remain separate views.
+- **Vocabulary builder + pronunciation coach + high-frequency phrase curriculum** became [[Language Learning Lab]]. They are three learning modes over one learner model and shared content graph.
+- **Both channel-surfing bullets** became [[Ambient TV]].
+- **Map-drawn drone patterns + LocateAnything visual search** became [[Drone Mission Mapper]].
+- The paper/PDF ideas remain separate because they optimize different jobs: [[Half-Blood PDF]] produces a richly annotated artifact, [[Understand This Paper]] teaches a research paper interactively, and [[PhoneScan PDF]] is a capture utility.
+- The personal-agent ideas remain separate because their interaction contracts differ: execution ([[Jarvis and Alfred]]), comparison ([[NPC Mode Personal Coach]]), values reflection ([[Angel and Demon Companion]]), social presence ([[Parallel Presence Companions]]), and perspective diversity ([[Motto Agent Council]]).
+
+## Portfolio Sequence
+
+1. **Foundation:** run n8n, SQLite/Postgres, an object folder, and one model gateway on the workstation.
+2. **Information loop:** build [[Personal Signal Intelligence OS]], [[LongVid Learning Studio]], and [[Personal Study Curriculum]] on the same content schema.
+3. **Action loop:** add [[Goal-to-Calendar Planner]], [[Paper Logbook]], [[Jobs Search and Apply Tool]], and [[Measure Life]] with a shared events/feedback schema.
+4. **Creator loop:** let approved insights flow into [[Creator Content Engine]] and [[Personal Library Website]].
+5. **Specialized apps:** choose one mobile vision project and one GPU media project after the common foundation is stable.
+
+## Clarifications to Revisit
+
+- Which phone is the primary development target: Android first, iPhone first, or both?
+- Is FreshRSS self-hosted and is its Google Reader-compatible API already enabled?
+- Which desktop holds the canonical always-on automation runtime, and how should the DGX Spark be reached from it?
+- Which accounts may be read through official APIs versus manual exports/forwarding?
+- Which paid model providers are acceptable, and what monthly experiment budget should trigger an approval?
