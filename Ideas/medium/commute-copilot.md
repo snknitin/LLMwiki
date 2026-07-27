@@ -100,6 +100,4 @@ Personal route checker → city-specific bot → employer commute assistant → 
 ## Related Wikilinks
 
 - [[Meet in the Middle]]
-- [[Personal Morning Briefing]]
-- [[Local Discovery Dashboard]]
-
+- [[City Roast Map]]

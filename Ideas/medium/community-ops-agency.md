@@ -100,7 +100,5 @@ Personal community kit → single-community operator dashboard → reusable agen
 
 ## Related Wikilinks
 
-- [[Community Health Dashboard]]
-- [[Discord Community Digest]]
 - [[Customer Support Agency]]
-
+- [[AI Event Matchmaker]]

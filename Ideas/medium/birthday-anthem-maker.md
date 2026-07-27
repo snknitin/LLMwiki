@@ -100,7 +100,5 @@ Personal gift generator → paid one-off web gift → creator template marketpla
 
 ## Related Wikilinks
 
-- [[AI Jingle Generator]]
-- [[Personalized Video Greeting Generator]]
 - [[Commentary Box]]
-
+- [[Startup Idea Dating Profile]]

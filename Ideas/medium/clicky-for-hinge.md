@@ -98,7 +98,5 @@ Personal local rewriter → privacy-first mobile share tool → general conversa
 
 ## Related Wikilinks
 
-- [[Conversation Coach]]
 - [[Cold Email Rewrite Desk]]
 - [[Compatibility Duet]]
-

@@ -104,6 +104,4 @@ Local call-prep tool → team evidence library → CRM/sidebar integration → c
 ## Related Wikilinks
 
 - [[Competitive Intelligence Agency]]
-- [[Proposal Writer for Freelancers]]
-- [[Startup Ops Control Tower]]
-
+- [[Customer Support Agency]]

@@ -105,6 +105,5 @@ Personal script → organizer dashboard → event-platform integration → multi
 ## Related Wikilinks
 
 - [[Event Networking Copilot]]
-- [[AI Networking Helper]]
-- [[Personal CRM and Follow-up Dashboard]]
-
+- [[Meet in the Middle]]
+- [[Pocket CRM]]

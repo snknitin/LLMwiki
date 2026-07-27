@@ -99,5 +99,4 @@ Local clip toy → downloadable desktop creator tool → hosted short-video serv
 ## Related Wikilinks
 
 - [[Birthday Anthem Maker]]
-- [[Automated Short Video Factory]]
-- [[AI Sports Highlight Narrator]]
+- [[Build in Public Autoposter]]

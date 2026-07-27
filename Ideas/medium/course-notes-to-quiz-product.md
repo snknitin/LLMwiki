@@ -100,7 +100,5 @@ Personal local study tool → desktop/student product → course-specific packs 
 
 ## Related Wikilinks
 
-- [[AI Study Command Center]]
-- [[Flashcard Factory]]
-- [[Research Reading Dashboard]]
-
+- [[Fine Print Rage Meter]]
+- [[Contract Red Flag Memo]]

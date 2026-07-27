@@ -73,4 +73,3 @@ Personal V0 → family pilot → configurable caregiver coordination product. Be
 
 - [[Research - Hermes Batch B#1. Daily Parent Check-In]]
 - [[Scope Expansion Checklist]]
-- [[Personal Relationship OS]]

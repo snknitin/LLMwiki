@@ -104,5 +104,3 @@ Personal watchlist → team CI workspace → analyst-assisted agency → multi-t
 
 - [[B2B Competitor Battlecard]]
 - [[Market Mood Cards]]
-- [[Website Change Monitor]]
-

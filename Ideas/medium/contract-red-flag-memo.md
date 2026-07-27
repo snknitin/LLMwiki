@@ -101,6 +101,4 @@ Personal contract checklist → role/contract-specific desktop tool → counsel-
 ## Related Wikilinks
 
 - [[Fine Print Rage Meter]]
-- [[Document Intelligence Workbench]]
-- [[Proposal Writer for Freelancers]]
-
+- [[Customer Support Agency]]

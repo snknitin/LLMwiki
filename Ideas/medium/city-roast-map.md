@@ -99,7 +99,5 @@ One-city local map → curated city packs → moderated creator toolkit → spon
 
 ## Related Wikilinks
 
-- [[Local Discovery Dashboard]]
 - [[Meet in the Middle]]
-- [[Viral Share Card Generator]]
-
+- [[Commute Copilot]]

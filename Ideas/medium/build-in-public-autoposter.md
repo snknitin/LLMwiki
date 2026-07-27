@@ -104,7 +104,5 @@ Personal drafting CLI → local multi-project dashboard → team changelog/conte
 
 ## Related Wikilinks
 
-- [[Content Repurposing Pipeline]]
-- [[Social Media Command Center]]
-- [[Daily AI Work Journal]]
-
+- [[X Profile Autopsy]]
+- [[Founder Investor Update Writer]]

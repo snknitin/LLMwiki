@@ -100,5 +100,3 @@ Private local quiz → expiring hosted duet → themed friend/couple/team packs 
 
 - [[AI Founder Archetype Quiz]]
 - [[Clicky for Hinge]]
-- [[Relationship Check-in Prompts]]
-
