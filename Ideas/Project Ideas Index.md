@@ -16,6 +16,8 @@ This index turns the raw idea dump plus two later additions into 48 prototype bu
 
 Full source-to-spec accounting: [[Source Idea Coverage Map]].
 
+The separate set of 93 non-personal Hermes hackathon briefs is catalogued in [[Hermes Hackathon Ideas Index]].
+
 ## Urgent Personal Build Program
 
 The current horizon is one month, targeting a durable personal beta by **2026-08-27**. Each tool should reach a useful vertical slice early, then spend the remaining time being dogfooded, instrumented, corrected, and hardened.
