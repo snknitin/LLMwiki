@@ -10,7 +10,18 @@ This note verifies the constraints and building blocks behind a three-device set
 2. **Use official sign-in flows where a client explicitly supports them.** Codex app/CLI/IDE can sign in with ChatGPT; Claude Code can sign in with Claude Pro/Max. Hermes upstream currently implements an OpenAI Codex device-code provider, but its Anthropic OAuth path explicitly says Claude Pro is unsupported: it requires Claude Max plus extra-usage credits, or an Anthropic API key. Hermes's Google/Gemini provider takes a Gemini API key, not a Google AI Pro consumer entitlement. ([OpenAI Codex plans](https://help.openai.com/en/articles/11369540/), [Claude Code with Pro/Max](https://support.anthropic.com/en/articles/11145838-using-claude-code-with-your-pro-or-max-plan), [Hermes providers](https://hermes-agent.nousresearch.com/docs/integrations/providers))
 3. **Make the DGX Spark the always-on inference/agent appliance, not the only copy of state.** Run ODS, Hermes profiles/gateway, a model-serving tier, LiteLLM, schedules, observability, and durable storage there. Reach it from the laptop and workstation through an authenticated private network. The RTX workstation should remain a separate training/evaluation node and a secondary inference endpoint; the laptop should normally be a thin client with one small emergency local model.
 4. **Start with ODS's supported llama.cpp/GGUF path or Ollama/LM Studio, not vLLM/SGLang by default.** Ollama and LM Studio are model managers plus servers and can load/unload on demand. vLLM and SGLang are higher-throughput serving runtimes; they accept compatible Hugging Face checkpoints directly and do not require Ollama or LM Studio first. NVIDIA publishes current DGX Spark playbooks for all of Ollama, LM Studio, llama.cpp, vLLM, and SGLang. ([NVIDIA Spark playbooks](https://build.nvidia.com/spark), [vLLM on Spark](https://build.nvidia.com/spark/vllm), [SGLang on Spark](https://build.nvidia.com/spark/sglang), [LM Studio on Spark](https://build.nvidia.com/spark/lm-studio))
-5. **"Automatic hotswap" should mean routing plus controlled eviction, not changing one global model under active jobs.** Put stable logical model names behind a gateway, pin every scheduled job to a route, and let the serving layer keep, evict, or prewarm models. LM Studio has JIT loading, TTL, and auto-evict; Ollama exposes `keep_alive`, concurrent-model limits, and queuing. ODS's general model load path updates config and restarts its inference service, so it is an operator-level swap rather than a zero-cold-start multi-model scheduler. ([LM Studio TTL/auto-evict](https://lmstudio.ai/docs/developer/core/ttl-and-auto-evict), [Ollama FAQ](https://docs.ollama.com/faq), [ODS model management](../MODEL-MANAGEMENT.md))
+5. **"Automatic hotswap" should mean routing plus controlled eviction, not changing one global model under active jobs.** Put stable logical model names behind a gateway, pin every scheduled job to a route, and let the serving layer keep, evict, or prewarm models. LM Studio has JIT loading, TTL, and auto-evict; Ollama exposes `keep_alive`, concurrent-model limits, and queuing. ODS's general model load path updates config and restarts its inference service, so it is an operator-level swap rather than a zero-cold-start multi-model scheduler. ([LM Studio TTL/auto-evict](https://lmstudio.ai/docs/developer/core/ttl-and-auto-evict), [Ollama FAQ](https://docs.ollama.com/faq), [ODS model management](https://github.com/Osmantic/ODS/blob/main/docs/MODEL-MANAGEMENT.md))
+
+## Canonical Hermes deployment clarification
+
+The authoritative personal Hermes profile is on Spark. Two separately supervised processes use that same Spark profile:
+
+- `hermes serve` is the authenticated HTTP/WebSocket backend used by Hermes Desktop on the workstation and laptop.
+- `hermes gateway` owns Discord, Telegram, other messaging adapters, and Hermes cron.
+
+Tailscale provides private reachability but does not synchronize local Hermes installations. Profile-level skills, MCPs, providers, memory, sessions, and schedules changed through a Desktop client connected to Spark are stored on Spark. Desktop UI preferences remain per device, and remote file tools operate on the Spark filesystem. Use an optional, separately named workstation profile only when direct access to workstation-only files is required.
+
+The ODS `hermes-proxy` is a Caddy/browser-cookie gate for ODS's embedded Hermes dashboard, not a substitute for the native remote Desktop endpoint. The ODS checkout reviewed for these notes pins Hermes `v2026.5.16`/v0.14, which predates the native Desktop/remote-backend release. Initially run a current standalone Hermes beside ODS, disable or clearly rename the old ODS-bundled Hermes, and upgrade the ODS integration only after backup and compatibility testing. The exact topology and rollout are in [[Always-On Hermes on DGX Spark]].
 
 ## Subscription and authentication boundaries
 
@@ -88,7 +99,7 @@ Do not copy the full Spark model library to the laptop. Sync declarations and pr
 
 ### ODS llama-server / llama.cpp
 
-ODS's supported default local path is a llama.cpp `llama-server` serving GGUF over an OpenAI-compatible API. ODS selects a hardware-tier GGUF, manages it through the dashboard/CLI, and wires Open WebUI, Hermes, and LiteLLM around it. The current checkout assigns ARM64 unified-memory 90+ GB hosts such as DGX Spark to its `NV_ULTRA` policy and currently selects a Qwen 35B-class MoE GGUF rather than the AMD64 coding-model choice. ([ODS README](../../README.md), [model management](../MODEL-MANAGEMENT.md), [Hermes integration](../HERMES.md))
+ODS's supported default local path is a llama.cpp `llama-server` serving GGUF over an OpenAI-compatible API. ODS selects a hardware-tier GGUF, manages it through the dashboard/CLI, and wires Open WebUI, Hermes, and LiteLLM around it. The current checkout assigns ARM64 unified-memory 90+ GB hosts such as DGX Spark to its `NV_ULTRA` policy and currently selects a Qwen 35B-class MoE GGUF rather than the AMD64 coding-model choice. ([ODS README](https://github.com/Osmantic/ODS), [model management](https://github.com/Osmantic/ODS/blob/main/docs/MODEL-MANAGEMENT.md), [Hermes integration](https://github.com/Osmantic/ODS/blob/main/docs/HERMES.md))
 
 Best when:
 
@@ -96,7 +107,7 @@ Best when:
 - request concurrency is moderate;
 - you want partial CPU/GPU offload and quantized models.
 
-Limitation for this design: loading a catalog/manual model updates ODS config and restarts the local inference service. Hermes also has its own model name in `data/hermes/config.yaml`, so manual changes must be kept aligned. ODS bootstrap promotion is automated, but normal arbitrary per-request model selection is not the same as keeping several independent model servers ready. ([ODS model management](../MODEL-MANAGEMENT.md))
+Limitation for this design: loading a catalog/manual model updates ODS config and restarts the local inference service. Hermes also has its own model name in `data/hermes/config.yaml`, so manual changes must be kept aligned. ODS bootstrap promotion is automated, but normal arbitrary per-request model selection is not the same as keeping several independent model servers ready. ([ODS model management](https://github.com/Osmantic/ODS/blob/main/docs/MODEL-MANAGEMENT.md))
 
 ### Ollama
 
@@ -108,7 +119,7 @@ Best when:
 - model cold-start latency is acceptable;
 - maximum throughput is not the primary goal.
 
-ODS contains an Ollama extension, but ODS's core inference contract remains its own llama-server. Enabling the extension does not automatically make every ODS client dynamically route across Ollama models; configure the gateway/routes deliberately. ([ODS Ollama extension](../../extensions/library/services/ollama/README.md))
+ODS contains an Ollama extension, but ODS's core inference contract remains its own llama-server. Enabling the extension does not automatically make every ODS client dynamically route across Ollama models; configure the gateway/routes deliberately. ([ODS Ollama extension](https://github.com/Osmantic/ODS/blob/main/extensions/library/services/ollama/README.md))
 
 ### LM Studio / `llmster`
 
@@ -172,7 +183,7 @@ Use a gateway model catalog with stable intent names instead of allowing every a
 | `cloud/claude` | official Claude Code login or separately billed API |
 | `cloud/gemini` | separately metered Gemini API route |
 
-LiteLLM is suited to the northbound gateway: it exposes one OpenAI-compatible endpoint, multiple providers/deployments, retries/fallbacks, budgets, and routing. ODS already includes LiteLLM local/cloud/hybrid configurations. The shipped ODS configuration is a starting point, not the requested policy engine; add explicit routes for the Spark and workstation endpoints and avoid a wildcard that silently maps every requested name to one currently loaded GGUF. ([LiteLLM](https://docs.litellm.ai/), [ODS LiteLLM extension](../../extensions/services/litellm/README.md))
+LiteLLM is suited to the northbound gateway: it exposes one OpenAI-compatible endpoint, multiple providers/deployments, retries/fallbacks, budgets, and routing. ODS already includes LiteLLM local/cloud/hybrid configurations. The shipped ODS configuration is a starting point, not the requested policy engine; add explicit routes for the Spark and workstation endpoints and avoid a wildcard that silently maps every requested name to one currently loaded GGUF. ([LiteLLM](https://docs.litellm.ai/), [ODS LiteLLM extension](https://github.com/Osmantic/ODS/blob/main/extensions/services/litellm/README.md))
 
 Recommended serving patterns:
 
@@ -254,7 +265,7 @@ Client adapters are necessary:
 - Codex distinguishes global/project config, `AGENTS.md`, skills, plugins, and MCP settings; Codex's own source describes skills under `.codex` and supports symlinked skill folders. ([Codex source](https://github.com/openai/codex/blob/main/codex-rs/skills/src/assets/samples/openai-docs/SKILL.md), [Codex skill loading](https://github.com/openai/codex/blob/main/codex-rs/app-server/README.md#skills))
 - Claude Code has user/project/local settings scopes and project `.mcp.json`; shared project MCP declarations can be committed, while local/user settings hold private overrides. ([Claude MCP](https://docs.anthropic.com/en/docs/claude-code/mcp), [Claude settings precedence](https://docs.anthropic.com/en/docs/claude-code/iam))
 - Gemini CLI uses `~/.gemini/settings.json` and project `.gemini/settings.json`, with `mcpServers`; it can be configured to load `AGENTS.md` alongside `GEMINI.md`. Verify current product availability before standardizing around this client because Google's consumer CLI access changed in June 2026. ([Gemini settings](https://geminicli.com/docs/cli/settings/), [Gemini context files](https://geminicli.com/docs/cli/gemini-md/), [Gemini MCP](https://geminicli.com/docs/tools/mcp-server/))
-- Hermes's source of truth is `~/.hermes/` or a named profile; it supports external skill directories and the Agent Skills standard. ODS containerizes this under its data directory and adds an ODS-generated provider/model config. ([Hermes skills](https://hermes-agent.nousresearch.com/docs/user-guide/features/skills), [ODS Hermes](../HERMES.md))
+- Hermes's source of truth is `~/.hermes/` or a named profile; it supports external skill directories and the Agent Skills standard. ODS containerizes this under its data directory and adds an ODS-generated provider/model config. ([Hermes skills](https://hermes-agent.nousresearch.com/docs/user-guide/features/skills), [ODS Hermes](https://github.com/Osmantic/ODS/blob/main/docs/HERMES.md))
 
 Use a one-way render/deploy process from the canonical repository into each application's native paths. Do not make three applications write into one live settings file: their schemas, update behavior, permission models, and credential stores differ.
 
@@ -270,7 +281,7 @@ ODS is most valuable here as the appliance/control plane around inference, not a
 - RAG/observability: Qdrant, embeddings, Token Spy/Langfuse;
 - extension framework for additional services.
 
-The current ODS docs define local, cloud, hybrid, and other provider modes, with provider-neutral readiness as the goal. Its default LiteLLM local route points to one llama-server; cloud/hybrid routes require actual API keys. ([ODS provider modes](../ENGINE-PROVIDER-MODES.md), [ODS mode switching](../MODE-SWITCH.md), [ODS LiteLLM extension](../../extensions/services/litellm/README.md))
+The current ODS docs define local, cloud, hybrid, and other provider modes, with provider-neutral readiness as the goal. Its default LiteLLM local route points to one llama-server; cloud/hybrid routes require actual API keys. ([ODS provider modes](https://github.com/Osmantic/ODS/blob/main/docs/ENGINE-PROVIDER-MODES.md), [ODS mode switching](https://github.com/Osmantic/ODS/blob/main/docs/MODE-SWITCH.md), [ODS LiteLLM extension](https://github.com/Osmantic/ODS/blob/main/extensions/services/litellm/README.md))
 
 Recommended division:
 
@@ -280,7 +291,7 @@ Recommended division:
 - Back up ODS data/config using its supplied backup path, but keep model weights rebuildable from a manifest rather than copying them in every configuration sync.
 - Pin an ODS release or audited commit for the 24x7 machine. The upstream README explicitly says `main` moves quickly and recommends tagged/audited revisions for appliance or production-like installs. ([ODS upstream](https://github.com/Osmantic/ODS))
 
-ODS's documented Tailscale extension is Linux-only in its first version and is intended to expose the ODS host on a private tailnet, not the public internet. On any remote-access choice, require authentication, restrict ports/routes, and do not bind raw inference or Hermes admin surfaces publicly. ([ODS Tailscale](../TAILSCALE.md))
+ODS's documented Tailscale extension is Linux-only in its first version and is intended to expose the ODS host on a private tailnet, not the public internet. On any remote-access choice, require authentication, restrict ports/routes, and do not bind raw inference or Hermes admin surfaces publicly. ([ODS Tailscale](https://github.com/Osmantic/ODS/blob/main/docs/TAILSCALE.md))
 
 ## Suggested rollout order
 
@@ -298,3 +309,10 @@ ODS's documented Tailscale extension is Linux-only in its first version and is i
 12. Add paid API fallback only after explicit spend caps and alerts are working.
 
 The durable target is not one enormous process that swaps every model. It is a small fleet of independently health-checked endpoints behind stable routes, with explicit job pinning and controlled cold starts.
+
+## Related notes
+
+- [[Always-On Hermes on DGX Spark]]
+- [[personal-hermes-obsidian-multinode-design|Personal Hermes, Obsidian, and Multi-Node Inference Design]]
+- [[local-ai-tooling-catalog-and-rollout|Local AI Tooling Catalog and Rollout]]
+- [[Local Setup Index]]

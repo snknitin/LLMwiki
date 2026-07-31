@@ -2,11 +2,11 @@
 
 ## Recommended end state
 
-Use the RTX 5000 workstation as the always-on personal control plane, the DGX Spark as the shared/project inference appliance and heavy-automation worker, and the laptop as a thin roaming client.
+Use the DGX Spark as the always-on personal Hermes control plane and large-model/service appliance, the RTX 5000 workstation as the development, local-file, training, and low-latency inference node, and the laptop as a thin roaming client.
 
-- Run the authoritative personal Hermes profile and personal model gateway on the workstation so Hermes can work directly with deliberately mounted local project folders and the workstation's normal Obsidian replica.
-- Run public/project inference, larger models, and explicitly Spark-owned automations on the DGX Spark.
-- Connect the laptop to the workstation Hermes gateway and both inference gateways through a private network such as Tailscale. Keep local laptop models only as an offline fallback.
+- Run one authoritative personal Hermes profile on Spark. Supervise both `hermes serve` for remote Hermes Desktop clients and `hermes gateway` for messaging and cron.
+- Connect Hermes Desktop on the workstation and laptop to Spark over Tailscale. Keep an optional, clearly named local workstation profile only for tasks that must directly manipulate workstation-only files.
+- Run public/project inference, larger models, and durable automations on the DGX Spark. Keep workstation ODS and model services for development, fine-tuning, OCR, and low-latency coding workloads.
 - Use two deliberately separated routing layers: a private workstation gateway for personal/coding traffic and a Spark service gateway for external/project traffic. Give agents stable logical model names such as `fast`, `code`, `deep`, and `vision`; do not make individual agents unload and replace a single global model.
 - Treat the Obsidian vault as durable human-readable knowledge. Treat Hermes memory, sessions, credentials, and schedules as private runtime state that is backed up but never live-synced between machines.
 
@@ -28,8 +28,8 @@ The safest arrangement for this desktop-first design is:
 
 1. Desktop and laptop each open their own local vault replica using the normal Obsidian application and Obsidian Sync.
 2. Spark owns a separate local replica maintained by `obsidian-headless`.
-3. The authoritative desktop Hermes reads and writes the desktop-local vault through a narrow bind mount or dedicated vault-writing tool. It does not need SMB/NFS access to another machine.
-4. Start the Spark replica in `pull-only` mode. Change it to `bidirectional` only if a specifically Spark-owned automation must publish unique inbox notes; otherwise keep Spark read-only.
+3. The authoritative Spark Hermes reads the Spark-local headless replica through a narrow filesystem permission or dedicated vault-writing tool.
+4. Start the Spark replica in `pull-only` mode. If Spark must publish notes, change that replica to `bidirectional` and restrict Hermes writes to a dedicated inbox subtree such as `Agent Inbox/Spark Hermes/`. The sync mode applies to the replica; the narrow write boundary comes from filesystem/tool permissions.
 
 Do not run desktop Obsidian Sync and Headless Sync against the same local vault on one machine. Obsidian explicitly says to use only one sync method per device because two clients can conflict. Also do not layer Git, Dropbox, OneDrive, Syncthing, or another bidirectional synchronizer over a vault already managed by Obsidian Sync; Obsidian warns that combining sync services can create duplicate or corrupted files. [Headless Sync guidance](https://obsidian.md/help/sync/headless), [Obsidian Sync FAQ](https://obsidian.md/help/sync/faq)
 
@@ -62,7 +62,7 @@ For this setup, official Obsidian Sync plus one backup is operationally simpler 
 
 ## Hermes state and profile ownership
 
-Run one authoritative personal Hermes profile on the workstation. The laptop should be a remote client of that profile, not an independent live copy. Spark does not need a copy of the personal profile merely to provide inference; the workstation Hermes can call Spark model endpoints while keeping memory and file access local.
+Run one authoritative personal Hermes profile on Spark. Hermes Desktop on the workstation and laptop should connect to Spark's `hermes serve` backend rather than running independent copies of that profile. The same Spark profile is used by the separately supervised `hermes gateway` process for Discord, Telegram, Buzz, and cron.
 
 A Hermes profile is a complete `HERMES_HOME` containing configuration, environment secrets, `SOUL.md`, memories, skills, cron state, sessions, gateway state, and the state database. Hermes sessions are stored in `~/.hermes/state.db` using SQLite/FTS5, while a sessions JSON file is used as a gateway routing index. This is runtime state, not a directory designed for active-active filesystem replication. [Hermes profiles](https://hermes-agent.nousresearch.com/docs/user-guide/profiles/), [Hermes sessions](https://hermes-agent.nousresearch.com/docs/user-guide/sessions/)
 
@@ -76,16 +76,17 @@ Do not:
 Use Hermes profiles for real isolation, for example:
 
 ```text
-personal      # authoritative conversational assistant on workstation
-automation    # workstation-owned personal jobs with narrower tools and permissions
+personal      # authoritative conversational assistant on Spark
+automation    # Spark-owned unattended jobs with narrower tools and permissions
 development   # disposable testing profile
+desktop-files # optional workstation-only profile; no production messaging or cron
 ```
 
 Back up profiles with `hermes backup`, which uses SQLite's backup API and is safe while the database is running in WAL mode. A full backup may contain credentials, so store it as a secret. Profile export is better for a sanitized transferable configuration because it excludes credentials. [Hermes CLI reference](https://hermes-agent.nousresearch.com/docs/reference/cli-commands), [Hermes backup FAQ](https://hermes-agent.nousresearch.com/docs/reference/faq/)
 
 ### Memory and Obsidian are complementary
 
-Hermes's built-in durable memory uses `MEMORY.md` and `USER.md` under the profile's memories directory. They are loaded as a frozen snapshot when a session starts; memory written during a session is visible in subsequent sessions. Keep these files in the workstation-owned profile. [Hermes memory](https://hermes-agent.nousresearch.com/docs/user-guide/features/memory/)
+Hermes's built-in durable memory uses `MEMORY.md` and `USER.md` under the profile's memories directory. They are loaded as a frozen snapshot when a session starts; memory written during a session is visible in subsequent sessions. Keep these files in the Spark-owned authoritative profile. [Hermes memory](https://hermes-agent.nousresearch.com/docs/user-guide/features/memory/)
 
 Use Obsidian for larger, inspectable knowledge: project notes, decisions, research, runbooks, and agent-produced drafts. If useful, add an explicit job that exports selected, non-secret Hermes facts into a vault inbox. Do not make the vault a transparent replacement for Hermes's state database or credentials.
 
@@ -95,7 +96,7 @@ Hermes loads local skills from `~/.hermes/skills` and can load additional direct
 
 Use a separate private Git repository as the canonical reviewed skills/config repository:
 
-- mount or check it out read-only on the workstation's production personal profile and on Spark automation profiles where practical;
+- mount or check it out read-only on the Spark personal/automation profiles and on any optional workstation local profile where practical;
 - list it in `skills.external_dirs`;
 - keep learned or experimental skills in the local profile;
 - promote changes to the canonical repository through review;
@@ -105,7 +106,7 @@ This gives all devices the same reviewed skill definitions without trying to syn
 
 ### Remote access
 
-Hermes can expose an OpenAI-compatible API server, bound by default to `127.0.0.1:8642`, and requires `API_SERVER_KEY`. Its dashboard can also connect to a remote gateway. The dashboard can read and write environment secrets and run commands, so Hermes warns not to expose it directly to the public internet. Bind services to localhost or the private Tailscale interface and require strong authentication. [Hermes API server](https://hermes-agent.nousresearch.com/docs/user-guide/features/api-server/), [Hermes web dashboard](https://hermes-agent.nousresearch.com/docs/user-guide/features/web-dashboard/)
+Hermes Desktop's remote target is `hermes serve`, not the messaging daemon named `hermes gateway`. Run `hermes serve` on Spark's Tailscale interface with Hermes authentication, and run `hermes gateway` separately for messaging and cron. In remote mode the Spark is the execution boundary: tools, shell commands, file browsing, skills, memory, sessions, and configuration belong to the Spark profile. Desktop connection entries and UI preferences remain per device. Do not expose either the dashboard or the command-capable remote backend directly to the public internet. [Hermes Desktop](https://hermes-agent.nousresearch.com/docs/user-guide/desktop), [Hermes CLI reference](https://hermes-agent.nousresearch.com/docs/reference/cli-commands)
 
 Hermes tools have the filesystem access of the host user unless restricted or sandboxed. Run unattended automation under a dedicated OS account or container, allow only the needed vault subtree, and disable unnecessary tools. [Hermes configuration](https://hermes-agent.nousresearch.com/docs/user-guide/configuration/)
 
@@ -121,8 +122,8 @@ Model installation and model serving are separate choices. A downloaded model is
 | Always-hot/optional worker | RTX 5000 workstation | vLLM or SGLang | Coding and 48 GB-class workloads when workstation is awake |
 | On-demand catalog | Spark and/or workstation | Ollama or LM Studio | Infrequent models, exploration, easy downloads, manual testing |
 | Offline fallback | Laptop | Ollama or LM Studio | Small quantized model when disconnected |
-| Personal unified route | Workstation | LiteLLM | Private logical names across workstation and selected Spark endpoints |
-| External/project route | Spark | LiteLLM | Per-project keys, quotas, stable service models, and isolation from personal Hermes |
+| Personal unified route | Spark | LiteLLM | Always-available private logical names across Spark and selected workstation endpoints |
+| External/project route | Spark, separately keyed and preferably separately deployed | LiteLLM | Per-project keys, quotas, stable service models, and isolation from personal Hermes |
 
 vLLM is designed around continuous batching, PagedAttention, and an OpenAI-compatible server. NVIDIA publishes a DGX Spark-specific vLLM playbook and compatible model guidance. SGLang similarly has a DGX Spark-optimized CUDA 13 container and server workflow. These are the better fit for concurrent, always-on agent traffic. [NVIDIA DGX Spark vLLM playbook](https://build.nvidia.com/spark/vllm), [NVIDIA DGX Spark SGLang playbook](https://build.nvidia.com/spark/sglang)
 
@@ -140,7 +141,7 @@ Implement hot swapping as policy at the gateway, not as each agent mutating a se
 personal agent/job requests logical model
         |
         v
-workstation LiteLLM route and health policy
+Spark private LiteLLM route and health policy
         |
         +-- always-hot Spark endpoint
         +-- optional workstation endpoint
@@ -169,17 +170,17 @@ Assign explicit ownership:
 
 | Responsibility | Spark ODS | Workstation ODS |
 |---|---|---|
-| Personal Hermes | Disabled or separate non-personal automation profile | Primary and authoritative |
-| Personal cron/n8n jobs | Disabled unless explicitly Spark-owned | Primary |
+| Personal Hermes | Current standalone Hermes beside ODS is primary; disable or rename the old ODS-bundled instance | Optional local `desktop-files`/development profile only |
+| Personal cron/n8n jobs | Primary production owner | Development/staging only |
 | External/project cron jobs | Primary when they serve Spark-hosted projects | Disabled unless explicitly workstation-owned |
-| LiteLLM gateway | External/project service gateway | Private personal/development gateway |
+| LiteLLM gateway | Always-available personal routes plus separately keyed/isolated external routes | Development gateway and optional healthy upstream |
 | Large always-on inference | Primary | Optional |
 | 48 GB coding inference | Fallback | Primary while GPU is available |
 | Fine-tuning/SLM work | Optional | Primary |
-| Obsidian vault | Headless pull-only replica by default | Normal desktop replica used by personal Hermes |
+| Obsidian vault | Headless pull-only replica first; restricted bidirectional replica when Spark must publish | Normal desktop replica for human editing and local-only tools |
 | Open WebUI | External/project or model-testing UI | Personal/development UI; histories remain separate |
 
-ODS's local model-management path is oriented around one local `llama-server`/GGUF process and restarts inference when the selected model changes. Its LiteLLM configurations provide local, cloud, and hybrid routing, but they are not a cross-host GPU scheduler. Use the workstation LiteLLM instance as the private entry point for Hermes and coding clients. Use the Spark LiteLLM instance as the separately authenticated entry point for external/project consumers. The workstation gateway may call selected Spark routes as an upstream, but Spark must never route external users back into personal workstation services. See the local ODS documentation: [MODEL-MANAGEMENT.md](../MODEL-MANAGEMENT.md), [ENGINE-PROVIDER-MODES.md](../ENGINE-PROVIDER-MODES.md), [Hermes integration](../HERMES.md), [LiteLLM service README](../../extensions/services/litellm/README.md), and [Tailscale guidance](../TAILSCALE.md).
+ODS's local model-management path is oriented around one local `llama-server`/GGUF process and restarts inference when the selected model changes. Its LiteLLM configurations provide local, cloud, and hybrid routing, but they are not a cross-host GPU scheduler. Use an always-available Spark LiteLLM route as the required entry point for the authoritative Hermes profile. Register workstation model services only as health-checked optional upstreams with Spark fallbacks. External consumers need separate keys, quotas, route allowlists, and preferably a separate LiteLLM deployment or network boundary; they must never be able to route into private workstation services. See the ODS documentation: [model management](https://github.com/Osmantic/ODS/blob/main/docs/MODEL-MANAGEMENT.md), [provider modes](https://github.com/Osmantic/ODS/blob/main/docs/ENGINE-PROVIDER-MODES.md), [Hermes integration](https://github.com/Osmantic/ODS/blob/main/docs/HERMES.md), [LiteLLM service](https://github.com/Osmantic/ODS/blob/main/extensions/services/litellm/README.md), and [Tailscale guidance](https://github.com/Osmantic/ODS/blob/main/docs/TAILSCALE.md).
 
 Avoid nested independent routers unless there is a deliberate boundary. Here the personal-versus-external trust boundary justifies two gateways; keep their keys, logs, model aliases, quotas, and fallback policies distinct.
 
@@ -198,8 +199,9 @@ Avoid nested independent routers unless there is a deliberate boundary. Here the
 
 ### Phase 1: establish ownership
 
-- Make the workstation the production personal Hermes and personal-scheduler owner.
-- Make Spark the owner of external/project inference and only those schedules explicitly attached to Spark-hosted services.
+- Make Spark the production personal Hermes, messaging, and Hermes-cron owner.
+- Make Spark the owner of durable personal automation and external/project inference, with separate profiles, keys, and permissions for personal versus external work.
+- Keep workstation automation in development/staging unless a job is explicitly workstation-owned.
 - Give every service a unique name, port, data directory, API key, and backup target.
 - Disable or rename every duplicate automation so each job has exactly one owning ODS instance.
 - Connect all hosts over Tailscale and keep service ports off the public internet.
@@ -208,15 +210,15 @@ Avoid nested independent routers unless there is a deliberate boundary. Here the
 
 - Back up the vault.
 - Install official `obsidian-headless` on Spark and create a separate local replica.
-- Keep the Spark replica pull-only first; the desktop Hermes uses the desktop-local replica.
-- If Spark must publish notes, add a restricted `Agent Inbox/spark-automation` write path and change only that workflow to bidirectional after conflict tests.
+- Keep the Spark replica pull-only first.
+- If Spark Hermes must publish notes, change the Spark replica to bidirectional after conflict tests and restrict Hermes filesystem/tool access to `Agent Inbox/Spark Hermes/` or another dedicated subtree.
 
 ### Phase 3: inference plane
 
 - Start one stable large-model vLLM or SGLang endpoint on Spark.
 - Start one coding endpoint on the workstation.
-- Put the private LiteLLM gateway on the workstation in front of personal routes, with Spark fallbacks.
-- Keep a separate Spark LiteLLM gateway for external/project virtual keys, quotas, and stable service routes.
+- Put an always-available private LiteLLM route on Spark in front of personal models, with the workstation registered only as an optional upstream.
+- Keep external/project virtual keys, quotas, and route allowlists separate; prefer a second gateway deployment when external users are involved.
 - Retain Ollama or LM Studio as the on-demand catalog, not the only production scheduler.
 
 ### Phase 4: shared engineering configuration
@@ -234,3 +236,10 @@ Avoid nested independent routers unless there is a deliberate boundary. Here the
 - Test workstation sleep, Spark restart, model load failure, vault conflict, and hosted-provider outage before trusting unattended operation.
 
 This design preserves one coherent personal assistant while still letting every GPU contribute. It also prevents the most damaging failure modes: split-brain Hermes state, duplicated schedules, vault corruption from stacked sync systems, and agents racing to replace one shared model process.
+
+## Related notes
+
+- [[Always-On Hermes on DGX Spark]]
+- [[local-ai-architecture-research|Local AI Architecture Research]]
+- [[local-ai-tooling-catalog-and-rollout|Local AI Tooling Catalog and Rollout]]
+- [[Local Setup Index]]

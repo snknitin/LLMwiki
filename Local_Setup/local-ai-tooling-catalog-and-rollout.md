@@ -12,7 +12,7 @@ Use four installation scopes:
 
 1. **Per harness** — skills, commands, hooks, and plugins must be installed separately in Codex, Claude Code, Hermes, Gemini CLI, or another agent unless the project explicitly supplies a universal installer.
 2. **Per device** — local command guards, browser daemons, and desktop applications apply to the machine on which agents execute.
-3. **Central service** — long-running HTTP MCPs, crawlers, RAG, workflow, memory, and sandbox control planes should run once in the trust domain that owns their data. In this topology, personal/file-aware services normally belong on the workstation; large-model and external/project services belong on Spark.
+3. **Central service** — long-running HTTP MCPs, crawlers, RAG, workflow, memory, and sandbox control planes should run once in the trust domain that owns their data. The authoritative personal Hermes profile, its memory, messaging, and cron belong on Spark. Helpers that require workstation-only files or authenticated desktop browser sessions stay on the workstation and are exposed narrowly when needed. Large-model and external/project services also belong on Spark, but under separate identities, keys, routes, and permissions.
 4. **Per project** — application frameworks and strict development methodologies belong in selected repositories, not in every global agent context.
 
 Do not globally install several overlapping development methodologies at once. Their mandatory workflows and trigger rules can conflict, expand context, create duplicate slash commands, and make failures hard to attribute.
@@ -318,7 +318,7 @@ Pin a release that includes the fix for the project's published security advisor
 
 Self-hosting requires Docker Compose or Python 3.10+/`uv`, PostgreSQL with pgvector, API and worker processes, and model/embedding endpoints. It supports OpenAI-compatible Ollama/vLLM/LiteLLM routes, but memory models must reliably perform tool calls. [Self-hosting](https://honcho.dev/docs/v3/contributing/self-hosting), [configuration](https://honcho.dev/docs/v3/contributing/configuration)
 
-**Placement decision:** do not make Spark the authoritative memory for the personal desktop Hermes merely because it is always on. Start with Hermes's built-in memory on the workstation. If Honcho is worth the added moving parts, run the personal Honcho workspace beside the workstation Hermes so its trust boundary and backups remain personal. A separate Honcho deployment or workspace on Spark can serve external/project agents, but it must not contain the personal profile.
+**Placement decision:** the authoritative personal Hermes now runs on Spark, so its built-in memory remains there. If Honcho is worth the added moving parts, run the personal Honcho workspace on Spark in the same personal trust boundary but separate from external/project tenants. Use separate databases/workspaces, credentials, backups, and network policies for any externally used Honcho service.
 
 If Honcho is tested on Spark, remember that DGX Spark is ARM64 and no official Honcho-on-Spark validation was found, so test the complete Compose build on ARM64 first. Back up PostgreSQL and do not expose the example deployment—authentication is disabled by default. Honcho stores sensitive inferred profiles, background derivation is asynchronous, and AGPL network obligations matter if modified and served.
 
@@ -472,22 +472,22 @@ There are two always-on servers, not one primary server plus one disposable work
 | Device | Owns | Should not own |
 |---|---|---|
 | Laptop, RTX 3060 6 GB | Codex/Claude/Hermes clients, core reviewed skills, DCG, project Git checkouts, Obsidian desktop replica, Tailscale, small offline fallback model | Shared memory databases, production cron, full RAG stacks, personal browser automation while away |
-| Workstation, RTX 5000 48 GB | Authoritative personal Hermes; local project folders; personal memory; normal Obsidian replica; authenticated Browser Use/NotebookLM/Last30Days; Voicebox; skill/config registry; fine-tuning and SLM experiments; development n8n/Langflow/CrewAI; low-latency coding and OCR endpoints | External-user traffic routed through personal services |
-| DGX Spark | Large/stable inference; external/project LiteLLM routes; per-project keys/quotas; heavy asynchronous jobs; external application services; optional cookie-free crawler; project-only memory/RAG | Personal Hermes state, personal Google/browser cookies, writable personal vault by default, or fallback routes into private workstation services |
+| Workstation, RTX 5000 48 GB | Hermes Desktop remote client; optional local `desktop-files` profile; local project folders; normal Obsidian replica; authenticated Browser Use/NotebookLM/Last30Days; Voicebox; skill/config registry; fine-tuning and SLM experiments; development n8n/Langflow/CrewAI; low-latency coding and OCR endpoints | Authoritative personal Hermes state or duplicate production cron; external-user traffic routed through personal services |
+| DGX Spark | Authoritative personal Hermes profile; `hermes serve`; `hermes gateway`; personal memory and cron; headless Obsidian replica; always-available personal LiteLLM routes; large/stable inference; separately isolated external/project routes, keys, jobs, memory, and RAG | Personal Google/browser cookies; unrestricted access to workstation files; external routes into private workstation services |
 
 ```mermaid
 flowchart LR
-    L["Laptop clients<br/>Codex · Claude · Hermes"] -->|Tailscale, authenticated APIs| W["Workstation personal plane<br/>files · Obsidian · Hermes · dev ODS"]
-    L -->|project API keys| S["Spark service plane<br/>large models · external inference · project jobs"]
-    W -->|selected upstream model routes| S
+    L["Laptop clients<br/>Codex · Claude · Hermes Desktop"] -->|Tailscale| S["Spark control/service plane<br/>Hermes · memory · cron · large models"]
+    W["Workstation development plane<br/>files · Obsidian · training · dev ODS"] -->|Hermes Desktop + optional model upstreams| S
+    L -->|project API keys| S
     S -. "never route external users back" .-> W
 ```
 
 ### Two ODS installations
 
-ODS on the workstation is the personal/development control plane. Its LiteLLM gateway should give Hermes and coding tools stable logical model names, including selected Spark upstreams. It owns personal schedules and side effects.
+ODS on the workstation is the development/training plane. Its LiteLLM and model services can provide low-latency coding routes when healthy, but it does not own the authoritative Hermes profile or duplicate its production schedules.
 
-ODS on Spark is the external/project service plane. Its LiteLLM gateway owns externally consumed model aliases, project virtual keys, quotas, and stable inference endpoints. It may own Spark-specific batch schedules, but it must not duplicate workstation personal cron jobs or social publishing.
+ODS on Spark is the always-available inference and automation plane. A current standalone Hermes beside ODS should initially own the personal profile, messaging, and Hermes cron because the currently pinned ODS Hermes image predates native remote Desktop support. Spark's personal model routes must remain available without the workstation. Externally consumed aliases need separate virtual keys, quotas, allowlists, and preferably a separate gateway/network boundary.
 
 Two ODS installations do not automatically synchronize Open WebUI history, Qdrant, n8n, Hermes profiles, LiteLLM keys, dashboards, or inference processes. Give every cron job, webhook, publisher, and writable database exactly one production owner. ODS already includes n8n and LiteLLM; its extension catalog also includes CrewAI and Langflow, so evaluate those through `ods enable crewai` or `ods enable langflow` on the selected host instead of creating unrelated duplicate stacks. ODS model switching is not a cross-host GPU scheduler; retain the two authenticated gateways and stable logical routes described in [Personal Hermes, Obsidian, and Multi-Node Inference Design](personal-hermes-obsidian-multinode-design.md).
 
@@ -567,7 +567,7 @@ Trial Addy Agent Skills, gstack, Compound Engineering, and Superpowers on the sa
 
 ### Stage 3 — central services by trust boundary
 
-On the workstation, place personal/file-aware services: authoritative Hermes, authenticated browser automation, Voicebox, and any personal memory experiment. On Spark, place stable large-model routes, external/project services, and a cookie-free crawler. Connect both through authenticated private endpoints. Do not copy OAuth tokens or browser cookies into every desktop harness.
+On Spark, place the authoritative personal Hermes profile, personal memory, messaging, cron, stable large-model routes, and separately isolated external/project services. On the workstation, keep authenticated browser automation, Voicebox, local-file helpers, training services, and optional low-latency model endpoints. Connect them through authenticated private endpoints. Do not copy OAuth tokens or browser cookies into every desktop harness.
 
 ### Stage 4 — application services
 
@@ -592,3 +592,10 @@ Before installation, request exact source URLs for:
 NotebookLM MCP remains unofficial rather than unresolved: the report records the likely `PleasePrompto/notebooklm-mcp` implementation, but it should not be described as Google-supported. “50 ms latency loop” is most plausibly Browser Use’s persistent direct-CDP CLI; provide a URL if a different project was intended.
 
 The correct next step for the remaining names is source identification, not installation.
+
+## Related notes
+
+- [[Always-On Hermes on DGX Spark]]
+- [[local-ai-architecture-research|Local AI Architecture Research]]
+- [[personal-hermes-obsidian-multinode-design|Personal Hermes, Obsidian, and Multi-Node Inference Design]]
+- [[Local Setup Index]]
