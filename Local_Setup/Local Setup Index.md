@@ -1,5 +1,5 @@
 ---
-updated: 2026-07-30
+updated: 2026-08-02
 ---
 
 # Local Setup Index
@@ -7,6 +7,7 @@ updated: 2026-07-30
 ## Start here
 
 - [[Always-On Hermes on DGX Spark]] — canonical Hermes host, Tailscale, ODS proxy, device sync boundaries, Obsidian, messaging, and Buzz.
+- [[DGX Spark ODS Playbook and Model Roadmap]] — ODS overlap across the live NVIDIA playbooks, career-focused learning order, current model shortlist, serving engines, and concurrency-safe deployment.
 - [[local-ai-architecture-research|Local AI Architecture Research]] — hardware topology, subscriptions, model runtimes, routing, and configuration synchronization.
 - [[personal-hermes-obsidian-multinode-design|Personal Hermes, Obsidian, and Multi-Node Inference Design]] — detailed state ownership, vault safety, model serving, ODS division, and failure rules.
 - [[local-ai-tooling-catalog-and-rollout|Local AI Tooling Catalog and Rollout]] — categorized tools, skills, plugins, overlaps, licenses, placement, and staged adoption.
