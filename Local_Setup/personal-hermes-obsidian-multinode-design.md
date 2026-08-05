@@ -1,4 +1,4 @@
-# Personal Hermes, Obsidian, and Multi-Node Inference Design
+ # Personal Hermes, Obsidian, and Multi-Node Inference Design
 
 ## Recommended end state
 

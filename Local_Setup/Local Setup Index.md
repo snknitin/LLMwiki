@@ -1,11 +1,12 @@
 ---
-updated: 2026-08-02
+updated: 2026-08-05
 ---
-
+ 
 # Local Setup Index
 
 ## Start here
 
+- [[Spark Hermes Setup Runbook]] — the ordered do-list with phase gates; execute this, read the rest for rationale.
 - [[Always-On Hermes on DGX Spark]] — canonical Hermes host, Tailscale, ODS proxy, device sync boundaries, Obsidian, messaging, and Buzz.
 - [[DGX Spark ODS Playbook and Model Roadmap]] — consolidated recommendation covering ODS overlap, learning order, current models, serving engines, and concurrency-safe deployment.
 - [[local-ai-architecture-research|Local AI Architecture Research]] — hardware topology, subscriptions, model runtimes, routing, and configuration synchronization.
