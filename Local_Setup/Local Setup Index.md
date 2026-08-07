@@ -7,6 +7,7 @@ updated: 2026-08-07
 ## Start here
 
 - [[DGX Spark Operations Setup Guide]] — copy-paste foundation for `.bashrc`, secrets, model/cache layout, container conventions, registries, and the first vLLM model.
+- [[DGX Spark Model Installation And Switching Guide]] — beginner continuation from Step 16 for adding Qwen 27B DFlash, switching models safely, testing through LiteLLM and Hermes, and preparing later experiments.
 
 - [[Spark Hermes Setup Runbook]] — the ordered do-list with phase gates; execute this, read the rest for rationale.
 - [[Always-On Hermes on DGX Spark]] — canonical Hermes host, Tailscale, ODS proxy, device sync boundaries, Obsidian, messaging, and Buzz.

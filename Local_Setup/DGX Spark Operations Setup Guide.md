@@ -377,7 +377,7 @@ service	port	owner	policy
 litellm	4000	ODS	stable gateway
 vllm-spark-fast	8000	standalone	localhost until gateway is ready
 ods-llama	8080	ODS	do not duplicate
-hermes-serve	9119	standalone	Tailscale only
+hermes-serve	9119	standalone	persistent; bind to Spark Tailscale IP only
 ods-hermes-proxy	9120	ODS	do not reuse
 sglang-lab	30000	standalone	on-demand only
 lmstudio	1234	llmster	on-demand or LM Link
@@ -1170,34 +1170,152 @@ journalctl --user -u hermes-gateway -n 100 --no-pager
 
 Do not also install `sudo hermes gateway install --system`. Running both the user and system gateway creates ambiguous status and can make two processes poll the same Telegram bot.
 
-## Step 13 — Run the Hermes Desktop backend 24x7
+## Step 13 — Run one persistent Hermes for every device
 
-`hermes serve` is the JSON-RPC/WebSocket backend used by Hermes Desktop. The official Hermes documentation explicitly says it is a separate long-running process from the messaging gateway.
+> [!important] Your current resume point
+> You have already completed Steps 1–12. Do not repeat them. Your earlier SSH test happened at the old version of Step 13; begin here at **13.1** to create the corrected persistent multi-device backend. After completing 13.1–13.6, continue with Steps 14 and 15. The separate model guide starts only after Step 15 succeeds.
 
-This guide binds it only to `127.0.0.1:9119` and reaches it through SSH. That means it is not published on your LAN and does not need a public password or OAuth gate.
+This is the architecture that matches your requirements:
 
-### 13.1 Create its systemd user service
+```text
+Windows desktop Hermes ─┐
+Windows laptop Hermes  ─┼─ Tailscale ─> Spark hermes serve (24x7)
+                        │                    │
+Telegram ───────────────┴────────────> Spark hermes gateway (24x7)
+                                             │
+                                      Spark ~/.hermes
+                               config, keys, MCP, skills,
+                               memory, sessions, and crons
+```
 
-Check the Hermes path:
+`hermes serve` is the persistent backend used by the Desktop and laptop apps. `hermes gateway` is the separate persistent messaging process used by Telegram. Both run as `snknitin` on the Spark and use the same default profile under `/home/snknitin/.hermes`.
+
+When both computers use **Remote Gateway** and connect to this same backend, agent-side provider settings, API credentials, model defaults, MCP configuration, runtime plugins, skills, memories, sessions, and scheduled jobs live on the Spark instead of being split between the computers. Commands and file tools also execute on the Spark. Add these items only after the app shows that it is connected to the Spark Remote Gateway; anything added while an app is in **Local Hermes** mode belongs to that computer's separate local profile. Connection credentials, window layout, keyboard shortcuts, themes, and other Desktop-shell preferences remain local to each computer. A plugin specifically described as a **Desktop-shell plugin** may also need to be installed in each Desktop app because it changes the local UI rather than the remote agent. Stay on the single `default` Hermes profile for now; introduce multiple profiles only after this shared setup is working.
+
+### 13.1 Verify the existing Tailscale setup and identify the real Spark node
+
+> [!important] Your current state
+> Tailscale is already installed and signed in on the desktop, laptop, and Spark. NVIDIA Sync also has two Tailscale-managed connection entries, so you see five total entries. Do **not** reinstall or re-enroll Tailscale.
+
+NVIDIA Sync's Tailscale integration can appear as its own tailnet node or managed connection. Hermes needs the address of the actual Spark operating system, not a guessed NVIDIA Sync entry.
+
+Open the **Spark terminal from NVIDIA Sync** and run this entire block:
+
+```bash
+echo '=== This Spark ==='
+hostname
+tailscale ip -4
+
+echo '=== Tailnet devices ==='
+tailscale status
+```
+
+1. Under **This Spark**, record the hostname and the address beginning with `100.`.
+2. Call that address `SPARK_TAILSCALE_IP` in the remaining instructions.
+3. In the `tailscale status` list, find the row with that same `100.` address. That row is the actual Spark node.
+4. Ignore the extra NVIDIA Sync Tailscale entries when entering the Hermes Remote URL.
+5. Do not add the address to `.bashrc`; Tailscale normally keeps a stable node address.
+
+On the **Windows desktop**, open PowerShell and verify that the native Tailscale client can reach that exact address:
+
+```powershell
+tailscale ping SPARK_TAILSCALE_IP
+```
+
+Replace `SPARK_TAILSCALE_IP` with the `100.` address. Repeat the same command in **PowerShell on the laptop**.
+
+**Success looks like:** both computers receive a successful Tailscale ping from the actual Spark node. Then continue directly to 13.2.
+### 13.2 Add the Remote Gateway login to the existing Hermes secrets file
+
+These commands run in the **Spark terminal**. They do not change `.bashrc`.
+
+Back up the current Hermes secrets file before opening it:
+
+```bash
+mkdir -p "$HOME/.hermes"
+chmod 700 "$HOME/.hermes"
+cp -a "$HOME/.hermes/.env" \
+  "$HOME/.hermes/.env.before-remote-$(date +%Y%m%d-%H%M%S)"
+chmod 600 "$HOME/.hermes/.env"
+```
+
+If `cp` says `.env` does not exist, create it and continue:
+
+```bash
+touch "$HOME/.hermes/.env"
+chmod 600 "$HOME/.hermes/.env"
+```
+
+Generate two random values in the **Spark terminal**:
+
+```bash
+openssl rand -hex 24
+openssl rand -hex 32
+```
+
+1. Save the first result in your password manager as **Hermes Remote Gateway password**.
+2. Save the second result temporarily as **Hermes signing secret**. You will not type this second value into the Desktop app.
+3. Do not paste either value into this chat.
+
+Open the existing file:
+
+```bash
+nano "$HOME/.hermes/.env"
+```
+
+Go to the bottom and add these three lines. Replace the two placeholders with the random values you just generated:
+
+```dotenv
+HERMES_DASHBOARD_BASIC_AUTH_USERNAME=nitin
+HERMES_DASHBOARD_BASIC_AUTH_PASSWORD=PASTE_THE_FIRST_RANDOM_VALUE_HERE
+HERMES_DASHBOARD_BASIC_AUTH_SECRET=PASTE_THE_SECOND_RANDOM_VALUE_HERE
+```
+
+Do not delete the existing LiteLLM or provider settings in this file. Save with **Ctrl+O**, press **Enter**, and exit with **Ctrl+X**. Then run:
+
+```bash
+chmod 600 "$HOME/.hermes/.env"
+```
+
+The stable signing secret keeps Desktop sessions valid after `hermes serve` restarts. If the Desktop app still asks for a raw session token later, the username/password provider was not loaded; the verification in 13.4 will detect that.
+
+### 13.3 Create the persistent `hermes serve` service
+
+Run these two checks in the **Spark terminal**:
 
 ```bash
 command -v hermes
+tailscale ip -4
 ```
 
-The normal result is `/home/snknitin/.local/bin/hermes`. If your result is different, replace the `ExecStart` path in the unit below with the path you actually see.
+The expected Hermes path is `/home/snknitin/.local/bin/hermes`, and the Tailscale address should begin with `100.`.
 
-Create the unit:
+Copy and run the entire block below in the **Spark terminal**. It automatically uses the actual Hermes path and current Tailscale IP, backs up an older service file if one exists, and writes the new service:
 
 ```bash
+HERMES_BIN="$(command -v hermes)"
+SPARK_TAILSCALE_IP="$(tailscale ip -4)"
+
+test -x "$HERMES_BIN" || {
+  echo 'ERROR: hermes executable was not found.'
+  exit 1
+}
+
+test -n "$SPARK_TAILSCALE_IP" || {
+  echo 'ERROR: the Spark has no Tailscale IPv4 address.'
+  exit 1
+}
+
 mkdir -p "$HOME/.config/systemd/user"
-nano "$HOME/.config/systemd/user/hermes-serve.service"
-```
 
-Paste:
+if [ -f "$HOME/.config/systemd/user/hermes-serve.service" ]; then
+  cp -a "$HOME/.config/systemd/user/hermes-serve.service" \
+    "$HOME/.config/systemd/user/hermes-serve.service.before-remote-$(date +%Y%m%d-%H%M%S)"
+fi
 
-```ini
+cat > "$HOME/.config/systemd/user/hermes-serve.service" <<EOF
 [Unit]
-Description=Hermes Desktop backend
+Description=Hermes persistent Desktop backend
 After=network-online.target
 Wants=network-online.target
 
@@ -1206,54 +1324,116 @@ Type=simple
 Environment=HOME=%h
 Environment=HERMES_HOME=%h/.hermes
 EnvironmentFile=-%h/.hermes/.env
-ExecStart=%h/.local/bin/hermes serve --host 127.0.0.1 --port 9119
-Restart=on-failure
+WorkingDirectory=%h
+ExecStart=$HERMES_BIN serve --host $SPARK_TAILSCALE_IP --port 9119
+Restart=always
 RestartSec=10
 TimeoutStopSec=30
 
 [Install]
 WantedBy=default.target
+EOF
+
+unset HERMES_BIN SPARK_TAILSCALE_IP
 ```
 
-Save with **Ctrl+O**, **Enter**, and **Ctrl+X**.
+This binds Hermes only to the Spark's Tailscale address—not `0.0.0.0` and not the public internet.
+The service retries every ten seconds, so it also recovers automatically if the user service starts shortly before the Tailscale interface becomes ready during boot.
 
-Load, enable, and start it:
+Enable login-independent user services and start the backend:
 
 ```bash
+sudo loginctl enable-linger "$USER"
 systemctl --user daemon-reload
 systemctl --user enable --now hermes-serve.service
 systemctl --user status hermes-serve.service --no-pager
-curl -fsS http://127.0.0.1:9119/api/status
 ```
 
-**Success looks like:** systemd shows `active (running)`, and the curl command returns JSON.
+**Success looks like:** the last command contains `Active: active (running)`.
 
-If it fails:
+### 13.4 Verify that authentication—not a raw token prompt—is active
+
+Run this in the **Spark terminal**:
 
 ```bash
-journalctl --user -u hermes-serve -n 150 --no-pager
+SPARK_TAILSCALE_IP="$(tailscale ip -4)"
+curl -sS "http://$SPARK_TAILSCALE_IP:9119/api/status" | python3 -m json.tool
+unset SPARK_TAILSCALE_IP
 ```
 
-The most common cause is a different Hermes executable path. Correct `ExecStart`, then repeat `daemon-reload` and `restart`.
+Look for both of these results in the JSON:
 
-### 13.2 Connect from the Windows Hermes Desktop app
+```text
+"auth_required": true
+"basic"
+```
 
-Open a visible PowerShell or Windows Terminal window on your PC and run:
+The exact formatting may differ, but `auth_required` must be true and `auth_providers` must include `basic`.
+
+If the service is not active or `basic` is missing, do not continue to the Desktop app. Run these in the **Spark terminal**:
+
+```bash
+systemctl --user status hermes-serve.service --no-pager
+journalctl --user -u hermes-serve.service -n 150 --no-pager
+```
+
+Check that all three `HERMES_DASHBOARD_BASIC_AUTH_...` lines exist in `~/.hermes/.env`, have no spaces around `=`, and contain their real values. Do not print that file into chat because it contains secrets. Restart after correcting it:
+
+```bash
+systemctl --user restart hermes-serve.service
+```
+
+### 13.5 Connect Hermes Desktop to the persistent backend
+
+Perform these actions first on the Windows desktop and then repeat them on the laptop:
+
+1. Make sure the Tailscale app says **Connected**.
+2. Open Hermes Desktop.
+3. Open **Settings → Gateway**.
+4. Under **Applies to**, choose **All profiles**. Use only the `default` profile for now.
+5. Select **Remote Gateway**.
+6. In **Remote URL**, enter `http://SPARK_TAILSCALE_IP:9119`, replacing `SPARK_TAILSCALE_IP` with the Spark address beginning with `100.`.
+7. Wait while Hermes checks the authentication method.
+8. When **Sign in** appears, click it.
+9. Enter username `nitin` and the **Hermes Remote Gateway password** saved in your password manager.
+10. Complete the sign-in window, return to Gateway settings, and click **Test remote** if that button is shown.
+11. Click **Save and reconnect**.
+
+Do not paste a raw session token. A correctly configured backend advertises the username/password provider and gives you a **Sign in** action instead.
+
+Repeat those same eleven steps on the laptop. Both apps will then operate the same Spark-hosted Hermes state. Telegram continues using the separate `hermes gateway` process from Step 12.
+
+### 13.6 What the earlier SSH authentication error means
+
+**Connect via SSH** starts a temporary remote backend and requires non-interactive key authentication. NVIDIA Sync can manage its own SSH connection successfully while Hermes Desktop still cannot find or unlock that private key. That produces:
+
+```text
+SSH Authentication failed. Load your key into the ssh-agent (ssh-add)
+or set an Identity file in ~/.ssh/config
+```
+
+You do not need to fix this error for the persistent Remote Gateway architecture above. If you want SSH mode later as a backup connection, perform these optional checks in **Windows PowerShell**:
 
 ```powershell
-ssh -N -L 9119:127.0.0.1:9119 snknitin@YOUR_SPARK_IP
+Get-Content "$env:USERPROFILE\.ssh\config"
+ssh-add -l
 ```
 
-Replace `YOUR_SPARK_IP` with the same Spark address you normally use for SSH. The window will appear to do nothing; that is normal. Keep it open because it is the tunnel.
+If the correct key is not listed, open **PowerShell as Administrator** and run:
 
-In Hermes Desktop:
+```powershell
+Set-Service -Name ssh-agent -StartupType Automatic
+Start-Service ssh-agent
+```
 
-1. Open **Settings → Gateway**.
-2. Choose **Remote gateway**.
-3. Enter `http://127.0.0.1:9119`.
-4. Save and reconnect.
+Close the Administrator window. In a normal **PowerShell** window, load the private key, substituting its actual path:
 
-Because the server itself is loopback-only and the connection travels inside SSH, do not change `hermes serve` to `0.0.0.0` just to make the app connect. If you later use Tailscale directly, add Hermes authentication before changing the bind address.
+```powershell
+ssh-add "$env:USERPROFILE\.ssh\id_ed25519"
+ssh-add -l
+```
+
+Never give `ssh-add` the `.pub` file. If NVIDIA Sync created a differently named key, use the `IdentityFile` path shown in `C:\Users\Nitin Kishore Sai\.ssh\config`. You may also enter that same private-key path into Hermes Desktop's **Identity file** box.
 
 ## Step 14 — Understand ODS Hermes Auth Proxy without overlap
 
@@ -1273,10 +1453,10 @@ Choose exactly one of these modes:
 
 | Mode | Enable | Disable | Best use |
 |---|---|---|---|
-| **Recommended personal mode** | Host Hermes gateway + host `hermes serve` + ODS LiteLLM | ODS `hermes` and `hermes-proxy` | One owner, current Hermes, terminal/phone/Desktop |
+| **Recommended personal mode** | Host `hermes gateway` + persistent authenticated host `hermes serve` + ODS LiteLLM | ODS `hermes` and ODS `hermes-proxy` | One central Spark profile shared by Telegram, desktop, and laptop |
 | ODS browser mode | ODS `hermes` + `hermes-proxy` | Host gateway and host `hermes serve` | Shared ODS browser entry point, accepting shared state and ODS's pinned Hermes version |
 
-Your selected mode is the first row. Port 9119 belongs to the host Hermes loopback service. Port 9120 stays unused. LiteLLM on port 4000 is still part of ODS and is intentionally shared by the host Hermes processes.
+Your selected mode is the first row. Port 9119 belongs to the host `hermes-serve.service` and is reachable only through the Spark's Tailscale address. Port 9120 stays unused. LiteLLM on port 4000 is still part of ODS and is intentionally shared by the two host Hermes processes.
 
 If you later deliberately switch to ODS browser mode:
 
@@ -1296,7 +1476,7 @@ hermes gateway start
 systemctl --user enable --now hermes-serve.service
 ```
 
-Neither switch deletes Hermes data.
+Then reconnect **Remote Gateway** in each Hermes Desktop app. Neither switch deletes Hermes data.
 
 ## Step 15 — Promote the tested stack to 24x7
 
@@ -1346,7 +1526,9 @@ loginctl show-user "$USER" -p Linger
 - `ods-litellm` is running;
 - the Hermes gateway user service is running;
 - `hermes-serve.service` is enabled and active;
-- `Linger=yes`.
+- `Linger=yes`;
+- both Windows computers connect to the same Spark Tailscale URL with **Remote Gateway**;
+- Telegram replies through the host gateway.
 
 ### Safe stop and rollback commands
 
@@ -1364,14 +1546,14 @@ cd "$HOME/ai/services/qwen35"
 docker compose --env-file .env up -d
 ```
 
-Stop the Hermes processes:
+Stop both 24x7 Hermes processes:
 
 ```bash
 hermes gateway stop
 systemctl --user stop hermes-serve.service
 ```
 
-Start them again:
+Start both 24x7 Hermes processes again:
 
 ```bash
 hermes gateway start
@@ -1380,528 +1562,8 @@ systemctl --user start hermes-serve.service
 
 These commands do not delete `~/.hermes`, model weights, Docker images, or ODS volumes.
 
-## Step 16 — Add later models without turning the Spark into a mess
+## Continue with model installation and switching
 
-Use this rule for every additional large model:
+After Step 15 succeeds, continue in [[DGX Spark Model Installation And Switching Guide]]. That companion starts at Step 16 and contains the beginner-focused model download, testing, switching, and rollback workflow.
 
-1. Stop `vllm-spark-fast`.
-2. Check `free -h`, `nvidia-smi`, and `df -h "$HOME"`.
-3. Put the recipe checkout under `~/src/<repository>`.
-4. Put your own Compose file and pinned `.env` under `~/ai/services/<profile>`.
-5. Reuse `~/.cache/huggingface`; do not create another model cache inside every repository.
-6. Bind its raw port to `127.0.0.1` or attach it only to the ODS network.
-7. Give it a unique LiteLLM alias.
-8. Test chat, tools, memory, and clean restart before enabling a restart policy.
-9. Keep only one memory-heavy experimental model running at a time.
-
-### How the community repositories differ
-
-- **MiaAI Qwen 35B:** custom GB10 B12X vLLM image, FP8 KV, MTP2, Qwen coder tool parser. The original script uses host networking, mounts the whole repository, permits wildcard media domains, and uses mutable `latest`. Steps 8–9 retain the performance path but narrow and pin the deployment.
-- **MiaAI Qwen 27B DFlash:** mutable ARM nightly vLLM, `--privileged`, BF16 KV, and a DFlash draft. That changes too many variables at once, so it is not the first dense-model control.
-- **MiaAI Ling 3.0 Flash SGLang:** custom mutable SGLang runtime and a roughly 120 GB-class model. Keep it on hold until the exact upstream checkpoint/runtime provenance and Hermes tool parser are verified.
-- **0xSero DeepSeek V4 Flash:** an unusually well-pinned custom SparkInfer stack, but it downloads a pruned/converted derivative with custom kernels and a large disk workspace. Treat it as an isolated appliance, not as a normal Hugging Face model served by your always-on vLLM container.
-
-For the DeepSeek experiment later, perform only the checkout first:
-
-```bash
-cd "$HOME/src"
-git clone https://github.com/0xSero/deepseek-v4-flash-0731-spark-sparkinfer.git
-cd deepseek-v4-flash-0731-spark-sparkinfer
-git rev-parse HEAD
-docker compose config
-```
-
-Do not run `docker compose up` until `vllm-spark-fast` and every other GPU model server are stopped and `df -h "$HOME"` shows at least 250 GB free; 300 GB is a more comfortable margin.
-
-## Current primary references
-
-- [NVIDIA Hermes Agent on DGX Spark](https://build.nvidia.com/spark/hermes-agent/instructions)
-- [NVIDIA agent-ready Qwen 35B vLLM playbook](https://build.nvidia.com/spark/vllm/agent-ready-qwen35b)
-- [Open NVIDIA playbook tool-call issue #89](https://github.com/NVIDIA/dgx-spark-playbooks/issues/89)
-- [Current Hermes installation and documentation](https://hermes-agent.nousresearch.com/docs/)
-- [Hermes AI provider configuration](https://hermes-agent.nousresearch.com/docs/integrations/providers)
-- [Hermes messaging gateway](https://hermes-agent.nousresearch.com/docs/user-guide/messaging/)
-- [Hermes Desktop remote backend](https://hermes-agent.nousresearch.com/docs/user-guide/desktop)
-- [ODS LiteLLM service](https://github.com/Osmantic/ODS/tree/main/ods/extensions/services/litellm)
-- [ODS Hermes integration](https://github.com/Osmantic/ODS/blob/main/ods/docs/HERMES.md)
-- [ODS Hermes SSO/Auth Proxy](https://github.com/Osmantic/ODS/blob/main/ods/docs/HERMES-SSO.md)
-- [MiaAI Qwen 35B DGX Spark repository](https://github.com/MiaAI-Lab/Unsloth-Qwen3.6-35b-NVFP4-DGX-Spark)
-- [MiaAI Qwen 27B DFlash repository](https://github.com/MiaAI-Lab/Qwen3.6-27B-NVFP4-DFlash-DGX-Spark)
-- [MiaAI Ling 3.0 Flash SGLang repository](https://github.com/MiaAI-Lab/Ling-3.0-Flash-SGLang-DGX-Spark)
-- [0xSero DeepSeek V4 Flash SparkInfer repository](https://github.com/0xSero/deepseek-v4-flash-0731-spark-sparkinfer)
-
-The detailed repository-by-repository evidence and benchmark caveats are in [[DGX Spark Aug 2026 Model Deployment Research]].
-
-<details>
-<summary>Archived earlier first-model draft (superseded by Steps 7 onward)</summary>
-
-The material below is retained only for history. Do **not** run it after following the current Steps 7 onward.
-
-## Previous first-model draft
-
-## First model: the recommended next session
-
-Do not pull five models at once. Establish one reproducible baseline first: `nvidia/Qwen3.6-35B-A3B-NVFP4` on vLLM as `spark-fast`. NVIDIA's current Hermes and vLLM guidance use this agent-ready family, and your existing local roadmap already selected it as the first always-on model. [NVIDIA vLLM playbook](https://build.nvidia.com/spark/vllm/instructions)
-
-This download is large and may take a long time. Use `tmux` so it continues if the SSH window disconnects.
-
-**Start a protected terminal session:**
-
-```bash
-tmux new -s first-model
-```
-
-The screen will look like a normal terminal. Run the download commands inside it. To leave it running in the background, press `Ctrl+B`, release both keys, then press `D`. To return later, run:
-
-```bash
-tmux attach -t first-model
-```
-
-If `tmux: command not found` appears, stop and install it with `sudo apt update && sudo apt install -y tmux`, then retry.
-
-### 1. Download once into the shared Hugging Face cache
-
-**Action:** Inside the `tmux` session, copy and run the entire block. It reads your saved token without displaying it, obtains the exact current model revision, downloads that revision, and records it.
-
-```bash
-set -a
-. "$HOME/.config/dgx-spark/secrets.env"
-set +a
-
-MODEL_ALIAS=spark-fast
-MODEL_ID=nvidia/Qwen3.6-35B-A3B-NVFP4
-MODEL_REVISION="$(python3 -c 'from huggingface_hub import HfApi; print(HfApi().model_info("nvidia/Qwen3.6-35B-A3B-NVFP4").sha)')"
-MODEL_PATH="$(hf download "$MODEL_ID" --revision "$MODEL_REVISION")"
-
-printf '%s\t%s\t%s\t%s\t%s\t%s\t%s\n' \
-  "$MODEL_ALIAS" "$MODEL_ID" "$MODEL_REVISION" safetensors huggingface downloaded "$(date -Iseconds)" \
-  >> "$HOME/.config/dgx-spark/manifests/models.tsv"
-
-echo "Host model path: $MODEL_PATH"
-unset HF_TOKEN NGC_API_KEY
-```
-
-During the download, progress bars and changing percentages are normal. Do not close the Spark or delete partial cache files. If the connection drops, reconnect and use `tmux attach -t first-model`.
-
-**Success looks like:** the final `Host model path:` is underneath `/home/snknitin/.cache/huggingface/hub/`. Verify the registry and disk use:
-
-```bash
-dgx-models
-dgx-space
-```
-
-`MODEL_PATH` should be a snapshot directory beneath `$HF_HOME/hub`. vLLM and SGLang can reuse that same cache; do not download a second copy for the SGLang comparison.
-
-### 2. Pin the existing vLLM image
-
-Keep the version out of `.bashrc`. The tag you already selected is a service input:
-
-**Action:** Run this after the model download finishes. Docker may show `Image is up to date` if the image is already present; that is successful.
-
-```bash
-VLLM_IMAGE=nvcr.io/nvidia/vllm:26.07-py3
-docker pull "$VLLM_IMAGE"
-VLLM_PINNED="$(docker image inspect --format '{{index .RepoDigests 0}}' "$VLLM_IMAGE")"
-echo "$VLLM_PINNED"
-
-cat > "$HOME/.config/dgx-spark/services/vllm-spark-fast.env" <<EOF
-VLLM_IMAGE=$VLLM_IMAGE
-VLLM_PINNED=$VLLM_PINNED
-MODEL_ALIAS=spark-fast
-MODEL_ID=nvidia/Qwen3.6-35B-A3B-NVFP4
-MODEL_REVISION=$MODEL_REVISION
-HOST_PORT=8000
-EOF
-```
-
-If `VLLM_PINNED` is blank, do not launch yet; inspect `docker images --digests` and fix registry authentication.
-
-**Verify:**
-
-```bash
-cat "$HOME/.config/dgx-spark/services/vllm-spark-fast.env"
-```
-
-This file contains no secret token. Confirm that `VLLM_PINNED` contains `@sha256:` and that `MODEL_REVISION` is a long hexadecimal identifier.
-
-### 3. Start manually before enabling restart
-
-Reload the model snapshot path if this is a new shell, translate it to the path inside the cache mount, and verify that port 8000 is free:
-
-**Action A — check the port first:**
-
-```bash
-ss -ltn | grep ':8000 ' || echo 'Port 8000 appears free'
-```
-
-If the command prints a listening address containing `:8000`, stop and identify the owner with `docker ps` before continuing. If it prints `Port 8000 appears free`, run the launch block below.
-
-**Action B — start vLLM:** Copy and run the whole block. Docker runs it in detached mode, so the prompt should return after printing a container ID.
-
-```bash
-source "$HOME/.config/dgx-spark/services/vllm-spark-fast.env"
-MODEL_PATH="$(hf download "$MODEL_ID" --revision "$MODEL_REVISION")"
-CONTAINER_MODEL_PATH="/root/.cache/huggingface/${MODEL_PATH#"$HF_HOME/"}"
-
-docker run -d \
-  --name vllm-spark-fast \
-  --restart no \
-  --gpus all \
-  --ipc=host \
-  -p 127.0.0.1:8000:8000 \
-  -e HF_HOME=/root/.cache/huggingface \
-  -e HF_HUB_OFFLINE=1 \
-  -v "$HF_HOME:/root/.cache/huggingface" \
-  "$VLLM_PINNED" \
-  vllm serve "$CONTAINER_MODEL_PATH" \
-    --served-model-name spark-fast \
-    --host 0.0.0.0 \
-    --port 8000 \
-    --tensor-parallel-size 1 \
-    --trust-remote-code \
-    --kv-cache-dtype fp8 \
-    --attention-backend flashinfer \
-    --moe-backend marlin \
-    --gpu-memory-utilization 0.4 \
-    --max-model-len 65536 \
-    --max-num-seqs 4 \
-    --max-num-batched-tokens 8192 \
-    --enable-chunked-prefill \
-    --async-scheduling \
-    --enable-prefix-caching \
-    --speculative-config '{"method":"mtp","num_speculative_tokens":3,"moe_backend":"triton"}' \
-    --load-format fastsafetensors \
-    --reasoning-parser qwen3 \
-    --tool-call-parser qwen3_xml \
-    --enable-auto-tool-choice
-```
-
-If Docker says the name `vllm-spark-fast` is already in use, do not rename the new container. Run `docker ps -a --filter name=vllm-spark-fast` and decide whether the existing container is the one created by this guide before removing or replacing anything.
-
-Follow startup and test it:
-
-**Action C — watch startup:**
-
-```bash
-docker logs -f vllm-spark-fast
-```
-
-After the log says the server is ready, press `Ctrl+C`; that exits log-following, not the container. Then run:
-
-**Action D — run the health and response tests:**
-
-```bash
-curl -fsS http://127.0.0.1:8000/health
-
-curl -sS http://127.0.0.1:8000/v1/chat/completions \
-  -H 'Content-Type: application/json' \
-  -d '{
-    "model": "spark-fast",
-    "messages": [{"role": "user", "content": "Reply with exactly: Spark ready"}],
-    "max_tokens": 20,
-    "temperature": 0
-  }'
-
-nvidia-smi
-```
-
-**Success looks like:** the health request exits without an error, the chat response contains `Spark ready`, and `nvidia-smi` shows the model process without an out-of-memory error.
-
-Confirm the API identity with `curl -s http://127.0.0.1:8000/v1/models`; it should advertise `spark-fast` because the launch command sets `--served-model-name spark-fast`.
-
-Only after completions, streaming, tool calls, and four concurrent requests pass:
-
-**Action E — enable automatic restart and record the service:** Run this only after the manual tests have passed.
-
-```bash
-docker update --restart unless-stopped vllm-spark-fast
-
-printf '%s\t%s\t%s\t%s\t%s\t%s\t%s\n' \
-  vllm-spark-fast vllm "$VLLM_PINNED" spark-fast 8000 unless-stopped validated \
-  >> "$HOME/.config/dgx-spark/manifests/services.tsv"
-```
-
-### 4. What remains stopped
-
-- Keep SGLang stopped until `spark-fast` is validated. Then run it on port `30000` against the **same Hugging Face cache and exact model revision** for an A/B comparison.
-- Keep NIM stopped until testing a model with an explicit NIM profile. Use `~/.cache/nim` and `~/.local/share/dgx-spark/nim/workspace`; never reuse port 8000 while vLLM owns it.
-- Keep LM Studio on-demand. Its models remain under `~/.lmstudio/models` and are listed with `lms ls`; do not copy them into the Hugging Face cache.
-- Keep the ODS-managed llama.cpp/Open WebUI services as their existing owner. Do not install duplicates from the NVIDIA playbooks.
-
-## Daily operating sequence
-
-```bash
-dgx-status                 # what is running and GPU state
-dgx-models                 # model registry plus native stores
-dgx-space                  # cache, Docker, and filesystem usage
-column -ts $'\t' "$HOME/.config/dgx-spark/ports.tsv"
-```
-
-For every new playbook:
-
-1. Classify it as **foundation**, **persistent service**, **on-demand backend**, or **one-shot experiment**.
-2. Check ODS overlap before installing anything.
-3. Assign a unique name, port, image tag/digest, cache owner, output directory, and restart policy.
-4. Put secrets in `secrets.env`; put image/model/port settings in the service env; put experiment-only variables in its launch script.
-5. Start manually with no restart policy, smoke-test, record the result, and only then enable persistence.
-6. Stop mutually exclusive GPU backends before loading another large model. One downloaded model can remain on disk while only one large serving process owns unified memory.
-
-## Decision summary
-
-1. Keep `~/.bashrc` small. Persist only stable interactive-shell paths and harmless defaults there.
-2. Do **not** store `NGC_API_KEY` or `HF_TOKEN` directly in `~/.bashrc`. Keep secrets in a permission-restricted file or secret manager and load them only for commands/services that need them.
-3. Use the normal tool-native caches instead of copying the same model into a new universal `models/` folder: Hugging Face at `~/.cache/huggingface`, NIM at `~/.cache/nim`, and LM Studio at `~/.lmstudio/models`.
-4. Put durable service definitions and per-service variables under one operations root, but keep caches, source checkouts, datasets, outputs, and secrets separate.
-5. Pin container image tags in service-specific env files. `LATEST_VLLM_VERSION`, `SGLANG_IMAGE`, model handles, ports, and tuning flags are deployment configuration—not global shell state.
-6. Give every persistent container a unique name, explicit port, explicit volume mount, health check, restart policy, and a short manifest recording image/model/flags.
-7. Do not run ODS llama.cpp/Open WebUI and duplicate playbook installations blindly. Treat ODS as the service plane and vLLM, SGLang, NIM, and LM Studio as separately managed backends or experiments.
-
-## Assessment of the current `.bashrc`
-
-Current entries:
-
-```bash
-export PATH="$HOME/.local/bin:$PATH"
-export NGC_API_KEY=<redacted>
-export HF_TOKEN=<redacted>
-export LATEST_VLLM_VERSION=26.07-py3
-export LOCAL_NIM_CACHE=~/.cache/nim
-export LOCAL_NIM_WORKSPACE=~/.local/share/nim/workspace
-export PATH="$PATH:/home/snknitin/.lmstudio/bin"
-export HF_HOME="$HOME/.cache/huggingface"
-```
-
-Recommended disposition:
-
-| Entry | Keep in `.bashrc`? | Reason |
-|---|---:|---|
-| `PATH="$HOME/.local/bin:$PATH"` | Yes | Hermes and `uv`-installed tools use this location; NVIDIA's Hermes playbook explicitly warns that scripted SSH shells may still need the absolute path or an explicit export. [Source](https://build.nvidia.com/spark/hermes-agent) |
-| LM Studio CLI path | Yes, normalized | Use `export PATH="$HOME/.lmstudio/bin:$PATH"`; the LM Studio playbook instructs users to add `lms` to `PATH`. [Source](https://build.nvidia.com/spark/lm-studio/instructions) |
-| `HF_HOME` | Optional, reasonable | It makes the chosen Hugging Face root explicit. NVIDIA's container recipes repeatedly persist `~/.cache/huggingface` by mounting it to `/root/.cache/huggingface`; retaining the default location maximizes reuse. [vLLM source](https://build.nvidia.com/spark/vllm/instructions) |
-| `NGC_API_KEY` / `HF_TOKEN` (values redacted here) | Migrate, then remove | The live values must first be copied into `~/.config/dgx-spark/secrets.env` with mode `600`. Secrets should not remain in a general shell startup file or committed configuration. |
-| `LATEST_VLLM_VERSION` | Move | Image versions belong in the vLLM service env/manifest. NVIDIA labels the value as a version selected for that vLLM run, and its examples change over time. [Source](https://build.nvidia.com/spark/vllm/instructions) |
-| `LOCAL_NIM_CACHE` | Move, or keep only as a harmless convenience | NIM uses this path as a host bind mount to `/opt/nim/.cache`; it is a NIM deployment setting rather than a universal shell requirement. [Source](https://build.nvidia.com/meta/llama3-8b) |
-| `LOCAL_NIM_WORKSPACE` | Move | This is NIM-specific durable state and should live with the NIM service definition.
-
-Minimal proposed `.bashrc` block:
-
-```bash
-# User-installed CLIs
-export PATH="$HOME/.local/bin:$HOME/.lmstudio/bin:$PATH"
-
-# Shared Hugging Face cache used by host tools and mounted into containers
-export HF_HOME="$HOME/.cache/huggingface"
-```
-
-> [!note] Non-interactive SSH
-> Ubuntu commonly exits early from `.bashrc` for non-interactive shells. Do not make automation depend on `.bashrc`; use absolute executable paths or source a dedicated non-secret environment file in the service script. NVIDIA calls out this exact issue for Hermes. [Source](https://github.com/NVIDIA/dgx-spark-playbooks/tree/main/nvidia/hermes-agent)
-
-## Proposed filesystem layout
-
-```text
-~/.config/dgx-spark/                 # small, backed-up configuration
-  secrets.env                       # mode 600; never commit
-  ports.env                         # central host-port assignments
-  services/
-    vllm.env
-    sglang.env
-    nim.env
-    lmstudio.env
-  manifests/                        # what is intended to run
-    <service>.yaml
-
-~/.local/share/dgx-spark/           # durable application state
-  nim/workspace/
-  open-webui/
-  projects/
-  datasets/
-  outputs/
-  checkpoints/
-
-~/.cache/                           # reproducible/downloadable artifacts
-  huggingface/                      # HF_HOME; mount to container HF cache
-  nim/                              # mount to /opt/nim/.cache
-
-~/.lmstudio/                        # owned by LM Studio/llmster
-  models/
-
-~/src/                              # Git checkouts and playbook code
-  dgx-spark-playbooks/
-  experiments/
-
-~/runs/                             # benchmark/evaluation records, not model blobs
-  YYYY-MM-DD_<engine>_<model>/
-    manifest.yaml
-    command.txt
-    metrics.json
-    logs/
-```
-
-This respects the paths NVIDIA's recipes actually expect. vLLM and several other playbooks mount the host Hugging Face cache into the container so downloads survive container deletion; NIM similarly mounts `~/.cache/nim`; LM Studio explicitly stores downloadable models separately under `~/.lmstudio/models`, and uninstalling llmster does not delete those models. [vLLM](https://build.nvidia.com/spark/vllm/instructions) · [NIM](https://build.nvidia.com/spark/nim-llm) · [LM Studio](https://build.nvidia.com/spark/lm-studio/instructions)
-
-Do not symlink all three model stores into one directory. Their formats, metadata, partial-download rules, ownership, and cleanup tools differ. A single **manifest index** gives one navigable view without destabilizing the runtimes.
-
-## Secrets and registry authentication
-
-Keep a local file such as `~/.config/dgx-spark/secrets.env` with mode `600`:
-
-```dotenv
-HF_TOKEN=...
-NGC_API_KEY=...
-```
-
-Load it only in the current shell or pass it with a service-specific `--env-file`; never commit it, echo it in logs, or place it in `manifest.yaml`. NVIDIA's NIM workflow requires two related but distinct actions: authenticate Docker to `nvcr.io` using username `$oauthtoken`, and pass `NGC_API_KEY` into the running NIM so it can fetch protected artifacts. [NIM playbook](https://build.nvidia.com/spark/nim-llm) The Hugging Face token is required for gated/private models and is passed into vLLM-style containers, while the downloaded files persist in the mounted cache. [vLLM playbook](https://build.nvidia.com/spark/vllm/instructions)
-
-Use least-privilege, read-only Hugging Face tokens for downloads. `docker login` stores a registry credential through Docker's configured credential mechanism; do not add the NGC key to an image, Dockerfile, Compose file, or Git repository.
-
-## Universal variables versus playbook-local variables
-
-### Stable host defaults
-
-Only these are broadly useful across sessions:
-
-| Variable | Suggested value | Purpose |
-|---|---|---|
-| `PATH` | `$HOME/.local/bin:$HOME/.lmstudio/bin:$PATH` | User CLIs and `lms` |
-| `HF_HOME` | `$HOME/.cache/huggingface` | One host-side Hugging Face cache root |
-
-Even `HF_HOME` is optional because this is already Hugging Face's conventional cache root.
-
-### Secrets loaded only when needed
-
-| Variable | Used by | Persist in `.bashrc`? |
-|---|---|---:|
-| `HF_TOKEN` | vLLM, Nemotron, fine-tuning, quantization, gated models | No |
-| `NGC_API_KEY` | NIM runtime and other NGC-backed playbooks | No |
-| `NGC_CLI_API_KEY` | VSS playbook | No |
-| external API/bot credentials | Hermes, agent, or application playbooks | No |
-
-### Deployment-local settings
-
-| Playbook/lane | Variables seen in NVIDIA recipes | Where they should live |
-|---|---|---|
-| vLLM | `LATEST_VLLM_VERSION`, `HF_MODEL_HANDLE`, `VLLM_IMAGE`; multi-node adds `MN_IF_NAME`, `VLLM_HOST_IP`, `HEAD_NODE_IP`, `NCCL_SOCKET_IFNAME`, `UCX_NET_DEVICES`, Ray/Gloo interface settings | `services/vllm.env`; multi-node values in a separate cluster env |
-| SGLang | `SGLANG_IMAGE` | `services/sglang.env` |
-| NIM | `LOCAL_NIM_CACHE`, `LOCAL_NIM_WORKSPACE`, `IMG_NAME`, `CONTAINER_NAME` | `services/nim.env` |
-| TensorRT-LLM/speculative decoding | `DOCKER_IMAGE`, `MODEL`, `MODEL_HANDLE`, `TRTLLM_MN_CONTAINER`, `TIKTOKEN_ENCODINGS_BASE`, selective TRT-LLM feature flags | Per-experiment/service env |
-| Nemotron | `WEIGHTS` plus model-specific vLLM backend flags | Model-specific manifest, not global shell state |
-| NCCL/multi-Spark | `CUDA_HOME`, `MPI_HOME`, `NCCL_HOME`, `LD_LIBRARY_PATH`, `UCX_NET_DEVICES`, `NCCL_SOCKET_IFNAME`, and topology-specific flags | Dedicated cluster activation script; never universal |
-| Isaac Sim | `ISAACSIM_PATH`, `ISAACSIM_PYTHON_EXE`, `LD_PRELOAD` | Isaac project activation script |
-| VSS | `LLM_ENDPOINT_URL`, `NGC_CLI_API_KEY` | VSS `.env`, with secret separated where possible |
-
-The official SGLang playbook, for example, sets `SGLANG_IMAGE=lmsysorg/sglang:latest-cu130` for that workflow and publishes port `30000`; this is not a reason to export it globally. [Source](https://build.nvidia.com/spark/sglang/instructions) The vLLM playbook similarly treats its image version and model handle as inputs to a particular run. [Source](https://build.nvidia.com/spark/vllm/instructions)
-
-## Container and service conventions
-
-For every long-running backend, record:
-
-```yaml
-service: vllm-qwen36
-engine: vllm
-image: nvcr.io/nvidia/vllm:<pinned-tag>
-model: <exact-repository-or-local-path>
-quantization: <exact-format>
-host_port: <allocated-port>
-container_port: 8000
-cache_mount: ~/.cache/huggingface:/root/.cache/huggingface
-command_flags: []
-owner: standalone-or-ods
-autostart: false
-```
-
-Operational rules:
-
-- Pin a tested image tag (ideally record the image digest after pulling). Do not use `latest` for an always-on service.
-- Name containers by engine and model, for example `vllm-qwen36-nvfp4`, rather than generic `vllm-server` when more than one experiment may exist.
-- Persist only caches and intentional output/state directories. Containers themselves should be replaceable.
-- Add `--restart unless-stopped` only after a backend passes a manual smoke test and its port does not overlap ODS.
-- Use one active owner per UI/database. In particular, retain the ODS-managed Open WebUI rather than starting a second copy unless it is an isolated lab.
-- Mount caches with consistent ownership. NVIDIA's Hugging Face examples mount the user's cache to root's cache inside the container; NIM examples may run the container as the host UID. Verify ownership before switching those patterns. [NIM deployment example](https://build.nvidia.com/meta/llama3-8b)
-- Before launches, check `docker ps`, `nvidia-smi`, free disk, and the desired port. The SGLang playbook explicitly validates Docker, GPU visibility, container GPU support, and disk before serving. [Source](https://build.nvidia.com/spark/sglang/instructions)
-
-## Port registry
-
-Several playbooks choose defaults that collide. Reserve host ports centrally and map the container's native port to them.
-
-| Service | Playbook default | Suggested ownership note |
-|---|---:|---|
-| vLLM | `8000` | Choose a dedicated host port if ODS/NIM already uses 8000. [Source](https://build.nvidia.com/spark/vllm/instructions) |
-| NIM LLM | `8000` | Conflicts with default vLLM; remap one side. [Source](https://build.nvidia.com/meta/llama3-8b) |
-| SGLang | `30000` | Native SGLang API. [Source](https://build.nvidia.com/spark/sglang/instructions) |
-| LM Studio | `1234` | Bind only to trusted interfaces, or use LM Link and `localhost:1234`. [Source](https://build.nvidia.com/spark/lm-studio/instructions) |
-| Ollama | `11434` | Used by the Live VLM recipe as the Ollama API. [Source](https://build.nvidia.com/spark/live-vlm-webui/instructions) |
-| Live VLM WebUI | `8090` | HTTPS/WebRTC UI. [Source](https://build.nvidia.com/spark/live-vlm-webui/instructions) |
-| JupyterLab examples | `8888` | Used by data-science playbooks. [Source](https://build.nvidia.com/spark/single-cell/instructions) |
-| Ray dashboard | `8265` | Tunnel over SSH rather than broadly exposing it. [Source](https://build.nvidia.com/spark/vllm/stacked-sparks) |
-
-Do not expose model APIs on `0.0.0.0` unless LAN/Tailscale access is intentional and controlled. NVIDIA's LM Studio instructions explicitly distinguish LAN binding from LM Link, which avoids opening the service to the LAN. [Source](https://build.nvidia.com/spark/lm-studio/instructions)
-
-## Model tracking: index metadata, not duplicated files
-
-For each downloaded or locally produced model, track:
-
-- canonical model ID and exact revision/commit;
-- engine and exact image tag/digest;
-- on-disk owner/cache (`huggingface`, `nim`, `lmstudio`, ODS, or project checkpoint);
-- quantization and weight format;
-- context length, memory-utilization setting, and concurrency;
-- API alias and host port;
-- license/gated-access status;
-- last successful smoke test and benchmark run;
-- whether the model is base, fine-tuned, quantized, or an expendable cache.
-
-The manifest should point to the runtime-owned cache path rather than relocating the files. This makes `lms ls`, Hugging Face cache tooling, NIM reuse, and ODS's own lifecycle controls remain authoritative.
-
-## Playbook findings appendix
-
-The Spark catalog is a mixture of foundations, mutually competing runtimes, experiments, and applications—not a package list to install wholesale. The official repository also includes repo-only/legacy and DGX Station directories, so the [live Spark catalog](https://build.nvidia.com/spark) remains the authority for what is currently published; the [repository](https://github.com/NVIDIA/dgx-spark-playbooks/tree/main/nvidia) is the authority for scripts and exact commands.
-
-### Foundation and connectivity
-
-- Local Network Access, Tailscale, DGX Dashboard, VS Code, Connect Two/Three Sparks, multi-Spark switch, and NCCL.
-- Host-wide persistence is appropriate only for intentional SSH/network configuration and, for a real cluster, its dedicated NCCL/network activation settings.
-
-### Inference runtimes
-
-- llama.cpp, vLLM, SGLang, TensorRT-LLM, NIM, Ollama, LM Studio, Nemotron, multi-modal inference, and speculative decoding.
-- These are alternative or complementary serving lanes. Share caches where the runtime supports the same cache contract, but never assume their model formats are interchangeable.
-- vLLM uses port 8000 in NVIDIA's baseline; SGLang uses 30000; NIM commonly uses 8000; LM Studio uses 1234. Port assignment must precede autostart.
-
-### Model optimization and training
-
-- PyTorch fine-tuning, NeMo fine-tuning, Unsloth, LLaMA Factory, FLUX DreamBooth LoRA, NVFP4 quantization, optimized JAX, and cuTile kernels.
-- Keep datasets, checkpoints, exports, and run metadata under durable project/run directories. Tokens, selected recipes, export names, CUDA/build variables, and model paths are experiment-scoped.
-
-### Applications and agents
-
-- Open WebUI, Live VLM WebUI, RAG in AI Workbench, multi-agent chatbot, text-to-knowledge-graph, VSS, Hermes, OpenClaw/OpenShell, NemoClaw and its example agents, CLI coding agent, and VS Code vibe coding.
-- These often bring their own databases, workspaces, bot credentials, and ports. Reuse an existing ODS service when possible; otherwise isolate application state under its own directory and name its backend endpoint explicitly.
-
-### Domain demonstrations
-
-- CUDA-X data science, single-cell RNA sequencing, portfolio optimization, Isaac Sim/Lab, and Reachy photo booth.
-- Treat these as project environments. Their build flags, libraries, Jupyter data, and outputs should not leak into the global shell configuration.
-
-## Immediate conclusions for this Spark
-
-- The existing `vLLM`, `SGLang`, and NIM container images do not mean a model has been installed; images and model caches are separate disk inventories.
-- Keep the existing HF and NIM cache choices, but define them in their owning service configs.
-- Leave LM Studio's model store under `~/.lmstudio/models`; its CLI can list and remove those models, and its server defaults to port 1234. [Source](https://build.nvidia.com/spark/lm-studio/instructions)
-- Before pulling the first model, inventory ODS containers, images, volumes, occupied ports, disk usage, and existing cache contents. Then choose one first serving baseline and give it a pinned manifest.
-- The clean first comparison is one exact Hugging Face checkpoint served by vLLM and SGLang with distinct host ports and the same evaluation prompts. Add NIM only for a supported NIM model, and use LM Studio for its separate catalog/LM Link workflow rather than treating it as the canonical copy of every model.
-
-## Primary sources
-
-- [NVIDIA DGX Spark playbook catalog](https://build.nvidia.com/spark)
-- [Official NVIDIA DGX Spark playbooks repository](https://github.com/NVIDIA/dgx-spark-playbooks)
-- [vLLM for Inference](https://build.nvidia.com/spark/vllm/instructions)
-- [SGLang for Inference](https://build.nvidia.com/spark/sglang/instructions)
-- [NIM on Spark](https://build.nvidia.com/spark/nim-llm)
-- [LM Studio on DGX Spark](https://build.nvidia.com/spark/lm-studio/instructions)
-- [Live VLM WebUI](https://build.nvidia.com/spark/live-vlm-webui/instructions)
-- [Single-cell RNA Sequencing](https://build.nvidia.com/spark/single-cell/instructions)
-- [Set Up Local Network Access](https://build.nvidia.com/spark/connect-to-your-spark)
-
-</details>
-
-Related: [[DGX Spark Aug 2026 Model Deployment Research]] | [[Local Setup Index]]
+Related: [[DGX Spark Model Installation And Switching Guide]] | [[DGX Spark Aug 2026 Model Deployment Research]] | [[Local Setup Index]]
