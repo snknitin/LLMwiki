@@ -73,7 +73,7 @@ Help with specific near/far tasks such as reading labels, seeing a whiteboard, f
 2. Contrast/filter profiles and large controls.
 3. OCR, reflow, and speech.
 4. Wide-plus-inset view and latency measurement.
-5. Consent-based usability tests.
+5. Usability tests.
 6. Optional display hardware with optical/accessibility expertise.
 
 ## Risks and Validation

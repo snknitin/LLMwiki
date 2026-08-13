@@ -13,7 +13,7 @@ status: concept
 ---
 # Murder Mystery Game Master
 
-> A deterministic party-game engine that privately assigns fictional roles, releases timed clues, narrates suspects, and produces a satisfying reveal.
+> A deterministic party-game engine that privately assigns fictional roles, releases timed clues, narrates suspects, and produces a satisfying reveal. Like Dungeons and Dragons with AI being the dungeon master. Base some cases on the show Detective Conan and revela how teh case is solved if no one can piece it together. Great mental exercise even for a single player. 
 
 ## Product Outcome
 

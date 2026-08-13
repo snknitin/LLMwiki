@@ -18,7 +18,7 @@ tags:
 
 # Support FAQ Builder
 
-> Import consented support conversations and turn repeated, successfully resolved problems into draft FAQ pages, agent macros, and escalation rules with ticket-level evidence.
+> Import support conversations and turn repeated, successfully resolved problems into draft FAQ pages, agent macros, and escalation rules with ticket-level evidence.
 
 ## Product Outcome
 

@@ -15,7 +15,7 @@ tags: [crm, reminders, relationships]
 
 # Pocket CRM
 
-> Capture a contact, opportunity, and next action in one message; confirm the parse before anything is saved.
+> Capture a contact, opportunity, and next action in one message; confirm the parse before anything is saved. Posiblt connect this with Dunbar Number in Notion. Mainting 150 relationships privately and rest of the cotnacts as acquaintances. This distinction needs to be made.
 
 ## Product Outcome
 

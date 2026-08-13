@@ -20,7 +20,7 @@ tags:
 
 # Event Networking Copilot
 
-> A consent-based event companion that helps remember who the user planned to meet, surfaces common ground from approved profiles, and captures follow-ups—without covert face recognition or scraping strangers’ LinkedIn identities.
+> An event companion that helps remember who the user planned to meet, surfaces common ground from approved profiles, and captures follow-ups—without covert face recognition or scraping strangers’ LinkedIn identities.
 
 ## Product Outcome
 
@@ -70,7 +70,7 @@ Prototype the whole value proposition without glasses: a lock-screen widget or o
 3. Fast name search and QR/vCard exchange.
 4. Voice-note capture and follow-up queue.
 5. Mock wearable flow.
-6. Hardware integration with visible recording/consent signals.
+6. Hardware integration with visible recording signals.
 
 ## Success Measures
 
