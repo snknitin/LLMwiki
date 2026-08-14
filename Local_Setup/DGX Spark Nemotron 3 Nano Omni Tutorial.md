@@ -100,7 +100,7 @@ if [[ "$BASE_IMAGE_PINNED" != *@sha256:* ]]; then
 fi
 
 cat > "$SERVICE_DIR/Dockerfile" <<'DOCKERFILE'
-ARG BASE_IMAGE
+ARG BASE_IMAGE=vllm/vllm-openai:v0.20.0
 FROM ${BASE_IMAGE}
 RUN pip install --no-cache-dir 'vllm[audio]==0.20.0'
 DOCKERFILE
@@ -241,6 +241,22 @@ tmux attach -t nemotron-omni-prepare
 ```
 
 Success looks like `Prepared: nemotron3-omni` followed by `The model has not been started.`
+
+> [!success] The reported `InvalidDefaultArgInFrom` output was only a warning
+> Your image build completed, Docker wrote image `local/vllm-nemotron3-omni:v0.20.0`, the exact model revision was recorded, and the script printed `Prepared: nemotron3-omni`. **Do not repeat the download or preparation. Continue with Step 4.** The Dockerfile in the current version of this tutorial supplies a harmless default image value, which prevents that warning on future preparations while the build still replaces it with the pinned digest.
+
+If you want one read-only confirmation before continuing, run this in the **Spark terminal**:
+
+```bash
+docker image inspect local/vllm-nemotron3-omni:v0.20.0 \
+  --format 'Image ID={{.Id}} Size={{.Size}}'
+
+test -f "$HOME/ai/services/nemotron3-omni/.env" \
+  && test -f "$HOME/ai/services/nemotron3-omni/compose.yaml" \
+  && echo 'NEMOTRON_OMNI_PREPARED_OK'
+```
+
+Success is an image ID followed by `NEMOTRON_OMNI_PREPARED_OK`. This does not start the model.
 
 ## Step 4 — Stop the currently loaded large model
 
