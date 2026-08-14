@@ -1,5 +1,5 @@
 ---
-updated: 2026-08-07
+updated: 2026-08-14
 ---
  
 # Local Setup Index
@@ -8,6 +8,7 @@ updated: 2026-08-07
 
 - [[DGX Spark Operations Setup Guide]] — copy-paste foundation for `.bashrc`, secrets, model/cache layout, container conventions, registries, and the first vLLM model.
 - [[DGX Spark Model Installation And Switching Guide]] — beginner continuation from Step 16 for adding Qwen 27B DFlash, switching models safely, testing through LiteLLM and Hermes, and preparing later experiments.
+- [[DGX Spark Additional Model Tutorials Index]] — next beginner tutorials for Gemma 4, Nemotron 3/3.5, Muse Glimmer, current Ollama beside ODS, and LM Studio/LM Link.
 
 - [[Spark Hermes Setup Runbook]] — the ordered do-list with phase gates; execute this, read the rest for rationale.
 - [[Always-On Hermes on DGX Spark]] — canonical Hermes host, Tailscale, ODS proxy, device sync boundaries, Obsidian, messaging, and Buzz.
@@ -19,6 +20,7 @@ updated: 2026-08-07
 ## DGX Spark supporting research
 
 - [[DGX Spark Aug 2026 Model Deployment Research]] — primary-source comparison of the current single-Spark community recipes, model/runtime differences, benchmark caveats, and promotion gates.
+- [[DGX Spark Additional Models And Convenience Runtimes Research]] — primary-source verification for the added Gemma, Nemotron, Muse, Ollama, ODS, and LM Link tutorials.
 - [[dgx-spark-playbook-roadmap-draft|DGX Spark Playbook Roadmap Draft]] — complete 44-card live-catalog inventory and ODS overlap classification.
 - [[dgx-spark-current-models-report|DGX Spark Current Models Report]] — detailed model shortlist, engines, context/concurrency profiles, and benchmark caveats as of 2026-08-02.
 - [[dgx-spark-twitter-bookmarks-analysis|DGX Spark Twitter Bookmarks Analysis]] — evidence audit of the saved DGX Twitter export, including hardware and metric mismatches.

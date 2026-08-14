@@ -156,22 +156,16 @@ DRAFT_REVISION="$(python3 -c 'from huggingface_hub import HfApi; print(HfApi().m
 hf download "$MAIN_MODEL_ID" --revision "$MAIN_REVISION"
 hf download "$DRAFT_MODEL_ID" --revision "$DRAFT_REVISION"
 
-if ! grep -q '^qwen27-dflash[[:space:]]' \
-  "$HOME/.config/dgx-spark/manifests/models.tsv"; then
-  printf '%s\t%s\t%s\t%s\t%s\t%s\t%s\n' \
-    qwen27-dflash "$MAIN_MODEL_ID" "$MAIN_REVISION" safetensors huggingface downloaded "$(date -Iseconds)" \
-    >> "$HOME/.config/dgx-spark/manifests/models.tsv"
-fi
-
-if ! grep -q '^qwen27-dflash-draft[[:space:]]' \
-  "$HOME/.config/dgx-spark/manifests/models.tsv"; then
-  printf '%s\t%s\t%s\t%s\t%s\t%s\t%s\n' \
-    qwen27-dflash-draft "$DRAFT_MODEL_ID" "$DRAFT_REVISION" safetensors huggingface downloaded "$(date -Iseconds)" \
-    >> "$HOME/.config/dgx-spark/manifests/models.tsv"
-fi
+mkdir -p "$HOME/ai/services/qwen27-dflash"
+cat > "$HOME/ai/services/qwen27-dflash/model-revisions.env" <<EOF
+MAIN_REVISION=$MAIN_REVISION
+DRAFT_REVISION=$DRAFT_REVISION
+EOF
 
 unset HF_TOKEN NGC_API_KEY MAIN_MODEL_ID DRAFT_MODEL_ID MAIN_REVISION DRAFT_REVISION
 ```
+
+The small `model-revisions.env` file records the exact commits you downloaded. It contains no API token. This is necessary because the container will deliberately run with Hugging Face offline mode enabled after the download.
 
 To leave the download running, press **Ctrl+B**, release both keys, and then press **D**. Reopen it later with:
 
@@ -196,6 +190,13 @@ docker pull "$QWEN27_IMAGE"
 QWEN27_IMAGE_PINNED="$(docker image inspect --format '{{index .RepoDigests 0}}' "$QWEN27_IMAGE")"
 ODS_NETWORK="$(docker inspect -f '{{range $name, $_ := .NetworkSettings.Networks}}{{println $name}}{{end}}' ods-litellm | head -n 1)"
 
+cd "$HOME/ai/services/qwen27-dflash"
+test -f model-revisions.env || {
+  echo 'ERROR: model-revisions.env is missing. Finish Step 18.2 first.'
+  exit 1
+}
+. ./model-revisions.env
+
 test -n "$QWEN27_IMAGE_PINNED" || {
   echo 'ERROR: Docker did not return a pinned image digest.'
   exit 1
@@ -214,6 +215,8 @@ QWEN27_IMAGE=$QWEN27_IMAGE
 QWEN27_IMAGE_PINNED=$QWEN27_IMAGE_PINNED
 MODEL_ID=nvidia/Qwen3.6-27B-NVFP4
 DRAFT_MODEL_ID=z-lab/Qwen3.6-27B-DFlash
+MODEL_REVISION=$MAIN_REVISION
+DRAFT_REVISION=$DRAFT_REVISION
 MODEL_ALIAS=qwen27-dflash
 HOST_PORT=8001
 ODS_NETWORK=$ODS_NETWORK
@@ -222,7 +225,7 @@ HF_HOME=/home/snknitin/.cache/huggingface
 RECIPE_DIR=/home/snknitin/src/Qwen3.6-27B-NVFP4-DFlash-DGX-Spark
 EOF
 
-unset QWEN27_IMAGE QWEN27_IMAGE_PINNED ODS_NETWORK
+unset QWEN27_IMAGE QWEN27_IMAGE_PINNED ODS_NETWORK MAIN_REVISION DRAFT_REVISION
 ```
 
 This file contains deployment settings but no Hugging Face token.
@@ -230,14 +233,7 @@ This file contains deployment settings but no Hugging Face token.
 Record the planned port once:
 
 ```bash
-if ! grep -q '^vllm-qwen27-dflash[[:space:]]' \
-  "$HOME/.config/dgx-spark/ports.tsv"; then
-  printf '%s\t%s\t%s\t%s\n' \
-    vllm-qwen27-dflash 8001 standalone 'localhost + private ODS network; on-demand' \
-    >> "$HOME/.config/dgx-spark/ports.tsv"
-fi
-
-column -ts $'\t' "$HOME/.config/dgx-spark/ports.tsv"
+ 
 ```
 
 ### 18.4 Create the controlled Compose file
@@ -276,6 +272,8 @@ services:
     entrypoint: ["vllm", "serve"]
     command:
       - ${MODEL_ID}
+      - --revision
+      - ${MODEL_REVISION}
       - --served-model-name
       - ${MODEL_ALIAS}
       - --host
@@ -312,7 +310,7 @@ services:
       - --generation-config
       - vllm
       - --speculative-config
-      - '{"method":"dflash","model":"z-lab/Qwen3.6-27B-DFlash","num_speculative_tokens":10}'
+      - "{\"method\":\"dflash\",\"model\":\"${DRAFT_MODEL_ID}\",\"revision\":\"${DRAFT_REVISION}\",\"num_speculative_tokens\":10}"
       - --chat-template
       - /workspace/chat_template.jinja
       - --default-chat-template-kwargs
@@ -363,6 +361,94 @@ nvidia-smi
 Do not proceed if the old model container is still running.
 
 ### 19.2 Start Qwen 27B with restart disabled
+
+#### One-time repair if you saw `LocalEntryNotFoundError`
+
+Use this repair only if you created `.env` and `compose.yaml` from the earlier version of this guide and then saw an error saying that outgoing traffic was disabled and no cached snapshot could be found. **Do not delete the Hugging Face cache.** The downloaded model files are still useful; the old Compose file simply failed to tell vLLM which cached commit to open.
+
+First, if you are still following the log, press **Ctrl+C**. Then run this entire block in the **Spark terminal**. It stops only the failed Qwen 27B container, backs up `.env`, verifies that there is exactly one cached snapshot for each model, and records those two snapshot names:
+
+```bash
+cd "$HOME/ai/services/qwen27-dflash"
+
+docker compose \
+  --env-file "$HOME/.config/dgx-spark/secrets.env" \
+  --env-file .env \
+  down
+
+cp -a .env ".env.before-revision-fix.$(date +%Y%m%d-%H%M%S)"
+
+MAIN_ROOT="$HOME/.cache/huggingface/hub/models--nvidia--Qwen3.6-27B-NVFP4/snapshots"
+DRAFT_ROOT="$HOME/.cache/huggingface/hub/models--z-lab--Qwen3.6-27B-DFlash/snapshots"
+MAIN_COUNT="$(find "$MAIN_ROOT" -mindepth 1 -maxdepth 1 -type d | wc -l)"
+DRAFT_COUNT="$(find "$DRAFT_ROOT" -mindepth 1 -maxdepth 1 -type d | wc -l)"
+
+if [ "$MAIN_COUNT" -ne 1 ] || [ "$DRAFT_COUNT" -ne 1 ]; then
+  echo "STOP: expected one cached snapshot per model; found main=$MAIN_COUNT draft=$DRAFT_COUNT"
+  echo 'Main snapshots:'
+  find "$MAIN_ROOT" -mindepth 1 -maxdepth 1 -type d -printf '%f\n'
+  echo 'Draft snapshots:'
+  find "$DRAFT_ROOT" -mindepth 1 -maxdepth 1 -type d -printf '%f\n'
+  echo 'Do not guess. Copy this output into the Codex chat.'
+  exit 1
+fi
+
+MAIN_REVISION="$(basename "$(find "$MAIN_ROOT" -mindepth 1 -maxdepth 1 -type d)")"
+DRAFT_REVISION="$(basename "$(find "$DRAFT_ROOT" -mindepth 1 -maxdepth 1 -type d)")"
+
+cat > model-revisions.env <<EOF
+MAIN_REVISION=$MAIN_REVISION
+DRAFT_REVISION=$DRAFT_REVISION
+EOF
+
+sed -i -e '/^MODEL_REVISION=/d' -e '/^DRAFT_REVISION=/d' .env
+printf 'MODEL_REVISION=%s\nDRAFT_REVISION=%s\n' \
+  "$MAIN_REVISION" "$DRAFT_REVISION" >> .env
+
+grep -E '^(MODEL_ID|MODEL_REVISION|DRAFT_MODEL_ID|DRAFT_REVISION)=' .env
+unset MAIN_ROOT DRAFT_ROOT MAIN_COUNT DRAFT_COUNT MAIN_REVISION DRAFT_REVISION
+```
+
+**Success looks like:** the last four lines show both model IDs and two long hexadecimal revision values. They are public model commit IDs, not passwords.
+
+Next back up and open the Compose file:
+
+```bash
+cd "$HOME/ai/services/qwen27-dflash"
+cp -a compose.yaml "compose.yaml.before-revision-fix.$(date +%Y%m%d-%H%M%S)"
+nano compose.yaml
+```
+
+Find this line under `command:`:
+
+```yaml
+      - ${MODEL_ID}
+```
+
+Immediately below it, add these two lines with the same indentation:
+
+```yaml
+      - --revision
+      - ${MODEL_REVISION}
+```
+
+Then find the old DFlash JSON line under `--speculative-config` and replace that entire line with:
+
+```yaml
+      - "{\"method\":\"dflash\",\"model\":\"${DRAFT_MODEL_ID}\",\"revision\":\"${DRAFT_REVISION}\",\"num_speculative_tokens\":10}"
+```
+
+Save with **Ctrl+O**, press **Enter**, and exit with **Ctrl+X**. Validate the repaired files without starting the model:
+
+```bash
+cd "$HOME/ai/services/qwen27-dflash"
+docker compose \
+  --env-file "$HOME/.config/dgx-spark/secrets.env" \
+  --env-file .env \
+  config --quiet
+```
+
+No output means the repair is syntactically valid. Continue with the normal start commands below.
 
 Run in the **Spark terminal**:
 
