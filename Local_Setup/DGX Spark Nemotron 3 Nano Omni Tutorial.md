@@ -2,13 +2,13 @@
 
 This tutorial installs NVIDIA's multimodal NVFP4 model as a stopped-by-default vLLM profile:
 
-| Item | Value |
-|---|---|
-| Model | `nvidia/Nemotron-3-Nano-Omni-30B-A3B-Reasoning-NVFP4` |
-| Container | `vllm-nemotron3-omni` |
-| Raw Spark API | `http://127.0.0.1:8004/v1` |
-| ODS network address | `http://nemotron3-omni:8000/v1` |
-| LiteLLM/Hermes name | `nemotron3-omni` |
+| Item                | Value                                                 |
+| ------------------- | ----------------------------------------------------- |
+| Model               | `nvidia/Nemotron-3-Nano-Omni-30B-A3B-Reasoning-NVFP4` |
+| Container           | `vllm-nemotron3-omni`                                 |
+| Raw Spark API       | `http://127.0.0.1:8004/v1`                            |
+| ODS network address | `http://nemotron3-omni:8000/v1`                       |
+| LiteLLM/Hermes name | `nemotron3-omni`                                      |
 
 Nemotron 3 Nano Omni can accept text, images, audio, and video. We will first prove that ordinary text serving works. Multimodal tests come only after the basic server is healthy.
 

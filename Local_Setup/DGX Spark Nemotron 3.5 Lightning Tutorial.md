@@ -2,15 +2,15 @@
 
 This guide installs the current official one-DGX-Spark vLLM recipe for Nemotron 3.5 Lightning and its DSpark speculative-decoding assistant.
 
-| Item | Value |
-|---|---|
-| Main model | `nvidia/NVIDIA-Nemotron-3.5-Lightning-30B-A3B-NVFP4` |
-| DSpark assistant | `nvidia/NVIDIA-Nemotron-3.5-Lightning-30B-A3B-NVFP4-DSpark` |
-| Runtime | `vllm/vllm-openai:v0.27.1` |
-| Container | `vllm-nemotron35-lightning` |
-| Raw Spark API | `http://127.0.0.1:8005/v1` |
-| ODS network address | `http://nemotron35-lightning:8000/v1` |
-| LiteLLM/Hermes name | `nemotron35-lightning` |
+| Item                | Value                                                       |
+| ------------------- | ----------------------------------------------------------- |
+| Main model          | `nvidia/NVIDIA-Nemotron-3.5-Lightning-30B-A3B-NVFP4`        |
+| DSpark assistant    | `nvidia/NVIDIA-Nemotron-3.5-Lightning-30B-A3B-NVFP4-DSpark` |
+| Runtime             | `vllm/vllm-openai:v0.27.1`                                  |
+| Container           | `vllm-nemotron35-lightning`                                 |
+| Raw Spark API       | `http://127.0.0.1:8005/v1`                                  |
+| ODS network address | `http://nemotron35-lightning:8000/v1`                       |
+| LiteLLM/Hermes name | `nemotron35-lightning`                                      |
 
 NVIDIA documents this combination on one DGX Spark. The main checkpoint is about 23.45 GiB and the DSpark assistant about 1.26 GiB on disk. The assistant predicts several tokens so the main model can verify them together; it is not another full chat model.
 

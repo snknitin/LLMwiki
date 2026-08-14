@@ -2,10 +2,10 @@
 
 This beginner tutorial prepares two independent vLLM profiles:
 
-| Profile | Exact checkpoint | Raw port | LiteLLM/Hermes name |
-|---|---|---:|---|
-| Gemma 4 26B-A4B | `nvidia/Gemma-4-26B-A4B-NVFP4` | `8002` | `gemma4-26b-a4b` |
-| Gemma 4 31B | `nvidia/Gemma-4-31B-IT-NVFP4` | `8003` | `gemma4-31b` |
+| Profile         | Exact checkpoint               | Raw port | LiteLLM/Hermes name |
+| --------------- | ------------------------------ | -------: | ------------------- |
+| Gemma 4 26B-A4B | `nvidia/Gemma-4-26B-A4B-NVFP4` |   `8002` | `gemma4-26b-a4b`    |
+| Gemma 4 31B     | `nvidia/Gemma-4-31B-IT-NVFP4`  |   `8003` | `gemma4-31b`        |
 
 The 26B-A4B model is the recommended first Gemma test. It has 25.2B total parameters but activates about 3.8B per token, and the maintained vLLM recipe explicitly marks DGX Spark/GB10 as verified. The 31B model is dense and is primarily a quality comparison. Its one-GPU NVFP4 recipe makes a Spark test reasonable, but that recipe does **not** currently mark DGX Spark as verified. Treat the 31B profile as experimental. [Gemma 4 26B card](https://huggingface.co/nvidia/Gemma-4-26B-A4B-NVFP4), [official 26B recipe](https://github.com/vllm-project/recipes/blob/main/models/Google/gemma-4-26B-A4B-it.yaml), and [official 31B recipe](https://github.com/vllm-project/recipes/blob/main/models/Google/gemma-4-31B-it.yaml)
 
