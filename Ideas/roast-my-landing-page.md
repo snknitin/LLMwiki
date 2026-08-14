@@ -86,6 +86,5 @@ Screenshot diagnostic → public URL auditor → agency lead magnet → monitore
 
 ## Related Wikilinks
 
-- [[X Profile Autopsy]]
-- [[Startup Idea Dating Profile]]
-
+- [[x-profile-autopsy|X Profile Autopsy]]
+- [[Demand Generation Workbench]]

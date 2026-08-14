@@ -85,6 +85,5 @@ Personal Telegram game → themed challenge packs → social opt-in recaps. Any 
 
 ## Related Wikilinks
 
-- [[Brainrot Rehab]]
-- [[Haggle Score]]
-
+- [[brainrot-rehab|Brainrot Rehab]]
+- [[NPC Mode Personal Coach]]

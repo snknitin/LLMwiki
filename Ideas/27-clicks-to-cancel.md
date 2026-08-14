@@ -82,6 +82,6 @@ Personal utility first; then an open recipe/measurement format. A consumer produ
 
 ## Related
 
-- [[Inbox Zero Mercenary]]
+- [[inbox-zero-mercenary|Inbox Zero Mercenary]]
 - [[Paisa Vasool Subscriptions]]
 - [[Scope Expansion Checklist]]

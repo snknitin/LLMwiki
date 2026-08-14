@@ -12,6 +12,7 @@ form_factor:
 deployment: local network or hosted
 source_ideas:
   - quiz poker bidding game like Kahoot or Codenames
+  - consume high-quality clue-driven packs from Quiz Master
 tags:
   - quiz
   - multiplayer
@@ -57,6 +58,7 @@ Players answer privately and allocate confidence points. Correct, high-confidenc
 - **Protocol:** append-only room events, answer commitments, server time, and reconnect state.
 - **Question format:** versioned JSON with source, accepted answers, tolerance, explanation, and adjudication notes.
 - **Models:** local model may draft questions, but packs require human review.
+- **Question engine:** import reviewed versioned packs from [[Quiz Master]]; keep authoring evidence and multiplayer state as separate systems.
 
 ## Clever Hacks and Simpler Alternative
 
@@ -72,7 +74,8 @@ Players answer privately and allocate confidence points. Correct, high-confidenc
 2. Answer/wager/commit/reveal/scoring.
 3. Reconnect and host adjudication.
 4. Calibration report and reviewed pack editor.
-5. Team/bluff variants.
+5. Quiz Master pack import and Question-of-the-Day exhibition round.
+6. Team/bluff variants.
 
 ## Battle-Testing Gates
 
@@ -89,6 +92,7 @@ Use it for friends and study groups first. A hosted classroom/party product is f
 ## Related
 
 - [[Personal Study Curriculum]]
+- [[Quiz Master]]
 - [[Playo Elo Sports Network]]
 - [[Live Chess Tutor]]
 - [[Project Ideas Index]]

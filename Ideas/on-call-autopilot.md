@@ -82,6 +82,6 @@ Begin as a local replay and postmortem tool. Production assistance later needs r
 
 ## Related
 
-- [[Security Review Agency]]
-- [[PR Factory]]
-- [[Maintainer Desk]]
+- [[ai-implementation-agency|AI Implementation Agency]]
+- [[pr-factory|PR Factory]]
+- [[maintainer-desk|Maintainer Desk]]

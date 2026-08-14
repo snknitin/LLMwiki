@@ -82,6 +82,6 @@ Start as a personal hiring-kit generator. A productized service needs candidate 
 
 ## Related
 
-- [[Sales Development Agency]]
-- [[User Research Agency]]
-- [[AI Implementation Agency]]
+- [[sales-development-agency|Sales Development Agency]]
+- [[user-research-agency|User Research Agency]]
+- [[ai-implementation-agency|AI Implementation Agency]]

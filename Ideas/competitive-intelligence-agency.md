@@ -24,7 +24,7 @@ tags:
 
 The owner defines three competitors, the claims/pricing/features to watch, and internal sales questions. The system captures approved pages and feeds, suppresses layout noise, extracts claim-level changes, and generates a reviewable weekly brief with screenshots and citations.
 
-Unlike [[B2B Competitor Battlecard]], this project is recurring: its core asset is a time series of evidence and a durable change taxonomy.
+Unlike [[b2b-competitor-battlecard|B2B Competitor Battlecard]], this project is recurring: its core asset is a time series of evidence and a durable change taxonomy.
 
 ## User and Core Workflow
 
@@ -102,5 +102,5 @@ Personal watchlist → team CI workspace → analyst-assisted agency → multi-t
 
 ## Related Wikilinks
 
-- [[B2B Competitor Battlecard]]
-- [[Market Mood Cards]]
+- [[b2b-competitor-battlecard|B2B Competitor Battlecard]]
+- [[market-mood-cards|Market Mood Cards]]

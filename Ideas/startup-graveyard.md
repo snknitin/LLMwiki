@@ -104,6 +104,6 @@ Start as a local founder research game and turn strong reports into a blog serie
 
 ## Related
 
-- [[Your Twin Raised More]]
-- [[Brag Notary]]
+- [[Demand Generation Workbench]]
+- [[Conversion List Builder]]
 - [[Side-Hustle Radar]]

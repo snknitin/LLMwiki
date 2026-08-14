@@ -100,5 +100,5 @@ Personal analysis notebook → repeatable agency deliverable → connected team 
 
 ## Related Wikilinks
 
-- [[Community Ops Agency]]
-- [[Google Review Reply Desk]]
+- [[community-ops-agency|Community Ops Agency]]
+- [[google-review-reply-desk|Google Review Reply Desk]]

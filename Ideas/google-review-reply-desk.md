@@ -85,6 +85,6 @@ Paste-and-copy desk → official single-location integration → multi-location 
 
 ## Related Wikilinks
 
-- [[Cold Email Rewrite Desk]]
-- [[Customer Support Agency]]
+- [[cold-email-rewrite-desk|Cold Email Rewrite Desk]]
+- [[customer-support-agency|Customer Support Agency]]
 

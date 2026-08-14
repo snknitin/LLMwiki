@@ -73,5 +73,4 @@ Personal flex card → open-source profile-card generator → creator/team colle
 
 - [[Research - Hermes Batch B#5. Flex Card Forge]]
 - [[Scope Expansion Checklist]]
-- [[Portfolio Duel]]
-
+- [[Meta Ad Creative Studio]]

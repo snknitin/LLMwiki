@@ -73,4 +73,4 @@ Personal store optimizer → productized audit service → Shopify-connected pai
 
 - [[Research - Hermes Batch B#29. Shopify Product Page Optimizer]]
 - [[Scope Expansion Checklist]]
-- [[Product Shot Studio]]
+- [[Meta Ad Creative Studio]]

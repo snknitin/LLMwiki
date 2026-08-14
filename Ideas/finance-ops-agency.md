@@ -82,6 +82,6 @@ Personal/freelancer use can become a productized monthly finance-ops service. Ba
 
 ## Related
 
-- [[Tax Packet Autopilot]]
+- [[tax-packet-autopilot|Tax Packet Autopilot]]
 - [[Personal Finance Cockpit]]
-- [[Compliance Autopilot]]
+- [[Net Worth Command Center]]

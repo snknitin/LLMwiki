@@ -99,5 +99,5 @@ Personal route checker → city-specific bot → employer commute assistant → 
 
 ## Related Wikilinks
 
-- [[Meet in the Middle]]
-- [[City Roast Map]]
+- [[meet-in-the-middle|Meet in the Middle]]
+- [[city-roast-map|City Roast Map]]

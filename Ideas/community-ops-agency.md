@@ -100,5 +100,5 @@ Personal community kit → single-community operator dashboard → reusable agen
 
 ## Related Wikilinks
 
-- [[Customer Support Agency]]
-- [[AI Event Matchmaker]]
+- [[customer-support-agency|Customer Support Agency]]
+- [[ai-event-matchmaker|AI Event Matchmaker]]

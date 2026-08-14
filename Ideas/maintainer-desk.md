@@ -82,6 +82,6 @@ Start as a personal maintainer cockpit, then an installable GitHub App for small
 
 ## Related
 
-- [[PR Factory]]
-- [[Security Review Agency]]
-- [[On-Call Autopilot]]
+- [[pr-factory|PR Factory]]
+- [[ai-implementation-agency|AI Implementation Agency]]
+- [[on-call-autopilot|On-Call Autopilot]]

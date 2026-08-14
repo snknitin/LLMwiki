@@ -85,5 +85,5 @@ Static curiosity calculator → multi-asset sourced cards → educational financ
 
 ## Related Wikilinks
 
-- [[Market Mood Cards]]
-- [[Am I Underpaid]]
+- [[market-mood-cards|Market Mood Cards]]
+- [[am-i-underpaid|Am I Underpaid]]

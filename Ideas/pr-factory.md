@@ -82,6 +82,6 @@ Begin as a local coding-agent benchmark and patch assistant. Hosted PR automatio
 
 ## Related
 
-- [[Maintainer Desk]]
-- [[On-Call Autopilot]]
-- [[Security Review Agency]]
+- [[maintainer-desk|Maintainer Desk]]
+- [[on-call-autopilot|On-Call Autopilot]]
+- [[Auto-GTM Engine]]

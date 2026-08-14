@@ -3,7 +3,7 @@ type: index
 status: active
 created: 2026-07-27
 scope: personal-first project portfolio
-spec_count: 48
+spec_count: 68
 tags:
   - ideas
   - project-specs
@@ -12,11 +12,53 @@ tags:
 
 # Project Ideas Index
 
-This index turns the raw idea dump plus two later additions into 48 prototype build specs. The default assumption throughout is: build for one person, run locally when practical, keep every consequential action behind approval, and only add accounts, billing, teams, and cloud infrastructure after the personal workflow is genuinely useful.
+This index now covers 68 personal project, workflow, evaluation, and skill specs. The default assumption throughout is: build for one person, run locally when practical, and only add accounts, billing, teams, and cloud infrastructure after the personal workflow is genuinely useful.
 
 Full source-to-spec accounting: [[Source Idea Coverage Map]].
 
-The separate set of 93 non-personal Hermes hackathon briefs is catalogued in [[Hermes Hackathon Ideas Index]].
+Cross-project similarities, shared engines, possible tabs, and explicit handoffs are mapped in [[Project Similarity and Reuse Map]].
+
+The 57 surviving non-personal Hermes hackathon briefs are catalogued separately in [[Hermes Hackathon Ideas Index]].
+
+## New Personal Ideas — August 2026
+
+These remain self-contained builds. Similarity links identify reusable engines or possible tabs without forcing them into one mega-application.
+
+### Marketplace and local discovery
+
+- [[Moving Out Marketplace]]
+- [[Meet-in-the-Middle City Explorer]] — the one deliberate merge of [[meet-in-the-middle]] and [[city-roast-map]].
+
+### Personal feeds and attention
+
+- [[X Like-to-List Builder]]
+- [[Shortform Signal Digest]]
+- [[Social Subscription Curator]]
+- [[Deliberate Feed Gate]]
+
+### Cognitive, research, and reflection skills
+
+- [[Batman Prep Time Skill]]
+- [[News Depth Telegram Skill]]
+- [[Reflective ELIZA Companion]]
+- [[Brain Blast Skill]]
+- [[Personalized ADHD Skill Upgrade]]
+- [[Physics Claim Debunker Skill]]
+
+### Creator, demand, and distribution
+
+- [[Meta Ad Creative Studio]]
+- [[Personal Voice Ghostwriter and DM Desk]] — the one deliberate merge of voice-grounded public writing and private reply assistance.
+- [[Conversion List Builder]]
+- [[Demand Generation Workbench]]
+- [[Auto-GTM Engine]]
+- [[Longform-to-Shorts Studio]]
+- [[Local Video Generation Evaluation Lab]]
+
+### Existing project upgrade and new companion engine
+
+- [[Jobs Search and Apply Tool]] now includes scheduled target-company searches, recency tactics, contact discovery, preparation dossiers, and configurable approved application automation.
+- [[Quiz Master]] is a standalone question foundry that exports reviewed packs to [[Quiz Poker]].
 
 ## Urgent Personal Build Program
 
@@ -80,6 +122,12 @@ These give the best combination of immediate personal value, low cash cost, and 
 - [[Handwriting to LaTeX]]
 - [[Visual Token Compiler]]
 - [[EPUB Highlights Bridge]]
+- [[X Like-to-List Builder]]
+- [[Shortform Signal Digest]]
+- [[Social Subscription Curator]]
+- [[Deliberate Feed Gate]]
+- [[News Depth Telegram Skill]]
+- [[Physics Claim Debunker Skill]]
 
 ### Personal operations, behavior, and wellbeing
 
@@ -93,6 +141,10 @@ These give the best combination of immediate personal value, low cash cost, and 
 - [[Feedback Mirror]]
 - [[Physio Atlas]]
 - [[Adaptive Vision Glasses]]
+- [[Batman Prep Time Skill]]
+- [[Brain Blast Skill]]
+- [[Personalized ADHD Skill Upgrade]]
+- [[Reflective ELIZA Companion]]
 
 ### Money, career, and creator systems
 
@@ -106,6 +158,12 @@ These give the best combination of immediate personal value, low cash cost, and 
 - [[GiftShelf]]
 - [[Personal Library Website]]
 - [[Event Networking Copilot]]
+- [[Moving Out Marketplace]]
+- [[Meta Ad Creative Studio]]
+- [[Personal Voice Ghostwriter and DM Desk]]
+- [[Conversion List Builder]]
+- [[Demand Generation Workbench]]
+- [[Auto-GTM Engine]]
 
 ### Spatial, vision, and media tools
 
@@ -118,6 +176,9 @@ These give the best combination of immediate personal value, low cash cost, and 
 - [[PhoneScan PDF]]
 - [[Neural Fractal Visualizer]]
 - [[Audio Watermark and Perception Lab]]
+- [[Longform-to-Shorts Studio]]
+- [[Local Video Generation Evaluation Lab]]
+- [[Meet-in-the-Middle City Explorer]]
 
 ### Social simulations, platforms, and games
 
@@ -128,6 +189,7 @@ These give the best combination of immediate personal value, low cash cost, and 
 - [[Motto Agent Council]]
 - [[Yu-Gi-Oh RL Lab]]
 - [[Quiz Poker]]
+- [[Quiz Master]]
 - [[Taxonomy Cluster Explorer]]
 
 ## Free-First Technology Lanes
@@ -152,6 +214,10 @@ Every project spec links directly to its relevant section in one of these primar
 - [[Research - Personal Systems and Product Ideas]]
 - [[Research - Spatial Media and Experimental Ideas]]
 - [[Research - Existing Product and Shortcut Atlas]]
+- [[Research - New Personal Workflows and Product Ideas]]
+- [[Research - Cognitive Support and Explanation Skills]]
+- [[Research - Creator Growth and Local Video Pipelines]]
+- [[Project Similarity and Reuse Map]]
 
 The specs contain the build decisions; the dossiers preserve deeper prior art, verified API/platform facts, drawbacks, hidden costs, clever shortcuts, paid-service triggers, and direct official-source links.
 
@@ -163,6 +229,11 @@ The specs contain the build decisions; the dossiers preserve deeper prior art, v
 - **Map-drawn drone patterns + LocateAnything visual search** became [[Drone Mission Mapper]].
 - The paper/PDF ideas remain separate because they optimize different jobs: [[Half-Blood PDF]] produces a richly annotated artifact, [[Understand This Paper]] teaches a research paper interactively, and [[PhoneScan PDF]] is a capture utility.
 - The personal-agent ideas remain separate because their interaction contracts differ: execution ([[Jarvis and Alfred]]), comparison ([[NPC Mode Personal Coach]]), values reflection ([[Angel and Demon Companion]]), social presence ([[Parallel Presence Companions]]), and perspective diversity ([[Motto Agent Council]]).
+- **Meet-in-the-Middle + City Roast** became [[Meet-in-the-Middle City Explorer]] because the roast/compliment is an optional presentation layer over the same candidate-location data. The original component specs remain independently buildable.
+- **Personal voice ghostwriting + DM replies** became [[Personal Voice Ghostwriter and DM Desk]] because both require the same voice examples, source provenance, people memory, open loops, and review/diff learning.
+- The four feed projects remain separate: [[X Like-to-List Builder]] reorganizes authors, [[Shortform Signal Digest]] creates the daily briefing, [[Social Subscription Curator]] audits the source portfolio, and [[Deliberate Feed Gate]] changes the consumption interface. They may share adapters and a content schema.
+- The creator/growth projects remain separate and composable. [[Demand Generation Workbench]] owns experiments; [[Conversion List Builder]] owns evidence-backed audiences; [[Meta Ad Creative Studio]] owns ad variants; [[Personal Voice Ghostwriter and DM Desk]] owns voice/relationships; [[Longform-to-Shorts Studio]] owns deterministic editing; [[Local Video Generation Evaluation Lab]] selects renderers; and [[Auto-GTM Engine]] orchestrates release assets.
+- The three cognitive skills remain individual: [[Batman Prep Time Skill]] prepares, [[Brain Blast Skill]] invents, and [[Personalized ADHD Skill Upgrade]] adapts task-start support. They can share personal context without sharing a release cycle.
 
 ## Portfolio Sequence
 

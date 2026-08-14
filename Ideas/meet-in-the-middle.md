@@ -10,6 +10,7 @@ deployment: local-first
 scope_expansion: "[[Scope Expansion Checklist]]"
 research_dossier: "[[Research - Hermes Batch A#11. Meet in the Middle]]"
 status: concept
+parent_project: "[[Meet-in-the-Middle City Explorer]]"
 tags: [maps, routing, groups]
 ---
 
@@ -85,8 +86,10 @@ Ask everyone for nearest station, then rank a curated station/venue list. This a
 
 Private link tool → Telegram bot → venue-data integration → group-planning product. Expansion needs location privacy, map/provider terms, and booking-affiliate disclosure.
 
+For a broader personal build, this routing core becomes the deterministic recommendation layer inside [[Meet-in-the-Middle City Explorer]]; the city-character layer remains optional and never affects fairness scoring.
+
 ## Related Wikilinks
 
-- [[City Roast Map]]
-- [[Commute Copilot]]
-
+- [[city-roast-map|City Roast Map]]
+- [[Meet-in-the-Middle City Explorer]]
+- [[commute-copilot|Commute Copilot]]

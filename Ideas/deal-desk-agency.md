@@ -73,5 +73,4 @@ Personal sales toolkit → boutique agency workspace → governed deal desk prod
 
 - [[Research - Hermes Batch B#2. Deal Desk Agency]]
 - [[Scope Expansion Checklist]]
-- [[Instant Quote Machine]]
-
+- [[Conversion List Builder]]

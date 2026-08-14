@@ -83,5 +83,5 @@ Personal creator tool first; later an agency workspace with brand templates, tea
 ## Related
 
 - [[Creator Content Engine]]
-- [[SEO Agency Crew]]
+- [[seo-agency-crew|SEO Agency Crew]]
 - [[LongVid Learning Studio]]

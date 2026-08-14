@@ -83,5 +83,5 @@ Build for one personal Gmail account, then package a privacy-focused local mail 
 ## Related
 
 - [[Personal Signal Intelligence OS]]
-- [[Support FAQ Builder]]
-- [[27 Clicks to Cancel]]
+- [[support-faq-builder|Support FAQ Builder]]
+- [[27-clicks-to-cancel|27 Clicks to Cancel]]

@@ -85,6 +85,6 @@ Private tracker → native opt-in integrations → coach-guided wellbeing tool. 
 
 ## Related Wikilinks
 
-- [[NPC Mode]]
-- [[Pocket CRM]]
+- [[npc-mode|NPC Mode]]
+- [[pocket-crm|Pocket CRM]]
 

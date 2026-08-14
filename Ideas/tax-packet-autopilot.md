@@ -106,6 +106,6 @@ Use it locally for one person and collaborate with a CA on the export format. La
 
 ## Related
 
-- [[Finance Ops Agency]]
-- [[Compliance Autopilot]]
+- [[finance-ops-agency|Finance Ops Agency]]
+- [[Net Worth Command Center]]
 - [[PhoneScan PDF]]

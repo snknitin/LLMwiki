@@ -107,4 +107,4 @@ Start as a photographer-only local search tool, then pilot private event portals
 
 - [[Creator Content Engine]]
 - [[Field Pokedex]]
-- [[WhatsApp Catalog Bot for Small Stores]]
+- [[microsite-factory|Microsite Factory]]

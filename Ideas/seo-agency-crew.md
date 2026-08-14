@@ -104,6 +104,6 @@ Use it first as a personal blog operating system and learning lab. Later offer v
 
 ## Related
 
-- [[Microsite Factory]]
+- [[microsite-factory|Microsite Factory]]
 - [[Creator Content Engine]]
 - [[Personal Signal Intelligence OS]]

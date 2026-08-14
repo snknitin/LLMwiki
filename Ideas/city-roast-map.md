@@ -10,6 +10,7 @@ deployment: local-first
 scope_expansion: "[[Scope Expansion Checklist]]"
 research_dossier: "[[Research - Hermes Batch A#22. City Roast Map]]"
 status: concept
+parent_project: "[[Meet-in-the-Middle City Explorer]]"
 tags:
   - maps
   - local-data
@@ -97,7 +98,10 @@ Pick 8–12 neighborhoods in one familiar city. Use manually reviewed OpenStreet
 
 One-city local map → curated city packs → moderated creator toolkit → sponsored cultural maps. Any public release needs stronger moderation, data licensing/attribution review, and reporting workflows.
 
+For a more useful personal build, this becomes the optional local-character and voting layer inside [[Meet-in-the-Middle City Explorer]] while retaining its standalone static-map form.
+
 ## Related Wikilinks
 
-- [[Meet in the Middle]]
-- [[Commute Copilot]]
+- [[meet-in-the-middle|Meet in the Middle]]
+- [[Meet-in-the-Middle City Explorer]]
+- [[commute-copilot|Commute Copilot]]

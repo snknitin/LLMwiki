@@ -105,5 +105,5 @@ Personal script → organizer dashboard → event-platform integration → multi
 ## Related Wikilinks
 
 - [[Event Networking Copilot]]
-- [[Meet in the Middle]]
-- [[Pocket CRM]]
+- [[meet-in-the-middle|Meet in the Middle]]
+- [[pocket-crm|Pocket CRM]]

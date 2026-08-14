@@ -105,6 +105,6 @@ Use it for personal product discovery with volunteers, then open-source the loca
 
 ## Related
 
-- [[Therapist Intake Desk]]
+- [[Reflective ELIZA Companion]]
 - [[Feedback Mirror]]
-- [[Recruiting Agency]]
+- [[recruiting-agency|Recruiting Agency]]

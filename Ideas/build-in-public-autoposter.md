@@ -104,5 +104,5 @@ Personal drafting CLI → local multi-project dashboard → team changelog/conte
 
 ## Related Wikilinks
 
-- [[X Profile Autopsy]]
-- [[Founder Investor Update Writer]]
+- [[x-profile-autopsy|X Profile Autopsy]]
+- [[Auto-GTM Engine]]

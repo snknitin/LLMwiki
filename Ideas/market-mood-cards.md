@@ -85,6 +85,6 @@ Personal Telegram brief → multiple watchlists → analyst-curated newsletter �
 
 ## Related Wikilinks
 
-- [[Latte into Lambo]]
-- [[Competitive Intelligence Agency]]
+- [[latte-into-lambo|Latte into Lambo]]
+- [[competitive-intelligence-agency|Competitive Intelligence Agency]]
 

@@ -73,5 +73,4 @@ Personal freelancer tool → small-agency receivables assistant → integrated A
 
 - [[Research - Hermes Batch B#9. Invoice Chaser Agent]]
 - [[Scope Expansion Checklist]]
-- [[Meeting Notes to Invoice]]
-
+- [[finance-ops-agency|Finance Ops Agency]]

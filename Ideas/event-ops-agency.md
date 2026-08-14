@@ -73,4 +73,4 @@ Personal meetup cockpit → repeatable event-agency kit → multi-event operatio
 
 - [[Research - Hermes Batch B#4. Event Ops Agency]]
 - [[Scope Expansion Checklist]]
-- [[Sponsorship Sales Agency]]
+- [[Event Networking Copilot]]

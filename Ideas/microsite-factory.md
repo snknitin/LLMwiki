@@ -82,6 +82,6 @@ Start as a personal outbound asset generator. A future agency product adds clien
 
 ## Related
 
-- [[Website in a WhatsApp]]
-- [[SEO Agency Crew]]
-- [[Sales Development Agency]]
+- [[Auto-GTM Engine]]
+- [[seo-agency-crew|SEO Agency Crew]]
+- [[sales-development-agency|Sales Development Agency]]

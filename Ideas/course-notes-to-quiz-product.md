@@ -100,5 +100,5 @@ Personal local study tool → desktop/student product → course-specific packs 
 
 ## Related Wikilinks
 
-- [[Fine Print Rage Meter]]
-- [[Contract Red Flag Memo]]
+- [[Quiz Master]]
+- [[Personal Study Curriculum]]

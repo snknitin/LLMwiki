@@ -85,6 +85,5 @@ Local rewriting desk → Gmail/browser companion → team style/compliance libra
 
 ## Related Wikilinks
 
-- [[Google Review Reply Desk]]
-- [[Founder Investor Update Writer]]
-
+- [[google-review-reply-desk|Google Review Reply Desk]]
+- [[Personal Voice Ghostwriter and DM Desk]]

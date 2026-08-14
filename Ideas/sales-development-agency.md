@@ -104,6 +104,6 @@ Begin as a personal local research desk, then package repeatable vertical ICP te
 
 ## Related
 
-- [[Microsite Factory]]
-- [[Winback Agency]]
-- [[AI Implementation Agency]]
+- [[microsite-factory|Microsite Factory]]
+- [[Conversion List Builder]]
+- [[ai-implementation-agency|AI Implementation Agency]]

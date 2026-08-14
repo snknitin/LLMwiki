@@ -73,4 +73,4 @@ Personal prospect research → boutique outbound workbench → governed sales-in
 
 - [[Research - Hermes Batch B#12. LinkedIn Lead List plus First Lines]]
 - [[Scope Expansion Checklist]]
-- [[Sponsorship Sales Agency]]
+- [[Conversion List Builder]]

@@ -105,6 +105,6 @@ Start as a local analysis tool for exported tickets and a Markdown help center. 
 
 ## Related
 
-- [[Data Room Concierge]]
-- [[User Research Agency]]
-- [[Maintainer Desk]]
+- [[knowledge-base-agency|Knowledge Base Agency]]
+- [[user-research-agency|User Research Agency]]
+- [[maintainer-desk|Maintainer Desk]]

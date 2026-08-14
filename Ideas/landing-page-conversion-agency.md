@@ -73,5 +73,5 @@ Personal CRO workbench → productized audit service → collaborative optimizat
 
 - [[Research - Hermes Batch B#11. Landing Page Conversion Agency]]
 - [[Scope Expansion Checklist]]
-- [[Shopify Product Page Optimizer]]
+- [[shopify-product-page-optimizer|Shopify Product Page Optimizer]]
 

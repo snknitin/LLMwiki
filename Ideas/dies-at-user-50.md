@@ -73,5 +73,5 @@ Personal load harness → open-source CI tool → hosted reliability lab. Before
 
 - [[Research - Hermes Batch B#3. Dies at User 50]]
 - [[Scope Expansion Checklist]]
-- [[Landing Page Conversion Agency]]
+- [[landing-page-conversion-agency|Landing Page Conversion Agency]]
 

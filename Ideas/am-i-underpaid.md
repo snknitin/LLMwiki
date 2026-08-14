@@ -85,6 +85,6 @@ Personal calculator → benchmark imports → anonymous opt-in cohort product �
 
 ## Related Wikilinks
 
-- [[Latte into Lambo]]
-- [[Cold Email Rewrite Desk]]
+- [[latte-into-lambo|Latte into Lambo]]
+- [[cold-email-rewrite-desk|Cold Email Rewrite Desk]]
 

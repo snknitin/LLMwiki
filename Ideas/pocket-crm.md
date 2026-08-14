@@ -86,6 +86,5 @@ Personal bot → local relationship dashboard → freelancer CRM → privacy-fir
 
 ## Related Wikilinks
 
-- [[Founder Investor Update Writer]]
-- [[Build in Public Autoposter]]
-
+- [[Personal Voice Ghostwriter and DM Desk]]
+- [[build-in-public-autoposter|Build in Public Autoposter]]

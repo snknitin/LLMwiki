@@ -88,7 +88,7 @@ Never let the final writer see unapproved raw web text without provenance. The r
 - A strong first version is a Markdown template plus three saved-page snapshots and manual evidence highlighting.
 - Capture pricing as a screenshot and text together; screenshots resolve later disputes about context.
 - Add an “unknown” column. Honest absence is more useful than confident filler.
-- Separate “one-off battlecard” from recurring intelligence; merge the crawler later with [[Competitive Intelligence Agency]].
+- Separate “one-off battlecard” from recurring intelligence; merge the crawler later with [[competitive-intelligence-agency|Competitive Intelligence Agency]].
 
 ## Success Measures
 
@@ -103,5 +103,5 @@ Local call-prep tool → team evidence library → CRM/sidebar integration → c
 
 ## Related Wikilinks
 
-- [[Competitive Intelligence Agency]]
-- [[Customer Support Agency]]
+- [[competitive-intelligence-agency|Competitive Intelligence Agency]]
+- [[customer-support-agency|Customer Support Agency]]

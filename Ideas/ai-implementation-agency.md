@@ -82,6 +82,6 @@ Start as a repeatable personal consulting kit. Later paths are a vertical agency
 
 ## Related
 
-- [[Finance Ops Agency]]
-- [[Sales Development Agency]]
-- [[Support FAQ Builder]]
+- [[finance-ops-agency|Finance Ops Agency]]
+- [[sales-development-agency|Sales Development Agency]]
+- [[support-faq-builder|Support FAQ Builder]]

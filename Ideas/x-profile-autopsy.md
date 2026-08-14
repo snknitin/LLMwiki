@@ -86,5 +86,5 @@ Personal report → authenticated creator workspace → content experimentation 
 
 ## Related Wikilinks
 
-- [[Build in Public Autoposter]]
-- [[Roast My Landing Page]]
+- [[build-in-public-autoposter|Build in Public Autoposter]]
+- [[roast-my-landing-page|Roast My Landing Page]]

@@ -84,10 +84,17 @@ Every draft contains a claim ledger: claim, evidence link, confidence, and wheth
 
 Start as the content layer over the personal intelligence stack. It could become an open-source “evidence-first creator OS,” a service for expert creators, or a paid multi-channel editorial product. Do not compete as a generic post generator.
 
+Keep this as the editorial calendar and evidence-to-draft core. Build the similar projects as replaceable specialist services: [[Personal Voice Ghostwriter and DM Desk]] for voice and relationships, [[Longform-to-Shorts Studio]] for editing, [[Meta Ad Creative Studio]] for paid creative tests, [[Demand Generation Workbench]] for market experiments, and [[Auto-GTM Engine]] for release orchestration.
+
 ## Related
 
 - [[Personal Signal Intelligence OS]]
 - [[LongVid Learning Studio]]
 - [[Personal Library Website]]
 - [[Side-Hustle Radar]]
+- [[Personal Voice Ghostwriter and DM Desk]]
+- [[Longform-to-Shorts Studio]]
+- [[Meta Ad Creative Studio]]
+- [[Demand Generation Workbench]]
+- [[Auto-GTM Engine]]
 - [[Project Ideas Index]]
