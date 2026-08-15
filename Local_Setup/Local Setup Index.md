@@ -17,14 +17,14 @@ This is the canonical progress and navigation page. If an older note suggests a 
 | Spark hardware | One DGX Spark with 128 GB unified memory |
 | Workstation GPU | **NVIDIA RTX PRO 5000 Blackwell**, 48,935 MiB, compute capability 12.0, driver 596.59 |
 | Spark foundation | Bash configuration, external secrets, cache/service folders, registries, and status commands completed |
-| Spark inference | Qwen 3.6 35B-A3B and Qwen 3.6 27B DFlash profiles installed and tested; only one large model is loaded at a time |
+| Spark inference | Four explicit switchable lanes are installed and lifecycle-tested: `qwen35`, `qwen27-dflash`, `nemotron3-omni`, and `nemotron35-lightning`. `qwen35` remains the resident default, and LM Studio Nemotron 3.5 Lightning is deliberately warm beside it. |
 | Hermes | Standalone Hermes Gateway and Hermes Serve run on Spark; the ODS Hermes module is not needed |
 | Routing | Spark LiteLLM exposes the working Qwen routes to Hermes |
 | Networking | Tailscale is installed on Spark, workstation, and laptop; NVIDIA Sync access exists |
 | Workstation ODS | ODS is installed; Dashboard is at `localhost:3001` and Open WebUI is at `localhost:3000`. The supported image update completed on 2026-08-15; ODS still reports 2.5.3 and pins Open WebUI 0.7.2. DeepSeek 70B was stopped and removed; the optional ODS llama-server is stopped and reserved at host port `11436`. |
-| Ollama | Native Ollama 0.32.13 uses its standard `127.0.0.1:11434`, stores models at `D:\LocalLLama\models\ollama`, and uses 16K initial context. `gemma3:4b`, Gemma 4 31B, and Gemma 4 26B-A4B are installed. Both large Gemmas passed direct Ollama and ODS Open WebUI tests at 16K, ran 100% on the GPU, and were unloaded afterward. |
-| LM Studio | CLI exists on Spark; large-model/LM Link workflow is not yet completed |
-| Additional models | Nemotron 3 Nano Omni is downloaded/prepared and its pinned audio-enabled image was built; it has not yet been started or tested. Gemma, Nemotron 3.5, and Muse remain untested. |
+| Ollama | Native Ollama 0.32.13 uses port `11434`, stores models at `D:\LocalLLama\models\ollama`, and is configured for 128K context and one resident model. **Expose Ollama to the network** is off again and Ollama itself listens only on `127.0.0.1`; Tailscale Serve owns tailnet-only HTTPS `8443`, and the Spark provider supplies Ollama's required loopback `Host` header. Both Gemma 4 models passed local and Spark-remote Hermes tool calls at a reported runtime context of `131072`; selecting 31B after 26B proved automatic one-model eviction. Both were unloaded afterward. |
+| LM Studio | LM Studio Desktop and LM Link are connected to Spark device `spark-07a8`. Spark LM Studio is loopback-only on `127.0.0.1:1234`; the 24.52 GB `nvidia/nemotron-3.5-lightning` Q4_K_M model is loaded persistently at 65,536 context beside Qwen. LM Studio reports a 22.83 GiB allocation, while `nvidia-smi` shows about 24.1 GiB for `llama-server`; raw API, structured tool-call, Spark Hermes, Windows LM Link, Windows local-Hermes, and live co-residency tests passed. |
+| Additional models | Qwen 27 is optimized to a 44 GiB FP8 KV pool with native MTP-3, using about 71.3 GiB instead of 103.2 GiB and holding 4.74 full 262K contexts. Nemotron 3 Nano Omni is optimized to a 12 GiB KV pool and a verified 131,072-token ceiling, using about 43 GiB instead of 90.6 GiB; text, tools, a 70,025-token prompt, image, audio-path, and video tests passed. Nemotron 3.5 Lightning is verified through Spark LM Studio. Muse remains untested. |
 
 ## Done — do not repeat these sections
 
@@ -44,6 +44,7 @@ This is the canonical progress and navigation page. If an older note suggests a 
 
 - [x] [[DGX Spark Operations Setup Guide]] Steps 11–15 are operationally complete: current host-native Hermes, persistent Gateway, persistent Serve, authenticated Remote Gateway, and 24×7 service ownership on Spark.
 - [x] Hermes Desktop successfully received an answer through the `spark-fast` custom provider.
+- [x] Align both Spark Hermes context pins with the live Qwen ceiling: `model.context_length` and `custom_providers.spark-fast.models.spark-fast.context_length` now both resolve to `262144`; the provider-specific value had previously remained at 128K.
 - [x] The earlier SSH-key path was superseded by the authenticated Remote Gateway design.
 - [x] ODS Hermes Auth Proxy was evaluated and deliberately excluded from ownership of the primary Hermes home.
 
@@ -62,6 +63,7 @@ Use only these completed-guide sections now:
 ### Architecture and research completed
 
 - [x] [[DGX Spark Multi-Model Runtime Research]] — explains why the 120 GB reading was runtime/KV allocation rather than checkpoint size.
+- [x] [[DGX Spark Qwen NVFP4 Memory And Startup Optimization Research]] — the former 58.52 GiB KV reservation was replaced by a verified 18 GiB pool at 262K. The live engine reports 1,588,632 KV tokens and 6.06 full 262K contexts; a real 260,016-token prompt completed without preemption or OOM.
 - [x] [[DGX Spark Additional Models And Convenience Runtimes Research]] — verifies the current Gemma, Nemotron, Muse, Ollama, and LM Studio paths.
 - [x] [[DGX Spark And RTX 5000 Workstation Model Placement Research]] — establishes the final Spark/workstation division and confirms why dense 27–31B models belong on the RTX workstation first.
 - [x] [[ODS Workstation Ollama Integration Research]] — verifies the live ODS Dashboard, Open WebUI connections, model stores, Ollama state, and safe update boundary.
@@ -102,11 +104,14 @@ Current status and remaining actions:
 - [x] Authenticated ODS Open WebUI uses native Ollama at `http://host.docker.internal:11434`; ODS's own host-facing llama-server was moved to `11436`.
 - [x] Workstation Open WebUI does not contain Spark LiteLLM aliases; workstation ODS and Spark ODS remain separate.
 - [x] Ollama Desktop stores models at `D:\LocalLLama\models\ollama`.
-- [x] Ollama Desktop uses 16K initial context instead of the automatic 256K default.
+- [x] Ollama Desktop is configured for 128K context.
+- [x] **Expose Ollama to the network** was used for the initial connector test and is now turned back off; Ollama itself listens only on workstation loopback.
+- [x] Load one large Gemma once and confirm `ollama ps` reports `131072` in the `CONTEXT` column.
+- [ ] Disable the old broad Windows Ollama firewall allowances from an Administrator session. The replacement tailnet-only Tailscale Serve route is working and **Expose Ollama to the network** is off, but the inherited firewall rules could not be disabled without elevation.
 - [x] The small `gemma3:4b` connector test was downloaded and appeared in ODS Open WebUI.
 - [x] The duplicate saved Ollama connection was removed; one `http://host.docker.internal:11434` entry remains and every Ollama model appears once.
-- [ ] Keep SearXNG as the workstation ODS search service.
-- [ ] Do not enable ODS Hermes.
+- [x] Keep SearXNG as the workstation ODS search service; the existing `ods-searxng` container remains healthy on workstation loopback.
+- [x] Do not enable ODS Hermes; standalone Spark Hermes remains authoritative and no ODS Hermes container is running.
 
 > [!warning] Do not follow the Spark Ollama tutorial now
 > [[DGX Spark Ollama And ODS Tutorial]] installs an Ollama sidecar on Spark. It remains a reference/rollback alternative, but it is **not the active plan**. The active Ollama runtime is native Windows Ollama on the workstation.
@@ -126,40 +131,80 @@ Install and test in this order:
 
 1. **Gemma 4 31B** — first local dense quality/coding/multilingual verifier.
 2. **Gemma 4 26B-A4B** — faster creative-writing, translation, summarization, and vision worker.
-3. **Nemotron 3.5 Lightning** — optional coding/reasoning/tool challenger after its current Ollama tag and tool behavior are verified.
-4. **One 7–14B training model** — only when beginning the fine-tuning workflow.
+3. **One 7–14B training model** — only when beginning the fine-tuning workflow.
 
-For every model:
+Nemotron 3.5 Lightning has moved to the Spark LM Studio plan in Step 4. Do not add a second Ollama copy on the workstation.
 
-- [ ] Pull one exact Ollama tag.
-- [ ] Record the Ollama tag, size, context, and Ollama runtime version.
-- [ ] Select it through workstation Open WebUI at `localhost:3000`.
-- [ ] Test it with the standard comparison prompt.
+Completed for the two Gemmas:
+
+- [x] `gemma4:31b-it-qat` and `gemma4:26b-a4b-it-qat` were pulled into the Ollama store.
+- [x] Their exact tags and sizes were recorded: 18 GB and 15 GB respectively under Ollama 0.32.13.
+- [x] Both were selected and tested through workstation Open WebUI at `localhost:3000`.
+- [x] Both passed the direct comparison prompt, ran entirely on the GPU at the original 16K test context, and were unloaded afterward.
+- [x] Repeat one short loaded-model check at the new 128K server setting before telling Hermes that the effective context is 128K. Both large Gemmas also passed one Hermes terminal-tool call and reported `131072` in `ollama ps`.
 - [ ] Compare the same prompts against `spark-fast` separately in Hermes Desktop.
-- [ ] Run `ollama stop MODEL_TAG` before loading another large workstation model.
 
 Do **not** download workstation copies of the two Qwen models already working on Spark unless a controlled latency benchmark later justifies the duplicate.
 
-### 4. Configure LM Studio and LM Link only as the lab layer
+### 4. Make Spark LM Studio the Nemotron 3.5 Lightning shelf and connect both Hermes gateways
 
-Continue with Part 5 in:
+This step deliberately supersedes the older plan to run Nemotron 3.5 Lightning as another vLLM service. For this rollout, **LM Studio/llmster on the Spark owns one `Q4_K_M` copy of NVIDIA Nemotron 3.5 Lightning**, and LM Link makes that same Spark-hosted model available in workstation/laptop LM Studio. Do not create a separate Nemotron vLLM container or download a workstation duplicate.
 
-1. [[RTX PRO 5000 Workstation ODS Models And LM Studio Desktop Tutorial]]
+Read and reconcile before executing:
 
-For architecture background, read [[DGX Spark And RTX 5000 Workstation Model Placement Research#LM Studio: lab and remote-human-access layer]].
+1. [[DGX Spark Nemotron 3.5 Lightning Via LM Studio Research]]
+2. [[Hermes LM Link And Workstation Model Routing Research]]
+3. [[DGX Spark LM Studio And LM Link Tutorial]]
+4. [[Always-On Hermes on DGX Spark#What is shared across devices]]
 
-Use LM Studio for:
+#### Target endpoint map
 
-- [ ] temporary GGUF comparisons;
-- [ ] memory estimates before loading;
-- [ ] Muse and other very new llama.cpp-compatible models;
-- [ ] LM Link access from the laptop;
-- [ ] project-specific presets that do not belong in permanent Ollama service.
+| Hermes surface | Named provider | Endpoint used by that Hermes profile | Models |
+|---|---|---|---|
+| Spark Remote Gateway, including Telegram and Discord | `desktop-ollama` | Tailnet-only HTTPS URL from Tailscale Serve, ending in `/v1` | Workstation Ollama Gemma shelf |
+| Spark Remote Gateway, including Telegram and Discord | `spark-lmstudio` | `http://127.0.0.1:1234/v1` | Spark LM Studio Nemotron 3.5 Lightning |
+| Windows Local Gateway | `desktop-ollama` | `http://127.0.0.1:11434/v1` | The same workstation Ollama Gemmas |
+| Windows Local Gateway | `spark-lmstudio` | `http://127.0.0.1:1234/v1` through the workstation LM Link connector | The same Spark-hosted LM Studio model |
+| Laptop using Spark Remote Gateway | both providers above | No additional model endpoint configuration; the laptop reads the Spark Hermes profile | The same dynamic Ollama and Spark LM Studio shelves |
+| Laptop Local Gateway, optional fallback | `desktop-ollama` plus `spark-lmstudio` | One-time tailnet-only provider URLs, or laptop LM Link for Spark LM Studio | The same shelves after live discovery |
 
-Do not download the same 20–30 GB model into ODS, Ollama, and LM Studio by default. Native Ollama is the workstation model service of record; ODS provides Open WebUI/SearXNG plus an optional separate GGUF runtime; LM Studio is the experiment bench.
+The model lists do not merge automatically between gateways. Configure the named providers once in the authoritative Spark Hermes profile and once in the Windows local Hermes profile. Telegram and Discord remain owned by the Spark Gateway; selecting a workstation model changes only the inference endpoint and does not move bot state, skills, sessions, or schedules to Windows.
 
-> [!note] Older Spark-specific LM Studio tutorial
-> [[DGX Spark LM Studio And LM Link Tutorial]] remains a reference for the already-installed Spark CLI. It is not the active Step 4 tutorial. Use the corrected workstation tutorial above for this rollout.
+#### 4A — Secure and verify workstation Ollama as an optional Spark upstream
+
+- [x] Confirm Ollama listens on port `11434` and answers through the workstation Tailscale address.
+- [x] Confirm the two large Gemma 4 tags advertise `tools`; keep `gemma3:4b` as chat/vision only because it does not advertise tool support.
+- [x] Replace broad network exposure with a Tailscale Serve HTTPS proxy to loopback Ollama, then turn **Expose Ollama to the network** back off. The working tailnet-only URL uses HTTPS `8443`; the Spark provider supplies `Host: localhost:11434` because Ollama rejects the forwarded tailnet hostname.
+- [ ] Restrict the Tailscale grant to the Spark identity; never use Tailscale Funnel for Ollama.
+- [ ] Remove or disable the broad Windows Ollama Private/Public firewall allowances after the tailnet-only route works.
+- [x] From the Spark, verify `GET /v1/models` against the tailnet-only HTTPS endpoint.
+- [x] Add a named `desktop-ollama` provider to the Spark Hermes profile and declare each model's effective context as `131072` only after the loaded-model check passes. The Windows profile has the matching friendly provider as well.
+- [x] Run one Spark-remote Hermes terminal-tool call through each large Gemma and prove the workstation automatically evicts 26B when 31B is selected. Refresh the long-running Gateway/Desktop picker after the endpoint rollout is complete.
+- [x] Configure `spark-fast` as the fallback when the workstation is asleep, busy, or unreachable. The live Spark profile contains the validated fallback chain; an intentional outage/failover request has not been sent through the bots.
+
+#### 4B — Put Nemotron 3.5 Lightning in LM Studio on the Spark
+
+- [x] Confirm the Spark has no competing large model resident before loading the LM Studio model. Qwen was idle-drained and removed with its exact Compose `down` command; available memory rose from about 14 GiB to 112 GiB before the LM Studio load.
+- [x] Download only `nvidia/nemotron-3.5-lightning@q4_k_m` into the Spark LM Studio model store. The indexed file is 24.52 GB and no partial download remains.
+- [x] Start the Spark LM Studio API on `127.0.0.1:1234`; LM Link removes the need to bind it to `0.0.0.0`.
+- [x] Enable JIT loading and Auto-Evict for normal catalog behavior. The initial profile used a 3,600-second idle TTL; on 2026-08-15 Nemotron was deliberately reloaded without a TTL so it stays warm beside Qwen until explicitly unloaded, the LM Studio daemon restarts, or an exclusive `spark-model use` transition unloads it.
+- [x] Verify Nemotron through the Spark API, then through workstation LM Studio over LM Link. Both returned the exact requested test response, and the raw Spark API produced a structured function call.
+- [x] Add a named `spark-lmstudio` provider to both profiles: Spark resolves it directly to Spark loopback, while Windows resolves it through LM Link on Windows loopback.
+- [ ] Verify the same Spark-hosted model from Telegram and Discord without creating another Hermes home. Remote Gateway and Windows Local Gateway Hermes tool calls already passed; both bot adapters are connected, but no representational test message has been sent without the user's confirmation.
+
+> [!success] Extensible Spark model manager is live
+> Use `spark-model list`, `spark-model status`, and `spark-model use <lane>`. The verified lanes are `qwen35`, `qwen27-dflash`, `nemotron3-omni`, and `nemotron35-lightning`. `spark-model use lmstudio:<model-key>` dynamically loads any future model installed in the Spark LM Studio catalog. Compose-backed vLLM, SGLang, and llama.cpp services can be added through `~/.config/spark-model/lanes.d` without changing the manager. It drains requests, stops the active lane, waits for memory, and waits for the target API; selecting a name in Hermes alone does not manage Spark container residency.
+
+Workstation Ollama remains the workstation model service of record. Spark LM Studio becomes the on-demand Spark GGUF shelf. ODS keeps Open WebUI/SearXNG plus its stopped optional runtime. Do not duplicate the same 20–30 GB model across these stores without a deliberate benchmark reason.
+
+> [!success] Remote Desktop And Bot Catalog Verified
+> The Spark gateway's live picker payload contains `desktop-ollama` with all three installed Ollama models and `spark-lmstudio` with the downloaded Nemotron model. Telegram and Discord use this same picker and accept `/model --refresh`; the refresh clears Hermes's one-hour provider cache and re-fetches each live `/v1/models` endpoint. The Windows Local Gateway has the same two discovery-enabled providers. No per-model provider edit is required after a download, although a verified `context_length` entry is still recommended before relying on a new model at long context.
+
+- [x] Verify Spark Remote Gateway/Desktop dynamic provider discovery.
+- [x] Verify the exact Telegram/Discord model-picker payload without sending an external bot message.
+- [x] Verify Windows Local Gateway provider discovery against desktop Ollama and Spark LM Link.
+- [ ] Run `sudo tailscale set --operator=snknitin` once on Spark, then expose Spark loopback LM Studio on tailnet-only HTTPS `8443` for an optional laptop Local Gateway.
+- [ ] Add the two stable provider URLs once to the laptop Local Gateway if that independent fallback is desired. This is unnecessary when the laptop uses the recommended Spark Remote Gateway.
 
 ### 5. Add the first genuinely specialized Spark model
 
@@ -170,13 +215,13 @@ Follow:
 This is the best next Spark addition because it adds image, audio, video, OCR, and document capability rather than duplicating a workstation-sized text model.
 
 - [x] Download the checkpoint and build the pinned audio-enabled local image.
-- [x] Stop the resident Qwen before loading Omni.
-- [x] Test raw text first, then image, audio, and short video separately.
-- [x] Add its LiteLLM alias only after the raw service passes.
-- [x] Restore `spark-fast` after the comparison unless Omni earns a scheduled specialist role.
+- [x] Stop the resident Qwen before loading Omni through `spark-model use nemotron3-omni`.
+- [x] Test raw text, structured tools, a 70,025-token prompt, image, audio-path, and short video. All serving-path tests passed; only real-world audio-quality evaluation remains optional.
+- [x] Confirm its existing LiteLLM alias after the raw service passed.
+- [x] Restore `spark-fast` after the comparison.
 
 > [!success] Current resume point
-> Your output proves that preparation completed: Docker exported and named `local/vllm-nemotron3-omni:v0.20.0`, the exact model revision was recorded, and the script printed `Prepared: nemotron3-omni`. The BuildKit `InvalidDefaultArgInFrom` line was a warning, not a failed build. Do **not** repeat the download. Resume at **Step 4 — Stop the currently loaded large model** in [[DGX Spark Nemotron 3 Nano Omni Tutorial]].
+> Omni memory optimization, 131K context validation, and multimodal-path acceptance are complete. Its 12 GiB KV profile accepted 70,025 prompt tokens above the former 65K ceiling and passed text, tools, image, audio-path, and short-video requests. Qwen 35 and LM Studio Lightning were restored afterward. Use a real speech/music sample later for perceptual audio-quality evaluation; the synthetic tone was accepted but misclassified.
 
 ### 6. Treat the remaining Spark model tutorials as optional comparisons
 
@@ -255,12 +300,12 @@ Before training, unload workstation Ollama and LM Studio models. Normal Hermes w
 ## Canonical decisions
 
 1. Standalone Hermes on Spark is authoritative; ODS Hermes stays disabled.
-2. Spark LiteLLM is the canonical Hermes router; it is not currently connected to workstation ODS Open WebUI.
-3. Native workstation Ollama owns the canonical local model shelf on port `11434`. Workstation ODS owns Open WebUI and SearXNG; its optional separate GGUF runtime uses host port `11436` and stays stopped unless deliberately needed.
+2. Spark LiteLLM remains the canonical router for stable always-hot Spark aliases. Hermes named custom providers are the explicit exception for the on-demand workstation Ollama and Spark LM Studio shelves; workstation ODS Open WebUI remains separate.
+3. Native workstation Ollama owns the canonical workstation model shelf on port `11434`. It may serve the authoritative Spark Hermes profile as a health-checked optional upstream over Tailscale; Telegram and Discord remain on the Spark Gateway. Workstation ODS owns Open WebUI and SearXNG; its optional separate GGUF runtime uses host port `11436` and stays stopped unless deliberately needed.
 4. The RTX PRO 5000 Blackwell is the preferred home for dense 27–31B inference, evaluation, project work, and LoRA/QLoRA.
 5. Spark owns the working Qwens, persistent agents, specialist/full multimodal services, long contexts, and models that exceed 48 GB.
 6. Stable aliases hide checkpoint names and ports from Hermes and clients.
 7. Several models may remain downloaded, but keep only one large model resident per GPU/runtime lane.
-8. Ollama, LM Studio, and Hugging Face/vLLM use separate native stores; do not duplicate every model across all three.
+8. Ollama, LM Studio, and Hugging Face/vLLM use separate native stores; do not duplicate every model across all three. Nemotron 3.5 Lightning is the deliberate LM Studio-on-Spark model for Step 4 and is not also deployed as vLLM in this rollout.
 9. Workstation inference drains before training; Spark remains the fallback during the GPU lease.
 10. New Qwen releases enter through a separate test profile and evaluation gate, never by overwriting `spark-fast` on release day.

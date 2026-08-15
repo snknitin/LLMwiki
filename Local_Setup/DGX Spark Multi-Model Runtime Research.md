@@ -1,10 +1,10 @@
 # DGX Spark Multi-Model Runtime Research
 
-_Primary-source review current on 2026-08-14._
+_Primary-source review and live optimization current on 2026-08-15._
 
 ## Bottom line
 
-Nothing about the current observation proves that the 35B or 27B weights themselves occupy 120 GB. The large number is mainly a **serving allocation**: the current Qwen 27B vLLM profile tells one server instance that it may use 84% of the Spark's memory, and vLLM uses the space left after weights and runtime overhead for the KV cache. On a nominal 128 GB device, `0.84 × 128` is about 107.5 GB before other CUDA and shared-system allocations are considered. The current Qwen 35B profile similarly requests 72%, or about 92 GB.
+Nothing about the original observation proved that the 35B or 27B weights themselves occupied 120 GB. The large number was mainly a **serving allocation**: the original Qwen 27B profile allowed 84% of the Spark pool and vLLM turned the remainder after weights into a 74.1 GiB KV cache. The optimized profile now uses explicit bytes, so its `gpu_memory_utilization` value is only a startup admission guard rather than the cache-sizing control.
 
 The correct mental model is:
 
@@ -28,8 +28,8 @@ The two local profiles currently request:
 
 | Profile | Current limit | Approximate nominal allowance | Other important setting |
 |---|---:|---:|---|
-| `spark-fast` / Qwen 35B A3B | `0.72` | 92.2 GB | 131,072 context, eight sequences, FP8 KV cache |
-| `qwen27-dflash` | `0.84` | 107.5 GB | 262,144 context, four sequences, BF16 KV cache, plus a 2B draft model |
+| `spark-fast` / Qwen 35B A3B | 18 GiB explicit KV; `0.72` admission guard | about 48.2 GiB GPU allocation | 262,144 context, five sequences, FP8 KV cache |
+| `qwen27-dflash` legacy route name | 44 GiB explicit KV; `0.65` admission guard | about 71.3 GiB GPU allocation | 262,144 context, four sequences, FP8 KV, FlashInfer, native MTP-3 |
 
 NVIDIA's current Spark vLLM guide says exactly what the flags imply: larger maximum context reserves more memory for KV cache, while the utilization fraction covers both weights and KV cache. It also uses 131,072 tokens as a starting point rather than assuming every workload needs the model's advertised maximum. [NVIDIA Spark vLLM instructions](https://build.nvidia.com/spark/vllm/instructions)
 
@@ -181,6 +181,27 @@ Gemma 4 26B A4B is 25.2B total with 3.8B active and supports 256K context; NVIDI
 Keeping two or three quantized weight sets resident might be technically possible only after shrinking contexts, sequences, and explicit KV allocations so the **sum** of weights, draft models, graphs, workspaces, KV caches, OS use, and safety headroom fits below the shared 128 GB. That is a benchmark experiment, not a reliable 24×7 baseline. It also makes the models contend for the same 273 GB/s memory bandwidth. The current 0.72 and 0.84 vLLM instances must not be run together.
 
 The current high allocation is a configuration choice, not an unavoidable consequence of “35B.” NVIDIA's first-party Spark recipe for its own Qwen 35B NVFP4 checkpoint uses `--gpu-memory-utilization 0.4`, FP8 KV, four sequences, and 262K maximum context. That is not a drop-in prescription for the different Unsloth/Mia runtime, but it establishes that the present 0.72–0.84 values should be tuned to measured concurrency rather than treated as fixed model requirements. [NVIDIA Qwen3.6 35B A3B NVFP4 Spark recipe](https://huggingface.co/nvidia/Qwen3.6-35B-A3B-NVFP4)
+
+## 2026-08-15 Live Memory Measurements And Optimization Targets
+
+These are runtime measurements from the installed Spark services, not repository-file estimates. Because DGX Spark uses unified memory, “VRAM” below means the model server's GPU-visible allocation within the same 128 GB physical pool used by Linux and the CPU.
+
+| Lane | Measured weights and model state | Measured KV cache | Approximate configured/runtime envelope | Current full-context capacity |
+|---|---:|---:|---:|---:|
+| `qwen27-dflash` legacy route name | 20.8 GiB with native MTP-3 | 44 GiB, FP8 | 71.3 GiB GPU allocation | 4.74 × 262K |
+| `nemotron3-omni` | 21.50 GiB | 12 GiB explicit | About 43 GiB GPU allocation | 838,432 KV tokens; engine reports 28.16 × 131K under hybrid accounting |
+
+### Qwen 27 Optimized MTP-3 Profile
+
+The deployed profile now follows the important parts of NVIDIA's current Qwen 27 recipe: FP8 KV, FlashInfer attention, 8,192 batched tokens, chunked prefill, prefix caching, and native MTP-3. A 40 GiB first trial held only 3.79 complete 262K contexts because hybrid Mamba/attention page alignment invalidated a simple half-byte estimate. The promoted 44 GiB pool holds 1,241,888 KV tokens, or 4.74 full contexts. [NVIDIA Qwen3.6 27B NVFP4 model card](https://huggingface.co/nvidia/Qwen3.6-27B-NVFP4) and [official vLLM Qwen3.6 27B recipe](https://recipes.vllm.ai/Qwen/Qwen3.6-27B)
+
+The legacy external route remains `qwen27-dflash` to avoid breaking LiteLLM and saved Hermes sessions, but the running speculative method is now MTP-3, not DFlash. The target's NVFP4 layers still select Marlin and warn that the path lacks native FP4 computation; the FP8 layers and attention use FlashInfer. Compared with the original, GPU allocation fell from 103.2 to 71.3 GiB, model state fell from 23.41 to 20.8 GiB, and capacity rose from 3.86 to 4.74 full contexts. Identity, forced tools, and a 48K prefill passed. The checkpoint also warns that FP8 attention scales fall back to 1.0, so future runtime upgrades require quality regression checks.
+
+### Nemotron 3 Nano Omni
+
+The promoted profile retains the documented `0.70` startup guard but pins KV to 12 GiB. GPU allocation fell from 90.6 to 43.2 GiB and available system memory rose from 22 to 67 GiB. Text, forced tool calling, a 48K prompt, image, audio-path, and short-video requests all completed without OOM. The generated red image and blue video were identified correctly; the audio encoder accepted a one-second 440 Hz fixture but described it incorrectly, which is recorded as a model-quality limitation rather than a cache failure.
+
+The lane already selected the intended FlashInfer NVFP4 MoE path, so simply shrinking KV is primarily a capacity and coexistence improvement; it is not expected to raise single-stream decode speed by itself. Reducing the 128-frame media budget or reducing batched-prefill size may improve media time to first token and interactive latency, but each trades away media coverage or aggregate prefill throughput. Test 64 versus 128 frames and 8,192 versus 16,384 batched tokens with the same files before changing the known-good profile. [NVIDIA Nemotron 3 Nano Omni NVFP4 model card](https://huggingface.co/nvidia/Nemotron-3-Nano-Omni-30B-A3B-Reasoning-NVFP4)
 
 ## Recommended architecture
 

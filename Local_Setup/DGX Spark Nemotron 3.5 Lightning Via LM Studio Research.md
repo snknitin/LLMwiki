@@ -6,7 +6,9 @@ Checked: 2026-08-15
 
 **Yes, Nemotron 3.5 Lightning can run through LM Studio on the DGX Spark.** LM Studio officially supports the Spark's Linux ARM64 platform and CUDA 13 runtime, and its catalog now has an exact `nvidia/nemotron-3.5-lightning` entry backed by LM Studio's own GGUF conversions.
 
-**Do not make this the primary Hermes or always-on deployment.** Keep the planned NVIDIA NVFP4 + DSpark vLLM recipe as the canonical Spark server. Use the LM Studio edition as a convenient LM Link lab copy for manual testing, comparisons, and desktop-controlled loading.
+**Rollout decision updated on 2026-08-15:** use the LM Studio edition as the one Nemotron 3.5 Lightning deployment for this setup. Store it on the Spark, expose the same copy to LM Studio Desktop through LM Link, and register the LM Studio API as an optional named Hermes provider. Do not also create the previously planned Nemotron vLLM service.
+
+This is an on-demand Hermes model, not the always-hot default. Keep `spark-fast` as the dependable fallback, and enforce the one-large-Spark-worker rule when moving between the existing Qwen vLLM lane and LM Studio Nemotron.
 
 The two paths run different files and do not have the same acceleration features.
 
@@ -14,7 +16,7 @@ The two paths run different files and do not have the same acceleration features
 
 | Path | Model files | Spark optimization | Best use |
 | --- | --- | --- | --- |
-| NVIDIA vLLM recipe | NVIDIA's original `NVIDIA-Nemotron-3.5-Lightning-30B-A3B-NVFP4` safetensors plus the separate NVFP4 DSpark draft checkpoint | NVIDIA explicitly recommends DSpark speculative decoding for DGX Spark and low-concurrency interactive serving | Hermes, agents, LiteLLM, and a persistent OpenAI-compatible endpoint |
+| NVIDIA vLLM recipe | NVIDIA's original `NVIDIA-Nemotron-3.5-Lightning-30B-A3B-NVFP4` safetensors plus the separate NVFP4 DSpark draft checkpoint | NVIDIA explicitly recommends DSpark speculative decoding for DGX Spark and low-concurrency interactive serving | Reference performance path; not deployed in the chosen rollout |
 | Community SGLang Spark recipe | The same NVIDIA NVFP4 main and DSpark checkpoints in a Spark-aware SGLang container | Uses SGLang's DSpark implementation and Spark-specific memory settings | Benchmarking against vLLM after the canonical deployment works |
 | LM Studio catalog | GGUF converted by the LM Studio team from NVIDIA's BF16 checkpoint | Runs through LM Studio's Spark-compatible `llama.cpp` CUDA 13 runtime; the catalog entry does not provide the separate DSpark draft model | LM Link, GUI experiments, quick load/unload, and comparing GGUF quantizations |
 
@@ -63,11 +65,11 @@ From LM Studio Desktop, LM Link can then select the Spark and load this model re
 
 ## Recommendation for this setup
 
-1. Finish and verify the existing `DGX Spark Nemotron 3.5 Lightning Tutorial` first.
-2. Register that vLLM endpoint behind the stable LiteLLM/Hermes alias for normal use.
-3. Install the LM Studio `Q4_K_M` copy only if controlling the model through LM Link is worth approximately 23 GiB of duplicate storage.
-4. Compare answer quality, time to first token, generation speed, memory use, long-context behavior, and tool calls using identical prompts.
-5. Keep vLLM + DSpark unless the measured LM Studio workflow advantage outweighs its missing DSpark path.
+1. Install only the LM Studio `Q4_K_M` copy on the Spark; do not run the older Nemotron vLLM tutorial as part of this rollout.
+2. Keep the Spark LM Studio server on `127.0.0.1:1234` and use LM Link for workstation/laptop access instead of opening port `1234` broadly.
+3. Register the Spark-local API as a named provider in the Spark Hermes profile and the workstation's LM Link-backed `localhost:1234` API as a named provider in the Windows local Hermes profile.
+4. Keep `spark-fast` as the fallback and unload/restore the exclusive Spark inference lane around Nemotron until lifecycle switching is automated.
+5. Compare answer quality, time to first token, generation speed, memory use, long-context behavior, and tool calls using identical prompts. Retain the NVFP4 + DSpark path only as a future benchmark option.
 
 ## Primary sources
 

@@ -163,8 +163,10 @@ services:
       - --trust-remote-code
       - --gpu-memory-utilization
       - "0.70"
+      - --kv-cache-memory-bytes
+      - "12G"
       - --max-model-len
-      - "65536"
+      - "131072"
       - --max-num-seqs
       - "4"
       - --max-num-batched-tokens
@@ -281,13 +283,8 @@ An `ods-ollama` server container is harmless if it has no loaded model. Check it
 ## Step 5 — Start Nemotron and follow its logs
 
 ```bash
-cd "$HOME/ai/services/nemotron3-omni"
-docker compose \
-  --env-file "$HOME/.config/dgx-spark/secrets.env" \
-  --env-file .env \
-  up -d
-
-docker logs -f vllm-nemotron3-omni
+spark-model use nemotron3-omni
+spark-model logs nemotron3-omni
 ```
 
 Wait for the API server to report that it is ready. Press **Ctrl+C** to stop following the logs; the model continues running.
@@ -345,7 +342,7 @@ Only after LiteLLM succeeds:
 
 ```bash
 hermes config set model.default nemotron3-omni
-hermes config set model.context_length 65536
+hermes config set model.context_length 131072
 hermes config check
 systemctl --user restart hermes-serve.service
 hermes gateway stop
@@ -357,17 +354,10 @@ In Hermes Desktop, select `nemotron3-omni` and perform one text test. Then add o
 ## Step 9 — Stop it and return to Qwen
 
 ```bash
-cd "$HOME/ai/services/nemotron3-omni"
-docker compose \
-  --env-file "$HOME/.config/dgx-spark/secrets.env" \
-  --env-file .env \
-  down
-
-cd "$HOME/ai/services/qwen35"
-docker compose --env-file .env up -d
+spark-model use qwen35
 
 hermes config set model.default spark-fast
-hermes config set model.context_length 131072
+hermes config set model.context_length 262144
 hermes config check
 systemctl --user restart hermes-serve.service
 hermes gateway stop
@@ -375,6 +365,9 @@ hermes gateway start
 ```
 
 Stopping the container does not delete the checkpoint, image, cache, or media directory.
+
+> [!success] Optimized and verified 2026-08-15
+> The `nemotron3-omni` lane uses a 12 GiB explicit KV pool with the pinned vLLM 0.20.0 image and a 131,072-token request ceiling. It loads 21.5 GiB of model state and uses about 43 GiB of GPU allocation, down from 90.6 GiB. The engine exposes 838,432 KV tokens and reports 28.16 × 131K concurrency under its hybrid accounting. Text, structured tools, a 70,025-token prompt, image, audio-path, and short-video requests passed without OOM. The 70,025-token request returned `LONG_CONTEXT_OK`, proving operation above the former 65,536-token ceiling. The synthetic image/video answers were correct; the synthetic 440 Hz audio was accepted but semantically misdescribed.
 
 ## Troubleshooting
 
@@ -384,7 +377,7 @@ Show the last logs:
 docker logs --tail 300 vllm-nemotron3-omni
 ```
 
-If memory allocation fails, reduce `--max-model-len` from `65536` to `32768` before changing anything else. If audio-related Python modules are missing, do not install packages on the Spark host; rebuild the derived Docker image and capture the exact build or runtime error.
+If memory allocation fails, reduce `--max-model-len` from `131072` to `65536` before changing anything else. If audio-related Python modules are missing, do not install packages on the Spark host; rebuild the derived Docker image and capture the exact build or runtime error.
 
 If local media is rejected, confirm that the file is under `~/ai/media`. Only that directory is mounted into the container.
 

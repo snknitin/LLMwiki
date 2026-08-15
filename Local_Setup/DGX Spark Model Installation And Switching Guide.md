@@ -288,11 +288,13 @@ services:
       - --moe-backend
       - flashinfer_b12x
       - --attention-backend
-      - flash_attn
+      - flashinfer
       - --kv-cache-dtype
-      - bfloat16
+      - fp8
       - --gpu-memory-utilization
-      - "0.84"
+      - "0.65"
+      - --kv-cache-memory-bytes
+      - "44G"
       - --max-model-len
       - "262144"
       - --max-num-seqs
@@ -310,7 +312,7 @@ services:
       - --generation-config
       - vllm
       - --speculative-config
-      - "{\"method\":\"dflash\",\"model\":\"${DRAFT_MODEL_ID}\",\"revision\":\"${DRAFT_REVISION}\",\"num_speculative_tokens\":10}"
+      - '{"method":"mtp","num_speculative_tokens":3}'
       - --chat-template
       - /workspace/chat_template.jinja
       - --default-chat-template-kwargs
@@ -642,7 +644,49 @@ The community repository uses a custom mutable SGLang runtime for a roughly 120 
 
 ## Step 23 — Daily model operations
 
-Run this status block before and after every model switch:
+The installed `spark-model` manager replaces repeated `cd` and Compose commands. It drains the active vLLM lane, unloads LM Studio when necessary, stops the old lane, waits for unified memory, starts the requested lane, and does not return until its OpenAI-compatible model endpoint is ready.
+
+```bash
+spark-model list
+spark-model status
+
+spark-model use qwen35
+spark-model use qwen27-dflash
+spark-model use nemotron3-omni
+spark-model use nemotron35-lightning
+
+spark-model logs qwen35
+spark-model stop
+```
+
+The explicit lane names are:
+
+| Lane | Engine | Service/model |
+|---|---|---|
+| `qwen35` | Compose/vLLM | `~/ai/services/qwen35`, API model `spark-fast` |
+| `qwen27-dflash` | Compose/vLLM | `~/ai/services/qwen27-dflash` |
+| `nemotron3-omni` | Compose/vLLM | `~/ai/services/nemotron3-omni`, 131,072 context with a 12 GiB KV pool |
+| `nemotron35-lightning` | LM Studio | `nvidia/nemotron-3.5-lightning` at 65,536 context |
+
+List installed Spark LM Studio models and load any future one without adding a hard-coded case:
+
+```bash
+spark-model lmstudio-list
+spark-model use lmstudio:publisher/model-key
+```
+
+The dynamic form defaults to 65,536 context and a 3,600-second idle TTL. Override those for one shell only when the installed model was verified at the larger value:
+
+```bash
+SPARK_MODEL_LMSTUDIO_CONTEXT=131072 \
+  spark-model use lmstudio:publisher/model-key
+```
+
+Lane definitions live in `~/.config/spark-model/lanes.d/*.conf`. A future vLLM, SGLang, or llama.cpp **container** uses the same `ENGINE="compose"` adapter; give it a unique service directory, container, loopback port, API model name, and Hermes context. The manager itself does not need to be rewritten as long as the service exposes `/v1/models` when ready. Preserve external secret files in `COMPOSE_ENV_FILES` rather than putting credentials in the lane definition.
+
+The older `spark-inference-lane` command remains as a compatibility wrapper, but its aliases now resolve to explicit lanes. Prefer `spark-model` in new instructions.
+
+Run this wider status block when diagnosing a switch:
 
 ```bash
 dgx-status
@@ -664,6 +708,30 @@ Keep these ownership rules:
 - secrets: `~/.config/dgx-spark/secrets.env` or the owning application's protected secrets file
 
 Do not combine all model stores with symlinks. Track them in the manifest instead.
+
+### Refresh newly installed Ollama and LM Studio models in Hermes
+
+Both the Spark Remote Gateway and Windows Local Gateway have `discover_models: true` for `desktop-ollama` and `spark-lmstudio`. A newly installed desktop Ollama model or Spark LM Studio model therefore remains on its owning machine and is discovered through the existing stable provider endpoint.
+
+After installing a model, open the Hermes model picker and use **Refresh models**, or run this in the owning Hermes profile:
+
+```bash
+hermes model --refresh
+```
+
+The command wipes the picker cache and re-fetches each provider's live `/v1/models` list. Add an explicit per-model `context_length` entry after verifying the runtime value; discovery proves identity and availability, not the safe context ceiling. Selecting an Ollama model causes Ollama to load that model and evict the previous resident model according to its one-model setting. Selecting an LM Studio model can trigger LM Studio JIT/Auto-Evict only among LM Studio-owned models; use `spark-model` first when crossing between a container lane and LM Studio.
+
+Telegram and Discord use the Spark gateway's same provider inventory. In either bot, send `/model --refresh` to bypass Hermes's one-hour provider cache and open the refreshed interactive picker. A laptop connected to the Spark Remote Gateway inherits this inventory automatically. A laptop running an independent Local Gateway needs the two stable endpoints configured once, but `discover_models: true` then removes the need to edit its provider configuration after each new download.
+
+For a tailnet-only Spark LM Studio URL usable by an independent laptop Local Gateway, grant the regular Spark user one-time Tailscale Serve control and create the proxy:
+
+```bash
+sudo tailscale set --operator=snknitin
+tailscale serve --bg --https=8443 http://127.0.0.1:1234
+tailscale serve status
+```
+
+The resulting provider base is `https://spark-07a8.tail4a1242.ts.net:8443/v1`. This is not needed by the recommended Remote Gateway path and must never be changed to Tailscale Funnel.
 
 ## Current primary sources
 

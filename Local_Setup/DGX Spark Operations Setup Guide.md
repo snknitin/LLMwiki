@@ -720,12 +720,14 @@ services:
       - flashinfer
       - --gpu-memory-utilization
       - "0.72"
+      - --kv-cache-memory-bytes
+      - "18G"
       - --max-model-len
-      - "131072"
+      - "262144"
       - --max-num-seqs
-      - "8"
+      - "5"
       - --max-num-batched-tokens
-      - "16384"
+      - "8192"
       - --enable-chunked-prefill
       - --async-scheduling
       - --kv-cache-dtype
@@ -771,11 +773,11 @@ docker compose --env-file .env config | sed -n '1,80p'
 
 **Success looks like:** the first command prints no error. In the displayed configuration, `image:` contains `@sha256:`, port 8000 is bound to `127.0.0.1`, and the external network has a real ODS network name.
 
-### Why this profile does not copy every maximum from the repository
+### Why this profile uses an explicit 18 GiB KV pool
 
-The community script advertises 262,144 tokens, 24 sequences, 32,768 batched tokens, and 0.80 GPU-memory utilization. Those settings target a throughput demonstration. This guide begins at 131,072 tokens, 8 sequences, 16,384 batched tokens, and 0.72 utilization because one personal Hermes does not need 24 simultaneous conversations, while Linux, Docker, ODS, and KV cache all share the Spark's 128 GB unified memory.
+The original 0.72 auto-profiled profile reserved 58.52 GiB of KV cache and exposed 4,838,587 KV tokens—far beyond this single-user workload. The verified replacement keeps the image-specific 0.72 preflight flag but pins `--kv-cache-memory-bytes 18G`, raises the request ceiling to 262,144, allows five scheduled sequences, and uses an 8,192-token chunked-prefill budget.
 
-The performance features that matter most remain enabled: the patched B12X linear backend, FlashInfer attention, FP8 KV cache, chunked prefill, asynchronous scheduling, and two-token MTP speculation. Reducing the declared maximum context does not lower the quality of ordinary prompts; it limits how large a single conversation can become and preserves operational margin. Establish the reliable baseline before changing one limit at a time.
+On 2026-08-15, the live vLLM 0.26.1.dev image allocated 1,588,632 KV tokens and reported **6.06 complete 262,144-token contexts**. A real 260,016-token prompt completed without preemption or OOM. The patched B12X/FlashInfer path, FP8 KV, asynchronous scheduling, CUDA graphs, tool parser, and two-token MTP remain enabled. Keep `--gpu-memory-utilization 0.72` alongside the explicit cache: this custom image still applies the utilization value to its startup free-memory preflight even though the explicit byte value controls KV sizing.
 
 ## Step 9 — Start and test vLLM manually
 
