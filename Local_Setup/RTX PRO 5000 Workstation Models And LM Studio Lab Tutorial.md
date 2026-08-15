@@ -1,5 +1,8 @@
 # RTX PRO 5000 Workstation Ollama Models And LM Studio Lab Tutorial
 
+> [!danger] Superseded on 2026-08-15
+> Do not continue with this version. Live inspection showed that it treated Windows environment variables as authoritative over Ollama Desktop, mixed the runtime model stores, and treated Spark LiteLLM as part of workstation ODS. Use [[RTX PRO 5000 Workstation ODS Models And LM Studio Desktop Tutorial]] instead. The replacement explains the active Ollama API connection and the separate ODS, Ollama, LM Studio, and Spark ownership boundaries.
+
 This is the beginner, line-by-line tutorial for **Step 2**, **Step 3**, and **Step 4** in [[Local Setup Index]]. It starts with native Windows Ollama installation and the ODS Open WebUI connection, then adds the workstation models, and finally configures LM Studio and LM Link. It covers:
 
 1. installing and testing the two workstation Gemma models with native Windows Ollama;

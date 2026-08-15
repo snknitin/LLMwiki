@@ -1,5 +1,5 @@
 ---
-updated: 2026-08-14
+updated: 2026-08-15
 status: active
 ---
 
@@ -21,8 +21,8 @@ This is the canonical progress and navigation page. If an older note suggests a 
 | Hermes | Standalone Hermes Gateway and Hermes Serve run on Spark; the ODS Hermes module is not needed |
 | Routing | Spark LiteLLM exposes the working Qwen routes to Hermes |
 | Networking | Tailscale is installed on Spark, workstation, and laptop; NVIDIA Sync access exists |
-| Workstation ODS | ODS is installed; Open WebUI and SearXNG are the intended retained modules |
-| Ollama | Not yet installed/configured as the workstation model shelf |
+| Workstation ODS | ODS is installed; Dashboard is at `localhost:3001` and Open WebUI is at `localhost:3000`. The supported image update completed on 2026-08-15; ODS still reports 2.5.3 and pins Open WebUI 0.7.2. DeepSeek 70B was stopped and removed; the optional ODS llama-server is stopped and reserved at host port `11436`. |
+| Ollama | Native Ollama 0.32.13 uses its standard `127.0.0.1:11434`, stores models at `D:\LocalLLama\models\ollama`, and uses 16K initial context. `gemma3:4b`, Gemma 4 31B, and Gemma 4 26B-A4B are installed. Both large Gemmas passed direct Ollama and ODS Open WebUI tests at 16K, ran 100% on the GPU, and were unloaded afterward. |
 | LM Studio | CLI exists on Spark; large-model/LM Link workflow is not yet completed |
 | Additional models | Nemotron 3 Nano Omni is downloaded/prepared and its pinned audio-enabled image was built; it has not yet been started or tested. Gemma, Nemotron 3.5, and Muse remain untested. |
 
@@ -64,6 +64,7 @@ Use only these completed-guide sections now:
 - [x] [[DGX Spark Multi-Model Runtime Research]] — explains why the 120 GB reading was runtime/KV allocation rather than checkpoint size.
 - [x] [[DGX Spark Additional Models And Convenience Runtimes Research]] — verifies the current Gemma, Nemotron, Muse, Ollama, and LM Studio paths.
 - [x] [[DGX Spark And RTX 5000 Workstation Model Placement Research]] — establishes the final Spark/workstation division and confirms why dense 27–31B models belong on the RTX workstation first.
+- [x] [[ODS Workstation Ollama Integration Research]] — verifies the live ODS Dashboard, Open WebUI connections, model stores, Ollama state, and safe update boundary.
 - [x] RTX PRO 5000 Blackwell identity verified from `nvidia-smi`; the Ada/32 GB contingency no longer applies.
 
 ## Resume here — exact order from today
@@ -85,38 +86,39 @@ Do:
 
 **Done when:** desktop and laptop can both use the Spark Hermes backend without creating separate authoritative profiles. Telegram is either verified or deliberately deferred.
 
-### 2. Make workstation Ollama the ODS model shelf
+### 2. Correct the workstation ODS and Ollama boundaries
 
 Follow this beginner runbook first:
 
-1. [[RTX PRO 5000 Workstation Models And LM Studio Lab Tutorial]] — complete Parts 1–4 for native Windows Ollama, the SSD model directories, and the ODS Open WebUI connection.
+1. [[RTX PRO 5000 Workstation ODS Models And LM Studio Desktop Tutorial]] — this is the active replacement for Steps 2–4.
 
-Use these research sections only when you want the reasoning behind the choices:
+Use this research note only when you want the diagnostic evidence behind the corrections:
 
-1. [[DGX Spark And RTX 5000 Workstation Model Placement Research#Ownership architecture]]
-2. [[DGX Spark And RTX 5000 Workstation Model Placement Research#Ollama versus LM Studio on the workstation]]
-3. [[DGX Spark And RTX 5000 Workstation Model Placement Research#Open WebUI and SearXNG without ODS/Hermes coupling]]
+1. [[ODS Workstation Ollama Integration Research]]
 
-Then:
+Current status and remaining actions:
 
-- [ ] Install current native Windows Ollama on the workstation.
-- [ ] Set one explicit large SSD model directory before pulling large models.
-- [ ] Connect workstation Open WebUI to local Ollama at `http://host.docker.internal:11434`.
-- [ ] Add Spark LiteLLM to Open WebUI as a separate OpenAI-compatible connection with a visible `spark/` prefix.
+- [x] Native Windows Ollama 0.32.13 is already installed.
+- [x] Authenticated ODS Open WebUI uses native Ollama at `http://host.docker.internal:11434`; ODS's own host-facing llama-server was moved to `11436`.
+- [x] Workstation Open WebUI does not contain Spark LiteLLM aliases; workstation ODS and Spark ODS remain separate.
+- [x] Ollama Desktop stores models at `D:\LocalLLama\models\ollama`.
+- [x] Ollama Desktop uses 16K initial context instead of the automatic 256K default.
+- [x] The small `gemma3:4b` connector test was downloaded and appeared in ODS Open WebUI.
+- [x] The duplicate saved Ollama connection was removed; one `http://host.docker.internal:11434` entry remains and every Ollama model appears once.
 - [ ] Keep SearXNG as the workstation ODS search service.
 - [ ] Do not enable ODS Hermes.
 
 > [!warning] Do not follow the Spark Ollama tutorial now
-> [[DGX Spark Ollama And ODS Tutorial]] installs an Ollama sidecar on Spark. It remains a reference/rollback alternative, but it is **not the active plan** now that the 48 GB Blackwell workstation has been confirmed. The active plan is native workstation Ollama.
+> [[DGX Spark Ollama And ODS Tutorial]] installs an Ollama sidecar on Spark. It remains a reference/rollback alternative, but it is **not the active plan**. The active Ollama runtime is native Windows Ollama on the workstation.
 
-**Done when:** workstation Open WebUI lists both `local/` Ollama models and `spark/` LiteLLM models without duplicating Hermes.
+**Done when:** the Ollama Desktop path/context persist after restart, `gemma3:4b` appears in workstation Open WebUI, the ODS and Ollama model stores remain separate, and no Spark alias is assumed in this workstation UI.
 
 ### 3. Add workstation models one at a time
 
-Continue in [[RTX PRO 5000 Workstation Models And LM Studio Lab Tutorial]]:
+Continue in [[RTX PRO 5000 Workstation ODS Models And LM Studio Desktop Tutorial]]:
 
-- Parts 5–7 install, test, compare, and unload the two Gemmas one at a time.
-- The tutorial names the exact current Ollama tags and tells you whether each action happens in workstation PowerShell or Open WebUI.
+- Part 3 downloads, runs, tests, compares, and switches the two Gemmas through native Ollama while using ODS Open WebUI as the chat front end.
+- These two models belong to `D:\LocalLLama\models\ollama`; do not duplicate them in the ODS GGUF store or LM Studio merely to complete the step.
 
 Use [[DGX Spark And RTX 5000 Workstation Model Placement Research#The practical workstation shortlist]] as the broader model-placement reference.
 
@@ -129,20 +131,20 @@ Install and test in this order:
 
 For every model:
 
-- [ ] Pull one exact tag.
-- [ ] Record the tag, size, context, and runtime version.
-- [ ] Test it directly through Ollama.
-- [ ] Test it through workstation Open WebUI.
-- [ ] Compare it with the same prompts against `spark-fast`.
-- [ ] Unload it before loading another large workstation model.
+- [ ] Pull one exact Ollama tag.
+- [ ] Record the Ollama tag, size, context, and Ollama runtime version.
+- [ ] Select it through workstation Open WebUI at `localhost:3000`.
+- [ ] Test it with the standard comparison prompt.
+- [ ] Compare the same prompts against `spark-fast` separately in Hermes Desktop.
+- [ ] Run `ollama stop MODEL_TAG` before loading another large workstation model.
 
 Do **not** download workstation copies of the two Qwen models already working on Spark unless a controlled latency benchmark later justifies the duplicate.
 
 ### 4. Configure LM Studio and LM Link only as the lab layer
 
-Continue with Parts 8–17 in:
+Continue with Part 5 in:
 
-1. [[RTX PRO 5000 Workstation Models And LM Studio Lab Tutorial]]
+1. [[RTX PRO 5000 Workstation ODS Models And LM Studio Desktop Tutorial]]
 
 For architecture background, read [[DGX Spark And RTX 5000 Workstation Model Placement Research#LM Studio: lab and remote-human-access layer]].
 
@@ -154,10 +156,10 @@ Use LM Studio for:
 - [ ] LM Link access from the laptop;
 - [ ] project-specific presets that do not belong in permanent Ollama service.
 
-Do not download the same 20–30 GB model into both Ollama and LM Studio by default. Ollama is the ODS service of record; LM Studio is the experiment bench.
+Do not download the same 20–30 GB model into ODS, Ollama, and LM Studio by default. Native Ollama is the workstation model service of record; ODS provides Open WebUI/SearXNG plus an optional separate GGUF runtime; LM Studio is the experiment bench.
 
 > [!note] Older Spark-specific LM Studio tutorial
-> [[DGX Spark LM Studio And LM Link Tutorial]] remains a reference for the already-installed Spark CLI. It is not the active Step 4 tutorial. Use the combined RTX PRO 5000 workstation tutorial above for this rollout.
+> [[DGX Spark LM Studio And LM Link Tutorial]] remains a reference for the already-installed Spark CLI. It is not the active Step 4 tutorial. Use the corrected workstation tutorial above for this rollout.
 
 ### 5. Add the first genuinely specialized Spark model
 
@@ -218,8 +220,10 @@ Before training, unload workstation Ollama and LM Studio models. Normal Hermes w
 
 - [[DGX Spark Operations Setup Guide]] — completed foundation; use only for service verification and rollback.
 - [[DGX Spark Model Installation And Switching Guide]] — completed Qwen installation; use for daily switching rules.
-- [[DGX Spark And RTX 5000 Workstation Model Placement Research]] — current machine ownership, workstation Ollama, model placement, and fine-tuning decisions.
-- [[RTX PRO 5000 Workstation Models And LM Studio Lab Tutorial]] — active beginner runbook for incomplete Steps 2–4: native Windows Ollama, Open WebUI, the two workstation Gemmas, LM Studio, and LM Link.
+- [[DGX Spark And RTX 5000 Workstation Model Placement Research]] — high-level machine ownership, model placement, and fine-tuning decisions; use the live ODS research below for current workstation-runtime details.
+- [[ODS Workstation Ollama Integration Research]] — live workstation ODS/Ollama evidence and corrected ownership boundaries.
+- [[RTX PRO 5000 Workstation ODS Models And LM Studio Desktop Tutorial]] — active GUI-first beginner runbook for incomplete Steps 2–4.
+- [[RTX PRO 5000 Workstation Models And LM Studio Lab Tutorial]] — superseded; retained only for history.
 - [[DGX Spark Nemotron 3 Nano Omni Tutorial]] — next specialist Spark installation.
 - [[DGX Spark LM Studio And LM Link Tutorial]] — older Spark-CLI reference; not the active workstation rollout.
 
@@ -251,8 +255,8 @@ Before training, unload workstation Ollama and LM Studio models. Normal Hermes w
 ## Canonical decisions
 
 1. Standalone Hermes on Spark is authoritative; ODS Hermes stays disabled.
-2. Spark LiteLLM is the only canonical router and the main point of ODS coupling.
-3. Workstation ODS owns Open WebUI and SearXNG; native workstation Ollama owns the simple local model shelf.
+2. Spark LiteLLM is the canonical Hermes router; it is not currently connected to workstation ODS Open WebUI.
+3. Native workstation Ollama owns the canonical local model shelf on port `11434`. Workstation ODS owns Open WebUI and SearXNG; its optional separate GGUF runtime uses host port `11436` and stays stopped unless deliberately needed.
 4. The RTX PRO 5000 Blackwell is the preferred home for dense 27–31B inference, evaluation, project work, and LoRA/QLoRA.
 5. Spark owns the working Qwens, persistent agents, specialist/full multimodal services, long contexts, and models that exceed 48 GB.
 6. Stable aliases hide checkpoint names and ports from Hermes and clients.

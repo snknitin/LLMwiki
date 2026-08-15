@@ -1,5 +1,8 @@
 # DGX Spark And RTX 5000 Workstation Model Placement Research
 
+> [!warning] Architecture background, not the current workstation runbook
+> This planning note predates the authenticated inspection of the installed workstation ODS. The planned `spark/` Open WebUI provider was never configured, and the two Gemma models are already available through the ODS Dashboard's integrated GGUF catalog. Use [[RTX PRO 5000 Workstation ODS Models And LM Studio Desktop Tutorial]] for execution and [[ODS Workstation Ollama Integration Research]] for the verified current state.
+
 **Verified:** 14 August 2026  
 **Scope:** One 128 GB DGX Spark, one Windows ODS workstation with a claimed 48 GB RTX 5000, Hermes Gateway/Serve on Spark, and Open WebUI plus SearXNG on the workstation.
 
