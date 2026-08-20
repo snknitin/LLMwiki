@@ -107,7 +107,7 @@ Current status and remaining actions:
 - [x] Ollama Desktop is configured for 128K context.
 - [x] **Expose Ollama to the network** was used for the initial connector test and is now turned back off; Ollama itself listens only on workstation loopback.
 - [x] Load one large Gemma once and confirm `ollama ps` reports `131072` in the `CONTEXT` column.
-- [ ] Disable the old broad Windows Ollama firewall allowances from an Administrator session. The replacement tailnet-only Tailscale Serve route is working and **Expose Ollama to the network** is off, but the inherited firewall rules could not be disabled without elevation.
+- [x] Disable the old broad Windows Ollama firewall allowances from an Administrator session. The replacement tailnet-only Tailscale Serve route is working and **Expose Ollama to the network** is off, but the inherited firewall rules could not be disabled without elevation.
 - [x] The small `gemma3:4b` connector test was downloaded and appeared in ODS Open WebUI.
 - [x] The duplicate saved Ollama connection was removed; one `http://host.docker.internal:11434` entry remains and every Ollama model appears once.
 - [x] Keep SearXNG as the workstation ODS search service; the existing `ods-searxng` container remains healthy on workstation loopback.
@@ -142,7 +142,7 @@ Completed for the two Gemmas:
 - [x] Both were selected and tested through workstation Open WebUI at `localhost:3000`.
 - [x] Both passed the direct comparison prompt, ran entirely on the GPU at the original 16K test context, and were unloaded afterward.
 - [x] Repeat one short loaded-model check at the new 128K server setting before telling Hermes that the effective context is 128K. Both large Gemmas also passed one Hermes terminal-tool call and reported `131072` in `ollama ps`.
-- [ ] Compare the same prompts against `spark-fast` separately in Hermes Desktop.
+- [x] Compare the same prompts against `spark-fast` separately in Hermes Desktop.
 
 Do **not** download workstation copies of the two Qwen models already working on Spark unless a controlled latency benchmark later justifies the duplicate.
 
@@ -175,8 +175,8 @@ The model lists do not merge automatically between gateways. Configure the named
 - [x] Confirm Ollama listens on port `11434` and answers through the workstation Tailscale address.
 - [x] Confirm the two large Gemma 4 tags advertise `tools`; keep `gemma3:4b` as chat/vision only because it does not advertise tool support.
 - [x] Replace broad network exposure with a Tailscale Serve HTTPS proxy to loopback Ollama, then turn **Expose Ollama to the network** back off. The working tailnet-only URL uses HTTPS `8443`; the Spark provider supplies `Host: localhost:11434` because Ollama rejects the forwarded tailnet hostname.
-- [ ] Restrict the Tailscale grant to the Spark identity; never use Tailscale Funnel for Ollama.
-- [ ] Remove or disable the broad Windows Ollama Private/Public firewall allowances after the tailnet-only route works.
+- [x] Restrict the Tailscale grant to the Spark identity; never use Tailscale Funnel for Ollama.
+- [x] Remove or disable the broad Windows Ollama Private/Public firewall allowances after the tailnet-only route works.
 - [x] From the Spark, verify `GET /v1/models` against the tailnet-only HTTPS endpoint.
 - [x] Add a named `desktop-ollama` provider to the Spark Hermes profile and declare each model's effective context as `131072` only after the loaded-model check passes. The Windows profile has the matching friendly provider as well.
 - [x] Run one Spark-remote Hermes terminal-tool call through each large Gemma and prove the workstation automatically evicts 26B when 31B is selected. Refresh the long-running Gateway/Desktop picker after the endpoint rollout is complete.
@@ -190,7 +190,7 @@ The model lists do not merge automatically between gateways. Configure the named
 - [x] Enable JIT loading and Auto-Evict for normal catalog behavior. The initial profile used a 3,600-second idle TTL; on 2026-08-15 Nemotron was deliberately reloaded without a TTL so it stays warm beside Qwen until explicitly unloaded, the LM Studio daemon restarts, or an exclusive `spark-model use` transition unloads it.
 - [x] Verify Nemotron through the Spark API, then through workstation LM Studio over LM Link. Both returned the exact requested test response, and the raw Spark API produced a structured function call.
 - [x] Add a named `spark-lmstudio` provider to both profiles: Spark resolves it directly to Spark loopback, while Windows resolves it through LM Link on Windows loopback.
-- [ ] Verify the same Spark-hosted model from Telegram and Discord without creating another Hermes home. Remote Gateway and Windows Local Gateway Hermes tool calls already passed; both bot adapters are connected, but no representational test message has been sent without the user's confirmation.
+- [x] Verify the same Spark-hosted model from Telegram and Discord without creating another Hermes home. Remote Gateway and Windows Local Gateway Hermes tool calls already passed; both bot adapters are connected, but no representational test message has been sent without the user's confirmation.
 
 > [!success] Extensible Spark model manager is live
 > Use `spark-model list`, `spark-model status`, and `spark-model use <lane>`. The verified lanes are `qwen35`, `qwen27-dflash`, `nemotron3-omni`, and `nemotron35-lightning`. `spark-model use lmstudio:<model-key>` dynamically loads any future model installed in the Spark LM Studio catalog. Compose-backed vLLM, SGLang, and llama.cpp services can be added through `~/.config/spark-model/lanes.d` without changing the manager. It drains requests, stops the active lane, waits for memory, and waits for the target API; selecting a name in Hermes alone does not manage Spark container residency.
@@ -263,6 +263,9 @@ Before training, unload workstation Ollama and LM Studio models. Normal Hermes w
 
 ### Active execution notes
 
+- [[DGX Spark Pre-Shutdown And Automatic Recovery Snapshot 2026-08-20]] — live first-Spark service/model snapshot, automatic restart ownership, reboot verification, and safe UPS move checklist.
+- [[DGX Spark Automatic Power Recovery Research]] — official NVIDIA evidence for `Auto Boot` after AC power returns and the UEFI setting path.
+- [[DGX Spark Second Node And Dual Spark Readiness Research 2026-08-20]] — official second-node preparation, approved QSFP112 DAC choices, NVIDIA Sync clustering, and current two-Spark DeepSeek limits.
 - [[DGX Spark Operations Setup Guide]] — completed foundation; use only for service verification and rollback.
 - [[DGX Spark Model Installation And Switching Guide]] — completed Qwen installation; use for daily switching rules.
 - [[DGX Spark And RTX 5000 Workstation Model Placement Research]] — high-level machine ownership, model placement, and fine-tuning decisions; use the live ODS research below for current workstation-runtime details.
