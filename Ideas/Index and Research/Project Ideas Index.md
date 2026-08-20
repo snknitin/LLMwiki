@@ -3,7 +3,7 @@ type: index
 status: active
 created: 2026-07-27
 scope: personal-first project portfolio
-spec_count: 68
+spec_count: 71
 tags:
   - ideas
   - project-specs
@@ -12,7 +12,7 @@ tags:
 
 # Project Ideas Index
 
-This index now covers 68 personal project, workflow, evaluation, and skill specs. The default assumption throughout is: build for one person, run locally when practical, and only add accounts, billing, teams, and cloud infrastructure after the personal workflow is genuinely useful.
+This index now covers 71 personal project, workflow, evaluation, and skill specs. The default assumption throughout is: build for one person, run locally when practical, and only add accounts, billing, teams, and cloud infrastructure after the personal workflow is genuinely useful.
 
 Full source-to-spec accounting: [[Source Idea Coverage Map]].
 
@@ -44,6 +44,15 @@ These remain self-contained builds. Similarity links identify reusable engines o
 - [[Brain Blast Skill]]
 - [[Personalized ADHD Skill Upgrade]]
 - [[Physics Claim Debunker Skill]]
+- [[Expert Lens Skill]]
+
+### Tiny-model reasoning research
+
+- [[Tiny Model Game Lab]] begins with a rigorously benchmarked 135M–270M Wordle policy, separates model capability from deterministic solver scaffolding, and escalates to harder constraint, planning, and partial-observability games.
+
+### Food, cooking, and personal collections
+
+- [[Visual Recipe Book]] turns recipe URLs, text, screenshots, and shared images into reviewed Tabular Recipe Notation, cook-mode views, and a themed personal cookbook.
 
 ### Creator, demand, and distribution
 
@@ -128,6 +137,7 @@ These give the best combination of immediate personal value, low cash cost, and 
 - [[Deliberate Feed Gate]]
 - [[News Depth Telegram Skill]]
 - [[Physics Claim Debunker Skill]]
+- [[Expert Lens Skill]]
 
 ### Personal operations, behavior, and wellbeing
 
@@ -180,6 +190,13 @@ These give the best combination of immediate personal value, low cash cost, and 
 - [[Local Video Generation Evaluation Lab]]
 - [[Meet-in-the-Middle City Explorer]]
 
+### Food, cooking, and personal collections
+
+- [[Visual Recipe Book]]
+- [[Personal Library Website]] — reusable catalog and collection patterns; not the recipe data model.
+- [[PhoneScan PDF]] — reusable image-cleanup and OCR patterns; remains a separate document utility.
+- [[Visual Token Compiler]] — reusable SVG/export and visual-legibility evaluation patterns.
+
 ### Social simulations, platforms, and games
 
 - [[Marionettist Utopia]]
@@ -188,6 +205,7 @@ These give the best combination of immediate personal value, low cash cost, and 
 - [[Any App Widget Maker]]
 - [[Motto Agent Council]]
 - [[Yu-Gi-Oh RL Lab]]
+- [[Tiny Model Game Lab]]
 - [[Quiz Poker]]
 - [[Quiz Master]]
 - [[Taxonomy Cluster Explorer]]
@@ -217,6 +235,8 @@ Every project spec links directly to its relevant section in one of these primar
 - [[Research - New Personal Workflows and Product Ideas]]
 - [[Research - Cognitive Support and Explanation Skills]]
 - [[Research - Creator Growth and Local Video Pipelines]]
+- [[Research - Expert Mode and Tiny Model Game Lab]]
+- [[Research - Visual Recipe Notation and Recipe Library]]
 - [[Project Similarity and Reuse Map]]
 
 The specs contain the build decisions; the dossiers preserve deeper prior art, verified API/platform facts, drawbacks, hidden costs, clever shortcuts, paid-service triggers, and direct official-source links.
@@ -234,6 +254,9 @@ The specs contain the build decisions; the dossiers preserve deeper prior art, v
 - The four feed projects remain separate: [[X Like-to-List Builder]] reorganizes authors, [[Shortform Signal Digest]] creates the daily briefing, [[Social Subscription Curator]] audits the source portfolio, and [[Deliberate Feed Gate]] changes the consumption interface. They may share adapters and a content schema.
 - The creator/growth projects remain separate and composable. [[Demand Generation Workbench]] owns experiments; [[Conversion List Builder]] owns evidence-backed audiences; [[Meta Ad Creative Studio]] owns ad variants; [[Personal Voice Ghostwriter and DM Desk]] owns voice/relationships; [[Longform-to-Shorts Studio]] owns deterministic editing; [[Local Video Generation Evaluation Lab]] selects renderers; and [[Auto-GTM Engine]] orchestrates release assets.
 - The three cognitive skills remain individual: [[Batman Prep Time Skill]] prepares, [[Brain Blast Skill]] invents, and [[Personalized ADHD Skill Upgrade]] adapts task-start support. They can share personal context without sharing a release cycle.
+- [[Expert Lens Skill]] remains a separate domain-orientation and conversation-preparation skill; it may supply terminology and expert questions to Batman Prep or Study tools without sharing their workflow or release cycle.
+- [[Tiny Model Game Lab]] remains separate from [[Yu-Gi-Oh RL Lab]] and [[Live Chess Tutor]]. It owns model-size ablations, distillation, tool-use accounting, and a cross-game curriculum; the other projects own their domain-specific game environments and user experiences.
+- [[Visual Recipe Book]] remains a self-contained recipe capture, verification, cooking, and sharing product. It may reuse OCR from [[PhoneScan PDF]], collection patterns from [[Personal Library Website]], and rendering tests from [[Visual Token Compiler]] without merging those distinct jobs.
 
 ## Portfolio Sequence
 

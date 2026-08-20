@@ -68,6 +68,7 @@ This map answers: **If one project works, which other project can reuse its engi
 | [[News Depth Telegram Skill]] | layered current-event explanation and claim ledger | can invoke Physics Debunker for quantitative subclaims |
 | [[Physics Claim Debunker Skill]] | reproducible physical model, calculation, uncertainty, verdict | can return ELI5/ELI12 layers through News Depth |
 | [[Reflective ELIZA Companion]] | longitudinal reflective conversation, memory, hypotheses, experiments | may hand an accepted action to ADHD/Goal tools; keeps its own memory contract |
+| [[Expert Lens Skill]] | domain topology, precise terminology, expert questions, teach-back, and claim calibration | can supply a domain pack to Batman Prep, Study, News Depth, or Paper tools without absorbing their workflows |
 
 **Shared package:** `personal-context-core` with explicit facts/preferences, dated observations, source IDs, and user corrections. Do not share hidden personality inferences between projects.
 
@@ -116,9 +117,34 @@ Share the map/provider cache and location-picker component, not marketplace inve
 | [[Auto-GTM Engine]] | distributes approved final media |
 | [[podcast-clips-agency]] | prior-art/reference workflow for an external-service version |
 
+## Recipe, Capture, and Visual Publishing Family
+
+| Project | Owns | Reuse relationship |
+|---|---|---|
+| [[Visual Recipe Book]] | recipe ingestion, source-preserving extraction, ingredient-operation graph, Tabular Recipe Notation, cook mode, cookbooks, and recipe-card sharing | owns the recipe truth and user experience; remains a standalone product |
+| [[PhoneScan PDF]] | general document capture, perspective correction, enhancement, OCR, and PDF output | image preprocessing and confidence-overlay code can be reused; it does not own recipe semantics |
+| [[Personal Library Website]] | cataloguing and presenting a personal collection | reusable shelf, cover, tag, search, and collection-navigation patterns; recipes require their own graph and cooking views |
+| [[Visual Token Compiler]] | measured visual compression and legibility experiments | reusable SVG/export, layout scoring, and visual-regression concepts; it does not parse or store recipes |
+| [[Auto-GTM Engine]] | approved derivative assets and distribution workflows | optional downstream consumer of exported recipe cards; no dependency for personal V0 |
+
+**Build order:** five hand-authored recipe graphs -> deterministic TRN SVG renderer -> JSON-LD import and review -> local cookbook -> cook mode -> OCR/model-assisted fallbacks -> phone share target.
+
+**Shared package:** `capture-and-render-core` may contain image cleanup, source snapshots, SVG/PNG export, font/contrast checks, and immutable artifact manifests. The recipe graph, ingredient parsing, cooking validation, and cookbook data remain owned by [[Visual Recipe Book]].
+
 ## Finance and Operations Reuse
 
 [[Net Worth Command Center]], [[Paisa Vasool Subscriptions]], [[Finance Signals Dashboard]], [[finance-ops-agency]], [[tax-packet-autopilot]], and [[invoice-chaser-agent]] should share import, reconciliation, source hashing, scheduling, and audit-event packages while retaining separate financial jobs and screens.
+
+## Tiny-Model and Game Research Family
+
+| Project | Owns | Reuse relationship |
+|---|---|---|
+| [[Tiny Model Game Lab]] | tiny-model baselines, capability accounting, tool/search ablations, distillation, and cross-game curriculum | may consume compatible environments but keeps its own evaluation contract and model-training pipeline |
+| [[Yu-Gi-Oh RL Lab]] | deterministic card-battler rules, self-play, deck diversity, and card-game diagnostics | can expose a later small ruleset through the lab's generic environment protocol |
+| [[Live Chess Tutor]] | human-facing move analysis and teaching | chess endgame positions can become a held-out planning environment; the tutor remains a separate product |
+| [[Quiz Poker]] | multiplayer question wagering and scoring | reference only unless a bounded language-strategy environment is deliberately defined |
+
+**Shared package:** `game-eval-core` containing environment/version manifests, action legality, trajectory/replay schemas, policy adapters, seeds, scorecards, and leakage checks. Game rules and product interfaces remain project-owned.
 
 ## Rule for Future Similar Ideas
 
@@ -136,4 +162,3 @@ If all three are true, a two- or three-idea merge may be justified. Otherwise cr
 - [[Source Idea Coverage Map]]
 - [[Research - Existing Product and Shortcut Atlas]]
 - [[Scope Expansion Checklist]]
-

@@ -3,8 +3,8 @@ type: index
 status: complete
 initial_raw_idea_count: 52
 previous_later_addition_count: 2
-august_2026_raw_idea_count: 21
-personal_spec_count: 68
+august_2026_raw_idea_count: 24
+personal_spec_count: 71
 tags:
   - coverage
   - source-map
@@ -12,7 +12,7 @@ tags:
 
 # Source Idea Coverage Map
 
-This map proves that every personal raw idea is represented. The original fifty-two ideas consolidated into forty-six specs; Jobs Search and Finance Signals produced forty-eight. The August 2026 list adds nineteen standalone/paired specs, upgrades Jobs Search, and adds one useful personal integration over two retained Hermes components, producing sixty-eight personal specs.
+This map proves that every personal raw idea is represented. The original fifty-two ideas consolidated into forty-six specs; Jobs Search and Finance Signals produced forty-eight. The first August 2026 list adds nineteen standalone/paired specs, upgrades Jobs Search, and adds one useful personal integration over two retained Hermes components. Two further August ideas add [[Expert Lens Skill]] and [[Tiny Model Game Lab]]; the visual-recipe idea adds [[Visual Recipe Book]], producing seventy-one personal specs.
 
 | # | Raw idea shorthand | Project spec | Mapping |
 |---:|---|---|---|
@@ -96,6 +96,9 @@ This map proves that every personal raw idea is represented. The original fifty-
 | A19 | Scheduled JobFinder and preparation platform | [[Jobs Search and Apply Tool]] | substantial existing-spec upgrade |
 | A20 | K-Circle-style question foundry and QOTD | [[Quiz Master]] | standalone; feeds [[Quiz Poker]] |
 | A21 | Automatic GTM for every built artifact | [[Auto-GTM Engine]] | direct |
+| A22 | Become conversant in any field through precise expert vocabulary and high-leverage questions | [[Expert Lens Skill]] | direct skill |
+| A23 | Push a roughly 0.2B model toward strong Wordle performance, then harder games | [[Tiny Model Game Lab]] | direct research lab |
+| A24 | Turn recipe text, blogs, screenshots, and photos into Tabular Recipe Notation and a themed personal cookbook | [[Visual Recipe Book]] | direct product |
 
 ## Additional Cross-Project Consolidation
 
@@ -114,6 +117,8 @@ This map proves that every personal raw idea is represented. The original fifty-
 - The August list contains twenty-one raw bullets. Voice ghostwriting and DM assistance form one paired spec; JobFinder upgrades an existing spec. This creates nineteen new specs from the new list.
 - [[Meet-in-the-Middle City Explorer]] adds one personal integration spec over two surviving Hermes components.
 - `48 + 19 + 1 = 68` personal project, workflow, evaluation, and skill specs.
+- Two further August ideas each remain standalone, producing `68 + 2 = 70` personal specs.
+- The visual-recipe capture, compiler, and cookbook remains one cohesive product, producing `70 + 1 = 71` personal specs.
 
 ## Related
 
