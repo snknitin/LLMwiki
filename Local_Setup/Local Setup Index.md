@@ -1,5 +1,5 @@
 ---
-updated: 2026-08-15
+updated: 2026-08-21
 status: active
 ---
 
@@ -14,17 +14,19 @@ This is the canonical progress and navigation page. If an older note suggests a 
 
 | Area | Confirmed state |
 |---|---|
-| Spark hardware | One DGX Spark with 128 GB unified memory |
+| Spark hardware | Two DGX Sparks with 128 GB unified memory each. `FirstSpark` owns the existing production stack; `SecondSpark` is connected through NVIDIA Sync as an independent compute/experiment node. The approved QSFP112 DAC, Cluster Assistant, NCCL validation, and distributed workload proof are still pending. |
 | Workstation GPU | **NVIDIA RTX PRO 5000 Blackwell**, 48,935 MiB, compute capability 12.0, driver 596.59 |
 | Spark foundation | Bash configuration, external secrets, cache/service folders, registries, and status commands completed |
 | Spark inference | Four explicit switchable lanes are installed and lifecycle-tested: `qwen35`, `qwen27-dflash`, `nemotron3-omni`, and `nemotron35-lightning`. `qwen35` remains the resident default, and LM Studio Nemotron 3.5 Lightning is deliberately warm beside it. |
 | Hermes | Standalone Hermes Gateway and Hermes Serve run on Spark; the ODS Hermes module is not needed |
 | Routing | Spark LiteLLM exposes the working Qwen routes to Hermes |
-| Networking | Tailscale is installed on Spark, workstation, and laptop; NVIDIA Sync access exists |
+| Networking | Tailscale is installed on the first Spark, workstation, and laptop. NVIDIA Sync reaches both `FirstSpark` and `SecondSpark`; the second Spark currently uses ordinary network access and is not yet a ConnectX-7 cluster peer. |
 | Workstation ODS | ODS is installed; Dashboard is at `localhost:3001` and Open WebUI is at `localhost:3000`. The supported image update completed on 2026-08-15; ODS still reports 2.5.3 and pins Open WebUI 0.7.2. DeepSeek 70B was stopped and removed; the optional ODS llama-server is stopped and reserved at host port `11436`. |
 | Ollama | Native Ollama 0.32.13 uses port `11434`, stores models at `D:\LocalLLama\models\ollama`, and is configured for 128K context and one resident model. **Expose Ollama to the network** is off again and Ollama itself listens only on `127.0.0.1`; Tailscale Serve owns tailnet-only HTTPS `8443`, and the Spark provider supplies Ollama's required loopback `Host` header. Both Gemma 4 models passed local and Spark-remote Hermes tool calls at a reported runtime context of `131072`; selecting 31B after 26B proved automatic one-model eviction. Both were unloaded afterward. |
 | LM Studio | LM Studio Desktop and LM Link are connected to Spark device `spark-07a8`. Spark LM Studio is loopback-only on `127.0.0.1:1234`; the 24.52 GB `nvidia/nemotron-3.5-lightning` Q4_K_M model is loaded persistently at 65,536 context beside Qwen. LM Studio reports a 22.83 GiB allocation, while `nvidia-smi` shows about 24.1 GiB for `llama-server`; raw API, structured tool-call, Spark Hermes, Windows LM Link, Windows local-Hermes, and live co-residency tests passed. |
 | Additional models | Qwen 27 is optimized to a 44 GiB FP8 KV pool with native MTP-3, using about 71.3 GiB instead of 103.2 GiB and holding 4.74 full 262K contexts. Nemotron 3 Nano Omni is optimized to a 12 GiB KV pool and a verified 131,072-token ceiling, using about 43 GiB instead of 90.6 GiB; text, tools, a 70,025-token prompt, image, audio-path, and video tests passed. Nemotron 3.5 Lightning is verified through Spark LM Studio. Muse remains untested. |
+| Recovery | `FirstSpark` completed a physical power cycle and recovered ODS, Qwen, LiteLLM, Hermes services, LM Studio/LM Link, Tailscale, SSH, and OpenCode. The exposed Qwen/Lightning boot-order race was corrected; a later controlled reboot must still prove the corrected order without intervention. |
+| VoiceStudio | VoiceStudio v0.5.0 is installed portably at `D:\Apps\VoiceStudio`; portable storage, CUDA diagnostics, generation, Whisper transcription, Parakeet dictation, and blank-Capture-window recovery were verified. |
 
 ## Done — do not repeat these sections
 
@@ -53,6 +55,14 @@ This is the canonical progress and navigation page. If an older note suggests a 
 - [x] [[DGX Spark Model Installation And Switching Guide]] Steps 16–21: baseline checks, safe stop/start, Qwen 27B DFlash preparation, raw API test, LiteLLM route, Hermes test, and return to the known-good Qwen 35B profile.
 - [x] Hermes has shown both `spark-fast` and `qwen27-dflash` in its model list.
 - [x] The one-large-model rule and the difference between **downloaded**, **listed**, and **resident** are understood.
+
+### Recovery, second Spark, and workstation voice
+
+- [x] [[DGX Spark Pre-Shutdown And Automatic Recovery Snapshot 2026-08-20]] records the first Spark's physical power-cycle recovery and the corrected Qwen-before-Lightning boot order.
+- [x] `SecondSpark` is connected through NVIDIA Sync and passed the initial idle thermal/no-throttling comparison; its future compute-only role does not duplicate the first Spark's Hermes state.
+- [x] [[VoiceStudio Windows Portable Usage]] records the verified portable VoiceStudio v0.5.0 installation and first-use tests at `D:\Apps\VoiceStudio`.
+
+The follow-up controlled reboot, UEFI Auto Boot confirmation, QSFP clustering, NCCL tests, and dual-Spark workload validation remain open in [[Task Checklist]].
 
 Use only these completed-guide sections now:
 
@@ -281,9 +291,11 @@ See [[Qwen 3.8 27B Ollama Remote Access Research]] for official model facts, sec
 - [[DGX Spark And RTX 5000 Workstation Model Placement Research]] — high-level machine ownership, model placement, and fine-tuning decisions; use the live ODS research below for current workstation-runtime details.
 - [[ODS Workstation Ollama Integration Research]] — live workstation ODS/Ollama evidence and corrected ownership boundaries.
 - [[Qwen 3.8 27B Ollama Remote Access Research]] — official Ollama package facts and the workstation-to-ODS-to-Spark-Hermes remote-access path.
+- [[VoiceStudio Windows Portable Usage]] — verified portable install, usage, settings, backup, and blank-Capture-window recovery.
+- [[VoiceStudio Risk Audit]] — risk inventory, acceptance checks, and boundaries between VoiceStudio and Handy.
 - [[RTX PRO 5000 Workstation ODS Models And LM Studio Desktop Tutorial]] — active GUI-first beginner runbook for incomplete Steps 2–4.
 - [[RTX PRO 5000 Workstation Models And LM Studio Lab Tutorial]] — superseded; retained only for history.
-- [[DGX Spark Nemotron 3 Nano Omni Tutorial]] — next specialist Spark installation.
+- [[DGX Spark Nemotron 3 Nano Omni Tutorial]] — completed specialist Spark lane; use for rebuild, rollback, and optional real-world media-quality testing.
 - [[DGX Spark LM Studio And LM Link Tutorial]] — older Spark-CLI reference; not the active workstation rollout.
 
 ### Optional model tutorials

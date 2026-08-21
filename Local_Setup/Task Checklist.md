@@ -1,7 +1,7 @@
 ---
 title: Task Checklist
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-08-21
 status: active
 type: checklist
 tags:
@@ -27,37 +27,49 @@ tags:
 - [ ] Do not download the same model into Ollama, LM Studio, and Hugging Face/vLLM without a specific comparison reason.
 - [ ] When an agent completes a box, have it add a short result, date, version/model ID, and any rollback note beneath that box.
 
-## Weekend finish line — 15–16 August 2026
+## Current Codex project completion audit — 21 August 2026
 
-The realistic weekend goal is to finish the **operational setup**, not every future model, framework, and portfolio lab.
+Only work supported by the task record, live verification, or a dated evidence note is marked complete.
 
-### Must finish this weekend
+| Codex task | Verified completion reflected in this checklist | Still open; do not infer completion |
+|---|---|---|
+| `Verify NVIDIA Spark SSH access` | Beginner Spark operations runbook, standalone-Hermes ownership, and the foundation/Qwen deployment path that the canonical index later verified as complete. | Later backup, restore, failover, automation, retrieval, and evaluation sequences. |
+| `Verify NVIDIA Spark SSH access (2)` | Workstation ODS/Ollama boundaries, both Gemma 4 models, Qwen 3.8 installation and remote routing, plus the supporting tutorials and research notes. | Qwen 3.8 promotion comparison and restart-by-restart resilience checks. |
+| `Plan Spark LM Link routing` | Tailnet-only workstation Ollama route, Spark LM Studio/LM Link, named Hermes providers, dynamic discovery, Qwen/Omni memory optimization, and Omni 131K long-context verification. | Shared regression harness and future runtime/model A/B work. |
+| `Create setup task checklist` | The source-mapped runbook and the laptop thin-client policy; this audit expands its original 29-note map to all 35 other current notes. | Operational boxes were not completed merely by creating the runbook. |
+| `Install VoiceStudio portable` | VoiceStudio v0.5.0 at `D:\Apps\VoiceStudio`, portable data, CUDA diagnostics, TTS, Whisper transcription, Parakeet dictation, and blank-Capture-window recovery. | Optional unused-model cleanup and longer real-microphone/daily-use acceptance. |
+| `Document DGX Spark restart state` | First-Spark physical power-cycle recovery, saved recovery snapshot, corrected Qwen-before-Lightning boot order, second Spark NVIDIA Sync access, and initial thermal/no-throttling comparison. | A second controlled reboot of the corrected order, UEFI Auto Boot, QSFP clustering, NCCL, and dual-Spark DeepSeek validation. |
 
-- [ ] Sequence 0 — Reconfirm the baseline and ownership map.
+## Current operational finish line
+
+The immediate goal remains the **operational setup**, not every future model, framework, and portfolio lab.
+
+### Must finish for the operational baseline
+
+- [x] Sequence 0 — Reconfirm the baseline and ownership map.
 - [ ] Sequence 1 — Backups, restart recovery, and failover are proven.
-- [ ] Sequence 2 — Laptop fallback is either configured or deliberately declined.
+- [x] Sequence 2 — Laptop fallback is deliberately declined; the laptop uses the authoritative Spark Remote Gateway.
 - [ ] Sequence 3A — Skill/plugin safety and intake controls are in place.
 - [ ] Sequence 4 — One real coding workflow works through stable local aliases.
 - [ ] Sequence 5 — One safe automation works and its failure path alerts correctly.
 - [ ] Sequence 6 — The Spark has a pull-only Obsidian replica and retrieval is evaluated before broad indexing.
 
-### Stretch only after the must-finish list
+### Stretch only after the operational baseline
 
 - [ ] Sequence 3B — Complete one development-methodology bakeoff.
 - [ ] Sequence 7 — Establish the shared evaluation and observability harness.
 - [ ] Sequence 8A — Test exactly one new workstation model; start with `qwen3-coder:30b` if coding is the immediate goal.
 
-### Suggested time blocks
+### Suggested remaining work blocks
 
-| Day | Block | Sequence | Estimated hands-on time |
+| Work block | Scheduling | Sequence | Estimated hands-on time |
 |---|---|---|---:|
-| Saturday | 1 | Baseline plus backups | 1.5–2 h |
-| Saturday | 2 | Restart/failover and optional laptop fallback | 1.5–2 h |
-| Saturday | 3 | Skills/plugin safety and one methodology | 2–3 h |
-| Saturday | 4 | Coding route and regression prompts | 1.5–2 h |
-| Sunday | 1 | First cron/n8n workflow and chaos test | 2–3 h |
-| Sunday | 2 | Obsidian headless plus retrieval evaluation | 3–4 h plus indexing time |
-| Sunday | 3 | One optional model A/B or remaining cleanup | 1.5–3 h plus download time |
+| Block 1 | Primary | Remaining backups, restore test, corrected-order reboot, and failover | 1.5–3 h |
+| Block 2 | Parallel | Skills/plugin intake repository and safety controls | 2–3 h |
+| Block 3 | Parallel | Shared regression set plus one real coding workflow | 2–4 h |
+| Block 4 | After Block 1 | First cron/n8n workflow and failure test | 2–3 h |
+| Block 5 | After vault backup | Obsidian headless replica plus retrieval evaluation | 3–4 h plus indexing time |
+| Block 6 | After regression set | One optional model A/B or remaining cleanup | 1.5–3 h plus download time |
 
 ## Already complete — do not repeat
 
@@ -69,12 +81,17 @@ The realistic weekend goal is to finish the **operational setup**, not every fut
 - [x] Spark LM Studio, LM Link, Nemotron 3.5 Lightning `Q4_K_M`, named Hermes providers, and dynamic provider discovery are complete. See [[Hermes LM Link And Workstation Model Routing Research]].
 - [x] Nemotron 3 Nano Omni text, tool, long-context, image, audio-path, and video serving tests are complete. See [[DGX Spark Nemotron 3 Nano Omni Tutorial]].
 - [x] Qwen 35, Qwen 27, and Omni KV allocations are optimized and verified. See [[DGX Spark Qwen NVFP4 Memory And Startup Optimization Research]] and [[DGX Spark Multi-Model Runtime Research]].
+- [x] `qwen3.8:27b` is installed once in workstation Ollama, verified through ODS, private Tailscale Serve, and Spark Hermes, and left unloaded while `spark-fast` remains default. See [[Qwen 3.8 27B Ollama Remote Access Research]].
+- [x] The laptop is a tested Spark Remote Gateway thin client with no second authoritative Hermes profile and no duplicate workstation-model downloads.
+- [x] The first Spark completed a physical power cycle and recovered its stack; the exposed Qwen/Lightning boot-order race was corrected and documented. A later controlled reboot of the corrected order remains in Sequence 1. See [[DGX Spark Pre-Shutdown And Automatic Recovery Snapshot 2026-08-20]].
+- [x] The second Spark is reachable as `SecondSpark` in NVIDIA Sync and passed the initial idle thermal/no-throttling comparison. Clustering waits for the approved QSFP112 DAC and the Sequence 8I readiness gate. See [[DGX Spark Second Node And Dual Spark Readiness Research 2026-08-20]].
+- [x] VoiceStudio v0.5.0 is installed portably at `D:\Apps\VoiceStudio`; CUDA diagnostics, generation, Whisper transcription, Parakeet dictation, and the blank `Capture` overlay recovery passed. See [[VoiceStudio Windows Portable Usage]] and [[VoiceStudio Risk Audit]].
 
 ---
 
 ## Sequence 0 — Reconfirm the baseline and ownership map
 
-**Priority:** Weekend P0  
+**Priority:** Operational P0  
 **Time:** 30–45 minutes  
 **Goal:** start from the live state, not an older tutorial assumption.
 
@@ -103,7 +120,7 @@ The realistic weekend goal is to finish the **operational setup**, not every fut
 
 ## Sequence 1 — Backups, restart recovery, and failover
 
-**Priority:** Weekend P0  
+**Priority:** Operational P0  
 **Time:** 1.5–2 hours  
 **Goal:** prove the setup survives failure before adding more tools or models.
 
@@ -113,7 +130,8 @@ The realistic weekend goal is to finish the **operational setup**, not every fut
 2. [[personal-hermes-obsidian-multinode-design#Hermes state and profile ownership]]
 3. [[personal-hermes-obsidian-multinode-design#Suggested rollout]]
 4. [[DGX Spark Operations Setup Guide#Safe stop and rollback commands]]
-5. [[Spark Hermes Setup Runbook#Phase 4 — Automation (half a day, then grows)]]
+5. [[DGX Spark Pre-Shutdown And Automatic Recovery Snapshot 2026-08-20#Controlled reboot test]]
+6. [[Spark Hermes Setup Runbook#Phase 4 — Automation (half a day, then grows)]]
 
 ### Checklist
 
@@ -123,7 +141,8 @@ The realistic weekend goal is to finish the **operational setup**, not every fut
 - [ ] Back up workstation ODS configuration/data through the supported ODS path; keep model weights reconstructable from the model manifest.
 - [ ] Designate exactly one Obsidian replica as the independent backup source; confirm Sync itself is not being treated as backup.
 - [ ] Test Hermes restore into a disposable profile/home without replacing the live profile.
-- [ ] Reboot Spark and verify Qwen health, LiteLLM alias health, Hermes Serve, Hermes Gateway, bot connections, LM Studio, and the model picker return without manual repair.
+- [x] Complete one physical FirstSpark power-cycle recovery and verify Docker/ODS, Qwen `spark-fast`, LiteLLM, Hermes services, LM Studio/LM Link, Tailscale, SSH, and OpenCode return; correct the discovered Qwen-before-Lightning boot-order race. Evidence: [[DGX Spark Pre-Shutdown And Automatic Recovery Snapshot 2026-08-20#Controlled reboot test]].
+- [ ] Run one later controlled reboot and prove the corrected Qwen-before-Lightning order, bot connections, and model picker all return without manual repair.
 - [ ] Stop the Qwen backend intentionally and verify a request fails over or alerts according to the documented policy rather than hanging or choosing an unrelated model.
 - [ ] Put the workstation to sleep or stop workstation Ollama and verify `desktop-ollama` becomes unavailable while `spark-fast` remains usable.
 - [ ] Resume the workstation and verify dynamic model discovery recovers without creating duplicate providers.
@@ -143,7 +162,7 @@ The realistic weekend goal is to finish the **operational setup**, not every fut
 
 ## Sequence 2 — Decide the laptop’s independent fallback
 
-**Priority:** Weekend P0 decision; implementation optional  
+**Priority:** Operational P0 decision; implementation optional  
 **Time:** 10 minutes to decline, 45–90 minutes to implement  
 **Goal:** avoid accidental duplicate profiles while still supporting offline/travel use if needed.
 
@@ -156,7 +175,7 @@ The realistic weekend goal is to finish the **operational setup**, not every fut
 
 ### Decision gate — choose one
 
-- [ ] **Recommended:** keep the laptop as a Spark Remote Gateway client only; no duplicate provider configuration is needed.
+- [x] **Chosen:** keep the laptop as a Spark Remote Gateway client only; no duplicate provider configuration is needed.
 - [ ] **Optional fallback:** create a clearly named laptop-local Hermes profile with no production bot tokens or schedules.
 
 ### Only if the optional fallback is chosen
@@ -170,7 +189,7 @@ The realistic weekend goal is to finish the **operational setup**, not every fut
 
 ### Completion gate
 
-- [ ] **Done:** the chosen laptop policy is written down, tested, and contains no second authoritative Hermes state.
+- [x] **Done:** the laptop Remote Gateway, shared Spark-backed state, chat, and tool path were tested; there is no second authoritative Hermes state or duplicated model shelf.
 
 ---
 
@@ -178,7 +197,7 @@ The realistic weekend goal is to finish the **operational setup**, not every fut
 
 ### Sequence 3A — Put safety and intake controls in place
 
-**Priority:** Weekend P0  
+**Priority:** Operational P0  
 **Time:** 1–2 hours  
 **Goal:** make every future skill/plugin installation reviewable and reversible.
 
@@ -208,7 +227,7 @@ The realistic weekend goal is to finish the **operational setup**, not every fut
 
 ### Sequence 3B — Choose one development methodology
 
-**Priority:** Weekend stretch / next-week P1  
+**Priority:** Optional P1  
 **Time:** 2–4 hours  
 **Goal:** choose one default methodology from evidence instead of installing several overlapping global packs.
 
@@ -270,7 +289,7 @@ The realistic weekend goal is to finish the **operational setup**, not every fut
 
 ## Sequence 4 — Make local-model coding a daily workflow
 
-**Priority:** Weekend P0  
+**Priority:** Operational P0  
 **Time:** 1.5–2 hours  
 **Goal:** finish one real coding task through stable aliases from both workstation and laptop.
 
@@ -300,7 +319,7 @@ The realistic weekend goal is to finish the **operational setup**, not every fut
 
 ## Sequence 5 — Add one safe automation and prove failure behavior
 
-**Priority:** Weekend P0  
+**Priority:** Operational P0  
 **Time:** 2–3 hours  
 **Goal:** one useful scheduled job, one production owner, and no silent side effects.
 
@@ -330,7 +349,7 @@ The realistic weekend goal is to finish the **operational setup**, not every fut
 
 ## Sequence 6 — Obsidian headless replica and measured retrieval
 
-**Priority:** Weekend P0  
+**Priority:** Operational P0  
 **Time:** 3–4 hours plus indexing  
 **Goal:** Hermes can read the vault from Spark without creating sync conflicts, and retrieval quality is measured before broad trust.
 
@@ -377,7 +396,7 @@ The realistic weekend goal is to finish the **operational setup**, not every fut
 
 ## Sequence 7 — Shared evaluation, observability, and runtime A/B
 
-**Priority:** P1 after the weekend core  
+**Priority:** P1 after the operational core  
 **Goal:** every new model/runtime is judged with the same evidence.
 
 ### Read first, in order
@@ -541,6 +560,15 @@ The realistic weekend goal is to finish the **operational setup**, not every fut
 
 **Read:** [[DGX Spark ODS Playbook and Model Roadmap#Install later or benchmark experimentally]], [[DGX Spark Aug 2026 Model Deployment Research#Recommended operating set]], and [[dgx-spark-current-models-report#Install and experiment matrix]].
 
+#### Two-Spark readiness gate
+
+- [x] Add the second Spark to NVIDIA Sync with a unique hostname/alias and keep the first Spark as the sole Hermes/routing owner.
+- [x] Compare both Sparks at idle and confirm the second Spark shows no current thermal throttling; retain the temporary 2200 MHz cap only as a reversible workload precaution, not as a memory limit.
+- [ ] Confirm both Sparks have matching intended OS/driver/firmware levels and compatible numeric UID/GID before shared-file or cluster work.
+- [ ] Install one NVIDIA-approved QSFP112 400G DAC between the matching ConnectX-7 ports; do not attempt distributed sharding over Wi-Fi or ordinary LAN.
+- [ ] Use NVIDIA Sync Cluster Assistant, require the link test to exceed NVIDIA's 184 Gbit/s validation floor, and pass NCCL tests.
+- [ ] Prove one NVIDIA-validated two-node workload before attempting the experimental dual-Spark DeepSeek profile.
+
 - [ ] Qwen 3.5 122B-A10B — create an exclusive, pinned, isolated lane and test first.
 - [ ] Poolside Laguna S 2.1 plus matching DFlash — test only after license, parser, and runtime review.
 - [ ] Qwen3-Coder-Next — test an official/reputable GGUF or FP8 path only after the smaller coder benchmark justifies it.
@@ -651,7 +679,7 @@ Read [[DGX Spark ODS Playbook and Model Roadmap#Phase 3 - FDE portfolio applicat
 
 ## Complete source map — all existing notes accounted for
 
-Use this map to decide what to read deeply and what to keep as reference. It covers every Markdown note that existed in this folder before this checklist was created.
+Use this map to decide what to read deeply and what to keep as reference. As of 2026-08-21 it covers all 35 other Markdown notes currently in this folder.
 
 ### Canonical/current operating notes
 
@@ -665,6 +693,9 @@ Use this map to decide what to read deeply and what to keep as reference. It cov
 - [[ODS Workstation Ollama Integration Research]] — verified workstation ODS/Ollama state and correct model-store boundaries.
 - [[Hermes LM Link And Workstation Model Routing Research]] — verified current Ollama, LM Link, provider discovery, and cross-gateway routing.
 - [[DGX Spark Nemotron 3.5 Lightning Via LM Studio Research]] — chosen Nemotron 3.5 Lightning LM Studio path and quantization evidence.
+- [[DGX Spark Pre-Shutdown And Automatic Recovery Snapshot 2026-08-20]] — verified first-Spark physical recovery, service ownership, corrected boot order, and the remaining reboot gate.
+- [[DGX Spark Second Node And Dual Spark Readiness Research 2026-08-20]] — second-node role, approved cable choices, cluster validation, and dual-Spark limits.
+- [[VoiceStudio Windows Portable Usage]] — verified portable VoiceStudio state, first-use workflow, settings, backup, and recovery guidance.
 
 ### Completed setup/tutorial references
 
@@ -673,6 +704,7 @@ Use this map to decide what to read deeply and what to keep as reference. It cov
 - [[DGX Spark Nemotron 3 Nano Omni Tutorial]] — completed specialist lane; use for rebuild/rollback and future media-quality tests.
 - [[DGX Spark LM Studio And LM Link Tutorial]] — older Spark CLI reference; the live LM Link/Nemotron rollout is already complete.
 - [[RTX PRO 5000 Workstation ODS Models And LM Studio Desktop Tutorial]] — current beginner workstation guide; Ollama/Gemma portions are complete, while a separate workstation LM Studio lab remains optional.
+- [[Qwen 3.8 27B Ollama Remote Access Research]] — completed single-copy workstation installation and ODS/Tailscale/Spark-Hermes route; promotion evaluation remains open.
 
 ### Optional model tutorials — not the active default path
 
@@ -693,10 +725,12 @@ Use this map to decide what to read deeply and what to keep as reference. It cov
 - [[dgx-spark-playbook-roadmap-draft|DGX Spark Playbook Roadmap Draft]] — historical draft supporting the consolidated roadmap.
 - [[dgx-spark-twitter-bookmarks-analysis|DGX Spark Twitter Bookmarks Analysis]] — social leads, evidence quality, and claims that require local reproduction.
 - [[local-ai-architecture-research|Local AI Architecture Research]] — subscription/API boundaries, runtime choices, device roles, and canonical configuration design.
+- [[DGX Spark Automatic Power Recovery Research]] — official power-return evidence and the still-unverified live UEFI Auto Boot setting.
+- [[VoiceStudio Risk Audit]] — completed risk inventory and acceptance boundaries for VoiceStudio, including the known blank Capture overlay.
 
 ## Final completion definition
 
-- [ ] The weekend P0 sequences are complete with evidence.
+- [ ] The operational P0 sequences are complete with evidence.
 - [ ] Backups and restore paths have been tested, not merely configured.
 - [ ] Every production service, schedule, model route, database, and bot has one owner.
 - [ ] The laptop, workstation, and Spark each have a documented role and failure behavior.
