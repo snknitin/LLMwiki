@@ -122,8 +122,8 @@ Current status and remaining actions:
 
 Continue in [[RTX PRO 5000 Workstation ODS Models And LM Studio Desktop Tutorial]]:
 
-- Part 3 downloads, runs, tests, compares, and switches the two Gemmas through native Ollama while using ODS Open WebUI as the chat front end.
-- These two models belong to `D:\LocalLLama\models\ollama`; do not duplicate them in the ODS GGUF store or LM Studio merely to complete the step.
+- Part 3 downloads, runs, tests, compares, and switches the two Gemmas plus Qwen 3.8 27B through native Ollama while using ODS Open WebUI as the chat front end.
+- These models belong to `D:\LocalLLama\models\ollama`; do not duplicate them in the ODS GGUF store or LM Studio merely to complete the step.
 
 Use [[DGX Spark And RTX 5000 Workstation Model Placement Research#The practical workstation shortlist]] as the broader model-placement reference.
 
@@ -131,7 +131,8 @@ Install and test in this order:
 
 1. **Gemma 4 31B** — first local dense quality/coding/multilingual verifier.
 2. **Gemma 4 26B-A4B** — faster creative-writing, translation, summarization, and vision worker.
-3. **One 7–14B training model** — only when beginning the fine-tuning workflow.
+3. **Qwen 3.8 27B** — general chat/coding/reasoning/vision/tools candidate through the existing dynamic Ollama provider.
+4. **One 7–14B training model** — only when beginning the fine-tuning workflow.
 
 Nemotron 3.5 Lightning has moved to the Spark LM Studio plan in Step 4. Do not add a second Ollama copy on the workstation.
 
@@ -144,7 +145,14 @@ Completed for the two Gemmas:
 - [x] Repeat one short loaded-model check at the new 128K server setting before telling Hermes that the effective context is 128K. Both large Gemmas also passed one Hermes terminal-tool call and reported `131072` in `ollama ps`.
 - [x] Compare the same prompts against `spark-fast` separately in Hermes Desktop.
 
-Do **not** download workstation copies of the two Qwen models already working on Spark unless a controlled latency benchmark later justifies the duplicate.
+Completed for Qwen 3.8 27B:
+
+- [x] `qwen3.8:27b` was downloaded once into the native Ollama store; its interrupted first transfer resumed and passed SHA-256 verification.
+- [x] It passed local text, structured-tool, vision-path, ODS Open WebUI, Spark Tailscale, and Spark Hermes tests.
+- [x] It ran 100% on the RTX PRO 5000 at context `262144`, used about 37,890 MiB, and was unloaded afterward without deleting it.
+- [x] The existing `desktop-ollama` provider was retained in both Hermes gateways; only verified Qwen metadata was added. The Spark default remains `spark-fast`.
+
+Do **not** download workstation copies of the two Qwen 3.6 models already working on Spark. Qwen 3.8 is the deliberate workstation Ollama candidate; keep Spark as the capacity/reference path until a controlled comparison justifies promotion.
 
 ### 4. Make Spark LM Studio the Nemotron 3.5 Lightning shelf and connect both Hermes gateways
 
@@ -161,9 +169,9 @@ Read and reconcile before executing:
 
 | Hermes surface | Named provider | Endpoint used by that Hermes profile | Models |
 |---|---|---|---|
-| Spark Remote Gateway, including Telegram and Discord | `desktop-ollama` | Tailnet-only HTTPS URL from Tailscale Serve, ending in `/v1` | Workstation Ollama Gemma shelf |
+| Spark Remote Gateway, including Telegram and Discord | `desktop-ollama` | Tailnet-only HTTPS URL from Tailscale Serve, ending in `/v1` | Workstation Ollama Gemma and Qwen shelf |
 | Spark Remote Gateway, including Telegram and Discord | `spark-lmstudio` | `http://127.0.0.1:1234/v1` | Spark LM Studio Nemotron 3.5 Lightning |
-| Windows Local Gateway | `desktop-ollama` | `http://127.0.0.1:11434/v1` | The same workstation Ollama Gemmas |
+| Windows Local Gateway | `desktop-ollama` | `http://127.0.0.1:11434/v1` | The same workstation Ollama Gemmas and Qwen |
 | Windows Local Gateway | `spark-lmstudio` | `http://127.0.0.1:1234/v1` through the workstation LM Link connector | The same Spark-hosted LM Studio model |
 | Laptop using Spark Remote Gateway | both providers above | No additional model endpoint configuration; the laptop reads the Spark Hermes profile | The same dynamic Ollama and Spark LM Studio shelves |
 | Laptop Local Gateway, optional fallback | `desktop-ollama` plus `spark-lmstudio` | One-time tailnet-only provider URLs, or laptop LM Link for Spark LM Studio | The same shelves after live discovery |
@@ -198,7 +206,7 @@ The model lists do not merge automatically between gateways. Configure the named
 Workstation Ollama remains the workstation model service of record. Spark LM Studio becomes the on-demand Spark GGUF shelf. ODS keeps Open WebUI/SearXNG plus its stopped optional runtime. Do not duplicate the same 20–30 GB model across these stores without a deliberate benchmark reason.
 
 > [!success] Remote Desktop And Bot Catalog Verified
-> The Spark gateway's live picker payload contains `desktop-ollama` with all three installed Ollama models and `spark-lmstudio` with the downloaded Nemotron model. Telegram and Discord use this same picker and accept `/model --refresh`; the refresh clears Hermes's one-hour provider cache and re-fetches each live `/v1/models` endpoint. The Windows Local Gateway has the same two discovery-enabled providers. No per-model provider edit is required after a download, although a verified `context_length` entry is still recommended before relying on a new model at long context.
+> The Spark gateway's live picker payload contains `desktop-ollama` with all four installed Ollama models and `spark-lmstudio` with the downloaded Nemotron model. Telegram and Discord use this same picker and accept `/model --refresh`; the refresh clears Hermes's provider cache and re-fetches each live `/v1/models` endpoint. The Windows Local Gateway has the same two discovery-enabled providers. No per-model provider edit is required after a download, although a verified `context_length` entry is still recommended before relying on a new model at long context.
 
 - [x] Verify Spark Remote Gateway/Desktop dynamic provider discovery.
 - [x] Verify the exact Telegram/Discord model-picker payload without sending an external bot message.
@@ -253,11 +261,13 @@ Before training, unload workstation Ollama and LM Studio models. Normal Hermes w
 
 ### 8. Hold Qwen 3.8 behind a release gate
 
-- [ ] Confirm the exact official checkpoint and license.
-- [ ] Wait for stable, reputable quantization and runtime support.
-- [ ] Test a workstation-sized quant on the RTX PRO 5000 first when appropriate.
-- [ ] Keep Spark as the capacity/reference path.
+- [x] Confirm the official Ollama tag and publisher: `qwen3.8:27b`, 27.3B parameters, Q4_K_M, approximately 18 GB, requiring Ollama 0.32.12 or newer.
+- [x] Stable workstation-sized runtime support exists in the official Ollama library; use the single workstation copy rather than duplicating it in ODS or LM Studio.
+- [x] Download and test `qwen3.8:27b` on the RTX PRO 5000 through native Ollama, ODS Open WebUI, and the existing `desktop-ollama` Spark Hermes provider.
+- [x] Keep Spark as the capacity/reference path; `spark-fast` remains the current Hermes default.
 - [ ] Do not replace `spark-fast` until identical chat, coding, vision, reasoning, and tool evaluations pass.
+
+See [[Qwen 3.8 27B Ollama Remote Access Research]] for official model facts, security boundaries, and the end-to-end verification checklist.
 
 ## File map — what each note is for
 
@@ -270,6 +280,7 @@ Before training, unload workstation Ollama and LM Studio models. Normal Hermes w
 - [[DGX Spark Model Installation And Switching Guide]] — completed Qwen installation; use for daily switching rules.
 - [[DGX Spark And RTX 5000 Workstation Model Placement Research]] — high-level machine ownership, model placement, and fine-tuning decisions; use the live ODS research below for current workstation-runtime details.
 - [[ODS Workstation Ollama Integration Research]] — live workstation ODS/Ollama evidence and corrected ownership boundaries.
+- [[Qwen 3.8 27B Ollama Remote Access Research]] — official Ollama package facts and the workstation-to-ODS-to-Spark-Hermes remote-access path.
 - [[RTX PRO 5000 Workstation ODS Models And LM Studio Desktop Tutorial]] — active GUI-first beginner runbook for incomplete Steps 2–4.
 - [[RTX PRO 5000 Workstation Models And LM Studio Lab Tutorial]] — superseded; retained only for history.
 - [[DGX Spark Nemotron 3 Nano Omni Tutorial]] — next specialist Spark installation.

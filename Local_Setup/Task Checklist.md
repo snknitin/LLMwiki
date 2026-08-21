@@ -528,11 +528,12 @@ The realistic weekend goal is to finish the **operational setup**, not every fut
 
 **Read:** [[Local Setup Index#8. Hold Qwen 3.8 behind a release gate]] and [[DGX Spark Additional Model Tutorials Index#What to do when Qwen 3.8 is released]].
 
-- [ ] Confirm the exact official checkpoint, publisher, license, and immutable revision.
-- [ ] Wait for stable reputable GGUF/quantization and confirmed Ollama or LM Studio runtime support.
-- [ ] Test one workstation-sized quantization first without deleting any current Qwen model.
+- [x] Confirm the official Ollama package: `qwen3.8:27b`, 27.3B, Q4_K_M, approximately 18 GB, published through the official Ollama library.
+- [x] Confirm runtime support: the manifest requires Ollama 0.32.12 and the workstation runs 0.32.13.
+- [x] Finish and verify the workstation Ollama download without deleting or duplicating any current model.
+- [x] Verify local chat, structured tools, vision path, effective 256K context, ODS Open WebUI, Tailscale Serve, and Spark Hermes discovery.
 - [ ] Compare chat, coding, vision, reasoning, tools, long context, and latency with Qwen 3.6.
-- [ ] Keep Spark as capacity/reference path.
+- [x] Keep Spark as capacity/reference path; leave `spark-fast` as the current default.
 - [ ] Change `spark-fast` only after the full regression suite and rollback test pass.
 - [ ] **Done:** promotion or rejection decision is evidence-backed; release-day novelty is not the reason.
 

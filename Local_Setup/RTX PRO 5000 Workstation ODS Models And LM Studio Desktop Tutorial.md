@@ -32,7 +32,7 @@ The workstation ODS is not currently connected to Spark LiteLLM. Therefore, a `s
 - The **Ollama API** switch is enabled with one `http://host.docker.internal:11434` entry. A duplicate entry was removed and the model selector was verified to show each Ollama model exactly once. Port `11434` remains native Ollama's standard API port; ODS's optional host-facing llama-server port was moved to `11436`.
 - The active saved Open WebUI configuration therefore enables Ollama even though the container's initial environment default said otherwise. The authenticated UI is the authoritative current state.
 - ODS stores its GGUF model files under `D:\LocalLLama\ods\data\models`.
-- Native Ollama 0.32.13 is installed and stores models under `D:\LocalLLama\models\ollama`. The `gemma3:4b`, `gemma4:31b-it-qat`, and `gemma4:26b-a4b-it-qat` packages are downloaded there. Both large Gemmas passed direct Ollama and ODS Open WebUI tests at 16K context, ran 100% on the GPU, and were unloaded afterward.
+- Native Ollama 0.32.13 is installed and stores models under `D:\LocalLLama\models\ollama`. The `gemma3:4b`, `gemma4:31b-it-qat`, `gemma4:26b-a4b-it-qat`, and `qwen3.8:27b` packages are downloaded there. Both large Gemmas passed direct Ollama and ODS Open WebUI tests. Qwen 3.8 passed text, structured-tool, vision-path, ODS, Spark-to-workstation, and Hermes tests at its live 256K context. Every model was unloaded after testing.
 - Native Ollama uses its standard `127.0.0.1:11434`; Open WebUI reaches it at `http://host.docker.internal:11434`. ODS's stopped host-facing llama-server is reserved at `127.0.0.1:11436` and remains `http://llama-server:8080/v1` inside Docker.
 - The former ODS DeepSeek 70B runtime was stopped and its GGUF was moved to the Windows Recycle Bin on 2026-08-15. It is no longer resident in VRAM or present in the ODS model directory.
 - The ODS Dashboard has its own separate GGUF catalog, but the two workstation Gemmas in this guide are being installed through Ollama. Do not download second copies from the ODS Dashboard.
@@ -139,14 +139,14 @@ Ollama is the canonical workstation model owner. Its models remain in:
 D:\LocalLLama\models\ollama
 ```
 
-Do not click **Download** for these Gemmas in the ODS Dashboard. ODS Open WebUI discovers them through its saved Ollama connection, so the same models can be used in ODS chat without putting GGUF files in `D:\LocalLLama\ods\data\models`.
+Do not click **Download** for these Ollama models in the ODS Dashboard. ODS Open WebUI discovers them through its saved Ollama connection, so the same models can be used in ODS chat without putting GGUF files in `D:\LocalLLama\ods\data\models`.
 
 ### Step 3.1 — Confirm Ollama is ready
 
 1. Start **Ollama** from the Windows Start menu.
 2. Open Ollama **Settings**.
 3. Confirm **Model location** is `D:\LocalLLama\models\ollama`.
-4. Confirm the initial **Context length** is **16K**.
+4. Do not be alarmed if **Context length** shows **256K**. Ollama selects that default on this 48 GiB GPU; the loaded-model check in Step 3.6 is the authoritative value.
 5. Open a normal, non-administrator **PowerShell** window.
 6. Run:
 
@@ -236,6 +236,105 @@ Use the same prompts in two different applications:
 
 This comparison does not require connecting workstation ODS to Spark LiteLLM.
 
+### Step 3.6 — Install and use Qwen 3.8 27B from the same Ollama shelf
+
+This installation was completed and verified on 2026-08-20. Keep these instructions as the exact recovery and daily-use procedure.
+
+The official Ollama tag is:
+
+```text
+qwen3.8:27b
+```
+
+It is a 27.3B-parameter `Q4_K_M` package with text, vision, thinking, and tool-call support. Ollama reports approximately 17 GB in `ollama list`; the downloaded payload is about 16.52 GiB. It is stored only in `D:\LocalLLama\models\ollama`.
+
+#### A. Download or repair the download
+
+1. Start Ollama Desktop.
+2. Open a normal, non-administrator PowerShell window on **Nike-Workstation**.
+3. Run:
+
+```powershell
+ollama pull qwen3.8:27b
+```
+
+4. Leave the window open until it says `success`.
+5. If it ends with `unexpected EOF`, run the identical command again. Ollama resumes and verifies its content-addressed layers; do not delete the partial data first.
+6. Verify the installed identity:
+
+```powershell
+ollama list
+ollama show qwen3.8:27b
+```
+
+**Success looks like:** one `qwen3.8:27b` row appears, and `ollama show` reports 27.3B parameters, `Q4_K_M`, context length `262144`, and the `vision`, `tools`, and `thinking` capabilities.
+
+#### B. Load it once and check GPU placement
+
+1. In the same PowerShell window, run:
+
+```powershell
+ollama run qwen3.8:27b
+```
+
+2. Enter a short test prompt, such as:
+
+```text
+Write a Python function named square that returns x multiplied by x.
+```
+
+3. Press `Ctrl+D` to leave the interactive model prompt.
+4. Before the five-minute idle timer unloads it, run:
+
+```powershell
+ollama ps
+nvidia-smi --query-gpu=memory.used,memory.total --format=csv,noheader
+```
+
+The verified workstation result was `100% GPU`, context `262144`, and about 37,890 MiB used out of 48,935 MiB. That leaves roughly 11 GiB of GPU headroom. Do not load another large Ollama, LM Studio, or ODS model beside it.
+
+#### C. Use the same copy in ODS Open WebUI
+
+1. Keep native Ollama running on `127.0.0.1:11434`.
+2. Open or refresh `http://localhost:3000`.
+3. Open **Select a model**.
+4. Choose `qwen3.8:27b`. It should appear exactly once.
+5. Send a short test message.
+
+ODS already connects to native Ollama at `http://host.docker.internal:11434`. Do not use the ODS Dashboard's **Download** button for Qwen and do not copy model files into `D:\LocalLLama\ods\data\models`. The verified ODS chat returned the requested response from the single Ollama copy.
+
+#### D. Use it from the Spark Remote Gateway, laptop, and bots
+
+No new provider is required. The existing Spark Hermes provider named **Desktop Ollama via Tailscale** discovers Ollama models dynamically through the workstation's tailnet-only HTTPS route.
+
+In a Spark Remote Gateway Hermes chat, choose:
+
+```text
+Desktop Ollama via Tailscale → qwen3.8:27b
+```
+
+The equivalent Hermes model identifier is:
+
+```text
+custom:desktop-ollama:qwen3.8:27b
+```
+
+The provider metadata is already installed in the Spark main and orchestrator profiles with context `262144` and vision enabled. The Windows Local Gateway has matching metadata at its loopback Ollama endpoint. A Spark Hermes one-shot test returned `Hermes Qwen route verified` after the persistent Gateway and Serve services were restarted.
+
+The laptop needs no Ollama installation and no duplicate provider when it uses the recommended **Spark Remote Gateway**. It reads the same Spark provider catalog. Telegram and Discord also use that Spark Gateway; they inherit the model catalog, although sending a representational bot test message still requires your deliberate choice.
+
+#### E. Unload it without deleting it
+
+When finished, run this in workstation PowerShell:
+
+```powershell
+ollama stop qwen3.8:27b
+ollama ps
+ollama list
+```
+
+**Success looks like:** `ollama ps` has no running model, while `ollama list` still contains `qwen3.8:27b`. The verified post-test GPU use returned to about 2,082 MiB. Selecting Qwen again in ODS or Hermes automatically reloads it; the first reply will therefore take longer.
+
 ---
 
 ## Part 4 — Ollama settings and connector-test reference
@@ -252,7 +351,7 @@ Current Ollama Desktop also has saved application settings for **Model location*
 
 Ollama automatically selects a 256K default context on NVIDIA GPUs with at least 48 GiB VRAM. Your RTX PRO 5000 reports 48,935 MiB, so it crosses that threshold. This display is expected; it does not prove that a downloaded model is already using a 256K KV cache.
 
-For early tests, 16K is easier on VRAM and leaves more room for model weights.
+The two Gemmas were initially tested at 16K and later verified at 128K. Qwen 3.8 was verified at the automatic 256K setting and still left about 11 GiB of GPU headroom. Use `ollama ps` while a model is loaded instead of inferring its live context from the settings screen alone.
 
 ### Step 4.1 — Set Ollama's model location in the app
 
@@ -272,14 +371,15 @@ D:\LocalLLama\models\ollama
 
 Do not choose `D:\LocalLLama\ods\data\models`. Ollama and ODS must keep separate stores.
 
-### Step 4.2 — Set Ollama's context length in the app
+### Step 4.2 — Verify the live context instead of guessing from the app
 
-1. In Ollama **Settings**, find **Context length**.
-2. Change it from **256K** to **16K** for the first model tests.
-3. Allow the Ollama server to restart.
-4. Reopen Settings and confirm that **16K** remains selected.
+1. In Ollama **Settings**, note the displayed **Context length**. The automatic **256K** value is expected on this GPU.
+2. Load only the model you want to test.
+3. In PowerShell, run `ollama ps`.
+4. Read the `CONTEXT` column. This is the live value to record in Hermes.
+5. Leave Qwen 3.8 at `262144` while it continues to fit with safe headroom. Reduce context only if a real workload causes memory pressure or instability.
 
-Increase context only when a project actually needs it. Larger context consumes more memory and can reduce the space available for model weights or parallel requests.
+Larger context consumes more memory and can reduce the space available for parallel requests. Never assume every model has the same safe context merely because the application shows one global default.
 
 ### Step 4.3 — Keep Ollama on its standard port
 
@@ -313,9 +413,9 @@ For the simplest and safest workflow:
 
 The ODS extension catalog contains an older, separately pinned Ollama package with its own storage and limits. Installing it would create a third Ollama ownership path and make the setup harder to reason about.
 
-### Step 4.5 — Do not duplicate the Ollama Gemmas
+### Step 4.5 — Do not duplicate the Ollama models
 
-The two workstation Gemmas belong to Ollama. Do not download second copies from the ODS Dashboard or LM Studio merely to make them appear in another UI. ODS Open WebUI can already use the Ollama copies through `http://host.docker.internal:11434`.
+The two workstation Gemmas and Qwen 3.8 belong to Ollama. Do not download second copies from the ODS Dashboard or LM Studio merely to make them appear in another UI. ODS Open WebUI can already use the Ollama copies through `http://host.docker.internal:11434`.
 
 ### Step 4.6 — Connector test already completed
 
@@ -512,12 +612,15 @@ Do not search for the Spark model in workstation ODS.
 - [x] `gemma4:31b-it-qat` has been run and tested at `localhost:3000` through ODS Open WebUI's native Ollama connection.
 - [x] `gemma4:26b-a4b-it-qat` is downloaded through Ollama and stored in the Ollama model location.
 - [x] `gemma4:26b-a4b-it-qat` passed a direct Ollama test and an ODS Open WebUI test at `localhost:3000`, ran 100% on the GPU at 16K context, and was unloaded afterward.
+- [x] `qwen3.8:27b` is downloaded once through Ollama and stored in the Ollama model location.
+- [x] `qwen3.8:27b` passed local text, structured-tool, vision-path, ODS Open WebUI, Spark Tailscale, and Spark Hermes route tests at its live 256K context.
+- [x] `qwen3.8:27b` ran 100% on the GPU, used about 37,890 MiB, and was unloaded without deleting it.
 - [x] Only one large workstation model is resident at a time during these tests.
 
 ### Ollama
 
 - [x] Ollama's app settings show `D:\LocalLLama\models\ollama` as its own model location.
-- [x] Ollama's app context is set to 16K for initial tests.
+- [x] Qwen 3.8's loaded-model check reports context `262144`; its matching Hermes metadata is installed.
 - [ ] I understand why the automatic default was 256K on a 48 GiB GPU.
 - [x] Native Ollama responds at its conventional `http://127.0.0.1:11434` API.
 - [x] ODS's optional stopped llama-server is reserved at host port `11436`.
