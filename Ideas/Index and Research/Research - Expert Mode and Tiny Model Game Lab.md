@@ -40,7 +40,7 @@ The same engine can expose five modes while keeping one evidence and vocabulary 
 
 1. **Orient me:** explain the landscape, canonical concepts, actors, artifacts, metrics, and current disputes.
 2. **Help me ask:** generate questions for an expert interview, meeting, vendor call, review, or diagnosis.
-3. **Answer as a practitioner:** produce a recommendation using the domain's actual decision model and terminology.
+3. **Draft in practitioner register:** produce a sourced recommendation using the domain's actual decision model and terminology without implying credentials or lived experience.
 4. **Challenge this:** audit a plan for novice assumptions, missing variables, invalid comparisons, or terminology misuse.
 5. **Translate registers:** convert between beginner, practitioner, executive, regulator, researcher, and implementation language without changing the underlying claim.
 
@@ -84,6 +84,8 @@ Treat every request as a small domain-compilation job rather than a single promp
 9. **Calibrator** converts evidence coverage and test-set performance into a confidence band; it must not accept the model's verbal confidence uncritically.
 10. **Learning loop** stores corrected terms, accepted questions, source changes, and expert feedback as versioned domain-pack changes rather than silently rewriting a persona.
 
+When a real practitioner is available, add an explicit **expert-elicitation compiler** rather than treating an ordinary transcript as truth. [Applied Cognitive Task Analysis](https://doi.org/10.1080/001401398186108) combines a task diagram, knowledge audit, simulation interview, and cognitive-demands table; the [Critical Decision Method](https://doi.org/10.1518/001872098779480442) reconstructs difficult incidents through cues, goals, options, anomalies, and counterfactuals. Store each elicited item as attributed experiential evidence with method, organization, jurisdiction, date, corroboration, disagreement, and links to artifacts. W3C [PROV-O](https://www.w3.org/TR/prov-o/) provides a vocabulary for attribution and derivation. This prevents a local workaround or recollection from being rewritten as a universal professional rule.
+
 This resembles source-grounded research products but has a different interaction goal. Google's first-party description of [NotebookLM](https://blog.google/innovation-and-ai/technology/ai/notebooklm-google-ai/) emphasizes answers grounded in user-selected sources with citations and relevant passages. OpenAI's current [deep research documentation](https://help.openai.com/en/articles/10500283-deep-research) exposes source selection, a reviewable plan, progress, interruption, and a cited report. Borrow their provenance and controllability patterns; add the domain model and question-value layer they do not promise.
 
 ### The domain-pack schema
@@ -101,6 +103,7 @@ Recommended records:
 - `question_cards`: trigger, exact question, why it matters, possible answers, branch effect, and supporting source;
 - `failure_patterns`: novice tell, expert concern, detection signal, and mitigation;
 - `source_registry`: authority class, canonical URL, version, publication date, retrieval date, jurisdiction/product version, and supersession relationship;
+- `expert_elicitation_sessions`: task diagram, knowledge-audit probes, simulation scenario, participant/source attribution, cognitive demands, critical cues, strategies, novice errors, anomalies, recovery actions, uncertainty, corroboration, and dissent;
 - `forbidden_shortcuts`: phrases or recommendations the skill may not use without specific evidence.
 
 OpenAlex can seed research-domain names and current papers; the [Wikidata Query Service](https://www.wikidata.org/wiki/Help%3ASPARQL) can supply broad entity relationships through SPARQL. Neither should define professional truth by itself. For a medical pack, official guidelines and primary evidence should own clinical claims; for a software pack, protocol specifications and the actual version's documentation should own behavior; for law, jurisdiction and controlling authority must be explicit; for finance, definitions, valuation date, currency, accounting basis, and data vendor need to be named.
@@ -195,6 +198,8 @@ Evaluate these layers separately:
 - **utility:** whether the user can make the decision, prepare for the meeting, or locate the next evidence faster;
 - **cost:** latency, retrieved tokens, model tokens, and unnecessary questions.
 
+Run an additional four-way ablation: ordinary prompt; source-only Expert Lens; source plus expert-elicited pack; and full system with rehearsal. Measure held-out cue recall, novice-error detection, escalation quality, decision regret, follow-up survival, and whether a predicted branch-changing question actually changed the real conversation. [Inspect AI](https://inspect.aisi.org.uk/) can later host repeatable datasets, scorers, transcripts, and local-provider runs, but the Personal V0 should begin with hand-authored scenarios and simple local reports.
+
 [FActScore](https://arxiv.org/abs/2305.14251) motivates decomposing long answers into atomic claims and measuring what proportion are supported. [RAGAS](https://arxiv.org/abs/2309.15217) separates retrieval relevance, context use, and generation quality, though its automated judgments should be treated as screening rather than proof. Language-model confidence is not automatically calibrated; controlled QA experiments found substantial miscalibration and studied post-hoc and fine-tuning corrections ([Jiang et al., 2021](https://aclanthology.org/2021.tacl-1.57/)). A recent analysis argues that accuracy-only evaluations can incentivize guessing and hallucination when abstention is penalized ([OpenAI et al., 2026](https://doi.org/10.1038/s41586-026-10549-w)); the local benchmark should therefore reward correct abstention and productive clarification.
 
 For the final acceptance test, have a practitioner and a competent generalist blindly compare the skill against an ordinary prompt. Ask the practitioner to mark factual errors, subtle terminology misuse, missing decision variables, unrealistic workflows, and questions they would actually ask. Ask the generalist whether the response teaches the decision model rather than only sounding sophisticated. Store disagreements; they are evidence about the rubric, not noise to delete.
@@ -221,7 +226,8 @@ For the final acceptance test, have a practitioner and a competent generalist bl
 5. Add the terminology and unsupported-claim gates.
 6. Add question-impact ranking and the visible “why this matters” line.
 7. Add a second, very different domain to test whether the architecture generalizes.
-8. Only then add automated pack compilation, embeddings, Qdrant, or a hosted research fallback.
+8. Add one ACTA-style practitioner-elicitation session and measure its incremental value against the source-only pack.
+9. Only then add automated pack compilation, embeddings, Qdrant, or a hosted research fallback.
 
 The simplest alternative is a reusable `expert-lens.md` worksheet with five blocks: domain path, material definitions, decision variables, five branch-changing questions, and primary sources. If that worksheet does not improve real conversations, an autonomous agent will not rescue the idea.
 
@@ -251,8 +257,9 @@ Use several models rather than betting the experiment on one tokenizer or pretra
 
 | Candidate | Why include it | Caveat |
 | --- | --- | --- |
-| [Gemma 3 270M IT](https://huggingface.co/google/gemma-3-270m-it) | Current 270M instruction-tuned model, 32K context according to Google's model card, widely supported in local runtimes | Terms differ from Apache-style releases; preserve an export/release review for later |
-| [SmolLM2 135M Instruct](https://huggingface.co/HuggingFaceTB/SmolLM2-135M-Instruct) | Very small Apache-2.0 instruct baseline; its model card exposes training and zero-shot evaluation details | Weak general reasoning is expected; it may need constrained actions from the first prototype |
+| [Gemma 3 270M base](https://huggingface.co/google/gemma-3-270m) and [IT](https://huggingface.co/google/gemma-3-270m-it) | Matched 270M base/instruction stages with 32K context | Google's [announcement](https://developers.googleblog.com/introducing-gemma-3-270m/) reports 170M embedding and only 100M transformer-block parameters because of the 256K vocabulary; record both counts |
+| [FunctionGemma 270M](https://huggingface.co/google/functiongemma-270m-it) | Official task-specific function-calling specialization and a useful structured action/tool control | Do not count it as an unaided-language baseline; Google's [official guide](https://ai.google.dev/gemma/docs/functiongemma) expects further task-specific fine-tuning |
+| [SmolLM2 135M base](https://huggingface.co/HuggingFaceTB/SmolLM2-135M) and [Instruct](https://huggingface.co/HuggingFaceTB/SmolLM2-135M-Instruct) | Matched small base/instruction stages; the Instruct card documents SFT/DPO post-training | Weak general reasoning is expected; compare stages rather than mixing base and instruction-tuned checkpoints |
 | [SmolLM2 360M Instruct](https://huggingface.co/HuggingFaceTB/SmolLM2-360M-Instruct) | Same family at a useful upper point for a clean scale comparison | Roughly 2.7x the nominal 135M size, so report compute as well as score |
 | [MobileLLM 125M](https://github.com/facebookresearch/mobilellm) | Meta's released architecture/training code targets sub-billion on-device models and provides 125M/350M comparison points | Better as an architecture/base-model experiment than the default conversational policy |
 | [Pythia 160M](https://huggingface.co/EleutherAI/pythia-160m) | Research-friendly base model from a suite designed for analyzing training behavior | Older and not instruction tuned; use it to study learning curves, not as the presumed winner |
@@ -288,6 +295,8 @@ Train and evaluate the model through progressively less helpful interfaces:
 
 The candidate-reranker and policy-head routes are likely to provide the biggest gain. Most five-letter words are not single tokenizer units, so free-form generation makes the model solve an irrelevant segmentation and spelling problem. A constrained action space lets the experiment focus on information gathering and planning. Keep raw-chat results so this gain is visible rather than hidden.
 
+Separate three meanings of “constraint.” A token mask or action-ID trie can enforce membership in the allowed-guess lexicon; Hugging Face exposes prefix-conditioned generation constraints in its [generation API](https://huggingface.co/docs/transformers/internal/generation_utils), and [XGrammar](https://github.com/mlc-ai/xgrammar/blob/main/docs/start/constrained_decoding.md) documents the same logit-mask principle. That guarantees syntax/membership, not strategy. In normal Wordle, a clue-inconsistent probe word remains legal and can be useful. Hard-mode consistency is a declared ruleset, while supplying the remaining-candidate set, solver features, or top-k actions is solver assistance.
+
 ### Baseline ladder and ablations
 
 Run these in order and never delete earlier results:
@@ -313,7 +322,7 @@ For every claimed gain, remove one component: candidate filter, features, search
 
 Wordle has a compact, enumerable action space, so ordinary search is stronger and cheaper than asking a tiny model to narrate a long chain of thought. Use the model where learned priors help and code where correctness is mechanical:
 
-- candidate filtering and legality: deterministic;
+- candidate filtering and hard-mode legality: deterministic, but reported as game-knowledge assistance rather than mere output syntax;
 - feedback simulation: deterministic;
 - partition statistics and entropy: deterministic;
 - top-K action proposal: heuristic/search;
@@ -378,7 +387,13 @@ answer_distribution: uniform
 mode: normal
 max_guesses: 6
 model_revision: "..."
+checkpoint_stage: base | instruct | function-call
 tokenizer_revision: "..."
+total_parameters: 0
+transformer_block_parameters: 0
+vocabulary_size: 0
+allowed_words_single_token_fraction: 0.0
+allowed_words_mean_token_count: 0.0
 precision: bf16
 seed_set: [0, 1, 2, 3, 4]
 tool_policy: structured-state-plus-top-k
@@ -399,7 +414,7 @@ Primary metrics:
 - seed variance and 95% bootstrap confidence interval;
 - transfer score on unseen lexemes, changed distributions, and new games.
 
-Publish four columns for every run: `model-only`, `model + structured state`, `model + tools/search`, and `full system with fallback`. If the full system wins 100% only because the fallback is exact, say so in the headline.
+Publish separate columns for `raw model`, `model + syntax/allowed-lexicon constraint`, `model + structured feedback state`, `model + candidates/tools/search`, `full system with fallback`, and `classical oracle`. A lexicon trie fixes output validity; a remaining-candidate filter supplies game knowledge and therefore belongs in the solver-assisted column. If the full system wins 100% only because the fallback is exact, say so in the headline.
 
 Use three disjoint test families:
 
@@ -408,6 +423,8 @@ Use three disjoint test families:
 3. **Synthetic guessing game** with arbitrary symbols or generated strings but identical feedback semantics. This detects whether the model learned constraint reasoning or memorized English openings and leaked answer lists.
 
 Benchmark contamination is especially serious because Wordle lists, strategies, and daily answers are common online. A high canonical score alone cannot demonstrate learned reasoning. The synthetic game and state-level probes are essential.
+
+Make the strongest generalization test genuinely post-training: freeze the adapter, prompt, tool policy, and inference budget; record model and training-split hashes; then reveal fresh procedural seeds and generate the final synthetic evaluation set. Controlled contamination research shows why static public tests cannot by themselves establish clean generalization ([Jiang et al., 2024](https://arxiv.org/abs/2401.06059), [Oren et al., 2023](https://arxiv.org/abs/2310.17623)); dynamic generation such as [DyVal](https://openreview.net/forum?id=gjfOL9z5Xr) is useful prior art.
 
 ### Harder-game progression
 
@@ -497,12 +514,12 @@ Every report should be generated from immutable episode logs. Store model and to
 
 1. Implement and exhaustively test the reference Wordle environment.
 2. Reproduce random, valid-random, entropy, and exact/near-exact solver baselines.
-3. Benchmark frozen Gemma 3 270M IT, SmolLM2 135M, and SmolLM2 360M through raw and structured interfaces.
+3. Benchmark matched Gemma 3 270M and SmolLM2 135M base/instruction stages, plus FunctionGemma as a structured-action control, through raw and structured interfaces.
 4. Add the action-ID and top-K reranker interfaces.
 5. Generate small-state oracle examples and run SFT; measure state probes before full games.
 6. Add oracle-disagreement mining and preference pairs.
 7. Try verifier-filtered self-training, then GRPO only if the supervised model wins often enough to create useful groups.
-8. Run all ablations and lexical/synthetic holdouts.
+8. Freeze the complete policy and manifest, then run all ablations, lexical holdouts, and previously unrevealed procedural seeds.
 9. Transfer the same infrastructure to Mastermind and Game of 24.
 10. Only after transfer is demonstrated, add Sudoku, Sokoban, multi-game training, or self-play.
 

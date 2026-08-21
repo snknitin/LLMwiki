@@ -3,8 +3,8 @@ type: index
 status: complete
 initial_raw_idea_count: 52
 previous_later_addition_count: 2
-august_2026_raw_idea_count: 24
-personal_spec_count: 71
+august_2026_raw_idea_count: 25
+personal_spec_count: 72
 tags:
   - coverage
   - source-map
@@ -12,7 +12,7 @@ tags:
 
 # Source Idea Coverage Map
 
-This map proves that every personal raw idea is represented. The original fifty-two ideas consolidated into forty-six specs; Jobs Search and Finance Signals produced forty-eight. The first August 2026 list adds nineteen standalone/paired specs, upgrades Jobs Search, and adds one useful personal integration over two retained Hermes components. Two further August ideas add [[Expert Lens Skill]] and [[Tiny Model Game Lab]]; the visual-recipe idea adds [[Visual Recipe Book]], producing seventy-one personal specs.
+This map proves that every personal raw idea is represented. The original fifty-two ideas consolidated into forty-six specs; Jobs Search and Finance Signals produced forty-eight. The first August 2026 list adds nineteen standalone/paired specs, upgrades Jobs Search, and adds one useful personal integration over two retained Hermes components. Two further August ideas add [[Expert Lens Skill]] and [[Tiny Model Game Lab]]; the visual-recipe idea adds [[Visual Recipe Book]]; the personal-color/depth-relighting idea adds [[Personal Color Relighting Studio]], producing seventy-two personal specs.
 
 | # | Raw idea shorthand | Project spec | Mapping |
 |---:|---|---|---|
@@ -99,6 +99,7 @@ This map proves that every personal raw idea is represented. The original fifty-
 | A22 | Become conversant in any field through precise expert vocabulary and high-leverage questions | [[Expert Lens Skill]] | direct skill |
 | A23 | Push a roughly 0.2B model toward strong Wordle performance, then harder games | [[Tiny Model Game Lab]] | direct research lab |
 | A24 | Turn recipe text, blogs, screenshots, and photos into Tabular Recipe Notation and a themed personal cookbook | [[Visual Recipe Book]] | direct product |
+| A25 | Korean-style clothing color analysis from a selfie plus depth-aware light injection | [[Personal Color Relighting Studio]] | direct product; analysis and visualization remain separate modes |
 
 ## Additional Cross-Project Consolidation
 
@@ -119,6 +120,7 @@ This map proves that every personal raw idea is represented. The original fifty-
 - `48 + 19 + 1 = 68` personal project, workflow, evaluation, and skill specs.
 - Two further August ideas each remain standalone, producing `68 + 2 = 70` personal specs.
 - The visual-recipe capture, compiler, and cookbook remains one cohesive product, producing `70 + 1 = 71` personal specs.
+- The personal-color draping and depth-aware wardrobe renderer remain two modes of one appearance studio, producing `71 + 1 = 72` personal specs. The repeated Expert Lens and Tiny Model bullets do not add counts because their existing specs were audited and refined in place.
 
 ## Related
 

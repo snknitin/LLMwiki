@@ -55,6 +55,7 @@ Outputs:
 6. **Conversation card:** likely branches, concise follow-ups, terms worth recognizing, and claims that need verification.
 7. **Evidence ledger:** source, claim, publication/version date, authority, confidence, and applicable context.
 8. **Teach-back check:** short questions that force the user to explain the concepts without jargon.
+9. **Expert-elicitation brief:** when a real practitioner is available, a structured task diagram, knowledge audit, simulation scenario, and cognitive-demands table that captures cues and recovery strategies without turning one person's recollection into universal truth.
 
 Every specialist term must pass the **paraphrase test**: if the system cannot explain the term plainly, contrast it with a neighbor, and attach it to an observable decision or mechanism, it cannot recommend using it.
 
@@ -83,6 +84,8 @@ This is not a universal authority simulator. It should explicitly distinguish **
 - [DSPy](https://dspy.ai/) provides typed signatures, composable retrieval/reasoning modules, and optimizers that can improve a question-generation program against a scored example set instead of endlessly hand-editing prompts.
 - [OpenAlex](https://docs.openalex.org/), the [Crossref REST API](https://www.crossref.org/documentation/retrieve-metadata/rest-api/), and official standards or regulator sites can identify canonical literature and current terminology. They are discovery layers, not proof that a paper supports a claim.
 - [Wikidata Query Service](https://www.wikidata.org/wiki/Wikidata:SPARQL_query_service/Wikidata_Query_Help) and the W3C [SKOS reference](https://www.w3.org/TR/skos-reference/) are useful prior art for representing concepts, preferred labels, aliases, broader/narrower relationships, and related terms.
+- [Applied Cognitive Task Analysis](https://doi.org/10.1080/001401398186108) combines a task diagram, knowledge audit, simulation interview, and cognitive-demands table to elicit the cues, strategies, and novice errors that ordinary documentation omits. The [Critical Decision Method](https://doi.org/10.1518/001872098779480442) is complementary prior art for reconstructing difficult real incidents and probing goals, cues, options, anomalies, and counterfactuals.
+- W3C [PROV-O](https://www.w3.org/TR/prov-o/) is a useful model for retaining entity, activity, agent, attribution, and derivation history. EFSA's official [expert-knowledge-elicitation guidance](https://www.efsa.europa.eu/en/methodology/evidence) reinforces the need to frame questions, select experts, elicit uncertainty, preserve disagreement, and document the process rather than laundering recollection into fact.
 - [spaCy's rule-based matching](https://spacy.io/usage/rule-based-matching) can protect exact multiword terms, abbreviations, product names, and standards identifiers before semantic clustering.
 - [Sentence Transformers](https://www.sbert.net/) supports local semantic retrieval, while plain SQLite FTS5 or ripgrep is often the better first implementation for a small, inspectable source packet.
 - Notebook-style source-grounded assistants, deep-research products, meeting-preparation tools, glossaries, and interview simulators each implement part of the workflow. The opportunity is the combination of **domain topology + precise distinctions + question leverage + teach-back + post-conversation correction**.
@@ -99,7 +102,7 @@ This is not a universal authority simulator. It should explicitly distinguish **
 
 ## Architecture and Data Model
 
-`ExpertLensRequest` stores domain, subdomain, situation, counterpart, jurisdiction, date, user level, objective, and time budget. `SourceRecord` stores canonical URL or file hash, owner, version/publication date, retrieval time, authority type, and usable passages. `Concept` stores preferred label, aliases, plain explanation, operational definition, adjacent concepts, examples, non-examples, and sources. `MechanismEdge` stores cause, effect, conditions, confounders, and evidence. `ExpertQuestion` stores the question, question class, why it matters, expected discriminating answers, follow-ups, and evidence needed. `Claim` stores text, source spans, scope, confidence, and freshness. `ConversationReview` records observed vocabulary, useful questions, corrections, unknowns, and outcome.
+`ExpertLensRequest` stores domain, subdomain, situation, counterpart, jurisdiction, date, user level, objective, and time budget. `SourceRecord` stores canonical URL or file hash, owner, version/publication date, retrieval time, authority type, evidence kind, applicable organization/jurisdiction/product version, corroboration status, dissent, derivation history, and usable passages. `Concept` stores preferred label, aliases, plain explanation, operational definition, adjacent concepts, examples, non-examples, and sources. `MechanismEdge` stores cause, effect, conditions, confounders, and evidence. `ExpertQuestion` stores the question, question class, why it matters, expected discriminating answers, follow-ups, and evidence needed. `Claim` stores text, source spans, scope, confidence, freshness, and whether it is a standard/regulation, empirical result, vendor statement, local operating practice, practitioner recollection, or model inference. `ExpertElicitationSession` stores a task diagram, knowledge-audit probes, simulation scenario, participants, method, and a cognitive-demands table of `task -> why difficult -> critical cue -> strategy -> novice error -> anomaly -> recovery action`. `ConversationReview` records observed vocabulary, useful questions, corrections, unknowns, and outcome.
 
 The pipeline should be staged and inspectable:
 
@@ -111,6 +114,8 @@ The pipeline should be staged and inspectable:
 6. Run entailment, source-coverage, date/jurisdiction, and paraphrase checks.
 7. Render a time-budgeted field card and rehearsal.
 8. Learn only from explicit user corrections and post-conversation evidence.
+
+Normative evidence and experiential practice must never collapse into one unlabeled “expert answer.” Standards and empirical findings can establish general claims; local workarounds and practitioner recollections remain attributed, dated, scoped, and corroborated where possible.
 
 ## Expert Question Taxonomy
 
@@ -135,7 +140,8 @@ The question generator should know that expert questions are not always obscure.
 4. Question taxonomy, ranking rubric, and rehearsal mode.
 5. Ten-domain evaluation set with novice, practitioner, and deliberately misleading answers.
 6. Post-conversation review, corrections, and versioned reusable domain packs.
-7. Optional calendar/Obsidian adapters and live transcription only after preparation mode proves useful.
+7. Expert-elicitation mode using an ACTA task diagram, knowledge audit, simulation interview, and inspectable cognitive-demands table.
+8. Optional calendar/Obsidian adapters and live transcription only after preparation mode proves useful.
 
 ## Drawbacks, Concerns, and Failure Modes
 
@@ -146,6 +152,7 @@ The question generator should know that expert questions are not always obscure.
 - **Citation laundering:** retrieval does not prove entailment. Keep exact passages and test whether each claim is actually supported.
 - **Over-questioning:** a barrage of sophisticated questions can make a conversation worse. Rank questions by information gain and social timing.
 - **False impersonation:** preparation must not invent qualifications, hands-on experience, affiliations, or outcomes. The skill can make understanding impressive without fabricating identity.
+- **Experience laundering:** one practitioner's workaround, memory, or organizational convention can be mistaken for a universal rule. Label the evidence kind, retain speaker/method/scope, preserve dissent, and seek artifacts or corroboration.
 - **Live-copilot latency:** delayed advice is distracting. Keep live mode as recognition and follow-up suggestions; do deep synthesis before or after the conversation.
 - **Evaluation ambiguity:** sounding expert is subjective. Score source-grounded precision, discrimination between near concepts, question usefulness, correction rate, and user teach-back—not style alone.
 
@@ -165,13 +172,14 @@ The question generator should know that expert questions are not always obscure.
 - Specialist-term precision and near-concept discrimination improve on a held-out test set.
 - The user can explain at least 80% of retained terms plainly after a short delay.
 - Practitioners rate the top five questions as relevant and discriminating, not merely sophisticated-sounding.
+- A four-way ablation—ordinary prompt, source-only lens, source-plus-expert-elicited pack, and full rehearsal—shows whether elicitation improves held-out cue recall, novice-error detection, escalation quality, decision regret, and real branch-changing questions.
 - Unsupported-confidence and fabricated-experience rates remain zero in regression tests.
 - Real conversations yield more useful unknowns, decisions, or follow-ups per minute of preparation.
 - Post-conversation corrections shrink across repeated work in the same domain.
 
 ## Product Path
 
-Personal skill -> reusable private domain packs -> calendar-aware preparation workspace -> expert-reviewed team knowledge product -> optional real-time conversation companion. Keep the free/local stack for the personal version; use [[Scope Expansion Checklist]] only before distributing packs, processing other people's private conversations, or presenting the system as professional guidance.
+Personal skill -> reusable private domain packs -> expert-elicitation and provenance workflow -> calendar-aware preparation workspace -> expert-reviewed team knowledge product -> optional real-time conversation companion. Keep the free/local stack for the personal version; use [[Scope Expansion Checklist]] only before distributing packs, processing other people's private conversations, or presenting the system as professional guidance.
 
 ## Related
 
@@ -181,4 +189,3 @@ Personal skill -> reusable private domain packs -> calendar-aware preparation wo
 - [[News Depth Telegram Skill]]
 - [[Physics Claim Debunker Skill]]
 - [[Project Ideas Index]]
-

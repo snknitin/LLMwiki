@@ -117,6 +117,20 @@ Share the map/provider cache and location-picker component, not marketplace inve
 | [[Auto-GTM Engine]] | distributes approved final media |
 | [[podcast-clips-agency]] | prior-art/reference workflow for an external-service version |
 
+## Appearance, Capture, and Relighting Family
+
+| Project | Owns | Reuse relationship |
+|---|---|---|
+| [[Personal Color Relighting Studio]] | calibrated portrait capture, digital color draping, palette/preferences, garment recoloring, and depth-aware lighting previews | owns appearance/color evidence and the personal wardrobe workflow; remains a standalone product |
+| [[Feedback Mirror]] | longitudinal visual observations and non-diagnostic feedback | can share capture-quality gates, protected face regions, local image manifests, and repeatability tests; must not turn palette preference into a health claim |
+| [[Adaptive Vision Glasses]] | real-time visual assistance and display adaptation | reference only for color/display calibration and low-latency camera processing; no shared user job |
+| [[Local Video Generation Evaluation Lab]] | reproducible model/renderer runtime evaluation | shares model manifests, GPU/browser telemetry, golden-frame tests, and local-versus-hosted comparisons |
+| [[Visual Token Compiler]] | measured visual encoding and legibility | can share color-space/export checks but does not own faces, garments, or personal palettes |
+
+**Build order:** calibrated still capture -> unchanged-face digital drapes and pairwise ranking -> static garment recolor -> browser depth benchmark -> TypeGPU relighting -> native live capture only if the browser is the measured bottleneck.
+
+**Shared package:** `camera-evidence-core` may contain immutable source hashes, color/profile metadata, region-mask provenance, capture-quality gates, model/render manifests, and golden-image metrics. Personal-color axes, drape trials, wardrobe feedback, and passport revisions remain project-owned.
+
 ## Recipe, Capture, and Visual Publishing Family
 
 | Project | Owns | Reuse relationship |

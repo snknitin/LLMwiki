@@ -3,7 +3,7 @@ type: index
 status: active
 created: 2026-07-27
 scope: personal-first project portfolio
-spec_count: 71
+spec_count: 72
 tags:
   - ideas
   - project-specs
@@ -12,7 +12,7 @@ tags:
 
 # Project Ideas Index
 
-This index now covers 71 personal project, workflow, evaluation, and skill specs. The default assumption throughout is: build for one person, run locally when practical, and only add accounts, billing, teams, and cloud infrastructure after the personal workflow is genuinely useful.
+This index now covers 72 personal project, workflow, evaluation, and skill specs. The default assumption throughout is: build for one person, run locally when practical, and only add accounts, billing, teams, and cloud infrastructure after the personal workflow is genuinely useful.
 
 Full source-to-spec accounting: [[Source Idea Coverage Map]].
 
@@ -53,6 +53,10 @@ These remain self-contained builds. Similarity links identify reusable engines o
 ### Food, cooking, and personal collections
 
 - [[Visual Recipe Book]] turns recipe URLs, text, screenshots, and shared images into reviewed Tabular Recipe Notation, cook-mode views, and a themed personal cookbook.
+
+### Appearance, color, and wardrobe
+
+- [[Personal Color Relighting Studio]] combines calibrated Korean-style personal-color draping with an explicitly approximate depth-aware WebGPU garment and lighting preview.
 
 ### Creator, demand, and distribution
 
@@ -189,6 +193,7 @@ These give the best combination of immediate personal value, low cash cost, and 
 - [[Longform-to-Shorts Studio]]
 - [[Local Video Generation Evaluation Lab]]
 - [[Meet-in-the-Middle City Explorer]]
+- [[Personal Color Relighting Studio]]
 
 ### Food, cooking, and personal collections
 
@@ -237,6 +242,7 @@ Every project spec links directly to its relevant section in one of these primar
 - [[Research - Creator Growth and Local Video Pipelines]]
 - [[Research - Expert Mode and Tiny Model Game Lab]]
 - [[Research - Visual Recipe Notation and Recipe Library]]
+- [[Research - Personal Color Analysis and Depth-Aware Relighting]]
 - [[Project Similarity and Reuse Map]]
 
 The specs contain the build decisions; the dossiers preserve deeper prior art, verified API/platform facts, drawbacks, hidden costs, clever shortcuts, paid-service triggers, and direct official-source links.
@@ -257,6 +263,7 @@ The specs contain the build decisions; the dossiers preserve deeper prior art, v
 - [[Expert Lens Skill]] remains a separate domain-orientation and conversation-preparation skill; it may supply terminology and expert questions to Batman Prep or Study tools without sharing their workflow or release cycle.
 - [[Tiny Model Game Lab]] remains separate from [[Yu-Gi-Oh RL Lab]] and [[Live Chess Tutor]]. It owns model-size ablations, distillation, tool-use accounting, and a cross-game curriculum; the other projects own their domain-specific game environments and user experiences.
 - [[Visual Recipe Book]] remains a self-contained recipe capture, verification, cooking, and sharing product. It may reuse OCR from [[PhoneScan PDF]], collection patterns from [[Personal Library Website]], and rendering tests from [[Visual Token Compiler]] without merging those distinct jobs.
+- [[Personal Color Relighting Studio]] remains a standalone personal styling and computational-photography product. It may reuse guided capture and longitudinal comparison patterns from [[Feedback Mirror]] plus renderer benchmarking from [[Local Video Generation Evaluation Lab]], but it must keep color analysis separate from health interpretation and generative media evaluation.
 
 ## Portfolio Sequence
 

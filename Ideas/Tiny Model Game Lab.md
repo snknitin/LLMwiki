@@ -34,7 +34,8 @@ Build a reproducible laboratory that answers a more valuable question than “ca
 The first target is near-best **system performance** on a pinned Wordle ruleset and lexicon while a 135M–270M model owns the policy interface. The benchmark must separately report:
 
 - **Model-only:** the model sees textual history and emits a guess without solver tools.
-- **Constrained model:** invalid words and rule-inconsistent guesses are masked or rejected.
+- **Lexicon-constrained model:** output is restricted to the versioned allowed-guess lexicon or an equivalent action ID. In normal mode, clue-inconsistent probe guesses remain legal; hard-mode consistency is a separately declared benchmark rule.
+- **Candidate-filtered or reranked model:** deterministic feedback logic exposes remaining-answer candidates, top-k actions, or solver features. Report this as solver assistance even when the model makes the final selection.
 - **Tool-augmented model:** the model calls candidate filtering, scoring, entropy, and verifier functions.
 - **Distilled policy:** the model imitates strong solver trajectories but does not call the full solver at inference.
 - **Classical ceiling:** deterministic entropy/minimax/search baselines establish what “state of the art” means for the exact word list.
@@ -56,7 +57,7 @@ This distinction prevents a misleading result where a perfect classical solver i
 - Pin one target-word list, one allowed-guess list, exact duplicate-letter rules, normal/hard modes, and a versioned evaluation seed set.
 - Implement a pure deterministic environment with exhaustive unit and property tests.
 - Build random, frequency, positional-frequency, entropy, expected-remaining-candidates, minimax, and cached decision-tree baselines before involving a model.
-- Benchmark an unmodified [SmolLM2-135M](https://huggingface.co/HuggingFaceTB/SmolLM2-135M) and [Gemma 3 270M](https://huggingface.co/google/gemma-3-270m-it) candidate under identical prompts and decoding limits; use 360M or 0.6B only as scaling controls.
+- Benchmark matched checkpoint stages: [SmolLM2-135M base](https://huggingface.co/HuggingFaceTB/SmolLM2-135M) and [Instruct](https://huggingface.co/HuggingFaceTB/SmolLM2-135M-Instruct), plus [Gemma 3 270M base](https://huggingface.co/google/gemma-3-270m) and [IT](https://huggingface.co/google/gemma-3-270m-it), under identical interfaces and decoding limits. Add [FunctionGemma 270M](https://huggingface.co/google/functiongemma-270m-it) as a structured action/tool-use control, not an unaided-language baseline; use 360M or 0.6B only as scaling controls.
 - Add structured output and legal-action validation, then expose one tool at a time: `filter_candidates`, `score_feedback`, `rank_guesses`, and `verify_guess`.
 - Generate teacher trajectories from the strongest deterministic solver and fine-tune the tiny model first with supervised learning or LoRA.
 - Run RL only after the environment, baselines, splits, and reward-hacking tests are stable.
@@ -73,7 +74,8 @@ Do not begin by pretraining a 0.2B model from scratch. Start with an existing 13
 ## Existing Products, Building Blocks, and Shortcuts
 
 - [SmolLM2-135M](https://huggingface.co/HuggingFaceTB/SmolLM2-135M) is an Apache-2.0, 135M-class baseline with official Transformers support; its published general reasoning scores make clear that raw zero-shot capability is limited, which is useful for measuring genuine gains.
-- [Gemma 3 270M](https://huggingface.co/google/gemma-3-270m-it) is a close size-class alternative with a 32K context window and official evaluation table; its terms differ from Apache-licensed SmolLM, but that should not change the personal experiment's technical design.
+- [Gemma 3 270M](https://huggingface.co/google/gemma-3-270m-it) is a close size-class alternative with a 32K context window and official evaluation table; compare base with IT rather than crediting post-training as architecture. Google's [model announcement](https://developers.googleblog.com/introducing-gemma-3-270m/) reports roughly 170M embedding parameters and 100M transformer-block parameters because of the 256K vocabulary, so nominal parameter count alone is misleading for a word-selection task.
+- [FunctionGemma](https://ai.google.dev/gemma/docs/functiongemma) is Google's 270M function-calling specialization and a valuable structured-action control. Its official positioning expects task-specific fine-tuning; it should not replace the base/instruction model comparison.
 - [MobileLLM](https://github.com/facebookresearch/mobilellm) provides Meta's released sub-billion architecture/training code with a 125M comparison point, while [Pythia-160M](https://huggingface.co/EleutherAI/pythia-160m) is a useful research-oriented base-model control. Neither should displace the easier instruction-tuned V0 candidates unless the experiment specifically studies architecture or learning curves.
 - Hugging Face [TRL's environment-based GRPO interface](https://huggingface.co/docs/trl/main/grpo_trainer) supports stateful environments and environment-owned rewards. Its official Wordle/OpenEnv example is prior art, but it notes improvement at the 1B scale rather than proving the same recipe works at 0.2B.
 - [PEFT/LoRA](https://huggingface.co/docs/peft/main/conceptual_guides/lora) trains small adapters while freezing base weights; full fine-tuning is also feasible at this model size and should remain an explicit comparison.
@@ -87,7 +89,7 @@ Do not begin by pretraining a 0.2B model from scratch. Start with an existing 13
 
 - **Environment:** Python 3.12, dataclasses/Pydantic, NumPy, Gymnasium-style `reset/step`, pytest, and Hypothesis for duplicate-letter and state-transition properties.
 - **Solvers:** pure Python/NumPy for exhaustive baselines; optional Rust only after profiling proves the Python implementation blocks experiments.
-- **Models:** Transformers, PyTorch, Accelerate, SmolLM2-135M, Gemma 3 270M, and SmolLM2-360M/Qwen3-0.6B as bracket controls.
+- **Models:** Transformers, PyTorch, Accelerate, matched SmolLM2-135M and Gemma 3 270M base/instruction checkpoints, FunctionGemma 270M as a structured-action control, and SmolLM2-360M/Qwen3-0.6B as bracket controls.
 - **Training:** TRL `SFTTrainer` first; PEFT adapters and full fine-tuning as measured alternatives; environment-based GRPO only after supervised and tool-use baselines.
 - **Constrained actions:** explicit candidate IDs or a `choose_guess(index)` tool are more reliable than unconstrained generation; Outlines/JSON Schema can enforce the protocol but cannot enforce strategy.
 - **Data:** versioned JSONL trajectories, Parquet episode summaries, immutable run manifests, and content hashes for word lists, prompts, code, model, adapter, and solver.
@@ -97,9 +99,11 @@ Do not begin by pretraining a 0.2B model from scratch. Start with an existing 13
 
 ## Architecture and Data Model
 
-`GameDefinition` pins rules, observation schema, action schema, lexicon/version, maximum turns, and reward semantics. `EpisodeState` stores target ID, history, candidate set hash, legal actions, seed, and terminal status. `PolicyVariant` declares model checkpoint, prompt, tools, decoding, adapter, and whether deterministic solver output is visible. `TrajectoryStep` records observation, legal actions, selected action, feedback, teacher scores, model log-probability, tool calls, latency, and violations. `RunManifest` records code commit, environment hash, data splits, hardware, package lock, model and adapter hashes, random seeds, and evaluation budget. `Scorecard` stores solve rate, average/worst moves, invalid actions, constraint violations, regret against the classical baseline, latency, tokens, tool calls, and energy/compute proxy.
+`GameDefinition` pins rules, observation schema, action schema, lexicon/version, maximum turns, and reward semantics. `EpisodeState` stores target ID, history, candidate set hash, legal actions, seed, and terminal status. `PolicyVariant` declares model checkpoint, checkpoint stage (`base`, `instruct`, or `function-call`), prompt, tools, decoding, adapter, and whether deterministic solver output is visible. `TrajectoryStep` records observation, legal actions, selected action, feedback, teacher scores, model log-probability, tool calls, latency, and violations. `RunManifest` records code commit, environment hash, data splits, hardware, package lock, model/adapter/tokenizer hashes, total and transformer-block parameters, vocabulary size, allowed-word single-token fraction, mean allowed-word token count, random seeds, and evaluation budget. `Scorecard` stores solve rate, average/worst moves, invalid actions, constraint violations, regret against the classical baseline, latency, tokens, tool calls, and energy/compute proxy.
 
 The environment—not the model—owns rule truth, legality, termination, and reward. Every policy receives the same serialized state and budget. Evaluation targets must never appear in fine-tuning trajectories under another identifier.
+
+After freezing the adapter, prompt, tool policy, and inference budget, generate a final procedural evaluation set from previously unrevealed seeds; record training-split hashes and the model hash before revealing those seeds. Canonical Wordle remains a system benchmark, while the post-freeze synthetic set supports the generalization claim despite possible checkpoint exposure to public word lists, daily answers, and solver discussions.
 
 ## Baseline and Ablation Ladder
 
@@ -150,6 +154,7 @@ Do not move to the next stage until the previous environment has an exact or str
 - **Fake SOTA:** word lists, hard-mode rules, answer priors, and allowed guesses change results dramatically. Define the benchmark before making comparisons.
 - **Solver smuggling:** if a tool returns the best move, the model is a router. Report this honestly and add weaker-tool ablations.
 - **Finite-game memorization:** Wordle's target space is small. Hold out targets, use alternate lexicons and lengths, and test transfer to procedural variants.
+- **Constraint laundering:** an allowed-lexicon trie fixes output validity, but a remaining-candidate filter injects game knowledge. Report syntax/lexicon constraints separately from candidate, feature, search, and hard-mode assistance.
 - **Reward hacking:** the policy may exploit parser bugs, invalid outputs, retries, information leakage, or episode termination. Convert every exploit into a regression test.
 - **Duplicate-letter bugs:** naive yellow/green scoring is often wrong. Exhaustively compare the optimized implementation with a slow reference oracle.
 - **Teacher ceiling:** imitation cannot reliably outperform a flawed teacher. Store multiple teacher scores and measure regret.
