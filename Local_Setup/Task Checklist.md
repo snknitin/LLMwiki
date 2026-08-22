@@ -27,7 +27,7 @@ tags:
 - [ ] Do not download the same model into Ollama, LM Studio, and Hugging Face/vLLM without a specific comparison reason.
 - [ ] When an agent completes a box, have it add a short result, date, version/model ID, and any rollback note beneath that box.
 
-## Current Codex project completion audit — 21 August 2026
+## Current Codex project completion audit — 22 August 2026
 
 Only work supported by the task record, live verification, or a dated evidence note is marked complete.
 
@@ -36,9 +36,10 @@ Only work supported by the task record, live verification, or a dated evidence n
 | `Verify NVIDIA Spark SSH access` | Beginner Spark operations runbook, standalone-Hermes ownership, and the foundation/Qwen deployment path that the canonical index later verified as complete. | Later backup, restore, failover, automation, retrieval, and evaluation sequences. |
 | `Verify NVIDIA Spark SSH access (2)` | Workstation ODS/Ollama boundaries, both Gemma 4 models, Qwen 3.8 installation and remote routing, plus the supporting tutorials and research notes. | Qwen 3.8 promotion comparison and restart-by-restart resilience checks. |
 | `Plan Spark LM Link routing` | Tailnet-only workstation Ollama route, Spark LM Studio/LM Link, named Hermes providers, dynamic discovery, Qwen/Omni memory optimization, and Omni 131K long-context verification. | Shared regression harness and future runtime/model A/B work. |
-| `Create setup task checklist` | The source-mapped runbook and the laptop thin-client policy; this audit expands its original 29-note map to all 35 other current notes. | Operational boxes were not completed merely by creating the runbook. |
+| `Create setup task checklist` | The source-mapped runbook and the laptop thin-client policy; this audit expands its original 29-note map to all 36 other current notes. | Operational boxes were not completed merely by creating the runbook. |
 | `Install VoiceStudio portable` | VoiceStudio v0.5.0 at `D:\Apps\VoiceStudio`, portable data, CUDA diagnostics, TTS, Whisper transcription, Parakeet dictation, and blank-Capture-window recovery. | Optional unused-model cleanup and longer real-microphone/daily-use acceptance. |
 | `Document DGX Spark restart state` | First-Spark physical power-cycle recovery, saved recovery snapshot, corrected Qwen-before-Lightning boot order, second Spark NVIDIA Sync access, and initial thermal/no-throttling comparison. | A second controlled reboot of the corrected order, UEFI Auto Boot, QSFP clustering, NCCL, and dual-Spark DeepSeek validation. |
+| `Connect Obsidian vaults to DGX Spark` | Official headless Sync replicas for `LLMWiki` and `Personal-Sync`, two enabled continuous user services, verified two-way file/hash propagation, and the active Windows `Personal-Sync` vault moved to `F:\Vaults\Personal-Sync`. | Retrieval evaluation, hard Hermes write confinement, a simultaneous-edit conflict test, and an independent `Personal-Sync` backup. |
 
 ## Current operational finish line
 
@@ -52,11 +53,12 @@ The immediate goal remains the **operational setup**, not every future model, fr
 - [ ] Sequence 3A — Skill/plugin safety and intake controls are in place.
 - [ ] Sequence 4 — One real coding workflow works through stable local aliases.
 - [ ] Sequence 5 — One safe automation works and its failure path alerts correctly.
-- [ ] Sequence 6 — The Spark has a pull-only Obsidian replica and retrieval is evaluated before broad indexing.
+- [ ] Sequence 6 — Both Spark Obsidian replicas are live and bidirectional; remaining storage safeguards, hard write confinement, and retrieval evaluation must still pass.
 
 ### Stretch only after the operational baseline
 
 - [ ] Sequence 3B — Complete one development-methodology bakeoff.
+- [ ] Sequence 6B — Let scheduled agents write Markdown and collect simple like/dislike feedback through an HTML dashboard that updates those files.
 - [ ] Sequence 7 — Establish the shared evaluation and observability harness.
 - [ ] Sequence 8A — Test exactly one new workstation model; start with `qwen3-coder:30b` if coding is the immediate goal.
 
@@ -68,8 +70,9 @@ The immediate goal remains the **operational setup**, not every future model, fr
 | Block 2 | Parallel | Skills/plugin intake repository and safety controls | 2–3 h |
 | Block 3 | Parallel | Shared regression set plus one real coding workflow | 2–4 h |
 | Block 4 | After Block 1 | First cron/n8n workflow and failure test | 2–3 h |
-| Block 5 | After vault backup | Obsidian headless replica plus retrieval evaluation | 3–4 h plus indexing time |
-| Block 6 | After regression set | One optional model A/B or remaining cleanup | 1.5–3 h plus download time |
+| Block 5 | After Personal-Sync backup | Finish Obsidian safeguards plus retrieval evaluation | 3–4 h plus indexing time |
+| Block 6 | After agent output-folder restriction | Scheduled Markdown output plus a private HTML dashboard with like/dislike write-back | 3–6 h |
+| Block 7 | After regression set | One optional model A/B or remaining cleanup | 1.5–3 h plus download time |
 
 ## Already complete — do not repeat
 
@@ -85,6 +88,7 @@ The immediate goal remains the **operational setup**, not every future model, fr
 - [x] The laptop is a tested Spark Remote Gateway thin client with no second authoritative Hermes profile and no duplicate workstation-model downloads.
 - [x] The first Spark completed a physical power cycle and recovered its stack; the exposed Qwen/Lightning boot-order race was corrected and documented. A later controlled reboot of the corrected order remains in Sequence 1. See [[DGX Spark Pre-Shutdown And Automatic Recovery Snapshot 2026-08-20]].
 - [x] The second Spark is reachable as `SecondSpark` in NVIDIA Sync and passed the initial idle thermal/no-throttling comparison. Clustering waits for the approved QSFP112 DAC and the Sequence 8I readiness gate. See [[DGX Spark Second Node And Dual Spark Readiness Research 2026-08-20]].
+- [x] `LLMWiki` and the local `Sync Remote` vault connected to remote `Personal-Sync` now have separate official headless replicas on `FirstSpark`; both continuous user services are enabled and active, and desktop-to-Spark plus Spark-to-desktop hash checks passed.
 - [x] VoiceStudio v0.5.0 is installed portably at `D:\Apps\VoiceStudio`; CUDA diagnostics, generation, Whisper transcription, Parakeet dictation, and the blank `Capture` overlay recovery passed. See [[VoiceStudio Windows Portable Usage]] and [[VoiceStudio Risk Audit]].
 
 ---
@@ -349,9 +353,9 @@ The immediate goal remains the **operational setup**, not every future model, fr
 
 ## Sequence 6 — Obsidian headless replica and measured retrieval
 
-**Priority:** Operational P0  
-**Time:** 3–4 hours plus indexing  
-**Goal:** Hermes can read the vault from Spark without creating sync conflicts, and retrieval quality is measured before broad trust.
+**Priority:** Operational P0
+**Time:** Replica rollout complete; allow 3–4 hours plus indexing for the remaining safeguards and retrieval evaluation
+**Goal:** Hermes can safely read the two Spark vault replicas, any writes are narrowly confined, and retrieval quality is measured before broad trust.
 
 ### Read first, in order
 
@@ -364,12 +368,23 @@ The immediate goal remains the **operational setup**, not every future model, fr
 
 ### Replica checklist
 
-- [ ] Back up the vault independently before adding another replica.
-- [ ] Install Node.js 22+ and official `obsidian-headless` on Spark.
-- [ ] Create a new Spark replica directory outside `HERMES_HOME` and outside every other sync tool.
-- [ ] Start the Spark replica in `pull-only` mode and run continuous sync as one supervised service.
-- [ ] Give Hermes read-only access to the replica; verify it cannot write outside an explicitly granted path.
-- [ ] Confirm no desktop Obsidian Sync, Git, Syncthing, Dropbox, or second headless client is also syncing that same Spark folder.
+- [x] Confirm the local `LLMWiki` vault is independently Git-backed before adding the Spark replica.
+- [ ] Create and restore-test an independent dated backup for `Personal-Sync`; Google Drive mirroring the active vault folder does not count as an independent backup.
+- [x] Install Node.js 22+ and official `obsidian-headless` on `FirstSpark`.
+- [x] Create separate Spark replica directories at `/home/snknitin/vaults/LLMWiki` and `/home/snknitin/vaults/Personal-Sync`, outside `HERMES_HOME` and every other sync tool.
+- [x] Complete protected initial pulls, then run each replica continuously under its own enabled user service.
+- [x] Confirm no Git, Google Drive, Syncthing, Dropbox, or second headless client also syncs either **Spark** replica directory.
+- [x] Move the active Windows `Personal-Sync` vault out of Google Drive to `F:\Vaults\Personal-Sync`; Obsidian currently registers the new path as open and the former Drive path as not open.
+- [ ] After the new local vault reports fully synced, archive the former Google Drive copy as a dated backup or remove it from live Google Drive management; do not reopen both copies against the same remote vault.
+- [ ] Give Hermes a dedicated OS identity or equivalent hard sandbox and prove it cannot write outside `Agent Inbox/Spark Hermes/`; the current shared `snknitin` identity is not a hard boundary.
+
+### Verified replica evidence — 22 August 2026
+
+- [x] `obsidian-sync-llmwiki.service` and `obsidian-sync-personal.service` are enabled and active with zero observed restarts.
+- [x] The Spark replicas contain 2,069 files/416 MB for `LLMWiki` and 2,647 files/2.6 GB for `Personal-Sync` at verification time.
+- [x] A desktop-created test note reached each Spark replica with the same SHA-256 hash.
+- [x] A Spark-created inbox test note reached each desktop vault with the same SHA-256 hash.
+- [x] Hermes Gateway, Hermes Serve, and the existing model services remained active during the sync rollout.
 
 ### Retrieval checklist
 
@@ -383,14 +398,92 @@ The immediate goal remains the **operational setup**, not every future model, fr
 
 ### Optional write path — do only after read-only success
 
-- [ ] Change only the Spark replica to bidirectional after deliberate conflict testing.
-- [ ] Restrict Hermes writes to `Agent Inbox/Spark Hermes/` with unique timestamp/task filenames.
+- [x] Change only the two Spark replicas to bidirectional mode after their protected initial pulls.
+- [x] Verify sequential desktop-to-Spark and Spark-to-desktop writes with matching SHA-256 hashes in both vaults.
+- [ ] Restrict Hermes writes to `Agent Inbox/Spark Hermes/` with unique timestamp/task filenames using an enforceable filesystem/service boundary, not only a prompt convention.
 - [ ] Test simultaneous desktop edit plus agent inbox write; confirm no shared canonical note is overwritten.
 - [ ] Keep consolidation into canonical notes as a human or single serialized job.
 
 ### Completion gate
 
-- [ ] **Done:** pull-only sync is stable, Hermes reads the replica, the 20-question retrieval evaluation is recorded, and any write access is confined to the inbox.
+- [ ] **Done:** both continuous replicas survive restart, the `Personal-Sync` dual-sync risk is removed, Hermes reads them, the 20-question retrieval evaluation is recorded, and any write access is hard-confined to the inbox.
+
+---
+
+## Sequence 6B — Scheduled Markdown outputs and a two-way feedback dashboard
+
+**Priority:** P1 after the Sequence 6 write-safety gates
+**Time:** 3–6 hours for the narrow feedback MVP
+**Goal:** Scheduled agents create ordinary Markdown files that sync into Obsidian, render as clean HTML, and receive simple user feedback that is written back into the same Markdown records.
+
+### Read first
+
+1. [[Markdown Backed Interactive Dashboard Research]]
+2. [[personal-hermes-obsidian-multinode-design#Safe agent-writing pattern]]
+3. [[Always-On Hermes on DGX Spark#Obsidian on Spark]]
+
+### Minimal requested MVP
+
+- [ ] Use `LLMWiki/Agent Inbox/Scheduled Jobs/` as the only MVP output root.
+- [ ] Give each scheduled job its own subfolder and unique timestamped filename; create a new file per run rather than overwriting yesterday's output.
+- [ ] Require each output note to contain an immutable `dashboard_id` plus `feedback: none`; allow only `none`, `like`, or `dislike`, with an optional short `feedback_note`.
+- [ ] Build one dashboard service that watches this folder, converts Markdown to sanitized HTML, lists newest outputs first, and displays 👍/👎 controls.
+- [ ] On a feedback click, update only `feedback`, `feedback_note`, and `feedback_updated_at` in that exact Markdown file; do not rewrite the agent's report body.
+- [ ] Watch for Markdown changes delivered from desktop Obsidian and refresh the open HTML page so feedback remains two-way.
+- [ ] Keep the dashboard otherwise stateless: no database, CMS, Git pull/merge automation, general-purpose editor, or second sync engine.
+- [ ] Bind the viewer to Spark loopback and expose it only through authenticated Tailscale Serve, never Funnel or the public internet.
+- [ ] Add one scheduled Hermes job, run it manually once, and verify its Markdown reaches the Spark folder, HTML view, and desktop Obsidian; then click feedback and verify the updated field returns to Obsidian.
+- [ ] Add the remaining daily jobs only after the first job survives a Spark restart and a failed model call produces a visible error note/alert.
+
+### Minimal MVP completion gate
+
+- [ ] **Done:** an agent creates a timestamped Markdown report on schedule, the private HTML dashboard shows it, 👍/👎 updates only the allowed Markdown feedback fields, and both report and feedback appear in desktop Obsidian through Sync.
+
+### Optional general editing — not required for the feedback MVP
+
+- [ ] If editing from the browser becomes important later, first try Obsidian Bases and optionally Meta Bind for frontmatter-backed controls.
+- [ ] Build a browser write API only if editing outside Obsidian remains a real requirement; then apply the schema, conflict, atomic-write, and acceptance gates below.
+
+### Markdown data contract
+
+- [ ] Reserve one managed subtree, initially `Dashboard/`, rather than exposing the whole vault to the dashboard writer.
+- [ ] Use `Dashboard/Daily Notes/YYYY-MM-DD.md` for the daily journal and one file under `Dashboard/Items/YYYY/MM/` for every independently editable row/card.
+- [ ] Define a small flat frontmatter schema: immutable `dashboard_id`, `dashboard_type`, `title`, `status`, optional `due`, `priority`, `source`, `created_at`, `updated_at`, and `tags`.
+- [ ] Map a displayed completion checkbox to `status: done`; do not persist a second Boolean that can disagree with status, and keep the content revision as an HTTP hash rather than editable frontmatter.
+- [ ] Keep free-form prose human-owned; let the dashboard update only validated properties and one explicitly delimited managed block.
+- [ ] Preserve valid Obsidian YAML, wikilinks, line endings, UTF-8, and unknown frontmatter keys during every round trip.
+
+### Browser write-back service — only if Bases is insufficient
+
+- [ ] Run one small supervised service under a dedicated unprivileged account on `FirstSpark`; static HTML reads Markdown, while this service alone owns browser-originated writes.
+- [ ] Bind it to loopback and publish it only through authenticated tailnet access; never expose the vault writer to the public internet.
+- [ ] Parse and validate Markdown server-side, allowlist the managed subtree and fields, resolve real paths, and reject traversal, symlinks outside the subtree, oversized input, scripts, and unknown fields.
+- [ ] Watch the managed subtree and push refresh events to the browser with Server-Sent Events or WebSockets so Obsidian/Spark edits appear without manual reload.
+- [ ] Serialize writes per file, write to a staging directory outside the vault but on the same filesystem, flush it, and rename it into place so a crash cannot leave a half-written or sync-visible temporary note.
+- [ ] Return a content hash/strong `ETag` on reads and require `If-Match` on writes; reject a stale browser update with HTTP `412` instead of overwriting a newer Obsidian or Sync edit.
+- [ ] Debounce duplicate filesystem events, rescan after watcher errors/restarts, and do not assume a file-watcher event is complete or unique.
+- [ ] Record an append-only audit entry outside the vault for each dashboard write without storing API keys, prompts, or private credentials there.
+
+### Weekly Claude/Hermes review
+
+- [ ] Give one supervised weekly timer sole ownership; do not create overlapping Hermes, cron, and n8n schedules for the same review.
+- [ ] Read the previous seven daily notes plus referenced items, capture their source paths/hashes, and send only the intended fields to the selected Claude API or local Hermes route.
+- [ ] Pin and record the prompt version, model/alias, input range, run ID, and failure status; keep any cloud API key outside Git and Obsidian.
+- [ ] Write a new draft at `Dashboard/Weekly Reviews/YYYY-[W]WW - Weekly Review Draft.md`; never let the model overwrite daily source notes or silently mark tasks complete.
+- [ ] Require human review before a weekly draft changes canonical projects, schedules, or long-lived knowledge.
+
+### Acceptance tests
+
+- [ ] Toggle a dashboard checkbox and confirm the expected Markdown property changes, syncs to desktop, and renders correctly in Obsidian.
+- [ ] Edit the same property in desktop Obsidian and confirm the open dashboard refreshes to the new value without a server restart.
+- [ ] Type text containing quotes, colons, Unicode, wikilinks, and multiple lines; confirm a lossless round trip or an explicit validation error.
+- [ ] Attempt two writes from the same old version and prove the second receives a visible conflict instead of silent last-write-wins.
+- [ ] Test Obsidian Sync delay, Spark restart, browser reconnect, watcher restart, network loss, invalid YAML, path traversal, and a failed weekly model call.
+- [ ] Restore one changed dashboard note from Git/backup or Sync history and record the recovery time.
+
+### Completion gate
+
+- [ ] **Done:** the chosen UI edits only the managed Markdown contract, changes flow both ways within the accepted latency, stale writes cannot silently win, the weekly job produces a reviewable draft with provenance, and rollback is demonstrated.
 
 ---
 
@@ -679,7 +772,7 @@ Read [[DGX Spark ODS Playbook and Model Roadmap#Phase 3 - FDE portfolio applicat
 
 ## Complete source map — all existing notes accounted for
 
-Use this map to decide what to read deeply and what to keep as reference. As of 2026-08-21 it covers all 35 other Markdown notes currently in this folder.
+Use this map to decide what to read deeply and what to keep as reference. As of 2026-08-22 it covers all 36 other Markdown notes currently in this folder.
 
 ### Canonical/current operating notes
 
@@ -727,6 +820,7 @@ Use this map to decide what to read deeply and what to keep as reference. As of 
 - [[local-ai-architecture-research|Local AI Architecture Research]] — subscription/API boundaries, runtime choices, device roles, and canonical configuration design.
 - [[DGX Spark Automatic Power Recovery Research]] — official power-return evidence and the still-unverified live UEFI Auto Boot setting.
 - [[VoiceStudio Risk Audit]] — completed risk inventory and acceptance boundaries for VoiceStudio, including the known blank Capture overlay.
+- [[Markdown Backed Interactive Dashboard Research]] — primary-source feasibility study, option comparison, recommended Markdown data contract, safe live write-back design, and weekly Claude/Hermes workflow.
 
 ## Final completion definition
 
@@ -736,7 +830,7 @@ Use this map to decide what to read deeply and what to keep as reference. As of 
 - [ ] The laptop, workstation, and Spark each have a documented role and failure behavior.
 - [ ] New skills/plugins enter through the reviewed intake pipeline.
 - [ ] Coding and one automation work through stable aliases.
-- [ ] The Spark vault replica is safe and retrieval quality has been measured.
+- [ ] Both Spark vault replicas are safe, dashboard/agent writes are confined, and retrieval quality has been measured.
 - [ ] Every new model is evaluated one at a time and either assigned a unique role or removed.
 - [ ] Fine-tuning and FDE labs begin only after the operational foundation is stable.
 

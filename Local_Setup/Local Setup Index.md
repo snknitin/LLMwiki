@@ -27,6 +27,7 @@ This is the canonical progress and navigation page. If an older note suggests a 
 | Additional models | Qwen 27 is optimized to a 44 GiB FP8 KV pool with native MTP-3, using about 71.3 GiB instead of 103.2 GiB and holding 4.74 full 262K contexts. Nemotron 3 Nano Omni is optimized to a 12 GiB KV pool and a verified 131,072-token ceiling, using about 43 GiB instead of 90.6 GiB; text, tools, a 70,025-token prompt, image, audio-path, and video tests passed. Nemotron 3.5 Lightning is verified through Spark LM Studio. Muse remains untested. |
 | Recovery | `FirstSpark` completed a physical power cycle and recovered ODS, Qwen, LiteLLM, Hermes services, LM Studio/LM Link, Tailscale, SSH, and OpenCode. The exposed Qwen/Lightning boot-order race was corrected; a later controlled reboot must still prove the corrected order without intervention. |
 | VoiceStudio | VoiceStudio v0.5.0 is installed portably at `D:\Apps\VoiceStudio`; portable storage, CUDA diagnostics, generation, Whisper transcription, Parakeet dictation, and blank-Capture-window recovery were verified. |
+| Obsidian replicas | `FirstSpark` has separate official headless replicas at `/home/snknitin/vaults/LLMWiki` and `/home/snknitin/vaults/Personal-Sync`. Both bidirectional services are enabled and active, and sequential writes passed in both directions with matching SHA-256 hashes. The active Windows `Personal-Sync` vault is now `F:\Vaults\Personal-Sync`; Obsidian registers it as open and the former Google Drive copy as not open. Retrieval and hard Hermes write confinement remain open. |
 
 ## Done — do not repeat these sections
 
@@ -64,6 +65,16 @@ This is the canonical progress and navigation page. If an older note suggests a 
 
 The follow-up controlled reboot, UEFI Auto Boot confirmation, QSFP clustering, NCCL tests, and dual-Spark workload validation remain open in [[Task Checklist]].
 
+### Obsidian headless replicas
+
+- [x] Official `obsidian-headless` is installed under Node.js 22+ on `FirstSpark`.
+- [x] `LLMWiki` and remote `Personal-Sync` completed protected initial pulls into separate directories.
+- [x] `obsidian-sync-llmwiki.service` and `obsidian-sync-personal.service` are enabled, active, bidirectional, and configured with merge conflict handling.
+- [x] Desktop-to-Spark and Spark-to-desktop inbox notes reached both replicas with matching SHA-256 hashes.
+- [x] The existing Hermes/model services remained active during rollout.
+
+Do not repeat the login or setup. The remaining backup, old-copy retirement, hard write-confinement, restart, simultaneous-conflict, retrieval, and dashboard gates are in [[Task Checklist#Sequence 6 — Obsidian headless replica and measured retrieval]] and [[Task Checklist#Sequence 6B — Scheduled Markdown outputs and a two-way feedback dashboard]].
+
 Use only these completed-guide sections now:
 
 - [[DGX Spark Operations Setup Guide#Safe stop and rollback commands|Operations rollback commands]]
@@ -80,6 +91,26 @@ Use only these completed-guide sections now:
 - [x] RTX PRO 5000 Blackwell identity verified from `nvidia-smi`; the Ada/32 GB contingency no longer applies.
 
 ## Resume here — exact order from today
+
+### 0. Finish Obsidian safeguards, then prove the Markdown dashboard
+
+Read:
+
+1. [[Markdown Backed Interactive Dashboard Research]]
+2. [[Task Checklist#Sequence 6 — Obsidian headless replica and measured retrieval]]
+3. [[Task Checklist#Sequence 6B — Scheduled Markdown outputs and a two-way feedback dashboard]]
+
+Do:
+
+- [x] Keep the two existing headless services; do not run either vault setup again.
+- [x] Move the active Windows `Personal-Sync` vault out of Google Drive to `F:\Vaults\Personal-Sync`; keep the former Drive copy closed while the new copy finishes verification.
+- [ ] Give `Personal-Sync` an independent dated backup and restore-test one disposable note.
+- [ ] Enforce a real `Agent Inbox/Spark Hermes/` write boundary before giving Hermes or a dashboard broad production write access.
+- [ ] Build the narrow `LLMWiki` dashboard MVP: render scheduled Markdown reports and let 👍/👎 update only `feedback`, `feedback_note`, and `feedback_updated_at` in each source note.
+- [ ] Prove dashboard feedback reaches desktop Obsidian and a desktop property edit refreshes the open dashboard.
+- [ ] Complete stale-write, simultaneous-edit, restart, sync-delay, path-boundary, and rollback tests before calling the browser path production-ready.
+
+**Done when:** the simple Obsidian-native proof is accepted or a browser MVP safely writes only the managed Markdown subtree, and no dual-sync or silent-overwrite path remains.
 
 ### 1. Finish the remaining remote-client checks
 
@@ -315,6 +346,7 @@ See [[Qwen 3.8 27B Ollama Remote Access Research]] for official model facts, sec
 
 ### Supporting research — read when making a decision, not as sequential tutorials
 
+- [[Markdown Backed Interactive Dashboard Research]] — compares Obsidian Bases, SilverBullet, Git-backed CMSs, static generators, and a purpose-built live Markdown writer; includes the recommended schema, concurrency controls, and weekly Claude/Hermes workflow.
 - [[DGX Spark Multi-Model Runtime Research]]
 - [[DGX Spark Additional Models And Convenience Runtimes Research]]
 - [[DGX Spark Aug 2026 Model Deployment Research]]
@@ -335,3 +367,6 @@ See [[Qwen 3.8 27B Ollama Remote Access Research]] for official model facts, sec
 8. Ollama, LM Studio, and Hugging Face/vLLM use separate native stores; do not duplicate every model across all three. Nemotron 3.5 Lightning is the deliberate LM Studio-on-Spark model for Step 4 and is not also deployed as vLLM in this rollout.
 9. Workstation inference drains before training; Spark remains the fallback during the GPU lease.
 10. New Qwen releases enter through a separate test profile and evaluation gate, never by overwriting `spark-fast` on release day.
+11. Markdown is the source of truth for the daily dashboard. The first UI is a narrow HTML report viewer whose only mutations are like/dislike feedback fields in agent-generated notes.
+12. One authenticated `FirstSpark` service owns those limited writes inside the dedicated scheduled-output subtree, uses optimistic concurrency and atomic serialized writes, and reaches clients only over the tailnet.
+13. A static generator may publish or preview Markdown but is not the write-back owner. The weekly Claude/Hermes run writes a new review draft with provenance and never overwrites its daily sources.
