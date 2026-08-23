@@ -56,6 +56,41 @@ Rules:
 
 <!-- Hermes appends new, ready actions below this line. Keep the queue ordered by current leverage, not capture time. -->
 
+- [ ] **Run a Google L6 readiness diagnostic before collecting more prep material** — [source](https://www.teamblind.com/post/how-to-prepare-for-google-l6-level-india-f8h658yj)
+  - Contains: A Microsoft L64 engineer with 14 years of experience asks how to prepare for Google India L6, naming NeetCode 150, Hello Interview, mock interviews, and difficulty retaining system-design concepts. The most useful replies recommend solving designs from requirements and data/storage constraints, making mistakes before studying reference solutions, using repeated mocks and feedback, and discussing real distributed-system trade-offs; suggested resources include Alex Xu’s two system-design volumes, Hello Interview’s design questions and story builder, and Alex Croitor for behavioral preparation, while commenters disagree on whether NeetCode 150 is sufficient.
+  - Potential benefit: Replaces passive resource accumulation with a measured baseline tailored to Nitin’s senior AI-career goal, exposing whether coding, architecture, communication, or leadership evidence is the actual constraint before committing to a long preparation plan.
+  - Intent: test · inferred
+  - Topic: Google L6 preparation
+  - Priority: P1
+  - Impact: high
+  - Ease: moderate
+  - Important: yes
+  - Importance reason: A calibrated L6 gap map directly supports Nitin’s goal of moving into a high-compensation AI engineering, MTS, or principal data-science role and prevents months of unfocused interview study.
+  - Urgent: yes
+  - Urgency reason: No application, interview date, expiring opening, or other near-term consequence is stated.
+  - Done when: One target Google L6 job family is selected, one timed coding problem and one 45-minute system-design mock are scored against explicit rubrics, and a one-page gap map identifies the next three drills with evidence for each.
+  - Effort: 2h
+  - Matrix order: 1000
+  - Captured: 2026-08-23 10:39 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_b9cabd2eedaaca56
+
+- [ ] **Outline a four-post dual-DGX-Spark build-in-public series** — [source](https://x.com/sudoingX/status/2090304783370559565)
+  - Contains: Sudo says NVIDIA supplied both of his DGX Sparks after a year of consistently publishing hands-on local-AI work as a solo builder; the attached photo visibly shows two DGX Spark units, branded packaging, and a high-speed cable, while the quoted post proposes joining the systems for larger distributed-model workloads.
+  - Potential benefit: Turns Nitin’s unusually relevant two-Spark setup into a repeatable, evidence-first content arc that can build AI credibility and make his technical work legible to collaborators or sponsors without copying the post’s motivational framing.
+  - Intent: write · inferred
+  - Topic: AI personal brand
+  - Priority: P1
+  - Impact: high
+  - Ease: moderate
+  - Important: yes
+  - Importance reason: Publishing real dual-Spark experiments directly advances Nitin’s AI credibility goal while extracting public value from hardware he already owns.
+  - Urgent: no
+  - Urgency reason: There is no deadline, expiring opportunity, or current dependency; social visibility compounds through consistency rather than requiring an immediate reaction to this post.
+  - Done when: One Markdown outline specifies four artifact-led posts—hardware and cluster setup, link validation, a larger-model benchmark, and lessons—with a hook, evidence to capture, and one reader takeaway for each.
+  - Effort: 1h
+  - Captured: 2026-08-22 22:20 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_19529a865b85742d
+
 - [ ] **Benchmark a bounded critic–revision loop against a one-pass agent** — [source](https://x.com/petergyang/status/2090564541499498919)
   - Contains: Peter Yang proposes improving AI output by having a manager agent repeatedly challenge a worker to reconsider and try harder; the underlying mechanism is additional test-time compute and iterative critique, but vague pressure should be compared with a rubric-based evaluator rather than assumed effective.
   - Potential benefit: Tests a small, reusable orchestration pattern that could raise output quality across Jarvis/Alfred and deterministic multi-agent workflows without blindly adding expensive agent loops.
@@ -89,6 +124,23 @@ Rules:
   - Effort: 1h
   - Captured: 2026-08-22 18:15 IST via Telegram · Hermes Swarm / Capture
   - ID: sc_c03359e24eacea9c
+
+- [ ] **Run a LongCat-Video-Avatar 1.5 feasibility spike on one DGX Spark** — [source](https://x.com/0xJokker/status/2090441836317811176)
+  - Contains: The Spanish post demonstrates turning one image plus audio into a minutes-long synchronized talking-person video. The underlying Meituan LongCat project is genuinely open source under MIT, with code at `meituan-longcat/LongCat-Video`, downloadable Avatar and Avatar 1.5 weights, audio-text-image-to-video, multi-character audio, continuation, distilled inference, and optional INT8 loading; the viral claim of replacing an entire studio still needs a local quality and resource test.
+  - Potential benefit: Establishes whether Nitin’s DGX hardware can provide a private, reusable talking-avatar pipeline for AI tutorials and personal-brand content without recurring commercial generation fees.
+  - Intent: test · inferred
+  - Topic: Local AI video
+  - Priority: P2
+  - Impact: high
+  - Ease: deep
+  - Important: yes
+  - Importance reason: A working local avatar pipeline would directly support Nitin’s content-production goal while exploiting hardware he already owns.
+  - Urgent: no
+  - Urgency reason: The model and weights are publicly available with no stated deadline, expiry, or immediate dependency.
+  - Done when: One DGX Spark generates a 20-second clip from Nitin-owned or explicitly authorized image and audio inputs, with setup steps plus runtime, memory use, lip-sync and motion artifacts recorded, ending in a go/no-go decision for a reusable workflow.
+  - Effort: half-day
+  - Captured: 2026-08-22 19:42 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_1e85b5bd109c8475
 
 ## Waiting or blocked
 
