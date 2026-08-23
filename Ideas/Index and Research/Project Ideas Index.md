@@ -3,7 +3,7 @@ type: index
 status: active
 created: 2026-07-27
 scope: personal-first project portfolio
-spec_count: 72
+spec_count: 73
 tags:
   - ideas
   - project-specs
@@ -12,7 +12,7 @@ tags:
 
 # Project Ideas Index
 
-This index now covers 72 personal project, workflow, evaluation, and skill specs. The default assumption throughout is: build for one person, run locally when practical, and only add accounts, billing, teams, and cloud infrastructure after the personal workflow is genuinely useful.
+This index now covers 73 personal project, workflow, evaluation, and skill specs. The default assumption throughout is: build for one person, run locally when practical, and only add accounts, billing, teams, and cloud infrastructure after the personal workflow is genuinely useful.
 
 Full source-to-spec accounting: [[Source Idea Coverage Map]].
 
@@ -57,6 +57,10 @@ These remain self-contained builds. Similarity links identify reusable engines o
 ### Appearance, color, and wardrobe
 
 - [[Personal Color Relighting Studio]] combines calibrated Korean-style personal-color draping with an explicitly approximate depth-aware WebGPU garment and lighting preview.
+
+### Desktop dashboard and workspace surfaces
+
+- [[Dashboard Command Center]] is a Windows-first multi-webview shell for persistent URL applications, explicit enabled/paused/on-demand/warm/always-live/scheduled policies, Excel-like nested navigation, private Spark endpoints, and multi-monitor scene restore.
 
 ### Creator, demand, and distribution
 
@@ -160,6 +164,15 @@ These give the best combination of immediate personal value, low cash cost, and 
 - [[Personalized ADHD Skill Upgrade]]
 - [[Reflective ELIZA Companion]]
 
+### Dashboard shells and private operating surfaces
+
+- [[Dashboard Command Center]]
+- [[Personal Signal Intelligence OS]] — a dashboard/content producer that can open inside the shell; it remains the owner of signal ingestion and Obsidian output.
+- [[Finance Signals Dashboard]] — possible registered sheet; it remains a separate financial-research product.
+- [[Net Worth Command Center]] — possible registered sheet; it remains a separate private-finance product.
+- [[Any App Widget Maker]] — shares URL/endpoint concepts but owns glanceable extracted widgets rather than full web applications.
+- [[Ambient TV]] — may use presentation/full-screen patterns but owns scheduled media playback rather than dashboard orchestration.
+
 ### Money, career, and creator systems
 
 - [[Creator Content Engine]]
@@ -229,6 +242,8 @@ These give the best combination of immediate personal value, low cash cost, and 
 
 Useful official starting points: [FreshRSS APIs](https://freshrss.github.io/FreshRSS/en/developers/06_GoogleReader_API.html), [Expo](https://docs.expo.dev/), [Tauri](https://v2.tauri.app/start/), [Ollama API](https://docs.ollama.com/api), [n8n](https://github.com/n8n-io/n8n), [n8n self-hosted AI starter kit](https://github.com/n8n-io/self-hosted-ai-starter-kit), [ARCore Depth](https://developers.google.com/ar/develop/depth), and [YouTube Data API](https://developers.google.com/youtube/v3/docs).
 
+The general desktop lane remains Tauri-first, but [[Dashboard Command Center]] is an intentional Electron exception: its primary problem is composing and lifecycle-managing several Chromium web applications, session partitions, and native windows rather than wrapping one local UI.
+
 ## Deep Research Dossiers
 
 Every project spec links directly to its relevant section in one of these primary-source research notes:
@@ -243,6 +258,7 @@ Every project spec links directly to its relevant section in one of these primar
 - [[Research - Expert Mode and Tiny Model Game Lab]]
 - [[Research - Visual Recipe Notation and Recipe Library]]
 - [[Research - Personal Color Analysis and Depth-Aware Relighting]]
+- [[Research - Dashboard Command Center and Multi-Webview Shell]]
 - [[Project Similarity and Reuse Map]]
 
 The specs contain the build decisions; the dossiers preserve deeper prior art, verified API/platform facts, drawbacks, hidden costs, clever shortcuts, paid-service triggers, and direct official-source links.
@@ -264,6 +280,7 @@ The specs contain the build decisions; the dossiers preserve deeper prior art, v
 - [[Tiny Model Game Lab]] remains separate from [[Yu-Gi-Oh RL Lab]] and [[Live Chess Tutor]]. It owns model-size ablations, distillation, tool-use accounting, and a cross-game curriculum; the other projects own their domain-specific game environments and user experiences.
 - [[Visual Recipe Book]] remains a self-contained recipe capture, verification, cooking, and sharing product. It may reuse OCR from [[PhoneScan PDF]], collection patterns from [[Personal Library Website]], and rendering tests from [[Visual Token Compiler]] without merging those distinct jobs.
 - [[Personal Color Relighting Studio]] remains a standalone personal styling and computational-photography product. It may reuse guided capture and longitudinal comparison patterns from [[Feedback Mirror]] plus renderer benchmarking from [[Local Video Generation Evaluation Lab]], but it must keep color analysis separate from health interpretation and generative media evaluation.
+- [[Dashboard Command Center]] remains a standalone Windows shell, not a merger of the dashboards it displays. Finance, signals, agents, study, and Obsidian-backed tools can register as sheets or scenes while retaining their own data, jobs, feedback, and release cycles. It may share endpoint/health manifests with [[Any App Widget Maker]] but does not reduce full applications into widgets.
 
 ## Portfolio Sequence
 

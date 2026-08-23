@@ -149,6 +149,23 @@ Share the map/provider cache and location-picker component, not marketplace inve
 
 [[Net Worth Command Center]], [[Paisa Vasool Subscriptions]], [[Finance Signals Dashboard]], [[finance-ops-agency]], [[tax-packet-autopilot]], and [[invoice-chaser-agent]] should share import, reconciliation, source hashing, scheduling, and audit-event packages while retaining separate financial jobs and screens.
 
+## Dashboard Shell and Private Operating Surfaces
+
+| Project | Owns | Reuse or handoff |
+|---|---|---|
+| [[Dashboard Command Center]] | registered URL applications, device-specific endpoints, enabled/paused/on-demand/warm/always-live/scheduled view policies, session boundaries, nested navigation, window scenes, health/error display, and renderer hibernation | hosts the others as sheets or scenes without absorbing their data, agents, feedback, or product logic |
+| [[Personal Signal Intelligence OS]] | feed ingestion, ranking, daily briefs, Telegram capture, and Obsidian knowledge output | can publish a dashboard URL and optional health/job-status manifest to Command Center |
+| [[Finance Signals Dashboard]] | market-data ingestion, deterministic signals, evidence, and daily research brief | possible sheet or Markets scene; retains its own scheduler and source contracts |
+| [[Net Worth Command Center]] | financial imports, reconciliation, balance sheet, and scenarios | possible sheet or Money scene; retains its encrypted finance boundary |
+| [[Any App Widget Maker]] | extracting permitted glanceable data/actions into native widgets | may reuse endpoint, health, icon, and capability-manifest schemas; does not replace full-page rendering |
+| [[Ambient TV]] | scheduled media channels, playback, and lean-back guide | may reuse full-screen/presentation and display-role concepts; no shared runtime or data model |
+
+**Shared contract:** `dashboard-manifest` may declare logical ID, title/icon, compatible endpoints, expected origins, health path, last/next agent job, safe named actions, feedback types, minimum size, and preferred zoom. The shell treats every capability as optional and never injects a generic agent bridge into remote pages.
+
+**Lifecycle boundary:** a registered dashboard, its backend/agent scheduler, and its Chromium renderer are independent. Pausing or hibernating the view saves RAM but does not stop an n8n workflow, Windows task, Spark service, or cron job. Service control requires an explicit dashboard-owned action and confirmation.
+
+**Build order:** Edge apps plus FancyZones baseline -> Command Center registry and single-view shell -> endpoint and session policies -> detach/scene restore -> hibernation/schedules -> dashboard manifests -> optional split views and private config sync.
+
 ## Tiny-Model and Game Research Family
 
 | Project | Owns | Reuse relationship |
