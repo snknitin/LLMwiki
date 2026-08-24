@@ -56,6 +56,24 @@ Rules:
 
 <!-- Hermes appends new, ready actions below this line. Keep the queue ordered by current leverage, not capture time. -->
 
+- [ ] **Run a tracked, value-first YouTube comment acquisition test for HalfBlood Professor** — [source](https://www.youtube.com/watch?v=3L3fWRQqrUE)
+  - Contains: The video’s audience is already interested in book annotation, active reading, and turning source material into useful notes. Nitin’s HalfBlood Professor at `https://hb-pdf.higgsfield.app/` converts searchable textbook chapters into annotated study PDFs with corrections, questions, underlining, circles, and expert-style margin notes; Nitin’s stated intent is to introduce it under this video to recruit paid users and feedback participants as one repeatable AutoGTM channel experiment.
+  - Potential benefit: Tests whether value-first participation in an adjacent creator’s evergreen audience can produce attributable product visits, sample usage, feedback, and purchases—evidence that can determine whether relevant-video commenting belongs in the wider AutoGTM strategy.
+  - Intent: implement · stated
+  - Topic: AutoGTM
+  - Priority: P1
+  - Impact: high
+  - Ease: moderate
+  - Important: no
+  - Importance reason: A measured acquisition experiment directly advances Nitin’s goal of finding paying users and validating a low-maintenance distribution channel for his product.
+  - Urgent: yes
+  - Urgency reason: The video was published in September 2025 and is evergreen; there is no current deadline, while the product page presently says paid checkout is “opening soon.”
+  - Done when: Paid checkout has been tested end to end, one genuinely useful non-spam comment is published with a unique campaign link and explicit feedback invitation, and after seven days the clicks, sample runs, feedback responses, and paid conversions are recorded with a continue-or-stop decision for this AutoGTM tactic.
+  - Effort: 2h
+  - Matrix order: 1000
+  - Captured: 2026-08-23 16:55 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_4348b5fff10f6ef9
+
 - [ ] **Run a Google L6 readiness diagnostic before collecting more prep material** — [source](https://www.teamblind.com/post/how-to-prepare-for-google-l6-level-india-f8h658yj)
   - Contains: A Microsoft L64 engineer with 14 years of experience asks how to prepare for Google India L6, naming NeetCode 150, Hello Interview, mock interviews, and difficulty retaining system-design concepts. The most useful replies recommend solving designs from requirements and data/storage constraints, making mistakes before studying reference solutions, using repeated mocks and feedback, and discussing real distributed-system trade-offs; suggested resources include Alex Xu’s two system-design volumes, Hello Interview’s design questions and story builder, and Alex Croitor for behavioral preparation, while commenters disagree on whether NeetCode 150 is sufficient.
   - Potential benefit: Replaces passive resource accumulation with a measured baseline tailored to Nitin’s senior AI-career goal, exposing whether coding, architecture, communication, or leadership evidence is the actual constraint before committing to a long preparation plan.
@@ -88,6 +106,7 @@ Rules:
   - Urgency reason: There is no deadline, expiring opportunity, or current dependency; social visibility compounds through consistency rather than requiring an immediate reaction to this post.
   - Done when: One Markdown outline specifies four artifact-led posts—hardware and cluster setup, link validation, a larger-model benchmark, and lessons—with a hook, evidence to capture, and one reader takeaway for each.
   - Effort: 1h
+  - Matrix order: 2000
   - Captured: 2026-08-22 22:20 IST via Telegram · Hermes Swarm / Capture
   - ID: sc_19529a865b85742d
 
@@ -105,6 +124,7 @@ Rules:
   - Urgency reason: There is no deadline, expiring opportunity, or current dependency; the social post's recency is not urgency.
   - Done when: A small benchmark compares one-pass, vague “try again,” and rubric-based critic–revision outputs on five representative prompts, records quality and token/latency costs, and ends with an adopt-or-reject decision.
   - Effort: 2h
+  - Matrix order: 3000
   - Captured: 2026-08-22 16:04 IST via Telegram · Hermes Swarm / Capture
   - ID: sc_f6f87d8954c6b762
 
@@ -122,6 +142,7 @@ Rules:
   - Urgency reason: There is no deadline, expiring opportunity, dependency, or near-term consequence.
   - Done when: A one-page note cites credible sources, explains expected value and risk pooling with one worked dice-to-insurance example, labels the post’s accurate and exaggerated claims, and ends with three retrieval questions.
   - Effort: 1h
+  - Matrix order: 4000
   - Captured: 2026-08-22 18:15 IST via Telegram · Hermes Swarm / Capture
   - ID: sc_c03359e24eacea9c
 
@@ -139,6 +160,7 @@ Rules:
   - Urgency reason: The model and weights are publicly available with no stated deadline, expiry, or immediate dependency.
   - Done when: One DGX Spark generates a 20-second clip from Nitin-owned or explicitly authorized image and audio inputs, with setup steps plus runtime, memory use, lip-sync and motion artifacts recorded, ending in a go/no-go decision for a reusable workflow.
   - Effort: half-day
+  - Matrix order: 5000
   - Captured: 2026-08-22 19:42 IST via Telegram · Hermes Swarm / Capture
   - ID: sc_1e85b5bd109c8475
 
@@ -149,3 +171,21 @@ Rules:
 ## Done this month
 
 <!-- Completed tasks may stay here briefly, then move to Archives/Social Capture Actions - YYYY-MM.md. -->
+- [x] **Audit Hermes browser tool routing and update if legacy paths are active** — [source](https://x.com/trevin/status/2091696470424686749)
+  - Contains: Trevin Chow (Hermes core contributor at Nous Research) found his browser tasks were sluggish because his config was still pointing at the legacy `browser_*` tools instead of the new Browser Use 3.0 CLI. After switching, his local benchmarks showed 72% faster across a dozen tasks. He shared a diagnostic prompt others can paste to check their own setup.
+  - Potential benefit: Eliminates a known performance bottleneck in your Hermes agent workflow; your config shows `browser: {cloud_provider: browser-use}` but the actual implementation path is unclear, and the system is 288 commits behind upstream which likely includes browser tool improvements.
+  - Intent: test · inferred
+  - Topic: Hermes configuration
+  - Priority: P1
+  - Impact: high
+  - Ease: easy
+  - Important: yes
+  - Importance reason: Browser automation is a core tool you use daily; a 72% speed improvement with no downside directly improves your agent workflow efficiency.
+  - Urgent: no
+  - Urgency reason: No deadline or dependency; the improvement is available whenever you choose to apply it.
+  - Done when: The browser tool routing is verified (legacy vs 3.0 CLI), any necessary config changes are applied, and a brief benchmark confirms the improvement.
+  - Effort: 30m
+  - Matrix order: 1000
+  - Workflow order: 1000
+  - Captured: 2026-08-24 10:01 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_3b4a0f64f2dbf91e
