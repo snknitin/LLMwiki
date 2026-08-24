@@ -3,8 +3,8 @@ type: index
 status: complete
 initial_raw_idea_count: 52
 previous_later_addition_count: 2
-august_2026_raw_idea_count: 26
-personal_spec_count: 73
+august_2026_raw_idea_count: 27
+personal_spec_count: 74
 tags:
   - coverage
   - source-map
@@ -12,7 +12,7 @@ tags:
 
 # Source Idea Coverage Map
 
-This map proves that every personal raw idea is represented. The original fifty-two ideas consolidated into forty-six specs; Jobs Search and Finance Signals produced forty-eight. The first August 2026 list adds nineteen standalone/paired specs, upgrades Jobs Search, and adds one useful personal integration over two retained Hermes components. Two further August ideas add [[Expert Lens Skill]] and [[Tiny Model Game Lab]]; the visual-recipe idea adds [[Visual Recipe Book]]; the personal-color/depth-relighting idea adds [[Personal Color Relighting Studio]]; and the persistent Windows dashboard-shell idea adds [[Dashboard Command Center]], producing seventy-three personal specs.
+This map proves that every personal raw idea is represented. The original fifty-two ideas consolidated into forty-six specs; Jobs Search and Finance Signals produced forty-eight. The first August 2026 list adds nineteen standalone/paired specs, upgrades Jobs Search, and adds one useful personal integration over two retained Hermes components. Two further August ideas add [[Expert Lens Skill]] and [[Tiny Model Game Lab]]; the visual-recipe idea adds [[Visual Recipe Book]]; the personal-color/depth-relighting idea adds [[Personal Color Relighting Studio]]; the persistent Windows dashboard-shell idea adds [[Dashboard Command Center]]; and the bounded personal-relationship memory idea adds [[Dunbar Dossier]], producing seventy-four personal specs.
 
 | # | Raw idea shorthand | Project spec | Mapping |
 |---:|---|---|---|
@@ -101,6 +101,7 @@ This map proves that every personal raw idea is represented. The original fifty-
 | A24 | Turn recipe text, blogs, screenshots, and photos into Tabular Recipe Notation and a themed personal cookbook | [[Visual Recipe Book]] | direct product |
 | A25 | Korean-style clothing color analysis from a selfie plus depth-aware light injection | [[Personal Color Relighting Studio]] | direct product; analysis and visualization remain separate modes |
 | A26 | Persistent Windows shell for registered URL applications, lifecycle policies, nested tabs, and multi-monitor scenes | [[Dashboard Command Center]] | direct product; displayed dashboards remain independent applications/services |
+| A27 | Dunbar 150 relationship dossiers, scheduled source updates, interaction history, communication guidance, and pre-meeting briefings | [[Dunbar Dossier]] | direct product; adjacent CRM, networking, and writing tools remain separate consumers/handoffs |
 
 ## Additional Cross-Project Consolidation
 
@@ -123,6 +124,7 @@ This map proves that every personal raw idea is represented. The original fifty-
 - The visual-recipe capture, compiler, and cookbook remains one cohesive product, producing `70 + 1 = 71` personal specs.
 - The personal-color draping and depth-aware wardrobe renderer remain two modes of one appearance studio, producing `71 + 1 = 72` personal specs. The repeated Expert Lens and Tiny Model bullets do not add counts because their existing specs were audited and refined in place.
 - The dashboard registry, URL renderer lifecycle, nested navigation, and window-scene manager form one Windows shell, producing `72 + 1 = 73` personal specs. Its registered dashboards are consumers of the shell, not merged project ideas.
+- The active-150 roster, temporal person files, source-backed observation review, relationship cadence, and meeting briefings form one personal relationship intelligence system, producing `73 + 1 = 74` personal specs. Pocket CRM, Event Networking Copilot, GiftShelf, and the DM Desk remain separate handoffs or consumers.
 
 ## Related
 

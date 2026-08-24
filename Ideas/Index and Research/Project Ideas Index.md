@@ -3,7 +3,7 @@ type: index
 status: active
 created: 2026-07-27
 scope: personal-first project portfolio
-spec_count: 73
+spec_count: 74
 tags:
   - ideas
   - project-specs
@@ -12,7 +12,7 @@ tags:
 
 # Project Ideas Index
 
-This index now covers 73 personal project, workflow, evaluation, and skill specs. The default assumption throughout is: build for one person, run locally when practical, and only add accounts, billing, teams, and cloud infrastructure after the personal workflow is genuinely useful.
+This index now covers 74 personal project, workflow, evaluation, and skill specs. The default assumption throughout is: build for one person, run locally when practical, and only add accounts, billing, teams, and cloud infrastructure after the personal workflow is genuinely useful.
 
 Full source-to-spec accounting: [[Source Idea Coverage Map]].
 
@@ -61,6 +61,10 @@ These remain self-contained builds. Similarity links identify reusable engines o
 ### Desktop dashboard and workspace surfaces
 
 - [[Dashboard Command Center]] is a Windows-first multi-webview shell for persistent URL applications, explicit enabled/paused/on-demand/warm/always-live/scheduled policies, Excel-like nested navigation, private Spark endpoints, and multi-monitor scene restore.
+
+### Relationships and personal memory
+
+- [[Dunbar Dossier]] is a local-first personal relationship intelligence system for an intentional 5/15/50/150 network, with versioned person files, interaction history, provenance-backed update review, meeting briefings, and Obsidian projections.
 
 ### Creator, demand, and distribution
 
@@ -164,6 +168,14 @@ These give the best combination of immediate personal value, low cash cost, and 
 - [[Personalized ADHD Skill Upgrade]]
 - [[Reflective ELIZA Companion]]
 
+### Relationships, communication, and private CRM
+
+- [[Dunbar Dossier]] — canonical active-150 roster, relationship history, reviewed facts, cadence, and meeting briefs.
+- [[pocket-crm]] — separate shorthand capture for contacts, opportunities, and next actions; may share stable person IDs.
+- [[Event Networking Copilot]] — can hand reviewed new contacts and event notes into Dunbar Dossier.
+- [[Personal Voice Ghostwriter and DM Desk]] — may consume approved communication guidance and open loops without owning relationship truth.
+- [[GiftShelf]] — may consume confirmed interests and important dates for thoughtful-gift prompts.
+
 ### Dashboard shells and private operating surfaces
 
 - [[Dashboard Command Center]]
@@ -259,6 +271,7 @@ Every project spec links directly to its relevant section in one of these primar
 - [[Research - Visual Recipe Notation and Recipe Library]]
 - [[Research - Personal Color Analysis and Depth-Aware Relighting]]
 - [[Research - Dashboard Command Center and Multi-Webview Shell]]
+- [[Research - Dunbar Dossier and Personal Relationship Intelligence]]
 - [[Project Similarity and Reuse Map]]
 
 The specs contain the build decisions; the dossiers preserve deeper prior art, verified API/platform facts, drawbacks, hidden costs, clever shortcuts, paid-service triggers, and direct official-source links.
@@ -281,6 +294,7 @@ The specs contain the build decisions; the dossiers preserve deeper prior art, v
 - [[Visual Recipe Book]] remains a self-contained recipe capture, verification, cooking, and sharing product. It may reuse OCR from [[PhoneScan PDF]], collection patterns from [[Personal Library Website]], and rendering tests from [[Visual Token Compiler]] without merging those distinct jobs.
 - [[Personal Color Relighting Studio]] remains a standalone personal styling and computational-photography product. It may reuse guided capture and longitudinal comparison patterns from [[Feedback Mirror]] plus renderer benchmarking from [[Local Video Generation Evaluation Lab]], but it must keep color analysis separate from health interpretation and generative media evaluation.
 - [[Dashboard Command Center]] remains a standalone Windows shell, not a merger of the dashboards it displays. Finance, signals, agents, study, and Obsidian-backed tools can register as sheets or scenes while retaining their own data, jobs, feedback, and release cycles. It may share endpoint/health manifests with [[Any App Widget Maker]] but does not reduce full applications into widgets.
+- [[Dunbar Dossier]] remains separate from [[pocket-crm]], [[Event Networking Copilot]], and [[Personal Voice Ghostwriter and DM Desk]]. It owns the active 150, temporal relationship memory, evidence review, and meeting briefs; the neighboring projects may share people/context contracts or hand off reviewed records without sharing the same daily job or release cycle.
 
 ## Portfolio Sequence
 

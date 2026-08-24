@@ -1,5 +1,5 @@
 <!-- consolidation-state
-{"groups_merged": 0, "last_run_at": "2026-08-24T16:31:22+05:30", "message": "Already compacted—no high-confidence groups were available.", "mode": "manual-dashboard", "queue_revision": "d2ab34c2824f6a4d6f0ff0bd2b2492754aa1b7fd57f1dfc79a12fbb11e355464", "status": "already_compacted", "tasks_absorbed": 0}
+{"groups_merged": 0, "last_run_at": "2026-08-24T22:00:47+05:30", "message": "Already compacted—no high-confidence groups were available.", "mode": "manual-dashboard", "queue_revision": "d2ab34c2824f6a4d6f0ff0bd2b2492754aa1b7fd57f1dfc79a12fbb11e355464", "status": "already_compacted", "tasks_absorbed": 0}
 -->
 # Social Capture Consolidation Log
 
@@ -24,6 +24,22 @@
 - Tasks absorbed: 0
 
 ### 2026-08-24T16:31:22+05:30
+- Mode: manual-dashboard
+- Outcome: already_compacted
+- Queue revision before: `d2ab34c2824f6a4d6f0ff0bd2b2492754aa1b7fd57f1dfc79a12fbb11e355464`
+- Queue revision after: `d2ab34c2824f6a4d6f0ff0bd2b2492754aa1b7fd57f1dfc79a12fbb11e355464`
+- Groups merged: 0
+- Tasks absorbed: 0
+
+### 2026-08-24T19:50:35+05:30
+- Mode: manual-dashboard
+- Outcome: already_compacted
+- Queue revision before: `d2ab34c2824f6a4d6f0ff0bd2b2492754aa1b7fd57f1dfc79a12fbb11e355464`
+- Queue revision after: `d2ab34c2824f6a4d6f0ff0bd2b2492754aa1b7fd57f1dfc79a12fbb11e355464`
+- Groups merged: 0
+- Tasks absorbed: 0
+
+### 2026-08-24T22:00:47+05:30
 - Mode: manual-dashboard
 - Outcome: already_compacted
 - Queue revision before: `d2ab34c2824f6a4d6f0ff0bd2b2492754aa1b7fd57f1dfc79a12fbb11e355464`

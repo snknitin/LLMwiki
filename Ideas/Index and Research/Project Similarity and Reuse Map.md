@@ -58,6 +58,23 @@ This map answers: **If one project works, which other project can reuse its engi
 - `approval-queue`: generated, checked, approved, exported/published, verified.
 - `media-runner`: source/render manifest, model/provider adapter, asset hash, cost/telemetry.
 
+## Relationship Intelligence and Communication Family
+
+| Project | Owns | Reuses or hands off |
+|---|---|---|
+| [[Dunbar Dossier]] | active 5/15/50/150 roster, stable identities, temporal relationship memory, accepted facts, interaction history, cadence, Change Inbox, and meeting briefs | canonical relationship-context service; exposes reviewed reads and narrow mutations without giving other tools direct database access |
+| [[pocket-crm]] | shorthand capture of a contact, commercial opportunity, next action, and reminder | may resolve a person through Dunbar IDs; contacts outside the active 150 remain valid CRM records |
+| [[Event Networking Copilot]] | event-scoped attendee research, encounter lookup, post-conversation note, and follow-up | hands a user-approved new person and event interaction to Dunbar Dossier after the event |
+| [[Personal Voice Ghostwriter and DM Desk]] | the user's voice, reviewed message drafts, edit learning, and sending queue | consumes an approved communication-style card, promises, and open loops; never owns or silently edits relationship truth |
+| [[GiftShelf]] | wish lists, gift reservation, funding, and fulfillment | may consume confirmed interests and important dates; gift outcomes can return as interactions |
+| [[Dashboard Command Center]] | private URL-app registry, renderer lifecycle, nested navigation, and window scenes | hosts the Dunbar dashboard as a sheet without owning people data or schedules |
+
+**Build order:** five curated Dunbar files -> interaction/open-loop capture -> calendar-triggered brief -> Change Inbox -> one source adapter -> optional handoffs to Networking Copilot and DM Desk.
+
+**Shared contract:** `people-context-core` may define stable person IDs, identity references, interaction summaries, promises, important dates, source provenance, sensitivity labels, and optimistic versions. The Dunbar service remains the only writer to its canonical relationship database; other projects submit proposals or append reviewed events through its API.
+
+**Boundary:** these projects are similar but should not merge. Dunbar Dossier measures useful memory and follow-through across chosen relationships; Pocket CRM measures captured next actions/opportunities; Event Networking Copilot measures event preparation/follow-up; DM Desk measures draft usefulness and voice fidelity.
+
 ## Cognitive and Explanation Skills
 
 | Project | Owns | Similarity without merger |
