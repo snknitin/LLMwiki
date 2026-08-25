@@ -47,6 +47,7 @@ Tap a body region or movement goal, view reviewed exercises with clear setup and
 - MuscleWiki is the obvious body-map product reference; the local differentiator is a personal prescribed routine, provenance, symptoms, and adherence rather than a generic exercise catalog.
 - [MediaPipe Pose Landmarker](https://ai.google.dev/edge/mediapipe/solutions/vision/pose_landmarker) or MoveNet can power one narrowly validated form cue later. Start with playback and logging because pose quality varies by camera angle and exercise.
 - [ExerciseDB](https://github.com/ExerciseDB/exercisedb-api) and clinician platforms such as Physitrack show reusable exercise-card schemas: region, movement, equipment, steps, dosage, contraindications, media, and source.
+- [openGym](https://gitea.com/DuarteSantos/openGym) — self-hosted, open-source workout tracker with 1,324 exercises, offline-first, no account required, import from Hevy/Strong/FitNotes, automatic progression tracking, and JSON export. Demonstrates that a privacy-first, no-subscription fitness app can gain traction (7.6k likes, 507 RTs); useful reference for schema design, exercise catalog structure, and export/import interoperability.
 - Simplest alternative: a structured private “physio playlist” that captures shared URLs, tags them on an SVG body map, plays the routine, and exports a progress report.
 
 ## Free-First Stack

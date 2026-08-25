@@ -56,6 +56,42 @@ Rules:
 
 <!-- Hermes appends new, ready actions below this line. Keep the queue ordered by current leverage, not capture time. -->
 
+- [ ] **Evaluate OpenAI Applied AI Architect and Engineer roles for fit** — [source](https://x.com/arjun_gupta95/status/2091909090704503119)
+  - Contains: OpenAI is hiring Applied AI Architect and Applied AI Engineer in Delhi, India. The roles focus on helping customers turn frontier models into production systems. Application form and job pages linked by poster @arjun_gupta95. Nitin's stated preference: OpenAI and top frontier labs are worth exploring regardless of location.
+  - Potential benefit: Directly advances Nitin's goal of reaching a top-tier AI engineering role; even if Delhi-based, the role could be remote or relocatable, and the application process itself provides market calibration.
+  - Intent: decide · stated
+  - Topic: Career — frontier labs
+  - Priority: P1
+  - Impact: high
+  - Ease: moderate
+  - Important: yes
+  - Importance reason: OpenAI is a top frontier lab; applying provides both a potential career path and market-signal calibration for Nitin's ₹1.5–2 Cr Hyderabad target.
+  - Urgent: yes
+  - Urgency reason: Job postings have implicit deadlines and early applications often receive better consideration; the window is open now but may close.
+  - Done when: Nitin has reviewed the role descriptions, decided whether to apply or pass, and (if applying) submitted through the Google Form or OpenAI careers page.
+  - Effort: 30m
+  - Matrix order: 1000
+  - Captured: 2026-08-25 23:05 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_81de50ddaaaccff4
+
+- [ ] **Wire pre-commit and commit-msg hooks to block agent-generated git attribution trailers** — [source](https://x.com/TheAhmadOsman/status/2091956352247550437)
+  - Contains: Ahmad Osman warns that AI coding agents inject Co-authored-by trailers into git history, fragmenting authorship attribution. He recommends hardcoding author/committer identity, blocking third-party trailers via pre-commit/commit-msg/pre-merge-commit hooks, and packaging the guards as a reusable skill. Top comments confirm pre-commit is the right layer because it catches all commits regardless of agent behavior.
+  - Potential benefit: Protects git provenance and personal contribution history from agent-side metadata pollution; ensures clean blame and public evidence of Nitin's work.
+  - Intent: implement · inferred
+  - Topic: Git provenance
+  - Priority: P2
+  - Impact: medium
+  - Ease: easy
+  - Important: yes
+  - Importance reason: Clean git history is evidence for Nitin's AI engineering brand and project integrity; agent-injected trailers fragment blame and attribution.
+  - Urgent: no
+  - Urgency reason: No deadline, expiring opportunity, or current dependency; the fix is a one-time guard that compounds in value over time.
+  - Done when: One project has pre-commit and commit-msg hooks that reject unknown Co-authored-by and AI-attribution trailers, author/committer is pinned, and the hooks are packaged as a skill or shared config.
+  - Effort: 30m
+  - Matrix order: 6000
+  - Captured: 2026-08-25 08:00 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_801a7e39073fb1ed
+
 - [ ] **Run a tracked, value-first YouTube comment acquisition test for HalfBlood Professor** — [source](https://www.youtube.com/watch?v=3L3fWRQqrUE)
   - Contains: The video’s audience is already interested in book annotation, active reading, and turning source material into useful notes. Nitin’s HalfBlood Professor at `https://hb-pdf.higgsfield.app/` converts searchable textbook chapters into annotated study PDFs with corrections, questions, underlining, circles, and expert-style margin notes; Nitin’s stated intent is to introduce it under this video to recruit paid users and feedback participants as one repeatable AutoGTM channel experiment.
   - Potential benefit: Tests whether value-first participation in an adjacent creator’s evergreen audience can produce attributable product visits, sample usage, feedback, and purchases—evidence that can determine whether relevant-video commenting belongs in the wider AutoGTM strategy.
