@@ -56,6 +56,194 @@ Rules:
 
 <!-- Hermes appends new, ready actions below this line. Keep the queue ordered by current leverage, not capture time. -->
 
+- [ ] **Evaluate the self-hosted AI video clipping tool** — [X post](https://x.com/vikktorrrre/status/2092195882472997305)
+  - Contains: An open-source clipping tool for YouTube or local videos with self-hosting, no watermarks or usage limits, model customization, and a claimed paid-Gemini dependency.
+  - Potential benefit: Could reduce recurring clipping costs and complement the existing YouTube clipping workflow for local or batch use.
+  - Intent: test · inferred
+  - Topic: AI video clipping
+  - Source author: Veee
+  - Priority: P2
+  - Impact: medium
+  - Ease: moderate
+  - Important: yes
+  - Importance reason: A working self-hosted clipper could remove subscriptions and integrate with Nitin’s existing media automation.
+  - Urgent: no
+  - Urgency reason: No deadline or expiring offer was established.
+  - Done when: The repository and license are verified, one representative video is clipped locally, output quality and setup cost are compared with the current workflow, and adopt or reject is recorded.
+  - Effort: 1h
+  - Captured: 2026-08-26 11:44 IST via Telegram · Capture
+  - ID: sc_d008c9d3fd8827e8
+
+- [ ] **Encode applicable SaaS operating guidelines into project guidance** — [X post](https://x.com/hridoyreh/status/2092260962103439363)
+  - Contains: A concrete SaaS operating checklist covering login friction, charging from day one, post-launch marketing, dogfooding, retention, MVP scope, user contact, value pricing, landing-page quality, and stop criteria.
+  - Potential benefit: Externalizes reusable product and SaaS decision rules so they can guide future projects without relying on recall.
+  - Intent: implement · stated
+  - Topic: SaaS operating guidelines
+  - Source author: Hridoy Reh
+  - Priority: P2
+  - Impact: medium
+  - Ease: quick
+  - Important: yes
+  - Importance reason: Nitin explicitly wants these directional guidelines available in a relevant skill or project context rather than held in memory.
+  - Urgent: no
+  - Urgency reason: No external deadline or expiring opportunity was stated.
+  - Done when: Each guideline is reviewed for applicability and the useful subset is encoded in the appropriate skill or project guidance, with rejected items noted rather than silently discarded.
+  - Effort: 30m
+  - Captured: 2026-08-26 11:44 IST via Telegram · Capture
+  - ID: sc_8141580b6da6d7f7
+
+- [ ] **Publish personal-brand pages in an AI-readable format** — [source](https://x.com/mahd_nam/status/1958214307772379370)
+  - Contains: A prompt and publishing workflow for turning a website into structured Markdown that AI agents can discover, parse, and retrieve more reliably than presentation-first pages.
+  - Potential benefit: Makes Nitin's future personal-brand site and technical writing easier for answer engines and research agents to understand and cite.
+  - Intent: implement · inferred
+  - Topic: AI-readable publishing
+  - Source author: @mahd_nam
+  - Priority: P2
+  - Impact: medium
+  - Ease: moderate
+  - Important: yes
+  - Importance reason: Improves discoverability and machine readability for Nitin's AI credibility and publishing goals.
+  - Urgent: no
+  - Urgency reason: No deadline, expiry, or near-term dependency was identified.
+  - Done when: One representative personal-brand page has a validated AI-readable Markdown representation and a documented publishing rule.
+  - Effort: 1h
+  - Captured: 2026-08-26 10:34 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_dabb85ee65b0fc25
+- [ ] **Build a Playwright-first website API reverse-engineering skill** — [source](https://x.com/jiangscoding/status/2022329824104321196)
+  - Contains: A proposed agent skill that uses Playwright to inspect browser network traffic, infer website API contracts, and replay stable endpoints directly before falling back to DOM automation.
+  - Potential benefit: Could make browser agents faster and less brittle by replacing repeated UI interaction with deterministic API calls where appropriate.
+  - Intent: implement · inferred
+  - Topic: Browser agent tooling
+  - Source author: @jiangscoding
+  - Priority: P1
+  - Impact: high
+  - Ease: deep
+  - Important: yes
+  - Importance reason: Directly strengthens reusable agent capability and deterministic automation in Nitin's Hermes stack.
+  - Urgent: no
+  - Urgency reason: No deadline, expiry, or blocking dependency was identified.
+  - Done when: A reusable skill demonstrates one approved site flow from Playwright traffic capture through documented API replay, with auth and safety boundaries.
+  - Effort: half-day
+  - Captured: 2026-08-26 10:36 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_bbe35c33039405d0
+- [ ] **Evaluate MetalForge for reusable cross-platform mobile UI components** — [source](https://github.com/itsmartashub/MetalForge)
+  - Contains: A cross-platform mobile component system intended to accelerate polished Android and iOS interface construction from reusable building blocks.
+  - Potential benefit: Could expand the vetted visual references available to agents building compact, production-quality mobile interfaces.
+  - Intent: decide · inferred
+  - Topic: Agent UI component libraries
+  - Consolidation key: evaluate-agent-ui-component-libraries
+  - Priority: P2
+  - Impact: medium
+  - Ease: easy
+  - Important: yes
+  - Importance reason: Reusable interface references reduce generic agent-built UI and shorten implementation cycles.
+  - Urgent: no
+  - Urgency reason: No deadline, expiry, or blocking dependency was identified.
+  - Done when: A short keep-or-reject note records MetalForge's useful components, licensing, maintenance state, and fit for agent-generated mobile UI.
+  - Effort: 30m
+  - Captured: 2026-08-26 10:39 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_8d26a421dc1ffa16
+- [ ] **Evaluate Archify as an app-architecture design skill** — [source](https://github.com/vishalshanglas/Archify)
+  - Contains: A repository for generating and communicating app architecture that may be adaptable into a reusable agent skill for design decisions and implementation handoffs.
+  - Potential benefit: Could give Hermes a more consistent architecture-first workflow before agents start implementing applications.
+  - Intent: decide · inferred
+  - Topic: Agent architecture skills
+  - Priority: P2
+  - Impact: medium
+  - Ease: moderate
+  - Important: yes
+  - Importance reason: Stronger architecture artifacts can reduce rework across Nitin's many agent-assisted projects.
+  - Urgent: no
+  - Urgency reason: No deadline, expiry, or near-term dependency was identified.
+  - Done when: A keep-or-reject note compares Archify with the current architecture-diagram workflow and specifies any reusable skill adaptation.
+  - Effort: 1h
+  - Captured: 2026-08-26 10:39 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_16d6c5ebf3d54be7
+- [ ] **Evaluate Amicro UI for reusable dashboard components** — [source](https://www.amicro-ui.dev/)
+  - Contains: A UI component collection featuring charts, loaders, backgrounds, and other polished primitives that could be referenced or adapted by frontend-building agents.
+  - Potential benefit: Could improve visual quality and speed when building operational dashboards without falling back to generic card-heavy designs.
+  - Intent: decide · inferred
+  - Topic: Agent UI component libraries
+  - Consolidation key: evaluate-agent-ui-component-libraries
+  - Priority: P2
+  - Impact: medium
+  - Ease: easy
+  - Important: yes
+  - Importance reason: Curated reusable components directly support higher-quality agent-built operational interfaces.
+  - Urgent: no
+  - Urgency reason: No deadline, expiry, or blocking dependency was identified.
+  - Done when: A short keep-or-reject note records Amicro UI's strongest reusable components, licensing, accessibility, and fit for agent-built dashboards.
+  - Effort: 30m
+  - Captured: 2026-08-26 10:39 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_71420822e7835b5f
+
+- [ ] **Strengthen agent-built UI grounding with vetted references and reusable components**
+  - Contains:
+    - Build an agent-ready frontend component reference library from proven product patterns: Machina describes replacing one-shot frontend prompting with a curated “Lego” of components extracted from products such as Stripe and Linear. Agents receive real reference links, fetch component patterns, and adapt vetted pieces rather than inventing an entire design from abstract style prompts; a top reply also points to Mobbin MCP for collecting product-design references.
+    - Add five concrete design-reference sites to the Kole Jain UI/UX skill: The post curates five grounding resources for AI coding agents: ui-skills.com for UI patterns, coss.com/ui for interface examples, designsystemchecklist.com for audits, reui.io/components for reusable components, and emilkowal.ski/ui/you-dont-need-animations for avoiding decorative animation. These supplement the existing Kole Jain principles with concrete references.
+  - Potential benefit: Handles 2 closely related captures in one focused batch.
+  - Intent: implement · inferred
+  - Topic: Frontend design systems
+  - Source author: Machina · @EXM7777
+  - Priority: P2
+  - Impact: high
+  - Ease: moderate
+  - Important: yes
+  - Importance reason: This batch combines 2 actions that support the same outcome.
+  - Urgent: no
+  - Urgency reason: Preserved from the member tasks; batch size alone does not create urgency.
+  - Done when: The five reference sites are documented in ui-ux-design-kole with when-to-use guidance, at least ten vetted components from three proven products are catalogued, and one component is reused in a real project.
+  - Effort: 2h 30m
+  - Matrix order: 8000
+  - Consolidation key: improve-agent-ui-design-grounding
+  - Consolidation reason: All member tasks share the explicit consolidation key `improve-agent-ui-design-grounding` and workflow state.
+  - Consolidated IDs: sc_4cea548f48144c0e, sc_e24295fc2920d36a
+  - Consolidated at: 2026-08-26T10:28:24+05:30
+  - Batch size: 2
+  - Sources:
+    - [source](https://x.com/EXM7777/status/2092250905655812121) — Build an agent-ready frontend component reference library from proven product patterns
+    - [source](https://x.com/eptwts/status/2092298910190448727) — Add five concrete design-reference sites to the Kole Jain UI/UX skill
+  - Captured: 2026-08-26 07:42 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_4cea548f48144c0e
+
+- [ ] **Run a ThreeUI fit spike for one agent-built frontend** — [source](https://x.com/MengTo/status/2090817187900780961)
+  - Contains: Meng To open-sourced ThreeUI, a library of more than 160 procedural three.js components and landing pages, generally 100–200 KB each, with agent skills for adjusting theme, lighting, motion, and layout. A paid tier adds more components and MCP support.
+  - Potential benefit: Tests whether a polished agent-native 3D component foundation can accelerate selected hero sections or interactive product experiences without prompting visuals from scratch.
+  - Intent: test · inferred
+  - Topic: Agent-built frontend design
+  - Source author: Meng To
+  - Priority: P2
+  - Impact: medium
+  - Ease: moderate
+  - Important: yes
+  - Importance reason: A reusable 3D component source could improve differentiated frontend work while reducing custom animation effort.
+  - Urgent: no
+  - Urgency reason: Early pricing is promotional, but the free open-source library is available without a stated deadline or blocking dependency.
+  - Done when: One free ThreeUI component is integrated into a disposable project spike, with bundle size, customization effort, accessibility/performance concerns, and an adopt-or-reject decision recorded.
+  - Effort: 1h
+  - Matrix order: 10000
+  - Captured: 2026-08-26 10:06 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_94eada8d053c1211
+
+- [ ] **Benchmark Perplexity Portable Computer against Hermes on one local-agent workflow** — [source](https://x.com/perplexity_ai/status/2092268362386780270)
+  - Contains: Perplexity announced Portable Computer for NVIDIA DGX Spark: a local agent runtime with orchestrator, subagent model, and harness running on-device, using a post-trained PPLX 27B model with other local models planned. Hybrid routing can request approval before using frontier cloud models.
+  - Potential benefit: Provides a concrete competitive benchmark for local-agent UX, privacy, orchestration, and hybrid model routing on hardware Nitin already owns.
+  - Intent: test · inferred
+  - Topic: Local AI agents
+  - Source author: Perplexity
+  - Priority: P2
+  - Impact: medium
+  - Ease: moderate
+  - Important: yes
+  - Importance reason: Comparing a major local-agent product against Hermes can reveal useful UX and routing ideas for Nitin's core assistant stack.
+  - Urgent: no
+  - Urgency reason: The product announcement is recent but has no stated deadline, expiry, or current dependency.
+  - Done when: The same bounded local research workflow is run in Portable Computer and Hermes, with setup friction, privacy boundary, model routing, latency, output quality, and one adopt-or-ignore decision recorded.
+  - Effort: 2h
+  - Matrix order: 11000
+  - Captured: 2026-08-26 00:47 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_d431a02d7a4e3e98
+
 - [ ] **Evaluate OpenAI Applied AI Architect and Engineer roles for fit** — [source](https://x.com/arjun_gupta95/status/2091909090704503119)
   - Contains: OpenAI is hiring Applied AI Architect and Applied AI Engineer in Delhi, India. The roles focus on helping customers turn frontier models into production systems. Application form and job pages linked by poster @arjun_gupta95. Nitin's stated preference: OpenAI and top frontier labs are worth exploring regardless of location.
   - Potential benefit: Directly advances Nitin's goal of reaching a top-tier AI engineering role; even if Delhi-based, the role could be remote or relocatable, and the application process itself provides market calibration.
@@ -172,13 +360,13 @@ Rules:
   - Priority: P2
   - Impact: medium
   - Ease: moderate
-  - Important: yes
+  - Important: no
   - Importance reason: The artifact directly supports Nitin’s probability and financial-literacy goals and can become evidence-grounded educational content.
   - Urgent: no
   - Urgency reason: There is no deadline, expiring opportunity, dependency, or near-term consequence.
   - Done when: A one-page note cites credible sources, explains expected value and risk pooling with one worked dice-to-insurance example, labels the post’s accurate and exaggerated claims, and ends with three retrieval questions.
   - Effort: 1h
-  - Matrix order: 4000
+  - Matrix order: 1000
   - Captured: 2026-08-22 18:15 IST via Telegram · Hermes Swarm / Capture
   - ID: sc_c03359e24eacea9c
 
