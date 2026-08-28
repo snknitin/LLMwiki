@@ -56,6 +56,573 @@ Rules:
 
 <!-- Hermes appends new, ready actions below this line. Keep the queue ordered by current leverage, not capture time. -->
 
+- [ ] **Apply Orwell's Rules to Avoid AI Slop** — [source](https://x.com/josephfwyer/status/2092819538505273544)
+  - Contains: The post advocates using Orwell's six writing rules to counteract AI-generated text flaws like passive voice and jargon. This framing positions the rules as a practical defense against incoherent or overly complex AI output.
+  - Potential benefit: The sharer views these rules as a necessary human skill to maintain clarity and authenticity in writing. This suggests a preference for direct, active language over the typical verbose style of LLMs.
+  - Intent: implement · inferred
+  - Topic: Writing Quality
+  - Source author: Joe Wyer
+  - Priority: P2
+  - Impact: medium
+  - Ease: easy
+  - Important: yes
+  - Importance reason: Clear writing enhances communication effectiveness and reduces reader fatigue. This skill is broadly applicable across professional and personal contexts.
+  - Urgent: no
+  - Urgency reason: Improving writing style is beneficial but not time-critical for immediate tasks. It supports long-term quality rather than addressing an immediate crisis.
+  - Done when: A draft is edited to remove passive voice and unnecessary words.
+  - Effort: 15m
+  - Captured: 2026-08-28 06:51 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_69babc169e36a663
+
+- [ ] **Company Brain Architecture: 9 Real-World Examples** — [article](https://slite.com/ebooks/company-brain?utm_source=twitter&utm_medium=organic-social&utm_campaign=company-brain-ebook&utm_content=femke-honeypot&utm_id=fe08260k)
+  - Contains: The post and image detail nine real-world implementations of 'Company Brains' that all share four core functions: getting signals, remembering, dreaming & pruning, and speaking & searching. Examples include GBrain, mem0, Letta, Zep/Graphiti, Sylph, DIY, Pletor, Gorgias Cortex, and Slite Agent.
+  - Potential benefit: This provides a practical taxonomy for understanding how different teams structure their AI memory and knowledge systems. It highlights that despite different tools, the underlying architecture for managing organizational memory is surprisingly consistent.
+  - Intent: learn · inferred
+  - Topic: AI Knowledge Management
+  - Sources:
+    - [article](https://slite.com/ebooks/company-brain?utm_source=twitter&utm_medium=organic-social&utm_campaign=company-brain-ebook&utm_content=femke-honeypot&utm_id=fe08260k)
+    - [X post](https://x.com/femke_plantinga/status/2092918452423983363?s=20)
+  - Source author: Femke Plantinga
+  - Priority: P2
+  - Impact: medium
+  - Ease: easy
+  - Important: yes
+  - Importance reason: It provides a clear, comparative framework for understanding the emerging 'Company Brain' category and its practical implementations.
+  - Urgent: no
+  - Urgency reason: The topic is relevant but does not require immediate action.
+  - Done when: After reviewing the four core components and identifying which real-world example best aligns with current team needs.
+  - Effort: 15m
+  - Captured: 2026-08-27 19:28 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_490a08dd1f72970f
+
+- [ ] **Machine Learning Engineering Open Book by Stas Bekman** — [article](https://github.com/stas00/ml-engineering)
+  - Contains: Stas Bekman released a massively revised August 2026 edition of his Machine Learning Engineering open book, now 498 pages long. The update refreshes high-end hardware specs, recent PyTorch/CUDA examples, and fixes prior bugs and inaccuracies.
+  - Potential benefit: This resource serves as a comprehensive, practical guide for LLM/VLM training engineers seeking up-to-date methodologies and scripts. It consolidates Bekman's experience from major projects like BLOOM-176B and IDEFICS-80B into a single reference.
+  - Intent: read · inferred
+  - Topic: Machine Learning Engineering
+  - Sources:
+    - [article](https://github.com/stas00/ml-engineering)
+    - [X post](https://x.com/StasBekman/status/2092668712830513233?s=20)
+  - Source author: Stas Bekman
+  - Priority: P1
+  - Impact: high
+  - Ease: moderate
+  - Important: yes
+  - Importance reason: It provides critical, updated methodologies for training large models, which is essential for current ML engineering practices.
+  - Urgent: no
+  - Urgency reason: The content is a comprehensive reference guide rather than a time-sensitive alert requiring immediate action.
+  - Done when: Bookmark added to the ML Engineering reference collection for future training and debugging tasks.
+  - Effort: 5m
+  - Captured: 2026-08-27 17:27 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_b7864fcb39b68475
+
+- [ ] **AI Volume Job Search Strategy** — [source](https://lnkd.in/p/dpp-ay2w)
+  - Contains: The post advocates using AI to generate hundreds of personalized CVs to secure volume. This approach treats early interviews as practice for soft skills.
+  - Potential benefit: It reframes job hunting as a high-volume experiment rather than a quality contest. The goal is learning corporate dynamics through repeated exposure.
+  - Intent: implement · inferred
+  - Topic: Career Strategy
+  - Source author: lnkd.in
+  - Priority: P2
+  - Impact: medium
+  - Ease: moderate
+  - Important: yes
+  - Importance reason: It addresses a critical barrier for graduates entering a competitive market. The method offers a scalable way to gain necessary experience.
+  - Urgent: no
+  - Urgency reason: Job hunting is ongoing but not an immediate emergency requiring instant action. The advice is useful for current or future applications.
+  - Done when: You have drafted and sent a batch of AI-assisted applications. You have conducted at least one practice interview.
+  - Effort: 30m
+  - Captured: 2026-08-27 16:40 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_08365b2eb7f188ab
+
+- [ ] **MIT 6.172 Performance Engineering of Software Systems** — [article](https://ocw.mit.edu/courses/6-172-performance-engineering-of-software-systems-fall-2018/video_galleries/lecture-videos/)
+  - Contains: The MIT OpenCourseWare page for course 6.172 lists 23 lecture videos covering performance optimization, assembly language, and parallel programming. The course is taught by Prof. Charles Leiserson and Prof. Julian Shun in Fall 2018.
+  - Potential benefit: This is a high-quality, free academic resource for learning low-level software performance engineering and systems optimization. It provides a structured curriculum from basic matrix multiplication to advanced parallel algorithms.
+  - Intent: learn · inferred
+  - Topic: Software Performance Engineering
+  - Sources:
+    - [article](https://ocw.mit.edu/courses/6-172-performance-engineering-of-software-systems-fall-2018/video_galleries/lecture-videos/)
+    - [X post](https://x.com/vivekgalatage/status/2092584643350708733?s=20)
+  - Source author: Vivek Galatage
+  - Priority: P1
+  - Impact: high
+  - Ease: moderate
+  - Important: yes
+  - Importance reason: It is a comprehensive, free resource from a top institution for a critical engineering skill.
+  - Urgent: no
+  - Urgency reason: The content is evergreen educational material without immediate time sensitivity.
+  - Done when: After reviewing the lecture list and selecting a few key videos to watch.
+  - Effort: 15m
+  - Captured: 2026-08-27 15:50 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_55d37182a1817d19
+
+- [ ] **Teach Yourself Computer Science Guide** — [article](https://teachyourselfcs.com/)
+  - Contains: The linked guide provides a curated curriculum of nine computer science subjects with recommended textbooks and videos for self-taught engineers. It aims to fill knowledge gaps in areas like algorithms and computer architecture to improve engineering intuition.
+  - Potential benefit: This resource offers a structured path to theoretical CS knowledge, addressing the common gap between practical coding and underlying theory. It serves as a definitive roadmap for engineers seeking to understand the 'why' behind their code.
+  - Intent: learn · inferred
+  - Topic: Computer Science Education
+  - Sources:
+    - [article](https://teachyourselfcs.com/)
+    - [X post](https://x.com/Hi_Mrinal/status/2092842912707137895?s=20)
+  - Source author: Mrinal
+  - Priority: P1
+  - Impact: high
+  - Ease: moderate
+  - Important: yes
+  - Importance reason: It provides a structured, high-quality curriculum for self-taught engineers to master foundational CS concepts often missing in bootcamps.
+  - Urgent: no
+  - Urgency reason: The guide is a reference resource for long-term skill development rather than an immediate operational requirement.
+  - Done when: The user has reviewed the nine subject list and selected a starting topic or textbook.
+  - Effort: 15m
+  - Captured: 2026-08-27 14:11 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_4bf8ca815d14cb1b
+
+- [ ] **Blueprint UI Dashboard Idea** — [source](https://x.com/yadong_xie/status/2092623470630973826?s=20)
+  - Contains: The user wants to build a dashboard with a specific interactive UI style inspired by the shared post. This serves as a project idea collection rather than an immediate task.
+  - Potential benefit: The post highlights agent-web interaction boundaries, suggesting a focus on expressive UI. The user's goal is to replicate this capability for a blueprint-style dashboard.
+  - Intent: idea · inferred
+  - Topic: Dashboard UI Design
+  - Source author: Yadong Xie
+  - Priority: P2
+  - Impact: medium
+  - Ease: moderate
+  - Important: yes
+  - Importance reason: It captures a specific UI inspiration for a future project. It helps maintain a backlog of creative technical ideas.
+  - Urgent: no
+  - Urgency reason: There is no deadline or immediate dependency on this idea. It is a low-priority exploration task.
+  - Done when: A suitable UI template is identified and bookmarked for future reference.
+  - Effort: 15m
+  - Captured: 2026-08-27 14:09 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_945b55145098194d
+
+- [ ] **5-Layer Company Skill Library Architecture** — [source](https://x.com/shannholmberg/status/2092692219635597686?s=20)
+  - Contains: The post and diagram outline a five-layer system for managing AI skills, starting with a central GitHub repository as the source of truth. It details how agents discover, load, and update these skills while humans govern improvements through a feedback loop.
+  - Potential benefit: This framework solves the problem of AI agents using outdated or inconsistent instructions by enforcing a single source of truth. It bridges the gap between technical version control and human workflow governance.
+  - Intent: learn · inferred
+  - Topic: AI Agent Governance
+  - Source author: Shann³
+  - Priority: P1
+  - Impact: high
+  - Ease: moderate
+  - Important: yes
+  - Importance reason: Standardizing agent behavior is critical for maintaining brand voice and operational reliability in automated workflows.
+  - Urgent: no
+  - Urgency reason: This is a structural improvement that benefits long-term stability rather than addressing an immediate crisis.
+  - Done when: The five-layer architecture is documented and a pilot skill is added to the central repository.
+  - Effort: 1h
+  - Captured: 2026-08-27 14:03 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_2297d258364d622b
+
+- [ ] **Top 9 Most Impactful AI Papers of 2026 (Papers With Code)** — [source](https://x.com/NielsRogge/status/2092654851322777934)
+  - Contains: Niels Rogge shares a list of the top 9 most impactful AI papers of 2026 based on Papers With Code citation counts as of August 26, 2026. The list highlights key advancements in LLMs, agentic coding, and robotics, with DeepSeek-V4 leading the rankings.
+  - Potential benefit: This snapshot provides a high-level view of the current AI landscape, emphasizing the shift toward agentic workflows and efficient scaling. It serves as a curated reading list for researchers and engineers tracking the most cited and influential work of the year.
+  - Intent: learn · inferred
+  - Topic: AI Research Trends 2026
+  - Source author: Niels Rogge
+  - Priority: P1
+  - Impact: medium
+  - Ease: quick
+  - Important: yes
+  - Importance reason: Provides a curated overview of the most cited AI papers of 2026, highlighting key trends in LLMs and agentic systems.
+  - Urgent: no
+  - Urgency reason: The data is a snapshot from August 2026 and does not require immediate action.
+  - Done when: When the user has reviewed the list and identified relevant papers for further study.
+  - Effort: 5m
+  - Captured: 2026-08-27 11:06 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_d79f31a16e7ed621
+
+- [ ] **Hermes Lean Compression Default** — [source](https://x.com/HermesWatcher/status/2092806934961455132)
+  - Contains: Hermes now defaults to lean compression, reducing input tokens in long sessions. This preserves context while cutting token usage significantly compared to legacy methods.
+  - Potential benefit: Users should verify their tail_mode setting to ensure lean compression is active. This change optimizes cost and speed for extended conversational workflows.
+  - Intent: implement · stated
+  - Topic: AI Model Optimization
+  - Source author: Hermes Release Watch
+  - Priority: P2
+  - Impact: medium
+  - Ease: quick
+  - Important: yes
+  - Importance reason: Reduces token costs for long sessions without losing critical context. It is a low-effort configuration change with immediate financial and performance benefits.
+  - Urgent: no
+  - Urgency reason: The change is already default, so no immediate action is required to avoid loss. Users can update their settings at their convenience during session setup.
+  - Done when: tail_mode is confirmed as lean in the model settings.
+  - Effort: 5m
+  - Captured: 2026-08-27 08:57 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_1b92ae032bcd84ba
+
+- [ ] **Superpowers: Agent Dev Methodology** — [article](http://github.com/obra/superpowers)
+  - Contains: Superpowers provides a structured methodology for coding agents to plan, test, and execute tasks autonomously. It enforces TDD and subagent-driven development to ensure reliable, spec-compliant code generation.
+  - Potential benefit: This tool transforms raw agent capabilities into a disciplined engineering workflow for solo founders. It reduces hallucination by forcing explicit planning before implementation.
+  - Intent: implement · inferred
+  - Topic: AI Agent Skills
+  - Sources:
+    - [article](http://github.com/obra/superpowers)
+    - [X post](https://x.com/FareaNFts/status/2092673671676727314)
+  - Source author: Farea
+  - Priority: P2
+  - Impact: high
+  - Ease: easy
+  - Important: yes
+  - Importance reason: It provides a critical structural framework for autonomous coding, reducing errors in solo development. This methodology is essential for scaling agent output reliably.
+  - Urgent: no
+  - Urgency reason: The ecosystem is evolving, but the core methodology is stable and not time-sensitive for initial adoption.
+  - Done when: Superpowers is installed and running a test project with TDD enabled.
+  - Effort: 15m
+  - Captured: 2026-08-27 08:56 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_15233c529d70f730
+
+- [ ] **OpenMontage: Agentic Video Production** — [article](http://github.com/calesthio/OpenMontage)
+  - Contains: OpenMontage automates video creation via 700+ agents, handling scripting, asset retrieval, and editing from plain text prompts. It enables full pipeline replication of viral content without manual intervention.
+  - Potential benefit: This tool signals a shift from editing assistance to autonomous production, threatening traditional manual workflows. Creators must adapt by focusing on direction rather than technical execution.
+  - Intent: learn · inferred
+  - Topic: AI Video Automation
+  - Sources:
+    - [article](http://github.com/calesthio/OpenMontage)
+    - [X post](https://x.com/huoshan007/status/2092463295194104276)
+  - Source author: 火山哥🕊️
+  - Priority: P1
+  - Impact: high
+  - Ease: moderate
+  - Important: yes
+  - Importance reason: It fundamentally alters the video production skill stack, reducing the value of manual editing. Early adoption provides a strategic advantage in content velocity.
+  - Urgent: no
+  - Urgency reason: The technology is emerging but not yet ubiquitous, allowing time for evaluation. Immediate action is not required to stay relevant in the short term.
+  - Done when: After testing one prompt and reviewing the GitHub stars and issues for stability.
+  - Effort: 15m
+  - Captured: 2026-08-27 08:54 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_db74d7ad59d793e8
+
+- [ ] **Microsoft Applied Scientist 2 Interview Guide** — [source](https://www.linkedin.com/feed/update/urn:li:activity:7490262829577441281?updateEntityUrn=urn%3Ali%3Afs_updateV2%3A%28urn%3Ali%3Aactivity%3A7490262829577441281%2CFEED_DETAIL%2CEMPTY%2CDEFAULT%2Cfalse%29)
+  - Contains: The post details a five-round Microsoft Applied Scientist 2 interview process emphasizing deep technical intuition. It covers screening, DSA, statistics, ML depth, and behavioral rounds with specific topic examples. This provides a concrete roadmap for candidates preparing for similar high-level technical roles. Understanding this structure helps applicants focus on reasoning rather than rote memorization.
+  - Potential benefit: This experience highlights Microsoft's preference for conceptual depth and problem-solving approach over exact answers. Candidates should prepare to explain the 'why' behind their technical decisions and mathematical derivations. The emphasis on intuition suggests that demonstrating clear thinking is more valuable than perfect syntax. This insight can guide preparation strategies for other tech giants with similar interview styles.
+  - Intent: read · inferred
+  - Topic: Career Preparation
+  - Source author: www.linkedin.com
+  - Priority: P2
+  - Impact: medium
+  - Ease: moderate
+  - Important: no
+  - Importance reason: It provides specific technical topics and interview structure for a desired career path. This reduces uncertainty and helps candidates tailor their preparation effectively. The detailed breakdown of rounds offers actionable insights for interview success. It serves as a valuable reference for understanding role expectations.
+  - Urgent: yes
+  - Urgency reason: Interview preparation is a long-term process not requiring immediate action. Candidates can review this information at their own pace before applying. There is no time-sensitive deadline associated with this specific post. The value lies in comprehensive preparation rather than urgent response.
+  - Done when: Candidate has reviewed the specific technical topics and practiced explaining their intuition.
+  - Effort: 30m
+  - Matrix order: 2000
+  - Captured: 2026-08-27 08:21 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_fe86ee294179a282
+
+- [ ] **Recruiting: Relevance Over Volume** — [source](https://www.linkedin.com/feed/update/urn:li:activity:7495447513139896320?updateEntityUrn=urn%3Ali%3Afs_updateV2%3A%28urn%3Ali%3Aactivity%3A7495447513139896320%2CFEED_DETAIL%2CEMPTY%2CDEFAULT%2Cfalse%29)
+  - Contains: Personalized outreach using eight minutes of research significantly boosts response rates compared to bulk messaging. This shift from volume to relevance transforms candidate engagement and hiring efficiency.
+  - Potential benefit: High-effort personalization signals respect and genuine interest, distinguishing recruiters in saturated markets. It proves that quality attention yields better results than automated quantity.
+  - Intent: learn · inferred
+  - Topic: Recruitment Strategy
+  - Source author: www.linkedin.com
+  - Priority: P2
+  - Impact: medium
+  - Ease: moderate
+  - Important: no
+  - Importance reason: Improves hiring quality and candidate experience significantly. Reduces wasted effort on unresponsive bulk outreach.
+  - Urgent: yes
+  - Urgency reason: No immediate deadline or time-sensitive opportunity exists. The strategy is a long-term process improvement.
+  - Done when: One personalized message sent with specific reference to candidate's recent work.
+  - Effort: 15m
+  - Matrix order: 4000
+  - Captured: 2026-08-27 08:21 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_2a44ee5495ea0eb9
+
+- [ ] **Agentic AI Interview Gaps: Eval & Orchestration** — [source](https://www.linkedin.com/feed/update/urn:li:activity:7497990088187019264?updateEntityUrn=urn%3Ali%3Afs_updateV2%3A%28urn%3Ali%3Aactivity%3A7497990088187019264%2CFEED_DETAIL%2CEMPTY%2CDEFAULT%2Cfalse%29)
+  - Contains: The post highlights that RAG implementation skills are common, but candidates lack depth in evaluation, embedding selection, and agent orchestration. It argues that production readiness requires mastering metrics like precision and tools like LangGraph.
+  - Potential benefit: This serves as a practical checklist for AI engineers to identify critical skill gaps beyond basic API integration. It emphasizes that theoretical knowledge of agents and rigorous evaluation are key differentiators for senior roles.
+  - Intent: learn · inferred
+  - Topic: AI Engineering Skills Gap
+  - Source author: www.linkedin.com
+  - Priority: P2
+  - Impact: medium
+  - Ease: moderate
+  - Important: no
+  - Importance reason: It identifies specific, high-value technical skills that are currently undervalued by candidates but critical for production AI systems.
+  - Urgent: yes
+  - Urgency reason: The skill gap is structural and persistent, not requiring immediate action to mitigate a transient risk.
+  - Done when: You have reviewed Ragas/LangGraph docs and can explain evaluation metrics and graph workflows.
+  - Effort: 30m
+  - Matrix order: 3000
+  - Captured: 2026-08-27 08:21 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_9c20596fdfd8a191
+
+- [ ] **Use the 440Hz conspiracy as a test case for the Physics Claim Debunker Skill**
+  - Contains: Direct task: Nitin wants to use the 440Hz Rockefeller conspiracy / cymatics content as a test case for his Physics Claim Debunker Skill project (already in vault at Ideas/Physics Claim Debunker Skill.md). The content promotes pseudoscientific conspiracy theory about 440Hz tuning disrupting human biology — a good candidate to demonstrate the debunker's reasoning path.
+  - Potential benefit: Provides a concrete, high-interest test case for the debunker skill while demonstrating its value — showing how physics reasoning can systematically dismantle a widely-shared conspiracy theory.
+  - Intent: test · stated
+  - Topic: Physics Claim Debunker Skill
+  - Source author: Nitin Kishore
+  - Priority: P2
+  - Impact: high
+  - Ease: moderate
+  - Important: yes
+  - Importance reason: Directly feeds Nitin's existing Physics Claim Debunker Skill project with a real-world example that tests the system against a popular conspiracy theory.
+  - Urgent: no
+  - Urgency reason: No stated deadline, but this is a test case for an active project idea in the vault.
+  - Done when: One test case entry documents the 440Hz conspiracy claim, walks through the physics-based debunking reasoning, and adds it to the Physics Claim Debunker Skill project as a concrete example.
+  - Effort: 30m
+  - Captured: 2026-08-26 22:53 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_22bd2c1fb5d483d8
+
+- [ ] **Passive Income via Single Long-Form Video** — [source](https://www.instagram.com/p/Db1ZN0UlHY0/?img_index=1&igsi=MXJ1ajV2c3oxZmpueQ==)
+  - Contains: A single 10-hour fireplace video generated over $1M in estimated ad revenue through compounding watch time. This demonstrates how low-effort, high-retention content can create significant long-term passive income streams.
+  - Potential benefit: Simplicity and utility drive sustained engagement more than production value. Creators should prioritize evergreen utility over frequent posting to maximize lifetime value.
+  - Intent: idea · inferred
+  - Topic: passive income
+  - Source author: startupbroclassic
+  - Priority: P2
+  - Impact: medium
+  - Ease: moderate
+  - Important: yes
+  - Importance reason: It illustrates a scalable model for generating revenue with minimal ongoing effort. This challenges the norm of constant content creation for sustainable income.
+  - Urgent: no
+  - Urgency reason: The strategy relies on long-term compounding and does not require immediate action. It is a foundational concept rather than a time-sensitive opportunity.
+  - Done when: One evergreen asset is created and published with optimized metadata for search.
+  - Effort: 1h
+  - Captured: 2026-08-26 22:24 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_9a42de6cc8ec6564
+
+- [ ] **Centralize AI Corrections into Shared Company Brain** — [article](https://x.com/i/article/2092243366759235586)
+  - Contains: The post advocates aggregating scattered AI corrections into a unified company brain to prevent knowledge silos. This centralization ensures all agents use consistent, updated business logic rather than individual private prompts.
+  - Potential benefit: It frames AI usage as a collective asset requiring structured governance for maximum organizational leverage. The approach transforms individual efficiency gains into scalable, reusable institutional intelligence.
+  - Intent: implement · inferred
+  - Topic: AI Knowledge Management
+  - Sources:
+    - [article](https://x.com/i/article/2092243366759235586)
+    - [X post](https://x.com/VibeMarketer_/status/2092243372929151135)
+  - Source author: J.B.
+  - Priority: P2
+  - Impact: high
+  - Ease: moderate
+  - Important: yes
+  - Importance reason: It addresses a critical scalability bottleneck where individual AI gains do not compound across the team. Centralizing this knowledge prevents redundant work and reduces errors from outdated or conflicting agent instructions.
+  - Urgent: no
+  - Urgency reason: The problem accumulates slowly over time as more employees adopt AI tools, creating increasing fragmentation. Immediate action is not required, but early adoption prevents entrenched silos.
+  - Done when: A shared document capturing the top five recurring AI corrections is created and linked to the primary agent workspace.
+  - Effort: 30m
+  - Captured: 2026-08-26 22:10 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_02d9fcd50189fb31
+
+- [ ] **DeepSeek V4 Flash on 2x DGX Spark** — [article](https://github.com/MiaAI-Lab/DeepSeek-v4-Flash-DSpark-2x-DGX-Spark)
+  - Contains: MiaAI Lab released a recipe for running DeepSeek V4 Flash on dual DGX Sparks using vLLM and speculative decoding. The post highlights performance improvements and credits PlotArmor Dev for the project contributions.
+  - Potential benefit: This provides a concrete, reproducible setup for high-performance inference on specific hardware. It serves as a benchmark for comparing dual-node efficiency against single-node alternatives.
+  - Intent: implement · inferred
+  - Topic: AI Inference Infrastructure
+  - Sources:
+    - [article](https://github.com/MiaAI-Lab/DeepSeek-v4-Flash-DSpark-2x-DGX-Spark)
+    - [X post](https://x.com/MiaAI_lab/status/2092366604604502029?s=20)
+  - Source author: Mia
+  - Priority: P2
+  - Impact: medium
+  - Ease: moderate
+  - Important: yes
+  - Importance reason: It offers a validated path for scaling inference on available hardware. This reduces the trial-and-error cost for teams with similar infrastructure.
+  - Urgent: no
+  - Urgency reason: The release is not time-sensitive for immediate adoption. Teams can evaluate it during their next infrastructure review cycle.
+  - Done when: Recipe is cloned and environment variables are configured for the specific hardware setup.
+  - Effort: 30m
+  - Captured: 2026-08-26 22:10 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_08ee7b62d73785b8
+
+- [ ] **Hermes Agent X Profile to Job Hunt** — [source](https://x.com/BkashJosi/status/2092558415742791802?s=20)
+  - Contains: The post describes using the Hermes Agent to autonomously search for AI Automation Engineer roles by analyzing a public X profile without a traditional résumé. It highlights the agent's ability to verify job validity, match experience, and identify skill gaps rather than fabricating qualifications.
+  - Potential benefit: This demonstrates a practical application of AI agents acting as autonomous career advocates that perform due diligence on opportunities. It suggests that public social media profiles can serve as dynamic, verifiable résumés for specialized technical roles.
+  - Intent: idea · inferred
+  - Topic: AI Career Automation
+  - Source author: Hermes Agent Super-Intel
+  - Priority: P2
+  - Impact: medium
+  - Ease: moderate
+  - Important: yes
+  - Importance reason: It illustrates a novel workflow for leveraging AI in job hunting that reduces manual screening effort. This approach could significantly accelerate the job search process for technical professionals.
+  - Urgent: no
+  - Urgency reason: Job hunting is a continuous process without immediate time-sensitive deadlines for this specific strategy. The concept is valuable for long-term career planning rather than immediate action.
+  - Done when: User has tested the Hermes Agent or similar tool with their own public profile and documented the results.
+  - Effort: 30m
+  - Captured: 2026-08-26 21:27 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_3e576a2075d57586
+
+- [ ] **World Monitor: Open-Source Geopolitical War Room** — [source](https://x.com/kyronis_talks/status/2092477355725844955)
+  - Contains: World Monitor is a free, open-source desktop application that replicates Palantir-style geopolitical monitoring using local AI and live data feeds. It aggregates news, financial data, and map layers into a single 3D interface without requiring API keys or cloud subscriptions.
+  - Potential benefit: This tool democratizes access to high-level situational awareness by removing the financial and technical barriers of enterprise-grade intelligence platforms. Users can customize the 56 map layers and stress indices to focus on specific regional risks or asset classes relevant to their work.
+  - Intent: implement · inferred
+  - Topic: Open Source Intelligence Tools
+  - Source author: Kyronis
+  - Priority: P2
+  - Impact: high
+  - Ease: easy
+  - Important: yes
+  - Importance reason: It provides a cost-effective alternative to expensive enterprise software for monitoring global events and market shifts. This capability supports better-informed decisions in fields ranging from finance to security analysis.
+  - Urgent: no
+  - Urgency reason: The tool is available for immediate use but does not address an immediate crisis or time-sensitive deadline. Its value lies in long-term capability building rather than urgent problem-solving.
+  - Done when: The application is successfully installed, running locally, and displaying live data for at least one category of interest.
+  - Effort: 15m
+  - Captured: 2026-08-26 21:06 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_b6ec853131d3d3ce
+
+- [ ] **OpenAI WebMCP and Collaborative Notebooks** — [source](https://x.com/HamelHusain/status/2092628886572200169)
+  - Contains: OpenAI introduces WebMCP to enable direct browser-based collaboration between agents and humans, distinct from traditional APIs. They also release an open-source notebook format that treats files as markdown to facilitate interactive state management and documentation.
+  - Potential benefit: This signals a strategic shift toward embedding AI agents directly into user interfaces rather than relying solely on backend integrations. The emphasis on markdown-based notebooks suggests a focus on lowering the barrier for non-engineers to curate and run evaluations.
+  - Intent: learn · inferred
+  - Topic: AI Infrastructure
+  - Source author: Hamel Husain
+  - Priority: P2
+  - Impact: medium
+  - Ease: moderate
+  - Important: yes
+  - Importance reason: WebMCP represents a novel interface paradigm for agent collaboration that could redefine how teams interact with AI tools. Understanding this shift helps in anticipating future changes in developer tooling and integration patterns.
+  - Urgent: no
+  - Urgency reason: The technology is newly announced and lacks widespread adoption metrics, so immediate action is not required. Monitoring its evolution is sufficient to stay informed without risking resource allocation.
+  - Done when: After reading the blog post and reviewing the open-source notebook repository to understand the API and file structure.
+  - Effort: 30m
+  - Captured: 2026-08-26 21:04 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_b0c182ea6ac60b1a
+
+- [ ] **Maxfusion Marketing AGI Playbook** — [source](https://x.com/OriSilver/status/2092225524210827424?s=20)
+  - Contains: The source provides a structured marketing department framework powered by a single Claude skill that coordinates specialized AI agents for positioning, copy, creative, launch, and analysis. It claims to replace the need for the first five marketing hires by automating the entire loop from problem identification to outcome grading.
+  - Potential benefit: This framework offers a concrete organizational model for deploying AI agents to handle distinct marketing functions without human silos. The coordination mechanism suggests that a central orchestrator can manage workflow dependencies between specialized agents, reducing the cognitive load on a solo founder or small team.
+  - Intent: learn · inferred
+  - Topic: AI Marketing Automation
+  - Source author: Ori Silver
+  - Priority: P2
+  - Impact: medium
+  - Ease: moderate
+  - Important: yes
+  - Importance reason: It offers a scalable model for marketing operations that reduces dependency on early-stage human hires. The structured approach to AI agent coordination provides a reusable template for other operational loops.
+  - Urgent: no
+  - Urgency reason: There is no immediate deadline or time-sensitive opportunity attached to this information. The value is in long-term operational efficiency rather than immediate action.
+  - Done when: You have reviewed the shared structure and identified at least one marketing task that fits the 'Analyst-Copywriter-Strategist' loop for potential automation.
+  - Effort: 15m
+  - Captured: 2026-08-26 20:11 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_3473c100ecb8927d
+
+- [ ] **EVIE-Preview-4.5B: Local Visual Document Retrieval** — [source](https://x.com/TeksEdge/status/2091924068681625781?s=20)
+  - Contains: Tencent released a 4.5B parameter model that visually searches PDFs and charts locally without flattening to text, achieving top rankings on ViDoRe benchmarks.
+  - Potential benefit: This represents a significant leap for private Local RAG by preserving visual layout and chart data, which traditional OCR-based retrieval often loses.
+  - Intent: learn · inferred
+  - Topic: Local AI / RAG
+  - Source author: David Hendrickson
+  - Priority: P1
+  - Impact: high
+  - Ease: moderate
+  - Important: yes
+  - Importance reason: It solves a critical limitation in current local RAG systems regarding visual data retrieval.
+  - Urgent: no
+  - Urgency reason: No immediate integration support exists, allowing time for ecosystem updates.
+  - Done when: I have tested its retrieval accuracy on a sample of my private documents via PyTorch.
+  - Effort: 30m
+  - Captured: 2026-08-26 19:44 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_68e3218fa4b41a74
+
+- [ ] **Market Sense for Young Traders** — [source](https://x.com/MRKT_AI/status/2092237686744523247?s=20)
+  - Contains: The author urges young traders to bookmark and read the linked content line by line to understand the current market.
+  - Potential benefit: This is a high-value curated resource for market education, likely containing critical insights or a framework for navigating current volatility.
+  - Intent: read · stated
+  - Topic: Trading Education
+  - Source author: MRKT
+  - Priority: P1
+  - Impact: high
+  - Ease: moderate
+  - Important: yes
+  - Importance reason: Foundational market understanding is critical for trading success and risk management.
+  - Urgent: no
+  - Urgency reason: Market knowledge is valuable but not time-sensitive to the point of immediate action.
+  - Done when: The linked article or thread has been read and key takeaways noted.
+  - Effort: 30m
+  - Captured: 2026-08-26 19:43 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_5880f8ca8d839095
+
+- [ ] **Document HAR/fetch-to-MCP-server technique for creating custom MCP servers** — [source](https://x.com/Fluyeporlaweb/status/2085244574184739165?s=20)
+  - Contains: Technique for creating an API or MCP server from any website without touching its backend: open DevTools → Network tab → Keep Log → login and navigate pages → export all requests as HAR and fetch format → feed to Claude to build a TypeScript API + MCP server. Comments suggest using AI-driven browser automation (Playwright) or building a reusable skill for this workflow.
+  - Potential benefit: Provides a practical path to create custom MCP servers from any website, expanding the tools available to Hermes without waiting for official integrations.
+  - Intent: learn · inferred
+  - Topic: MCP server creation
+  - Source author: PA13L0 @Fluyeporlaweb
+  - Priority: P2
+  - Impact: medium
+  - Ease: moderate
+  - Important: yes
+  - Importance reason: Nitin heavily uses Hermes with MCP integrations — this technique could rapidly create custom MCP servers for sites without public APIs, expanding his tool surface.
+  - Urgent: no
+  - Urgency reason: No stated deadline; technique is immediately available but not time-sensitive.
+  - Done when: One concise note documents the HAR/fetch-to-MCP-server technique, evaluates whether it applies to any of Nitin's current projects, and notes whether building a reusable skill for this workflow is worth pursuing.
+  - Effort: 30m
+  - Captured: 2026-08-26 18:45 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_bbe35c33039405d0
+
+- [ ] **Review AI-avatar carousel content format for marketing adaptation** — [source](https://x.com/SDDFounder/status/2092183047584047575)
+  - Contains: SDDFounder shares a carousel content format used by apps making $10k-$50k/month: an AI avatar image (slim figure in leggings, minimalist interior, face not shown) paired with a daily routine slide deck (meals, hydration, calorie tracking, macro tracking, habit tracking, app integration). The post emphasizes the first image and hook text as most important, and claims the format can be scaled into dozens of variations within a niche. A workflow link is provided for generating these visuals.
+  - Potential benefit: Provides a proven carousel structure that could be adapted for product marketing or personal-brand content if a similar niche format aligns with Nitin's goals.
+  - Intent: learn · inferred
+  - Topic: Content marketing
+  - Source author: Ramzi B. @SDDFounder
+  - Priority: P3
+  - Impact: low
+  - Ease: quick
+  - Important: no
+  - Importance reason: The format is a specific AI-fitness niche tactic; while not directly applicable to Nitin's current projects, it illustrates a repeatable carousel structure worth noting for future product marketing.
+  - Urgent: no
+  - Urgency reason: No deadline or expiring opportunity; this is a reference format to keep in mind.
+  - Done when: One concise note captures the carousel structure and hook formula, and records whether the format could be adapted for Nitin's HalfBlood Professor, AI credibility content, or other products.
+  - Effort: 15m
+  - Captured: 2026-08-26 17:12 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_71eb7af2501ad07a
+
+- [ ] **Benchmark Qwen3.8-27B BF16 lm_head update on DGX Spark** — [source](https://x.com/MiaAI_lab/status/2092017038319386782)
+  - Contains: Qwen3.8-27B model update with new BF16 lm_head from SGLang project, claimed to give significant accuracy improvement. Pre-built Docker images available for RTX PRO 6000 and DGX Spark. Community reports token generation nearly doubled from pure BF16 with almost no quality loss. One commenter asks if it fixes the 'overthinking problem.'
+  - Potential benefit: Could improve local model accuracy and throughput on Nitin's DGX Spark without any hardware cost, directly benefiting Hermes, Discord, and Telegram inference quality.
+  - Intent: test · inferred
+  - Topic: Local model optimization
+  - Source author: Mia - @MiaAI_lab
+  - Priority: P1
+  - Impact: high
+  - Ease: moderate
+  - Important: yes
+  - Importance reason: This is a free accuracy/speed improvement for a model running on Nitin's DGX Spark hardware — a direct performance gain for his local AI stack.
+  - Urgent: no
+  - Urgency reason: No stated deadline, but SGLang BF16 updates are immediately available and testing is low-friction.
+  - Done when: Pull the DGX Spark Docker image, run a quick benchmark comparing BF16 lm_head vs. the current Qwen3.8-27B model on representative prompts, and record accuracy, speed, and any quality changes.
+  - Effort: 1h
+  - Captured: 2026-08-26 17:11 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_3c232f8d7e1624b1
+
+- [ ] **Evaluate oh-my-hermes packaged memory and coding harness setup** — [source](https://x.com/rlaope/status/2092465376424501476)
+  - Contains: Community project 'oh-my-hermes' packages Hermes Agent's long-term memory and coding harnesses into a one-line install. Features include file-based block-level memory management (Facts, Decisions, Episodes with TTL), observability, sub-agent model routing, ast-grep, parallel tool calling, per-model prompt optimization, cache hit rate tuning, custom TUI, and design capabilities. Author claims to code exclusively with Hermes using this setup.
+  - Potential benefit: Provides a ready-made reference implementation of file-based memory (Facts/Decisions/Episodes with TTL) and coding harness patterns that could inform Nitin's own Hermes setup or skill development.
+  - Intent: test · inferred
+  - Topic: Hermes community projects
+  - Source author: HOPE | Engineer. @rlaope
+  - Priority: P2
+  - Impact: medium
+  - Ease: moderate
+  - Important: yes
+  - Importance reason: The project bundles memory management and coding harness patterns that could improve Nitin's own Hermes configuration and reusable skill design.
+  - Urgent: no
+  - Urgency reason: No deadline, expiry, or near-term dependency; community projects are available whenever relevant.
+  - Done when: Clone oh-my-hermes, review its file-based memory architecture and memory-management skills for reusable ideas, and note any components worth integrating into Nitin's own setup.
+  - Effort: 1h
+  - Captured: 2026-08-26 17:11 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_465e0a9675992467
+
+- [ ] **Survey expanded Hermes connectors catalog and Tool Search capability** — [source](https://x.com/Teknium/status/2092321384085299665)
+  - Contains: Teknium announces the Hermes connectors catalog now supports Cloudflare, Datadog, Metabase, GitLab, Railway, DeepWiki and more with one-click access, plus a Tool Search tool that prevents context waste when connectors are activated. Top comments note Tool Search is a significant improvement and ask about MCP support without DCR.
+  - Potential benefit: Maps the current breadth of Hermes integrations so Nitin knows what services are natively connectable and whether Tool Search could replace manual MCP setups for tools like DeepWiki or GitLab.
+  - Intent: learn · inferred
+  - Topic: Hermes connectors catalog
+  - Source author: Teknium 🪽 @Teknium
+  - Priority: P2
+  - Impact: medium
+  - Ease: quick
+  - Important: yes
+  - Importance reason: Hermes connectors are part of Nitin's core agent stack; knowing the current integration surface prevents redundant MCP setup and informs architecture decisions.
+  - Urgent: yes
+  - Urgency reason: No deadline, expiry, or near-term dependency; this is product news to be aware of.
+  - Done when: One concise note lists the available connectors, whether any are immediately useful for Nitin's projects, and whether Tool Search obviates any existing MCP workarounds.
+  - Effort: 15m
+  - Captured: 2026-08-26 17:09 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_22aac32340dd3f86
+
 - [ ] **Evaluate the self-hosted AI video clipping tool** — [X post](https://x.com/vikktorrrre/status/2092195882472997305)
   - Contains: An open-source clipping tool for YouTube or local videos with self-hosting, no watermarks or usage limits, model customization, and a claimed paid-Gemini dependency.
   - Potential benefit: Could reduce recurring clipping costs and complement the existing YouTube clipping workflow for local or batch use.
@@ -92,12 +659,12 @@ Rules:
   - Captured: 2026-08-26 11:44 IST via Telegram · Capture
   - ID: sc_8141580b6da6d7f7
 
-- [ ] **Publish personal-brand pages in an AI-readable format** — [source](https://x.com/mahd_nam/status/1958214307772379370)
+- [ ] **Publish personal-brand pages in an AI-readable format** — [source](https://x.com/zenorocha/status/2087547759083901252)
   - Contains: A prompt and publishing workflow for turning a website into structured Markdown that AI agents can discover, parse, and retrieve more reliably than presentation-first pages.
   - Potential benefit: Makes Nitin's future personal-brand site and technical writing easier for answer engines and research agents to understand and cite.
   - Intent: implement · inferred
   - Topic: AI-readable publishing
-  - Source author: @mahd_nam
+  - Source author: Zeno Rocha · @zenorocha
   - Priority: P2
   - Impact: medium
   - Ease: moderate
@@ -109,41 +676,33 @@ Rules:
   - Effort: 1h
   - Captured: 2026-08-26 10:34 IST via Telegram · Hermes Swarm / Capture
   - ID: sc_dabb85ee65b0fc25
-- [ ] **Build a Playwright-first website API reverse-engineering skill** — [source](https://x.com/jiangscoding/status/2022329824104321196)
-  - Contains: A proposed agent skill that uses Playwright to inspect browser network traffic, infer website API contracts, and replay stable endpoints directly before falling back to DOM automation.
-  - Potential benefit: Could make browser agents faster and less brittle by replacing repeated UI interaction with deterministic API calls where appropriate.
-  - Intent: implement · inferred
-  - Topic: Browser agent tooling
-  - Source author: @jiangscoding
-  - Priority: P1
-  - Impact: high
-  - Ease: deep
-  - Important: yes
-  - Importance reason: Directly strengthens reusable agent capability and deterministic automation in Nitin's Hermes stack.
-  - Urgent: no
-  - Urgency reason: No deadline, expiry, or blocking dependency was identified.
-  - Done when: A reusable skill demonstrates one approved site flow from Playwright traffic capture through documented API replay, with auth and safety boundaries.
-  - Effort: half-day
-  - Captured: 2026-08-26 10:36 IST via Telegram · Hermes Swarm / Capture
-  - ID: sc_bbe35c33039405d0
-- [ ] **Evaluate MetalForge for reusable cross-platform mobile UI components** — [source](https://github.com/itsmartashub/MetalForge)
-  - Contains: A cross-platform mobile component system intended to accelerate polished Android and iOS interface construction from reusable building blocks.
-  - Potential benefit: Could expand the vetted visual references available to agents building compact, production-quality mobile interfaces.
+- [ ] **Complete evaluate agent ui component libraries in one batch**
+  - Contains:
+    - Evaluate MetalForge for reusable cross-platform mobile UI components: A cross-platform mobile component system intended to accelerate polished Android and iOS interface construction from reusable building blocks.
+    - Evaluate Amicro UI for reusable dashboard components: A UI component collection featuring charts, loaders, backgrounds, and other polished primitives that could be referenced or adapted by frontend-building agents.
+  - Potential benefit: Handles 2 closely related captures in one focused batch.
   - Intent: decide · inferred
   - Topic: Agent UI component libraries
   - Consolidation key: evaluate-agent-ui-component-libraries
   - Priority: P2
   - Impact: medium
-  - Ease: easy
+  - Ease: moderate
   - Important: yes
-  - Importance reason: Reusable interface references reduce generic agent-built UI and shorten implementation cycles.
+  - Importance reason: This batch combines 2 actions that support the same outcome.
   - Urgent: no
-  - Urgency reason: No deadline, expiry, or blocking dependency was identified.
-  - Done when: A short keep-or-reject note records MetalForge's useful components, licensing, maintenance state, and fit for agent-generated mobile UI.
-  - Effort: 30m
+  - Urgency reason: Preserved from the member tasks; batch size alone does not create urgency.
+  - Done when: All 2 source-specific items are processed and one combined artifact or decision is recorded.
+  - Effort: 1h
+  - Consolidation reason: All member tasks share the explicit consolidation key `evaluate-agent-ui-component-libraries` and workflow state.
+  - Consolidated IDs: sc_8d26a421dc1ffa16, sc_16d6c5ebf3d54be7
+  - Consolidated at: 2026-08-26T16:54:23+05:30
+  - Batch size: 2
+  - Sources:
+    - [source](https://x.com/sucodeee/status/2092222674478993525?s=20) — Evaluate MetalForge for reusable cross-platform mobile UI components
+    - [source](https://x.com/Delroy715/status/2092430784036843607?s=20) — Evaluate Amicro UI for reusable dashboard components
   - Captured: 2026-08-26 10:39 IST via Telegram · Hermes Swarm / Capture
   - ID: sc_8d26a421dc1ffa16
-- [ ] **Evaluate Archify as an app-architecture design skill** — [source](https://github.com/vishalshanglas/Archify)
+- [ ] **Evaluate Archify as an app-architecture design skill** — [source](https://x.com/UnTalNixon_exe/status/2092424305455825164?s=20)
   - Contains: A repository for generating and communicating app architecture that may be adaptable into a reusable agent skill for design decisions and implementation handoffs.
   - Potential benefit: Could give Hermes a more consistent architecture-first workflow before agents start implementing applications.
   - Intent: decide · inferred
@@ -157,23 +716,6 @@ Rules:
   - Urgency reason: No deadline, expiry, or near-term dependency was identified.
   - Done when: A keep-or-reject note compares Archify with the current architecture-diagram workflow and specifies any reusable skill adaptation.
   - Effort: 1h
-  - Captured: 2026-08-26 10:39 IST via Telegram · Hermes Swarm / Capture
-  - ID: sc_16d6c5ebf3d54be7
-- [ ] **Evaluate Amicro UI for reusable dashboard components** — [source](https://www.amicro-ui.dev/)
-  - Contains: A UI component collection featuring charts, loaders, backgrounds, and other polished primitives that could be referenced or adapted by frontend-building agents.
-  - Potential benefit: Could improve visual quality and speed when building operational dashboards without falling back to generic card-heavy designs.
-  - Intent: decide · inferred
-  - Topic: Agent UI component libraries
-  - Consolidation key: evaluate-agent-ui-component-libraries
-  - Priority: P2
-  - Impact: medium
-  - Ease: easy
-  - Important: yes
-  - Importance reason: Curated reusable components directly support higher-quality agent-built operational interfaces.
-  - Urgent: no
-  - Urgency reason: No deadline, expiry, or blocking dependency was identified.
-  - Done when: A short keep-or-reject note records Amicro UI's strongest reusable components, licensing, accessibility, and fit for agent-built dashboards.
-  - Effort: 30m
   - Captured: 2026-08-26 10:39 IST via Telegram · Hermes Swarm / Capture
   - ID: sc_71420822e7835b5f
 
@@ -280,7 +822,7 @@ Rules:
   - Captured: 2026-08-25 08:00 IST via Telegram · Hermes Swarm / Capture
   - ID: sc_801a7e39073fb1ed
 
-- [ ] **Run a tracked, value-first YouTube comment acquisition test for HalfBlood Professor** — [source](https://www.youtube.com/watch?v=3L3fWRQqrUE)
+- [ ] **Run a tracked, value-first YouTube comment acquisition test for HalfBlood Professor** — [source](https://youtu.be/3L3fWRQqrUE?si=daZAZWbxg5o-mB58)
   - Contains: The video’s audience is already interested in book annotation, active reading, and turning source material into useful notes. Nitin’s HalfBlood Professor at `https://hb-pdf.higgsfield.app/` converts searchable textbook chapters into annotated study PDFs with corrections, questions, underlining, circles, and expert-style margin notes; Nitin’s stated intent is to introduce it under this video to recruit paid users and feedback participants as one repeatable AutoGTM channel experiment.
   - Potential benefit: Tests whether value-first participation in an adjacent creator’s evergreen audience can produce attributable product visits, sample usage, feedback, and purchases—evidence that can determine whether relevant-video commenting belongs in the wider AutoGTM strategy.
   - Intent: implement · stated
@@ -298,7 +840,7 @@ Rules:
   - Captured: 2026-08-23 16:55 IST via Telegram · Hermes Swarm / Capture
   - ID: sc_4348b5fff10f6ef9
 
-- [ ] **Run a Google L6 readiness diagnostic before collecting more prep material** — [source](https://www.teamblind.com/post/how-to-prepare-for-google-l6-level-india-f8h658yj)
+- [ ] **Run a Google L6 readiness diagnostic before collecting more prep material** — [source](https://www.teamblind.com/us/cm/r7w9gsnwklac)
   - Contains: A Microsoft L64 engineer with 14 years of experience asks how to prepare for Google India L6, naming NeetCode 150, Hello Interview, mock interviews, and difficulty retaining system-design concepts. The most useful replies recommend solving designs from requirements and data/storage constraints, making mistakes before studying reference solutions, using repeated mocks and feedback, and discussing real distributed-system trade-offs; suggested resources include Alex Xu’s two system-design volumes, Hello Interview’s design questions and story builder, and Alex Croitor for behavioral preparation, while commenters disagree on whether NeetCode 150 is sufficient.
   - Potential benefit: Replaces passive resource accumulation with a measured baseline tailored to Nitin’s senior AI-career goal, exposing whether coding, architecture, communication, or leadership evidence is the actual constraint before committing to a long preparation plan.
   - Intent: test · inferred
