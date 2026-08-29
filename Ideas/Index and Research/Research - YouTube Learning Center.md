@@ -792,3 +792,118 @@ The user completed a six-part grilling session covering authority, source access
 **Build YouTube Learning Center as a fast library-and-study dashboard, not as a downloader with a summary page.** Reuse Social Capture's compact interface discipline, Markdown ownership, private deployment, deterministic capture fast path, structured validation, and proof-bound persistence. Expand the architecture where the domain demands it: a folder library, durable background jobs, official YouTube OAuth/playlist adapters, explicit source-permission modes, typed learning artifacts, and progressive rendering.
 
 The most important implementation rule is honesty about source access. A YLC note is valuable only when it states what it actually analyzed, links learning claims back to timestamps/evidence, preserves human corrections, and distinguishes supported YouTube data from local inferences. With that boundary, the product can be model-agnostic, fast in daily use, private over Tailscale, and substantially more useful than the current high-level concept.
+
+## 17. Post-MVP Watch Skill and Agentic Video Inspection
+
+> **Research status:** repository source audited on 2026-08-29 at commit [`7711231`](https://github.com/taoufik123-collab/claude-watch/tree/7711231e4c47e5d4e06bcf5326c4abf5b70ab4a9). The only published release was [`v0.2.0`](https://github.com/taoufik123-collab/claude-watch/releases/tag/v0.2.0), while `main` contained later documentation changes. “Verified” below means present in that source tree; “proposed” means a YLC adaptation that does not exist in `claude-watch`.
+
+### Verified: what `claude-watch` means by “watch”
+
+`claude-watch` does not stream a video into Claude and does not contain a multimodal model. It is a Python/FFmpeg/yt-dlp preprocessing skill:
+
+1. [`scripts/watch.py`](https://github.com/taoufik123-collab/claude-watch/blob/7711231e4c47e5d4e06bcf5326c4abf5b70ab4a9/scripts/watch.py) accepts an HTTP(S) URL or local video path, creates a temporary work directory, and orchestrates the other scripts.
+2. [`scripts/download.py`](https://github.com/taoufik123-collab/claude-watch/blob/7711231e4c47e5d4e06bcf5326c4abf5b70ab4a9/scripts/download.py) passes public URLs to `yt-dlp`, requests a video no taller than 720p, writes metadata, and requests English manual and automatic VTT captions. Local files bypass download.
+3. [`scripts/frames.py`](https://github.com/taoufik123-collab/claude-watch/blob/7711231e4c47e5d4e06bcf5326c4abf5b70ab4a9/scripts/frames.py) probes with `ffprobe` and normally asks FFmpeg for the first frame plus frames where `scene > 0.3`. If fewer than ten frames are found, it falls back to uniform sampling. A normal run defaults to 80 main frames, caps them at 100, caps sampling at 2 fps, and writes 512-pixel-wide JPEGs.
+4. [`scripts/hook.py`](https://github.com/taoufik123-collab/claude-watch/blob/7711231e4c47e5d4e06bcf5326c4abf5b70ab4a9/scripts/hook.py) adds a separate 0–10 second pass at 2 fps for videos at least 30 seconds long. If a Whisper key exists, it also makes a separate word-timestamp transcription request for that opening clip. This occurs before the main caption parser, so a captioned video can still upload its hook audio unless Whisper/the microscope is disabled.
+5. [`scripts/transcribe.py`](https://github.com/taoufik123-collab/claude-watch/blob/7711231e4c47e5d4e06bcf5326c4abf5b70ab4a9/scripts/transcribe.py) parses VTT cues, strips tags, collapses simple rolling duplicates, and formats timestamped text. It does not preserve whether the chosen track was manual versus automatic or perform semantic speaker/section analysis.
+6. If captions are missing, [`scripts/whisper.py`](https://github.com/taoufik123-collab/claude-watch/blob/7711231e4c47e5d4e06bcf5326c4abf5b70ab4a9/scripts/whisper.py) extracts the full audio as mono 16 kHz, 64 kbps MP3 and uploads it to one of two hard-coded services: Groq `whisper-large-v3` first, or OpenAI `whisper-1`. This is transcription only; the video itself is not uploaded to those APIs.
+7. [`scripts/pacing.py`](https://github.com/taoufik123-collab/claude-watch/blob/7711231e4c47e5d4e06bcf5326c4abf5b70ab4a9/scripts/pacing.py) derives shot count, purported cuts/minute, and mean/median shot length from the selected scene timestamps. The “cuts” rate divides `shot_count` by minutes instead of `(shot_count - 1)` by minutes, so even one continuous shot reports a nonzero cut rate. Its motion-score function is explicitly a zero-returning stub, and `watch.py` passes `motion_scores=None`; current `main` therefore does not implement the advertised motion measurement. [pacing test encoding the current single-shot behavior](https://github.com/taoufik123-collab/claude-watch/blob/7711231e4c47e5d4e06bcf5326c4abf5b70ab4a9/scripts/tests/test_pacing.py#L30-L38)
+8. [`scripts/report.py`](https://github.com/taoufik123-collab/claude-watch/blob/7711231e4c47e5d4e06bcf5326c4abf5b70ab4a9/scripts/report.py) writes `report.md` with deterministic metadata, transcript, frame paths, pacing numbers, and `<!-- pending Claude fill: ... -->` placeholders.
+9. The host agent is instructed by [`SKILL.md`](https://github.com/taoufik123-collab/claude-watch/blob/7711231e4c47e5d4e06bcf5326c4abf5b70ab4a9/SKILL.md) to open every JPEG with its image-reading tool, correlate the images with the transcript, answer the user, and then replace the pending report markers. **That host-agent image inspection is the actual multimodal step.**
+
+The useful transferable idea is therefore not “send a whole video to an LLM.” It is **bounded, timestamped multimodal evidence preparation followed by agent inspection**.
+
+It is also strictly a single-video skill: the source tree has no YouTube OAuth or playlist synchronization, HTTP service, database/job queue, browser UI, Hermes/Discord adapter, or persistent library catalog. [`repository tree`](https://github.com/taoufik123-collab/claude-watch/tree/7711231e4c47e5d4e06bcf5326c4abf5b70ab4a9)
+
+### Verified runtime, agent surfaces, and model assumptions
+
+| Area | Current repository behavior | YLC implication |
+|---|---|---|
+| Runtime | Python 3 standard library plus `ffmpeg`, `ffprobe`, and `yt-dlp`; no `pyproject.toml`, lockfile, Python package dependency, or pinned binary versions | vendor or reimplement the small algorithms inside YLC's locked worker; pin/test the external binaries |
+| Setup | [`scripts/setup.py`](https://github.com/taoufik123-collab/claude-watch/blob/7711231e4c47e5d4e06bcf5326c4abf5b70ab4a9/scripts/setup.py) auto-installs with Homebrew on macOS and only prints `apt`/`dnf`/`pipx` or `winget`/`pip` instructions on Linux/Windows | YLC deployment must provision dependencies itself rather than starting an installer from a web or Discord request |
+| Claude Code | `.claude-plugin/plugin.json`, `.claude-plugin/marketplace.json`, [`commands/watch.md`](https://github.com/taoufik123-collab/claude-watch/blob/7711231e4c47e5d4e06bcf5326c4abf5b70ab4a9/commands/watch.md), and a Claude `SessionStart` hook are present | this is the most complete packaged integration |
+| claude.ai | The release workflow builds a `watch.skill` zip for manual upload; the user must enable code execution/file creation | useful packaging precedent, not a YLC runtime |
+| Codex | The README documents cloning to `~/.codex/skills/watch`, and [`.codex-plugin/plugin.json`](https://github.com/taoufik123-collab/claude-watch/blob/7711231e4c47e5d4e06bcf5326c4abf5b70ab4a9/.codex-plugin/plugin.json) supplies metadata | packaging is present, but the workflow is not Codex-native: it names `Bash`, `Read`, and `AskUserQuestion`, uses `$CLAUDE_SKILL_DIR`, `open`, `rm -rf`, and Bash vault steps; a Windows Codex adapter must translate these operations |
+| Hermes Agent | No Hermes manifest, skill adapter, tool, gateway hook, or API client exists in this repository | integration is proposed work, not a current capability |
+| Analysis model | Whatever multimodal model powers the host Claude/Codex session sees the JPEGs; the Python scripts expose no chat/VLM endpoint or model selector | add a provider-neutral vision stage rather than embedding a particular hosted model |
+| ASR model | Only Groq and OpenAI endpoints/models are hard-coded; `GROQ_API_KEY` and `OPENAI_API_KEY` are loaded from environment, `~/.config/watch/.env`, or a working-directory `.env` | local Spark ASR needs a new backend/config contract; setting an OpenAI-compatible chat base URL does not change the current ASR path |
+
+Hermes already has its own skill system and opt-in `video_analyze` and `vision_analyze` tools. Its documentation says `vision_analyze` can pass real pixels to a vision-capable main model or fall back to an auxiliary vision model, and it supports local models through Ollama, vLLM, llama.cpp, SGLang, or another OpenAI-compatible server. However, `video_analyze` is not part of the default toolset, and current provider-compatibility reports show why YLC should not assume that an arbitrary OpenAI-compatible local endpoint accepts a raw-video content block. [Hermes skills](https://github.com/NousResearch/hermes-agent/blob/main/website/docs/guides/work-with-skills.md), [Hermes tools reference](https://github.com/NousResearch/hermes-agent/blob/main/website/docs/reference/tools-reference.md), [Hermes vision routing](https://github.com/NousResearch/hermes-agent/blob/main/website/docs/user-guide/features/vision.md), [Hermes local-provider support](https://github.com/NousResearch/hermes-agent/blob/main/website/docs/reference/faq.md), [raw-video provider compatibility report](https://github.com/NousResearch/hermes-agent/issues/72275)
+
+### Verified limits and risks that must not be inherited silently
+
+- **Coverage is not “one frame from every shot” on long, highly cut videos.** FFmpeg output stops at the frame cap, so the first 80/100 qualifying cuts can crowd out the rest of the video. Scene sampling is also disabled for focused ranges and explicit `--fps`. YLC needs time-stratified coverage plus scene candidates, not a first-N cut list. [`frames.py`](https://github.com/taoufik123-collab/claude-watch/blob/7711231e4c47e5d4e06bcf5326c4abf5b70ab4a9/scripts/frames.py), [`watch.py`](https://github.com/taoufik123-collab/claude-watch/blob/7711231e4c47e5d4e06bcf5326c4abf5b70ab4a9/scripts/watch.py)
+- **The advertised 100-frame ceiling excludes the hook pass.** The main pass may use up to 100 images and the hook pass may add approximately 20 more. At 512 pixels, the project's own skill estimates roughly 50–80k image tokens for 80 frames and about four times the image cost when width doubles to 1024. [`SKILL.md`](https://github.com/taoufik123-collab/claude-watch/blob/7711231e4c47e5d4e06bcf5326c4abf5b70ab4a9/SKILL.md)
+- **Focused Whisper is not focused in current `main`.** `--start`/`--end` filters transcript segments only after the full audio has been extracted and uploaded. The open [PR #4](https://github.com/taoufik123-collab/claude-watch/pull/4) documents the resulting 25 MB/HTTP 413 failure on long videos and also confirms that motion scoring is currently a stub.
+- **Public captions are English-only in the current download command.** The requested languages are `en,en-US,en-GB,en-orig`; no language selection or multilingual provenance exists. [`download.py`](https://github.com/taoufik123-collab/claude-watch/blob/7711231e4c47e5d4e06bcf5326c4abf5b70ab4a9/scripts/download.py)
+- **Windows support is incomplete.** The Python entrypoint can be invoked with `python`, and setup prints `winget` hints, but open issue [#13](https://github.com/taoufik123-collab/claude-watch/issues/13) reports scene extraction failing with FFmpeg 9 because `-vsync` was removed; open issue [#14](https://github.com/taoufik123-collab/claude-watch/issues/14) reports `cp1252` output crashes on the Unicode arrow in focused-mode output. The seven shipped tests cover scene helpers, pacing, and report structure, not full Windows/download/API integration. [`scripts/tests`](https://github.com/taoufik123-collab/claude-watch/tree/7711231e4c47e5d4e06bcf5326c4abf5b70ab4a9/scripts/tests)
+- **Temporary media cleanup is agent-directed, not guaranteed by the program.** Downloaded video, VTT, frames, hook audio, full audio, metadata, and report remain under the temp/output directory if the agent is interrupted. YLC needs a durable job record and a TTL janitor.
+- **Acquisition is not resource-bounded.** The yt-dlp subprocess has no YLC-style download deadline, byte/duration ceiling, disk reservation, or cancellation/job-state contract. Those controls are mandatory before URL ingestion can live behind a dashboard or bot. [`download.py`](https://github.com/taoufik123-collab/claude-watch/blob/7711231e4c47e5d4e06bcf5326c4abf5b70ab4a9/scripts/download.py)
+- **Audio can leave the machine.** When main captions are absent and Whisper is enabled, the extracted full audio is sent to Groq or OpenAI; the hook microscope can also upload ten seconds even when captions exist. A true local-only mode must fail closed against all external ASR endpoints and log zero egress. Keys stored via POSIX-style `.env` permission checks also need an actual Windows credential/ACL design. [`whisper.py`](https://github.com/taoufik123-collab/claude-watch/blob/7711231e4c47e5d4e06bcf5326c4abf5b70ab4a9/scripts/whisper.py), [`setup.py`](https://github.com/taoufik123-collab/claude-watch/blob/7711231e4c47e5d4e06bcf5326c4abf5b70ab4a9/scripts/setup.py)
+- **The URL check is not a server security boundary.** It rejects option-prefixed strings and non-HTTP(S) schemes, and the changelog records useful `--`/absolute-path subprocess hardening, but it does not block loopback, private-network, redirect, or arbitrary-host access. A Hermes/YLC service must prevent SSRF and restrict local paths to registered uploads/library assets. [`download.py`](https://github.com/taoufik123-collab/claude-watch/blob/7711231e4c47e5d4e06bcf5326c4abf5b70ab4a9/scripts/download.py), [`CHANGELOG.md`](https://github.com/taoufik123-collab/claude-watch/blob/7711231e4c47e5d4e06bcf5326c4abf5b70ab4a9/CHANGELOG.md)
+- **Report frontmatter is not safely serialized.** Source, title, intent, and other values are interpolated directly into YAML lines. Untrusted titles/newlines can make malformed or misleading frontmatter. YLC must publish through a typed schema and YAML serializer. [`report.py`](https://github.com/taoufik123-collab/claude-watch/blob/7711231e4c47e5d4e06bcf5326c4abf5b70ab4a9/scripts/report.py)
+- **The vault-consent story is internally inconsistent.** The skill says it does not write to the Second Brain without explicit Step 4.5 consent, but Step 4.4 auto-detects common vault paths, copies the report and hero frames into the vault, and opens Obsidian before asking Step 4.5. It can also read `CLAUDE.md` and execute that vault's ingest instructions. YLC must use one explicitly configured library root, never auto-detect/write another vault, and never execute a vault instruction file as part of media ingestion. [`SKILL.md`](https://github.com/taoufik123-collab/claude-watch/blob/7711231e4c47e5d4e06bcf5326c4abf5b70ab4a9/SKILL.md)
+- **The skill contract itself is Claude-centric and inconsistent.** Its `allowed-tools` lists `Bash`, `Read`, and `AskUserQuestion`, while the workflow later requires an `Edit` tool. This reinforces that Codex/Hermes need native adapters rather than blind installation of the prompt. [`SKILL.md`](https://github.com/taoufik123-collab/claude-watch/blob/7711231e4c47e5d4e06bcf5326c4abf5b70ab4a9/SKILL.md#L1-L10)
+- **Downloading remains a rights/platform-policy boundary.** `claude-watch` deliberately uses `yt-dlp` for public URLs; its MIT license does not grant rights to the media or override YouTube's Terms. YLC's supported YouTube mode must retain the official-player boundary described earlier; this watch pipeline belongs only to user-supplied or otherwise authorized media.
+
+The code is MIT-licensed, with Bradley Bonanno's copyright notice and Taoufik's derivative-work credit in `AUTHORS.md`. Any copied or substantially derived implementation must retain the license notice and attribution. [`LICENSE`](https://github.com/taoufik123-collab/claude-watch/blob/7711231e4c47e5d4e06bcf5326c4abf5b70ab4a9/LICENSE), [`AUTHORS.md`](https://github.com/taoufik123-collab/claude-watch/blob/7711231e4c47e5d4e06bcf5326c4abf5b70ab4a9/AUTHORS.md)
+
+### Proposed: YLC post-MVP adaptation
+
+Do not install `claude-watch` unchanged as YLC's ingestion engine. Use it as a reference implementation for a **permission-gated Watch job** after the official-player/Markdown MVP is stable.
+
+```text
+authorized asset or transcript
+  → probe + rights record
+  → local ASR / supplied captions
+  → chapter boundaries + time-stratified scene candidates
+  → perceptual dedupe + OCR
+  → local VLM frame descriptions and instructional-value ranking
+  → timestamped cross-modal evidence IR
+  → section/video artifacts
+  → atomic Markdown publication + job ledger
+```
+
+Required behavior:
+
+1. `POST /api/watch-jobs` accepts an internal `asset_id`, intent, optional time ranges, and a named recipe—not an arbitrary server filesystem path. The API durably returns a job ID before analysis.
+2. The worker records `user-supplied`, `owned`, `licensed`, or other explicit source permission. A YouTube URL alone is not permission to download.
+3. Sampling combines a coverage floor (at least one candidate per bounded interval/section), scene changes, chapter boundaries, OCR novelty, and user-requested ranges. It deduplicates before any vision call and enforces per-video and per-section budgets.
+4. Local ASR is a first-class adapter—for example a Spark-hosted Whisper-compatible service or local worker—not a fake OpenAI base-URL override around the current hard-coded cloud endpoints. Word timestamps and source language are preserved.
+5. The Spark vision profile sends bounded JPEG inputs to a configured OpenAI-compatible multimodal endpoint. Prefer supported `image_url` data URLs or a private authenticated asset URL; do not assume the model server can read YLC filesystem paths or raw video blocks. Each response is validated structured JSON containing timestamp, literal visual observations, OCR, relevance score, uncertainty, and evidence IDs.
+6. Fuse transcript spans and frame observations into a typed section IR before summary, diagram, scene-gallery, and quiz generation. Literal visual/audio evidence remains separate from model inference.
+7. The dashboard streams stages and partial evidence through SSE. Hermes Discord and Codex return enqueue/status/deep-link receipts immediately; they do not hold an agent turn open while 100 frames are processed.
+8. A cancellation/retention policy removes raw temporary video/audio/unused frames while preserving approved evidence, rights record, hashes, model/recipe versions, and the generation ledger.
+
+### Proposed agent adapters
+
+**Codex:** create a YLC-specific skill whose script only validates/enqueues a Watch job, polls or opens the finished artifact, and uses Codex's native local-image viewing capability for selected evidence when an interactive follow-up needs pixels. Use native Windows paths/PowerShell where appropriate; do not copy the Claude-only `Read`, `$CLAUDE_SKILL_DIR`, `open`, or Bash cleanup instructions.
+
+**Hermes Agent:** prefer a narrow YLC HTTP/MCP tool surface—`watch_enqueue`, `watch_status`, `watch_lookup`, and `watch_open`—plus a small Hermes skill installed under `~/.hermes/skills/`. The skill should name Hermes-native tools (`vision_analyze`, `terminal`, `read_file`, or the custom YLC tools) and require the `vision` toolset only for interactive evidence review. The existing opt-in `video_analyze` tool may be useful for a compatible hosted video model, but it should not be the baseline for Spark because raw-video provider support is inconsistent; the frame-plus-transcript pipeline is more portable.
+
+**DGX Spark local models:** keep preprocessing, ASR, VLM inspection, and synthesis as separately configured stages. A text-only main Hermes model may consume timestamped frame descriptions produced by an auxiliary local vision model; a vision-capable model may receive the selected images directly. Record actual endpoint/model identity and test structured output, image format, context limit, concurrency, and timeout—“OpenAI-compatible” alone does not guarantee multimodal or video compatibility.
+
+### Exact repository files and configuration points for the build spec
+
+| Reference | Configuration/behavior worth naming |
+|---|---|
+| `scripts/watch.py` | orchestration; `--max-frames`, `--resolution`, `--fps`, `--start`, `--end`, `--out-dir`, `--whisper`, `--no-whisper`, `--intent`, `--no-scene-change`, `--no-hook-microscope` |
+| `scripts/download.py` | yt-dlp 720p format expression; English subtitle list; `--no-playlist`; public URL/local file split; option-injection guard |
+| `scripts/frames.py` | `MAX_FPS = 2.0`; scene threshold path; first-frame inclusion; ten-frame uniform fallback; 100-frame cap; hero-frame selection |
+| `scripts/hook.py` | `HOOK_DURATION_SECONDS = 10.0`; `HOOK_FPS = 2.0`; separate audio/frame pass |
+| `scripts/transcribe.py` | VTT timestamp parser, tag stripping, rolling-caption dedupe, range filter |
+| `scripts/whisper.py` | `GROQ_ENDPOINT`, `GROQ_MODEL`, `OPENAI_ENDPOINT`, `OPENAI_MODEL`; 16 kHz mono 64 kbps extraction; environment/`.env` key lookup; retry policy |
+| `scripts/pacing.py` | cuts/minute and shot-length schema; current motion-score stub |
+| `scripts/report.py` | fixed report sections and pending-fill markers; replace raw YAML interpolation with YLC schemas |
+| `scripts/setup.py` | `REQUIRED_BINARIES`; `~/.config/watch/.env`; exit codes `0/2/3/4`; platform-specific install behavior |
+| `SKILL.md` | the actual agent orchestration contract, frame-token guidance, vault auto-detection, cleanup, and cloud-egress disclosure |
+| `.codex-plugin/plugin.json` | proof of Codex packaging metadata only—not a Codex-native tool workflow |
+| `.claude-plugin/plugin.json`, `.claude-plugin/marketplace.json`, `commands/watch.md`, `hooks/hooks.json` | Claude Code marketplace/slash-command/session-hook surfaces |
+| `scripts/tests/test_frames_scene.py`, `test_pacing.py`, `test_report.py` | current unit-test boundary; YLC must add end-to-end fixture, Windows, FFmpeg-version, ASR, model, restart, and cleanup tests |
+| `CHANGELOG.md`, `LICENSE`, `AUTHORS.md` | provenance, security fixes, MIT notice, and required attribution |
+
+### Post-MVP acceptance gate
+
+Do not mark Watch inspection complete until the same pinned recipe passes on Windows and Spark for: a static screen recording, a rapid-cut video, a captioned lecture, a no-caption local file, a 90-minute focused range, non-English/Unicode content, restart mid-job, and local-only mode with verified zero cloud calls. Coverage must span the whole requested range; timestamps must seek correctly; every retained frame must have a selection reason; no unsupported URL download may occur; manual notes must survive regeneration; and the final Markdown must read back with matching hashes.
+
+**Decision:** adopt the preprocessing pattern and some small algorithms, not the repository wholesale. The strongest reusable idea is agent-readable, timestamped frame-plus-transcript evidence. YLC should productionize it as a permission-gated background service with better coverage, local model routing, typed provenance, durable cleanup, and thin Codex/Hermes adapters.

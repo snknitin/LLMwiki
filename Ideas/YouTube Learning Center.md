@@ -376,6 +376,7 @@ Everything in Personal V0 above, including OAuth playlist browsing, imported URL
 ### Later
 
 - existing `#youtueb-analysis` Hermes/Discord capture, lookup, status, and completion cards;
+- a post-MVP `/watch`-style agentic video-inspection skill for Codex and Hermes, using bounded scene-change frames, focused re-inspection, local Spark ASR/VLM routes, and source-grounded scene selection only after the baseline and permission-gated multimodal path are proven;
 - browser extension and mobile share target;
 - voice-first Dwarkesh interview with live local feedback;
 - Creator Analytics retention for videos owned by the signed-in channel;
@@ -407,6 +408,10 @@ Everything in Personal V0 above, including OAuth playlist browsing, imported URL
 - [Mermaid](https://mermaid.js.org/config/usage) provides validated logical diagrams. Keep `securityLevel: strict`, generate trusted timestamp links in code, and retain visible render failures.
 - [Excalidraw](https://docs.excalidraw.com/) and the [Obsidian Excalidraw plugin](https://github.com/zsviczian/obsidian-excalidraw-plugin) provide editable spatial maps and SVG previews.
 - [faster-whisper](https://github.com/SYSTRAN/faster-whisper) or a compatible local ASR adapter can transcribe permitted media; the architecture should not bind to one ASR implementation.
+- [`claude-watch`](https://github.com/taoufik123-collab/claude-watch) is an MIT-licensed reference for an agent-facing video-inspection skill: it uses `yt-dlp`, FFmpeg scene-change frames, a bounded/focused frame budget, captions or Whisper, a structured `report.md`, and optional Obsidian staging. Treat it as design input, not a drop-in YLC dependency: its current transcription code is hard-wired to Groq/OpenAI, its skill instructions assume Claude tools, and its public-URL path inherits the `yt-dlp`/platform-policy boundary.
+- The reference audit is pinned to commit [`7711231e4c47e5d4e06bcf5326c4abf5b70ab4a9`](https://github.com/taoufik123-collab/claude-watch/commit/7711231e4c47e5d4e06bcf5326c4abf5b70ab4a9): code defaults to 80 frames with a 100-frame/2-FPS hard ceiling; scene mode can spend the budget on the first cuts rather than timeline-wide coverage; focused ASR still processes full audio; and the optional 0–10-second hook pass may upload audio before captions are considered. YLC must correct these behaviors rather than inherit them.
+- [Hermes skills](https://github.com/NousResearch/hermes-agent/blob/main/website/docs/guides/work-with-skills.md), [Hermes vision routing](https://github.com/NousResearch/hermes-agent/blob/main/website/docs/user-guide/features/vision.md), and [custom providers](https://github.com/NousResearch/hermes-agent/blob/main/website/docs/integrations/providers.md) support an adapted local skill, native `image_url` inputs, and a self-hosted OpenAI-compatible model marked `supports_vision: true`.
+- [vLLM multimodal serving](https://docs.vllm.ai/en/latest/features/multimodal_inputs/) accepts bounded image/video inputs through an OpenAI-compatible API, while its [speech-to-text API](https://docs.vllm.ai/en/latest/serving/online_serving/speech_to_text/) can provide a local `/v1/audio/transcriptions` route. Its [Codex integration](https://docs.vllm.ai/en/latest/serving/integrations/codex/) documents a separate local CLI profile using the Responses API; that profile must be tested with the actual tool-calling model rather than assumed compatible.
 - [Tailscale Serve](https://tailscale.com/docs/features/tailscale-serve) supplies private tailnet HTTPS to a localhost service. Do not use Funnel.
 - [NotebookLM](https://support.google.com/notebooklm/answer/16215270) is the fastest no-code fallback for public captioned videos, but it primarily imports transcript text and does not replace YLC's player-synced notes, custom artifacts, protected Markdown, playlist coverage, or active-learning loop.
 - `yt-dlp` is not a default dependency. An unbundled expert adapter may exist only for material the user is authorized to process, with a recorded source-rights basis and a clear YouTube-terms warning.
@@ -430,6 +435,8 @@ Everything in Personal V0 above, including OAuth playlist browsing, imported URL
 - **YouTube:** official OAuth/Data API adapters, quota counters, pagination, ETags, embeddability status, and 30-day API-metadata refresh/delete maintenance.
 - **Models:** OpenAI-compatible provider interface with task profiles; local Spark/workstation routes are defaults.
 - **ASR/vision:** replaceable local adapters for faster-whisper-compatible ASR, OCR, perceptual hashing, and a local VLM.
+- **Post-MVP watch engine:** a YLC-owned `VideoInspectionAdapter` composed from authorized media acquisition, FFmpeg shot detection, transcript-aware candidate windows, local ASR, batched local-VLM observations, focused reruns, scene ranking, and a deterministic inspection report. Borrow algorithms from `claude-watch`; do not make its Claude-specific `SKILL.md` or cloud-key setup the application boundary.
+- **Agent packaging:** expose the same deterministic watch CLI/API through a Codex skill and a Hermes skill. Codex uses a dedicated local-vLLM profile when zero paid inference is required; Hermes uses a named custom Spark provider with native vision plus local auxiliary routes. A run is labelled `fully-local` only when acquisition, ASR, vision, synthesis, and every auxiliary call are verified local.
 - **Diagrams:** two independent generation workers plus a shared post-generation evidence/consistency validator.
 - **Review:** FSRS-compatible scheduler in SQLite; durable questions, approvals, corrections, and review log in Markdown.
 - **Testing:** pytest, property tests for paths/IDs/regeneration, golden Markdown fixtures, browser tests, model-schema contract tests, and representative real-model probes.
@@ -444,8 +451,9 @@ Everything in Personal V0 above, including OAuth playlist browsing, imported URL
 | `playlist-deep` | Mastery Pack, Pareto guide, cross-video contradictions/maps | strongest available local reasoning model, large context, hierarchical fallback |
 | `quiz` | probes, rubrics, follow-ups, misconception repair | local structured model grounded in concept/claim IDs |
 | `vision-rank` | learning-scene instructional value | local VLM only for authorized frames |
+| `watch-vision` | timestamped multi-frame observation, visual claim checking, focused re-inspection | local Spark VLM; bounded batches; native pixels; schema-validated observations |
 | `embed` | optional semantic retrieval | local embedding model; FTS remains sufficient for MVP |
-| `asr` | permitted media transcription | local ASR adapter with word/segment timestamps |
+| `asr` | permitted media transcription and watch-skill fallback | local ASR adapter with word/segment timestamps; no cloud key in the fully-local profile |
 | `hosted-fallback` | explicitly approved difficult job | disabled by default; records provider, consent, cost/tokens, and evidence boundary |
 
 ## Architecture and Data Model
@@ -679,6 +687,7 @@ E:\GIT_ROOT\Projects\youtube-learning-center\
 │       ├── models/          # task profiles and provider adapters
 │       ├── learning/        # primers, probes, quiz, FSRS, Dwarkesh
 │       ├── artifacts/       # Markdown, Mermaid, Excalidraw, scenes
+│       ├── watch/           # post-MVP inspection engine and report schema
 │       ├── playlists/       # coverage, Pareto, Mastery Pack
 │       ├── storage/         # SQLite, files, revisions, atomic publisher
 │       └── security/        # secrets, origin/CSRF, path/SSRF validation
@@ -696,7 +705,8 @@ E:\GIT_ROOT\Projects\youtube-learning-center\
 │       ├── quiz/
 │       └── api/
 ├── plugins/
-│   └── youtube-learning-center/    # later Hermes plugin mirror
+│   └── youtube-learning-center/
+│       └── skills/watch/    # later Codex/Hermes skill wrappers over the same CLI/API
 ├── deploy/
 │   ├── youtube-learning-center.service
 │   └── tailscale-runbook.md
@@ -729,6 +739,7 @@ This tree is a future implementation contract. This specification task must not 
 | `GET /api/videos/{id}` | note/artifact/source/job summary |
 | `PATCH /api/videos/{id}/notes` | revision-checked user note/correction/lock update |
 | `POST /api/videos/{id}/moments` | save timestamped manual moment |
+| `POST /api/videos/{id}/inspect` | post-MVP authorized watch run with intent, bounded range/frame budget, and fully-local requirement |
 | `POST /api/videos/{id}/regenerate` | invalidate selected artifact/stages only |
 | `POST /api/playlists/{id}/mastery-pack` | deep playlist synthesis over selected ready video revisions |
 | `GET /api/jobs/{id}` | durable status, stages, warnings, timings |
@@ -751,6 +762,7 @@ No endpoint accepts an arbitrary filesystem path from the browser. Configure one
 - `ASRAdapter`
 - `TextModelAdapter`
 - `VisionModelAdapter`
+- `VideoInspectionAdapter`
 - `EmbeddingAdapter`
 - `MermaidRenderer`
 - `ExcalidrawRenderer`
@@ -850,6 +862,23 @@ Adapters return typed results with source basis, rights mode, version, timing, a
 
 **Gate:** Discord capture cannot claim success without a durable readable job/artifact, never blocks on long analysis, and does not alter unrelated Hermes routes.
 
+### Slice 9 — Post-MVP Watch skill and agentic video inspection
+
+Start this slice only after Slices 0–5 pass, the baseline is working on real fixtures, and the source-rights gate is trusted. Do not let the novelty of “the agent can watch” delay the learning loop, OAuth shell, durable Markdown, or safe media handling.
+
+- pin and audit a known `claude-watch` commit; preserve MIT attribution and record which algorithms were adapted rather than silently vendoring an auto-updating dependency;
+- implement one YLC-owned `watch` command and `VideoInspectionAdapter` that accept a canonical YLC video ID or an authorized local-media handle, intent, optional `--start`/`--end`, maximum frame count, and resolution—never an arbitrary browser filesystem path;
+- use a two-pass learning strategy: sparse shot-change/transcript scan first, then focused re-inspection around high-value explanations, diagrams, demonstrations, code/UI changes, contradictions, and user questions;
+- use adaptive hard ceilings for frames and per-request multimodal inputs; batch chronologically with timestamp/frame IDs, cache image observations, and refuse silent context truncation;
+- route captionless audio to a host-local OpenAI-compatible transcription endpoint such as vLLM's `/v1/audio/transcriptions`, retaining word/segment timestamps and ASR confidence/provenance;
+- route frame batches to the `watch-vision` Spark model through an OpenAI-compatible multimodal endpoint; keep synthesis separable so a strong local text model can reason over validated visual observations plus transcript evidence;
+- publish `Artifacts/Watch Inspection.md` and selected scene cards/images with timestamp, reason selected, visual observation, linked transcript/evidence IDs, perceptual hash, alt text, model/profile versions, and `fully-local` receipt;
+- package a thin Codex skill under the normal Codex skills directory and an adapted Hermes skill under `~/.hermes/skills/`; translate Claude-only tool names and ingest assumptions rather than copying them unchanged;
+- for Codex CLI, create a separate local-vLLM profile using `wire_api = "responses"`; for Hermes, configure the named custom Spark provider with `supports_vision: true` and explicitly local `auxiliary.vision`/synthesis routes; never overwrite the user's production default provider while proving this feature;
+- keep the `yt-dlp` public-URL adapter unbundled, disabled by default, authorization-recorded, and visibly policy-risky. The supported default remains authorized local/user-supplied media; official YouTube metadata/player/captions behavior remains unchanged.
+
+**Gate:** on a permitted fixture set, both Codex CLI and Hermes can invoke the same inspection engine; frames align to timestamps; selected scenes beat uniform/thumbnail baselines in blinded human review; visual claims are traceable to exact frame IDs; focused reruns improve the named interval without reprocessing the whole video; temporary source media is purged; and a network egress audit proves zero paid provider calls for a `fully-local` run. Failure of any local ASR/VLM/auxiliary route must stop or downgrade the receipt, never silently call Groq, OpenAI, Gemini, OpenRouter, or another hosted provider.
+
 ## Drawbacks, Concerns, and Failure Modes
 
 ### Platform limitations
@@ -858,6 +887,8 @@ Adapters return typed results with source basis, rights mode, version, timing, a
 - There is no universal official transcript endpoint for arbitrary public videos. Missing source is a normal state, not a model invitation to guess.
 - Automatic chapters and public Most replayed data are not structured API fields. Preserve native player behavior and build clearly labelled YLC sections/peaks.
 - The cross-origin player does not expose arbitrary pixels. Scene extraction requires permitted local media.
+- `claude-watch` does not give a model continuous human-like viewing; it samples frames and combines them with a transcript. Sparse sampling can miss brief demonstrations, state changes, equations, or visual contradictions, so every confident visual claim needs a frame ID and focused rerun path.
+- A local VLM can still consume substantial context and GPU time. Bound frame count/resolution, batch intentionally, cache observations, and schedule Watch jobs below interactive work.
 - YouTube API metadata has refresh/delete obligations. Keep refreshable API cache separate from durable notes and generation provenance.
 
 ### Learning-quality risks
@@ -886,6 +917,7 @@ Adapters return typed results with source basis, rights mode, version, timing, a
 - OAuth tokens, browser sessions, audio rehearsals, and source media are sensitive. Keep them host-private, log-redacted, and excluded from the vault/Git.
 - Model-generated Markdown/Mermaid/Excalidraw is untrusted input. Sanitize HTML, use Mermaid strict security, validate links/paths, and never execute embedded instructions.
 - External verification and hosted fallbacks transmit content. Require explicit per-job consent and record the provider/data boundary.
+- A “local” main model is not sufficient if ASR, vision description, embeddings, or Hermes auxiliary routing still uses hosted services. Derive the `fully-local` badge from observed endpoints and an egress audit, never configuration labels alone.
 - Localhost plus Tailscale reduces exposure but does not replace origin/CSRF checks, secure sessions, request limits, safe fetch rules, and path confinement.
 
 ## Clever Hacks and Simpler Alternative
@@ -896,6 +928,7 @@ Adapters return typed results with source basis, rights mode, version, timing, a
 - **Content-address every stage:** source/segment/recipe/model hashes prevent redoing a 60-minute video because one playlist label changed.
 - **Use a vocabulary correction pass:** build names/terms from metadata and early chunks, then improve later ASR sections without rewriting evidence silently.
 - **Select scenes semantically:** sample boundaries and high-value phrases before expensive uniform frame sampling.
+- **Coarse-to-focused watching:** use a bounded first pass to locate learning-relevant windows, then spend dense frames only where transcript, OCR, user intent, or uncertainty justifies them.
 - **Use one canonical video folder:** playlist manifests and stable IDs eliminate duplicate model work and drifting notes.
 - **Make confusion useful:** a confusion marker stores the exact missing premise and can generate a targeted explanation/probe.
 - **Rank playlist value explicitly:** combine centrality, prerequisite power, user goals, uniqueness, and quiz weakness for a transparent Pareto guide.
@@ -962,6 +995,7 @@ Human-mark essential concepts, claims, scenes, and misconceptions for a small go
 - speaker attribution;
 - selective-watch usefulness;
 - learning-scene relevance and duplicate rate;
+- Watch-frame coverage of brief but essential visual events, visual-claim precision, timestamp alignment, focused-rerun improvement, and scene-ranking preference over uniform samples;
 - diagram factual consistency and render success;
 - quiz answerability from cited evidence;
 - Mastery Pack coverage of every selected video;
@@ -1018,8 +1052,9 @@ Do not accept a model profile because one output looks polished. Run the real co
 3. **Playlist mastery:** parallel video processing and deep one-button Mastery Pack.
 4. **Private everywhere:** tested Windows/Spark handoff, Spark Tailscale PWA, and mobile capture/review.
 5. **Existing Hermes route:** low-latency capture/status through `#youtueb-analysis` after the dashboard contract is stable.
-6. **Optional ecosystem:** browser extension, voice rehearsal, Anki/NotebookLM handoffs, Personal Study Curriculum integration, and cross-playlist learning graph.
-7. **Only after personal evidence:** consider an open-source bring-your-own-model tool. Revisit YouTube API policies, rights, privacy, accessibility, hosted-model terms, and OAuth verification before any public or paid release via [[Scope Expansion Checklist]].
+6. **Agentic Watch extension:** after the working baseline and permission-gated media path, add the shared Codex/Hermes Watch skill with Spark-local ASR/VLM routes and zero-egress verification.
+7. **Optional ecosystem:** browser extension, voice rehearsal, Anki/NotebookLM handoffs, Personal Study Curriculum integration, and cross-playlist learning graph.
+8. **Only after personal evidence:** consider an open-source bring-your-own-model tool. Revisit YouTube API policies, rights, privacy, accessibility, hosted-model terms, and OAuth verification before any public or paid release via [[Scope Expansion Checklist]].
 
 The defensible feature is not “AI summarizes YouTube.” It is a private, source-honest learning environment that helps the user understand, explain, challenge, retain, and connect video knowledge.
 
@@ -1037,10 +1072,11 @@ A future coding agent must:
 8. measure the full latency path instead of blaming or swapping models blindly;
 9. convert every discovered correctness failure into a regression fixture;
 10. provide exact completion evidence: files, tests, hashes/versions, runtime health, model probe, artifact render, read-back, and recovery result.
+11. defer Slice 9 until the baseline and permission-gated media gates pass; when it begins, pin/audit the reference, preserve attribution, use the shared YLC inspection engine, and prove every `fully-local` route by observed endpoints rather than provider names.
 
 The first implementation prompt should be:
 
-> Read `README.md` and the linked research dossier. Create `AGENTS.md` from the non-negotiables. Implement only Slice 0 and Slice 1 using a temporary test library and one provided-caption fixture. Do not add YouTube downloading, Spark deployment, OAuth playlist sync, Hermes integration, or playlist synthesis yet. Verify player seeking, evidence-linked Markdown, protected My Notes, safe regeneration, restart recovery, and the complete Prime → probe → Encode → typed Dwarkesh loop before proposing Slice 2.
+> Read `README.md` and the linked research dossier. Create `AGENTS.md` from the non-negotiables. Implement only Slice 0 and Slice 1 using a temporary test library and one provided-caption fixture. Do not add YouTube downloading, Spark deployment, OAuth playlist sync, Hermes integration, playlist synthesis, or the post-MVP Watch skill yet. Verify player seeking, evidence-linked Markdown, protected My Notes, safe regeneration, restart recovery, and the complete Prime → probe → Encode → typed Dwarkesh loop before proposing Slice 2.
 
 ## Related
 
