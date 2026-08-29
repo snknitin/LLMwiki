@@ -1,5 +1,5 @@
 <!-- consolidation-state
-{"groups_merged": 0, "last_run_at": "2026-08-27T22:02:26+05:30", "message": "Already compacted—no high-confidence groups were available.", "mode": "manual-dashboard", "queue_revision": "e474514c24ba41ce9861275d5072f874c74bb1cab910142d1b5119c33568c407", "status": "already_compacted", "tasks_absorbed": 0}
+{"groups_merged": 2, "last_run_at": "2026-08-28T22:05:36+05:30", "message": "Merged 2 tasks into 2 focused batches.", "mode": "scheduled-agent", "queue_revision": "6bfc0e84f327644b041ec7aef8154c6b8774e94a4bf4557f52997209d5ddad4f", "status": "merged", "tasks_absorbed": 2}
 -->
 # Social Capture Consolidation Log
 
@@ -276,3 +276,111 @@
 - Queue revision after: `e474514c24ba41ce9861275d5072f874c74bb1cab910142d1b5119c33568c407`
 - Groups merged: 0
 - Tasks absorbed: 0
+
+### 2026-08-28T22:05:36+05:30
+- Mode: scheduled-agent
+- Outcome: merged
+- Queue revision before: `e7539891f86c436750974963ae02bd5d72ae4d8ef759b75176fac9277bedf4c7`
+- Queue revision after: `6bfc0e84f327644b041ec7aef8154c6b8774e94a4bf4557f52997209d5ddad4f`
+- Groups merged: 2
+- Tasks absorbed: 2
+
+#### Survivor `sc_fe86ee294179a282`
+- Members: `sc_fe86ee294179a282`, `sc_9c20596fdfd8a191`
+- Reason: Both tasks address understanding interview structure and skill gaps for senior AI/ML roles. Consolidating into one batch avoids reviewing overlapping topics (DSA, ML depth, evaluation, orchestration) separately.
+- Consolidation key: `review-senior-ai-interview-prep-guides`
+
+##### Original task blocks
+
+###### `sc_fe86ee294179a282`
+```markdown
+- [ ] **Microsoft Applied Scientist 2 Interview Guide** — [source](https://www.linkedin.com/feed/update/urn:li:activity:7490262829577441281?updateEntityUrn=urn%3Ali%3Afs_updateV2%3A%28urn%3Ali%3Aactivity%3A7490262829577441281%2CFEED_DETAIL%2CEMPTY%2CDEFAULT%2Cfalse%29)
+  - Contains: The post details a five-round Microsoft Applied Scientist 2 interview process emphasizing deep technical intuition. It covers screening, DSA, statistics, ML depth, and behavioral rounds with specific topic examples. This provides a concrete roadmap for candidates preparing for similar high-level technical roles. Understanding this structure helps applicants focus on reasoning rather than rote memorization.
+  - Potential benefit: This experience highlights Microsoft's preference for conceptual depth and problem-solving approach over exact answers. Candidates should prepare to explain the 'why' behind their technical decisions and mathematical derivations. The emphasis on intuition suggests that demonstrating clear thinking is more valuable than perfect syntax. This insight can guide preparation strategies for other tech giants with similar interview styles.
+  - Intent: read · inferred
+  - Topic: Career Preparation
+  - Source author: www.linkedin.com
+  - Priority: P2
+  - Impact: medium
+  - Ease: moderate
+  - Important: no
+  - Importance reason: It provides specific technical topics and interview structure for a desired career path. This reduces uncertainty and helps candidates tailor their preparation effectively. The detailed breakdown of rounds offers actionable insights for interview success. It serves as a valuable reference for understanding role expectations.
+  - Urgent: yes
+  - Urgency reason: Interview preparation is a long-term process not requiring immediate action. Candidates can review this information at their own pace before applying. There is no time-sensitive deadline associated with this specific post. The value lies in comprehensive preparation rather than urgent response.
+  - Done when: Candidate has reviewed the specific technical topics and practiced explaining their intuition.
+  - Effort: 30m
+  - Matrix order: 2000
+  - Captured: 2026-08-27 08:21 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_fe86ee294179a282
+```
+
+###### `sc_9c20596fdfd8a191`
+```markdown
+- [ ] **Agentic AI Interview Gaps: Eval & Orchestration** — [source](https://www.linkedin.com/feed/update/urn:li:activity:7497990088187019264?updateEntityUrn=urn%3Ali%3Afs_updateV2%3A%28urn%3Ali%3Aactivity%3A7497990088187019264%2CFEED_DETAIL%2CEMPTY%2CDEFAULT%2Cfalse%29)
+  - Contains: The post highlights that RAG implementation skills are common, but candidates lack depth in evaluation, embedding selection, and agent orchestration. It argues that production readiness requires mastering metrics like precision and tools like LangGraph.
+  - Potential benefit: This serves as a practical checklist for AI engineers to identify critical skill gaps beyond basic API integration. It emphasizes that theoretical knowledge of agents and rigorous evaluation are key differentiators for senior roles.
+  - Intent: learn · inferred
+  - Topic: AI Engineering Skills Gap
+  - Source author: www.linkedin.com
+  - Priority: P2
+  - Impact: medium
+  - Ease: moderate
+  - Important: no
+  - Importance reason: It identifies specific, high-value technical skills that are currently undervalued by candidates but critical for production AI systems.
+  - Urgent: yes
+  - Urgency reason: The skill gap is structural and persistent, not requiring immediate action to mitigate a transient risk.
+  - Done when: You have reviewed Ragas/LangGraph docs and can explain evaluation metrics and graph workflows.
+  - Effort: 30m
+  - Matrix order: 3000
+  - Captured: 2026-08-27 08:21 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_9c20596fdfd8a191
+```
+
+#### Survivor `sc_22aac32340dd3f86`
+- Members: `sc_22aac32340dd3f86`, `sc_465e0a9675992467`
+- Reason: Both tasks assess the current Hermes integration and community ecosystem. Consolidating into one batch avoids overlapping review of Hermes capabilities and produces a single integration assessment.
+- Consolidation key: `survey-hermes-ecosystem-integrations`
+
+##### Original task blocks
+
+###### `sc_22aac32340dd3f86`
+```markdown
+- [ ] **Survey expanded Hermes connectors catalog and Tool Search capability** — [source](https://x.com/Teknium/status/2092321384085299665)
+  - Contains: Teknium announces the Hermes connectors catalog now supports Cloudflare, Datadog, Metabase, GitLab, Railway, DeepWiki and more with one-click access, plus a Tool Search tool that prevents context waste when connectors are activated. Top comments note Tool Search is a significant improvement and ask about MCP support without DCR.
+  - Potential benefit: Maps the current breadth of Hermes integrations so Nitin knows what services are natively connectable and whether Tool Search could replace manual MCP setups for tools like DeepWiki or GitLab.
+  - Intent: learn · inferred
+  - Topic: Hermes connectors catalog
+  - Source author: Teknium 🪽 @Teknium
+  - Priority: P2
+  - Impact: medium
+  - Ease: quick
+  - Important: yes
+  - Importance reason: Hermes connectors are part of Nitin's core agent stack; knowing the current integration surface prevents redundant MCP setup and informs architecture decisions.
+  - Urgent: yes
+  - Urgency reason: No deadline, expiry, or near-term dependency; this is product news to be aware of.
+  - Done when: One concise note lists the available connectors, whether any are immediately useful for Nitin's projects, and whether Tool Search obviates any existing MCP workarounds.
+  - Effort: 15m
+  - Captured: 2026-08-26 17:09 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_22aac32340dd3f86
+```
+
+###### `sc_465e0a9675992467`
+```markdown
+- [ ] **Evaluate oh-my-hermes packaged memory and coding harness setup** — [source](https://x.com/rlaope/status/2092465376424501476)
+  - Contains: Community project 'oh-my-hermes' packages Hermes Agent's long-term memory and coding harnesses into a one-line install. Features include file-based block-level memory management (Facts, Decisions, Episodes with TTL), observability, sub-agent model routing, ast-grep, parallel tool calling, per-model prompt optimization, cache hit rate tuning, custom TUI, and design capabilities. Author claims to code exclusively with Hermes using this setup.
+  - Potential benefit: Provides a ready-made reference implementation of file-based memory (Facts/Decisions/Episodes with TTL) and coding harness patterns that could inform Nitin's own Hermes setup or skill development.
+  - Intent: test · inferred
+  - Topic: Hermes community projects
+  - Source author: HOPE | Engineer. @rlaope
+  - Priority: P2
+  - Impact: medium
+  - Ease: moderate
+  - Important: yes
+  - Importance reason: The project bundles memory management and coding harness patterns that could improve Nitin's own Hermes configuration and reusable skill design.
+  - Urgent: no
+  - Urgency reason: No deadline, expiry, or near-term dependency; community projects are available whenever relevant.
+  - Done when: Clone oh-my-hermes, review its file-based memory architecture and memory-management skills for reusable ideas, and note any components worth integrating into Nitin's own setup.
+  - Effort: 1h
+  - Captured: 2026-08-26 17:11 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_465e0a9675992467
+```

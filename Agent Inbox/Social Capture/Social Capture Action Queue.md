@@ -56,6 +56,102 @@ Rules:
 
 <!-- Hermes appends new, ready actions below this line. Keep the queue ordered by current leverage, not capture time. -->
 
+- [ ] **Hermes Agent Adds Lightpanda Browser Support** — [article](http://lightpanda.io/docs)
+  - Contains: Hermes Agent now supports Lightpanda, a headless browser engine written in Zig that is 9x faster and uses 16x less memory than Chrome. The update allows Hermes to use Lightpanda for text-based automation while automatically falling back to Chrome for screenshots and visual tasks. This configuration is ideal for running agents on small VPS infrastructure without memory spikes.
+  - Potential benefit: This integration significantly improves the efficiency of automated web interactions by reducing resource consumption on constrained hardware. It provides a practical solution for developers running 24/7 agent workflows who need to balance performance with infrastructure costs.
+  - Intent: implement · inferred
+  - Topic: Hermes Agent Browser Engine Configuration
+  - Sources:
+    - [article](http://lightpanda.io/docs)
+    - [X post](https://x.com/IBuzovskyi/status/2093391393934696705)
+  - Source author: YanXbt
+  - Priority: P2
+  - Impact: medium
+  - Ease: easy
+  - Important: yes
+  - Importance reason: It optimizes resource usage for automated agents, which is critical for stability on low-memory VPS environments.
+  - Urgent: no
+  - Urgency reason: The feature is already available and does not require immediate action to maintain system stability.
+  - Done when: After installing the Lightpanda binary and configuring the Hermes environment variable.
+  - Effort: 5m
+  - Captured: 2026-08-29 12:24 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_d39136a49c721fd8
+
+- [ ] **Build One-Person Media Company with Hermes Bots** — [article](https://x.com/i/article/2093330534495916032)
+  - Contains: The article details a system using six Hermes bots to automate media production. It emphasizes structured handoffs and a shared Obsidian graph for context.
+  - Potential benefit: This approach scales individual output by automating research and distribution. It shifts focus from writing speed to strategic angle development and loop integrity.
+  - Intent: implement · inferred
+  - Topic: AI Automation
+  - Sources:
+    - [article](https://x.com/i/article/2093330534495916032)
+    - [X post](https://x.com/VibeMarketer_/status/2093330541177352217)
+  - Source author: J.B.
+  - Priority: P2
+  - Impact: high
+  - Ease: moderate
+  - Important: yes
+  - Importance reason: It offers a scalable model for content creation that reduces manual bottlenecks. This system can significantly increase output volume and consistency for solo creators.
+  - Urgent: no
+  - Urgency reason: The technology is available but requires setup time and iterative refinement. There is no immediate deadline or time-sensitive trigger for implementation.
+  - Done when: The six-bot loop is configured and produces one complete content package. The shared Obsidian graph is populated with initial voice and strategy data.
+  - Effort: 2d
+  - Captured: 2026-08-29 12:07 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_2f9a28b1825645ad
+
+- [ ] **Test Minimax H3 Max on RTX 5000** — [source](https://x.com/rehan_shei/status/2093528415576211819)
+  - Contains: The user wants to test Minimax H3 Max locally on an RTX 5000 GPU. This is a concrete technical exploration task based on a viral demo.
+  - Potential benefit: The post highlights speed, suggesting the user seeks performance validation. The RTX 5000 is a valid target for local inference testing.
+  - Intent: test · stated
+  - Topic: AI Model Testing
+  - Source author: Rehan Sheikh
+  - Priority: P2
+  - Impact: medium
+  - Ease: moderate
+  - Important: yes
+  - Importance reason: Validates hardware capability for emerging AI models. Provides direct experience with new video generation tech.
+  - Urgent: no
+  - Urgency reason: No time-sensitive deadline exists for this exploration. The model is already available for local testing.
+  - Done when: Model runs locally or hardware limits are confirmed.
+  - Effort: 30m
+  - Captured: 2026-08-29 12:05 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_2674a104ad7790d2
+
+- [ ] **Free UI Prompts for AI Coding Agents** — [source](https://x.com/rammcodes/status/2093377746852511919)
+  - Contains: The post shares a collection of free UI prompts to help AI coding agents generate better-looking designs. It suggests copying these prompts to create unique interfaces without detailed manual descriptions.
+  - Potential benefit: This resource helps developers overcome generic AI output by providing structured design instructions. It enables faster iteration on visual components like dashboards and pricing pages.
+  - Intent: read · inferred
+  - Topic: AI Coding Tools
+  - Source author: Ram Maheshwari
+  - Priority: P2
+  - Impact: medium
+  - Ease: quick
+  - Important: yes
+  - Importance reason: It offers a shortcut to improve UI quality when using AI coding tools. This can significantly reduce the time spent on manual CSS adjustments.
+  - Urgent: no
+  - Urgency reason: There is no time-sensitive deadline or fleeting trend associated with this resource. It remains useful as long as AI coding agents are used for UI generation.
+  - Done when: Saved the prompt collection for future reference in a coding project.
+  - Effort: 5m
+  - Captured: 2026-08-29 08:45 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_ae013dd6b26e0a04
+
+- [ ] **Hermes Desktop Plugin SDK for Custom Workflows** — [source](https://x.com/HermesWatcher/status/2093413323832541628)
+  - Contains: Hermes Desktop allows users to create custom plugins via a simple SDK to extend functionality. This enables personal dashboards, bot controls, and automated task queues directly within the interface.
+  - Potential benefit: The SDK transforms Hermes from a static tool into a customizable platform for specific user needs. Users can automate repetitive tasks by building persistent interfaces rather than relying on prompts.
+  - Intent: implement · inferred
+  - Topic: Software Development
+  - Source author: Hermes Release Watch
+  - Priority: P2
+  - Impact: medium
+  - Ease: easy
+  - Important: yes
+  - Importance reason: Extending tools increases long-term productivity by automating repetitive workflows. It reduces reliance on manual data entry and status checking.
+  - Urgent: no
+  - Urgency reason: The feature is available now but does not require immediate action. It is a capability to explore when specific workflow pain points arise.
+  - Done when: A basic plugin.js file is created and loads successfully in Hermes Desktop.
+  - Effort: 30m
+  - Captured: 2026-08-29 07:24 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_0a64f2c03f3a489a
+
 - [ ] **Apply Orwell's Rules to Avoid AI Slop** — [source](https://x.com/josephfwyer/status/2092819538505273544)
   - Contains: The post advocates using Orwell's six writing rules to counteract AI-generated text flaws like passive voice and jargon. This framing positions the rules as a practical defense against incoherent or overly complex AI output.
   - Potential benefit: The sharer views these rules as a necessary human skill to maintain clarity and authenticity in writing. This suggests a preference for direct, active language over the typical verbose style of LLMs.
@@ -290,22 +386,32 @@ Rules:
   - Captured: 2026-08-27 08:54 IST via Telegram · Hermes Swarm / Capture
   - ID: sc_db74d7ad59d793e8
 
-- [ ] **Microsoft Applied Scientist 2 Interview Guide** — [source](https://www.linkedin.com/feed/update/urn:li:activity:7490262829577441281?updateEntityUrn=urn%3Ali%3Afs_updateV2%3A%28urn%3Ali%3Aactivity%3A7490262829577441281%2CFEED_DETAIL%2CEMPTY%2CDEFAULT%2Cfalse%29)
-  - Contains: The post details a five-round Microsoft Applied Scientist 2 interview process emphasizing deep technical intuition. It covers screening, DSA, statistics, ML depth, and behavioral rounds with specific topic examples. This provides a concrete roadmap for candidates preparing for similar high-level technical roles. Understanding this structure helps applicants focus on reasoning rather than rote memorization.
-  - Potential benefit: This experience highlights Microsoft's preference for conceptual depth and problem-solving approach over exact answers. Candidates should prepare to explain the 'why' behind their technical decisions and mathematical derivations. The emphasis on intuition suggests that demonstrating clear thinking is more valuable than perfect syntax. This insight can guide preparation strategies for other tech giants with similar interview styles.
-  - Intent: read · inferred
+- [ ] **Review interview guides and build a combined senior AI interview prep checklist**
+  - Contains:
+    - Microsoft Applied Scientist 2 Interview Guide: The post details a five-round Microsoft Applied Scientist 2 interview process emphasizing deep technical intuition. It covers screening, DSA, statistics, ML depth, and behavioral rounds with specific topic examples. This provides a concrete roadmap for candidates preparing for similar high-level technical roles. Understanding this structure helps applicants focus on reasoning rather than rote memorization.
+    - Agentic AI Interview Gaps: Eval & Orchestration: The post highlights that RAG implementation skills are common, but candidates lack depth in evaluation, embedding selection, and agent orchestration. It argues that production readiness requires mastering metrics like precision and tools like LangGraph.
+  - Potential benefit: One focused review session covering both Microsoft Applied Scientist 2 and agentic AI interview expectations, producing a unified prep checklist.
+  - Intent: learn · inferred
   - Topic: Career Preparation
-  - Source author: www.linkedin.com
+  - Source author: www.linkedin.com / www.linkedin.com
   - Priority: P2
   - Impact: medium
   - Ease: moderate
-  - Important: no
-  - Importance reason: It provides specific technical topics and interview structure for a desired career path. This reduces uncertainty and helps candidates tailor their preparation effectively. The detailed breakdown of rounds offers actionable insights for interview success. It serves as a valuable reference for understanding role expectations.
+  - Important: yes
+  - Importance reason: Both guides target senior AI role preparation; combining them reduces redundant review and produces a more complete prep artifact.
   - Urgent: yes
-  - Urgency reason: Interview preparation is a long-term process not requiring immediate action. Candidates can review this information at their own pace before applying. There is no time-sensitive deadline associated with this specific post. The value lies in comprehensive preparation rather than urgent response.
-  - Done when: Candidate has reviewed the specific technical topics and practiced explaining their intuition.
-  - Effort: 30m
+  - Urgency reason: Preserved from member tasks; no deadline or expiring opportunity.
+  - Done when: Both guides are reviewed and a single combined checklist is produced covering technical depth, evaluation/orchestration skills, and behavioral preparation.
+  - Effort: 1h
   - Matrix order: 2000
+  - Consolidation key: review-senior-ai-interview-prep-guides
+  - Consolidation reason: Both tasks address understanding interview structure and skill gaps for senior AI/ML roles. Consolidating into one batch avoids reviewing overlapping topics (DSA, ML depth, evaluation, orchestration) separately.
+  - Consolidated IDs: sc_fe86ee294179a282, sc_9c20596fdfd8a191
+  - Consolidated at: 2026-08-28T22:05:36+05:30
+  - Batch size: 2
+  - Sources:
+    - [source](https://www.linkedin.com/feed/update/urn:li:activity:7490262829577441281?updateEntityUrn=urn%3Ali%3Afs_updateV2%3A%28urn%3Ali%3Aactivity%3A7490262829577441281%2CFEED_DETAIL%2CEMPTY%2CDEFAULT%2Cfalse%29) — Microsoft Applied Scientist 2 Interview Guide
+    - [source](https://www.linkedin.com/feed/update/urn:li:activity:7497990088187019264?updateEntityUrn=urn%3Ali%3Afs_updateV2%3A%28urn%3Ali%3Aactivity%3A7497990088187019264%2CFEED_DETAIL%2CEMPTY%2CDEFAULT%2Cfalse%29) — Agentic AI Interview Gaps: Eval & Orchestration
   - Captured: 2026-08-27 08:21 IST via Telegram · Hermes Swarm / Capture
   - ID: sc_fe86ee294179a282
 
@@ -327,25 +433,6 @@ Rules:
   - Matrix order: 4000
   - Captured: 2026-08-27 08:21 IST via Telegram · Hermes Swarm / Capture
   - ID: sc_2a44ee5495ea0eb9
-
-- [ ] **Agentic AI Interview Gaps: Eval & Orchestration** — [source](https://www.linkedin.com/feed/update/urn:li:activity:7497990088187019264?updateEntityUrn=urn%3Ali%3Afs_updateV2%3A%28urn%3Ali%3Aactivity%3A7497990088187019264%2CFEED_DETAIL%2CEMPTY%2CDEFAULT%2Cfalse%29)
-  - Contains: The post highlights that RAG implementation skills are common, but candidates lack depth in evaluation, embedding selection, and agent orchestration. It argues that production readiness requires mastering metrics like precision and tools like LangGraph.
-  - Potential benefit: This serves as a practical checklist for AI engineers to identify critical skill gaps beyond basic API integration. It emphasizes that theoretical knowledge of agents and rigorous evaluation are key differentiators for senior roles.
-  - Intent: learn · inferred
-  - Topic: AI Engineering Skills Gap
-  - Source author: www.linkedin.com
-  - Priority: P2
-  - Impact: medium
-  - Ease: moderate
-  - Important: no
-  - Importance reason: It identifies specific, high-value technical skills that are currently undervalued by candidates but critical for production AI systems.
-  - Urgent: yes
-  - Urgency reason: The skill gap is structural and persistent, not requiring immediate action to mitigate a transient risk.
-  - Done when: You have reviewed Ragas/LangGraph docs and can explain evaluation metrics and graph workflows.
-  - Effort: 30m
-  - Matrix order: 3000
-  - Captured: 2026-08-27 08:21 IST via Telegram · Hermes Swarm / Capture
-  - ID: sc_9c20596fdfd8a191
 
 - [ ] **Use the 440Hz conspiracy as a test case for the Physics Claim Debunker Skill**
   - Contains: Direct task: Nitin wants to use the 440Hz Rockefeller conspiracy / cymatics content as a test case for his Physics Claim Debunker Skill project (already in vault at Ideas/Physics Claim Debunker Skill.md). The content promotes pseudoscientific conspiracy theory about 440Hz tuning disrupting human biology — a good candidate to demonstrate the debunker's reasoning path.
@@ -587,39 +674,31 @@ Rules:
   - Captured: 2026-08-26 17:11 IST via Telegram · Hermes Swarm / Capture
   - ID: sc_3c232f8d7e1624b1
 
-- [ ] **Evaluate oh-my-hermes packaged memory and coding harness setup** — [source](https://x.com/rlaope/status/2092465376424501476)
-  - Contains: Community project 'oh-my-hermes' packages Hermes Agent's long-term memory and coding harnesses into a one-line install. Features include file-based block-level memory management (Facts, Decisions, Episodes with TTL), observability, sub-agent model routing, ast-grep, parallel tool calling, per-model prompt optimization, cache hit rate tuning, custom TUI, and design capabilities. Author claims to code exclusively with Hermes using this setup.
-  - Potential benefit: Provides a ready-made reference implementation of file-based memory (Facts/Decisions/Episodes with TTL) and coding harness patterns that could inform Nitin's own Hermes setup or skill development.
-  - Intent: test · inferred
-  - Topic: Hermes community projects
-  - Source author: HOPE | Engineer. @rlaope
+- [ ] **Survey current Hermes ecosystem: connectors catalog, Tool Search, and oh-my-hermes community setup**
+  - Contains:
+    - Survey expanded Hermes connectors catalog and Tool Search capability: Teknium announces the Hermes connectors catalog now supports Cloudflare, Datadog, Metabase, GitLab, Railway, DeepWiki and more with one-click access, plus a Tool Search tool that prevents context waste when connectors are activated. Top comments note Tool Search is a significant improvement and ask about MCP support without DCR.
+    - Evaluate oh-my-hermes packaged memory and coding harness setup: Community project 'oh-my-hermes' packages Hermes Agent's long-term memory and coding harnesses into a one-line install. Features include file-based block-level memory management (Facts, Decisions, Episodes with TTL), observability, sub-agent model routing, ast-grep, parallel tool calling, per-model prompt optimization, cache hit rate tuning, custom TUI, and design capabilities. Author claims to code exclusively with Hermes using this setup.
+  - Potential benefit: One focused review of the Hermes integration surface (official connectors, Tool Search, community projects) with a consolidated assessment of what's immediately useful.
+  - Intent: learn · inferred
+  - Topic: Hermes infrastructure
+  - Source author: Teknium / HOPE
   - Priority: P2
   - Impact: medium
   - Ease: moderate
   - Important: yes
-  - Importance reason: The project bundles memory management and coding harness patterns that could improve Nitin's own Hermes configuration and reusable skill design.
-  - Urgent: no
-  - Urgency reason: No deadline, expiry, or near-term dependency; community projects are available whenever relevant.
-  - Done when: Clone oh-my-hermes, review its file-based memory architecture and memory-management skills for reusable ideas, and note any components worth integrating into Nitin's own setup.
-  - Effort: 1h
-  - Captured: 2026-08-26 17:11 IST via Telegram · Hermes Swarm / Capture
-  - ID: sc_465e0a9675992467
-
-- [ ] **Survey expanded Hermes connectors catalog and Tool Search capability** — [source](https://x.com/Teknium/status/2092321384085299665)
-  - Contains: Teknium announces the Hermes connectors catalog now supports Cloudflare, Datadog, Metabase, GitLab, Railway, DeepWiki and more with one-click access, plus a Tool Search tool that prevents context waste when connectors are activated. Top comments note Tool Search is a significant improvement and ask about MCP support without DCR.
-  - Potential benefit: Maps the current breadth of Hermes integrations so Nitin knows what services are natively connectable and whether Tool Search could replace manual MCP setups for tools like DeepWiki or GitLab.
-  - Intent: learn · inferred
-  - Topic: Hermes connectors catalog
-  - Source author: Teknium 🪽 @Teknium
-  - Priority: P2
-  - Impact: medium
-  - Ease: quick
-  - Important: yes
-  - Importance reason: Hermes connectors are part of Nitin's core agent stack; knowing the current integration surface prevents redundant MCP setup and informs architecture decisions.
+  - Importance reason: Hermes connectors and community projects are part of the core agent stack; a consolidated survey prevents redundant setup and informs architecture decisions.
   - Urgent: yes
-  - Urgency reason: No deadline, expiry, or near-term dependency; this is product news to be aware of.
-  - Done when: One concise note lists the available connectors, whether any are immediately useful for Nitin's projects, and whether Tool Search obviates any existing MCP workarounds.
-  - Effort: 15m
+  - Urgency reason: Preserved from member tasks; no deadline or expiring opportunity.
+  - Done when: Both the connectors catalog and oh-my-hermes are reviewed, and a single note documents available integrations, Tool Search relevance, and any reusable components worth integrating.
+  - Effort: 1h 15m
+  - Consolidation key: survey-hermes-ecosystem-integrations
+  - Consolidation reason: Both tasks assess the current Hermes integration and community ecosystem. Consolidating into one batch avoids overlapping review of Hermes capabilities and produces a single integration assessment.
+  - Consolidated IDs: sc_22aac32340dd3f86, sc_465e0a9675992467
+  - Consolidated at: 2026-08-28T22:05:36+05:30
+  - Batch size: 2
+  - Sources:
+    - [source](https://x.com/Teknium/status/2092321384085299665) — Survey expanded Hermes connectors catalog and Tool Search capability
+    - [source](https://x.com/rlaope/status/2092465376424501476) — Evaluate oh-my-hermes packaged memory and coding harness setup
   - Captured: 2026-08-26 17:09 IST via Telegram · Hermes Swarm / Capture
   - ID: sc_22aac32340dd3f86
 
