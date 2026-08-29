@@ -108,10 +108,9 @@ Local rough-cut assistant -> personal creator studio -> Auto-GTM media adapter -
 
 ## Related
 
-- [[LongVid Learning Studio]]
+- [[YouTube Learning Center]]
 - [[Creator Content Engine]]
 - [[Auto-GTM Engine]]
 - [[Meta Ad Creative Studio]]
 - [[Local Video Generation Evaluation Lab]]
 - [[Project Ideas Index]]
-

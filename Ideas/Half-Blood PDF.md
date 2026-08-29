@@ -95,5 +95,5 @@ The personal tool can become an open-source document annotation studio. Paid ver
 - [[Understand This Paper]]
 - [[PhoneScan PDF]]
 - [[Handwriting to LaTeX]]
-- [[LongVid Learning Studio]]
+- [[YouTube Learning Center]]
 - [[Project Ideas Index]]

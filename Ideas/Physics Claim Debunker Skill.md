@@ -142,5 +142,5 @@ Personal research skill -> open benchmark library -> educational physics explain
 - [[News Depth Telegram Skill]]
 - [[Understand This Paper]]
 - [[Personal Study Curriculum]]
-- [[LongVid Learning Studio]]
+- [[YouTube Learning Center]]
 - [[Project Ideas Index]]

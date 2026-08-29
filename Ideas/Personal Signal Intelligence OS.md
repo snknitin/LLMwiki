@@ -101,7 +101,7 @@ For fourteen consecutive days, the scheduled job produces a readable, cited brie
 
 ## Related
 
-- [[LongVid Learning Studio]]
+- [[YouTube Learning Center]]
 - [[Personal Study Curriculum]]
 - [[Creator Content Engine]]
 - [[X Like-to-List Builder]]

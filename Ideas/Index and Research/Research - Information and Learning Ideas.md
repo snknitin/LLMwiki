@@ -17,7 +17,7 @@ A sensible shared architecture is:
 4. **Learning layer:** prerequisite graphs, exercises, retrieval practice, FSRS scheduling, and progress events.
 5. **Interfaces:** Obsidian Markdown first; a local web UI only where interaction materially helps; browser extension or Tauri shell later.
 
-The best near-term builds are Personal Signal Intelligence OS, Personal Study Curriculum, LongVid Learning Studio, Half-Blood PDF as a sidecar-annotation system, Understand This Paper with a deliberately narrow scope, and EPUB Highlights Bridge. Bionic Reading Trainer and Visual Token Compiler are worthwhile experiments, but should be framed as measured personal tools rather than products with unverified performance claims.
+The best near-term builds are Personal Signal Intelligence OS, Personal Study Curriculum, YouTube Learning Center, Half-Blood PDF as a sidecar-annotation system, Understand This Paper with a deliberately narrow scope, and EPUB Highlights Bridge. Bionic Reading Trainer and Visual Token Compiler are worthwhile experiments, but should be framed as measured personal tools rather than products with unverified performance claims.
 
 ---
 
@@ -143,7 +143,7 @@ Use a paid model only for difficult curriculum design, high-quality critique, or
 
 ---
 
-## 3. LongVid Learning Studio
+## 3. YouTube Learning Center
 
 ### Project interpretation
 
@@ -678,7 +678,7 @@ Pay only when a hosted synchronization connector genuinely saves repeated manual
 1. **Learning and Information Workbench**
    - Personal Signal Intelligence OS
    - Personal Study Curriculum
-   - LongVid Learning Studio
+   - YouTube Learning Center
    - Language Learning Lab
    - LeetCode Pattern Curriculum
    - EPUB Highlights Bridge

@@ -91,7 +91,7 @@ The personal version can become an open-source “curriculum as code” tool: a 
 
 ## Related
 
-- [[LongVid Learning Studio]]
+- [[YouTube Learning Center]]
 - [[LeetCode Pattern Curriculum]]
 - [[Language Learning Lab]]
 - [[Goal-to-Calendar Planner]]

@@ -85,7 +85,7 @@ These remain self-contained builds. Similarity links identify reusable engines o
 
 The current horizon is one month, targeting a durable personal beta by **2026-08-27**. Each tool should reach a useful vertical slice early, then spend the remaining time being dogfooded, instrumented, corrected, and hardened.
 
-1. [[LongVid Learning Studio]]
+1. [[YouTube Learning Center]]
 2. [[Paper Logbook]]
 3. [[Finance Signals Dashboard]]
 4. [[Net Worth Command Center]]
@@ -119,7 +119,7 @@ These give the best combination of immediate personal value, low cash cost, and 
 
 | Order | Spec | Why start here | Main learning lane | First useful slice |
 |---|---|---|---|---|
-| 1 | [[LongVid Learning Studio]] | Turns saved videos into durable notes and study material | browser capture, queues, transcript provenance | URL/transcript to timestamped note |
+| 1 | [[YouTube Learning Center]] | Turns playlists into source-grounded active learning and durable Markdown | OAuth library, progressive jobs, evidence, quizzes, diagrams | one captioned video to player-synced note and Dwarkesh rehearsal |
 | 2 | [[Paper Logbook]] | A useful daily mobile app with no external API dependence | Expo, local SQLite, offline durability | Fixed daily page, then template iteration |
 | 3 | [[Finance Signals Dashboard]] | Daily evidence-backed conventional-market view | market data, time series, provenance | Ten-item watchlist and morning brief |
 | 4 | [[Net Worth Command Center]] | Makes private finances inspectable immediately | CSV adapters, DuckDB/SQLite, reconciliation | Balances plus one tested importer |
@@ -134,7 +134,7 @@ These give the best combination of immediate personal value, low cash cost, and 
 
 - [[Personal Signal Intelligence OS]]
 - [[Personal Study Curriculum]]
-- [[LongVid Learning Studio]]
+- [[YouTube Learning Center]]
 - [[Bionic Reading Trainer]]
 - [[Half-Blood PDF]]
 - [[Understand This Paper]]
@@ -261,6 +261,7 @@ The general desktop lane remains Tauri-first, but [[Dashboard Command Center]] i
 Every project spec links directly to its relevant section in one of these primary-source research notes:
 
 - [[Research - Information and Learning Ideas]]
+- [[Research - YouTube Learning Center]]
 - [[Research - Personal Systems and Product Ideas]]
 - [[Research - Spatial Media and Experimental Ideas]]
 - [[Research - Existing Product and Shortcut Atlas]]
@@ -299,7 +300,7 @@ The specs contain the build decisions; the dossiers preserve deeper prior art, v
 ## Portfolio Sequence
 
 1. **Foundation:** run n8n, SQLite/Postgres, an object folder, and one model gateway on the workstation.
-2. **Information loop:** build [[Personal Signal Intelligence OS]], [[LongVid Learning Studio]], and [[Personal Study Curriculum]] on the same content schema.
+2. **Information loop:** build [[Personal Signal Intelligence OS]], [[YouTube Learning Center]], and [[Personal Study Curriculum]] on the same content schema.
 3. **Action loop:** add [[Goal-to-Calendar Planner]], [[Paper Logbook]], [[Jobs Search and Apply Tool]], and [[Measure Life]] with a shared events/feedback schema.
 4. **Creator loop:** let approved insights flow into [[Creator Content Engine]] and [[Personal Library Website]].
 5. **Specialized apps:** choose one mobile vision project and one GPU media project after the common foundation is stable.

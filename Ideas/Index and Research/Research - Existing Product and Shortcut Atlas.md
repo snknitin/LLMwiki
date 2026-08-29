@@ -18,7 +18,7 @@ This note collects reusable products, APIs, open-source components, and command-
 
 ### Ingestion and research engine
 
-Use this for [[LongVid Learning Studio]], [[Personal Signal Intelligence OS]], [[Understand This Paper]], news briefings, competitor research, knowledge-base work, and content repurposing.
+Use this for [[YouTube Learning Center]], [[Personal Signal Intelligence OS]], [[Understand This Paper]], news briefings, competitor research, knowledge-base work, and content repurposing.
 
 - [FreshRSS](https://github.com/FreshRSS/FreshRSS) and [RSSHub](https://github.com/DIYgod/RSSHub) cover feeds before a custom scraper is justified.
 - [yt-dlp](https://github.com/yt-dlp/yt-dlp) handles media metadata, caption files, and permitted local downloads.

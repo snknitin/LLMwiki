@@ -24,7 +24,7 @@ This map proves that every personal raw idea is represented. The original fifty-
 | 6 | AR visualization of dimensions and area | [[AR Scale Lens]] | direct |
 | 7 | Marionettist fictional-account society | [[Marionettist Utopia]] | reframed private simulation |
 | 8 | NPC self versus ideal self | [[NPC Mode Personal Coach]] | direct |
-| 9 | Gemini `/longvid` YouTube and playlist study tool | [[LongVid Learning Studio]] | direct |
+| 9 | YouTube playlist learning center, evolved from Gemini `/longvid` | [[YouTube Learning Center]] | direct; major refinement and rename |
 | 10 | Bionic/speed-reading phone app | [[Bionic Reading Trainer]] | direct |
 | 11 | Half-Blood Prince annotated PDF | [[Half-Blood PDF]] | direct; existing prototype |
 | 12 | Goals to SMART tasks and Google Calendar | [[Goal-to-Calendar Planner]] | direct |

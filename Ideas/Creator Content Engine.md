@@ -46,7 +46,7 @@ Build a durable body of work from topics already being studied. The system shoul
 ## Existing Products, Building Blocks, and Shortcuts
 
 - [n8n](https://github.com/n8n-io/n8n) supplies scheduled ingestion, approval queues, webhooks, and platform connectors; use it for deterministic movement between idea, draft, review, and publish states.
-- [NotebookLM](https://support.google.com/notebooklm/answer/16164461) can turn curated sources into cited study/audio artifacts, while [[LongVid Learning Studio]] produces the reusable video evidence layer.
+- [NotebookLM](https://support.google.com/notebooklm/answer/16164461) can turn curated sources into cited study/audio artifacts, while [[YouTube Learning Center]] produces the reusable video evidence layer.
 - [FFmpeg](https://ffmpeg.org/), [Whisper](https://github.com/openai/whisper), and [Remotion](https://www.remotion.dev/docs/) cover local transcription, clipping, captions, and programmable video/cards without a full media SaaS.
 - Buffer, Typefully, and Hypefury are product references for calendars and platform publishing. The simpler local version is one evidence-backed essay → five manually approved derivatives, copied manually until posting becomes the real bottleneck.
 
@@ -89,7 +89,7 @@ Keep this as the editorial calendar and evidence-to-draft core. Build the simila
 ## Related
 
 - [[Personal Signal Intelligence OS]]
-- [[LongVid Learning Studio]]
+- [[YouTube Learning Center]]
 - [[Personal Library Website]]
 - [[Side-Hustle Radar]]
 - [[Personal Voice Ghostwriter and DM Desk]]

@@ -29,7 +29,7 @@ tags:
 
 The workflow converts platform-specific subscriptions into a source registry with topic, activity, value history, overlap, and a decision. It distinguishes an inactive but uniquely valuable archive from a dead low-value source, and separates “unsubscribe” from “consume less often.”
 
-For high-value channels, it should identify cornerstone playlists/videos/posts to process through [[LongVid Learning Studio]] or [[Shortform Signal Digest]] before changing the subscription.
+For high-value channels, it should identify cornerstone playlists/videos/posts to process through [[YouTube Learning Center]] or [[Shortform Signal Digest]] before changing the subscription.
 
 ## Personal V0
 
@@ -112,6 +112,6 @@ Personal audit workflow -> recurring subscription-maintenance dashboard -> cross
 
 - [[X Like-to-List Builder]]
 - [[Shortform Signal Digest]]
-- [[LongVid Learning Studio]]
+- [[YouTube Learning Center]]
 - [[Personal Signal Intelligence OS]]
 - [[Project Ideas Index]]

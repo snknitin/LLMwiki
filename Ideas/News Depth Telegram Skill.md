@@ -139,5 +139,5 @@ Personal Telegram skill -> reusable research/explanation harness skill -> classr
 - [[Personal Signal Intelligence OS]]
 - [[Personal Study Curriculum]]
 - [[Physics Claim Debunker Skill]]
-- [[LongVid Learning Studio]]
+- [[YouTube Learning Center]]
 - [[Project Ideas Index]]

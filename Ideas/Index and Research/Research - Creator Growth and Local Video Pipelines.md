@@ -128,9 +128,9 @@ Obsidian notes are already local Markdown. A personal V0 can read the files dire
 Normalize both sources into provenance-preserving chunks:
 
 ```yaml
-source_id: obsidian://Ideas/LongVid Learning Studio.md#Why-now
+source_id: obsidian://Ideas/YouTube Learning Center.md#Why-now
 source_type: obsidian
-document_title: LongVid Learning Studio
+document_title: YouTube Learning Center
 heading_path:
   - Why now
 updated_at: 2026-08-12T17:40:00+05:30
@@ -325,7 +325,7 @@ It consumes evidence from conversations and product usage. It may hand creative 
 
 ```yaml
 experiment_id: demand-longvid-004
-product: longvid-learning-studio
+product: youtube-learning-center
 hypothesis: "research students will exchange email for a cited sample notebook"
 audience: postgraduate-researchers
 channel: targeted-community-post

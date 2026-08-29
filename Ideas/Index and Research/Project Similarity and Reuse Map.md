@@ -126,7 +126,7 @@ Share the map/provider cache and location-picker component, not marketplace inve
 
 | Project | Reuse opportunity |
 |---|---|
-| [[LongVid Learning Studio]] | transcript/timestamp/source-provenance engine can seed clip candidates |
+| [[YouTube Learning Center]] | transcript/timestamp/source-provenance and learning-scene engine can seed clip candidates |
 | [[Longform-to-Shorts Studio]] | reusable deterministic edit/render service |
 | [[Local Video Generation Evaluation Lab]] | renderer/model registry and benchmark evidence |
 | [[Manga-to-Animatic Studio]] | can use selected local renderer through the registry |

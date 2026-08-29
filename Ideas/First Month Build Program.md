@@ -19,7 +19,7 @@ The target is eight usable personal betas by **2026-08-27**. A beta is not featu
 
 | Project | Repeated personal workflow | Minimum battle test |
 |---|---|---|
-| [[LongVid Learning Studio]] | Turn saved videos into trustworthy notes | 20 varied videos; timestamp, transcript, and coverage failures recorded and regressed |
+| [[YouTube Learning Center]] | Turn saved videos and playlists into active learning | 20 varied videos; source, timestamp, coverage, probe, quiz, and regeneration failures recorded and regressed |
 | [[Paper Logbook]] | Complete and revisit a daily page | 14 consecutive days; export, restore, schema migration, and offline restart tested |
 | [[Finance Signals Dashboard]] | Review a bounded market brief | 15 market-day runs; signal noise labels, stale-source behavior, and formula fixtures |
 | [[Net Worth Command Center]] | Reconcile the personal balance sheet | Three snapshots; one real importer; duplicate/re-import/currency/backup tests |

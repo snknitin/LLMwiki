@@ -84,4 +84,4 @@ Personal creator tool first; later an agency workspace with brand templates, tea
 
 - [[Creator Content Engine]]
 - [[seo-agency-crew|SEO Agency Crew]]
-- [[LongVid Learning Studio]]
+- [[YouTube Learning Center]]
