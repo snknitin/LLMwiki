@@ -2,15 +2,22 @@
 type: project-spec
 scope_expansion: "[[Scope Expansion Checklist]]"
 research_dossier: "[[Research - Dunbar Dossier and Personal Relationship Intelligence#1. Dunbar Dossier]]"
-status: concept
+aliases:
+  - Personal Biographic Intelligence and Relationship Memory System
+  - Dunbar 150 Relationship Dossiers
+status: specified
 difficulty: hard
 priority: p1
 category: personal relationship intelligence
 form_factor:
-  - private web dashboard
-  - Obsidian dossier library
+  - Dashboard Command Center sheet
+  - private responsive web application
+  - private Obsidian dossier library
   - scheduled agent workflows
-deployment: DGX Spark service with Windows capture worker over private Tailscale
+deployment:
+  - Windows workstation canonical host
+  - private Tailscale access
+  - DGX Spark local-model adapter and encrypted backup target
 source_ideas:
   - Dunbar 150 relationship roster and personal dossiers
   - scheduled Instagram, LinkedIn, and X updates
@@ -28,27 +35,62 @@ tags:
   - obsidian
   - sqlite
   - agents
+  - windows
+  - tailscale
 ---
 
 # Dunbar Dossier
 
-> A local-first personal relationship memory and briefing system that helps one person remember shared history, keep promises, prepare for meetings, and invest attention across an intentional 5/15/50/150 network.
+> A completely private, local personal biographic archive that stays current in the background and provides an evidence-backed rundown when the owner deliberately opens a person file or prepares for a meeting.
 
-The product uses an elegant intelligence-file aesthetic, but its category is **Personal Relationship Intelligence** or **Personal Relationship Management (PRM)**. It is not a sales pipeline and its success is not measured by how much information is collected. The durable principle is: automate memory, provenance, preparation, and reminders; preserve curiosity, judgment, emotional effort, and communication for the human.
+`PERSONAL // PRIVATE // LOCAL-ONLY`
 
 ## Product Outcome
 
-Dunbar Dossier turns a bounded list of people into detailed, source-aware **Biographic Intelligence Briefing Packets (BIBPs)**. Each packet combines identity and photographs; education and career chronology; residences, travel, and vacations; interests, passions, fandom, sports teams, views, and affiliations; partner/family context; first- and second-order associations; online and in-person interaction patterns; communication/behavioral analysis; the owner's shared history; and explicit uncertainties. Before a meeting, the same evidence produces a brief that can be read in under two minutes. Afterward, a short field note updates the history and follow-ups.
+Dunbar Dossier is for one owner. Its primary job is to maintain a comprehensive, source-aware archive about people the owner has intentionally chosen to remember. It is operational rather than habitual: the owner should not need to monitor people daily or remember every update. When a dossier is opened, the product supplies a current rundown; before a meeting, it condenses the same archive into a brief reviewable in under two minutes.
+
+The archive covers identity, photographs, education, career, residences and travel, interests and fandom, public views and affiliations, family and partner context, typed associations, public activity, the owner's interaction history, important dates, open promises, contradictions, information gaps, and clearly labelled analysis. The product automates collection, normalization, provenance, freshness, comparison, and draft synthesis. The owner remains authoritative for identity, sensitive meaning, relationship status, corrections, deletion, and every outbound action.
 
 The home screen answers:
 
-- Who am I meeting soon, and what should I remember?
-- Which promises, introductions, celebrations, or follow-ups are due?
-- Who have I intentionally chosen to stay in touch with but may have neglected?
-- What changed in the lives or work of people I care about, and what is the source?
-- Which machine-suggested updates still need my review?
+- Which person do I want a complete current rundown on now?
+- What has changed since I last opened this dossier or met this person?
+- What does the evidence support, contradict, or leave unknown?
+- What should I remember before an upcoming meeting?
+- Which proposed changes still require accept, edit, or reject?
 
 Treat 150 as a chosen attention budget, not a scientific law. People may be archived without losing their history, and the active roster does not need to be full.
+
+## Resolved Product Decisions
+
+The decision interview was submitted and confirmed on 2026-08-30.
+
+| Decision | Settled contract |
+|---|---|
+| Primary job | Maintain a comprehensive personal biographic archive; provide on-demand rundowns and meeting preparation. |
+| V0 outcome | Account for all 43 current Notion people by import, explicit merge, explicit skip, or quarantine; deeply curate five afterward. |
+| Scale | Five curated, then 43 reconciled, at most 150 active, unlimited archive. |
+| Canonical truth | Reviewed Obsidian Markdown plus immutable evidence files on Windows. SQLite is disposable. |
+| Canonical root | `F:\Vaults\LLMWiki\Agent Inbox\Dunbar Dossier\`; live import is blocked until privacy and Sync exclusion are proven. |
+| Manual editing | Markdown may be edited directly; human edits are detected, versioned, and reconciled without silent overwrite. |
+| Inputs | Manual/first-party first; Instagram public profiles are the first later connector experiment. |
+| Interface | Responsive private web app registered as a Dashboard Command Center sheet. |
+| Mobile | Responsive brief and quick field note only; no native app. |
+| Automation | Evidence and deterministic work may run automatically; sensitive meaning and consequential actions require review. |
+| Outputs | Markdown dossier, HTML brief, JSON manifest, and changes report; PDF later. |
+| Latency | Cached reads under 500 ms, mutations under 1 second, cached brief under 10 seconds; enrichment asynchronous. |
+| Models | Deterministic authority; local Spark model roles; schema-bound, replaceable, and fail-closed. |
+| Privacy | Person data never goes to hosted models. Public-source retrieval is allowed; private context stays on Windows/Spark. |
+| Review | Accept, edit-and-accept, or reject; no silent preference learning. |
+| WhatsApp | One user-exported one-to-one chat experiment after core proof. |
+| Host authority | Windows is canonical; Spark runs existing models and stores encrypted backup copies only. |
+| Hermes | Restricted read and proposal-only MCP after core proof. |
+| First slice | Synthetic person-to-brief loop with restart, read-back, encrypted backup, and clean restore; no live data. |
+
+Consistency corrections required by these choices:
+
+1. `F:\Vaults\Dossiers` is on the same Windows storage as the canonical folder, so it is a fast-recovery copy, not an off-host disaster backup.
+2. Windows creates authoritative backups and publishes encrypted ciphertext to Spark; Spark cannot originate canonical rotations.
 
 ### Primary surfaces
 
@@ -65,22 +107,23 @@ Use a readable monospaced/typewriter face, manila-folder tabs, paper texture, st
 
 ## Personal V0
 
-Build a private vertical slice around the 43 people currently visible in the user's Notion `150 - Dunbar's Number` database, but deeply curate only five people first.
+Personal V0 is complete when all 43 Notion rows are reconciled and the owner can open a trustworthy dossier without maintaining a daily habit. Slice 1 proves the entire workflow with synthetic data before any live import; the five deep person files follow the 43-person reconciliation pass.
 
-- Import the Notion table from CSV; use the API after the connection is reauthenticated.
+- Prove the file, index, direct-edit, brief, restart, encrypted-backup, and restore loop with synthetic data.
+- Import all 43 Notion rows from a hashed CSV; optionally use a read-only API after authentication.
 - Preserve every raw row and show an import reconciliation screen rather than guessing field mappings.
 - Create stable person IDs, aliases, verified handles, manual Dunbar rings, desired cadence, and archive state.
 - For five people, generate the full BIBP skeleton: identity/photos, education/career episodes, residence/travel episodes, interests/fandom, views/affiliations, family/partner and association graph, recent signals, analytical hypotheses, relationship history, contradictions, gaps, and source annex.
 - Manually enter how the relationship began, last meaningful interactions, shared interests/activities, important dates, open conversational threads, and promises; these analyst overrides outrank later agent guesses.
 - Record a meeting involving multiple participants and generate a one-screen pre-meeting briefing.
-- Generate deterministic Obsidian Markdown person files and a `Dunbar Dossier.base` view.
+- Make reviewed Markdown and immutable evidence canonical; generate a disposable SQLite index and a narrowly filtered `Dunbar Dossier.base`.
 - Add one calendar adapter that triggers a briefing for matched attendees.
 - Import one WhatsApp chat export, normalize it, and create an expiring communication-style card with evidence and sample count.
 - Add a Change Inbox and one public-source adapter only after the manual/core workflow is useful.
-- Produce one daily situation report with a strict notification cap.
+- Produce an on-demand rundown, one meeting brief, and one changes-since-last-check view; V0 has no daily-notification requirement.
 - Create an encrypted consistent backup and complete a clean restore test.
 
-The first proof is not “scrape three platforms.” It is: **does the meeting brief improve recall and follow-through, and does the interaction log remain easy enough to maintain?**
+The first proof is not “scrape three platforms.” It is: **can all 43 rows be accounted for, do manual edits survive regeneration, and does an opened dossier provide a trustworthy current rundown with claim-level provenance?**
 
 ### Current Notion migration
 
@@ -96,13 +139,13 @@ The live page verified through the Notion connector on 2026-08-25 contains 43 pe
 
 ## Build Boundary
 
-**MVP:** private 150-person roster; identities/aliases/photos; biographical, education, career, residence, travel, interest, affiliation, relationship, and association records; interaction/meeting history; important dates; commitments and follow-ups; accepted/versioned facts; source captures and candidate observations; analytical hypotheses and contradictions; Change Inbox; exact/FTS search; calendar-triggered meeting briefs; generated Obsidian BIBPs; daily digest; private API/MCP; n8n scheduling; audited mutations; encrypted backups and restore.
+**MVP:** one owner; Windows-canonical Markdown/evidence; rebuildable SQLite; 43-person Notion reconciliation; five curated dossiers; interaction/meeting memory; Change Inbox; exact/FTS search; on-demand rundown; one-screen meeting brief; calendar trigger; deterministic HTML/Markdown/JSON outputs; one Instagram experiment; one WhatsApp export experiment; local Spark model adapter; restricted Tailscale access; encrypted backup and restore.
 
-**One connector after core validation:** choose LinkedIn export/public profile, X timeline/private List, or ScrapeCreators based on which five test people have the most useful public signal. A connector is optional to product value.
+**One connector after core validation:** Instagram public profiles for five owner-confirmed URLs behind a replaceable adapter. The connector remains optional to product value.
 
-**Later:** additional contacts/calendars, more public-source adapters, Windows authenticated capture worker, CardDAV/vCard projection, richer relationship graph, voice-note transcription, and Dashboard Command Center registration.
+**Later:** more first-party adapters, additional public-source adapters, optional local OCR/ASR/VLM enrichment, reviewed association maps, CardDAV/vCard, and printable PDF.
 
-**Out for V0:** direct SQL access by agents; live SQLite over a network share; a mobile app; a graph database; a vector database; full browser monitoring of 150 people; automatic ring changes; personality diagnosis; inferred sensitive traits; automated likes/follows/comments; automatic emotionally significant messages; multi-user accounts; public deployment.
+**Out for V0:** automatic outbound messages; covert face identification; biometric watchlists; clinical diagnosis; sensitive-trait scoring; live-location tracking; native mobile apps; multi-user/public SaaS; direct agent SQL; synced live SQLite; multi-writer replication; graph/vector databases; continuous browser monitoring; automatic ring changes, merges, or deletion; hosted-model processing of person data.
 
 The product can draft birthdays, anniversaries, check-ins, introductions, and follow-ups, but it must not mark a copied draft as sent or send it automatically. User-confirmed sends become interactions.
 
@@ -113,9 +156,12 @@ The product can draft birthdays, anniversaries, check-ins, introductions, and fo
 - [Dex](https://getdex.com/) demonstrates LinkedIn/email/calendar/contact aggregation, keep-in-touch reminders, and meeting context. Its strength is reducing manual data entry; its enrichment should not become unreviewed truth.
 - [Clay Reconnect](https://library.clay.earth/hc/en-us/articles/6817306147355-Reconnect) shows how a reminder can move after a detected interaction. Reuse the interaction-aware cadence idea, not an opaque relationship score.
 - [Covve](https://covve.com/personal-crm) is a useful reference for post-call capture, contact news, and pre-call context.
-- [SQLite](https://www.sqlite.org/about.html), [FTS5](https://www.sqlite.org/fts5.html), and JSON functions provide the relational, temporal, full-text, and semi-structured core without a database server.
-- [Obsidian](https://obsidian.md/help/Files%2Band%2Bfolders/How%2BObsidian%2Bstores%2Bdata) provides local Markdown projections; [Bases](https://obsidian.md/help/bases) can provide table/card views without making Markdown the transactional store.
+- [SQLite](https://www.sqlite.org/about.html), [FTS5](https://www.sqlite.org/fts5.html), and JSON functions provide a disposable relational/full-text index. As of 2026-08-30 the current release is [3.53.4](https://sqlite.org/news.html); fail startup below 3.51.3 or an officially fixed backport because of the WAL-reset bug.
+- [Obsidian](https://obsidian.md/help/Files%2Band%2Bfolders/How%2BObsidian%2Bstores%2Bdata) provides the reviewed canonical Markdown; [Bases](https://obsidian.md/help/bases) provides filtered views but not integrity enforcement.
 - [n8n Schedule Trigger](https://docs.n8n.io/integrations/builtin/core-nodes/n8n-nodes-base.scheduletrigger/) orchestrates scheduled work. Use HTTP calls to the Dunbar service and run n8n's [security audit](https://docs.n8n.io/hosting/securing/security-audit/) after adding integrations.
+- The Notion importer pins API version [`2026-03-11`](https://developers.notion.com/guides/get-started/upgrade-guide-2026-03-11), discovers `data_source_id`, paginates property values, and respects the documented average [three requests per second plus `Retry-After`](https://developers.notion.com/reference/request-limits). CSV is a fallback snapshot, not a relation-preserving backup.
+- [Tailscale Serve](https://tailscale.com/docs/features/tailscale-serve) exposes a localhost-only Windows service to the tailnet. Funnel remains disabled and grants remain explicit.
+- [MCP 2025-11-25](https://modelcontextprotocol.io/specification/2025-11-25) is the later Hermes target; consent and data minimization support a read/proposal-only boundary.
 - [Google People](https://developers.google.com/people/v1/contacts), [Google Calendar incremental sync](https://developers.google.com/workspace/calendar/api/guides/sync), and Microsoft Graph contact/calendar delta APIs provide useful official inputs.
 - A LinkedIn first-party [connections export](https://www.linkedin.com/help/linkedin/answer/a566336/export-connections-from-linkedin) is a better seed than assuming open API access to every connection. LinkedIn states that most permissions require approval and open consumer access is narrow ([official access guide](https://learn.microsoft.com/en-us/linkedin/shared/authentication/getting-access)).
 - Meta's official Instagram collection documents that the Facebook Login API cannot access consumer accounts, so it is not a universal friend-monitoring interface ([official collection](https://www.postman.com/meta/instagram/documentation/6yqw8pt/instagram-api)).
@@ -127,86 +173,113 @@ The product can draft birthdays, anniversaries, check-ins, introductions, and fo
 - A military [Target Intelligence Package](https://irp.fas.org/doddir/army/fm34-36/ch2.htm) is technically a mission package about a target and operational area, not simply a person biography. The project's person-centric export is therefore named **Biographic Intelligence Briefing Packet**.
 - [ODNI ICD 203](https://www.dni.gov/files/documents/ICD/ICD-203.pdf) supplies the right analytical discipline for opinions, affiliations, and psychological/behavioral patterns: distinguish information, assumptions, and judgments; explain uncertainty; show alternatives; and state what would change the assessment.
 
-**Fastest product test:** use Monica or Bonds for a week, then prototype only the missing Dunbar-ring, evidence-review, Obsidian-render, and meeting-brief features. A good alternative V0 is a SQLite service plus generated Markdown and an Obsidian Base—no custom dashboard until the workflow earns one.
+**Fastest product test:** one synthetic Markdown person/evidence set, a narrowly filtered Base, a field-note template, and deterministic briefs. Prove ownership, edit reconciliation, rebuild, and restore before the 43-row migration or five-person curation.
 
 ## Recommended Free-First Stack
 
 ### Chosen V0
 
-- **Always-on host:** FirstSpark, with private access over Tailscale.
-- **API/MCP service:** Python 3.12+, FastAPI, Pydantic, SQLAlchemy 2, and Alembic. Expose explicit commands; do not expose arbitrary SQL.
-- **Canonical data:** current SQLite 3.51.3+ on the Spark's local filesystem, WAL, foreign keys, `STRICT` tables where practical, busy timeout, FTS5, and JSON functions. Verify the actual runtime version and compile options.
-- **Dashboard:** SvelteKit + TypeScript, served privately from Spark. Register its URL in [[Dashboard Command Center]] later if useful.
-- **Workflow orchestration:** self-hosted n8n on Spark using one due-work dispatcher, HTTP Request nodes, idempotency keys, retries, and a visible failure queue.
-- **Obsidian output:** deterministic atomic Markdown renderer plus an Obsidian Base. Generated person files are read-only projections; manual prose lives in separately owned notes or enters through the dashboard.
-- **Models:** the existing local Spark model gateway for typed observation extraction, communication-style summaries, and brief drafts. Use schemas and evidence IDs; identity matching, dates, dedupe, and cadence remain deterministic.
-- **Multimodal enrichment:** local OCR plus the existing Spark vision-capable model route for captions, places, activities, object/team cues, and proposed co-appearances. Explicit tags/captions and user confirmation outrank visual identity proposals.
-- **Authenticated capture:** optional Python/Playwright worker on Windows with a separate persistent profile per platform and a narrow Tailscale endpoint.
-- **Raw evidence:** content-addressed files under a private application-data directory outside Git and the Obsidian vault.
-- **Backups:** SQLite Online Backup API or `VACUUM INTO`, encrypted and hashed snapshots, daily/weekly/monthly rotation, integrity check, and monthly restore test.
-- **Testing:** pytest, Hypothesis for parser/idempotency properties, Playwright for dashboard flows, golden Markdown fixtures, and synthetic person/source data.
+- **Canonical host:** Windows workstation.
+- **Service:** one Python process using FastAPI, Uvicorn, Pydantic, and one domain service layer. REST, UI, jobs, and later MCP share it.
+- **Canonical data:** round-trip-safe Markdown plus immutable content-addressed evidence at `F:\Vaults\LLMWiki\Agent Inbox\Dunbar Dossier\`.
+- **Index:** current stable SQLite with foreign keys, `STRICT` tables where practical, `synchronous=FULL`, busy timeout, FTS5, JSON, and a runtime/compile-option gate. It is safe to delete and rebuild.
+- **Dashboard:** server-rendered semantic HTML and small native JavaScript modules, registered as a [[Dashboard Command Center]] sheet only after standalone verification.
+- **Jobs:** one durable job table and dispatcher. Add n8n only after a measured workflow justifies another owner.
+- **Models:** the existing Spark gateway for schema-bound extraction, contradiction analysis, and rundown/brief drafts. Preserve its model ownership and production default.
+- **Public source:** one replaceable Instagram public-profile adapter for five owner-confirmed URLs after core proof.
+- **Backups:** Windows creates manifest-verified [age](https://github.com/FiloSottile/age) encrypted archives; same-host copies go to `F:\Vaults\Dossiers\Dunbar Dossier\`, off-host ciphertext to Spark.
+- **Testing:** pytest, golden Markdown/HTML, focused parser/idempotency properties, Playwright for critical UI flows, and synthetic data only.
 
-### Why SQLite rather than PostgreSQL first
+### Why Markdown plus SQLite rather than a database as truth
 
-The dataset is small, but the evidence history can be rich. SQLite still handles this comfortably. The important concurrency decision is not database brand; it is a single mutation service. n8n and agents call the service, so WAL's one-writer model is sufficient and easier to back up. Promote to PostgreSQL only when measured write contention, several independently deployed services, or high-availability requirements make the single-host service a real bottleneck.
-
-Never access the SQLite file through Obsidian Sync, SMB, NVIDIA Sync, or another replicated/network filesystem. All direct database connections stay on Spark.
+The submitted decision keeps the reviewed archive directly readable and editable in Obsidian. SQLite supplies fast deterministic queries and job state but never becomes a second authority. One service reconciles files, expected hashes, review decisions, and derived indexes. PostgreSQL, a graph database, and a vector database are unjustified at this scale.
 
 ## Architecture and Data Model
 
 ### Trust and lifecycle architecture
 
-```text
-Notion/contacts/calendar/export/public source
-                    ↓
-             n8n or Windows worker
-                    ↓
-      immutable SourceCapture + run manifest
-                    ↓
-       deterministic normalization and diff
-                    ↓
-       Observation / proposed FactAssertion
-                    ↓
-               Change Inbox
-                    ↓ owner accepts/edits/rejects
-          accepted temporal assertion
-                    ↓
-        dossier / digest / meeting brief
-                    ↓
-          Obsidian and private dashboard
+```mermaid
+flowchart LR
+    N[Notion, calendar, manual exports] --> C[Immutable capture and manifest]
+    I[Instagram public experiment] --> C
+    C --> D[Deterministic normalize and diff]
+    D --> P[Candidate records]
+    P --> R[Accept / edit / reject]
+    R --> M[Canonical Markdown on Windows]
+    H[Direct human Markdown edit] --> Q[Conflict detection and quarantine]
+    Q --> R
+    M --> X[Disposable SQLite index]
+    M --> B[Dossier and brief renderer]
+    X --> B
+    B --> U[Dashboard Command Center sheet]
+    B --> O[Markdown, HTML, JSON, changes report]
+    M --> S[Encrypted snapshot]
+    S --> F[Fast copy on F drive]
+    S --> K[Encrypted off-host copy on Spark]
+    G[Existing Spark model gateway] --> P
+    G --> B
 ```
 
-The canonical database and generated views have separate lifecycles. Pausing a source stops new captures but does not delete its evidence. Archiving a person removes them from the active 150 but preserves history. Regenerating Markdown never changes facts. n8n execution history is telemetry, not data.
+SQLite may be deleted and rebuilt without losing accepted facts, interactions, evidence links, overrides, or review decisions. Generated artifacts may be regenerated. Pausing a source stops new captures but preserves its recorded evidence subject to retention. Archiving removes a person from the active 150 without deleting history.
 
 ### Storage locations
 
 ```text
-/home/snknitin/.local/share/dunbar-dossier/
-  dunbar.sqlite
-  blobs/sha256/
-  captures/YYYY/MM/<source>/
-  imports/
-  exports/jscontact/
-  exports/vcard/
-  backups/
-
-/home/snknitin/.config/dunbar-dossier/config.toml
-
-<Obsidian vault>/Dunbar Dossier/
-  People/
-  Manual Notes/
-  Briefings/
-  Meetings/
+F:\Vaults\LLMWiki\Agent Inbox\Dunbar Dossier\
+  People\                 # human-readable person entrypoints
+  Records\                # facts, episodes, assessments, contradictions
+  Interactions\           # meetings, calls, messages, field notes
+  Evidence\               # Markdown metadata and exact evidence spans
+  Captures\sha256\        # immutable raw files
+  Overrides\              # locks, redactions, merge/split decisions
+  Briefs\                 # reproducible generated artifacts
+  Changes\                # candidates and quarantined external edits
+  Imports\Notion\         # hashed source files and reconciliation reports
+  Config\                 # non-secret schemas, policies, templates
+  Manifests\              # packet, backup, and restore manifests
   Dunbar Dossier.base
+  .dunbar\state\index.sqlite       # derived and disposable
+  .dunbar\logs\                    # redacted operational logs
 ```
 
-No live data, credentials, chat archives, browser state, generated person file, or backup belongs in the Git repository.
+`F:\Vaults\Dossiers\Dunbar Dossier\` holds same-host encrypted recovery copies. Spark holds ciphertext only at `/home/snknitin/Backups/dunbar-dossier/`; it receives no plaintext canonical directory, live database, vault credentials, or write authority.
+
+Before live import, a mandatory gate proves the canonical folder is excluded from unintended Obsidian Sync remotes, Git, cloud-drive replication, and public shares. If the selected LLMWiki location cannot meet that requirement, implementation stops and reports the exact boundary rather than moving data silently.
+
+### Stable IDs and canonical file identity
+
+- Manual records use UUIDv4. Imported records use deterministic UUIDv5 over `source_namespace + stable_source_id` so re-import converges.
+- Type prefixes are `P-`, `R-`, `I-`, `E-`, `O-`, `B-`, `C-`, and `RUN-`.
+- Filenames may include display slugs, but references use stable IDs. Renaming a person never changes identity.
+- Every canonical file contains `schema_version`, `record_id`, `record_type`, `person_ids`, `version`, `created_at`, `updated_at`, `actor`, `sensitivity`, and `review_state`.
+- Cross-file references use stable IDs, never filenames alone.
+
+### Human-edit and regeneration contract
+
+Generated blocks are marked with stable boundaries and input hashes:
+
+```markdown
+<!-- dd:managed:start current-summary generator=v1 input_hash=<sha256> -->
+Generated synthesis with record-level citations.
+<!-- dd:managed:end current-summary -->
+```
+
+1. Service writes use expected file hash/version, a same-directory temporary file, flush, and atomic replace.
+2. A direct edit outside managed blocks becomes canonical human prose, increments version, and creates an audit event.
+3. A direct edit inside a managed block is never overwritten. It enters `external_edit_detected`, quarantines that block from regeneration, and offers accept, edit-and-accept, or reject.
+4. Accepting creates an override or canonical record and rerenders from truth. Reject restores the last verified generated block while preserving the rejected diff in audit history.
+5. A malformed file remains readable but is excluded from indexing; the UI shows the exact parse error and last known-good version.
+6. New evidence may contradict an owner override but cannot erase it.
+
+### Derived SQLite contract
+
+The index stores parsed metadata, current-record views, FTS text, graph edges, job state, idempotency keys, and audit pointers. Canonical prose and accepted records remain files. Every connection enables `foreign_keys=ON`, a bounded busy timeout, short transactions, and `synchronous=FULL`. Monitor WAL growth; run `quick_check`, `foreign_key_check`, and FTS integrity checks. Every release candidate must delete/rebuild the index and compare record counts and hashes.
 
 ### Core records
 
 | Record | Important fields and invariants |
 |---|---|
-| `Person` | stable ULID/UUID, display/preferred name, status, merge redirect, row version |
+| `Person` | stable UUID, display/preferred name, status, merge redirect, row version |
 | `RosterMembership` | active interval, manual Dunbar layer, desired cadence, priority; at most 150 active memberships |
 | `ExternalIdentity` | platform, normalized identifier, canonical URL, verified flag; unique per platform/identifier |
 | `SourceSubscription` | person/source, enabled state, freshness budget, next due, cursor, last success/error |
@@ -378,73 +451,215 @@ The same canonical records produce four views: **full profile**, **two-page exec
 
 Evidence labels are deliberately obvious: `[FACT]`, `[STATED]`, `[OBSERVED]`, `[USER NOTE]`, `[JUDGMENT]`, `[ALTERNATIVE]`, `[CONFLICT]`, `[UNKNOWN]`, and `[LOCKED]`. Keep source reliability, analytic confidence, and likelihood of a future event as separate concepts.
 
+## Interface and Navigation Contract
+
+The standalone private web app must work before Dashboard Command Center registration. The registered sheet opens the same URL without owning data or jobs.
+
+1. **Today / Search:** global person search, recently changed dossiers, upcoming meetings, failed/stale sources, and a small review queue. No streaks.
+2. **The 150:** list/table first with ring, context, cadence, freshness, review state, and archive filters. Concentric visualization is later.
+3. **Person File:** identity/relationship summary, chronological dossier, and evidence/freshness rail. Tabs: Rundown, Timeline, Relationship, Associations, Sources, Analysis, History.
+4. **Meeting Brief:** one-screen responsive brief with changes, two or three threads, promises, possible support, sensitive/stale warnings, and provenance footer.
+5. **Change Inbox:** side-by-side old/proposed/evidence view with accept, edit-and-accept, or reject. No bulk acceptance for identity, relationship, sensitive, merge, or deletion changes.
+6. **Review:** import reconciliation, file conflicts, source health, backup/restore evidence, model evaluation, and policy settings.
+
+Global command search opens a person, starts an on-demand refresh, records a field note, or opens pending changes. Mobile supports rundown/brief reading and quick field notes; merge, deletion, and administrative review remain desktop-only. Keyboard navigation, visible focus, semantic markup, screen-reader labels, sufficient contrast, and reduced-motion support are acceptance gates.
+
+## User Workflows and State Transitions
+
+### On-demand rundown
+
+Open person → return cached accepted records under 500 ms → display `as_of`, freshness, and source health → queue due refresh asynchronously → create candidates → review → reindex and rerender. Source/model failure never removes the existing accepted rundown.
+
+### State machines
+
+- Notion import: `queued → reading → parsed → reconciliation_required → applied → completed`; failures are `auth_required | rate_limited | malformed | failed`.
+- Candidate: `proposed → accepted | edited_and_accepted | rejected → superseded` where applicable.
+- External edit: `clean → external_edit_detected → quarantined → accepted | rejected → clean`.
+- Person: `draft → active → paused | archived → deletion_pending → deleted`.
+- Source: `enabled → due → running → healthy | stale | auth_required | challenge | blocked | paused`.
+- Model job: `queued → running → schema_validating → succeeded | retryable_failed | failed_closed`.
+- Brief: `queued → building → ready → stale → superseded`.
+- Backup: `snapshotting → verifying → encrypting → publishing → published → restore_verified | failed`.
+
+Jobs are durable and resumable. Restart cannot mark incomplete work successful. Every Notion source row ends as `accepted | merged | skipped | quarantined` with source identity and reason.
+
+## Artifact or Output Contract
+
+Every packet is versioned and rendered `as_of` a timestamp from explicit record/evidence membership:
+
+- canonical person/record/interaction/evidence Markdown;
+- responsive HTML rundown and meeting brief with no required external assets;
+- JSON manifest with schema, records/evidence, freshness, template/model/parser versions, and SHA-256 hashes;
+- changes-since report covering added, superseded, contradicted, rejected, stale, and unresolved records;
+- PDF only after HTML/Markdown usefulness passes.
+
+Evidence labels remain `[FACT]`, `[STATED]`, `[OBSERVED]`, `[USER NOTE]`, `[JUDGMENT]`, `[ALTERNATIVE]`, `[CONFLICT]`, `[UNKNOWN]`, and `[LOCKED]`. A later `Associations/<person-id>.excalidraw.md` may visualize reviewed typed edges; it is disposable and never relationship truth.
+
+## Security and Privacy Boundary
+
+- Bind the Windows service to `127.0.0.1`; use Tailscale Serve for private remote access and explicitly verify Funnel is disabled.
+- Trust Tailscale identity headers only through localhost Serve. Tagged Spark/Hermes devices receive narrow app credentials/capabilities.
+- Store secrets in Windows Credential Manager, never Markdown, SQLite, Git, logs, prompts, or ordinary backups.
+- Use a read-only Notion internal integration shared only with selected source pages. Public OAuth is deferred.
+- Hosted models are prohibited for person data. Future exceptions require a new decision, redacted preview, explicit per-job approval, and audit.
+- Treat imported pages, captions, comments, OCR, chat, and media as untrusted prompt-injection content; extractor calls get a schema and no tools.
+- Raw chats, exact locations, intimate details, credentials, face embeddings, and sensitive hypotheses are excluded from general search and Hermes retrieval.
+- Threat tests cover wrong-person merge, malicious source text, stolen Windows profile, compromised tailnet member/tag, direct LAN access, spoofed identity headers, Obsidian Sync replication, lost backup key, and compromised Spark endpoint.
+- Delete-person accounts for Markdown, captures under policy, briefs, changes, SQLite/FTS, caches, exports, and retained backups; rebuild/vacuum derived indexes where erasure is promised.
+
+## Model and Prompt Contract
+
+| Role | Advisory output | Deterministic authority |
+|---|---|---|
+| `observation_extractor` | candidate observations with evidence spans | schema, IDs, types, dates, and allowed predicates |
+| `identity_match_proposer` | ranked possible matches with reasons | owner confirmation; never automatic merge |
+| `contradiction_analyst` | conflicts and alternatives | records remain separate until review |
+| `rundown_writer` | structured section drafts | renderer owns citations, labels, and layout |
+| `meeting_brief_writer` | concise threads/support ideas | deterministic filters remove unsafe/stale content |
+| `communication_card` | expiring style guidance | no diagnosis, impersonation, or sending |
+
+Record role, endpoint, model identity, prompt/schema versions, input record IDs, size, latency, retries, and output hash. Apply retrieval scopes and prompt caps before sending to Spark. JSON-schema validation is mandatory; allow one repair attempt, then fail closed to evidence. Model outage never blocks search, accepted records, manual edits, import reconciliation, deterministic rendering, backup, or restore. Preserve the existing Spark gateway and production default.
+
+## API and Code Layout
+
+Core REST endpoints are:
+
+```text
+GET    /api/v1/health
+GET    /api/v1/people
+GET    /api/v1/people/{person_id}
+GET    /api/v1/people/{person_id}/rundown
+GET    /api/v1/records/{record_id}/evidence
+GET    /api/v1/changes
+POST   /api/v1/interactions
+POST   /api/v1/changes/{id}/accept
+POST   /api/v1/changes/{id}/edit-and-accept
+POST   /api/v1/changes/{id}/reject
+POST   /api/v1/imports/notion/scan
+POST   /api/v1/imports/{run_id}/apply
+POST   /api/v1/briefs
+POST   /api/v1/backups
+POST   /api/v1/restores/verify
+DELETE /api/v1/people/{person_id}  # owner-only explicit confirmation
+```
+
+Mutations require actor/scopes, `Idempotency-Key`, and `If-Match`/`expected_version`; enforce body limits, allowlisted content types, correlation IDs, redacted audits, and explicit error types. REST, UI, jobs, and MCP call one domain service.
+
+Later Hermes MCP exposes only `search_people`, `get_person_brief`, `get_claim_evidence`, `propose_field_note`, and `propose_fact`. It cannot accept/reject, merge/split, delete, change grants, read raw chats, render unrestricted dossiers, or confirm sends.
+
+```text
+AGENTS.md
+README.md
+pyproject.toml
+src/dunbar_dossier/
+  domain/ storage/markdown/ index/ api/ ui/ jobs/
+  connectors/ models/ rendering/ backup/ mcp/
+tests/
+  fixtures/synthetic/ fixtures/notion/ golden/ unit/ integration/ ui/
+docs/
+  operations/ decisions/
+```
+
+Every test gets an isolated temporary root. Tests must refuse the live canonical path and real connectors.
+
+## Deployment and Ownership
+
+**Windows owns:** canonical files, derived index, jobs, API/UI, Dashboard registration, connector secrets, direct-edit reconciliation, and backup creation. Run one writer under a dedicated user context. Health distinguishes process, root access, index freshness, queue, backup age, and model reachability.
+
+**Spark owns:** the existing model gateway and encrypted backup ciphertext only. This project changes no production model default, weights, Hermes configuration, or Spark authority.
+
+**Recovery:** stop/confirm old writer unavailable → choose verified archive → decrypt to isolated directory → verify hashes/schemas → rebuild SQLite → render representative briefs → compare counts/hashes → atomically install verified root → start one writer → run read-back, mutation, backup, and network-negative tests. Spark never becomes a writer merely because it holds a backup.
+
+**Backup publication:** acquire a write lease, flush, stage a snapshot, generate/verify SHA-256 manifest, encrypt to temporary `.age`, test decryption, and atomically publish to the F-drive recovery directory and Spark. Never use a live SQLite/WAL copy as the backup of record. Monthly restore proves canonical read-back, index rebuild, search, and a representative brief.
+
+## Evaluation and Verification Plan
+
+Fixtures include five synthetic people, a 43-row Notion-shaped set with relations/formulas/rollups/pagination/retries, at least 100 labelled assertions plus 20 ambiguity/adversarial cases, throwback/mirrored/quoted/co-appearance/prompt-injection cases, and WhatsApp locale/multiline/system-message forms.
+
+Deterministic gates:
+
+- re-import creates zero duplicates;
+- delete/rebuild SQLite matches canonical counts and hashes;
+- direct human edit survives restart/rerender;
+- managed-block edit quarantines and supports all three review actions;
+- stale mutation conflicts without loss;
+- 100% of surfaced external claims reveal source, evidence span, and date;
+- zero automatic merges, prohibited promotions, hosted-model transmissions, or outbound actions;
+- 100% accepted parser/model outputs validate schemas;
+- deletion closure and clean encrypted restore pass;
+- direct LAN/Tailscale-port access, unauthorized tags, spoofed headers, and Funnel exposure fail.
+
+Report precision, recall, and F1 per predicate. A future ordinary predicate needs at least 50 labelled examples, precision ≥0.98, schema validity 1.00, and zero sensitivity violations before auto-promotion; identity/sensitive predicates never auto-promote. Report calibration/Brier score where confidence is shown. Do not use one LLM judge as the only evaluator.
+
+Product gates: all 43 rows accounted for; cached reads <500 ms; ordinary mutations <1 second; cached brief <10 seconds; at least eight of ten representative rundowns/briefs rated useful with zero unsupported speaking points; workflow remains useful without daily use or public connector.
+
 ## Build Slices
 
-1. **Schema and service foundation**
-   - Create migrations, constraints, current-facts views, row versions, idempotency, audit events, health endpoint, and synthetic fixtures.
-   - Configure SQLite safely on the Spark and prove consistent backup/restore before real imports.
+### Slice 0 — contracts, isolated fixtures, and environment gate
 
-2. **Notion seed and identity review**
-   - Import the 43-row CSV, preserve raw rows, propose mappings, and build the duplicate/merge review.
-   - Confirm five people, their verified identities, ring, cadence, and source allowlist.
+Define `AGENTS.md`, file schemas, state machines, synthetic fixtures, canonical/test-root guards, privacy policy, runtime checks, and the no-live-data harness.
 
-3. **Person file and Obsidian projection**
-   - CRUD through the API, exact search/FTS5, deterministic atomic Markdown render, manual-note separation, and Obsidian Base.
-   - Add golden-file tests so renderer changes cannot silently drop fields or provenance.
+**Gate:** all schema checks pass; tests prove they cannot resolve the live path; SQLite/encryption versions are recorded; no real person data, token, connector, Spark mutation, Dashboard registration, or Sync change exists.
 
-4. **Interaction memory and open loops**
-   - Meetings/calls/messages/shared activities, multiple participants, important dates, threads, commitments, and follow-ups.
-   - Add quick text/voice field-note capture.
+### Slice 1 — synthetic Markdown-to-brief recovery loop
 
-5. **Calendar-triggered meeting brief**
-   - Incremental calendar sync, attendee identity matching, just-in-time refresh queue, one-screen brief, and post-meeting prompt.
-   - Run brief-quality acceptance tests across at least ten meetings.
+Implement one synthetic person, record, interaction, evidence item, index rebuild, search, rundown/brief render, direct-edit reconciliation, restart/read-back, encrypted snapshot, and isolated restore.
 
-6. **Change Inbox and evidence ledger**
-   - Immutable source capture, deterministic normalization/diff, candidate observations/facts, accept/edit/reject, and source freshness UI.
-   - Prove wrong-person correction and temporal fact supersession.
+**Gate:** SQLite delete/rebuild matches counts/hashes; direct edit survives; managed-block conflict quarantines; latency targets pass; archive decrypts/restores; restored brief/manifest match; no live path touched.
 
-7. **Full profile renderer and analyst overrides**
-   - Career/education/location/travel episodes, entity graph, media annex, stated-position timeline, analytical assessments, contradictions, packet versions, and the twenty-two-section full profile.
-   - Add full/two-page/meeting/change-report modes and prove that a manual correction survives regeneration.
+### Slice 2 — canonical file engine and Change Inbox
 
-8. **Cadence and daily situation report**
-   - Neutral due states, pause/seasonal/archive controls, promise/date reminders, digest cap, and no relationship score.
-   - Track notification dismissal and tune until the digest remains useful.
+Complete atomic writes, versions, record types, conflicts, audit, accept/edit/reject, merge proposals, deletion closure, FTS integrity, and five synthetic people.
 
-9. **WhatsApp export experiment**
-   - One-to-one parser, locale/multiline/system-message fixtures, idempotent import, communication-style card, evidence, expiry, and draft-only reply assistance.
+**Gate:** idempotency, stale-write, malformed-file, merge, contradiction, deletion, and FTS-rebuild tests pass.
 
-10. **One public-source adapter**
-   - Choose the highest-value source, store raw responses, apply freshness budgets and jitter, surface health, and keep provider replacement possible.
-   - Add the Windows Playwright worker only if exports/public APIs fail a measured need.
+### Slice 3 — 43-row Notion reconciliation
 
-11. **Multimodal social graph and travel experiment**
-    - Extract explicit tags/captions/place mentions and model-proposed activities/co-appearances from a bounded media set.
-    - Validate travel-episode precision, relationship-edge false positives, story retention, and unknown-identity review before enabling automatic packet updates.
+Add hashed CSV first, then optional read-only API `2026-03-11`; paginate data sources/properties, respect retries, preserve unknown fields, and generate the complete report.
 
-12. **Operational hardening**
-    - Security audit, least-privilege tokens, encrypted rotations, monthly restore, deletion test, connector-failure drills, telemetry, and documentation.
+**Gate:** all 43 real rows are accounted for; no name-only merge; relation/formula/rollup limits are visible; rerun is idempotent; token is least-privilege and never logged.
 
-### Battle-test matrix
+### Slice 4 — five curated dossiers and responsive interface
 
-| Scenario | Required evidence |
-|---|---|
-| Re-import same Notion/WhatsApp data | zero duplicate people, observations, interactions, or reminders |
-| Similar names/changed handle | no automatic merge; review shows evidence and consequences |
-| Two agents update one person | stale write conflicts; neither user correction nor accepted fact is lost |
-| Job/title changes twice | historical facts remain queryable; current view is correct as of date |
-| Source fails for 30 days | dashboard and brief show staleness; old data is not labelled recent |
-| Meeting with three people | one interaction links all participants; each timeline receives it once |
-| Ambiguous social post, meme, quote, or repost | remains an observation; endorsement is not invented |
-| Throwback vacation posted today | event date remains approximate; post date is not converted to travel date |
-| Two simultaneous roles or homes | both can coexist; contradiction logic does not force a false single answer |
-| Same post mirrored across platforms | one independence group; not counted as corroboration twice |
-| Recurring unlabelled face | anonymous cluster only until the user confirms identity |
-| Behavioral pattern | counterexamples and at least one alternative explanation are surfaced |
-| Birthday draft | no send without approval; copy does not equal confirmed send |
-| Spark recovery | encrypted backup restores DB, blobs, search, and generated files |
-| Delete one person | canonical, generated, derived, cached, and eligible raw data are accounted for |
+Build the six destinations, five curated files, timelines, evidence rail, field note, group meeting, one-screen brief, accessibility, and standalone private deployment.
+
+**Gate:** five dossiers pass provenance/readability review; ten briefs meet usefulness/latency gates; mobile and keyboard flows pass; no Dashboard dependency yet.
+
+### Slice 5 — Dashboard Command Center and calendar trigger
+
+Register the verified URL as one sheet; add one read-only calendar adapter, attendee matching, background refresh, and post-meeting prompt.
+
+**Gate:** shell restart restores the sheet without owning state; ambiguous attendees require review; group meeting appears once per participant; calendar failure leaves cached dossiers usable.
+
+### Slice 6 — local Spark model roles
+
+Add schema-bound local adapters for extraction, contradictions, rundown, and brief drafting without changing the gateway/default.
+
+**Gate:** the 100+20 evaluation meets thresholds; outage fails closed; prompt injection gains no tools/data; real latency and memory evidence is reported.
+
+### Slice 7 — Instagram public-profile experiment
+
+Use only five owner-approved public URLs behind a replaceable adapter. Cache/diff before models and surface health/rate/terms constraints.
+
+**Gate:** connector-off mode retains utility; wrong-person/private cases do not mutate truth; stale/auth/blocked states are visible; each candidate links exact evidence.
+
+### Slice 8 — WhatsApp export experiment
+
+Import one user-created one-to-one export idempotently and create an expiring communication card. No continuous access or contact-voice imitation.
+
+**Gate:** locale/multiline/system/attachment fixtures pass; raw chat is restricted; rerun duplicates nothing; no draft is sent or marked sent.
+
+### Slice 9 — restricted Hermes MCP
+
+Expose read/proposal-only tools with dedicated scopes and audit.
+
+**Gate:** Hermes cannot read raw/sensitive material or accept, merge, delete, grant, unrestricted-render, or send; every proposal enters Change Inbox.
+
+### Slice 10 — operational hardening
+
+Add Tailnet negative tests, encrypted retention, monthly restore automation, source/prompt threat drills, deletion closure, diagnostics, and runbooks.
+
+**Gate:** clean-host recovery, owner access, unauthorized denial, backup-key recovery, connector/model failure, and deletion drill all produce exact evidence.
 
 ## Drawbacks, Concerns, and Failure Modes
 
@@ -460,8 +675,11 @@ Evidence labels are deliberately obvious: `[FACT]`, `[STATED]`, `[OBSERVED]`, `[
 - **Generated slang can sound false.** Style cards guide drafts in the user's voice; they do not impersonate the contact and expire.
 - **Personal social APIs are constrained.** Instagram does not provide a general friend feed, LinkedIn consumer access is narrow, X is pay-per-use, private profiles need fragile sessions, and exports are snapshots. Keep manual/core workflows valuable.
 - **Browser sessions are high-value secrets.** Dedicated Windows profiles, no password transfer, allowlisted origins, and halt on reauthentication/CAPTCHA.
-- **The system can become maintenance work.** Curate five people first, cap daily reviews, refresh before meetings, and archive freely.
-- **A leak has a large blast radius.** Keep data outside Git/vault, restrict API tokens, encrypt storage/backups, minimize raw-retention, and test deletion.
+- **The system can become maintenance work.** Keep the review queue deliberately small, refresh before meetings, and archive freely.
+- **A leak has a large blast radius.** Keep data outside Git and outside unapproved vault replication, restrict API tokens, encrypt storage/backups, minimize raw retention, and test deletion.
+- **The requested projection still lives inside an Obsidian Sync vault.** `Agent Inbox/Dunbar Dossier` is convenient but not the canonical private root. Before real data, either exclude that folder from Sync or prove the vault is protected by an approved private Sync policy; the app must refuse live ingest while this gate is unresolved.
+- **Markdown is human-friendly but easy to damage mechanically.** Preserve human prose, confine automation to marked blocks, validate frontmatter and stable IDs, quarantine ambiguous edits, and keep atomic previous versions.
+- **`F:\Vaults\Dossiers` is not an off-host backup.** It shares the Windows machine and likely the same physical failure domain. Treat it as fast recovery only; the encrypted Spark copy is the second-host rotation and the age key must be recoverable independently.
 - **SQLite can be misused.** Do not place it on a shared/synced filesystem or give every agent a connection. One local service owns mutations.
 - **n8n retries can duplicate work.** Transport retries require application idempotency and source dedupe.
 - **A polished brief can hide stale sources.** Every generated artifact includes connector health, observed date, and freshness.
@@ -471,10 +689,10 @@ Evidence labels are deliberately obvious: `[FACT]`, `[STATED]`, `[OBSERVED]`, `[
 
 - Deploy Monica or Bonds for one week and record exactly which workflows remain painful. Reuse its vocabulary rather than recreating ordinary contact management blindly.
 - Start with five hand-curated people and ten meeting notes. Scaling a bad schema to 150 only hides the missing habit loop.
-- Build the canonical service and Obsidian Base before a custom dashboard. This may be enough for months.
+- Build the canonical file engine and a filtered Obsidian Base before custom interface depth. This may be enough for months.
 - Use upcoming calendar meetings to trigger deep refresh; do not poll every person daily.
-- Parse LinkedIn notification emails as cheap job-change hints and fetch only after a relevant trigger.
-- Maintain a private X List instead of reading 150 timelines independently.
+- Make the first connector an owner-approved Instagram public-profile snapshot and keep the complete workflow useful when that connector is disabled.
+- Derive stable import IDs with UUIDv5 from the source namespace and source key, so repeated Notion imports cannot create new people.
 - Hash/diff snapshots before running a model; most jobs should end after “no change.”
 - Keep a per-source freshness budget and temporarily increase it around meetings or explicit life events.
 - Use FTS5 and exact filters before embeddings. At 150 people, semantic search can remain a rebuildable cache.
@@ -485,36 +703,63 @@ Evidence labels are deliberately obvious: `[FACT]`, `[STATED]`, `[OBSERVED]`, `[
 ## Success Measures
 
 - All 43 current Notion rows are imported, explicitly merged, skipped, or quarantined; nothing silently disappears.
-- At least 95% of surfaced external factual claims show a source and observation date.
+- 100% of surfaced external factual claims show a source, exact evidence span, source date, and observation date.
 - Every analytical judgment shows its time window, confidence, evidence for/against, assumptions or alternatives, expiry, and review state.
 - Zero sensitive, ambiguous, or policy-disallowed machine inferences enter the canonical current dossier as confirmed facts; permitted deterministic first-party fields follow explicit per-predicate policy.
 - Zero outbound messages are sent without explicit user approval.
+- Zero person data, prompts, embeddings, images, or generated artifacts are transmitted to hosted model providers.
 - Person/handle matching errors are caught before dossier mutation.
 - A meeting brief is useful and reviewable in under two minutes.
 - Meaningful interaction notes can be recorded in under 90 seconds and usually within 24 hours.
 - Open promises are surfaced and completed more reliably.
-- The daily report stays below its configured cap and is not routinely dismissed.
+- At least eight of ten representative on-demand rundowns and meeting briefs are rated useful, with zero unsupported speaking points.
+- Cached reads complete in under 500 ms, ordinary mutations in under one second, and a cached brief in under ten seconds on the Windows authority host.
 - Source failures and stale data are visible in the dashboard and generated artifacts.
 - Concurrent agent edits never overwrite user corrections.
+- A direct human edit survives reconciliation, restart, index deletion/rebuild, and rerender; an edit inside a managed block is quarantined for accept/edit/reject review.
 - A user-locked correction survives every packet regeneration; contrary evidence is attached rather than silently replacing it.
 - Career and travel counts are reproducible from reviewed temporal episodes, with uncertain boundaries visible.
 - Partner/family/ideology/psychological hypotheses never appear as unlabeled confirmed facts.
 - Every rendered substantive claim can reveal its record ID, exact evidence fragment or user note, source date, observation date, and current review state.
 - Every packet version is reproducible from its template version, retrieval profile, `as_of` time, included record IDs, evidence IDs, and model/parser versions.
 - Re-running any import or workflow is idempotent.
-- Monthly restore tests recover database, blobs, and dossiers from encrypted backups.
+- Monthly restore tests recover canonical Markdown, evidence, manifests, and generated artifacts from encrypted backups, then rebuild SQLite and reproduce representative search and briefs.
 - One person can be deleted completely, with a report covering canonical, derived, cached, and eligible raw data.
 - The user's monthly assessment says the system improved listening, support, recall, shared activity, or follow-through—not merely message volume.
 
 ## Product Path
 
-1. **Private memory core:** five curated people, interactions, open loops, Obsidian dossiers, and one meeting brief.
-2. **The 43:** reconciled Notion import, calendar triggers, Change Inbox, cadence review, and reliable backup.
-3. **The 150:** tiered source schedules, one or two proven adapters, WhatsApp style cards, daily situation report, and Dashboard Command Center sheet.
-4. **Local relationship OS:** stable MCP/API shared with Event Networking Copilot, Pocket CRM, GiftShelf, and the DM Desk while Dunbar Dossier remains the authority for relationship history.
-5. **Possible product:** configurable personal PRM with local/self-hosted and paid hosted modes only after the personal workflow has been dogfooded and recovery/security are proven.
+1. **Safe file core:** one synthetic person proves Markdown ownership, direct-edit reconciliation, index rebuild, brief rendering, encrypted backup, and isolated restore.
+2. **The 43:** every Notion row is reconciled before enrichment; five people are then curated deeply enough to prove the dossier and meeting-brief experience.
+3. **Operational shell:** responsive standalone UI, Dashboard Command Center sheet, Change Inbox, and meeting-triggered refresh with Windows remaining canonical.
+4. **Local intelligence:** schema-bound Spark model roles, then the owner-approved Instagram experiment and one WhatsApp export, each optional and evidence-first.
+5. **Restricted reuse:** a read/proposal-only Hermes MCP and stable API shared with Event Networking Copilot, Pocket CRM, GiftShelf, and DM Desk while Dunbar Dossier remains the relationship-history authority.
+6. **Possible product:** revisit multi-user or hosted modes only after the personal workflow, recovery, privacy, and platform constraints are proven; they are not part of this build.
 
-Before open-sourcing or serving other users, run [[Scope Expansion Checklist]] and revisit platform terms, source rights, data minimization, notice/consent, authentication, access control, deletion/export, retention, encryption/key recovery, abuse prevention, accessibility, and jurisdiction-specific requirements. Keep this as a future gate; do not change the personal SQLite/Spark/Obsidian stack solely for hypothetical release concerns.
+Before open-sourcing or serving other users, run [[Scope Expansion Checklist]] and revisit platform terms, source rights, data minimization, notice/consent, authentication, access control, deletion/export, retention, encryption/key recovery, abuse prevention, accessibility, and jurisdiction-specific requirements. Keep this as a future gate; do not change the personal Windows/Markdown/Spark-adapter architecture solely for hypothetical release concerns.
+
+## Implementation Agent Contract
+
+A future implementation agent must:
+
+1. Read `README.md` and the linked research dossier completely before changing files or choosing libraries.
+2. Create or reconcile `AGENTS.md` from the non-negotiable product, data-ownership, privacy, security, deployment, and verification contracts in this specification.
+3. Implement exactly one build slice at a time and do not pull later-slice infrastructure forward for convenience.
+4. Stop at every acceptance gate; a slice is incomplete until its measurable gate passes with recorded evidence.
+5. Preserve existing user data, direct human edits, user-locked corrections, and unrelated workspace changes. Never point development or tests at the live root.
+6. Keep tests isolated from live data, connector accounts, production Spark defaults, Hermes configuration, Dashboard registration, and Obsidian Sync settings. Use only the specified synthetic fixtures until a later slice explicitly authorizes a bounded real-data test.
+7. Keep model output advisory and deterministic code authoritative. Models may propose structured candidates but cannot assign identity, mutate canonical files, merge, delete, grant access, or send messages.
+8. Turn every discovered failure into the smallest deterministic regression test before fixing it.
+9. Measure real latency and model quality on the actual target host/adapter; do not substitute a mocked success for the slice's runtime or evaluation gate.
+10. Provide exact completion evidence: changed files, test commands/results, dependency hashes or versions, health output, fixture/result IDs, measured latency, representative real-model evidence where applicable, and recovery/read-back results.
+11. Use one Windows mutation service and its domain layer for REST, UI, jobs, and MCP. Treat reviewed Markdown/evidence as canonical, SQLite as disposable, Spark as model/backup support, and the Dashboard as a shell rather than an owner.
+12. Stop and report any conflict with the live root, a pre-existing `README.md`/specification mismatch, an unresolved Sync privacy gate, a second active writer, or a request to transmit person data to a hosted model.
+
+Paste-ready first implementation goal:
+
+```text
+/goal Read README.md and the linked research dossier completely. Reconcile AGENTS.md with the non-negotiable product, canonical Markdown ownership, local-only privacy, single-writer Windows deployment, derived-index, Spark-adapter, backup/recovery, and verification contracts. Implement only Slice 0 and Slice 1 using the isolated synthetic root and fixtures. Do not access the live F:\Vaults\LLMWiki\Agent Inbox\Dunbar Dossier path, real person data, connector accounts, production model defaults, Hermes configuration, Dashboard registration, or Obsidian Sync settings. Do not expand into later slices. Stop only after every Slice 1 acceptance gate passes and report exact files, tests, hashes or versions, runtime health, measured latency, representative real-model evidence where applicable, and encrypted recovery/read-back results.
+```
 
 ## Related
 
