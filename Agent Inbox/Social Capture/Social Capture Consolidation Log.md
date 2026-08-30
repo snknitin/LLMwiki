@@ -1,5 +1,5 @@
 <!-- consolidation-state
-{"groups_merged": 2, "last_run_at": "2026-08-28T22:05:36+05:30", "message": "Merged 2 tasks into 2 focused batches.", "mode": "scheduled-agent", "queue_revision": "6bfc0e84f327644b041ec7aef8154c6b8774e94a4bf4557f52997209d5ddad4f", "status": "merged", "tasks_absorbed": 2}
+{"groups_merged": 0, "last_run_at": "2026-08-30T08:25:31+05:30", "message": "Already compacted—no high-confidence groups were available.", "mode": "manual-dashboard", "queue_revision": "ccc6d9376e4c0916d4e180bf5415e50793da8ee7b3ef48e626c3db6b498a7ba8", "status": "already_compacted", "tasks_absorbed": 0}
 -->
 # Social Capture Consolidation Log
 
@@ -384,3 +384,19 @@
   - Captured: 2026-08-26 17:11 IST via Telegram · Hermes Swarm / Capture
   - ID: sc_465e0a9675992467
 ```
+
+### 2026-08-29T22:03:50+05:30
+- Mode: manual-dashboard
+- Outcome: already_compacted
+- Queue revision before: `d975770b75eaa5a4427bf0d2289e59e3975b8dbc915d7a740d91bf766678ebb4`
+- Queue revision after: `d975770b75eaa5a4427bf0d2289e59e3975b8dbc915d7a740d91bf766678ebb4`
+- Groups merged: 0
+- Tasks absorbed: 0
+
+### 2026-08-30T08:25:31+05:30
+- Mode: manual-dashboard
+- Outcome: already_compacted
+- Queue revision before: `ccc6d9376e4c0916d4e180bf5415e50793da8ee7b3ef48e626c3db6b498a7ba8`
+- Queue revision after: `ccc6d9376e4c0916d4e180bf5415e50793da8ee7b3ef48e626c3db6b498a7ba8`
+- Groups merged: 0
+- Tasks absorbed: 0

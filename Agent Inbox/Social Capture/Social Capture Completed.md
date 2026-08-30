@@ -7,6 +7,25 @@ Last cleared: Never
 ## Done this month
 
 <!-- completed -->
+- [x] **Hermes Agent Plan Interrogation Skill** — [source](https://x.com/tonysimons_/status/2093712283767603221)
+  - Contains: A new Hermes Agent skill critiques plans by mapping unresolved decisions and challenging assumptions before implementation begins. It forces rigorous pre-build validation to prevent wasted effort on flawed strategies.
+  - Potential benefit: This tool automates critical thinking for project planning, reducing bias and hidden risks early in the process. It shifts validation from post-hoc review to proactive interrogation.
+  - Intent: learn · stated
+  - Topic: AI Agent Planning
+  - Source author: Tony Simons
+  - Priority: P2
+  - Impact: medium
+  - Ease: easy
+  - Important: yes
+  - Importance reason: Pre-build validation prevents costly rework and ensures strategic alignment before resource commitment. It addresses the common failure mode of building without sufficient critical analysis.
+  - Urgent: no
+  - Urgency reason: The tool is newly announced but not yet critical for immediate project survival or compliance deadlines. It offers long-term efficiency gains rather than immediate risk mitigation.
+  - Done when: You have tested the Hermes Agent on one current project plan and noted its critique quality. Success is defined by identifying at least one critical flaw missed in manual review.
+  - Effort: 15m
+  - Completed at: 2026-08-30T08:25:16.422129+05:30
+  - Captured: 2026-08-30 05:11 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_6e853b4abe0f5563
+
 - [x] **Encode the 4 trading principles as a design framework for finance tracker and prediction tools**
   - Contains: Direct task: Nitin wants to use the 4 trading principles from the MRKT-AI post comments as a guiding framework for finance trackers and prediction tools he wants to build: (1) read fundamentals to understand pressure, (2) read charts to know where to position, (3) write down risk before acting, (4) treat every loss as learning cost, not a verdict on worth.
   - Potential benefit: Provides a principled foundation for building finance tracking and prediction tools that balance fundamental analysis, technical signals, risk management, and learning loops.

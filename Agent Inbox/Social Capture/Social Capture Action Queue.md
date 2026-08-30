@@ -56,6 +56,42 @@ Rules:
 
 <!-- Hermes appends new, ready actions below this line. Keep the queue ordered by current leverage, not capture time. -->
 
+- [ ] **Sync Hermes Agent with Telegram** — [source](https://x.com/BkashJosi/status/2093605999546372333)
+  - Contains: The post details a setup to connect Hermes Agent Bot Mode with Telegram groups. It outlines steps for creating a bot, assigning agents, and testing message routing. This enables remote coordination of specialized AI agents via chat.
+  - Potential benefit: This provides a practical integration pattern for multi-agent workflows. It allows users to leverage existing Telegram infrastructure for agent management and task delegation.
+  - Intent: implement · inferred
+  - Topic: AI Agent Integration
+  - Source author: Hermes Agent Super-Intel
+  - Priority: P2
+  - Impact: medium
+  - Ease: moderate
+  - Important: yes
+  - Importance reason: It enables flexible agent orchestration across platforms. This enhances productivity by allowing remote control of specialized AI roles.
+  - Urgent: no
+  - Urgency reason: The setup is optional and not time-sensitive. It can be configured when needed for specific workflow requirements.
+  - Done when: Telegram bot is connected and routing messages correctly.
+  - Effort: 30m
+  - Captured: 2026-08-30 05:20 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_887a47a1d55c8383
+
+- [ ] **BreakScale DB Simulation Tool** — [source](https://x.com/OjasSharma276/status/2093593295658397934)
+  - Contains: The post praises BreakScale for simulating database reactions to request loads. It encourages users to explore the tool to understand backend mechanics.
+  - Potential benefit: This is a practical demo for learning database scaling concepts. It offers immediate value for developers interested in system design.
+  - Intent: learn · inferred
+  - Topic: Database Simulation
+  - Source author: Ojas Sharma
+  - Priority: P2
+  - Impact: medium
+  - Ease: quick
+  - Important: yes
+  - Importance reason: Understanding load behavior prevents production failures. Visual simulation aids rapid conceptual learning.
+  - Urgent: no
+  - Urgency reason: No immediate deadline or critical system failure risk exists. Learning can occur during standard study time.
+  - Done when: User explores the BreakScale interface and observes load effects.
+  - Effort: 5m
+  - Captured: 2026-08-30 05:15 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_7fb7a8d5c04d14a3
+
 - [ ] **Hermes Agent Adds Lightpanda Browser Support** — [article](http://lightpanda.io/docs)
   - Contains: Hermes Agent now supports Lightpanda, a headless browser engine written in Zig that is 9x faster and uses 16x less memory than Chrome. The update allows Hermes to use Lightpanda for text-based automation while automatically falling back to Chrome for screenshots and visual tasks. This configuration is ideal for running agents on small VPS infrastructure without memory spikes.
   - Potential benefit: This integration significantly improves the efficiency of automated web interactions by reducing resource consumption on constrained hardware. It provides a practical solution for developers running 24/7 agent workflows who need to balance performance with infrastructure costs.
