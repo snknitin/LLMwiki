@@ -56,6 +56,96 @@ Rules:
 
 <!-- Hermes appends new, ready actions below this line. Keep the queue ordered by current leverage, not capture time. -->
 
+- [ ] **NVIDIA Nemotron 3.5 Lightning for Agentic Workflows** — [source](https://x.com/MiaAI_lab/status/2094045216353251361)
+  - Contains: The post highlights Nemotron 3.5 Lightning as a high-speed model for lightweight coding and agentic tasks on DGX Spark. The attached image confirms the product name and its positioning as an AI agent workhorse.
+  - Potential benefit: This model is a strong candidate for local, high-throughput agent orchestration on consumer-grade hardware. It offers a practical solution for developers needing fast inference without cloud dependency.
+  - Intent: learn · inferred
+  - Topic: AI Model Deployment
+  - Source author: Mia
+  - Priority: P1
+  - Impact: high
+  - Ease: quick
+  - Important: yes
+  - Importance reason: It enables efficient local AI agent deployment, reducing latency and cloud costs.
+  - Urgent: no
+  - Urgency reason: The technology is current but not time-sensitive for immediate action.
+  - Done when: After reviewing the linked article for technical specifications.
+  - Effort: 5m
+  - Captured: 2026-08-31 12:45 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_39ea631b4ff44dd7
+
+- [ ] **Women's Fitness App Revenue Benchmarks** — [source](https://x.com/jacobrodri_/status/2094056970223292618)
+  - Contains: The post claims building workout apps for women is highly profitable. The attached AppKittie screenshot lists top-grossing apps like Sweat and EvolveYou with revenues up to $1M.
+  - Potential benefit: This data provides concrete revenue benchmarks for validating the women's fitness app market. It highlights specific successful competitors and their financial performance.
+  - Intent: learn · inferred
+  - Topic: App Market Research
+  - Source author: Jacob Rodri
+  - Priority: P2
+  - Impact: medium
+  - Ease: quick
+  - Important: yes
+  - Importance reason: Identifies a high-revenue niche with proven market demand.
+  - Urgent: no
+  - Urgency reason: Market trends are stable and do not require immediate action.
+  - Done when: After reviewing the top 3 apps' monetization models.
+  - Effort: 5m
+  - Captured: 2026-08-31 12:24 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_8cb5f6bbdc2c819d
+
+- [ ] **Automate RSS Feeds from APIs using AI Agents** — [source](https://x.com/TheAhmadOsman/status/2094174132619399223)
+  - Contains: The post and image demonstrate using GLM 5.3 Flash to crawl a URL, map API endpoints, and generate an RSS feed. The image details a specific workflow for a Soccer Tracker API, showing the resulting XML structure.
+  - Potential benefit: This approach allows developers to instantly create subscription feeds for any web service with an API. It highlights the practical application of AI agents for data integration and personalization.
+  - Intent: implement · inferred
+  - Topic: AI Agents, RSS Feeds, API Integration
+  - Source author: Ahmad
+  - Priority: P1
+  - Impact: medium
+  - Ease: easy
+  - Important: yes
+  - Importance reason: It offers a low-effort method to automate data access and personalization.
+  - Urgent: no
+  - Urgency reason: The technique is a general tool rather than a time-sensitive event.
+  - Done when: After testing the agent with a known API and verifying the RSS output.
+  - Effort: 15m
+  - Captured: 2026-08-31 12:03 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_036930e3e7d9f16f
+
+- [ ] **Video Reference Site for Frames & Motion** — [source](https://x.com/VibeEverything/status/2094077291941048763)
+  - Contains: This bookmark highlights a website offering video references with frame and motion data. It supports filtering by media type, color, and lighting for quick mood matching.
+  - Potential benefit: It helps concretize abstract video ideas by providing visual and kinetic examples. This reduces creative ambiguity during pre-production planning.
+  - Intent: learn · inferred
+  - Topic: Video Production Resources
+  - Source author: LOOPY
+  - Priority: P2
+  - Impact: medium
+  - Ease: easy
+  - Important: yes
+  - Importance reason: It streamlines the pre-production phase by providing concrete visual references. This saves time in conceptualizing shots and mood.
+  - Urgent: no
+  - Urgency reason: It is a resource for future projects, not an immediate task. No deadline or time-sensitive action is implied.
+  - Done when: When a video project requires visual reference for framing or motion.
+  - Effort: 5m
+  - Captured: 2026-08-31 12:03 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_531c34c19666b083
+
+- [ ] **System Design Scaling Algorithms List** — [source](https://x.com/asmah2107/status/2093718226353926394)
+  - Contains: The post lists 23 critical algorithms for designing scalable distributed systems. It serves as a curated checklist for mastering core infrastructure concepts.
+  - Potential benefit: This is a high-level reference guide for system design interviews and architecture planning. It highlights key patterns like consensus, hashing, and fault tolerance.
+  - Intent: learn · inferred
+  - Topic: System Design
+  - Source author: Ashutosh Maheshwari
+  - Priority: P2
+  - Impact: high
+  - Ease: deep
+  - Important: yes
+  - Importance reason: These algorithms are foundational for building reliable, scalable software systems. Mastery is essential for senior engineering roles and complex architecture.
+  - Urgent: no
+  - Urgency reason: Learning these concepts is valuable but not time-sensitive for immediate deployment. It supports long-term career growth and technical depth.
+  - Done when: Each algorithm is understood with a concrete example and trade-off analysis.
+  - Effort: 2d
+  - Captured: 2026-08-31 10:08 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_2fc9d70c74d83393
+
 - [ ] **Sync Hermes Agent with Telegram** — [source](https://x.com/BkashJosi/status/2093605999546372333)
   - Contains: The post details a setup to connect Hermes Agent Bot Mode with Telegram groups. It outlines steps for creating a bot, assigning agents, and testing message routing. This enables remote coordination of specialized AI agents via chat.
   - Potential benefit: This provides a practical integration pattern for multi-agent workflows. It allows users to leverage existing Telegram infrastructure for agent management and task delegation.
