@@ -56,6 +56,198 @@ Rules:
 
 <!-- Hermes appends new, ready actions below this line. Keep the queue ordered by current leverage, not capture time. -->
 
+- [ ] **Paul Graham: Write Simply** — [source](https://x.com/rdominguezibar/status/2096314617421000881)
+  - Contains: The attached image summarizes Paul Graham's essay on writing simply, emphasizing that low friction keeps readers engaged. It argues that clarity respects the reader's time and exposes weak thinking while simplicity enforces honesty.
+  - Potential benefit: This guide provides a practical framework for improving communication by prioritizing reader energy over writer ego. It suggests that clear writing is a sign of respect and intellectual honesty rather than a lack of depth.
+  - Intent: read · inferred
+  - Topic: Writing and Communication
+  - Source author: Ruben
+  - Priority: P1
+  - Impact: medium
+  - Ease: quick
+  - Important: yes
+  - Importance reason: Clear writing is essential for effective communication and is a core skill for professional success.
+  - Urgent: no
+  - Urgency reason: This is a general writing principle that can be applied at any time.
+  - Done when: After reviewing the summary and applying one editing rule to a current draft.
+  - Effort: 5m
+  - Captured: 2026-09-06 09:26 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_6672ae296a775f36
+
+- [ ] **Add Inference Engineering Course** — [source](https://x.com/iam_sanjana06/status/2096106130279899433)
+  - Contains: The user wants to study inference engineering using a specific roadmap. The post highlights hands-on exercises for building expertise in this field.
+  - Potential benefit: This is a learning intent to acquire new technical skills. The user seeks structured guidance rather than just reading.
+  - Intent: learn · stated
+  - Topic: Inference Engineering
+  - Source author: Sanjana
+  - Priority: P2
+  - Impact: medium
+  - Ease: moderate
+  - Important: yes
+  - Importance reason: Inference engineering is a specialized and growing field. Mastering it can significantly enhance technical capabilities.
+  - Urgent: no
+  - Urgency reason: There is no immediate deadline or time-sensitive trigger. The learning can be scheduled flexibly.
+  - Done when: The roadmap is reviewed and a study plan is created.
+  - Effort: 30m
+  - Captured: 2026-09-06 09:25 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_9b1709318059cb86
+
+- [ ] **Mercor SkyRL 397B RL Training Guide** — [article](https://www.mercor.com/blog/training-frontier-knowledge-work-agents-a-397b-rl-training-guide-with-skyrl/)
+  - Contains: Mercor details post-training Qwen3.5-397B with SkyRL on knowledge work tasks. They release scripts, weights, and benchmarks showing significant Pass@1 gains.
+  - Potential benefit: This provides a rare open recipe for scaling RL on large frontier models. It offers practical infrastructure insights often omitted in research papers.
+  - Intent: learn · inferred
+  - Topic: Reinforcement Learning
+  - Sources:
+    - [article](https://www.mercor.com/blog/training-frontier-knowledge-work-agents-a-397b-rl-training-guide-with-skyrl/)
+    - [X post](https://x.com/adithya_s_k/status/2095809751078907928?s=20)
+  - Source author: Adithya S K
+  - Priority: P1
+  - Impact: high
+  - Ease: moderate
+  - Important: yes
+  - Importance reason: It reveals scalable RL techniques for complex knowledge work agents. This directly informs how to improve model performance on professional tasks.
+  - Urgent: no
+  - Urgency reason: The methodology is established and the code is already public. There is no immediate deadline for applying these specific training insights.
+  - Done when: After reviewing the SkyRL recipe and understanding the infrastructure choices.
+  - Effort: 30m
+  - Captured: 2026-09-05 19:46 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_b84d72a2529e0084
+
+- [ ] **GEOFlow 3.0 Enterprise GEO System** — [article](https://github.com/yaojingang/GEOFlow)
+  - Contains: GEOFlow 3.0 is an open-source system for enterprise GEO operations, integrating AI content production, quality gates, and multi-site distribution. It centralizes knowledge management and publishing workflows into a unified backend with audit trails.
+  - Potential benefit: This tool automates the creation and verification of brand-aligned content for search visibility. It reduces manual effort by enforcing quality checks before human review and distribution.
+  - Intent: implement · inferred
+  - Topic: GEO Automation
+  - Sources:
+    - [article](https://github.com/yaojingang/GEOFlow)
+    - [X post](https://x.com/yaojingang/status/2096030272538255559?s=20)
+  - Source author: 姚金刚
+  - Priority: P2
+  - Impact: medium
+  - Ease: moderate
+  - Important: yes
+  - Importance reason: It addresses the critical need for scalable, auditable AI content operations in enterprise settings. Centralizing these workflows reduces fragmentation and improves compliance.
+  - Urgent: no
+  - Urgency reason: The release is recent but not time-sensitive for immediate adoption. Teams can evaluate it during standard planning cycles without immediate pressure.
+  - Done when: Deployment tested and workflow integrated
+  - Effort: 1h
+  - Captured: 2026-09-05 19:44 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_a3cc9e560c027a7e
+
+- [ ] **AutoSocial Studio: Local Multi-Account Video Automation** — [article](https://github.com/Katzca/AutoSocial)
+  - Contains: AutoSocial Studio is a local, open-source dashboard for automating short-form video workflows across TikTok, Instagram, and YouTube. It uses Playwright for uploads, yt-dlp for downloads, and FFmpeg for video processing, keeping all data and sessions on the user's machine.
+  - Potential benefit: This tool solves the distribution bottleneck for indie hackers and AI builders by providing a repeatable, local marketing workflow. It allows creators to manage multiple accounts and schedules without handing over sensitive session credentials to a third-party SaaS provider.
+  - Intent: implement · inferred
+  - Topic: Local Automation Tools
+  - Sources:
+    - [article](https://github.com/Katzca/AutoSocial)
+    - [X post](https://x.com/Sn0wbrave/status/2095974833016225858?s=20)
+  - Source author: Snow Brave
+  - Priority: P2
+  - Impact: medium
+  - Ease: moderate
+  - Important: yes
+  - Importance reason: It provides a privacy-focused, local alternative to cloud-based social media schedulers, which is critical for users concerned about data sovereignty.
+  - Urgent: no
+  - Urgency reason: The tool is a standard utility for workflow optimization and does not address an immediate, time-sensitive crisis or opportunity.
+  - Done when: The user has cloned the repository, installed the required dependencies (Node.js, Playwright, FFmpeg), and successfully run the first-run setup to verify local browser sessions.
+  - Effort: 30m
+  - Captured: 2026-09-05 18:07 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_0c0680bce76a2f5a
+
+- [ ] **Dan Koe: Multi-Interest Strategy Summary** — [source](https://x.com/MindBranches/status/2096063354682949746)
+  - Contains: The images summarize Dan Koe's article arguing that generalists should build a 'vessel' to channel curiosity into income. It outlines a seven-part framework covering self-education, intersectional advantage, and brand building.
+  - Potential benefit: This visual guide provides a structured roadmap for turning diverse interests into a sustainable business model. It emphasizes learning in public and building systems over chasing trends.
+  - Intent: learn · inferred
+  - Topic: Career Strategy
+  - Source author: MindBranches
+  - Priority: P1
+  - Impact: high
+  - Ease: moderate
+  - Important: yes
+  - Importance reason: It offers a comprehensive framework for generalists to monetize their diverse interests effectively.
+  - Urgent: no
+  - Urgency reason: The advice is strategic and can be applied over a long-term period.
+  - Done when: When the user has reviewed the seven steps and identified a relevant interest to develop.
+  - Effort: 15m
+  - Captured: 2026-09-05 15:41 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_12e12f2e2718a278
+
+- [ ] **LLM Inference Engine Mini-Project Plan** — [source](https://x.com/TheAhmadOsman/status/2095632421844828575)
+  - Contains: The post outlines a sequence of eight GPU implementation tasks to understand inference engines. It lists specific libraries like vLLM and SGLang as context for these exercises.
+  - Potential benefit: This is a structured curriculum for mastering low-level LLM serving optimization. It bridges theoretical papers with practical Triton and CUDA kernel development.
+  - Intent: implement · inferred
+  - Topic: LLM Inference Optimization
+  - Source author: Ahmad
+  - Priority: P2
+  - Impact: high
+  - Ease: deep
+  - Important: yes
+  - Importance reason: Mastering inference kernels is critical for high-performance LLM deployment. This knowledge directly reduces latency and increases throughput in production systems.
+  - Urgent: no
+  - Urgency reason: The skills are valuable but not immediately time-sensitive for most current workflows. Learning can be paced according to personal development goals.
+  - Done when: Custom op is successfully integrated and profiled in vLLM or SGLang.
+  - Effort: 2d
+  - Captured: 2026-09-04 08:11 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_c6abf5fb499a0926
+
+- [ ] **oh-my-hermes: Agentic Coding Harness** — [article](https://github.com/rlaope/oh-my-hermes)
+  - Contains: The post introduces oh-my-hermes, a tool that adds a professional operating layer to the Hermes agent. It provides a zero-learning curve for subagent optimization and agentic memory system packages. The tool supports desktop, CLI, and messenger interfaces with a single setup command.
+  - Potential benefit: This is a practical coding harness that automates complex engineering workflows like code review and frontend tasks. It allows users to delegate tasks to specialized subagents while maintaining explicit evidence boundaries. The tool is designed to be installed once and then used to build auto-routing capabilities.
+  - Intent: implement · inferred
+  - Topic: AI Agent Engineering
+  - Sources:
+    - [article](https://github.com/rlaope/oh-my-hermes)
+    - [X post](https://x.com/rlaope/status/2095446011632407015)
+  - Source author: HOPE | Engineer.
+  - Priority: P1
+  - Impact: high
+  - Ease: easy
+  - Important: yes
+  - Importance reason: It provides a structured way to manage subagents and memory, which is critical for scaling AI coding tasks.
+  - Urgent: no
+  - Urgency reason: The project is in early stages and does not require immediate action.
+  - Done when: After installing the tool and running the omh setup command.
+  - Effort: 15m
+  - Captured: 2026-09-04 07:53 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_be80ae1bec07939f
+
+- [ ] **12 FDE Projects for Hiring** — [source](https://x.com/suraj_sharma14/status/2095127540222603432?s=20)
+  - Contains: The post lists twelve specific engineering projects demonstrating enterprise AI integration skills. It claims completing these proves readiness for Forward Deployed Engineer roles.
+  - Potential benefit: This serves as a practical curriculum for bridging AI capabilities with legacy enterprise constraints. It emphasizes reliability, security, and business value over pure model experimentation.
+  - Intent: learn · inferred
+  - Topic: Career Development
+  - Source author: Suraj Sharma
+  - Priority: P2
+  - Impact: high
+  - Ease: deep
+  - Important: yes
+  - Importance reason: These projects address critical enterprise adoption barriers like security and legacy integration. Mastering them significantly increases employability in high-demand AI roles.
+  - Urgent: no
+  - Urgency reason: Hiring timelines vary and this is a long-term skill-building resource rather than an immediate task.
+  - Done when: One project is built and documented with clear business value demonstration.
+  - Effort: 2d
+  - Captured: 2026-09-03 20:29 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_31fe3695426fce1b
+
+- [ ] **Lieflat Charts: HTML-based AI Visualization Skill** — [source](https://x.com/Zhiyu333/status/2094719194302706136)
+  - Contains: Lieflat Charts is an open-source skill for AI agents to generate high-quality HTML-based data visualizations. It supports 60+ chart types with consistent visual grammar and interactive capabilities.
+  - Potential benefit: This tool enables developers to automate professional chart creation within coding workflows. It bridges the gap between raw data and polished, interactive HTML reports.
+  - Intent: implement · inferred
+  - Topic: Data Visualization Tool
+  - Source author: 躺在废墟里
+  - Priority: P2
+  - Impact: medium
+  - Ease: easy
+  - Important: yes
+  - Importance reason: It automates a tedious design task, saving time on chart styling. The HTML output ensures broad compatibility and interactivity.
+  - Urgent: no
+  - Urgency reason: There is no time-sensitive deadline or critical bug associated with this tool. It is a productivity enhancer rather than a blocker.
+  - Done when: Skill installed and one chart generated via an AI agent.
+  - Effort: 15m
+  - Captured: 2026-09-02 12:14 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_1b9faaef9bc74916
+
 - [ ] **NVIDIA Nemotron 3.5 Lightning for Agentic Workflows** — [source](https://x.com/MiaAI_lab/status/2094045216353251361)
   - Contains: The post highlights Nemotron 3.5 Lightning as a high-speed model for lightweight coding and agentic tasks on DGX Spark. The attached image confirms the product name and its positioning as an AI agent workhorse.
   - Potential benefit: This model is a strong candidate for local, high-throughput agent orchestration on consumer-grade hardware. It offers a practical solution for developers needing fast inference without cloud dependency.
@@ -296,24 +488,33 @@ Rules:
   - Captured: 2026-08-28 06:51 IST via Telegram · Hermes Swarm / Capture
   - ID: sc_69babc169e36a663
 
-- [ ] **Company Brain Architecture: 9 Real-World Examples** — [article](https://slite.com/ebooks/company-brain?utm_source=twitter&utm_medium=organic-social&utm_campaign=company-brain-ebook&utm_content=femke-honeypot&utm_id=fe08260k)
-  - Contains: The post and image detail nine real-world implementations of 'Company Brains' that all share four core functions: getting signals, remembering, dreaming & pruning, and speaking & searching. Examples include GBrain, mem0, Letta, Zep/Graphiti, Sylph, DIY, Pletor, Gorgias Cortex, and Slite Agent.
-  - Potential benefit: This provides a practical taxonomy for understanding how different teams structure their AI memory and knowledge systems. It highlights that despite different tools, the underlying architecture for managing organizational memory is surprisingly consistent.
-  - Intent: learn · inferred
+- [ ] **Build a centralized AI knowledge and skill governance system**
+  - Contains:
+    - Company Brain Architecture: 9 Real-World Examples: The post and image detail nine real-world implementations of 'Company Brains' that all share four core functions: getting signals, remembering, dreaming & pruning, and speaking & searching. Examples include GBrain, mem0, Letta, Zep/Graphiti, Sylph, DIY, Pletor, Gorgias Cortex, and Slite Agent.
+    - Centralize AI Corrections into Shared Company Brain: The post advocates aggregating scattered AI corrections into a unified company brain to prevent knowledge silos. This centralization ensures all agents use consistent, updated business logic rather than individual private prompts.
+  - Potential benefit: Creates a reusable institutional memory system that prevents knowledge silos and ensures consistent AI behavior across workflows.
+  - Intent: implement · inferred
   - Topic: AI Knowledge Management
   - Sources:
-    - [article](https://slite.com/ebooks/company-brain?utm_source=twitter&utm_medium=organic-social&utm_campaign=company-brain-ebook&utm_content=femke-honeypot&utm_id=fe08260k)
-    - [X post](https://x.com/femke_plantinga/status/2092918452423983363?s=20)
-  - Source author: Femke Plantinga
+    - [article](https://slite.com/ebooks/company-brain?utm_source=twitter&utm_medium=organic-social&utm_campaign=company-brain-ebook&utm_content=femke-honeypot&utm_id=fe08260k) — Company Brain Architecture: 9 Real-World Examples
+    - [X post](https://x.com/femke_plantinga/status/2092918452423983363?s=20) — Company Brain Architecture: 9 Real-World Examples
+    - [article](https://x.com/i/article/2092243366759235586) — Centralize AI Corrections into Shared Company Brain
+    - [X post](https://x.com/VibeMarketer_/status/2092243372929151135) — Centralize AI Corrections into Shared Company Brain
+  - Source author: Femke Plantinga / J.B.
   - Priority: P2
-  - Impact: medium
-  - Ease: easy
+  - Impact: high
+  - Ease: moderate
   - Important: yes
-  - Importance reason: It provides a clear, comparative framework for understanding the emerging 'Company Brain' category and its practical implementations.
+  - Importance reason: Addresses a critical scalability bottleneck where individual AI gains do not compound across workflows. Centralizing knowledge prevents redundant work and reduces errors from outdated or conflicting agent instructions.
   - Urgent: no
-  - Urgency reason: The topic is relevant but does not require immediate action.
-  - Done when: After reviewing the four core components and identifying which real-world example best aligns with current team needs.
-  - Effort: 15m
+  - Urgency reason: The problem accumulates slowly over time as more tools and corrections are adopted; early adoption prevents entrenched silos.
+  - Done when: One document maps the four core Company Brain functions to concrete tools or patterns available in the current stack, with a pilot skill or correction repository created.
+  - Effort: 45m
+  - Consolidation key: centralize-ai-knowledge-governance
+  - Consolidation reason: Both tasks target establishing a centralized system for managing AI knowledge and corrections. The Company Brain Architecture (Slite ebook) provides a taxonomy of nine real-world implementations with four core functions (get signals, remember, dream/prune, speak/search), while the Centralize AI Corrections task addresses the practical problem of aggregating scattered AI corrections into a unified system. Consolidating produces one governance artifact rather than two overlapping reviews.
+  - Consolidated IDs: sc_490a08dd1f72970f, sc_02d9fcd50189fb31
+  - Consolidated at: 2026-08-31T22:05:15+05:30
+  - Batch size: 2
   - Captured: 2026-08-27 19:28 IST via Telegram · Hermes Swarm / Capture
   - ID: sc_490a08dd1f72970f
 
@@ -595,27 +796,6 @@ Rules:
   - Effort: 1h
   - Captured: 2026-08-26 22:24 IST via Telegram · Hermes Swarm / Capture
   - ID: sc_9a42de6cc8ec6564
-
-- [ ] **Centralize AI Corrections into Shared Company Brain** — [article](https://x.com/i/article/2092243366759235586)
-  - Contains: The post advocates aggregating scattered AI corrections into a unified company brain to prevent knowledge silos. This centralization ensures all agents use consistent, updated business logic rather than individual private prompts.
-  - Potential benefit: It frames AI usage as a collective asset requiring structured governance for maximum organizational leverage. The approach transforms individual efficiency gains into scalable, reusable institutional intelligence.
-  - Intent: implement · inferred
-  - Topic: AI Knowledge Management
-  - Sources:
-    - [article](https://x.com/i/article/2092243366759235586)
-    - [X post](https://x.com/VibeMarketer_/status/2092243372929151135)
-  - Source author: J.B.
-  - Priority: P2
-  - Impact: high
-  - Ease: moderate
-  - Important: yes
-  - Importance reason: It addresses a critical scalability bottleneck where individual AI gains do not compound across the team. Centralizing this knowledge prevents redundant work and reduces errors from outdated or conflicting agent instructions.
-  - Urgent: no
-  - Urgency reason: The problem accumulates slowly over time as more employees adopt AI tools, creating increasing fragmentation. Immediate action is not required, but early adoption prevents entrenched silos.
-  - Done when: A shared document capturing the top five recurring AI corrections is created and linked to the primary agent workspace.
-  - Effort: 30m
-  - Captured: 2026-08-26 22:10 IST via Telegram · Hermes Swarm / Capture
-  - ID: sc_02d9fcd50189fb31
 
 - [ ] **DeepSeek V4 Flash on 2x DGX Spark** — [article](https://github.com/MiaAI-Lab/DeepSeek-v4-Flash-DSpark-2x-DGX-Spark)
   - Contains: MiaAI Lab released a recipe for running DeepSeek V4 Flash on dual DGX Sparks using vLLM and speculative decoding. The post highlights performance improvements and credits PlotArmor Dev for the project contributions.

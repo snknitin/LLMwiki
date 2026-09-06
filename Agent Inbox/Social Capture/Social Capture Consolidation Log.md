@@ -1,5 +1,5 @@
 <!-- consolidation-state
-{"groups_merged": 0, "last_run_at": "2026-08-31T12:52:30+05:30", "message": "Already compacted—no high-confidence groups were available.", "mode": "manual-dashboard", "queue_revision": "424edcade16468f52cf3280130061418999b8918796920ed097f2adcffe1cb5d", "status": "already_compacted", "tasks_absorbed": 0}
+{"groups_merged": 0, "last_run_at": "2026-09-05T22:04:22+05:30", "message": "Already compacted—no high-confidence groups were available.", "mode": "manual-dashboard", "queue_revision": "8264c31dc038f207bdc0bd399072e7798370782825645c57cdc6068433409161", "status": "already_compacted", "tasks_absorbed": 0}
 -->
 # Social Capture Consolidation Log
 
@@ -414,5 +414,108 @@
 - Outcome: already_compacted
 - Queue revision before: `424edcade16468f52cf3280130061418999b8918796920ed097f2adcffe1cb5d`
 - Queue revision after: `424edcade16468f52cf3280130061418999b8918796920ed097f2adcffe1cb5d`
+- Groups merged: 0
+- Tasks absorbed: 0
+
+### 2026-08-31T22:05:15+05:30
+- Mode: scheduled-agent
+- Outcome: merged
+- Queue revision before: `424edcade16468f52cf3280130061418999b8918796920ed097f2adcffe1cb5d`
+- Queue revision after: `388898bbc23f8a5b061159928684741058d30120c869becd31f9a280b268b896`
+- Groups merged: 1
+- Tasks absorbed: 1
+
+#### Survivor `sc_490a08dd1f72970f`
+- Members: `sc_490a08dd1f72970f`, `sc_02d9fcd50189fb31`
+- Reason: Both tasks target establishing a centralized system for managing AI knowledge and corrections. The Company Brain Architecture (Slite ebook) provides a taxonomy of nine real-world implementations with four core functions (get signals, remember, dream/prune, speak/search), while the Centralize AI Corrections task addresses the practical problem of aggregating scattered AI corrections into a unified system. Consolidating produces one governance artifact rather than two overlapping reviews.
+- Consolidation key: `centralize-ai-knowledge-governance`
+
+##### Original task blocks
+
+###### `sc_490a08dd1f72970f`
+```markdown
+- [ ] **Company Brain Architecture: 9 Real-World Examples** — [article](https://slite.com/ebooks/company-brain?utm_source=twitter&utm_medium=organic-social&utm_campaign=company-brain-ebook&utm_content=femke-honeypot&utm_id=fe08260k)
+  - Contains: The post and image detail nine real-world implementations of 'Company Brains' that all share four core functions: getting signals, remembering, dreaming & pruning, and speaking & searching. Examples include GBrain, mem0, Letta, Zep/Graphiti, Sylph, DIY, Pletor, Gorgias Cortex, and Slite Agent.
+  - Potential benefit: This provides a practical taxonomy for understanding how different teams structure their AI memory and knowledge systems. It highlights that despite different tools, the underlying architecture for managing organizational memory is surprisingly consistent.
+  - Intent: learn · inferred
+  - Topic: AI Knowledge Management
+  - Sources:
+    - [article](https://slite.com/ebooks/company-brain?utm_source=twitter&utm_medium=organic-social&utm_campaign=company-brain-ebook&utm_content=femke-honeypot&utm_id=fe08260k)
+    - [X post](https://x.com/femke_plantinga/status/2092918452423983363?s=20)
+  - Source author: Femke Plantinga
+  - Priority: P2
+  - Impact: medium
+  - Ease: easy
+  - Important: yes
+  - Importance reason: It provides a clear, comparative framework for understanding the emerging 'Company Brain' category and its practical implementations.
+  - Urgent: no
+  - Urgency reason: The topic is relevant but does not require immediate action.
+  - Done when: After reviewing the four core components and identifying which real-world example best aligns with current team needs.
+  - Effort: 15m
+  - Captured: 2026-08-27 19:28 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_490a08dd1f72970f
+```
+
+###### `sc_02d9fcd50189fb31`
+```markdown
+- [ ] **Centralize AI Corrections into Shared Company Brain** — [article](https://x.com/i/article/2092243366759235586)
+  - Contains: The post advocates aggregating scattered AI corrections into a unified company brain to prevent knowledge silos. This centralization ensures all agents use consistent, updated business logic rather than individual private prompts.
+  - Potential benefit: It frames AI usage as a collective asset requiring structured governance for maximum organizational leverage. The approach transforms individual efficiency gains into scalable, reusable institutional intelligence.
+  - Intent: implement · inferred
+  - Topic: AI Knowledge Management
+  - Sources:
+    - [article](https://x.com/i/article/2092243366759235586)
+    - [X post](https://x.com/VibeMarketer_/status/2092243372929151135)
+  - Source author: J.B.
+  - Priority: P2
+  - Impact: high
+  - Ease: moderate
+  - Important: yes
+  - Importance reason: It addresses a critical scalability bottleneck where individual AI gains do not compound across the team. Centralizing this knowledge prevents redundant work and reduces errors from outdated or conflicting agent instructions.
+  - Urgent: no
+  - Urgency reason: The problem accumulates slowly over time as more employees adopt AI tools, creating increasing fragmentation. Immediate action is not required, but early adoption prevents entrenched silos.
+  - Done when: A shared document capturing the top five recurring AI corrections is created and linked to the primary agent workspace.
+  - Effort: 30m
+  - Captured: 2026-08-26 22:10 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_02d9fcd50189fb31
+```
+
+### 2026-09-01T22:01:04+05:30
+- Mode: manual-dashboard
+- Outcome: already_compacted
+- Queue revision before: `388898bbc23f8a5b061159928684741058d30120c869becd31f9a280b268b896`
+- Queue revision after: `388898bbc23f8a5b061159928684741058d30120c869becd31f9a280b268b896`
+- Groups merged: 0
+- Tasks absorbed: 0
+
+### 2026-09-02T22:03:00+05:30
+- Mode: manual-dashboard
+- Outcome: already_compacted
+- Queue revision before: `206f0cdad4e5b66b71dc4ceac645fc9259434e8f386cd2a5d9d82237212f9a64`
+- Queue revision after: `206f0cdad4e5b66b71dc4ceac645fc9259434e8f386cd2a5d9d82237212f9a64`
+- Groups merged: 0
+- Tasks absorbed: 0
+
+### 2026-09-03T22:03:28+05:30
+- Mode: manual-dashboard
+- Outcome: already_compacted
+- Queue revision before: `6a50283881043766bcfd825db34b26e318e9bcd4e42661cf0914d4697baf72ff`
+- Queue revision after: `6a50283881043766bcfd825db34b26e318e9bcd4e42661cf0914d4697baf72ff`
+- Groups merged: 0
+- Tasks absorbed: 0
+
+### 2026-09-04T22:01:49+05:30
+- Mode: manual-dashboard
+- Outcome: already_compacted
+- Queue revision before: `fcf96e43139de1224d2976f1d7ea42d69918e88da295f42bdfce00a7782995af`
+- Queue revision after: `fcf96e43139de1224d2976f1d7ea42d69918e88da295f42bdfce00a7782995af`
+- Groups merged: 0
+- Tasks absorbed: 0
+
+### 2026-09-05T22:04:22+05:30
+- Mode: manual-dashboard
+- Outcome: already_compacted
+- Queue revision before: `8264c31dc038f207bdc0bd399072e7798370782825645c57cdc6068433409161`
+- Queue revision after: `8264c31dc038f207bdc0bd399072e7798370782825645c57cdc6068433409161`
 - Groups merged: 0
 - Tasks absorbed: 0
