@@ -1,5 +1,5 @@
 <!-- consolidation-state
-{"groups_merged": 4, "last_run_at": "2026-09-16T19:19:06+05:30", "message": "Merged 4 tasks into 4 focused batches.", "mode": "ai-semantic-dashboard", "queue_revision": "4622a36ce18da2f9d225aae19e7d475718791749ebcbdb7254e34418e0a75ccb", "status": "merged", "tasks_absorbed": 4}
+{"groups_merged": 11, "last_run_at": "2026-09-16T21:02:03+05:30", "message": "Merged 12 tasks into 11 focused batches.", "mode": "ai-semantic-dashboard", "queue_revision": "1f21c8f23a6e644a974ff519477511be8b56f38cd28b3e889d7b21a0a93fd247", "status": "merged", "tasks_absorbed": 12}
 -->
 # Social Capture Consolidation Log
 
@@ -878,4 +878,1036 @@
   - Effort: 30m
   - Captured: 2026-08-26 22:53 IST via Telegram · Hermes Swarm / Capture
   - ID: sc_22bd2c1fb5d483d8
+```
+
+### 2026-09-16T19:48:09+05:30
+- Mode: ai-semantic-dashboard
+- Outcome: merged
+- Queue revision before: `4622a36ce18da2f9d225aae19e7d475718791749ebcbdb7254e34418e0a75ccb`
+- Queue revision after: `23aea11d48c719132f0ba6575b9030b7c917f3ed4316fd8b001768361b4ce343`
+- Groups merged: 5
+- Tasks absorbed: 6
+
+#### Survivor `sc_3bc9757af5218ba0`
+- Members: `sc_3bc9757af5218ba0`, `sc_55d37182a1817d19`, `sc_4bf8ca815d14cb1b`
+- Reason: All three tasks involve reviewing and selecting resources for foundational computer science and distributed systems education. They share the same execution context (reviewing syllabi, books, and courses) and intent (learn). Combining them creates a single, coherent study roadmap rather than three separate resource reviews.
+- Consolidation key: `cs-fundamentals-learning-path`
+
+##### Original task blocks
+
+###### `sc_3bc9757af5218ba0`
+```markdown
+- [ ] **Distributed Systems Learning Path** — [source](https://x.com/iTanayVaswani/status/2099331599204814896)
+  - Contains: Phil Eaton recommends three steps for learning distributed systems: reading DDIA, following MIT 6.5840, and doing the fly.io challenge. The post emphasizes that the order of these steps does not matter.
+  - Potential benefit: This provides a curated, high-signal roadmap for mastering distributed systems without needing to search for resources. It combines a definitive text, a rigorous academic course, and a practical implementation challenge.
+  - Intent: learn · inferred
+  - Topic: Distributed Systems Education
+  - Source author: Tanay Vaswani
+  - Priority: P1
+  - Impact: high
+  - Ease: easy
+  - Important: yes
+  - Importance reason: Distributed systems are a critical skill for senior engineering roles and high-scale software design.
+  - Urgent: no
+  - Urgency reason: Learning distributed systems is a long-term career investment rather than an immediate operational need.
+  - Done when: After reviewing DDIA and enrolling in MIT 6.5840.
+  - Effort: 30m
+  - Captured: 2026-09-14 14:41 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_3bc9757af5218ba0
+```
+
+###### `sc_55d37182a1817d19`
+```markdown
+- [ ] **MIT 6.172 Performance Engineering of Software Systems** — [article](https://ocw.mit.edu/courses/6-172-performance-engineering-of-software-systems-fall-2018/video_galleries/lecture-videos/)
+  - Contains: The MIT OpenCourseWare page for course 6.172 lists 23 lecture videos covering performance optimization, assembly language, and parallel programming. The course is taught by Prof. Charles Leiserson and Prof. Julian Shun in Fall 2018.
+  - Potential benefit: This is a high-quality, free academic resource for learning low-level software performance engineering and systems optimization. It provides a structured curriculum from basic matrix multiplication to advanced parallel algorithms.
+  - Intent: learn · inferred
+  - Topic: Software Performance Engineering
+  - Sources:
+    - [article](https://ocw.mit.edu/courses/6-172-performance-engineering-of-software-systems-fall-2018/video_galleries/lecture-videos/)
+    - [X post](https://x.com/vivekgalatage/status/2092584643350708733?s=20)
+  - Source author: Vivek Galatage
+  - Priority: P1
+  - Impact: high
+  - Ease: moderate
+  - Important: yes
+  - Importance reason: It is a comprehensive, free resource from a top institution for a critical engineering skill.
+  - Urgent: no
+  - Urgency reason: The content is evergreen educational material without immediate time sensitivity.
+  - Done when: After reviewing the lecture list and selecting a few key videos to watch.
+  - Effort: 15m
+  - Captured: 2026-08-27 15:50 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_55d37182a1817d19
+```
+
+###### `sc_4bf8ca815d14cb1b`
+```markdown
+- [ ] **Teach Yourself Computer Science Guide** — [article](https://teachyourselfcs.com/)
+  - Contains: The linked guide provides a curated curriculum of nine computer science subjects with recommended textbooks and videos for self-taught engineers. It aims to fill knowledge gaps in areas like algorithms and computer architecture to improve engineering intuition.
+  - Potential benefit: This resource offers a structured path to theoretical CS knowledge, addressing the common gap between practical coding and underlying theory. It serves as a definitive roadmap for engineers seeking to understand the 'why' behind their code.
+  - Intent: learn · inferred
+  - Topic: Computer Science Education
+  - Sources:
+    - [article](https://teachyourselfcs.com/)
+    - [X post](https://x.com/Hi_Mrinal/status/2092842912707137895?s=20)
+  - Source author: Mrinal
+  - Priority: P1
+  - Impact: high
+  - Ease: moderate
+  - Important: yes
+  - Importance reason: It provides a structured, high-quality curriculum for self-taught engineers to master foundational CS concepts often missing in bootcamps.
+  - Urgent: no
+  - Urgency reason: The guide is a reference resource for long-term skill development rather than an immediate operational requirement.
+  - Done when: The user has reviewed the nine subject list and selected a starting topic or textbook.
+  - Effort: 15m
+  - Captured: 2026-08-27 14:11 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_4bf8ca815d14cb1b
+```
+
+#### Survivor `sc_2674a104ad7790d2`
+- Members: `sc_2674a104ad7790d2`, `sc_08ee7b62d73785b8`
+- Reason: Both tasks involve testing or benchmarking specific AI models on the user's DGX Spark hardware. They share the same execution context (DGX Spark), same intent (test/benchmark), and can be completed in a single hardware-focused session to compare performance and resource usage.
+- Consolidation key: `dgx-spark-model-benchmarks`
+
+##### Original task blocks
+
+###### `sc_2674a104ad7790d2`
+```markdown
+- [ ] **Benchmark and test local models on DGX Spark hardware**
+  - Contains:
+    - Test Minimax H3 Max on RTX 5000: The user wants to test Minimax H3 Max locally on an RTX 5000 GPU. This is a concrete technical exploration task based on a viral demo.
+    - Benchmark Qwen3.8-27B BF16 lm_head update on DGX Spark: Qwen3.8-27B model update with new BF16 lm_head from SGLang project, claimed to give significant accuracy improvement. Pre-built Docker images available for RTX PRO 6000 and DGX Spark. Community reports token generation nearly doubled from pure BF16 with almost no quality loss. One commenter asks if it fixes the 'overthinking problem.'
+  - Potential benefit: Consolidates hardware testing into one session, allowing for direct comparison of model performance and resource usage on the same DGX Spark instance.
+  - Intent: test · inferred
+  - Topic: Local AI Inference
+  - Source author: Nitin
+  - Priority: P1
+  - Impact: medium
+  - Ease: moderate
+  - Important: yes
+  - Importance reason: This batch combines 2 actions that support the same outcome.
+  - Urgent: no
+  - Urgency reason: Preserved from the member tasks; batch size alone does not create urgency.
+  - Done when: Minimax H3 Max runs locally or hardware limits are confirmed, and Qwen3.8-27B BF16 benchmark results (accuracy, speed) are recorded.
+  - Effort: 1h 30m
+  - Consolidation key: dgx-spark-model-benchmarks
+  - Consolidation reason: Both tasks involve testing or benchmarking specific AI models on the user's DGX Spark hardware. Testing Minimax H3 Max validates hardware limits and inference speed, while benchmarking Qwen3.8-27B BF16 lm_head tests accuracy and throughput improvements. They share the same execution context (DGX Spark), same intent (test/benchmark), and can be completed in a single hardware-focused session.
+  - Consolidated IDs: sc_2674a104ad7790d2, sc_3c232f8d7e1624b1
+  - Consolidated at: 2026-09-16T19:19:06+05:30
+  - Batch size: 2
+  - Sources:
+    - [source](https://x.com/rehan_shei/status/2093528415576211819) — Test Minimax H3 Max on RTX 5000
+    - [source](https://x.com/MiaAI_lab/status/2092017038319386782) — Benchmark Qwen3.8-27B BF16 lm_head update on DGX Spark
+  - Captured: 2026-08-29 12:05 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_2674a104ad7790d2
+```
+
+###### `sc_08ee7b62d73785b8`
+```markdown
+- [ ] **DeepSeek V4 Flash on 2x DGX Spark** — [article](https://github.com/MiaAI-Lab/DeepSeek-v4-Flash-DSpark-2x-DGX-Spark)
+  - Contains: MiaAI Lab released a recipe for running DeepSeek V4 Flash on dual DGX Sparks using vLLM and speculative decoding. The post highlights performance improvements and credits PlotArmor Dev for the project contributions.
+  - Potential benefit: This provides a concrete, reproducible setup for high-performance inference on specific hardware. It serves as a benchmark for comparing dual-node efficiency against single-node alternatives.
+  - Intent: implement · inferred
+  - Topic: AI Inference Infrastructure
+  - Sources:
+    - [article](https://github.com/MiaAI-Lab/DeepSeek-v4-Flash-DSpark-2x-DGX-Spark)
+    - [X post](https://x.com/MiaAI_lab/status/2092366604604502029?s=20)
+  - Source author: Mia
+  - Priority: P2
+  - Impact: medium
+  - Ease: moderate
+  - Important: yes
+  - Importance reason: It offers a validated path for scaling inference on available hardware. This reduces the trial-and-error cost for teams with similar infrastructure.
+  - Urgent: no
+  - Urgency reason: The release is not time-sensitive for immediate adoption. Teams can evaluate it during their next infrastructure review cycle.
+  - Done when: Recipe is cloned and environment variables are configured for the specific hardware setup.
+  - Effort: 30m
+  - Captured: 2026-08-26 22:10 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_08ee7b62d73785b8
+```
+
+#### Survivor `sc_2a44ee5495ea0eb9`
+- Members: `sc_2a44ee5495ea0eb9`, `sc_81de50ddaaaccff4`
+- Reason: Both tasks are immediate, high-priority actions for career advancement. One involves sending a personalized outreach message (recruiting strategy), and the other involves reviewing and deciding on a specific job application (OpenAI roles). They share the same goal (career progression) and can be batched into a single 'career admin' work session.
+- Consolidation key: `senior-ai-career-actions`
+
+##### Original task blocks
+
+###### `sc_2a44ee5495ea0eb9`
+```markdown
+- [ ] **Recruiting: Relevance Over Volume** — [source](https://www.linkedin.com/feed/update/urn:li:activity:7495447513139896320?updateEntityUrn=urn%3Ali%3Afs_updateV2%3A%28urn%3Ali%3Aactivity%3A7495447513139896320%2CFEED_DETAIL%2CEMPTY%2CDEFAULT%2Cfalse%29)
+  - Contains: Personalized outreach using eight minutes of research significantly boosts response rates compared to bulk messaging. This shift from volume to relevance transforms candidate engagement and hiring efficiency.
+  - Potential benefit: High-effort personalization signals respect and genuine interest, distinguishing recruiters in saturated markets. It proves that quality attention yields better results than automated quantity.
+  - Intent: learn · inferred
+  - Topic: Recruitment Strategy
+  - Source author: www.linkedin.com
+  - Priority: P2
+  - Impact: medium
+  - Ease: moderate
+  - Important: no
+  - Importance reason: Improves hiring quality and candidate experience significantly. Reduces wasted effort on unresponsive bulk outreach.
+  - Urgent: yes
+  - Urgency reason: No immediate deadline or time-sensitive opportunity exists. The strategy is a long-term process improvement.
+  - Done when: One personalized message sent with specific reference to candidate's recent work.
+  - Effort: 15m
+  - Matrix order: 4000
+  - Captured: 2026-08-27 08:21 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_2a44ee5495ea0eb9
+```
+
+###### `sc_81de50ddaaaccff4`
+```markdown
+- [ ] **Evaluate OpenAI Applied AI Architect and Engineer roles for fit** — [source](https://x.com/arjun_gupta95/status/2091909090704503119)
+  - Contains: OpenAI is hiring Applied AI Architect and Applied AI Engineer in Delhi, India. The roles focus on helping customers turn frontier models into production systems. Application form and job pages linked by poster @arjun_gupta95. Nitin's stated preference: OpenAI and top frontier labs are worth exploring regardless of location.
+  - Potential benefit: Directly advances Nitin's goal of reaching a top-tier AI engineering role; even if Delhi-based, the role could be remote or relocatable, and the application process itself provides market calibration.
+  - Intent: decide · stated
+  - Topic: Career — frontier labs
+  - Priority: P1
+  - Impact: high
+  - Ease: moderate
+  - Important: yes
+  - Importance reason: OpenAI is a top frontier lab; applying provides both a potential career path and market-signal calibration for Nitin's ₹1.5–2 Cr Hyderabad target.
+  - Urgent: yes
+  - Urgency reason: Job postings have implicit deadlines and early applications often receive better consideration; the window is open now but may close.
+  - Done when: Nitin has reviewed the role descriptions, decided whether to apply or pass, and (if applying) submitted through the Google Form or OpenAI careers page.
+  - Effort: 30m
+  - Matrix order: 1000
+  - Captured: 2026-08-25 23:05 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_81de50ddaaaccff4
+```
+
+#### Survivor `sc_801a7e39073fb1ed`
+- Members: `sc_801a7e39073fb1ed`, `sc_b9cabd2eedaaca56`
+- Reason: Both tasks are concrete implementation or diagnostic steps for professional engineering hygiene and career readiness. One involves setting up git hooks to protect authorship, and the other involves running a diagnostic for a specific senior role level. They share the intent of 'implementing' a process or test to improve professional standing.
+- Consolidation key: `git-provenance-and-l6-diagnostic`
+
+##### Original task blocks
+
+###### `sc_801a7e39073fb1ed`
+```markdown
+- [ ] **Wire pre-commit and commit-msg hooks to block agent-generated git attribution trailers** — [source](https://x.com/TheAhmadOsman/status/2091956352247550437)
+  - Contains: Ahmad Osman warns that AI coding agents inject Co-authored-by trailers into git history, fragmenting authorship attribution. He recommends hardcoding author/committer identity, blocking third-party trailers via pre-commit/commit-msg/pre-merge-commit hooks, and packaging the guards as a reusable skill. Top comments confirm pre-commit is the right layer because it catches all commits regardless of agent behavior.
+  - Potential benefit: Protects git provenance and personal contribution history from agent-side metadata pollution; ensures clean blame and public evidence of Nitin's work.
+  - Intent: implement · inferred
+  - Topic: Git provenance
+  - Priority: P2
+  - Impact: medium
+  - Ease: easy
+  - Important: yes
+  - Importance reason: Clean git history is evidence for Nitin's AI engineering brand and project integrity; agent-injected trailers fragment blame and attribution.
+  - Urgent: no
+  - Urgency reason: No deadline, expiring opportunity, or current dependency; the fix is a one-time guard that compounds in value over time.
+  - Done when: One project has pre-commit and commit-msg hooks that reject unknown Co-authored-by and AI-attribution trailers, author/committer is pinned, and the hooks are packaged as a skill or shared config.
+  - Effort: 30m
+  - Matrix order: 6000
+  - Captured: 2026-08-25 08:00 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_801a7e39073fb1ed
+```
+
+###### `sc_b9cabd2eedaaca56`
+```markdown
+- [ ] **Run a Google L6 readiness diagnostic before collecting more prep material** — [source](https://www.teamblind.com/us/cm/r7w9gsnwklac)
+  - Contains: A Microsoft L64 engineer with 14 years of experience asks how to prepare for Google India L6, naming NeetCode 150, Hello Interview, mock interviews, and difficulty retaining system-design concepts. The most useful replies recommend solving designs from requirements and data/storage constraints, making mistakes before studying reference solutions, using repeated mocks and feedback, and discussing real distributed-system trade-offs; suggested resources include Alex Xu’s two system-design volumes, Hello Interview’s design questions and story builder, and Alex Croitor for behavioral preparation, while commenters disagree on whether NeetCode 150 is sufficient.
+  - Potential benefit: Replaces passive resource accumulation with a measured baseline tailored to Nitin’s senior AI-career goal, exposing whether coding, architecture, communication, or leadership evidence is the actual constraint before committing to a long preparation plan.
+  - Intent: test · inferred
+  - Topic: Google L6 preparation
+  - Priority: P1
+  - Impact: high
+  - Ease: moderate
+  - Important: yes
+  - Importance reason: A calibrated L6 gap map directly supports Nitin’s goal of moving into a high-compensation AI engineering, MTS, or principal data-science role and prevents months of unfocused interview study.
+  - Urgent: yes
+  - Urgency reason: No application, interview date, expiring opening, or other near-term consequence is stated.
+  - Done when: One target Google L6 job family is selected, one timed coding problem and one 45-minute system-design mock are scored against explicit rubrics, and a one-page gap map identifies the next three drills with evidence for each.
+  - Effort: 2h
+  - Matrix order: 1000
+  - Captured: 2026-08-23 10:39 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_b9cabd2eedaaca56
+```
+
+#### Survivor `sc_4cea548f48144c0e`
+- Members: `sc_4cea548f48144c0e`, `sc_19529a865b85742d`
+- Reason: Both tasks involve creating or preparing content/assets for the user's personal brand and technical credibility. One is outlining a build-in-public series about DGX Spark, and the other is building a reference library for agent-built UIs which can be used in that content. They share the context of 'content creation for technical audience'.
+- Consolidation key: `ai-brand-content-prep`
+
+##### Original task blocks
+
+###### `sc_4cea548f48144c0e`
+```markdown
+- [ ] **Strengthen agent-built UI grounding with vetted references and reusable components**
+  - Contains:
+    - Build an agent-ready frontend component reference library from proven product patterns: Machina describes replacing one-shot frontend prompting with a curated “Lego” of components extracted from products such as Stripe and Linear. Agents receive real reference links, fetch component patterns, and adapt vetted pieces rather than inventing an entire design from abstract style prompts; a top reply also points to Mobbin MCP for collecting product-design references.
+    - Add five concrete design-reference sites to the Kole Jain UI/UX skill: The post curates five grounding resources for AI coding agents: ui-skills.com for UI patterns, coss.com/ui for interface examples, designsystemchecklist.com for audits, reui.io/components for reusable components, and emilkowal.ski/ui/you-dont-need-animations for avoiding decorative animation. These supplement the existing Kole Jain principles with concrete references.
+  - Potential benefit: Handles 2 closely related captures in one focused batch.
+  - Intent: implement · inferred
+  - Topic: Frontend design systems
+  - Source author: Machina · @EXM7777
+  - Priority: P2
+  - Impact: high
+  - Ease: moderate
+  - Important: yes
+  - Importance reason: This batch combines 2 actions that support the same outcome.
+  - Urgent: no
+  - Urgency reason: Preserved from the member tasks; batch size alone does not create urgency.
+  - Done when: The five reference sites are documented in ui-ux-design-kole with when-to-use guidance, at least ten vetted components from three proven products are catalogued, and one component is reused in a real project.
+  - Effort: 2h 30m
+  - Matrix order: 8000
+  - Consolidation key: improve-agent-ui-design-grounding
+  - Consolidation reason: All member tasks share the explicit consolidation key `improve-agent-ui-design-grounding` and workflow state.
+  - Consolidated IDs: sc_4cea548f48144c0e, sc_e24295fc2920d36a
+  - Consolidated at: 2026-08-26T10:28:24+05:30
+  - Batch size: 2
+  - Sources:
+    - [source](https://x.com/EXM7777/status/2092250905655812121) — Build an agent-ready frontend component reference library from proven product patterns
+    - [source](https://x.com/eptwts/status/2092298910190448727) — Add five concrete design-reference sites to the Kole Jain UI/UX skill
+  - Captured: 2026-08-26 07:42 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_4cea548f48144c0e
+```
+
+###### `sc_19529a865b85742d`
+```markdown
+- [ ] **Outline a four-post dual-DGX-Spark build-in-public series** — [source](https://x.com/sudoingX/status/2090304783370559565)
+  - Contains: Sudo says NVIDIA supplied both of his DGX Sparks after a year of consistently publishing hands-on local-AI work as a solo builder; the attached photo visibly shows two DGX Spark units, branded packaging, and a high-speed cable, while the quoted post proposes joining the systems for larger distributed-model workloads.
+  - Potential benefit: Turns Nitin’s unusually relevant two-Spark setup into a repeatable, evidence-first content arc that can build AI credibility and make his technical work legible to collaborators or sponsors without copying the post’s motivational framing.
+  - Intent: write · inferred
+  - Topic: AI personal brand
+  - Priority: P1
+  - Impact: high
+  - Ease: moderate
+  - Important: yes
+  - Importance reason: Publishing real dual-Spark experiments directly advances Nitin’s AI credibility goal while extracting public value from hardware he already owns.
+  - Urgent: no
+  - Urgency reason: There is no deadline, expiring opportunity, or current dependency; social visibility compounds through consistency rather than requiring an immediate reaction to this post.
+  - Done when: One Markdown outline specifies four artifact-led posts—hardware and cluster setup, link validation, a larger-model benchmark, and lessons—with a hook, evidence to capture, and one reader takeaway for each.
+  - Effort: 1h
+  - Matrix order: 2000
+  - Captured: 2026-08-22 22:20 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_19529a865b85742d
+```
+
+### 2026-09-16T21:02:03+05:30
+- Mode: ai-semantic-dashboard
+- Outcome: merged
+- Queue revision before: `23aea11d48c719132f0ba6575b9030b7c917f3ed4316fd8b001768361b4ce343`
+- Queue revision after: `1f21c8f23a6e644a974ff519477511be8b56f38cd28b3e889d7b21a0a93fd247`
+- Groups merged: 11
+- Tasks absorbed: 12
+
+#### Survivor `sc_3bc9757af5218ba0`
+- Members: `sc_3bc9757af5218ba0`, `sc_9b1709318059cb86`, `sc_b84d72a2529e0084`
+- Reason: All three tasks involve reviewing and selecting resources for foundational computer science and AI infrastructure education. They share the same execution context (reviewing syllabi, books, and courses) and intent (learn). Combining them creates a single, coherent study roadmap rather than three separate resource reviews.
+- Consolidation key: `cs-fundamentals-learning-path`
+
+##### Original task blocks
+
+###### `sc_3bc9757af5218ba0`
+```markdown
+- [ ] **Curate distributed systems and CS fundamentals learning path**
+  - Contains:
+    - Distributed Systems Learning Path: Phil Eaton recommends three steps for learning distributed systems: reading DDIA, following MIT 6.5840, and doing the fly.io challenge. The post emphasizes that the order of these steps does not matter.
+    - MIT 6.172 Performance Engineering of Software Systems: The MIT OpenCourseWare page for course 6.172 lists 23 lecture videos covering performance optimization, assembly language, and parallel programming. The course is taught by Prof. Charles Leiserson and Prof. Julian Shun in Fall 2018.
+    - Teach Yourself Computer Science Guide: The linked guide provides a curated curriculum of nine computer science subjects with recommended textbooks and videos for self-taught engineers. It aims to fill knowledge gaps in areas like algorithms and computer architecture to improve engineering intuition.
+  - Potential benefit: Handles 3 closely related captures in one focused batch.
+  - Intent: learn · inferred
+  - Topic: Computer Science Education
+  - Source author: Tanay Vaswani
+  - Priority: P1
+  - Impact: high
+  - Ease: moderate
+  - Important: yes
+  - Importance reason: This batch combines 3 actions that support the same outcome.
+  - Urgent: no
+  - Urgency reason: Preserved from the member tasks; batch size alone does not create urgency.
+  - Done when: All 3 source-specific items are processed and one combined artifact or decision is recorded.
+  - Effort: 1h
+  - Consolidation key: cs-fundamentals-learning-path
+  - Consolidation reason: All three tasks involve reviewing and selecting resources for foundational computer science and distributed systems education. They share the same execution context (reviewing syllabi, books, and courses) and intent (learn). Combining them creates a single, coherent study roadmap rather than three separate resource reviews.
+  - Consolidated IDs: sc_3bc9757af5218ba0, sc_55d37182a1817d19, sc_4bf8ca815d14cb1b
+  - Consolidated at: 2026-09-16T19:48:09+05:30
+  - Batch size: 3
+  - Sources:
+    - [source](https://x.com/iTanayVaswani/status/2099331599204814896) — Distributed Systems Learning Path
+    - [article](https://ocw.mit.edu/courses/6-172-performance-engineering-of-software-systems-fall-2018/video_galleries/lecture-videos/) — MIT 6.172 Performance Engineering of Software Systems
+    - [X post](https://x.com/vivekgalatage/status/2092584643350708733?s=20) — MIT 6.172 Performance Engineering of Software Systems
+    - [article](https://teachyourselfcs.com/) — Teach Yourself Computer Science Guide
+    - [X post](https://x.com/Hi_Mrinal/status/2092842912707137895?s=20) — Teach Yourself Computer Science Guide
+  - Captured: 2026-09-14 14:41 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_3bc9757af5218ba0
+```
+
+###### `sc_9b1709318059cb86`
+```markdown
+- [ ] **Add Inference Engineering Course** — [source](https://x.com/iam_sanjana06/status/2096106130279899433)
+  - Contains: The user wants to study inference engineering using a specific roadmap. The post highlights hands-on exercises for building expertise in this field.
+  - Potential benefit: This is a learning intent to acquire new technical skills. The user seeks structured guidance rather than just reading.
+  - Intent: learn · stated
+  - Topic: Inference Engineering
+  - Source author: Sanjana
+  - Priority: P2
+  - Impact: medium
+  - Ease: moderate
+  - Important: yes
+  - Importance reason: Inference engineering is a specialized and growing field. Mastering it can significantly enhance technical capabilities.
+  - Urgent: no
+  - Urgency reason: There is no immediate deadline or time-sensitive trigger. The learning can be scheduled flexibly.
+  - Done when: The roadmap is reviewed and a study plan is created.
+  - Effort: 30m
+  - Captured: 2026-09-06 09:25 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_9b1709318059cb86
+```
+
+###### `sc_b84d72a2529e0084`
+```markdown
+- [ ] **Mercor SkyRL 397B RL Training Guide** — [article](https://www.mercor.com/blog/training-frontier-knowledge-work-agents-a-397b-rl-training-guide-with-skyrl/)
+  - Contains: Mercor details post-training Qwen3.5-397B with SkyRL on knowledge work tasks. They release scripts, weights, and benchmarks showing significant Pass@1 gains.
+  - Potential benefit: This provides a rare open recipe for scaling RL on large frontier models. It offers practical infrastructure insights often omitted in research papers.
+  - Intent: learn · inferred
+  - Topic: Reinforcement Learning
+  - Sources:
+    - [article](https://www.mercor.com/blog/training-frontier-knowledge-work-agents-a-397b-rl-training-guide-with-skyrl/)
+    - [X post](https://x.com/adithya_s_k/status/2095809751078907928?s=20)
+  - Source author: Adithya S K
+  - Priority: P1
+  - Impact: high
+  - Ease: moderate
+  - Important: yes
+  - Importance reason: It reveals scalable RL techniques for complex knowledge work agents. This directly informs how to improve model performance on professional tasks.
+  - Urgent: no
+  - Urgency reason: The methodology is established and the code is already public. There is no immediate deadline for applying these specific training insights.
+  - Done when: After reviewing the SkyRL recipe and understanding the infrastructure choices.
+  - Effort: 30m
+  - Captured: 2026-09-05 19:46 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_b84d72a2529e0084
+```
+
+#### Survivor `sc_6672ae296a775f36`
+- Members: `sc_6672ae296a775f36`, `sc_a3cc9e560c027a7e`
+- Reason: Both tasks involve applying specific writing principles to improve clarity and reduce 'AI slop'. Paul Graham's 'Write Simply' emphasizes low friction and honesty, while Orwell's rules target passive voice and jargon. Both are 'implement' tasks with a similar effort (15m) and can be done by applying these rules to the same current draft or writing project.
+- Consolidation key: `apply-writing-clarity-rules`
+
+##### Original task blocks
+
+###### `sc_6672ae296a775f36`
+```markdown
+- [ ] **Apply writing clarity rules to current drafts**
+  - Contains:
+    - Paul Graham: Write Simply: The attached image summarizes Paul Graham's essay on writing simply, emphasizing that low friction keeps readers engaged. It argues that clarity respects the reader's time and exposes weak thinking while simplicity enforces honesty.
+    - Apply Orwell's Rules to Avoid AI Slop: The post advocates using Orwell's six writing rules to counteract AI-generated text flaws like passive voice and jargon. This framing positions the rules as a practical defense against incoherent or overly complex AI output.
+  - Potential benefit: Combines two writing improvement tasks into one editing session, ensuring a comprehensive application of clarity rules.
+  - Intent: implement · inferred
+  - Topic: Writing and Communication
+  - Source author: Nitin
+  - Priority: P1
+  - Impact: medium
+  - Ease: moderate
+  - Important: yes
+  - Importance reason: This batch combines 2 actions that support the same outcome.
+  - Urgent: no
+  - Urgency reason: Preserved from the member tasks; batch size alone does not create urgency.
+  - Done when: One current draft is edited to remove passive voice, jargon, and unnecessary words, applying both Paul Graham's and Orwell's principles.
+  - Effort: 20m
+  - Consolidation key: apply-writing-clarity-rules
+  - Consolidation reason: Both tasks involve applying specific writing principles to improve clarity and reduce 'AI slop'. Paul Graham's 'Write Simply' emphasizes low friction and honesty, while Orwell's rules target passive voice and jargon. Both are 'implement' tasks with a similar effort (15m) and can be done by applying these rules to the same current draft or writing project.
+  - Consolidated IDs: sc_6672ae296a775f36, sc_69babc169e36a663
+  - Consolidated at: 2026-09-16T19:19:06+05:30
+  - Batch size: 2
+  - Sources:
+    - [source](https://x.com/rdominguezibar/status/2096314617421000881) — Paul Graham: Write Simply
+    - [source](https://x.com/josephfwyer/status/2092819538505273544) — Apply Orwell's Rules to Avoid AI Slop
+  - Captured: 2026-09-06 09:26 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_6672ae296a775f36
+```
+
+###### `sc_a3cc9e560c027a7e`
+```markdown
+- [ ] **GEOFlow 3.0 Enterprise GEO System** — [article](https://github.com/yaojingang/GEOFlow)
+  - Contains: GEOFlow 3.0 is an open-source system for enterprise GEO operations, integrating AI content production, quality gates, and multi-site distribution. It centralizes knowledge management and publishing workflows into a unified backend with audit trails.
+  - Potential benefit: This tool automates the creation and verification of brand-aligned content for search visibility. It reduces manual effort by enforcing quality checks before human review and distribution.
+  - Intent: implement · inferred
+  - Topic: GEO Automation
+  - Sources:
+    - [article](https://github.com/yaojingang/GEOFlow)
+    - [X post](https://x.com/yaojingang/status/2096030272538255559?s=20)
+  - Source author: 姚金刚
+  - Priority: P2
+  - Impact: medium
+  - Ease: moderate
+  - Important: yes
+  - Importance reason: It addresses the critical need for scalable, auditable AI content operations in enterprise settings. Centralizing these workflows reduces fragmentation and improves compliance.
+  - Urgent: no
+  - Urgency reason: The release is recent but not time-sensitive for immediate adoption. Teams can evaluate it during standard planning cycles without immediate pressure.
+  - Done when: Deployment tested and workflow integrated
+  - Effort: 1h
+  - Captured: 2026-09-05 19:44 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_a3cc9e560c027a7e
+```
+
+#### Survivor `sc_0c0680bce76a2f5a`
+- Members: `sc_0c0680bce76a2f5a`, `sc_d39136a49c721fd8`
+- Reason: Both tasks involve setting up local automation workflows using Playwright and AI agents. AutoSocial Studio uses Playwright for video uploads, while the RSS feed task uses an AI agent (GLM 5.3 Flash) to crawl and generate feeds. Both are local, open-source implementations that require similar setup (Node.js, dependencies) and execution context (local browser/agent interaction).
+- Consolidation key: `local-automation-playwright-agents`
+
+##### Original task blocks
+
+###### `sc_0c0680bce76a2f5a`
+```markdown
+- [ ] **Implement local automation scripts using Playwright and AI agents**
+  - Contains:
+    - AutoSocial Studio: Local Multi-Account Video Automation: AutoSocial Studio is a local, open-source dashboard for automating short-form video workflows across TikTok, Instagram, and YouTube. It uses Playwright for uploads, yt-dlp for downloads, and FFmpeg for video processing, keeping all data and sessions on the user's machine.
+    - Automate RSS Feeds from APIs using AI Agents: The post and image demonstrate using GLM 5.3 Flash to crawl a URL, map API endpoints, and generate an RSS feed. The image details a specific workflow for a Soccer Tracker API, showing the resulting XML structure.
+  - Potential benefit: Combines two local automation setup tasks into one focused session, reducing context switching between browser automation and agent-based data extraction.
+  - Intent: implement · inferred
+  - Topic: Local Automation Tools
+  - Sources:
+    - [article](https://github.com/Katzca/AutoSocial) — AutoSocial Studio: Local Multi-Account Video Automation
+    - [X post](https://x.com/Sn0wbrave/status/2095974833016225858?s=20) — AutoSocial Studio: Local Multi-Account Video Automation
+    - [source](https://x.com/TheAhmadOsman/status/2094174132619399223) — Automate RSS Feeds from APIs using AI Agents
+  - Source author: Nitin
+  - Priority: P1
+  - Impact: medium
+  - Ease: moderate
+  - Important: yes
+  - Importance reason: This batch combines 2 actions that support the same outcome.
+  - Urgent: no
+  - Urgency reason: Preserved from the member tasks; batch size alone does not create urgency.
+  - Done when: AutoSocial Studio is cloned and first-run setup is verified, and the RSS feed agent successfully generates an XML output from a test API.
+  - Effort: 45m
+  - Consolidation key: local-automation-playwright-agents
+  - Consolidation reason: Both tasks involve setting up local automation workflows using Playwright and AI agents. AutoSocial Studio uses Playwright for video uploads, while the RSS feed task uses an AI agent (GLM 5.3 Flash) to crawl and generate feeds. Both are local, open-source implementations that require similar setup (Node.js, dependencies) and execution context (local browser/agent interaction).
+  - Consolidated IDs: sc_0c0680bce76a2f5a, sc_036930e3e7d9f16f
+  - Consolidated at: 2026-09-16T19:19:06+05:30
+  - Batch size: 2
+  - Captured: 2026-09-05 18:07 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_0c0680bce76a2f5a
+```
+
+###### `sc_d39136a49c721fd8`
+```markdown
+- [ ] **Hermes Agent Adds Lightpanda Browser Support** — [article](http://lightpanda.io/docs)
+  - Contains: Hermes Agent now supports Lightpanda, a headless browser engine written in Zig that is 9x faster and uses 16x less memory than Chrome. The update allows Hermes to use Lightpanda for text-based automation while automatically falling back to Chrome for screenshots and visual tasks. This configuration is ideal for running agents on small VPS infrastructure without memory spikes.
+  - Potential benefit: This integration significantly improves the efficiency of automated web interactions by reducing resource consumption on constrained hardware. It provides a practical solution for developers running 24/7 agent workflows who need to balance performance with infrastructure costs.
+  - Intent: implement · inferred
+  - Topic: Hermes Agent Browser Engine Configuration
+  - Sources:
+    - [article](http://lightpanda.io/docs)
+    - [X post](https://x.com/IBuzovskyi/status/2093391393934696705)
+  - Source author: YanXbt
+  - Priority: P2
+  - Impact: medium
+  - Ease: easy
+  - Important: yes
+  - Importance reason: It optimizes resource usage for automated agents, which is critical for stability on low-memory VPS environments.
+  - Urgent: no
+  - Urgency reason: The feature is already available and does not require immediate action to maintain system stability.
+  - Done when: After installing the Lightpanda binary and configuring the Hermes environment variable.
+  - Effort: 5m
+  - Captured: 2026-08-29 12:24 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_d39136a49c721fd8
+```
+
+#### Survivor `sc_be80ae1bec07939f`
+- Members: `sc_be80ae1bec07939f`, `sc_2f9a28b1825645ad`
+- Reason: All three tasks involve configuring and deploying agent infrastructure on the same DGX Spark hardware: installing oh-my-hermes as an agentic coding harness, syncing the Hermes agent with Telegram for messaging integration, and deploying automation bots for a one-person media company. They share the same execution context (local DGX Spark setup), the same intent (implement), and can be completed in a single focused infrastructure session.
+- Consolidation key: `local-agent-infrastructure-setup`
+
+##### Original task blocks
+
+###### `sc_be80ae1bec07939f`
+```markdown
+- [ ] **Set up and test local agent infrastructure on DGX Spark**
+  - Contains:
+    - oh-my-hermes: Agentic Coding Harness: The post introduces oh-my-hermes, a tool that adds a professional operating layer to the Hermes agent. It provides a zero-learning curve for subagent optimization and agentic memory system packages. The tool supports desktop, CLI, and messenger interfaces with a single setup command.
+    - Sync Hermes Agent with Telegram: The post details a setup to connect Hermes Agent Bot Mode with Telegram groups. It outlines steps for creating a bot, assigning agents, and testing message routing. This enables remote coordination of specialized AI agents via chat.
+    - System Design Scaling Algorithms List: The post lists 23 critical algorithms for designing scalable distributed systems. It serves as a curated checklist for mastering core infrastructure concepts.
+  - Potential benefit: Combines three infrastructure setup tasks into one deployable agent environment, reducing context switching between hardware configuration, messaging integration, and bot deployment.
+  - Intent: implement
+  - Topic: Agent Infrastructure
+  - Sources:
+    - [article](https://github.com/rlaope/oh-my-hermes) — oh-my-hermes: Agentic Coding Harness
+    - [X post](https://x.com/rlaope/status/2095446011632407015) — oh-my-hermes: Agentic Coding Harness
+    - [source](https://x.com/BkashJosi/status/2093605999546372333) — Sync Hermes Agent with Telegram
+    - [source](https://x.com/asmah2107/status/2093718226353926394) — System Design Scaling Algorithms List
+  - Source author: HOPE | Engineer. / various
+  - Priority: P1
+  - Impact: high
+  - Ease: moderate
+  - Important: yes
+  - Importance reason: A unified agent infrastructure directly enables Nitin's daily Hermes workflow and content automation goals while leveraging hardware he already owns.
+  - Urgent: no
+  - Urgency reason: Preserved from member tasks; no deadline, expiry, or immediate dependency applies to any member.
+  - Done when: oh-my-hermes is installed and running, Telegram bridge is connected and responding, and at least one automation bot is deployed and verified on the DGX Spark.
+  - Effort: 2d 45m
+  - Consolidation key: local-agent-infrastructure-setup
+  - Consolidation reason: All three tasks involve configuring and deploying agent infrastructure on the same DGX Spark hardware: installing oh-my-hermes as an agentic coding harness, syncing the Hermes agent with Telegram for messaging integration, and deploying automation bots for a one-person media company. They share the same execution context (local DGX Spark setup), the same intent (implement), and can be completed in a single focused infrastructure session.
+  - Consolidated IDs: sc_be80ae1bec07939f, sc_887a47a1d55c8383, sc_2fc9d70c74d83393
+  - Consolidated at: 2026-09-10T22:01:44+05:30
+  - Batch size: 3
+  - Captured: 2026-09-04 07:53 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_be80ae1bec07939f
+```
+
+###### `sc_2f9a28b1825645ad`
+```markdown
+- [ ] **Build One-Person Media Company with Hermes Bots** — [article](https://x.com/i/article/2093330534495916032)
+  - Contains: The article details a system using six Hermes bots to automate media production. It emphasizes structured handoffs and a shared Obsidian graph for context.
+  - Potential benefit: This approach scales individual output by automating research and distribution. It shifts focus from writing speed to strategic angle development and loop integrity.
+  - Intent: implement · inferred
+  - Topic: AI Automation
+  - Sources:
+    - [article](https://x.com/i/article/2093330534495916032)
+    - [X post](https://x.com/VibeMarketer_/status/2093330541177352217)
+  - Source author: J.B.
+  - Priority: P2
+  - Impact: high
+  - Ease: moderate
+  - Important: yes
+  - Importance reason: It offers a scalable model for content creation that reduces manual bottlenecks. This system can significantly increase output volume and consistency for solo creators.
+  - Urgent: no
+  - Urgency reason: The technology is available but requires setup time and iterative refinement. There is no immediate deadline or time-sensitive trigger for implementation.
+  - Done when: The six-bot loop is configured and produces one complete content package. The shared Obsidian graph is populated with initial voice and strategy data.
+  - Effort: 2d
+  - Captured: 2026-08-29 12:07 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_2f9a28b1825645ad
+```
+
+#### Survivor `sc_2674a104ad7790d2`
+- Members: `sc_2674a104ad7790d2`, `sc_d431a02d7a4e3e98`
+- Reason: Both tasks involve testing or benchmarking specific AI models on the user's DGX Spark hardware. They share the same execution context (DGX Spark), same intent (test/benchmark), and can be completed in a single hardware-focused session to compare performance and resource usage.
+- Consolidation key: `dgx-spark-model-benchmarks`
+
+##### Original task blocks
+
+###### `sc_2674a104ad7790d2`
+```markdown
+- [ ] **Benchmark local AI models on DGX Spark hardware**
+  - Contains:
+    - Benchmark and test local models on DGX Spark hardware: Test Minimax H3 Max on RTX 5000: The user wants to test Minimax H3 Max locally on an RTX 5000 GPU. This is a concrete technical exploration task based on a viral demo.
+    - Benchmark and test local models on DGX Spark hardware: Benchmark Qwen3.8-27B BF16 lm_head update on DGX Spark: Qwen3.8-27B model update with new BF16 lm_head from SGLang project, claimed to give significant accuracy improvement. Pre-built Docker images available for RTX PRO 6000 and DGX Spark. Community reports token generation nearly doubled from pure BF16 with almost no quality loss. One commenter asks if it fixes the 'overthinking problem.'
+    - DeepSeek V4 Flash on 2x DGX Spark: MiaAI Lab released a recipe for running DeepSeek V4 Flash on dual DGX Sparks using vLLM and speculative decoding. The post highlights performance improvements and credits PlotArmor Dev for the project contributions.
+  - Potential benefit: Handles 3 closely related captures in one focused batch.
+  - Intent: test · inferred
+  - Topic: Local AI Inference
+  - Source author: Nitin
+  - Priority: P1
+  - Impact: medium
+  - Ease: moderate
+  - Important: yes
+  - Importance reason: This batch combines 3 actions that support the same outcome.
+  - Urgent: no
+  - Urgency reason: Preserved from the member tasks; batch size alone does not create urgency.
+  - Done when: All 3 source-specific items are processed and one combined artifact or decision is recorded.
+  - Effort: 2h
+  - Consolidation key: dgx-spark-model-benchmarks
+  - Consolidation reason: Both tasks involve testing or benchmarking specific AI models on the user's DGX Spark hardware. They share the same execution context (DGX Spark), same intent (test/benchmark), and can be completed in a single hardware-focused session to compare performance and resource usage.
+  - Consolidated IDs: sc_2674a104ad7790d2, sc_3c232f8d7e1624b1, sc_08ee7b62d73785b8
+  - Consolidated at: 2026-09-16T19:48:09+05:30
+  - Batch size: 3
+  - Sources:
+    - [source](https://x.com/rehan_shei/status/2093528415576211819) — Test Minimax H3 Max on RTX 5000
+    - [source](https://x.com/MiaAI_lab/status/2092017038319386782) — Benchmark Qwen3.8-27B BF16 lm_head update on DGX Spark
+    - [article](https://github.com/MiaAI-Lab/DeepSeek-v4-Flash-DSpark-2x-DGX-Spark) — DeepSeek V4 Flash on 2x DGX Spark
+    - [X post](https://x.com/MiaAI_lab/status/2092366604604502029?s=20) — DeepSeek V4 Flash on 2x DGX Spark
+  - Captured: 2026-08-29 12:05 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_2674a104ad7790d2
+```
+
+###### `sc_d431a02d7a4e3e98`
+```markdown
+- [ ] **Benchmark Perplexity Portable Computer against Hermes on one local-agent workflow** — [source](https://x.com/perplexity_ai/status/2092268362386780270)
+  - Contains: Perplexity announced Portable Computer for NVIDIA DGX Spark: a local agent runtime with orchestrator, subagent model, and harness running on-device, using a post-trained PPLX 27B model with other local models planned. Hybrid routing can request approval before using frontier cloud models.
+  - Potential benefit: Provides a concrete competitive benchmark for local-agent UX, privacy, orchestration, and hybrid model routing on hardware Nitin already owns.
+  - Intent: test · inferred
+  - Topic: Local AI agents
+  - Source author: Perplexity
+  - Priority: P2
+  - Impact: medium
+  - Ease: moderate
+  - Important: yes
+  - Importance reason: Comparing a major local-agent product against Hermes can reveal useful UX and routing ideas for Nitin's core assistant stack.
+  - Urgent: no
+  - Urgency reason: The product announcement is recent but has no stated deadline, expiry, or current dependency.
+  - Done when: The same bounded local research workflow is run in Portable Computer and Hermes, with setup friction, privacy boundary, model routing, latency, output quality, and one adopt-or-ignore decision recorded.
+  - Effort: 2h
+  - Matrix order: 11000
+  - Captured: 2026-08-26 00:47 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_d431a02d7a4e3e98
+```
+
+#### Survivor `sc_490a08dd1f72970f`
+- Members: `sc_490a08dd1f72970f`, `sc_2297d258364d622b`
+- Reason: Both tasks target establishing a centralized system for managing AI knowledge and corrections. The Company Brain Architecture (Slite ebook) provides a taxonomy of nine real-world implementations with four core functions (get signals, remember, dream/prune, speak/search), while the Centralize AI Corrections task addresses the practical problem of aggregating scattered AI corrections into a unified system. Consolidating produces one governance artifact rather than two overlapping reviews.
+- Consolidation key: `centralize-ai-knowledge-governance`
+
+##### Original task blocks
+
+###### `sc_490a08dd1f72970f`
+```markdown
+- [ ] **Build a centralized AI knowledge and skill governance system**
+  - Contains:
+    - Company Brain Architecture: 9 Real-World Examples: The post and image detail nine real-world implementations of 'Company Brains' that all share four core functions: getting signals, remembering, dreaming & pruning, and speaking & searching. Examples include GBrain, mem0, Letta, Zep/Graphiti, Sylph, DIY, Pletor, Gorgias Cortex, and Slite Agent.
+    - Centralize AI Corrections into Shared Company Brain: The post advocates aggregating scattered AI corrections into a unified company brain to prevent knowledge silos. This centralization ensures all agents use consistent, updated business logic rather than individual private prompts.
+  - Potential benefit: Creates a reusable institutional memory system that prevents knowledge silos and ensures consistent AI behavior across workflows.
+  - Intent: implement · inferred
+  - Topic: AI Knowledge Management
+  - Sources:
+    - [article](https://slite.com/ebooks/company-brain?utm_source=twitter&utm_medium=organic-social&utm_campaign=company-brain-ebook&utm_content=femke-honeypot&utm_id=fe08260k) — Company Brain Architecture: 9 Real-World Examples
+    - [X post](https://x.com/femke_plantinga/status/2092918452423983363?s=20) — Company Brain Architecture: 9 Real-World Examples
+    - [article](https://x.com/i/article/2092243366759235586) — Centralize AI Corrections into Shared Company Brain
+    - [X post](https://x.com/VibeMarketer_/status/2092243372929151135) — Centralize AI Corrections into Shared Company Brain
+  - Source author: Femke Plantinga / J.B.
+  - Priority: P2
+  - Impact: high
+  - Ease: moderate
+  - Important: yes
+  - Importance reason: Addresses a critical scalability bottleneck where individual AI gains do not compound across workflows. Centralizing knowledge prevents redundant work and reduces errors from outdated or conflicting agent instructions.
+  - Urgent: no
+  - Urgency reason: The problem accumulates slowly over time as more tools and corrections are adopted; early adoption prevents entrenched silos.
+  - Done when: One document maps the four core Company Brain functions to concrete tools or patterns available in the current stack, with a pilot skill or correction repository created.
+  - Effort: 45m
+  - Consolidation key: centralize-ai-knowledge-governance
+  - Consolidation reason: Both tasks target establishing a centralized system for managing AI knowledge and corrections. The Company Brain Architecture (Slite ebook) provides a taxonomy of nine real-world implementations with four core functions (get signals, remember, dream/prune, speak/search), while the Centralize AI Corrections task addresses the practical problem of aggregating scattered AI corrections into a unified system. Consolidating produces one governance artifact rather than two overlapping reviews.
+  - Consolidated IDs: sc_490a08dd1f72970f, sc_02d9fcd50189fb31
+  - Consolidated at: 2026-08-31T22:05:15+05:30
+  - Batch size: 2
+  - Captured: 2026-08-27 19:28 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_490a08dd1f72970f
+```
+
+###### `sc_2297d258364d622b`
+```markdown
+- [ ] **5-Layer Company Skill Library Architecture** — [source](https://x.com/shannholmberg/status/2092692219635597686?s=20)
+  - Contains: The post and diagram outline a five-layer system for managing AI skills, starting with a central GitHub repository as the source of truth. It details how agents discover, load, and update these skills while humans govern improvements through a feedback loop.
+  - Potential benefit: This framework solves the problem of AI agents using outdated or inconsistent instructions by enforcing a single source of truth. It bridges the gap between technical version control and human workflow governance.
+  - Intent: learn · inferred
+  - Topic: AI Agent Governance
+  - Source author: Shann³
+  - Priority: P1
+  - Impact: high
+  - Ease: moderate
+  - Important: yes
+  - Importance reason: Standardizing agent behavior is critical for maintaining brand voice and operational reliability in automated workflows.
+  - Urgent: no
+  - Urgency reason: This is a structural improvement that benefits long-term stability rather than addressing an immediate crisis.
+  - Done when: The five-layer architecture is documented and a pilot skill is added to the central repository.
+  - Effort: 1h
+  - Captured: 2026-08-27 14:03 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_2297d258364d622b
+```
+
+#### Survivor `sc_fe86ee294179a282`
+- Members: `sc_fe86ee294179a282`, `sc_2a44ee5495ea0eb9`
+- Reason: Both tasks address understanding interview structure and skill gaps for senior AI/ML roles. Consolidating into one batch avoids reviewing overlapping topics (DSA, ML depth, evaluation, orchestration) separately.
+- Consolidation key: `review-senior-ai-interview-prep-guides`
+
+##### Original task blocks
+
+###### `sc_fe86ee294179a282`
+```markdown
+- [ ] **Review interview guides and build a combined senior AI interview prep checklist**
+  - Contains:
+    - Microsoft Applied Scientist 2 Interview Guide: The post details a five-round Microsoft Applied Scientist 2 interview process emphasizing deep technical intuition. It covers screening, DSA, statistics, ML depth, and behavioral rounds with specific topic examples. This provides a concrete roadmap for candidates preparing for similar high-level technical roles. Understanding this structure helps applicants focus on reasoning rather than rote memorization.
+    - Agentic AI Interview Gaps: Eval & Orchestration: The post highlights that RAG implementation skills are common, but candidates lack depth in evaluation, embedding selection, and agent orchestration. It argues that production readiness requires mastering metrics like precision and tools like LangGraph.
+  - Potential benefit: One focused review session covering both Microsoft Applied Scientist 2 and agentic AI interview expectations, producing a unified prep checklist.
+  - Intent: learn · inferred
+  - Topic: Career Preparation
+  - Source author: www.linkedin.com / www.linkedin.com
+  - Priority: P2
+  - Impact: medium
+  - Ease: moderate
+  - Important: yes
+  - Importance reason: Both guides target senior AI role preparation; combining them reduces redundant review and produces a more complete prep artifact.
+  - Urgent: yes
+  - Urgency reason: Preserved from member tasks; no deadline or expiring opportunity.
+  - Done when: Both guides are reviewed and a single combined checklist is produced covering technical depth, evaluation/orchestration skills, and behavioral preparation.
+  - Effort: 1h
+  - Matrix order: 2000
+  - Consolidation key: review-senior-ai-interview-prep-guides
+  - Consolidation reason: Both tasks address understanding interview structure and skill gaps for senior AI/ML roles. Consolidating into one batch avoids reviewing overlapping topics (DSA, ML depth, evaluation, orchestration) separately.
+  - Consolidated IDs: sc_fe86ee294179a282, sc_9c20596fdfd8a191
+  - Consolidated at: 2026-08-28T22:05:36+05:30
+  - Batch size: 2
+  - Sources:
+    - [source](https://www.linkedin.com/feed/update/urn:li:activity:7490262829577441281?updateEntityUrn=urn%3Ali%3Afs_updateV2%3A%28urn%3Ali%3Aactivity%3A7490262829577441281%2CFEED_DETAIL%2CEMPTY%2CDEFAULT%2Cfalse%29) — Microsoft Applied Scientist 2 Interview Guide
+    - [source](https://www.linkedin.com/feed/update/urn:li:activity:7497990088187019264?updateEntityUrn=urn%3Ali%3Afs_updateV2%3A%28urn%3Ali%3Aactivity%3A7497990088187019264%2CFEED_DETAIL%2CEMPTY%2CDEFAULT%2Cfalse%29) — Agentic AI Interview Gaps: Eval & Orchestration
+  - Captured: 2026-08-27 08:21 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_fe86ee294179a282
+```
+
+###### `sc_2a44ee5495ea0eb9`
+```markdown
+- [ ] **Execute senior AI career preparation actions**
+  - Contains:
+    - Recruiting: Relevance Over Volume: Personalized outreach using eight minutes of research significantly boosts response rates compared to bulk messaging. This shift from volume to relevance transforms candidate engagement and hiring efficiency.
+    - Evaluate OpenAI Applied AI Architect and Engineer roles for fit: OpenAI is hiring Applied AI Architect and Applied AI Engineer in Delhi, India. The roles focus on helping customers turn frontier models into production systems. Application form and job pages linked by poster @arjun_gupta95. Nitin's stated preference: OpenAI and top frontier labs are worth exploring regardless of location.
+  - Potential benefit: Handles 2 closely related captures in one focused batch.
+  - Intent: implement · stated
+  - Topic: Career Development
+  - Source author: www.linkedin.com
+  - Priority: P1
+  - Impact: medium
+  - Ease: moderate
+  - Important: yes
+  - Importance reason: This batch combines 2 actions that support the same outcome.
+  - Urgent: yes
+  - Urgency reason: Preserved from the member tasks; batch size alone does not create urgency.
+  - Done when: All 2 source-specific items are processed and one combined artifact or decision is recorded.
+  - Effort: 45m
+  - Matrix order: 4000
+  - Consolidation key: senior-ai-career-actions
+  - Consolidation reason: Both tasks are immediate, high-priority actions for career advancement. One involves sending a personalized outreach message (recruiting strategy), and the other involves reviewing and deciding on a specific job application (OpenAI roles). They share the same goal (career progression) and can be batched into a single 'career admin' work session.
+  - Consolidated IDs: sc_2a44ee5495ea0eb9, sc_81de50ddaaaccff4
+  - Consolidated at: 2026-09-16T19:48:09+05:30
+  - Batch size: 2
+  - Sources:
+    - [source](https://www.linkedin.com/feed/update/urn:li:activity:7495447513139896320?updateEntityUrn=urn%3Ali%3Afs_updateV2%3A%28urn%3Ali%3Aactivity%3A7495447513139896320%2CFEED_DETAIL%2CEMPTY%2CDEFAULT%2Cfalse%29) — Recruiting: Relevance Over Volume
+    - [source](https://x.com/arjun_gupta95/status/2091909090704503119) — Evaluate OpenAI Applied AI Architect and Engineer roles for fit
+  - Captured: 2026-08-27 08:21 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_2a44ee5495ea0eb9
+```
+
+#### Survivor `sc_22aac32340dd3f86`
+- Members: `sc_22aac32340dd3f86`, `sc_0a64f2c03f3a489a`
+- Reason: Both tasks assess the current Hermes integration and community ecosystem. Consolidating into one batch avoids overlapping review of Hermes capabilities and produces a single integration assessment.
+- Consolidation key: `survey-hermes-ecosystem-integrations`
+
+##### Original task blocks
+
+###### `sc_22aac32340dd3f86`
+```markdown
+- [ ] **Survey current Hermes ecosystem: connectors catalog, Tool Search, and oh-my-hermes community setup**
+  - Contains:
+    - Survey expanded Hermes connectors catalog and Tool Search capability: Teknium announces the Hermes connectors catalog now supports Cloudflare, Datadog, Metabase, GitLab, Railway, DeepWiki and more with one-click access, plus a Tool Search tool that prevents context waste when connectors are activated. Top comments note Tool Search is a significant improvement and ask about MCP support without DCR.
+    - Evaluate oh-my-hermes packaged memory and coding harness setup: Community project 'oh-my-hermes' packages Hermes Agent's long-term memory and coding harnesses into a one-line install. Features include file-based block-level memory management (Facts, Decisions, Episodes with TTL), observability, sub-agent model routing, ast-grep, parallel tool calling, per-model prompt optimization, cache hit rate tuning, custom TUI, and design capabilities. Author claims to code exclusively with Hermes using this setup.
+  - Potential benefit: One focused review of the Hermes integration surface (official connectors, Tool Search, community projects) with a consolidated assessment of what's immediately useful.
+  - Intent: learn · inferred
+  - Topic: Hermes infrastructure
+  - Source author: Teknium / HOPE
+  - Priority: P2
+  - Impact: medium
+  - Ease: moderate
+  - Important: yes
+  - Importance reason: Hermes connectors and community projects are part of the core agent stack; a consolidated survey prevents redundant setup and informs architecture decisions.
+  - Urgent: yes
+  - Urgency reason: Preserved from member tasks; no deadline or expiring opportunity.
+  - Done when: Both the connectors catalog and oh-my-hermes are reviewed, and a single note documents available integrations, Tool Search relevance, and any reusable components worth integrating.
+  - Effort: 1h 15m
+  - Consolidation key: survey-hermes-ecosystem-integrations
+  - Consolidation reason: Both tasks assess the current Hermes integration and community ecosystem. Consolidating into one batch avoids overlapping review of Hermes capabilities and produces a single integration assessment.
+  - Consolidated IDs: sc_22aac32340dd3f86, sc_465e0a9675992467
+  - Consolidated at: 2026-08-28T22:05:36+05:30
+  - Batch size: 2
+  - Sources:
+    - [source](https://x.com/Teknium/status/2092321384085299665) — Survey expanded Hermes connectors catalog and Tool Search capability
+    - [source](https://x.com/rlaope/status/2092465376424501476) — Evaluate oh-my-hermes packaged memory and coding harness setup
+  - Captured: 2026-08-26 17:09 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_22aac32340dd3f86
+```
+
+###### `sc_0a64f2c03f3a489a`
+```markdown
+- [ ] **Hermes Desktop Plugin SDK for Custom Workflows** — [source](https://x.com/HermesWatcher/status/2093413323832541628)
+  - Contains: Hermes Desktop allows users to create custom plugins via a simple SDK to extend functionality. This enables personal dashboards, bot controls, and automated task queues directly within the interface.
+  - Potential benefit: The SDK transforms Hermes from a static tool into a customizable platform for specific user needs. Users can automate repetitive tasks by building persistent interfaces rather than relying on prompts.
+  - Intent: implement · inferred
+  - Topic: Software Development
+  - Source author: Hermes Release Watch
+  - Priority: P2
+  - Impact: medium
+  - Ease: easy
+  - Important: yes
+  - Importance reason: Extending tools increases long-term productivity by automating repetitive workflows. It reduces reliance on manual data entry and status checking.
+  - Urgent: no
+  - Urgency reason: The feature is available now but does not require immediate action. It is a capability to explore when specific workflow pain points arise.
+  - Done when: A basic plugin.js file is created and loads successfully in Hermes Desktop.
+  - Effort: 30m
+  - Captured: 2026-08-29 07:24 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_0a64f2c03f3a489a
+```
+
+#### Survivor `sc_8d26a421dc1ffa16`
+- Members: `sc_8d26a421dc1ffa16`, `sc_71420822e7835b5f`
+- Reason: All member tasks share the explicit consolidation key `evaluate-agent-ui-component-libraries` and workflow state.
+- Consolidation key: `evaluate-agent-ui-component-libraries`
+
+##### Original task blocks
+
+###### `sc_8d26a421dc1ffa16`
+```markdown
+- [ ] **Complete evaluate agent ui component libraries in one batch**
+  - Contains:
+    - Evaluate MetalForge for reusable cross-platform mobile UI components: A cross-platform mobile component system intended to accelerate polished Android and iOS interface construction from reusable building blocks.
+    - Evaluate Amicro UI for reusable dashboard components: A UI component collection featuring charts, loaders, backgrounds, and other polished primitives that could be referenced or adapted by frontend-building agents.
+  - Potential benefit: Handles 2 closely related captures in one focused batch.
+  - Intent: decide · inferred
+  - Topic: Agent UI component libraries
+  - Consolidation key: evaluate-agent-ui-component-libraries
+  - Priority: P2
+  - Impact: medium
+  - Ease: moderate
+  - Important: yes
+  - Importance reason: This batch combines 2 actions that support the same outcome.
+  - Urgent: no
+  - Urgency reason: Preserved from the member tasks; batch size alone does not create urgency.
+  - Done when: All 2 source-specific items are processed and one combined artifact or decision is recorded.
+  - Effort: 1h
+  - Consolidation reason: All member tasks share the explicit consolidation key `evaluate-agent-ui-component-libraries` and workflow state.
+  - Consolidated IDs: sc_8d26a421dc1ffa16, sc_16d6c5ebf3d54be7
+  - Consolidated at: 2026-08-26T16:54:23+05:30
+  - Batch size: 2
+  - Sources:
+    - [source](https://x.com/sucodeee/status/2092222674478993525?s=20) — Evaluate MetalForge for reusable cross-platform mobile UI components
+    - [source](https://x.com/Delroy715/status/2092430784036843607?s=20) — Evaluate Amicro UI for reusable dashboard components
+  - Captured: 2026-08-26 10:39 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_8d26a421dc1ffa16
+```
+
+###### `sc_71420822e7835b5f`
+```markdown
+- [ ] **Evaluate Archify as an app-architecture design skill** — [source](https://x.com/UnTalNixon_exe/status/2092424305455825164?s=20)
+  - Contains: A repository for generating and communicating app architecture that may be adaptable into a reusable agent skill for design decisions and implementation handoffs.
+  - Potential benefit: Could give Hermes a more consistent architecture-first workflow before agents start implementing applications.
+  - Intent: decide · inferred
+  - Topic: Agent architecture skills
+  - Priority: P2
+  - Impact: medium
+  - Ease: moderate
+  - Important: yes
+  - Importance reason: Stronger architecture artifacts can reduce rework across Nitin's many agent-assisted projects.
+  - Urgent: no
+  - Urgency reason: No deadline, expiry, or near-term dependency was identified.
+  - Done when: A keep-or-reject note compares Archify with the current architecture-diagram workflow and specifies any reusable skill adaptation.
+  - Effort: 1h
+  - Captured: 2026-08-26 10:39 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_71420822e7835b5f
+```
+
+#### Survivor `sc_4cea548f48144c0e`
+- Members: `sc_4cea548f48144c0e`, `sc_94eada8d053c1211`
+- Reason: Both tasks involve creating or preparing content/assets for the user's personal brand and technical credibility. One is outlining a build-in-public series about DGX Spark, and the other is building a reference library for agent-built UIs which can be used in that content. They share the context of 'content creation for technical audience'.
+- Consolidation key: `ai-brand-content-prep`
+
+##### Original task blocks
+
+###### `sc_4cea548f48144c0e`
+```markdown
+- [ ] **Prepare AI personal brand content and UI grounding**
+  - Contains:
+    - Strengthen agent-built UI grounding with vetted references and reusable components: Build an agent-ready frontend component reference library from proven product patterns: Machina describes replacing one-shot frontend prompting with a curated “Lego” of components extracted from products such as Stripe and Linear. Agents receive real reference links, fetch component patterns, and adapt vetted pieces rather than inventing an entire design from abstract style prompts; a top reply also points to Mobbin MCP for collecting product-design references.
+    - Strengthen agent-built UI grounding with vetted references and reusable components: Add five concrete design-reference sites to the Kole Jain UI/UX skill: The post curates five grounding resources for AI coding agents: ui-skills.com for UI patterns, coss.com/ui for interface examples, designsystemchecklist.com for audits, reui.io/components for reusable components, and emilkowal.ski/ui/you-dont-need-animations for avoiding decorative animation. These supplement the existing Kole Jain principles with concrete references.
+    - Outline a four-post dual-DGX-Spark build-in-public series: Sudo says NVIDIA supplied both of his DGX Sparks after a year of consistently publishing hands-on local-AI work as a solo builder; the attached photo visibly shows two DGX Spark units, branded packaging, and a high-speed cable, while the quoted post proposes joining the systems for larger distributed-model workloads.
+  - Potential benefit: Handles 3 closely related captures in one focused batch.
+  - Intent: write · inferred
+  - Topic: AI Personal Brand
+  - Source author: Machina · @EXM7777
+  - Priority: P1
+  - Impact: high
+  - Ease: moderate
+  - Important: yes
+  - Importance reason: This batch combines 3 actions that support the same outcome.
+  - Urgent: no
+  - Urgency reason: Preserved from the member tasks; batch size alone does not create urgency.
+  - Done when: All 3 source-specific items are processed and one combined artifact or decision is recorded.
+  - Effort: 3h 30m
+  - Matrix order: 8000
+  - Consolidation key: ai-brand-content-prep
+  - Consolidation reason: Both tasks involve creating or preparing content/assets for the user's personal brand and technical credibility. One is outlining a build-in-public series about DGX Spark, and the other is building a reference library for agent-built UIs which can be used in that content. They share the context of 'content creation for technical audience'.
+  - Consolidated IDs: sc_4cea548f48144c0e, sc_e24295fc2920d36a, sc_19529a865b85742d
+  - Consolidated at: 2026-09-16T19:48:09+05:30
+  - Batch size: 3
+  - Sources:
+    - [source](https://x.com/EXM7777/status/2092250905655812121) — Build an agent-ready frontend component reference library from proven product patterns
+    - [source](https://x.com/eptwts/status/2092298910190448727) — Add five concrete design-reference sites to the Kole Jain UI/UX skill
+    - [source](https://x.com/sudoingX/status/2090304783370559565) — Outline a four-post dual-DGX-Spark build-in-public series
+  - Captured: 2026-08-26 07:42 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_4cea548f48144c0e
+```
+
+###### `sc_94eada8d053c1211`
+```markdown
+- [ ] **Run a ThreeUI fit spike for one agent-built frontend** — [source](https://x.com/MengTo/status/2090817187900780961)
+  - Contains: Meng To open-sourced ThreeUI, a library of more than 160 procedural three.js components and landing pages, generally 100–200 KB each, with agent skills for adjusting theme, lighting, motion, and layout. A paid tier adds more components and MCP support.
+  - Potential benefit: Tests whether a polished agent-native 3D component foundation can accelerate selected hero sections or interactive product experiences without prompting visuals from scratch.
+  - Intent: test · inferred
+  - Topic: Agent-built frontend design
+  - Source author: Meng To
+  - Priority: P2
+  - Impact: medium
+  - Ease: moderate
+  - Important: yes
+  - Importance reason: A reusable 3D component source could improve differentiated frontend work while reducing custom animation effort.
+  - Urgent: no
+  - Urgency reason: Early pricing is promotional, but the free open-source library is available without a stated deadline or blocking dependency.
+  - Done when: One free ThreeUI component is integrated into a disposable project spike, with bundle size, customization effort, accessibility/performance concerns, and an adopt-or-reject decision recorded.
+  - Effort: 1h
+  - Matrix order: 10000
+  - Captured: 2026-08-26 10:06 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_94eada8d053c1211
+```
+
+#### Survivor `sc_801a7e39073fb1ed`
+- Members: `sc_801a7e39073fb1ed`, `sc_31fe3695426fce1b`
+- Reason: Both tasks are concrete implementation or diagnostic steps for professional engineering hygiene and career readiness. One involves setting up git hooks to protect authorship, and the other involves running a diagnostic for a specific senior role level. They share the intent of 'implementing' a process or test to improve professional standing.
+- Consolidation key: `git-provenance-and-l6-diagnostic`
+
+##### Original task blocks
+
+###### `sc_801a7e39073fb1ed`
+```markdown
+- [ ] **Implement git provenance and Google L6 readiness diagnostics**
+  - Contains:
+    - Wire pre-commit and commit-msg hooks to block agent-generated git attribution trailers: Ahmad Osman warns that AI coding agents inject Co-authored-by trailers into git history, fragmenting authorship attribution. He recommends hardcoding author/committer identity, blocking third-party trailers via pre-commit/commit-msg/pre-merge-commit hooks, and packaging the guards as a reusable skill. Top comments confirm pre-commit is the right layer because it catches all commits regardless of agent behavior.
+    - Run a Google L6 readiness diagnostic before collecting more prep material: A Microsoft L64 engineer with 14 years of experience asks how to prepare for Google India L6, naming NeetCode 150, Hello Interview, mock interviews, and difficulty retaining system-design concepts. The most useful replies recommend solving designs from requirements and data/storage constraints, making mistakes before studying reference solutions, using repeated mocks and feedback, and discussing real distributed-system trade-offs; suggested resources include Alex Xu’s two system-design volumes, Hello Interview’s design questions and story builder, and Alex Croitor for behavioral preparation, while commenters disagree on whether NeetCode 150 is sufficient.
+  - Potential benefit: Handles 2 closely related captures in one focused batch.
+  - Intent: implement · inferred
+  - Topic: Engineering Hygiene
+  - Priority: P1
+  - Impact: medium
+  - Ease: moderate
+  - Important: yes
+  - Importance reason: This batch combines 2 actions that support the same outcome.
+  - Urgent: yes
+  - Urgency reason: Preserved from the member tasks; batch size alone does not create urgency.
+  - Done when: All 2 source-specific items are processed and one combined artifact or decision is recorded.
+  - Effort: 2h 30m
+  - Matrix order: 6000
+  - Consolidation key: git-provenance-and-l6-diagnostic
+  - Consolidation reason: Both tasks are concrete implementation or diagnostic steps for professional engineering hygiene and career readiness. One involves setting up git hooks to protect authorship, and the other involves running a diagnostic for a specific senior role level. They share the intent of 'implementing' a process or test to improve professional standing.
+  - Consolidated IDs: sc_801a7e39073fb1ed, sc_b9cabd2eedaaca56
+  - Consolidated at: 2026-09-16T19:48:09+05:30
+  - Batch size: 2
+  - Sources:
+    - [source](https://x.com/TheAhmadOsman/status/2091956352247550437) — Wire pre-commit and commit-msg hooks to block agent-generated git attribution trailers
+    - [source](https://www.teamblind.com/us/cm/r7w9gsnwklac) — Run a Google L6 readiness diagnostic before collecting more prep material
+  - Captured: 2026-08-25 08:00 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_801a7e39073fb1ed
+```
+
+###### `sc_31fe3695426fce1b`
+```markdown
+- [ ] **Prepare for senior AI engineering roles via projects and skill testing** — [source](https://x.com/suraj_sharma14/status/2095127540222603432?s=20)
+  - Contains:
+    - 12 FDE Projects for Hiring: The post lists twelve specific engineering projects demonstrating enterprise AI integration skills. It claims completing these proves readiness for Forward Deployed Engineer roles.
+    - Use the 440Hz conspiracy as a test case for the Physics Claim Debunker Skill: Direct task: Nitin wants to use the 440Hz Rockefeller conspiracy / cymatics content as a test case for his Physics Claim Debunker Skill project (already in vault at Ideas/Physics Claim Debunker Skill.md). The content promotes pseudoscientific conspiracy theory about 440Hz tuning disrupting human biology — a good candidate to demonstrate the debunker's reasoning path.
+  - Potential benefit: Consolidates career preparation tasks into one focused period, balancing broad project work with specific skill demonstration.
+  - Intent: learn · inferred
+  - Topic: Career Development
+  - Source author: Nitin
+  - Priority: P2
+  - Impact: high
+  - Ease: moderate
+  - Important: yes
+  - Importance reason: This batch combines 2 actions that support the same outcome.
+  - Urgent: no
+  - Urgency reason: Preserved from the member tasks; batch size alone does not create urgency.
+  - Done when: One FDE project is built and documented, and the Physics Claim Debunker skill test case is added to the project vault.
+  - Effort: 2d 30m
+  - Consolidation key: senior-ai-role-prep
+  - Consolidation reason: Both tasks are preparatory steps for senior AI engineering roles. The FDE projects demonstrate enterprise AI integration skills, while the Physics Claim Debunker skill tests a specific technical capability (physics reasoning) that could be part of an interview or portfolio. Both are 'learn/impl' tasks with comparable effort (2d vs 30m) and contribute to the same goal of building a strong engineering profile.
+  - Consolidated IDs: sc_31fe3695426fce1b, sc_22bd2c1fb5d483d8
+  - Consolidated at: 2026-09-16T19:19:06+05:30
+  - Batch size: 2
+  - Sources:
+    - [source](https://x.com/suraj_sharma14/status/2095127540222603432?s=20) — 12 FDE Projects for Hiring
+  - Captured: 2026-09-03 20:29 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_31fe3695426fce1b
 ```

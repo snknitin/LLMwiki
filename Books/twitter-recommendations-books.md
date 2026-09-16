@@ -7,8 +7,7 @@
 ## Catalog
 
 
-> **Progress (verified 2026-09-16):** 535 of 630 titles downloaded with a saved file  ·  59 unavailable/declined on AA  ·  64 pending
-
+> **Progress (verified 2026-09-16):** 546 of 658 titles downloaded with a saved file  ·  59 unavailable/declined on AA  ·  53 pending
 ### Output folders (Windows `G:\Books`)
 - `Download_from_AA` — **390 source files** (EPUB / PDF / DjVu), kept as the untouched originals; title-first naming.
 - `EPUB_from_PDF` — **186 Kindle EPUBs** converted from the text-based PDFs and DjVUs — these are the ones to *Send to Kindle*.
@@ -1170,7 +1169,7 @@
 
 - [x] ~~The Popol Vuh — Ximénez (transl.)~~  →  ✅ RYAN MOORHEN - The Popol Vuh Illustrated (2021).epub
 
-- [ ]  The Emerald Tablet — Hermes Trismegistus
+- [x] ~~The Emerald Tablet — Hermes Trismegistus~~  →  ✅ The Emerald Tablet - Hermes Trismegistus.epub
 
 - [x] ~~The Corpus Hermeticum — Hermes Trismegistus (ascribed)~~  →  ✅ G. R. S. Mead - The Corpus Hermeticum (2016).epub
 
@@ -1188,15 +1187,15 @@
 
 - [x] ~~1177 B.C.: The Year Civilization Collapsed — Eric H. Cline~~  →  ✅ Eric Cline - 1177 B.C. (2020).epub
 
-- [ ]  The Hittites — Trevor R. Bryce Jr.
+- [x] ~~The Hittites — Trevor R. Bryce Jr.~~  →  ✅ The Hittites (1961) - Trevor R. Bryce Jr.
 
 - [x] ~~The Horse, the Wheel, and Language — David W. Anthony~~  →  ✅ D.W Anthony - The Horse the Wheel and Language (2007).epub
 
 - [ ]  Mu: The Motherland of the Polynesians — James Churchward
 
-- [ ]  Atlantis and Antilia — Ignatius L. Donnelly
+- [x] ~~Atlantis and Antilia — Ignatius L. Donnelly~~  →  ✅ Atlantis and Antilia (1884) - Ignatius L. Donnelly.epub
 
-- [ ]  The Lost World — Arthur Conan Doyle
+- [x]  ~~The Lost World — Arthur Conan Doyle~~  →  ✅ The Lost World (1912) - Arthur Conan Doyle.epub
 
 - [ ]  Empires of the Steppe: How They Shaped Our World — Peter Frankopan
 
@@ -1204,19 +1203,19 @@
 
 - [ ]  The God in the Cave: A New Perspective on Göbekli Tepe and the Origins of Civilization —
 
-- [ ]  The Antikythera Mechanism — Tony Freeth
+- [x] ~~The Antikythera Mechanism — Tony Freeth~~  →  ✅ The Antikythera Mechanism (2021) - Tony Freeth.pdf
 
-- [ ]  Who We Are and How We Got Here — David Reich
+- [x] ~~Who We Are and How We Got Here — David Reich~~  →  ✅ Who We Are and How We Got Here (2021) - David Reich.epub
 
-- [ ]  The Hero With a Thousand Faces — Joseph Campbell
+- [x] ~~The Hero With a Thousand Faces — Joseph Campbell~~  →  ✅ The Hero With a Thousand Faces (2013) - Joseph Campbell.epub
 
-- [ ]  The Masks of God — Joseph Campbell
+- [x] ~~The Masks of God — Joseph Campbell~~  →  ✅ The Masks of God (1970) - Joseph Campbell.epub
 
-- [ ]  The Myth of the Eternal Return — Mircea Eliade
+- [x] ~~The Myth of the Eternal Return — Mircea Eliade~~  →  ✅ The Myth of the Eternal Return (1969) - Mircea Eliade.epub
 
-- [ ]  The Origins of Consciousness in the Breakdown of the Bicameral Mind — Julian Jaynes
+- [x] ~~The Origins of Consciousness in the Breakdown of the Bicameral Mind — Julian Jaynes~~  →  ✅ The Origins of Consciousness (1976) - Julian Jaynes.epub
 
-- [ ]  Chariots of the Gods? — Erich von Däniken
+- [x] ~~Chariots of the Gods? — Erich von Däniken~~  →  ✅ Chariots of the Gods (1969) - Erich von Daniken.epub
 
 - [ ]  The 12th Planet — Zecharia Sitchin
 
