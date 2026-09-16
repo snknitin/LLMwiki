@@ -56,21 +56,67 @@ Rules:
 
 <!-- Hermes appends new, ready actions below this line. Keep the queue ordered by current leverage, not capture time. -->
 
-- [ ] **Paul Graham: Write Simply** — [source](https://x.com/rdominguezibar/status/2096314617421000881)
-  - Contains: The attached image summarizes Paul Graham's essay on writing simply, emphasizing that low friction keeps readers engaged. It argues that clarity respects the reader's time and exposes weak thinking while simplicity enforces honesty.
-  - Potential benefit: This guide provides a practical framework for improving communication by prioritizing reader energy over writer ego. It suggests that clear writing is a sign of respect and intellectual honesty rather than a lack of depth.
-  - Intent: read · inferred
-  - Topic: Writing and Communication
-  - Source author: Ruben
+- [ ] **Distributed Systems Learning Path** — [source](https://x.com/iTanayVaswani/status/2099331599204814896)
+  - Contains: Phil Eaton recommends three steps for learning distributed systems: reading DDIA, following MIT 6.5840, and doing the fly.io challenge. The post emphasizes that the order of these steps does not matter.
+  - Potential benefit: This provides a curated, high-signal roadmap for mastering distributed systems without needing to search for resources. It combines a definitive text, a rigorous academic course, and a practical implementation challenge.
+  - Intent: learn · inferred
+  - Topic: Distributed Systems Education
+  - Source author: Tanay Vaswani
   - Priority: P1
+  - Impact: high
+  - Ease: easy
+  - Important: yes
+  - Importance reason: Distributed systems are a critical skill for senior engineering roles and high-scale software design.
+  - Urgent: no
+  - Urgency reason: Learning distributed systems is a long-term career investment rather than an immediate operational need.
+  - Done when: After reviewing DDIA and enrolling in MIT 6.5840.
+  - Effort: 30m
+  - Captured: 2026-09-14 14:41 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_3bc9757af5218ba0
+
+- [ ] **Film Techniques Cheat Sheet** — [source](https://x.com/_VVSVS/status/2097793753998070056)
+  - Contains: The post offers a single-page reference for 150 film techniques with examples and prompts. It serves as a quick lookup tool for visual storytelling and production details.
+  - Potential benefit: This resource bridges the gap between theoretical knowledge and practical application. It helps creators articulate specific visual ideas without getting stuck on terminology.
+  - Intent: learn · inferred
+  - Topic: Film Production
+  - Source author: Ivan Flugelman — VVSVS™
+  - Priority: P2
   - Impact: medium
   - Ease: quick
   - Important: yes
-  - Importance reason: Clear writing is essential for effective communication and is a core skill for professional success.
+  - Importance reason: It provides a structured reference for visual communication in film. This aids in efficient planning and clearer direction during production.
   - Urgent: no
-  - Urgency reason: This is a general writing principle that can be applied at any time.
-  - Done when: After reviewing the summary and applying one editing rule to a current draft.
+  - Urgency reason: There is no time-sensitive deadline or immediate crisis addressed. The resource is useful for general creative workflow improvement.
+  - Done when: Bookmark saved for future reference during pre-production.
   - Effort: 5m
+  - Captured: 2026-09-10 16:41 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_343fc066b3ce22a9
+
+- [ ] **Apply writing clarity rules to current drafts**
+  - Contains:
+    - Paul Graham: Write Simply: The attached image summarizes Paul Graham's essay on writing simply, emphasizing that low friction keeps readers engaged. It argues that clarity respects the reader's time and exposes weak thinking while simplicity enforces honesty.
+    - Apply Orwell's Rules to Avoid AI Slop: The post advocates using Orwell's six writing rules to counteract AI-generated text flaws like passive voice and jargon. This framing positions the rules as a practical defense against incoherent or overly complex AI output.
+  - Potential benefit: Combines two writing improvement tasks into one editing session, ensuring a comprehensive application of clarity rules.
+  - Intent: implement · inferred
+  - Topic: Writing and Communication
+  - Source author: Nitin
+  - Priority: P1
+  - Impact: medium
+  - Ease: moderate
+  - Important: yes
+  - Importance reason: This batch combines 2 actions that support the same outcome.
+  - Urgent: no
+  - Urgency reason: Preserved from the member tasks; batch size alone does not create urgency.
+  - Done when: One current draft is edited to remove passive voice, jargon, and unnecessary words, applying both Paul Graham's and Orwell's principles.
+  - Effort: 20m
+  - Consolidation key: apply-writing-clarity-rules
+  - Consolidation reason: Both tasks involve applying specific writing principles to improve clarity and reduce 'AI slop'. Paul Graham's 'Write Simply' emphasizes low friction and honesty, while Orwell's rules target passive voice and jargon. Both are 'implement' tasks with a similar effort (15m) and can be done by applying these rules to the same current draft or writing project.
+  - Consolidated IDs: sc_6672ae296a775f36, sc_69babc169e36a663
+  - Consolidated at: 2026-09-16T19:19:06+05:30
+  - Batch size: 2
+  - Sources:
+    - [source](https://x.com/rdominguezibar/status/2096314617421000881) — Paul Graham: Write Simply
+    - [source](https://x.com/josephfwyer/status/2092819538505273544) — Apply Orwell's Rules to Avoid AI Slop
   - Captured: 2026-09-06 09:26 IST via Telegram · Hermes Swarm / Capture
   - ID: sc_6672ae296a775f36
 
@@ -134,24 +180,32 @@ Rules:
   - Captured: 2026-09-05 19:44 IST via Telegram · Hermes Swarm / Capture
   - ID: sc_a3cc9e560c027a7e
 
-- [ ] **AutoSocial Studio: Local Multi-Account Video Automation** — [article](https://github.com/Katzca/AutoSocial)
-  - Contains: AutoSocial Studio is a local, open-source dashboard for automating short-form video workflows across TikTok, Instagram, and YouTube. It uses Playwright for uploads, yt-dlp for downloads, and FFmpeg for video processing, keeping all data and sessions on the user's machine.
-  - Potential benefit: This tool solves the distribution bottleneck for indie hackers and AI builders by providing a repeatable, local marketing workflow. It allows creators to manage multiple accounts and schedules without handing over sensitive session credentials to a third-party SaaS provider.
+- [ ] **Implement local automation scripts using Playwright and AI agents**
+  - Contains:
+    - AutoSocial Studio: Local Multi-Account Video Automation: AutoSocial Studio is a local, open-source dashboard for automating short-form video workflows across TikTok, Instagram, and YouTube. It uses Playwright for uploads, yt-dlp for downloads, and FFmpeg for video processing, keeping all data and sessions on the user's machine.
+    - Automate RSS Feeds from APIs using AI Agents: The post and image demonstrate using GLM 5.3 Flash to crawl a URL, map API endpoints, and generate an RSS feed. The image details a specific workflow for a Soccer Tracker API, showing the resulting XML structure.
+  - Potential benefit: Combines two local automation setup tasks into one focused session, reducing context switching between browser automation and agent-based data extraction.
   - Intent: implement · inferred
   - Topic: Local Automation Tools
   - Sources:
-    - [article](https://github.com/Katzca/AutoSocial)
-    - [X post](https://x.com/Sn0wbrave/status/2095974833016225858?s=20)
-  - Source author: Snow Brave
-  - Priority: P2
+    - [article](https://github.com/Katzca/AutoSocial) — AutoSocial Studio: Local Multi-Account Video Automation
+    - [X post](https://x.com/Sn0wbrave/status/2095974833016225858?s=20) — AutoSocial Studio: Local Multi-Account Video Automation
+    - [source](https://x.com/TheAhmadOsman/status/2094174132619399223) — Automate RSS Feeds from APIs using AI Agents
+  - Source author: Nitin
+  - Priority: P1
   - Impact: medium
   - Ease: moderate
   - Important: yes
-  - Importance reason: It provides a privacy-focused, local alternative to cloud-based social media schedulers, which is critical for users concerned about data sovereignty.
+  - Importance reason: This batch combines 2 actions that support the same outcome.
   - Urgent: no
-  - Urgency reason: The tool is a standard utility for workflow optimization and does not address an immediate, time-sensitive crisis or opportunity.
-  - Done when: The user has cloned the repository, installed the required dependencies (Node.js, Playwright, FFmpeg), and successfully run the first-run setup to verify local browser sessions.
-  - Effort: 30m
+  - Urgency reason: Preserved from the member tasks; batch size alone does not create urgency.
+  - Done when: AutoSocial Studio is cloned and first-run setup is verified, and the RSS feed agent successfully generates an XML output from a test API.
+  - Effort: 45m
+  - Consolidation key: local-automation-playwright-agents
+  - Consolidation reason: Both tasks involve setting up local automation workflows using Playwright and AI agents. AutoSocial Studio uses Playwright for video uploads, while the RSS feed task uses an AI agent (GLM 5.3 Flash) to crawl and generate feeds. Both are local, open-source implementations that require similar setup (Node.js, dependencies) and execution context (local browser/agent interaction).
+  - Consolidated IDs: sc_0c0680bce76a2f5a, sc_036930e3e7d9f16f
+  - Consolidated at: 2026-09-16T19:19:06+05:30
+  - Batch size: 2
   - Captured: 2026-09-05 18:07 IST via Telegram · Hermes Swarm / Capture
   - ID: sc_0c0680bce76a2f5a
 
@@ -191,42 +245,61 @@ Rules:
   - Captured: 2026-09-04 08:11 IST via Telegram · Hermes Swarm / Capture
   - ID: sc_c6abf5fb499a0926
 
-- [ ] **oh-my-hermes: Agentic Coding Harness** — [article](https://github.com/rlaope/oh-my-hermes)
-  - Contains: The post introduces oh-my-hermes, a tool that adds a professional operating layer to the Hermes agent. It provides a zero-learning curve for subagent optimization and agentic memory system packages. The tool supports desktop, CLI, and messenger interfaces with a single setup command.
-  - Potential benefit: This is a practical coding harness that automates complex engineering workflows like code review and frontend tasks. It allows users to delegate tasks to specialized subagents while maintaining explicit evidence boundaries. The tool is designed to be installed once and then used to build auto-routing capabilities.
-  - Intent: implement · inferred
-  - Topic: AI Agent Engineering
+- [ ] **Set up and test local agent infrastructure on DGX Spark**
+  - Contains:
+    - oh-my-hermes: Agentic Coding Harness: The post introduces oh-my-hermes, a tool that adds a professional operating layer to the Hermes agent. It provides a zero-learning curve for subagent optimization and agentic memory system packages. The tool supports desktop, CLI, and messenger interfaces with a single setup command.
+    - Sync Hermes Agent with Telegram: The post details a setup to connect Hermes Agent Bot Mode with Telegram groups. It outlines steps for creating a bot, assigning agents, and testing message routing. This enables remote coordination of specialized AI agents via chat.
+    - System Design Scaling Algorithms List: The post lists 23 critical algorithms for designing scalable distributed systems. It serves as a curated checklist for mastering core infrastructure concepts.
+  - Potential benefit: Combines three infrastructure setup tasks into one deployable agent environment, reducing context switching between hardware configuration, messaging integration, and bot deployment.
+  - Intent: implement
+  - Topic: Agent Infrastructure
   - Sources:
-    - [article](https://github.com/rlaope/oh-my-hermes)
-    - [X post](https://x.com/rlaope/status/2095446011632407015)
-  - Source author: HOPE | Engineer.
+    - [article](https://github.com/rlaope/oh-my-hermes) — oh-my-hermes: Agentic Coding Harness
+    - [X post](https://x.com/rlaope/status/2095446011632407015) — oh-my-hermes: Agentic Coding Harness
+    - [source](https://x.com/BkashJosi/status/2093605999546372333) — Sync Hermes Agent with Telegram
+    - [source](https://x.com/asmah2107/status/2093718226353926394) — System Design Scaling Algorithms List
+  - Source author: HOPE | Engineer. / various
   - Priority: P1
   - Impact: high
-  - Ease: easy
+  - Ease: moderate
   - Important: yes
-  - Importance reason: It provides a structured way to manage subagents and memory, which is critical for scaling AI coding tasks.
+  - Importance reason: A unified agent infrastructure directly enables Nitin's daily Hermes workflow and content automation goals while leveraging hardware he already owns.
   - Urgent: no
-  - Urgency reason: The project is in early stages and does not require immediate action.
-  - Done when: After installing the tool and running the omh setup command.
-  - Effort: 15m
+  - Urgency reason: Preserved from member tasks; no deadline, expiry, or immediate dependency applies to any member.
+  - Done when: oh-my-hermes is installed and running, Telegram bridge is connected and responding, and at least one automation bot is deployed and verified on the DGX Spark.
+  - Effort: 2d 45m
+  - Consolidation key: local-agent-infrastructure-setup
+  - Consolidation reason: All three tasks involve configuring and deploying agent infrastructure on the same DGX Spark hardware: installing oh-my-hermes as an agentic coding harness, syncing the Hermes agent with Telegram for messaging integration, and deploying automation bots for a one-person media company. They share the same execution context (local DGX Spark setup), the same intent (implement), and can be completed in a single focused infrastructure session.
+  - Consolidated IDs: sc_be80ae1bec07939f, sc_887a47a1d55c8383, sc_2fc9d70c74d83393
+  - Consolidated at: 2026-09-10T22:01:44+05:30
+  - Batch size: 3
   - Captured: 2026-09-04 07:53 IST via Telegram · Hermes Swarm / Capture
   - ID: sc_be80ae1bec07939f
 
-- [ ] **12 FDE Projects for Hiring** — [source](https://x.com/suraj_sharma14/status/2095127540222603432?s=20)
-  - Contains: The post lists twelve specific engineering projects demonstrating enterprise AI integration skills. It claims completing these proves readiness for Forward Deployed Engineer roles.
-  - Potential benefit: This serves as a practical curriculum for bridging AI capabilities with legacy enterprise constraints. It emphasizes reliability, security, and business value over pure model experimentation.
+- [ ] **Prepare for senior AI engineering roles via projects and skill testing** — [source](https://x.com/suraj_sharma14/status/2095127540222603432?s=20)
+  - Contains:
+    - 12 FDE Projects for Hiring: The post lists twelve specific engineering projects demonstrating enterprise AI integration skills. It claims completing these proves readiness for Forward Deployed Engineer roles.
+    - Use the 440Hz conspiracy as a test case for the Physics Claim Debunker Skill: Direct task: Nitin wants to use the 440Hz Rockefeller conspiracy / cymatics content as a test case for his Physics Claim Debunker Skill project (already in vault at Ideas/Physics Claim Debunker Skill.md). The content promotes pseudoscientific conspiracy theory about 440Hz tuning disrupting human biology — a good candidate to demonstrate the debunker's reasoning path.
+  - Potential benefit: Consolidates career preparation tasks into one focused period, balancing broad project work with specific skill demonstration.
   - Intent: learn · inferred
   - Topic: Career Development
-  - Source author: Suraj Sharma
+  - Source author: Nitin
   - Priority: P2
   - Impact: high
-  - Ease: deep
+  - Ease: moderate
   - Important: yes
-  - Importance reason: These projects address critical enterprise adoption barriers like security and legacy integration. Mastering them significantly increases employability in high-demand AI roles.
+  - Importance reason: This batch combines 2 actions that support the same outcome.
   - Urgent: no
-  - Urgency reason: Hiring timelines vary and this is a long-term skill-building resource rather than an immediate task.
-  - Done when: One project is built and documented with clear business value demonstration.
-  - Effort: 2d
+  - Urgency reason: Preserved from the member tasks; batch size alone does not create urgency.
+  - Done when: One FDE project is built and documented, and the Physics Claim Debunker skill test case is added to the project vault.
+  - Effort: 2d 30m
+  - Consolidation key: senior-ai-role-prep
+  - Consolidation reason: Both tasks are preparatory steps for senior AI engineering roles. The FDE projects demonstrate enterprise AI integration skills, while the Physics Claim Debunker skill tests a specific technical capability (physics reasoning) that could be part of an interview or portfolio. Both are 'learn/impl' tasks with comparable effort (2d vs 30m) and contribute to the same goal of building a strong engineering profile.
+  - Consolidated IDs: sc_31fe3695426fce1b, sc_22bd2c1fb5d483d8
+  - Consolidated at: 2026-09-16T19:19:06+05:30
+  - Batch size: 2
+  - Sources:
+    - [source](https://x.com/suraj_sharma14/status/2095127540222603432?s=20) — 12 FDE Projects for Hiring
   - Captured: 2026-09-03 20:29 IST via Telegram · Hermes Swarm / Capture
   - ID: sc_31fe3695426fce1b
 
@@ -284,24 +357,6 @@ Rules:
   - Captured: 2026-08-31 12:24 IST via Telegram · Hermes Swarm / Capture
   - ID: sc_8cb5f6bbdc2c819d
 
-- [ ] **Automate RSS Feeds from APIs using AI Agents** — [source](https://x.com/TheAhmadOsman/status/2094174132619399223)
-  - Contains: The post and image demonstrate using GLM 5.3 Flash to crawl a URL, map API endpoints, and generate an RSS feed. The image details a specific workflow for a Soccer Tracker API, showing the resulting XML structure.
-  - Potential benefit: This approach allows developers to instantly create subscription feeds for any web service with an API. It highlights the practical application of AI agents for data integration and personalization.
-  - Intent: implement · inferred
-  - Topic: AI Agents, RSS Feeds, API Integration
-  - Source author: Ahmad
-  - Priority: P1
-  - Impact: medium
-  - Ease: easy
-  - Important: yes
-  - Importance reason: It offers a low-effort method to automate data access and personalization.
-  - Urgent: no
-  - Urgency reason: The technique is a general tool rather than a time-sensitive event.
-  - Done when: After testing the agent with a known API and verifying the RSS output.
-  - Effort: 15m
-  - Captured: 2026-08-31 12:03 IST via Telegram · Hermes Swarm / Capture
-  - ID: sc_036930e3e7d9f16f
-
 - [ ] **Video Reference Site for Frames & Motion** — [source](https://x.com/VibeEverything/status/2094077291941048763)
   - Contains: This bookmark highlights a website offering video references with frame and motion data. It supports filtering by media type, color, and lighting for quick mood matching.
   - Potential benefit: It helps concretize abstract video ideas by providing visual and kinetic examples. This reduces creative ambiguity during pre-production planning.
@@ -319,42 +374,6 @@ Rules:
   - Effort: 5m
   - Captured: 2026-08-31 12:03 IST via Telegram · Hermes Swarm / Capture
   - ID: sc_531c34c19666b083
-
-- [ ] **System Design Scaling Algorithms List** — [source](https://x.com/asmah2107/status/2093718226353926394)
-  - Contains: The post lists 23 critical algorithms for designing scalable distributed systems. It serves as a curated checklist for mastering core infrastructure concepts.
-  - Potential benefit: This is a high-level reference guide for system design interviews and architecture planning. It highlights key patterns like consensus, hashing, and fault tolerance.
-  - Intent: learn · inferred
-  - Topic: System Design
-  - Source author: Ashutosh Maheshwari
-  - Priority: P2
-  - Impact: high
-  - Ease: deep
-  - Important: yes
-  - Importance reason: These algorithms are foundational for building reliable, scalable software systems. Mastery is essential for senior engineering roles and complex architecture.
-  - Urgent: no
-  - Urgency reason: Learning these concepts is valuable but not time-sensitive for immediate deployment. It supports long-term career growth and technical depth.
-  - Done when: Each algorithm is understood with a concrete example and trade-off analysis.
-  - Effort: 2d
-  - Captured: 2026-08-31 10:08 IST via Telegram · Hermes Swarm / Capture
-  - ID: sc_2fc9d70c74d83393
-
-- [ ] **Sync Hermes Agent with Telegram** — [source](https://x.com/BkashJosi/status/2093605999546372333)
-  - Contains: The post details a setup to connect Hermes Agent Bot Mode with Telegram groups. It outlines steps for creating a bot, assigning agents, and testing message routing. This enables remote coordination of specialized AI agents via chat.
-  - Potential benefit: This provides a practical integration pattern for multi-agent workflows. It allows users to leverage existing Telegram infrastructure for agent management and task delegation.
-  - Intent: implement · inferred
-  - Topic: AI Agent Integration
-  - Source author: Hermes Agent Super-Intel
-  - Priority: P2
-  - Impact: medium
-  - Ease: moderate
-  - Important: yes
-  - Importance reason: It enables flexible agent orchestration across platforms. This enhances productivity by allowing remote control of specialized AI roles.
-  - Urgent: no
-  - Urgency reason: The setup is optional and not time-sensitive. It can be configured when needed for specific workflow requirements.
-  - Done when: Telegram bot is connected and routing messages correctly.
-  - Effort: 30m
-  - Captured: 2026-08-30 05:20 IST via Telegram · Hermes Swarm / Capture
-  - ID: sc_887a47a1d55c8383
 
 - [ ] **BreakScale DB Simulation Tool** — [source](https://x.com/OjasSharma276/status/2093593295658397934)
   - Contains: The post praises BreakScale for simulating database reactions to request loads. It encourages users to explore the tool to understand backend mechanics.
@@ -416,21 +435,31 @@ Rules:
   - Captured: 2026-08-29 12:07 IST via Telegram · Hermes Swarm / Capture
   - ID: sc_2f9a28b1825645ad
 
-- [ ] **Test Minimax H3 Max on RTX 5000** — [source](https://x.com/rehan_shei/status/2093528415576211819)
-  - Contains: The user wants to test Minimax H3 Max locally on an RTX 5000 GPU. This is a concrete technical exploration task based on a viral demo.
-  - Potential benefit: The post highlights speed, suggesting the user seeks performance validation. The RTX 5000 is a valid target for local inference testing.
-  - Intent: test · stated
-  - Topic: AI Model Testing
-  - Source author: Rehan Sheikh
-  - Priority: P2
+- [ ] **Benchmark and test local models on DGX Spark hardware**
+  - Contains:
+    - Test Minimax H3 Max on RTX 5000: The user wants to test Minimax H3 Max locally on an RTX 5000 GPU. This is a concrete technical exploration task based on a viral demo.
+    - Benchmark Qwen3.8-27B BF16 lm_head update on DGX Spark: Qwen3.8-27B model update with new BF16 lm_head from SGLang project, claimed to give significant accuracy improvement. Pre-built Docker images available for RTX PRO 6000 and DGX Spark. Community reports token generation nearly doubled from pure BF16 with almost no quality loss. One commenter asks if it fixes the 'overthinking problem.'
+  - Potential benefit: Consolidates hardware testing into one session, allowing for direct comparison of model performance and resource usage on the same DGX Spark instance.
+  - Intent: test · inferred
+  - Topic: Local AI Inference
+  - Source author: Nitin
+  - Priority: P1
   - Impact: medium
   - Ease: moderate
   - Important: yes
-  - Importance reason: Validates hardware capability for emerging AI models. Provides direct experience with new video generation tech.
+  - Importance reason: This batch combines 2 actions that support the same outcome.
   - Urgent: no
-  - Urgency reason: No time-sensitive deadline exists for this exploration. The model is already available for local testing.
-  - Done when: Model runs locally or hardware limits are confirmed.
-  - Effort: 30m
+  - Urgency reason: Preserved from the member tasks; batch size alone does not create urgency.
+  - Done when: Minimax H3 Max runs locally or hardware limits are confirmed, and Qwen3.8-27B BF16 benchmark results (accuracy, speed) are recorded.
+  - Effort: 1h 30m
+  - Consolidation key: dgx-spark-model-benchmarks
+  - Consolidation reason: Both tasks involve testing or benchmarking specific AI models on the user's DGX Spark hardware. Testing Minimax H3 Max validates hardware limits and inference speed, while benchmarking Qwen3.8-27B BF16 lm_head tests accuracy and throughput improvements. They share the same execution context (DGX Spark), same intent (test/benchmark), and can be completed in a single hardware-focused session.
+  - Consolidated IDs: sc_2674a104ad7790d2, sc_3c232f8d7e1624b1
+  - Consolidated at: 2026-09-16T19:19:06+05:30
+  - Batch size: 2
+  - Sources:
+    - [source](https://x.com/rehan_shei/status/2093528415576211819) — Test Minimax H3 Max on RTX 5000
+    - [source](https://x.com/MiaAI_lab/status/2092017038319386782) — Benchmark Qwen3.8-27B BF16 lm_head update on DGX Spark
   - Captured: 2026-08-29 12:05 IST via Telegram · Hermes Swarm / Capture
   - ID: sc_2674a104ad7790d2
 
@@ -469,24 +498,6 @@ Rules:
   - Effort: 30m
   - Captured: 2026-08-29 07:24 IST via Telegram · Hermes Swarm / Capture
   - ID: sc_0a64f2c03f3a489a
-
-- [ ] **Apply Orwell's Rules to Avoid AI Slop** — [source](https://x.com/josephfwyer/status/2092819538505273544)
-  - Contains: The post advocates using Orwell's six writing rules to counteract AI-generated text flaws like passive voice and jargon. This framing positions the rules as a practical defense against incoherent or overly complex AI output.
-  - Potential benefit: The sharer views these rules as a necessary human skill to maintain clarity and authenticity in writing. This suggests a preference for direct, active language over the typical verbose style of LLMs.
-  - Intent: implement · inferred
-  - Topic: Writing Quality
-  - Source author: Joe Wyer
-  - Priority: P2
-  - Impact: medium
-  - Ease: easy
-  - Important: yes
-  - Importance reason: Clear writing enhances communication effectiveness and reduces reader fatigue. This skill is broadly applicable across professional and personal contexts.
-  - Urgent: no
-  - Urgency reason: Improving writing style is beneficial but not time-critical for immediate tasks. It supports long-term quality rather than addressing an immediate crisis.
-  - Done when: A draft is edited to remove passive voice and unnecessary words.
-  - Effort: 15m
-  - Captured: 2026-08-28 06:51 IST via Telegram · Hermes Swarm / Capture
-  - ID: sc_69babc169e36a663
 
 - [ ] **Build a centralized AI knowledge and skill governance system**
   - Contains:
@@ -761,24 +772,6 @@ Rules:
   - Captured: 2026-08-27 08:21 IST via Telegram · Hermes Swarm / Capture
   - ID: sc_2a44ee5495ea0eb9
 
-- [ ] **Use the 440Hz conspiracy as a test case for the Physics Claim Debunker Skill**
-  - Contains: Direct task: Nitin wants to use the 440Hz Rockefeller conspiracy / cymatics content as a test case for his Physics Claim Debunker Skill project (already in vault at Ideas/Physics Claim Debunker Skill.md). The content promotes pseudoscientific conspiracy theory about 440Hz tuning disrupting human biology — a good candidate to demonstrate the debunker's reasoning path.
-  - Potential benefit: Provides a concrete, high-interest test case for the debunker skill while demonstrating its value — showing how physics reasoning can systematically dismantle a widely-shared conspiracy theory.
-  - Intent: test · stated
-  - Topic: Physics Claim Debunker Skill
-  - Source author: Nitin Kishore
-  - Priority: P2
-  - Impact: high
-  - Ease: moderate
-  - Important: yes
-  - Importance reason: Directly feeds Nitin's existing Physics Claim Debunker Skill project with a real-world example that tests the system against a popular conspiracy theory.
-  - Urgent: no
-  - Urgency reason: No stated deadline, but this is a test case for an active project idea in the vault.
-  - Done when: One test case entry documents the 440Hz conspiracy claim, walks through the physics-based debunking reasoning, and adds it to the Physics Claim Debunker Skill project as a concrete example.
-  - Effort: 30m
-  - Captured: 2026-08-26 22:53 IST via Telegram · Hermes Swarm / Capture
-  - ID: sc_22bd2c1fb5d483d8
-
 - [ ] **Passive Income via Single Long-Form Video** — [source](https://www.instagram.com/p/Db1ZN0UlHY0/?img_index=1&igsi=MXJ1ajV2c3oxZmpueQ==)
   - Contains: A single 10-hour fireplace video generated over $1M in estimated ad revenue through compounding watch time. This demonstrates how low-effort, high-retention content can create significant long-term passive income streams.
   - Potential benefit: Simplicity and utility drive sustained engagement more than production value. Creators should prioritize evergreen utility over frequent posting to maximize lifetime value.
@@ -961,24 +954,6 @@ Rules:
   - Effort: 15m
   - Captured: 2026-08-26 17:12 IST via Telegram · Hermes Swarm / Capture
   - ID: sc_71eb7af2501ad07a
-
-- [ ] **Benchmark Qwen3.8-27B BF16 lm_head update on DGX Spark** — [source](https://x.com/MiaAI_lab/status/2092017038319386782)
-  - Contains: Qwen3.8-27B model update with new BF16 lm_head from SGLang project, claimed to give significant accuracy improvement. Pre-built Docker images available for RTX PRO 6000 and DGX Spark. Community reports token generation nearly doubled from pure BF16 with almost no quality loss. One commenter asks if it fixes the 'overthinking problem.'
-  - Potential benefit: Could improve local model accuracy and throughput on Nitin's DGX Spark without any hardware cost, directly benefiting Hermes, Discord, and Telegram inference quality.
-  - Intent: test · inferred
-  - Topic: Local model optimization
-  - Source author: Mia - @MiaAI_lab
-  - Priority: P1
-  - Impact: high
-  - Ease: moderate
-  - Important: yes
-  - Importance reason: This is a free accuracy/speed improvement for a model running on Nitin's DGX Spark hardware — a direct performance gain for his local AI stack.
-  - Urgent: no
-  - Urgency reason: No stated deadline, but SGLang BF16 updates are immediately available and testing is low-friction.
-  - Done when: Pull the DGX Spark Docker image, run a quick benchmark comparing BF16 lm_head vs. the current Qwen3.8-27B model on representative prompts, and record accuracy, speed, and any quality changes.
-  - Effort: 1h
-  - Captured: 2026-08-26 17:11 IST via Telegram · Hermes Swarm / Capture
-  - ID: sc_3c232f8d7e1624b1
 
 - [ ] **Survey current Hermes ecosystem: connectors catalog, Tool Search, and oh-my-hermes community setup**
   - Contains:
