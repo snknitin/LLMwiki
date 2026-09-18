@@ -36,9 +36,9 @@ Only work supported by the task record, live verification, or a dated evidence n
 | `Verify NVIDIA Spark SSH access` | Beginner Spark operations runbook, standalone-Hermes ownership, and the foundation/Qwen deployment path that the canonical index later verified as complete. | Later backup, restore, failover, automation, retrieval, and evaluation sequences. |
 | `Verify NVIDIA Spark SSH access (2)` | Workstation ODS/Ollama boundaries, both Gemma 4 models, Qwen 3.8 installation and remote routing, plus the supporting tutorials and research notes. | Qwen 3.8 promotion comparison and restart-by-restart resilience checks. |
 | `Plan Spark LM Link routing` | Tailnet-only workstation Ollama route, Spark LM Studio/LM Link, named Hermes providers, dynamic discovery, Qwen/Omni memory optimization, and Omni 131K long-context verification. | Shared regression harness and future runtime/model A/B work. |
-| `Create setup task checklist` | The source-mapped runbook and the laptop thin-client policy; this audit expands its original 29-note map to all 36 other current notes. | Operational boxes were not completed merely by creating the runbook. |
+| `Create setup task checklist` | The source-mapped runbook and the laptop thin-client policy; the 2026-08-22 audit expanded its original 29-note map to the 36 other notes that existed then, and the source map below now includes the 2026-09-18 frontier-model set. | Operational boxes were not completed merely by creating the runbook. |
 | `Install VoiceStudio portable` | VoiceStudio v0.5.0 at `D:\Apps\VoiceStudio`, portable data, CUDA diagnostics, TTS, Whisper transcription, Parakeet dictation, and blank-Capture-window recovery. | Optional unused-model cleanup and longer real-microphone/daily-use acceptance. |
-| `Document DGX Spark restart state` | First-Spark physical power-cycle recovery, saved recovery snapshot, corrected Qwen-before-Lightning boot order, second Spark NVIDIA Sync access, initial thermal/no-throttling comparison, persistent QSFP networking, and full NCCL validation. | A second controlled reboot of the corrected order, UEFI Auto Boot, and the first NVIDIA-documented dual-Spark workload proof. |
+| `Document DGX Spark restart state` | First-Spark physical power-cycle recovery, saved recovery snapshot, corrected Qwen-before-Lightning boot order, second Spark NVIDIA Sync access, initial thermal/no-throttling comparison, persistent QSFP networking, and full NCCL validation. | A second controlled reboot of the corrected order, UEFI Auto Boot, the remaining Docker/SSH/toolkit readiness fixes, and the first qualified dual-Spark frontier workload. |
 | `Connect Obsidian vaults to DGX Spark` | Official headless Sync replicas for `LLMWiki` and `Personal-Sync`, two enabled continuous user services, verified two-way file/hash propagation, and the active Windows `Personal-Sync` vault moved to `F:\Vaults\Personal-Sync`. | Retrieval evaluation, hard Hermes write confinement, a simultaneous-edit conflict test, and an independent `Personal-Sync` backup. |
 
 ## Current operational finish line
@@ -61,6 +61,7 @@ The immediate goal remains the **operational setup**, not every future model, fr
 - [ ] Sequence 6B — Let scheduled agents write Markdown and collect simple like/dislike feedback through an HTML dashboard that updates those files.
 - [ ] Sequence 7 — Establish the shared evaluation and observability harness.
 - [ ] Sequence 8A — Test exactly one new workstation model; start with `qwen3-coder:30b` if coding is the immediate goal.
+- [ ] Sequence 8I — Qualify the exclusive dual-Spark frontier lane in the order Qwen NVFP4 → official FP8 → GLM → DeepSeek.
 
 ### Suggested remaining work blocks
 
@@ -73,6 +74,7 @@ The immediate goal remains the **operational setup**, not every future model, fr
 | Block 5 | After Personal-Sync backup | Finish Obsidian safeguards plus retrieval evaluation | 3–4 h plus indexing time |
 | Block 6 | After agent output-folder restriction | Scheduled Markdown output plus a private HTML dashboard with like/dislike write-back | 3–6 h |
 | Block 7 | After regression set | One optional model A/B or remaining cleanup | 1.5–3 h plus download time |
+| Block 8 | After the dual-Spark readiness gate | sparkDash, idle baseline, Qwen NVFP4/FP8, then gated GLM/DeepSeek qualification | Multiple maintenance windows plus download and soak time |
 
 ## Already complete — do not repeat
 
@@ -649,27 +651,101 @@ The immediate goal remains the **operational setup**, not every future model, fr
 - [ ] Change `spark-fast` only after the full regression suite and rollback test pass.
 - [ ] **Done:** promotion or rejection decision is evidence-backed; release-day novelty is not the reason.
 
-### 8I — Spark capacity and engine experiments, in order
+### 8I — Dual-Spark community frontier lane, in order
 
-**Read:** [[DGX Spark ODS Playbook and Model Roadmap#Install later or benchmark experimentally]], [[DGX Spark Aug 2026 Model Deployment Research#Recommended operating set]], and [[dgx-spark-current-models-report#Install and experiment matrix]].
+**Rule:** Qwen 3.8 Flash Next, GLM 5.3 Flash, and DeepSeek V4.1 are mutually exclusive hot-swap appliances. Every recipe claims one GB10 rank on each Spark, so none runs beside `spark-fast`, Spark LM Studio, or another frontier recipe. Downloaded weights may remain on disk; only one model lane may be resident.
 
-#### Two-Spark readiness gate
+**Read, in order:**
 
-- [x] Add the second Spark to NVIDIA Sync with a unique hostname/alias and keep the first Spark as the sole Hermes/routing owner.
-- [x] Compare both Sparks at idle and confirm the second Spark shows no current thermal throttling; retain the temporary 2200 MHz cap only as a reversible workload precaution, not as a memory limit.
-- [ ] Both Sparks now match on Ubuntu 24.04.4, kernel `6.17.0-1029-nvidia`, driver `580.173.02`, Docker `29.2.1`, and UID/GID `1000:1000`; re-read firmware and reconcile NVIDIA Container Toolkit `1.19.1` versus `1.20.0` before production distributed containers.
-- [x] Install one NVIDIA-approved QSFP112 400G DAC between matching ConnectX-7 ports. Both logical rails negotiate at 200,000 Mb/s and use persistent manual Netplan. See [[DGX Spark Dual-Node Configuration And Operations Reference]].
-- [x] Pass the official full two-node NCCL direct test: zero out-of-bounds values and `21.7568 GB/s` average bus bandwidth. Cluster Assistant remains intentionally unused because manual `/etc/netplan/40-cx7.yaml` is authoritative.
-- [ ] Repair SecondSpark-to-FirstSpark management-IP host-key verification and standardize Docker access before the first distributed runtime.
-- [ ] Prove one NVIDIA-validated two-node workload before attempting the experimental dual-Spark DeepSeek profile.
+1. [[DGX Spark Dual-Node Community Frontier Models Runbook]] — common prerequisites, pinned sources, port/authentication, hot swap, acceptance, and rollback.
+2. [[DGX Spark sparkDash Monitoring Tutorial]] — observer installation and security boundary.
+3. [[DGX Spark Dual-Node Qwen 3.8 Flash Next Tutorial]] — NVFP4 baseline and official FP8 A/B.
+4. [[DGX Spark Dual-Node GLM 5.3 Flash EXL3 Tutorial]] — experimental second recipe.
+5. [[DGX Spark Dual-Node DeepSeek V4.1 Flash EXL3 Tutorial]] — final high-risk recipe.
+6. [[DGX Spark Frontier Model Hot-Swap And Routing Guide]] — permanent named aliases and the fail-closed cluster switch workflow.
+7. [[DGX Spark Dual-Node Frontier Model Recipes Research 2026-09-18]] — provenance, memory evidence, licenses, issue audit, and Aiden boundary.
+8. [[DGX Spark Dual-Node Configuration And Operations Reference]] — authoritative hosts, addresses, interfaces, HCAs, and recovery.
 
-- [ ] Qwen 3.5 122B-A10B — create an exclusive, pinned, isolated lane and test first.
+#### Capacity and coexistence decision
+
+| Lane | Published or observed per-node pressure | Checklist decision |
+|---|---|---|
+| Current `spark-fast` | About 40.2 GiB model allocation; roughly 50 GiB end-to-end after the 10 GiB KV/two-sequence profile | May leave SecondSpark free for a separately designed single-node lane, but must stop before any two-node recipe. |
+| Optional Qwen 3.8 NVFP4 TP1 on SecondSpark | 71.75 GiB GPU weights, about 5.6 GiB non-weight overhead, a configurable 7–15 GiB KV cache, and a 26.82 GiB memory-mapped PLE in the community measurements | May coexist with `spark-fast` as an explicitly separate SecondSpark-only lane after its own load test. Stop it before starting any dual-node recipe. See the optional TP1 section in [[DGX Spark Dual-Node Qwen 3.8 Flash Next Tutorial]]. |
+| Qwen NVFP4 | 101.61 GiB vLLM budget, 32.02 GiB KV, and only about 2.33–2.38 GiB published host-memory low-water | Exclusive; qualify with all nonessential services stopped. |
+| Qwen official FP8 | Same two-node 0.835 budget, larger weights, and roughly 500K cache tokens; no complete published memory breakdown | Exclusive; measure independently rather than inheriting NVFP4 assumptions. |
+| GLM EXL3 | About 103.44 GiB vLLM budget at GMU 0.85; published host headroom is narrow and long prefill is critical | Exclusive; experimental soak required. |
+| DeepSeek EXL3 | About 99.5 GiB weights plus KV/runtime/OS; published low-water reaches about 2.1 GiB after a 601K prefill | Strictly exclusive; run last. |
+| sparkDash | No intentional model/GPU allocation; actual host-RAM use is unpublished | Stop for each first boot and stress test, then re-add for a measured A/B. |
+
+#### Readiness gate
+
+- [x] Add SecondSpark to NVIDIA Sync with a unique alias; FirstSpark remains the sole production Hermes/LiteLLM/state owner.
+- [x] Install the approved QSFP112 DAC, preserve manual `/etc/netplan/40-cx7.yaml`, verify both 200,000 Mb/s rails, and pass the official full two-node NCCL direct test at `21.7568 GB/s` average bus bandwidth with zero out-of-bounds values.
+- [ ] Add `snknitin` to SecondSpark's `docker` group, reconnect/reboot, and prove `docker ps` succeeds there without `sudo`.
+- [ ] Repair SecondSpark → FirstSpark management-IP ED25519 host-key trust by comparing fingerprints; never use a global `StrictHostKeyChecking=no` workaround.
+- [ ] Upgrade FirstSpark's NVIDIA Container Toolkit from `1.19.1` so both nodes report `1.20.0`, then re-prove Docker and GPU access.
+- [ ] Reconfirm `enp1s0f1np1`, `rocep1s0f1`, GID index `3`, `192.168.100.10/11`, bidirectional SSH, and remote Docker immediately before launch.
+- [ ] Confirm challenger port `8100` is free. Do not reuse upstream port `8888`, which is already owned by SearXNG.
+- [ ] Confirm enough disk for the selected weights on both nodes and record the repository commit, image digest, checkpoint/revision, and licenses.
+
+#### Phase A — Install sparkDash as an observer
+
+- [ ] Follow [[DGX Spark sparkDash Monitoring Tutorial]] at the reviewed commit and bind only to `127.0.0.1:5555`.
+- [ ] Reach it from Windows through the SSH tunnel; do not expose it to the LAN.
+- [ ] Add both Sparks and verify monitoring, but leave shutdown, Hermes-update, and model-lifecycle controls unused.
+- [ ] Record `docker stats` and `MemAvailable`, then stop sparkDash before the first model start and each near-limit test.
+
+#### Phase B — Establish the idle baseline
+
+- [ ] Stop `spark-fast`, Spark LM Studio, the full ODS stack, Hermes, sparkDash, and every other material GPU/host-memory consumer before first qualification.
+- [ ] Confirm no frontier container or worker rank remains on either node.
+- [ ] Record `nvidia-smi`, `free -h`, `MemAvailable`, disk, and Docker state on both nodes.
+- [ ] Keep the production rollback ready: the active repository's stop command followed by `spark-model use qwen35`.
+
+#### Phase C — Qwen NVFP4, then official FP8
+
+- [ ] Follow [[DGX Spark Dual-Node Qwen 3.8 Flash Next Tutorial]] at commit `d2f54b78c0d2f9d74ac61aa56200e3c40fac3f22`; change only cluster, port, SSH, and authentication values for the recipe-faithful NVFP4 baseline.
+- [ ] Verify both weight copies, start both ranks, and pass authenticated `/health`, `/v1/models`, deterministic chat, tools, vision, context ladder, concurrency, memory-low-water, clean stop, and `spark-fast` rollback.
+- [ ] Stage and test the repository's official FP8 path as a separate profile with its own memory and quality record.
+- [ ] Compare NVFP4 versus FP8 on identical prompts, context, throughput, stability, and post-warm-up headroom; choose a preferred default, while retaining a distinct route for every profile that independently passes.
+- [ ] Do not call either profile the “Aiden stack” until Aiden's exact public repository/image, tag and digest, launcher, patches, model revision, and settings exist.
+
+#### Phase D — GLM after Qwen
+
+- [ ] Follow [[DGX Spark Dual-Node GLM 5.3 Flash EXL3 Tutorial]] at commit `ca8557665bffa6529758f2c330ba8fb44c1e801a` only after Qwen start/stop/rollback passes.
+- [ ] Run the pinned recipe-faithful baseline before any local tuning; record every deviation separately.
+- [ ] Pass identity, chat, tools, vision, staged context, concurrency, long-generation, memory, clean stop, and rollback checks.
+- [ ] Stop immediately on rank loss, CUDA/NCCL errors, host unresponsiveness, reset, corruption, or looping; treat current upstream failure reports as unresolved until this pair disproves them.
+
+#### Phase E — DeepSeek last
+
+- [ ] Follow [[DGX Spark Dual-Node DeepSeek V4.1 Flash EXL3 Tutorial]] at commit `8404ac7d389c418300d0bee960d52313247930e1` only after Qwen and GLM complete their required gates.
+- [ ] Verify the approximately 387 GiB source set, EXL3 split, Engram inputs, image digest, and selected NFS/replication path before GPU launch.
+- [ ] Preserve an untouched 600K pinned baseline. Prefer the separately named 131K/one-sequence/1 GiB-KV safety boot first, then restore and qualify 600K; keep cooperative-MoE and other optional overlays out of both.
+- [ ] Pass the repository smoke test, chat, tools, vision, staged context, memory-low-water, service-layering, soak, clean stop, and rollback.
+- [ ] Reject the profile if either node approaches the documented few-GiB margin without repeatable recovery.
+
+#### Named-alias registration and coexistence proof
+
+- [ ] Promote no recipe until its authenticated raw API on `192.168.0.101:8100` passes and its worker rank stops cleanly.
+- [ ] Follow [[DGX Spark Frontier Model Hot-Swap And Routing Guide]] and register each accepted profile under its corresponding permanent alias: `qwen38-nvfp4`, `qwen38-fp8`, `glm53-flash`, or `deepseek41-flash`.
+- [ ] Start only LiteLLM and Hermes with the active validated profile, then repeat the same loaded-context test while recording both nodes' low-water.
+- [ ] Start sparkDash last and repeat the matched test. Keep it stopped if headroom or stability materially worsens.
+- [ ] Do not restore the rest of ODS beside an active frontier lane unless an additional matched test proves safe headroom. Coexistence is measured, not assumed.
+- [ ] Never rename or overwrite `spark-fast`; it remains the production rollback until repeated restart and regression evidence justifies a separate promotion decision.
+- [ ] Install the separate `spark-frontier` manager only after manual repository start, stop, cleanup, and rollback are stable; never run it concurrently with `spark-model`.
+- [ ] **Done:** one acceptance record per tried profile names the exact artifacts, deviations, memory low-water, tests, stop result, rollback result, and decision: promote, adapt-and-retest, or reject.
+
+#### Deferred older candidates
+
+These remain historical backlog and do not precede the community sequence above:
+
+- [ ] Qwen 3.5 122B-A10B — consider only after the current Qwen 3.8 lane is decided.
 - [ ] Poolside Laguna S 2.1 plus matching DFlash — test only after license, parser, and runtime review.
 - [ ] Qwen3-Coder-Next — test an official/reputable GGUF or FP8 path only after the smaller coder benchmark justifies it.
 - [ ] Step 3.7 Flash — run alone at conservative context through its required llama.cpp path.
-- [ ] DeepSeek V4 Flash — isolated final experiment; never infer one-Spark behavior from multi-GPU results.
 - [ ] Ling 3.0 Flash — keep blocked until provenance, license, source, and digest are verified.
-- [ ] **Done:** every experiment has its own pinned lane, acceptance record, rollback, and no impact on `spark-fast`.
 
 ---
 
@@ -773,7 +849,7 @@ Read [[DGX Spark ODS Playbook and Model Roadmap#Phase 3 - FDE portfolio applicat
 
 ## Complete source map — all existing notes accounted for
 
-Use this map to decide what to read deeply and what to keep as reference. As of 2026-08-22 it covers all 36 other Markdown notes currently in this folder.
+Use this map to decide what to read deeply and what to keep as reference. Updated on 2026-09-18, it covers the current Markdown notes in this folder without treating newly written instructions as completed execution.
 
 ### Canonical/current operating notes
 
@@ -789,6 +865,12 @@ Use this map to decide what to read deeply and what to keep as reference. As of 
 - [[DGX Spark Nemotron 3.5 Lightning Via LM Studio Research]] — chosen Nemotron 3.5 Lightning LM Studio path and quantization evidence.
 - [[DGX Spark Pre-Shutdown And Automatic Recovery Snapshot 2026-08-20]] — verified first-Spark physical recovery, service ownership, corrected boot order, and the remaining reboot gate.
 - [[DGX Spark Dual-Node Configuration And Operations Reference]] — authoritative live identities, addresses, manual network ownership, NCCL proof, recovery steps, and distributed-model readiness gaps.
+- [[DGX Spark Dual-Node Community Frontier Models Runbook]] — current command-first master procedure for the exclusive two-node challenger lane, acceptance, routing, and rollback.
+- [[DGX Spark sparkDash Monitoring Tutorial]] — loopback-only two-node observer and benchmark guide.
+- [[DGX Spark Dual-Node Qwen 3.8 Flash Next Tutorial]] — first frontier lane: NVFP4 baseline and official FP8 A/B.
+- [[DGX Spark Dual-Node GLM 5.3 Flash EXL3 Tutorial]] — gated experimental second frontier lane.
+- [[DGX Spark Dual-Node DeepSeek V4.1 Flash EXL3 Tutorial]] — deferred final frontier lane with the tightest memory and staging constraints.
+- [[DGX Spark Frontier Model Hot-Swap And Routing Guide]] — permanent LiteLLM/Hermes aliases and fail-closed switching across the validated frontier lanes.
 - [[DGX Spark Second Node And Dual Spark Readiness Research 2026-08-20]] — historical pre-cable planning, approved cable choices, and dual-Spark model limits.
 - [[VoiceStudio Windows Portable Usage]] — verified portable VoiceStudio state, first-use workflow, settings, backup, and recovery guidance.
 
@@ -812,6 +894,7 @@ Use this map to decide what to read deeply and what to keep as reference. As of 
 
 ### Supporting research — read for decisions, not as linear setup
 
+- [[DGX Spark Dual-Node Frontier Model Recipes Research 2026-09-18]] — immutable repository/checkpoint audit, memory evidence, open issue and license review, and Aiden-stack reproducibility boundary.
 - [[DGX Spark Multi-Model Runtime Research]] — downloaded/registered/loaded/healthy/selected distinctions and memory-aware switching.
 - [[DGX Spark Qwen NVFP4 Memory And Startup Optimization Research]] — verified Qwen KV, long-context, startup, and co-residency results.
 - [[DGX Spark Additional Models And Convenience Runtimes Research]] — primary-source model/runtime identities, caveats, and deferred items.
@@ -839,6 +922,7 @@ Use this map to decide what to read deeply and what to keep as reference. As of 
 ## Related
 
 - [[Local Setup Index]]
+- [[DGX Spark Dual-Node Community Frontier Models Runbook]]
 - [[Always-On Hermes on DGX Spark]]
 - [[Spark Hermes Setup Runbook]]
 - [[local-ai-tooling-catalog-and-rollout|Local AI Tooling Catalog and Rollout]]

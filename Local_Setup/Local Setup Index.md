@@ -18,6 +18,7 @@ This is the canonical progress and navigation page. If an older note suggests a 
 | Workstation GPU | **NVIDIA RTX PRO 5000 Blackwell**, 48,935 MiB, compute capability 12.0, driver 596.59 |
 | Spark foundation | Bash configuration, external secrets, cache/service folders, registries, and status commands completed |
 | Spark inference | Four explicit switchable lanes are installed and lifecycle-tested: `qwen35`, `qwen27-dflash`, `nemotron3-omni`, and `nemotron35-lightning`. `qwen35` remains the resident default, and LM Studio Nemotron 3.5 Lightning is deliberately warm beside it. |
+| Dual-Spark frontier lane | The pinned sparkDash, Qwen 3.8 Flash Next, GLM 5.3 Flash, and DeepSeek V4.1 community guides are ready, but no frontier recipe has been run locally. Each model recipe is an **exclusive hot-swap lane across both Sparks**, not an additional resident model. Current prerequisites are SecondSpark Docker-group access, reverse SSH host-key trust, NVIDIA Container Toolkit parity at `1.20.0`, and a fresh idle/memory baseline. See [[DGX Spark Dual-Node Community Frontier Models Runbook]]. |
 | Hermes | Standalone Hermes Gateway and Hermes Serve run on Spark; the ODS Hermes module is not needed |
 | Routing | Spark LiteLLM exposes the working Qwen routes to Hermes |
 | Networking | Tailscale remains installed on the first Spark, workstation, and laptop. NVIDIA Sync reaches both nodes. FirstSpark (`192.168.0.101`) and SecondSpark (`192.168.0.100`) are direct ConnectX-7 peers on `192.168.100.10/11` and `192.168.101.10/11`. Manual `/etc/netplan/40-cx7.yaml` is authoritative; NVIDIA Sync Cluster Assistant has not created `99-nvidia-sync-cluster.yaml`. |
@@ -310,10 +311,43 @@ Before training, unload workstation Ollama and LM Studio models. Normal Hermes w
 
 See [[Qwen 3.8 27B Ollama Remote Access Research]] for official model facts, security boundaries, and the end-to-end verification checklist.
 
+### 9. Qualify the community dual-Spark frontier lane
+
+This is the active two-node model track requested on 2026-09-18. It is separate from the workstation-sized Qwen 3.8 27B lane above and may proceed once its own readiness gate passes.
+
+Read, in order:
+
+1. [[DGX Spark Dual-Node Community Frontier Models Runbook]] — cluster-wide prerequisites, common lifecycle, memory/coexistence matrix, acceptance record, and rollback.
+2. [[DGX Spark sparkDash Monitoring Tutorial]] — install the observer on loopback without granting it model or power ownership.
+3. [[DGX Spark Dual-Node Qwen 3.8 Flash Next Tutorial]] — prove NVFP4 first, then run the official FP8 A/B.
+4. [[DGX Spark Dual-Node GLM 5.3 Flash EXL3 Tutorial]] — experimental follow-on after Qwen passes start, stop, and rollback.
+5. [[DGX Spark Dual-Node DeepSeek V4.1 Flash EXL3 Tutorial]] — final, highest-risk recipe after every earlier gate passes.
+6. [[DGX Spark Frontier Model Hot-Swap And Routing Guide]] — permanent LiteLLM/Hermes names and the verified one-resident-backend switch workflow.
+7. [[DGX Spark Dual-Node Frontier Model Recipes Research 2026-09-18]] — source, checkpoint, issue, license, and Aiden-stack evidence.
+
+Execute in this exact order:
+
+1. Clear Docker, reverse-SSH, toolkit-parity, interface/HCA/GID, and free-disk prerequisites.
+2. Install sparkDash loopback-only, then stop it before the first model qualification run.
+3. Drain `spark-fast`, Spark LM Studio, ODS, Hermes, and every other GPU or material host-memory consumer; record both nodes' idle baseline.
+4. Prove Qwen NVFP4 directly on authenticated port `8100`, including loaded-context memory low-water, clean stop, and `spark-fast` rollback.
+5. Prove the repository's official FP8 path as a separate A/B; do not label it the Aiden stack without Aiden's missing public image, launcher, digest, and settings.
+6. Prove GLM only after Qwen; preserve its pinned recipe for the first baseline and treat current failure reports as stop conditions.
+7. Prove DeepSeek last; its approximately 387 GiB staging footprint and few-GiB memory margin make it the strictest lane.
+8. Register every validated profile under its distinct named alias: `qwen38-nvfp4`, `qwen38-fp8`, `glm53-flash`, and `deepseek41-flash`. Select one resident backend at a time; re-add LiteLLM/Hermes, then sparkDash, one layer at a time and repeat the same load before declaring coexistence safe.
+
+The resource rule is absolute: Qwen, GLM, and DeepSeek each occupy both GB10 devices and cannot run beside `spark-fast`, Spark LM Studio, or one another. A separate single-node model on SecondSpark may coexist with `spark-fast` only as a different, explicitly designed lane—not while any two-node frontier recipe is active.
+
 ## File map — what each note is for
 
 ### Active execution notes
 
+- [[DGX Spark Dual-Node Community Frontier Models Runbook]] — command-first master procedure for prerequisites, pinned source staging, two-node hot swaps, acceptance, routing, and rollback.
+- [[DGX Spark sparkDash Monitoring Tutorial]] — loopback-only monitoring and benchmarking companion; observer only, never the model lifecycle or power owner.
+- [[DGX Spark Dual-Node Qwen 3.8 Flash Next Tutorial]] — first model lane: recipe-faithful NVFP4 baseline followed by the official FP8 A/B.
+- [[DGX Spark Dual-Node GLM 5.3 Flash EXL3 Tutorial]] — second, experimental model lane with long-prefill and soak gates.
+- [[DGX Spark Dual-Node DeepSeek V4.1 Flash EXL3 Tutorial]] — final high-risk model lane with source staging, Engram, strict memory, and service-layering gates.
+- [[DGX Spark Frontier Model Hot-Swap And Routing Guide]] — registers every accepted named alias and installs the fail-closed two-node switch manager while preserving `spark-fast`.
 - [[DGX Spark Dual-Node Configuration And Operations Reference]] — authoritative live dual-node identities, address plan, persistent network ownership, NCCL build and result, safety procedure, Cluster Assistant decision, and distributed-model next steps.
 - [[DGX Spark Pre-Shutdown And Automatic Recovery Snapshot 2026-08-20]] — live first-Spark service/model snapshot, automatic restart ownership, reboot verification, and safe UPS move checklist.
 - [[DGX Spark Automatic Power Recovery Research]] — official NVIDIA evidence for `Auto Boot` after AC power returns and the UEFI setting path.
@@ -347,6 +381,7 @@ See [[Qwen 3.8 27B Ollama Remote Access Research]] for official model facts, sec
 
 ### Supporting research — read when making a decision, not as sequential tutorials
 
+- [[DGX Spark Dual-Node Frontier Model Recipes Research 2026-09-18]] — immutable repository/model audit, published memory evidence, open failure modes, licenses, and the boundary around the unreproducible Aiden-specific claim.
 - [[Markdown Backed Interactive Dashboard Research]] — compares Obsidian Bases, SilverBullet, Git-backed CMSs, static generators, and a purpose-built live Markdown writer; includes the recommended schema, concurrency controls, and weekly Claude/Hermes workflow.
 - [[DGX Spark Multi-Model Runtime Research]]
 - [[DGX Spark Additional Models And Convenience Runtimes Research]]
@@ -371,3 +406,5 @@ See [[Qwen 3.8 27B Ollama Remote Access Research]] for official model facts, sec
 11. Markdown is the source of truth for the daily dashboard. The first UI is a narrow HTML report viewer whose only mutations are like/dislike feedback fields in agent-generated notes.
 12. One authenticated `FirstSpark` service owns those limited writes inside the dedicated scheduled-output subtree, uses optimistic concurrency and atomic serialized writes, and reaches clients only over the tailnet.
 13. A static generator may publish or preview Markdown but is not the write-back owner. The weekly Claude/Hermes run writes a new review draft with provenance and never overwrites its daily sources.
+14. Qwen 3.8 Flash Next, GLM 5.3 Flash, and DeepSeek V4.1 are one exclusive two-node frontier lane: hot-swap them in the order NVFP4 → official FP8 → GLM → DeepSeek, and restore `spark-fast` between qualifications.
+15. Port `8100` and the distinct `qwen38-nvfp4`, `qwen38-fp8`, `glm53-flash`, and `deepseek41-flash` aliases isolate the mutually exclusive lane from SearXNG on `8888` and from `spark-fast`. Registration does not imply simultaneous residency; each alias is promoted only after measured headroom with LiteLLM/Hermes and, optionally, sparkDash.
