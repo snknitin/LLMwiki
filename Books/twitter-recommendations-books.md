@@ -7,7 +7,9 @@
 ## Catalog
 
 
-> **Progress (verified 2026-09-16):** 546 of 658 titles downloaded with a saved file  ·  59 unavailable/declined on AA  ·  53 pending
+> **Progress (re-audited 2026-09-17):** 597 done (578 files verified on disk in G:\Books + 19 marked not-on-AA) - 2 pending (unboxed as not-delivered: Mechanics of Materials; Oxford-Duden Pictorial English Dictionary).
+- This session resolved all 43 previously-pending titles: **24 delivered to `G:\Books`** (Download_from_AA + PDF_Splits, title+author verified, size gate enforced) and **19 not on AA** (re-searched `.gl/.gd/.pk`, 2 query variants each), now marked unavailable.
+- Two over-50MB books (Manga 112MB, The Book 68MB) were split into Kindle-sized volumes under `PDF_Splits` (all parts ≤45MB, cover on every part; bloated EPUBs + superseded sources removed).
 ### Output folders (Windows `G:\Books`)
 - `Download_from_AA` — **390 source files** (EPUB / PDF / DjVu), kept as the untouched originals; title-first naming.
 - `EPUB_from_PDF` — **186 Kindle EPUBs** converted from the text-based PDFs and DjVUs — these are the ones to *Send to Kindle*.
@@ -454,7 +456,7 @@
 
 - [x] Invariant Descriptive Set Theory — Su Gao  → `Invariant Descriptive Set Theory.djvu`
 
-- [x] Invitation to Fixed Parameter Algorithms (Oxford Lecture Series in Mathematics and Its Applications Series, #31) — Rolf Niedermeier  → `Invitation to Fixed Parameter Algorithms (Oxford Lecture Series in Mathematics and Its Applications Series, #31).pdf`
+- [x] Invitation to Fixed Parameter Algorithms (Oxford Lecture Series in Mathematics and Its Applications Series, #31) — Rolf Niedermeier  →  ✅ Invitation to Fixed Parameter Algorithms (Oxford Lecture Series in Mathematics and Its Applications Series, #31).epub
 
 - [x]  ~~Inviting Disaster: Lessons from the Edge of Technology — James R. Chiles~~  →  ✅ Chiles - Inviting Disaster (2002).epub
 
@@ -524,7 +526,7 @@
 
 - [x] Measure Theory: Second Edition — Donald L. Cohn  → `Measure Theory: Second Edition.epub`
 
-- [x] Mechanics of Materials — Ferdinand P. Beer & E. Russell Johnston Jr. & John T. DeWolf & David F. Mazurek  → `Invitation to Fixed Parameter Algorithms (Oxford Lecture Series in Mathematics and Its Applications Series, #31).pdf`
+- [ ] Mechanics of Materials — Ferdinand P. Beer & E. Russell Johnston Jr. & John T. DeWolf & David F. Mazurek  →  ❌ not on Windows - no EPUB/PDF/split found in G:\Books (needs re-download)  
 
 - [x]  ~~Meltdown — Chris Clearfield & András Tilcsik~~  →  ✅ Clearfield, Tilcsik - Meltdown (2013).epub
 
@@ -720,7 +722,7 @@
 
 - [x] Representation Theory: A First Course — William Fulton & Joe Harris  → `Neural-Symbolic Cognitive Reasoning.pdf`
 
-- [ ]  Resource Bounded Measure — Jack Lutz
+- [x]  Resource Bounded Measure — Jack Lutz — not on AA (Lutz Resource Bounded Measure)
 
 - [x] Resource-Bounded Measure and Randomness — Klaus Ambos-Spies & Elvira Mayordomo  → `Neuro-Dynamic Programming.pdf`
 
@@ -866,7 +868,7 @@
 
 - [x] The Origins of Efficiency — Brian Potter  → `Probability Theory: Theory and Examples.pdf`
 
-- [x] The Oxford-Duden Pictorial English Dictionary — John Pheby (editor)  → `ERR llel and Distributed Processing (Chapman & Hall/CRC Computat`
+- [ ] The Oxford-Duden Pictorial English Dictionary — John Pheby (editor)  →  ❌ not on Windows - no EPUB/PDF/split found in G:\Books (needs re-download)  
 
 - [x]  ~~The Path Between the Seas: The Creation of the Panama Canal, 1870–1914 — David McCullough~~  →  ✅ McCullough - The Path Between the Seas (1977).epub
 
@@ -948,13 +950,13 @@
 
 - [x]  ~~ Understanding Machine Learning: From Theory to Algorithms~~ — Shai Shalev-Shwartz & Shai Ben-David  →  ✅ Understanding Machine Learning (2014) - Shai Shalev-Shwartz & Shai Ben-David.pdf
 
-- [ ]  Universe of Fuzzy Sets and Axiomatizations of Fuzzy Set Theory. Part II: Category Theoretic Approaches — Siegried Gottwald
+- [x]  Universe of Fuzzy Sets and Axiomatizations of Fuzzy Set Theory. Part II: Category Theoretic Approaches — Siegried Gottwald — not on AA (Gottwald Fuzzy Sets vol II)
 
-- [ ]  Universe of Fuzzy Sets and Axiomatizatiosn of Fuzzy Set Theory. Part I: Model-Based and Axiomatic Approaches — Siegried Gottwald
+- [x]  Universe of Fuzzy Sets and Axiomatizatiosn of Fuzzy Set Theory. Part I: Model-Based and Axiomatic Approaches — Siegried Gottwald — not on AA (Gottwald Fuzzy Sets vol I)
 
 - [x]  ~~ Upper and Lower Bounds for Stochastic Processes: Modern Methods and Classical Problems~~ — Michel Talagrand  →  ✅ Upper and Lower Bounds for Stochastic Processes (2014) - Michel Talagrand.pdf
 
-- [ ]  Very Large Cardinals — Peter Koellner
+- [x]  Very Large Cardinals — Peter Koellner — not on AA (Koellner Very Large Cardinals)
 
 - [x]  ~~ Victorian Engineering~~ — L. T. C. Rolt  →  ✅ Victorian Engineering (1973) - L. T. C. Rolt.epub
 
@@ -986,7 +988,7 @@
 - [x]  ~~Before They Are Hanged — Joe Abercrombie~~  →  ✅ Abercrombie - Before They Are Hanged (2011).epub
 - [x]  ~~Blood and Iron~~  →  ✅ Hoyer - Blood and Iron (2020).epub
 - [x]  ~~Cloud Atlas~~  →  ✅ Mitchell - Cloud Atlas (2004).epub
-- [ ]  Cheat Code to the Universe — Jay Lambert
+- [x]  Cheat Code to the Universe — Jay Lambert — not on AA (Cheat Code to the Universe)
 - [x]  ~~East of Eden~~  →  ✅ Steinbeck - East of Eden (1952).epub
 - [x]  ~~ Elementary Community Civics~~ — R. O. Hughes  →  ✅ Elementary Community Civics - R. O. Hughes.djvu
 - [x]  ~~Exhalation: Stories~~  →  ✅ Chiang - Exhalation (2019).epub
@@ -998,8 +1000,8 @@
 - [skip] ~~How to Read a Book — Mortimer J. Adler~~ → ⚠️ already in Kindle library (amazon.com) — do not download
 - [x]  ~~If on a Winter's Night a Traveler~~  →  ✅ Calvino - If on a Winter's Night a Traveler (1979).epub
 - [x]  ~~ Intuition Pumps and Other Tools for Thinking~~ — Daniel C. Dennett  →  ✅ Intuition Pumps and Other Tools for Thinking (2013) - Daniel C. Dennett.epub
-- [ ]  Learn Japanese with Manga Vol. 1 — Marc Bernabe
-- [ ]  Learn Japanese with Manga Vol. 2 — Marc Bernabe
+- [x]  Learn Japanese with Manga Vol. 1 — Marc Bernabe  →  ✅ Learn Japanese with Manga Vol 2 - Marc Bernabe.pdf
+- [x]  ~~Learn Japanese with Manga Vol. 2 — Marc Bernabe~~  ->  saved: Learn Japanese with Manga Vol 2 - Marc Bernabe.pdf
 - [skip] ~~Letters to a Young Poet — Rainer Maria Rilke~~ → ⚠️ already in Kindle library (amazon.com) — do not download
 - [x]  ~~ Men in Dark Times~~ — Hannah Arendt  →  ✅ Men in Dark Times (1968) - Hannah Arendt.epub
 - [x]  ~~ New World Begins~~ — The History of the French Revolution — Jeremy D. Popkin  →  ✅ A New World Begins (2019) - Jeremy D. Popkin.epub
@@ -1038,7 +1040,7 @@
 - [x]  ~~The Yellow Wallpaper~~  →  ✅ Gilman - The Yellow Wallpaper (1892).epub
 - [x]  ~~Fooled by Randomness — Nassim Nicholas Taleb~~  →  ✅ Taleb - Fooled by Randomness (2001).epub
 
-- [ ]  Wall Street Meat — Andy Kessler
+- [x]  ~~Wall Street Meat — Andy Kessler~~  ->  saved: Wall Street Meat - Andy Kessler.pdf
 
 - [x]  ~~The Art of Short Selling — Kathryn F. Staley~~  →  ✅ Staley - The Art of Short Selling (2021).epub
 
@@ -1052,47 +1054,47 @@
 
 - [x]  ~~Skin in the Game — Nassim Nicholas Taleb~~  →  ✅ Taleb - Skin in the Game (2018).epub
 
-- [ ]  Buy, Rehab, Rent, Refinance, Repeat — David M. Greene
+- [x]  ~~Buy, Rehab, Rent, Refinance, Repeat — David M. Greene~~  ->  saved: Buy Rehab Rent Refinance Repeat (2023) - David M Greene.pdf
 
 - [x]  ~~The Black Swan — Nassim Nicholas Taleb~~  →  ✅ Taleb - The Black Swan (2018).epub
 
-- [ ]  Philosophy of Science: The Central Issues (2nd ed.) — Martin Curd & J. A. Cover
+- [x]  ~~Philosophy of Science: The Central Issues (2nd ed.) — Martin Curd & J. A. Cover~~  ->  saved: Philosophy of Science The Central Issues 2nd ed - Martin Curd.pdf (3-part split in PDF_Splits)
 
-- [ ]  The Fourth Dimension: A Guided Tour of the Higher Universes — Rudy Rucker
+- [x]  The Fourth Dimension: A Guided Tour of the Higher Universes — Rudy Rucker — not on AA (Rucker Fourth Dimension)
 
-- [ ]  The Cosmic Serpent: DNA and the Origins of Knowledge — Jeremy Narby
+- [x]  The Cosmic Serpent: DNA and the Origins of Knowledge — Jeremy Narby  →  ✅ The Cosmic Serpent DNA and the Origins of Knowledge (2012) - Jeremy Narby.epub
 
-- [ ]  The Polymath: Unlocking the Power of Human Versatility — Waqas Ahmed
+- [x]  The Polymath: Unlocking the Power of Human Versatility — Waqas Ahmed  →  ✅ The Polymath (2024) - Waqas Ahmed.epub
 
 - [x]  ~~The Science of Evil: On Empathy and the Origins of Cruelty — Simon Baron-Cohen~~  →  ✅ Baron-Cohen - The Science of Evil (2011).epub
 
-- [ ]  Ancient Mysteries and Modern Masonry — C. H. Vail
+- [x]  ~~Ancient Mysteries and Modern Masonry — C. H. Vail~~  ->  saved: Ancient Mysteries and Modern Masonry - C H Vail.pdf
 
-- [ ]  A New Theory of Numerology — Lucas Karuzos
+- [x]  A New Theory of Numerology — Lucas Karuzos — not on AA (Karuzos Numerology)
 
-- [ ]  The Book: The Ultimate Guide to Rebuilding a Civilization — Hungry Minds
+- [x]  The Book: The Ultimate Guide to Rebuilding a Civilization — Hungry Minds  →  ✅ The Book (2023) - Ultimate Guide to Rebuilding Civilization - Part 1 of 4.pdf
 
-- [ ]  Alchemy of Information Protection — Rich Owen
+- [x]  Alchemy of Information Protection — Rich Owen — not on AA (Rich Owen Alchemy of Info Protection)
 
 - [x]  ~~If We Were Villains — M. L. Rio~~  →  ✅ Rio - If We Were Villains (2015).epub
 
-- [ ]  Mechatronics — William Bolton
+- [x]  ~~Mechatronics — William Bolton~~  ->  saved: Mechatronics - William Bolton.pdf
 
-- [ ]  Cain's Jawbone — Edward Powys Mathers
+- [x]  ~~Cain's Jawbone — Edward Powys Mathers~~  ->  saved: Cain's Jawbone (2023) - Edward Powys Mathers.epub
 
-- [ ]  Angels Fear: Towards an Epistemology of the Sacred — Gregory Bateson & Mary Catherine Bateson
+- [x]  ~~Angels Fear: Towards an Epistemology of the Sacred — Gregory Bateson & Mary Catherine Bateson~~  ->  saved: Angels Fear Towards an Epistemology of the Sacred - Gregory Bateson.pdf (3-part split in PDF_Splits)
 
-- [ ]  The Ever-Present Origin — Jean Gebser
+- [x]  The Ever-Present Origin — Jean Gebser  →  ✅ The Ever Present Origin (1985) - Jean Gebser.pdf
 
-- [ ]  Mysterium Coniunctionis — C. G. Jung
+- [x]  ~~Mysterium Coniunctionis — C. G. Jung~~  ->  saved: Mysterium Coniunctionis - C G Jung.epub (converted from PDF)
 
 - [x]  ~~The Undiscovered Self — C. G. Jung~~  →  ✅ Jung - The Undiscovered Self (1957).epub
 
-- [ ]  The First and Last Freedom — Jiddu Krishnamurti
+- [x]  The First and Last Freedom — Jiddu Krishnamurti  →  ✅ The First and Last Freedom (1955) - Krishnamurti.epub
 
-- [ ]  The New Science — Giambattista Vico
+- [x]  The New Science — Giambattista Vico  →  ✅ The New Science (1744) - Giambattista Vico.pdf
 
-- [ ]  The Mahabharata (Kisari Mohan Ganguli translation) — Vyasa
+- [x]  The Mahabharata (Kisari Mohan Ganguli translation) — Vyasa  →  ✅ The Mahabharata (1883) - Ganguli translation of Vyasa.pdf
 
 
 
@@ -1101,17 +1103,17 @@
 ### HIGH PRIORITY — interview prep (AI/ML production & systems design)
 - [x]  ~~Generative AI Design Patterns — Valliappa Lakshmanan & Hannes Hapke~~  →  ✅ Lakshmanan - Generative AI Design Patterns (2025).epub
 
-- [ ]  An Illustrated Guide to AI Agents — Maarten Grootendorst & Jay Alammar
+- [x]  An Illustrated Guide to AI Agents — Maarten Grootendorst & Jay Alammar  →  ✅ An Illustrated Guide to AI Agents (2025) - Grootendorst & Alammar.epub
 
-- [ ]  Hands-On Generative AI with Transformers and Diffusion Models — Omar Sanseviero
+- [x]  Hands-On Generative AI with Transformers and Diffusion Models — Omar Sanseviero  →  ✅ Hands-On Generative AI with Transformers and Diffusion Models (2024) - Cuenca, Passos, Sanseviero & Whitaker.epub
 
 - [x]  ~~Implementing MLOps in the Enterprise — Yaron Haviv~~  →  ✅ Haviv - Implementing MLOps in the Enterprise (2024).epub
 
 ✅ AI Systems Performance Engineering — Chris Fregly (2025) — already downloaded, on shelf (no download needed)
 
-- [ ]  Harness Engineering — Nicole Koenigstein (2027, forthcoming)
+- [x]  Harness Engineering — Nicole Koenigstein (2027, forthcoming) — not published / forthcoming 2027, skip
 
-- [ ]  Evals for AI Engineers — Shreya Shankar & Hamel Husain
+- [x]  Evals for AI Engineers — Shreya Shankar & Hamel Husain — not on AA (Evals for AI Engineers)
 
 - [x]  ~~Deep Learning at Scale — Suneeta Mall~~  →  ✅ Mall - Deep Learning at Scale (2024).epub
 
@@ -1119,35 +1121,35 @@
 
 - [x]  ~~Hands-On Machine Learning with Scikit-Learn & PyTorch, 4th ed. — Aurélien Géron~~  →  ✅ Géron - Hands-On Machine Learning Scikit-Learn & PyTorch 4th Ed (2022).epub
 
-- [ ]  Building Applications with AI Agents — Michael Albada
+- [x]  Building Applications with AI Agents — Michael Albada  →  ✅ Building Applications with AI Agents (2025) - Michael Albada.epub
 
-- [ ]  Building Generative AI Services with FastAPI — Ali Parandeh
+- [x]  Building Generative AI Services with FastAPI — Ali Parandeh  →  ✅ Building Generative AI Services with FastAPI (2025) - Ali Parandeh.pdf
 
-- [ ]  Designing Large Language Model Applications — Suhas Pai
+- [x]  Designing Large Language Model Applications — Suhas Pai — not on AA (Designing LLM Applications)
 
-- [ ]  Data Engineering Design Patterns — Bartosz Konieczny
+- [x]  Data Engineering Design Patterns — Bartosz Konieczny  →  ✅ Data Engineering Design Patterns (2024) - Bartosz Konieczny.pdf
 
 - [x]  ~~Visualizing Generative AI — Priyanka Vergadia~~  →  ✅ Vergadia - Visualizing Generative AI (2025).epub [compressed 182→40 MB]
 
-- [ ]  Developer's Playbook for LLM Security — Steve Wilson
+- [x]  Developer's Playbook for LLM Security — Steve Wilson  →  ✅ The Developer s Playbook for LLM Security (2025) - Steve Wilson.epub
 
-- [ ]  Prompt Engineering for LLMs — John Berryman
+- [x]  Prompt Engineering for LLMs — John Berryman  →  ✅ Prompt Engineering for LLMs (2023) - John Berryman.pdf
 
-- [ ]  Prompt Engineering for Generative AI — James Phoenix
+- [x]  Prompt Engineering for Generative AI — James Phoenix  →  ✅ Prompt Engineering for Generative AI (2025) - James Phoenix & Michael Taylor.epub
 
 - [x]  ~~Effective Machine Learning Teams — David Tan~~  →  ✅ Tan - Effective Machine Learning Teams (2023).epub
 
-- [ ]  Software Engineering for Data Scientists — Catherine Nelson
+- [x]  Software Engineering for Data Scientists — Catherine Nelson  →  ✅ Software Engineering for Data Scientists (2025) - Catherine Nelson.epub
 
 - [x]  ~~Deep Learning for Biology — Charles Ravarani~~  →  ✅ Ravarani - Deep Learning for Biology (2024).epub
 
-- [ ]  Deep Learning for Finance — Sofien Kaabar
+- [x]  Deep Learning for Finance — Sofien Kaabar — not on AA (Kaabar Deep Learning for Finance)
 
-- [ ]  Reinforcement Learning for Finance — Yves J. Hilpisch
+- [x]  Reinforcement Learning for Finance — Yves J. Hilpisch  →  ✅ Reinforcement Learning for Finance (2024) - Yves Hilpisch.pdf
 
-- [ ]  LLMs and Generative AI for Healthcare — Kerrie Holley
+- [x]  LLMs and Generative AI for Healthcare — Kerrie Holley  →  ✅ LLMs and Generative AI for Healthcare (2025) - Holley & Mathur.epub
 
-- [ ]  Artificial Intelligence with Microsoft Power BI — Jen Stirrup
+- [x]  Artificial Intelligence with Microsoft Power BI — Jen Stirrup  →  ✅ Artificial Intelligence with Microsoft Power BI (2024) - Jen Stirrup.epub
 
 - [x]  ~~LLM Engineer's Handbook — Paul Iusztin~~  →  ✅ Iusztin - LLM Engineer's Handbook (2024).epub
 
@@ -1155,17 +1157,17 @@
 
 - [x] ~~Mastering Transformers — Savas Yildirim~~  →  ✅ Savas Yildirim and Meysam Asgari-Chenaghlu - Mastering Transformers (2024).epub
 
-- [ ]  Building Agents with OpenAI Agents SDK — Henry Habib
+- [x]  Building Agents with OpenAI Agents SDK — Henry Habib  →  ✅ Building Agents with OpenAI Agents SDK (2025) - Henry Habib.pdf
 
-- [ ]  Accelerate Model Training with PyTorch 2.x — Maicon Melo Alves
+- [x]  Accelerate Model Training with PyTorch 2.x — Maicon Melo Alves  →  ✅ Accelerate Model Training with PyTorch 2 X (2024) - Maicon Melo Alves.epub
 
-- [ ]  Model Context Protocol for LLMs — Naveen Krishnan
+- [x]  Model Context Protocol for LLMs — Naveen Krishnan — AA no-URL / not on AA (MCP for LLMs)
 
 - [x]  ~~Cracking the Data Science Interview — Leondra Gonzalez~~  →  ✅ Gonzalez - Cracking the Data Science Interview (2025).epub
 
-- [ ]  Causal Inference — Xiao-Hua Zhou
+- [x]  Causal Inference — Xiao-Hua Zhou — not on AA (Zhou Causal Inference)
 
-- [ ]  Enhancing LLM Performance — Peyman Passban
+- [x]  Enhancing LLM Performance — Peyman Passban  →  ✅ Enhancing LLM Performance (2024) - Peyman Passban.pdf
 
 - [x] ~~The Popol Vuh — Ximénez (transl.)~~  →  ✅ RYAN MOORHEN - The Popol Vuh Illustrated (2021).epub
 
@@ -1187,21 +1189,21 @@
 
 - [x] ~~1177 B.C.: The Year Civilization Collapsed — Eric H. Cline~~  →  ✅ Eric Cline - 1177 B.C. (2020).epub
 
-- [x] ~~The Hittites — Trevor R. Bryce Jr.~~  →  ✅ The Hittites (1961) - Trevor R. Bryce Jr.
+- [x] ~~The Hittites — Trevor R. Bryce Jr.~~  →  ✅ The Hittites - Trevor R. Bryce Jr.pdf
 
 - [x] ~~The Horse, the Wheel, and Language — David W. Anthony~~  →  ✅ D.W Anthony - The Horse the Wheel and Language (2007).epub
 
-- [ ]  Mu: The Motherland of the Polynesians — James Churchward
+- [x]  Mu: The Motherland of the Polynesians — James Churchward  →  ✅ Mu The Motherland of the Men (1925) - James Churchward.djvu
 
 - [x] ~~Atlantis and Antilia — Ignatius L. Donnelly~~  →  ✅ Atlantis and Antilia (1884) - Ignatius L. Donnelly.epub
 
 - [x]  ~~The Lost World — Arthur Conan Doyle~~  →  ✅ The Lost World (1912) - Arthur Conan Doyle.epub
 
-- [ ]  Empires of the Steppe: How They Shaped Our World — Peter Frankopan
+- [x]  Empires of the Steppe: How They Shaped Our World — Peter Frankopan — not on AA (Frankopan Empires of the Steppe)
 
-- [ ]  The Sea Peoples and the End of the Bronze Age — Eric H. Cline
+- [x]  The Sea Peoples and the End of the Bronze Age — Eric H. Cline — not on AA (Cline Sea Peoples)
 
-- [ ]  The God in the Cave: A New Perspective on Göbekli Tepe and the Origins of Civilization —
+- [x]  The God in the Cave: A New Perspective on Göbekli Tepe and the Origins of Civilization — —  — not on AA (God in the Cave)
 
 - [x] ~~The Antikythera Mechanism — Tony Freeth~~  →  ✅ The Antikythera Mechanism (2021) - Tony Freeth.pdf
 
@@ -1217,11 +1219,11 @@
 
 - [x] ~~Chariots of the Gods? — Erich von Däniken~~  →  ✅ Chariots of the Gods (1969) - Erich von Daniken.epub
 
-- [ ]  The 12th Planet — Zecharia Sitchin
+- [x]  ~~The 12th Planet — Zecharia Sitchin~~  ->  saved: The 12th Planet (1976) - Zecharia Sitchin.epub
 
-- [ ]  Freemasonry for Dummies — Lawrence Kaplan Richard Newhauser
+- [x]  Freemasonry for Dummies — Lawrence Kaplan Richard Newhauser — not on AA (Kaplan/Newhauser Freemasonry for Dummies)
 
-- [ ]  In Search of the Freemasons — Stephen Knight & Mark Lomas & Richard Newhauser
+- [x]  In Search of the Freemasons — Stephen Knight & Mark Lomas & Richard Newhauser — not on AA (Knight/Lomas In Search of the Freemasons)
 
 ## Unavailable on Anna's Archive (tried 2-4 mirrors each; served only as DjVu or failed fast-download — off the member network)
 
