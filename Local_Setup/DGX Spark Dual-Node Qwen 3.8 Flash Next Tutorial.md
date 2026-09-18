@@ -621,7 +621,17 @@ hf --version 2>/dev/null || true
 huggingface-cli --version 2>/dev/null || true
 ```
 
-If the first command works but a dead stub wins, remove that stale user-level stub from PATH or point the recipe at the working client in a reviewed local patch. Preserve the partial Hugging Face cache and rerun; do not delete hundreds of gigabytes.
+The downloader must prefer `hf` whenever both commands exist. The live FirstSpark checkout includes a reviewed local fix and `tests/test_download_cli_selection.sh`, which exercises that exact selection rule without downloading model weights. If a later checkout reset reintroduces the issue, restore that fix or update to a repository revision that selects `hf` before the deprecated wrapper. Preserve the partial Hugging Face cache; do not delete hundreds of gigabytes.
+
+Resume the staged download and worker sync with `&&` so a failed stage stops the sequence instead of invoking the downloader twice:
+
+```bash
+cd "$HOME/src/frontier/qwen38-dual"
+./download.sh && \
+./start.sh --no-download --no-launch && \
+./check-weights.sh && \
+./check-weights.sh --verify
+```
 
 ### Start reports another GPU user
 

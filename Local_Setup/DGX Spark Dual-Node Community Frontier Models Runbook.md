@@ -405,6 +405,30 @@ After the raw model passes its long-context/load test, add services back one lay
 
 This is necessary because the live ODS containers use several GiB of RSS, while the published Qwen/GLM/DeepSeek low-water margins are only a few GiB.
 
+Run these commands on **FirstSpark**. Do not use `ods start litellm` here: this ODS installation declares `llama-server` as a LiteLLM dependency, so that command also starts the GPU model container.
+
+```bash
+# 1. LiteLLM only; do not start its declared llama-server dependency.
+docker start ods-litellm
+docker ps --filter name='^/ods-' --format 'table {{.Names}}\t{{.Status}}\t{{.Ports}}'
+
+# 2. Hermes API and gateway only.
+systemctl --user start hermes-serve.service hermes-gateway.service
+systemctl --user --no-pager --full status hermes-serve.service hermes-gateway.service
+
+# 3. sparkDash, with a bounded readiness wait rather than an immediate curl.
+cd "$HOME/src/frontier/sparkDash"
+docker compose -f docker-compose.yml -f docker-compose.local.yml up -d sparkdash
+for attempt in $(seq 1 30); do
+  curl -fsS http://127.0.0.1:5555/api/health && break
+  (( attempt == 30 )) && exit 1
+  sleep 1
+done
+
+# 4. This must print only ods-litellm. If another ODS container appears, stop it.
+docker ps --filter name='^/ods-' --format '{{.Names}}'
+```
+
 ### Observe both nodes during a long start or test
 
 Open one terminal on each Spark and run:
@@ -427,11 +451,21 @@ ss -ltnp | grep -E ':(8100|29521|50000)\b' && exit 1 || true
 ssh -o BatchMode=yes snknitin@192.168.0.100 \
   "ss -ltnp | grep -E ':(8100|29521|50000)\\b' && exit 1 || true"
 nvidia-smi --query-compute-apps=pid,process_name,used_memory --format=csv
+docker stop ods-llama-server 2>/dev/null || true
+"$HOME/.lmstudio/bin/lms" daemon down >/dev/null 2>&1 || true
 spark-model use qwen35
 curl -fsS http://127.0.0.1:8000/v1/models
 ```
 
 **Pass:** the frontier containers are absent and `spark-fast` answers on port `8000`.
+
+If `spark-model` still reports that another operation is running while LM Studio's server is stopped, identify the lock owner before retrying:
+
+```bash
+fuser -v "$HOME/.local/state/spark-model/manager.lock"
+```
+
+An `llmster` owner in this state is an inherited LM Studio daemon lock, not an active model switch. Shut it down with `"$HOME/.lmstudio/bin/lms" daemon down`, confirm `fuser` returns no owner, and rerun `spark-model use qwen35`. Do not delete the lock file while a process still owns it.
 
 ---
 
