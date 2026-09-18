@@ -2,7 +2,25 @@
 
 _Primary-source review and live implementation verified on 2026-08-15._
 
-## Bottom line
+## Current low-residency profile — 2026-09-18
+
+The stopped `vllm-spark-fast` service on FirstSpark is now configured for the following balanced profile:
+
+| Setting | Current value |
+|---|---:|
+| Maximum model length | 262,144 tokens |
+| Explicit FP8 KV cache | 10 GiB |
+| Maximum scheduled sequences | 2 |
+| Maximum batched tokens | 8,192 |
+| GPU memory utilization preflight | 0.72 |
+
+This preserves the model's full 262K request ceiling while reducing the explicit KV reservation by 8 GiB relative to the previously verified 18 GiB profile. Scaling from the measured 18 GiB capacity of 1,588,632 KV tokens predicts approximately 882,573 KV tokens, or 3.37 full 262,144-token context equivalents. That is a planning estimate, not a new runtime measurement; it leaves theoretical margin above the scheduler limit of two.
+
+The live compose file, Spark model-lane declaration, main Hermes provider metadata, and the orchestrator, builder, researcher, and reviewer profiles all agree on the 262,144-token ceiling. LiteLLM required no change because the route and served model name are unchanged. The container remained stopped during the edit. Runtime acceptance remains pending until the next deliberate start proves readiness, reports at least two full-context equivalents, and completes a request without OOM or preemption.
+
+Timestamped copies of both the former 18 GiB profile and the brief unstarted 131K/6 GiB staging profile are retained beside the live FirstSpark files. The results below document the earlier 18 GiB/5-sequence profile and remain useful as historical measurement evidence; they do not claim that the new 10 GiB profile has already passed runtime testing.
+
+## Historical verified 18 GiB profile
 
 The original `spark-fast` profile reserved **58.52 GiB of KV cache** and exposed 4,838,587 KV tokens alongside 24.84 GiB of model memory. The implemented profile now uses an explicit **18 GiB FP8 KV pool**, a **262,144-token** ceiling, **five** maximum sequences, and an 8,192-token chunked-prefill budget while retaining the working custom image, backends, CUDA graphs, asynchronous scheduling, MTP, and tool parser.
 

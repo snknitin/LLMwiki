@@ -38,7 +38,7 @@ Only work supported by the task record, live verification, or a dated evidence n
 | `Plan Spark LM Link routing` | Tailnet-only workstation Ollama route, Spark LM Studio/LM Link, named Hermes providers, dynamic discovery, Qwen/Omni memory optimization, and Omni 131K long-context verification. | Shared regression harness and future runtime/model A/B work. |
 | `Create setup task checklist` | The source-mapped runbook and the laptop thin-client policy; this audit expands its original 29-note map to all 36 other current notes. | Operational boxes were not completed merely by creating the runbook. |
 | `Install VoiceStudio portable` | VoiceStudio v0.5.0 at `D:\Apps\VoiceStudio`, portable data, CUDA diagnostics, TTS, Whisper transcription, Parakeet dictation, and blank-Capture-window recovery. | Optional unused-model cleanup and longer real-microphone/daily-use acceptance. |
-| `Document DGX Spark restart state` | First-Spark physical power-cycle recovery, saved recovery snapshot, corrected Qwen-before-Lightning boot order, second Spark NVIDIA Sync access, and initial thermal/no-throttling comparison. | A second controlled reboot of the corrected order, UEFI Auto Boot, QSFP clustering, NCCL, and dual-Spark DeepSeek validation. |
+| `Document DGX Spark restart state` | First-Spark physical power-cycle recovery, saved recovery snapshot, corrected Qwen-before-Lightning boot order, second Spark NVIDIA Sync access, initial thermal/no-throttling comparison, persistent QSFP networking, and full NCCL validation. | A second controlled reboot of the corrected order, UEFI Auto Boot, and the first NVIDIA-documented dual-Spark workload proof. |
 | `Connect Obsidian vaults to DGX Spark` | Official headless Sync replicas for `LLMWiki` and `Personal-Sync`, two enabled continuous user services, verified two-way file/hash propagation, and the active Windows `Personal-Sync` vault moved to `F:\Vaults\Personal-Sync`. | Retrieval evaluation, hard Hermes write confinement, a simultaneous-edit conflict test, and an independent `Personal-Sync` backup. |
 
 ## Current operational finish line
@@ -87,7 +87,7 @@ The immediate goal remains the **operational setup**, not every future model, fr
 - [x] `qwen3.8:27b` is installed once in workstation Ollama, verified through ODS, private Tailscale Serve, and Spark Hermes, and left unloaded while `spark-fast` remains default. See [[Qwen 3.8 27B Ollama Remote Access Research]].
 - [x] The laptop is a tested Spark Remote Gateway thin client with no second authoritative Hermes profile and no duplicate workstation-model downloads.
 - [x] The first Spark completed a physical power cycle and recovered its stack; the exposed Qwen/Lightning boot-order race was corrected and documented. A later controlled reboot of the corrected order remains in Sequence 1. See [[DGX Spark Pre-Shutdown And Automatic Recovery Snapshot 2026-08-20]].
-- [x] The second Spark is reachable as `SecondSpark` in NVIDIA Sync and passed the initial idle thermal/no-throttling comparison. Clustering waits for the approved QSFP112 DAC and the Sequence 8I readiness gate. See [[DGX Spark Second Node And Dual Spark Readiness Research 2026-08-20]].
+- [x] The second Spark is reachable as `SecondSpark` in NVIDIA Sync, passed the initial idle thermal/no-throttling comparison, and is now connected through the approved QSFP112 DAC with persistent manual Netplan and a passing full NCCL test. See [[DGX Spark Dual-Node Configuration And Operations Reference]].
 - [x] `LLMWiki` and the local `Sync Remote` vault connected to remote `Personal-Sync` now have separate official headless replicas on `FirstSpark`; both continuous user services are enabled and active, and desktop-to-Spark plus Spark-to-desktop hash checks passed.
 - [x] VoiceStudio v0.5.0 is installed portably at `D:\Apps\VoiceStudio`; CUDA diagnostics, generation, Whisper transcription, Parakeet dictation, and the blank `Capture` overlay recovery passed. See [[VoiceStudio Windows Portable Usage]] and [[VoiceStudio Risk Audit]].
 
@@ -657,9 +657,10 @@ The immediate goal remains the **operational setup**, not every future model, fr
 
 - [x] Add the second Spark to NVIDIA Sync with a unique hostname/alias and keep the first Spark as the sole Hermes/routing owner.
 - [x] Compare both Sparks at idle and confirm the second Spark shows no current thermal throttling; retain the temporary 2200 MHz cap only as a reversible workload precaution, not as a memory limit.
-- [ ] Confirm both Sparks have matching intended OS/driver/firmware levels and compatible numeric UID/GID before shared-file or cluster work.
-- [ ] Install one NVIDIA-approved QSFP112 400G DAC between the matching ConnectX-7 ports; do not attempt distributed sharding over Wi-Fi or ordinary LAN.
-- [ ] Use NVIDIA Sync Cluster Assistant, require the link test to exceed NVIDIA's 184 Gbit/s validation floor, and pass NCCL tests.
+- [ ] Both Sparks now match on Ubuntu 24.04.4, kernel `6.17.0-1029-nvidia`, driver `580.173.02`, Docker `29.2.1`, and UID/GID `1000:1000`; re-read firmware and reconcile NVIDIA Container Toolkit `1.19.1` versus `1.20.0` before production distributed containers.
+- [x] Install one NVIDIA-approved QSFP112 400G DAC between matching ConnectX-7 ports. Both logical rails negotiate at 200,000 Mb/s and use persistent manual Netplan. See [[DGX Spark Dual-Node Configuration And Operations Reference]].
+- [x] Pass the official full two-node NCCL direct test: zero out-of-bounds values and `21.7568 GB/s` average bus bandwidth. Cluster Assistant remains intentionally unused because manual `/etc/netplan/40-cx7.yaml` is authoritative.
+- [ ] Repair SecondSpark-to-FirstSpark management-IP host-key verification and standardize Docker access before the first distributed runtime.
 - [ ] Prove one NVIDIA-validated two-node workload before attempting the experimental dual-Spark DeepSeek profile.
 
 - [ ] Qwen 3.5 122B-A10B — create an exclusive, pinned, isolated lane and test first.
@@ -787,7 +788,8 @@ Use this map to decide what to read deeply and what to keep as reference. As of 
 - [[Hermes LM Link And Workstation Model Routing Research]] — verified current Ollama, LM Link, provider discovery, and cross-gateway routing.
 - [[DGX Spark Nemotron 3.5 Lightning Via LM Studio Research]] — chosen Nemotron 3.5 Lightning LM Studio path and quantization evidence.
 - [[DGX Spark Pre-Shutdown And Automatic Recovery Snapshot 2026-08-20]] — verified first-Spark physical recovery, service ownership, corrected boot order, and the remaining reboot gate.
-- [[DGX Spark Second Node And Dual Spark Readiness Research 2026-08-20]] — second-node role, approved cable choices, cluster validation, and dual-Spark limits.
+- [[DGX Spark Dual-Node Configuration And Operations Reference]] — authoritative live identities, addresses, manual network ownership, NCCL proof, recovery steps, and distributed-model readiness gaps.
+- [[DGX Spark Second Node And Dual Spark Readiness Research 2026-08-20]] — historical pre-cable planning, approved cable choices, and dual-Spark model limits.
 - [[VoiceStudio Windows Portable Usage]] — verified portable VoiceStudio state, first-use workflow, settings, backup, and recovery guidance.
 
 ### Completed setup/tutorial references

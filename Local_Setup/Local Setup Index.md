@@ -1,5 +1,5 @@
 ---
-updated: 2026-08-21
+updated: 2026-09-18
 status: active
 ---
 
@@ -14,13 +14,13 @@ This is the canonical progress and navigation page. If an older note suggests a 
 
 | Area | Confirmed state |
 |---|---|
-| Spark hardware | Two DGX Sparks with 128 GB unified memory each. `FirstSpark` owns the existing production stack; `SecondSpark` is connected through NVIDIA Sync as an independent compute/experiment node. The approved QSFP112 DAC, Cluster Assistant, NCCL validation, and distributed workload proof are still pending. |
+| Spark hardware | Two DGX Sparks with 128 GB unified memory each. `FirstSpark` owns the production stack and `SecondSpark` is the worker/experiment node. One approved QSFP112 DAC is installed; persistent manual CX-7 Netplan, two 200,000 Mb/s rails, bidirectional private-network ping, and the official full NCCL direct test are verified. `Avg bus bandwidth` was 21.7568 GB/s with zero out-of-bounds values. A real distributed-model workload remains pending. See [[DGX Spark Dual-Node Configuration And Operations Reference]]. |
 | Workstation GPU | **NVIDIA RTX PRO 5000 Blackwell**, 48,935 MiB, compute capability 12.0, driver 596.59 |
 | Spark foundation | Bash configuration, external secrets, cache/service folders, registries, and status commands completed |
 | Spark inference | Four explicit switchable lanes are installed and lifecycle-tested: `qwen35`, `qwen27-dflash`, `nemotron3-omni`, and `nemotron35-lightning`. `qwen35` remains the resident default, and LM Studio Nemotron 3.5 Lightning is deliberately warm beside it. |
 | Hermes | Standalone Hermes Gateway and Hermes Serve run on Spark; the ODS Hermes module is not needed |
 | Routing | Spark LiteLLM exposes the working Qwen routes to Hermes |
-| Networking | Tailscale is installed on the first Spark, workstation, and laptop. NVIDIA Sync reaches both `FirstSpark` and `SecondSpark`; the second Spark currently uses ordinary network access and is not yet a ConnectX-7 cluster peer. |
+| Networking | Tailscale remains installed on the first Spark, workstation, and laptop. NVIDIA Sync reaches both nodes. FirstSpark (`192.168.0.101`) and SecondSpark (`192.168.0.100`) are direct ConnectX-7 peers on `192.168.100.10/11` and `192.168.101.10/11`. Manual `/etc/netplan/40-cx7.yaml` is authoritative; NVIDIA Sync Cluster Assistant has not created `99-nvidia-sync-cluster.yaml`. |
 | Workstation ODS | ODS is installed; Dashboard is at `localhost:3001` and Open WebUI is at `localhost:3000`. The supported image update completed on 2026-08-15; ODS still reports 2.5.3 and pins Open WebUI 0.7.2. DeepSeek 70B was stopped and removed; the optional ODS llama-server is stopped and reserved at host port `11436`. |
 | Ollama | Native Ollama 0.32.13 uses port `11434`, stores models at `D:\LocalLLama\models\ollama`, and is configured for 128K context and one resident model. **Expose Ollama to the network** is off again and Ollama itself listens only on `127.0.0.1`; Tailscale Serve owns tailnet-only HTTPS `8443`, and the Spark provider supplies Ollama's required loopback `Host` header. Both Gemma 4 models passed local and Spark-remote Hermes tool calls at a reported runtime context of `131072`; selecting 31B after 26B proved automatic one-model eviction. Both were unloaded afterward. |
 | LM Studio | LM Studio Desktop and LM Link are connected to Spark device `spark-07a8`. Spark LM Studio is loopback-only on `127.0.0.1:1234`; the 24.52 GB `nvidia/nemotron-3.5-lightning` Q4_K_M model is loaded persistently at 65,536 context beside Qwen. LM Studio reports a 22.83 GiB allocation, while `nvidia-smi` shows about 24.1 GiB for `llama-server`; raw API, structured tool-call, Spark Hermes, Windows LM Link, Windows local-Hermes, and live co-residency tests passed. |
@@ -47,7 +47,7 @@ This is the canonical progress and navigation page. If an older note suggests a 
 
 - [x] [[DGX Spark Operations Setup Guide]] Steps 11–15 are operationally complete: current host-native Hermes, persistent Gateway, persistent Serve, authenticated Remote Gateway, and 24×7 service ownership on Spark.
 - [x] Hermes Desktop successfully received an answer through the `spark-fast` custom provider.
-- [x] Align both Spark Hermes context pins with the live Qwen ceiling: `model.context_length` and `custom_providers.spark-fast.models.spark-fast.context_length` now both resolve to `262144`; the provider-specific value had previously remained at 128K.
+- [x] Keep all Spark Hermes context pins aligned with the live Qwen ceiling: `model.context_length`, the model-lane declaration, and `custom_providers.spark-fast.models.spark-fast.context_length` resolve to `262144`. The 2026-09-18 low-residency profile preserves that ceiling while limiting scheduling to two sequences and reserving 10 GiB of explicit KV cache.
 - [x] The earlier SSH-key path was superseded by the authenticated Remote Gateway design.
 - [x] ODS Hermes Auth Proxy was evaluated and deliberately excluded from ownership of the primary Hermes home.
 
@@ -63,7 +63,7 @@ This is the canonical progress and navigation page. If an older note suggests a 
 - [x] `SecondSpark` is connected through NVIDIA Sync and passed the initial idle thermal/no-throttling comparison; its future compute-only role does not duplicate the first Spark's Hermes state.
 - [x] [[VoiceStudio Windows Portable Usage]] records the verified portable VoiceStudio v0.5.0 installation and first-use tests at `D:\Apps\VoiceStudio`.
 
-The follow-up controlled reboot, UEFI Auto Boot confirmation, QSFP clustering, NCCL tests, and dual-Spark workload validation remain open in [[Task Checklist]].
+The follow-up controlled reboot, UEFI Auto Boot confirmation, and first real dual-Spark workload validation remain open in [[Task Checklist]]. QSFP networking and NCCL are complete; use [[DGX Spark Dual-Node Configuration And Operations Reference]] rather than repeating setup.
 
 ### Obsidian headless replicas
 
@@ -84,7 +84,7 @@ Use only these completed-guide sections now:
 ### Architecture and research completed
 
 - [x] [[DGX Spark Multi-Model Runtime Research]] — explains why the 120 GB reading was runtime/KV allocation rather than checkpoint size.
-- [x] [[DGX Spark Qwen NVFP4 Memory And Startup Optimization Research]] — the former 58.52 GiB KV reservation was replaced by a verified 18 GiB pool at 262K. The live engine reports 1,588,632 KV tokens and 6.06 full 262K contexts; a real 260,016-token prompt completed without preemption or OOM.
+- [ ] [[DGX Spark Qwen NVFP4 Memory And Startup Optimization Research]] — the former 18 GiB/5-sequence profile remains historically verified at 262K. On 2026-09-18 the stopped service was changed to a 10 GiB KV pool, two scheduled sequences, and the same 262K ceiling; static configuration validation passed, but startup capacity and request validation remain pending.
 - [x] [[DGX Spark Additional Models And Convenience Runtimes Research]] — verifies the current Gemma, Nemotron, Muse, Ollama, and LM Studio paths.
 - [x] [[DGX Spark And RTX 5000 Workstation Model Placement Research]] — establishes the final Spark/workstation division and confirms why dense 27–31B models belong on the RTX workstation first.
 - [x] [[ODS Workstation Ollama Integration Research]] — verifies the live ODS Dashboard, Open WebUI connections, model stores, Ollama state, and safe update boundary.
@@ -314,9 +314,10 @@ See [[Qwen 3.8 27B Ollama Remote Access Research]] for official model facts, sec
 
 ### Active execution notes
 
+- [[DGX Spark Dual-Node Configuration And Operations Reference]] — authoritative live dual-node identities, address plan, persistent network ownership, NCCL build and result, safety procedure, Cluster Assistant decision, and distributed-model next steps.
 - [[DGX Spark Pre-Shutdown And Automatic Recovery Snapshot 2026-08-20]] — live first-Spark service/model snapshot, automatic restart ownership, reboot verification, and safe UPS move checklist.
 - [[DGX Spark Automatic Power Recovery Research]] — official NVIDIA evidence for `Auto Boot` after AC power returns and the UEFI setting path.
-- [[DGX Spark Second Node And Dual Spark Readiness Research 2026-08-20]] — official second-node preparation, approved QSFP112 DAC choices, NVIDIA Sync clustering, and current two-Spark DeepSeek limits.
+- [[DGX Spark Second Node And Dual Spark Readiness Research 2026-08-20]] — historical pre-cable planning, approved cable research, and two-Spark model limits; superseded for current operations by the dual-node reference.
 - [[DGX Spark Operations Setup Guide]] — completed foundation; use only for service verification and rollback.
 - [[DGX Spark Model Installation And Switching Guide]] — completed Qwen installation; use for daily switching rules.
 - [[DGX Spark And RTX 5000 Workstation Model Placement Research]] — high-level machine ownership, model placement, and fine-tuning decisions; use the live ODS research below for current workstation-runtime details.

@@ -1,11 +1,14 @@
 ---
 created: 2026-08-20
-updated: 2026-08-20
+updated: 2026-09-18
 scope: dgx-spark, second-node, power-on, nvidia-sync, connectx-7, qsfp112, dual-spark, deepseek
-status: official-research-complete-cable-pending
+status: historical-planning-superseded-by-live-reference
 ---
 
 # DGX Spark Second Node And Dual Spark Readiness Research — 2026-08-20
+
+> [!warning] Historical planning note
+> The cable-pending, Cluster Assistant, and NCCL-pending sections below describe the pre-installation plan. The cable is now installed, persistent manual Netplan is active, and the official NCCL test passed. Use [[DGX Spark Dual-Node Configuration And Operations Reference]] for current addresses, commands, results, risks, and next steps.
 
 ## Bottom Line
 
