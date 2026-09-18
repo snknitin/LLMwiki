@@ -1,0 +1,186 @@
+[
+  {
+    "name": "Always-On Hermes on DGX Spark.md",
+    "hash": "1A95CF866A49BC95A9D559F9DA9958BF4A4405DBAC765DDE168476BFC5714298"
+  },
+  {
+    "name": "DGX Spark Additional Model Tutorials Index.md",
+    "hash": "84F98055664D22E1F597D56D494CEC94B98BFB0C6330A55394C242C3739BC6AC"
+  },
+  {
+    "name": "DGX Spark Additional Models And Convenience Runtimes Research.md",
+    "hash": "7596D6ED7B9A25DE2B8D5201FAB7540AB3D225A9A1E2234984A4BA6DCDEE0454"
+  },
+  {
+    "name": "DGX Spark And RTX 5000 Workstation Model Placement Research.md",
+    "hash": "C32B43B47BD436115BBC004BC8FE30EC8E9C707437225A1746E019D2CBD027C4"
+  },
+  {
+    "name": "DGX Spark Aug 2026 Model Deployment Research.md",
+    "hash": "2FD8E5618840D0034EEB051AFCEA93E196C449ADEC88756B5BB0990129078DD8"
+  },
+  {
+    "name": "DGX Spark Automatic Power Recovery Research.md",
+    "hash": "31AB63581F28439FA11171A310AC572FB28653F364BBFC3DC31FA61B208DA146"
+  },
+  {
+    "name": "DGX Spark Dual-Node Community Frontier Models Runbook.md",
+    "hash": "80328445A0832BECA42A138B82948D0F85590B1DDE3E866FCD76CE7FF19342CB"
+  },
+  {
+    "name": "DGX Spark Dual-Node Configuration And Operations Reference.md",
+    "hash": "3EF9E84A8D152E88BEE8F3AB5237B4A07745249C5F7CEE3BD8CF070599B92944"
+  },
+  {
+    "name": "DGX Spark Dual-Node DeepSeek V4.1 Flash EXL3 Tutorial.md",
+    "hash": "CE248CFE6B9F733E5D989C7B3E8FF4B5EBEFB7F6107D15B6744E09C8AFEE50A2"
+  },
+  {
+    "name": "DGX Spark Dual-Node Frontier Model Recipes Research 2026-09-18.md",
+    "hash": "7D47660C0AF86EC36EE4139991C3EF2547295244E9D49BCF775F1160992C1FE8"
+  },
+  {
+    "name": "DGX Spark Dual-Node GLM 5.3 Flash EXL3 Tutorial.md",
+    "hash": "F7E9DF9D74F5BA9FB62CAD81673DA9C92D51ADDC5F576B9FD1A26DFA7542860B"
+  },
+  {
+    "name": "DGX Spark Dual-Node Qwen 3.8 Flash Next Tutorial.md",
+    "hash": "F24FF3F11B04DDF1E869CFE57D6D5E4AC1D1E82190D25FAE64D977BD4EFFCDF3"
+  },
+  {
+    "name": "DGX Spark Frontier Model Hot-Swap And Routing Guide.md",
+    "hash": "586C486F42241DCBDEDF47DEE0AFCFF0F61B0A2142B86C2D368AB0A1E8D23F66"
+  },
+  {
+    "name": "DGX Spark Gemma 4 Models Tutorial.md",
+    "hash": "E6AFED20BEB736D2D64C9A20CEBE4500777C76B078537979C492469307184BBD"
+  },
+  {
+    "name": "DGX Spark LM Studio And LM Link Tutorial.md",
+    "hash": "929B81DE0A32484235DDD591BDD09C8229221A7D77363A283CFF75DA82793546"
+  },
+  {
+    "name": "DGX Spark Model Installation And Switching Guide.md",
+    "hash": "4CAF4DA0B1E2EFCE16C94C14B911E526339739B106ED93F622EE3685431FC923"
+  },
+  {
+    "name": "DGX Spark Multi-Model Runtime Research.md",
+    "hash": "4A429F30C73BC5AA014C9530FBA5FFA00246B4C6E9D4731647815F6700B0928D"
+  },
+  {
+    "name": "DGX Spark Muse Glimmer 30B Readiness Tutorial.md",
+    "hash": "EC850557C461BF30CF91C41B47AB4FC0C8FD4C8C7B8E843E360BFCF3BFDB3579"
+  },
+  {
+    "name": "DGX Spark Nemotron 3 Nano Omni Tutorial.md",
+    "hash": "9A6440676325C2DABCF2C5CC4A95EE05EEA94C06DAB31BACC7C09A73B57BD749"
+  },
+  {
+    "name": "DGX Spark Nemotron 3.5 Lightning Tutorial.md",
+    "hash": "60C697E3B2CB0F5911279463EBA5ED93993D209A3691F316CAE414DBD24C6E77"
+  },
+  {
+    "name": "DGX Spark Nemotron 3.5 Lightning Via LM Studio Research.md",
+    "hash": "EBD1653F16062D9FE29AC570977DA0A38BBFB1B9186FF28B1DA52961E7C128F4"
+  },
+  {
+    "name": "DGX Spark ODS Playbook and Model Roadmap.md",
+    "hash": "844687D06C064B740EC95E28D0357392058564A00F819B6F1B5C43717ED4E924"
+  },
+  {
+    "name": "DGX Spark Ollama And ODS Tutorial.md",
+    "hash": "1C0AB98BBBEA91583EE5720F7DD30D83F5ADC68000D22DC7B6CCD11529F5C210"
+  },
+  {
+    "name": "DGX Spark Operations Setup Guide.md",
+    "hash": "D48C5377F7908715FAD5E0AC5BCF5A95DDC4E93D20C28441BE78C4DBA86D2D65"
+  },
+  {
+    "name": "DGX Spark Pre-Shutdown And Automatic Recovery Snapshot 2026-08-20.md",
+    "hash": "3109EDD587FE5878F8090E3EC7A0D3B8E410538CEDA379F930371D8AADC1C5D2"
+  },
+  {
+    "name": "DGX Spark Qwen NVFP4 Memory And Startup Optimization Research.md",
+    "hash": "F558A7F7A15577250E964931AE0A591B582CC6497F12516F3481D90D7AC6E1EB"
+  },
+  {
+    "name": "DGX Spark Second Node And Dual Spark Readiness Research 2026-08-20.md",
+    "hash": "DE547B3EAE5811ED0A0FCF7F981B41DFAAAAE6272512FC084CE8433B61A05132"
+  },
+  {
+    "name": "DGX Spark sparkDash Monitoring Tutorial.md",
+    "hash": "6115770CC06DE18989F6C17F1F0EAD4911E2ECA3EC5530936A267EC8C39EF33B"
+  },
+  {
+    "name": "dgx-spark-current-models-report.md",
+    "hash": "FA594670B2420E823F517BE29D8B8263A32B94EB46669FE727BCFA22885BF356"
+  },
+  {
+    "name": "dgx-spark-playbook-roadmap-draft.md",
+    "hash": "9A4997F531219EB3FC95A6D2BB2CAB55174993E091D2AB38E519ABB6A4EDB027"
+  },
+  {
+    "name": "dgx-spark-twitter-bookmarks-analysis.md",
+    "hash": "174A41B8EBD4AFD4A40D3EB0853711EDD9CBE6B62204C13DBEED3DF757CB92F5"
+  },
+  {
+    "name": "Hermes LM Link And Workstation Model Routing Research.md",
+    "hash": "1F8505018B24C002BD1506BDD14AD4C373CAA0D52C701E5787DFB4F115FFC72E"
+  },
+  {
+    "name": "Local Setup Index.md",
+    "hash": "86DF2F38A3BD08A4C27D95731EE4CE053F1BF5FB7F3659807412194FD3F6A48E"
+  },
+  {
+    "name": "local-ai-architecture-research.md",
+    "hash": "EF4E79590CDFCDF3E0FCF4C3106EFC908E180172850C8B5E2CA2793D9CF67DCD"
+  },
+  {
+    "name": "local-ai-tooling-catalog-and-rollout.md",
+    "hash": "239E59EEA9D62CC669C9F891FA7B2A632DB07036DF56B4F5E597A1BD0A678720"
+  },
+  {
+    "name": "Markdown Backed Interactive Dashboard Research.md",
+    "hash": "73ABA8E7456E63FCC7D4D1438037642D670DA5DA5C991057EC6273230FE6C8CB"
+  },
+  {
+    "name": "ODS Workstation Ollama Integration Research.md",
+    "hash": "57ED76D585A0A697B9A7FD3A1E602B57B919E80D704D6F813C7042CE248827BE"
+  },
+  {
+    "name": "personal-hermes-obsidian-multinode-design.md",
+    "hash": "E5F2FF15A9C0B14026C01BF1575318059C06F714335AA3262E289EDE7274AF0F"
+  },
+  {
+    "name": "Qwen 3.8 27B Ollama Remote Access Research.md",
+    "hash": "979087AEA3870EA497243934E6CD60807168BEC8151E7F756059F50010D6B4CA"
+  },
+  {
+    "name": "RTX PRO 5000 Workstation Models And LM Studio Lab Tutorial.md",
+    "hash": "1DFCA23BB726F0FFC4D55C9F4934C2A8149B16CFAC2935FD0FCABA460ABE6CC0"
+  },
+  {
+    "name": "RTX PRO 5000 Workstation ODS Models And LM Studio Desktop Tutorial.md",
+    "hash": "96D729C26010AD00CD4BB7DD559292830731E6A6644262C6E08A547D650ECAC0"
+  },
+  {
+    "name": "Social Capture Pipeline.md",
+    "hash": "2E596F44C2E30FF85F45F5332CA496114510E28A3892EE47DD1007ACA6BBD174"
+  },
+  {
+    "name": "Spark Hermes Setup Runbook.md",
+    "hash": "9D9B8C6D9E61CDDC5B5797FE806694A0E2EF12BE9CCE10074A36BF091043E71E"
+  },
+  {
+    "name": "Task Checklist.md",
+    "hash": "58EA7CC11DA1ED909DD7C87D56DC045D9DB36885B23FB30175BCBE8CA03624B7"
+  },
+  {
+    "name": "VoiceStudio Risk Audit.md",
+    "hash": "2840616BBCE01D7AF9C6B879188FA590030F63D8124C3D60F02BF61CB20FD3B6"
+  },
+  {
+    "name": "VoiceStudio Windows Portable Usage.md",
+    "hash": "F9C97A5EE490E3B38B387AF062491E6088A3010D712D445FA8AF8017E30B872D"
+  }
+]

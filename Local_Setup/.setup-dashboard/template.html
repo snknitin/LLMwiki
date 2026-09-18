@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data:; connect-src 'none'; font-src 'none'; base-uri 'none'; form-action 'none'">
+<title>Local Setup — Field Guide</title>
+<style>__STYLES__</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<aside id="sidebar" class="sidebar"></aside>
+<div class="workspace">
+  <header class="topbar"><div class="breadcrumb"><span class="small-caps">Personal workspace</span><span class="slash">/</span><strong>Local_Setup</strong></div><div class="top-actions"><span class="offline"><i></i> Offline ready</span><button class="icon-btn" data-action="nav" data-page="settings" aria-label="Open data preferences" title="Data & preferences">⚙</button><button class="icon-btn" data-action="theme" aria-label="Toggle dark mode" title="Toggle dark mode">◐</button></div></header>
+  <main id="main" tabindex="-1"></main>
+  <footer id="footer"></footer>
+</div>
+<div id="overlay" class="overlay" hidden></div>
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+<input type="file" id="folder-input" webkitdirectory multiple hidden accept=".md">
+<input type="file" id="progress-input" hidden accept="application/json,.json">
+<noscript><p class="noscript">Enable JavaScript to open the searchable dashboard. Your original Markdown files are unchanged.</p></noscript>
+<script id="snapshot" type="application/json">__DATA__</script>
+<script>__MARKED__</script>
+<script>__APP__</script>
+</body>
+</html>
