@@ -1,4 +1,4 @@
-"""Loopback-only Local Setup dashboard with narrow checklist write-back."""
+"""Loopback-only Local Setup dashboard with live Markdown reads and narrow checkbox write-back."""
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from threading import Lock
@@ -11,21 +11,33 @@ from datetime import datetime, timezone
 
 ROOT = Path(__file__).resolve().parent.parent
 PAGE = Path(os.environ.get('LOCAL_SETUP_DASHBOARD_PAGE', ROOT / 'Local Setup Dashboard.html')).resolve()
-CHECKLIST = Path(os.environ.get('LOCAL_SETUP_CHECKLIST', ROOT / 'Task Checklist.md')).resolve()
 AUDIT = Path(os.environ.get('LOCAL_SETUP_AUDIT', ROOT / '.setup-dashboard' / 'checklist-writes.jsonl')).resolve()
 PORT = int(os.environ.get('LOCAL_SETUP_DASHBOARD_PORT', '8767'))
 LOCK = Lock()
 TASK_RE = re.compile(r'^(\s*(?:[-*+]|\d+[.)])\s+)\[([ xX-])\](\s+)(.*?)(\r?\n)?$')
 
+
 def sha256(raw: bytes) -> str:
     return hashlib.sha256(raw).hexdigest()
+
 
 def plain(text: str) -> str:
     text = re.sub(r'\[\[([^\]]+)\]\]', lambda match: match.group(1).split('|')[-1].split('#')[-1], text)
     text = re.sub(r'!?\[([^\]]+)\]\([^)]*\)', r'\1', text)
     return re.sub(r'[*`_~]', '', text).strip()
 
-def checklist_state(raw: bytes) -> dict:
+
+def markdown_path(name: str) -> Path:
+    if not isinstance(name, str) or not name or Path(name).name != name or not name.lower().endswith('.md'):
+        raise ValueError('Invalid Markdown filename')
+    path = (ROOT / name).resolve()
+    if path.parent != ROOT.resolve() or not path.is_file():
+        raise ValueError('Markdown file unavailable')
+    return path
+
+
+def note_state(path: Path, raw: bytes | None = None) -> dict:
+    raw = path.read_bytes() if raw is None else raw
     text = raw.decode('utf-8-sig')
     lines = text.splitlines(keepends=True)
     tasks = []
@@ -49,10 +61,34 @@ def checklist_state(raw: bytes) -> dict:
         match = TASK_RE.match(line)
         if match:
             tasks.append({'line': index + 1, 'title': plain(match.group(4)), 'done': match.group(2).lower() == 'x'})
-    return {'hash': sha256(raw), 'tasks': tasks, 'text': text, 'writable': True}
+    stat = path.stat()
+    return {
+        'name': path.name,
+        'hash': sha256(raw),
+        'modified': datetime.fromtimestamp(stat.st_mtime, timezone.utc).isoformat(),
+        'tasks': tasks,
+        'text': text,
+        'writable': True,
+    }
+
+
+def library_state() -> dict:
+    notes = [note_state(path) for path in sorted(ROOT.glob('*.md'), key=lambda item: item.name.casefold())]
+    digest = hashlib.sha256()
+    for note in notes:
+        digest.update(note['name'].encode('utf-8'))
+        digest.update(note['hash'].encode('ascii'))
+    return {
+        'version': 2,
+        'folder': 'Local_Setup',
+        'generated': datetime.now(timezone.utc).isoformat(),
+        'revision': digest.hexdigest(),
+        'notes': notes,
+    }
+
 
 def atomic_write(path: Path, raw: bytes) -> None:
-    descriptor, temporary_name = tempfile.mkstemp(prefix='.task-checklist-', suffix='.tmp', dir=path.parent)
+    descriptor, temporary_name = tempfile.mkstemp(prefix='.markdown-checkbox-', suffix='.tmp', dir=path.parent)
     temporary = Path(temporary_name)
     try:
         with os.fdopen(descriptor, 'wb') as stream:
@@ -63,8 +99,9 @@ def atomic_write(path: Path, raw: bytes) -> None:
     finally:
         temporary.unlink(missing_ok=True)
 
+
 class Dashboard(BaseHTTPRequestHandler):
-    server_version = 'LocalSetupDashboard/1.0'
+    server_version = 'LocalSetupDashboard/2.0'
 
     def valid_host(self) -> bool:
         return self.headers.get('Host') in {f'127.0.0.1:{PORT}', f'localhost:{PORT}'}
@@ -85,12 +122,18 @@ class Dashboard(BaseHTTPRequestHandler):
             return
         route = self.path.split('?')[0]
         if route == '/api/health':
-            self.send_json(200, {'status': 'ok', 'writer': 'Task Checklist.md', 'mode': 'checkbox-only'})
+            self.send_json(200, {'status': 'ok', 'writer': 'top-level Markdown', 'mode': 'checkbox-only', 'refresh': 'automatic'})
+            return
+        if route == '/api/library':
+            try:
+                self.send_json(200, library_state())
+            except (OSError, UnicodeError) as error:
+                self.send_json(503, {'error': f'Markdown library unavailable: {error}'})
             return
         if route == '/api/checklist':
             try:
-                self.send_json(200, checklist_state(CHECKLIST.read_bytes()))
-            except OSError as error:
+                self.send_json(200, note_state(markdown_path('Task Checklist.md')))
+            except (OSError, UnicodeError, ValueError) as error:
                 self.send_json(503, {'error': f'Checklist unavailable: {error}'})
             return
         if route not in {'/', '/index.html'}:
@@ -106,7 +149,7 @@ class Dashboard(BaseHTTPRequestHandler):
         self.wfile.write(content)
 
     def do_PATCH(self):
-        if not self.valid_host() or self.path.split('?')[0] != '/api/checklist-task':
+        if not self.valid_host() or self.path.split('?')[0] not in {'/api/markdown-task', '/api/checklist-task'}:
             self.send_error(404)
             return
         allowed_origins = {f'http://127.0.0.1:{PORT}', f'http://localhost:{PORT}'}
@@ -121,6 +164,8 @@ class Dashboard(BaseHTTPRequestHandler):
             if length <= 0 or length > 16_384:
                 raise ValueError('Invalid request size')
             body = json.loads(self.rfile.read(length))
+            filename = str(body.get('file') or 'Task Checklist.md')
+            path = markdown_path(filename)
             expected_hash = str(body['expectedHash'])
             line_number = int(body['line'])
             title = str(body['title'])
@@ -131,9 +176,9 @@ class Dashboard(BaseHTTPRequestHandler):
             self.send_json(400, {'error': 'Invalid task update'})
             return
         with LOCK:
-            raw = CHECKLIST.read_bytes()
+            raw = path.read_bytes()
             if sha256(raw) != expected_hash:
-                self.send_json(412, {'error': 'Task Checklist.md changed; refresh before saving', **checklist_state(raw)})
+                self.send_json(412, {'error': f'{path.name} changed; refreshed before saving', **note_state(path, raw)})
                 return
             lines = raw.decode('utf-8-sig').splitlines(keepends=True)
             if line_number < 1 or line_number > len(lines):
@@ -146,15 +191,16 @@ class Dashboard(BaseHTTPRequestHandler):
             previous_done = match.group(2).lower() == 'x'
             lines[line_number - 1] = f"{match.group(1)}[{'x' if done else ' '}]{match.group(3)}{match.group(4)}{match.group(5) or ''}"
             updated = ''.join(lines).encode('utf-8')
-            atomic_write(CHECKLIST, updated)
-            result = checklist_state(updated)
+            atomic_write(path, updated)
+            result = note_state(path, updated)
             AUDIT.parent.mkdir(parents=True, exist_ok=True)
             with AUDIT.open('a', encoding='utf-8') as stream:
-                stream.write(json.dumps({'at': datetime.now(timezone.utc).isoformat(), 'file': CHECKLIST.name, 'line': line_number, 'title': title, 'from': previous_done, 'to': done, 'beforeHash': expected_hash, 'afterHash': result['hash']}, ensure_ascii=False) + '\n')
+                stream.write(json.dumps({'at': datetime.now(timezone.utc).isoformat(), 'file': path.name, 'line': line_number, 'title': title, 'from': previous_done, 'to': done, 'beforeHash': expected_hash, 'afterHash': result['hash']}, ensure_ascii=False) + '\n')
             self.send_json(200, result)
 
     def log_message(self, format, *args):
         return
+
 
 if __name__ == '__main__':
     ThreadingHTTPServer(('127.0.0.1', PORT), Dashboard).serve_forever()
