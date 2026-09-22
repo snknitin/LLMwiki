@@ -289,10 +289,27 @@ python3 tests/test_memory_log.py
 python3 tests/test_engram_layout.py
 python3 tests/test_engram_src.py
 python3 tests/test_numeric_config.py
-python3 tests/test_chat_template.py
 ```
 
-If a test has explicit dependencies documented by the repository, install them in an isolated virtual environment rather than modifying the system Python. Do not skip a failing layout/numeric test and proceed to a 25-minute GPU boot.
+The chat-template parity test needs the original checkpoint's small reference encoder and tokenizer. The host Python does not need `transformers` or `tokenizers`: run the test inside the already-pulled published image, using the actual recipe template path. This fetches approximately 6.4 MB, **not** the native checkpoint again:
+
+```bash
+cd "$HOME/src/frontier/deepseek41-dual"
+REF="$HOME/.cache/frontier/deepseek41-reference"
+mkdir -p "$REF"
+"$HOME/.local/bin/hf" download deepseek-ai/DeepSeek-V4.1-Flash \
+  encoding/encoding.py tokenizer.json \
+  --revision dba1be0a40aa45a94ad051997016db3960a90277 \
+  --local-dir "$REF"
+docker run --rm \
+  -v "$PWD:/recipe:ro" -v "$REF:/reference:ro" \
+  --entrypoint python3 \
+  ghcr.io/miaai-lab/deepseek-v4.1-flash-exl3-2x-dgx-sparks:2.9bpw \
+  /recipe/tests/test_chat_template.py \
+  --src /reference --template /recipe/files/chat_template.jinja
+```
+
+**Pass:** the four host tests end in `ok`/`PASS`; the parity test reports `19/19 cases match the reference encoder` and that special markers tokenize as single IDs. This exact command passed on FirstSpark on 2026-09-22. Do not use the test's old defaults (`~/NewModels/DeepSeek-V4.1-Flash` or `tests/chat_template_v41.jinja`); neither path exists here. If a test fails, stop before the GPU boot and keep the error. Do not install test dependencies into system Python.
 
 ## Step 9 — Safe bring-up, then the recipe-faithful baseline
 
@@ -394,7 +411,7 @@ python3 "$HOME/ai/tools/frontier-model-probe.py" init \
 printf 'ACTIVE_RESULTS_PROFILE=%s\n' "$PROFILE"
 ```
 
-The generated fixture is also embedded here for visual inspection: [[Frontier Model Vision Test.png]]. Results go under `~/frontier-results/<profile>/<UTC timestamp>/`; the profile's `latest` link always points to the current run. Only `deepseek41-flash` appears in the final cross-model table because the 131K run is a safety bring-up, not the recipe-faithful baseline.
+The generated fixture is also embedded here for visual inspection: [[Frontier Model Vision Test.png]]. Results go under `~/frontier-results/<profile>/<UTC timestamp>/`; the profile's `latest` link always points to the current run. An explicit all-profile comparison can show the 131K safety bring-up row, but it is not the recipe-faithful 600K result. For a separately benchmarked 131K row, create a fresh receipt as specified in [[DGX Spark DeepSeek 131K And SparkFast Comparison Protocol]].
 
 ## Step 11 — Capture the memory baseline
 
@@ -509,9 +526,60 @@ Record exact prompt tokens, TTFT, retrieval correctness, response tokens, head/w
 
 Stop the experiment if either node approaches memory exhaustion or the model corrupts output. The published 2.1 GiB low-water after 601K is a comparison point, not permission to ignore a lower local value.
 
+### Step 15a — Measure raw concurrency **before** adding services
+
+The chat and long-context tests do **not** produce the C1/C2/C4 columns. This is the missing throughput gate: the old Step 17 placed concurrency after service-layer tests, so `deepseek41-flash/concurrency.json` was absent and a late run could have measured a different stack from the Qwen/GLM raw probes. Run this on **FirstSpark** with only the healthy 600K DeepSeek ranks and their NFS exporter active. Do not run this *600K baseline block* for the 131K safety bring-up or after starting LiteLLM, Hermes, or sparkDash. If you want to benchmark 131K as a separate adapted profile, complete the 600K qualification first and follow [[DGX Spark DeepSeek 131K And SparkFast Comparison Protocol]] for a fresh 131K receipt. If you already started a service layer, stop that layer and confirm the raw stack before measuring; do not relabel service-loaded numbers as raw.
+
+In an observation terminal on **each** Spark, keep the Step 15 `watch` command running. The current 600K `.env` has `MAX_NUM_SEQS=2`, so C1 and C2 are the required comparable active-request loads. Before starting, require at least 3 GiB `MemAvailable` on **both** nodes and no new NVRM/Xid/OOM event. Stop the test if the memory floor is crossed or correctness changes.
+
+```bash
+(
+  set -euo pipefail
+  cd "$HOME/src/frontier/deepseek41-dual"
+  test "$(sed -n 's/^MAX_MODEL_LEN=//p' .env | tail -n 1)" = 600000
+  test "$(<"$HOME/.config/frontier/deepseek-active-results-profile")" = deepseek41-flash
+  curl -fsS http://127.0.0.1:8100/health >/dev/null
+  awk '/MemAvailable:/ {printf "HEAD MemAvailable=%.2f GiB\n", $2/1048576; if ($2 < 3145728) exit 1}' /proc/meminfo
+  ssh snknitin@192.168.100.11 cat /proc/meminfo | \
+    awk '/MemAvailable:/ {printf "WORKER MemAvailable=%.2f GiB\n", $2/1048576; if ($2 < 3145728) exit 1}'
+  python3 "$HOME/ai/tools/frontier-model-probe.py" concurrency \
+    --profile deepseek41-flash --levels 1,2 \
+    --max-tokens 512 --minimum-tokens 128 --timeout 1800
+  RESULTS_DIR="$(readlink -f "$HOME/frontier-results/deepseek41-flash/latest")"
+  jq -e '[.levels[] | select(.passed == true) | .concurrency] | sort == [1,2]' \
+    "$RESULTS_DIR/concurrency.json" >/dev/null
+  echo "RAW_C1_C2_RECORDED=$RESULTS_DIR/concurrency.json"
+)
+```
+
+**Pass:** `CONCURRENCY_LADDER_OK` and `RAW_C1_C2_RECORDED=...` print, both levels in `concurrency.json` have `passed: true`, and the watched memory/error gates hold. A failed or missing `concurrency.json` is **not** zero tok/s; it means DeepSeek throughput is not yet qualified. Do not proceed to Step 16 on that state.
+
+**Optional C4 offered-client comparison:** Qwen and GLM have saved C4 measurements, but DeepSeek's `MAX_NUM_SEQS=2` means four client requests can queue; C4 does not prove four full 600K sessions are simultaneously resident. Only after C1/C2 pass with safe headroom, preserve their receipt and then run the same probe at 1,2,4 offered clients. This repeats C1/C2 so the final `concurrency.json` has all three levels, and the earlier C1/C2 receipt remains available if C4 fails:
+
+```bash
+RESULTS_DIR="$(readlink -f "$HOME/frontier-results/deepseek41-flash/latest")"
+cp -a "$RESULTS_DIR/concurrency.json" "$RESULTS_DIR/concurrency-c1-c2-before-c4.json"
+python3 "$HOME/ai/tools/frontier-model-probe.py" concurrency \
+  --profile deepseek41-flash --levels 1,2,4 \
+  --max-tokens 512 --minimum-tokens 128 --timeout 1800
+```
+
+If C4 fails or the memory floor is crossed, stop: keep the saved C1/C2 receipt, mark C4 as failed or unsafe, and do not invent a C4 rate. Do not raise `MAX_NUM_SEQS` to chase this column; that would be a new serving profile requiring requalification.
+
+### Saved DeepSeek result status after the raw concurrency gate
+
+As of 2026-09-22, the local receipts are `~/frontier-results/deepseek41-bringup-131k/20260922-102723` and `~/frontier-results/deepseek41-flash/20260922-104802`:
+
+| Result profile | Quality end-to-end output tok/s | Largest passing prompt | Chat / tool / vision | C1 / C2 / C4 |
+|---|---:|---:|---|---|
+| 131K bring-up | 28.762 | 120,019 tokens | Pass / pass / pass | Not run / not run / not run |
+| 600K DSpark baseline | 29.989 | 580,019 tokens | Pass / pass / pass | 34.477 / 50.746 / 47.014 tok/s, all passed |
+
+These are recorded observations, not a final winner. The 600K C1/C2/C4 values come from `concurrency.json` in the saved 600K run; do not infer concurrency throughput from the quality response. The 131K bring-up does not need a rerun to complete the 600K recipe qualification; its missing concurrency values are intentional unless 131K is promoted as a separate selectable lane. See [[DGX Spark Frontier Model Qualification Results]] for the Qwen/GLM comparison and source-run timestamps. The probe does not save a separate TTFT or head/worker memory low-water value in these JSON files, so preserve those observation-terminal readings separately before comparing operating safety.
+
 ## Step 16 — Add services back one layer at a time
 
-This step determines what can coexist on **this** FirstSpark. Keep the model running after the raw 256K or 450K test passes.
+This step determines what can coexist on **this** FirstSpark. Keep the model running after the raw long-context ladder **and Step 15a C1/C2 gate** pass. The service-layer context repeats are labeled separately; they do not substitute for raw throughput or overwrite `concurrency.json`. These probes still call the raw `127.0.0.1:8100` endpoint: they measure **co-residency overhead**, not a request traversing LiteLLM or Hermes. Validate actual routed requests separately in the hot-swap/routing guide before registration.
 
 ### 16.1 LiteLLM only
 
@@ -584,7 +652,7 @@ Do not restore all other ODS containers during qualification. The live stack was
 
 Only after the service-layer A/B passes:
 
-- run the saved concurrency test below;
+- confirm the raw C1/C2 receipt from Step 15a is present and passed; if absent, stop added services and return to the raw gate;
 - run at least 24 hours of mixed chat/tools/context;
 - stop and start twice;
 - verify the NFS export and worker mounts recover cleanly;
@@ -593,19 +661,16 @@ Only after the service-layer A/B passes:
 The shipped memory guard is off because it can kill the model when an unrelated process consumes memory. Keep it off for baseline; operational protection must identify and constrain the actual competing process.
 
 ```bash
-PROFILE="$(<"$HOME/.config/frontier/deepseek-active-results-profile")"
-case "$PROFILE" in
-  deepseek41-bringup-131k) LEVELS=1 ;;
-  deepseek41-flash) LEVELS=1,2 ;;
-esac
-python3 "$HOME/ai/tools/frontier-model-probe.py" concurrency \
-  --profile "$PROFILE" --levels "$LEVELS" \
-  --max-tokens 512 --minimum-tokens 128 --timeout 1800
-python3 "$HOME/ai/tools/frontier-model-probe.py" compare
-sed -n '1,200p' "$HOME/frontier-results/comparison.md"
+RESULTS_DIR="$(readlink -f "$HOME/frontier-results/deepseek41-flash/latest")"
+test -f "$RESULTS_DIR/concurrency.json"
+jq -e '[.levels[] | select(.passed == true) | .concurrency] | (index(1) != null and index(2) != null)' \
+  "$RESULTS_DIR/concurrency.json" >/dev/null
+python3 "$HOME/ai/tools/frontier-model-probe.py" compare \
+  --profiles qwen38-nvfp4,qwen38-fp8,glm53-flash,glm53-flash-mtp-850k,glm53-flash-dflash-500k,deepseek41-bringup-131k,deepseek41-flash \
+  --output "$HOME/frontier-results/comparison-all.md"
 ```
 
-The concurrency file contains every raw response plus per-request and aggregate end-to-end output rates. The comparison table includes the required 600K `deepseek41-flash` run alongside Qwen and GLM.
+`concurrency.json` contains the **raw**, pre-service request/aggregate output rates. A later concurrency test with LiteLLM/Hermes active must use a distinct `--label` so it writes `concurrency-<label>.json`, rather than overwriting the raw comparison. The all-profile table includes the GLM adaptations and the 131K bring-up, which the probe's default four-profile table omits. It reads only each profile's `latest` run; older timestamped receipts remain on disk.
 
 ## Step 18 — Stop and restore production
 
