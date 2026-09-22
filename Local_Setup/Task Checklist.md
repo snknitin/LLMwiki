@@ -662,9 +662,10 @@ The immediate goal remains the **operational setup**, not every future model, fr
 3. [[DGX Spark Dual-Node Qwen 3.8 Flash Next Tutorial]] — NVFP4 baseline and official FP8 A/B.
 4. [[DGX Spark Dual-Node GLM 5.3 Flash EXL3 Tutorial]] — experimental second recipe.
 5. [[DGX Spark Dual-Node DeepSeek V4.1 Flash EXL3 Tutorial]] — final high-risk recipe.
-6. [[DGX Spark Frontier Model Hot-Swap And Routing Guide]] — permanent named aliases and the fail-closed cluster switch workflow.
-7. [[DGX Spark Dual-Node Frontier Model Recipes Research 2026-09-18]] — provenance, memory evidence, licenses, issue audit, and Aiden boundary.
-8. [[DGX Spark Dual-Node Configuration And Operations Reference]] — authoritative hosts, addresses, interfaces, HCAs, and recovery.
+6. [[DGX Spark Frontier Model Qualification Results]] — measured local comparison, run timestamps, and missing gates.
+7. [[DGX Spark Frontier Model Hot-Swap And Routing Guide]] — permanent named aliases and the fail-closed cluster switch workflow.
+8. [[DGX Spark Dual-Node Frontier Model Recipes Research 2026-09-18]] — provenance, memory evidence, licenses, issue audit, and Aiden boundary.
+9. [[DGX Spark Dual-Node Configuration And Operations Reference]] — authoritative hosts, addresses, interfaces, HCAs, and recovery.
 
 #### Capacity and coexistence decision
 
@@ -723,7 +724,8 @@ The immediate goal remains the **operational setup**, not every future model, fr
 - [ ] Follow [[DGX Spark Dual-Node DeepSeek V4.1 Flash EXL3 Tutorial]] at commit `8404ac7d389c418300d0bee960d52313247930e1` only after Qwen and GLM complete their required gates.
 - [ ] Verify the approximately 387 GiB source set, EXL3 split, Engram inputs, image digest, and selected NFS/replication path before GPU launch.
 - [ ] Preserve an untouched 600K pinned baseline. Prefer the separately named 131K/one-sequence/1 GiB-KV safety boot first, then restore and qualify 600K; keep cooperative-MoE and other optional overlays out of both.
-- [ ] Pass the repository smoke test, chat, tools, vision, staged context, memory-low-water, service-layering, soak, clean stop, and rollback.
+- [ ] After the 600K smoke, chat, tools, vision, and staged context pass, run the raw C1/C2 concurrency gate from DeepSeek Step 15a **before** starting LiteLLM/Hermes/sparkDash. Record C4 only as an optional four-client offered-load result with the two-sequence scheduler limit stated; a blank C column is not a measured zero.
+- [ ] Record matched head/worker memory low-water and kernel checks, then pass service-layering, soak, clean stop, and rollback before treating DeepSeek as an accepted hot-swap lane.
 - [ ] Reject the profile if either node approaches the documented few-GiB margin without repeatable recovery.
 
 #### Named-alias registration and coexistence proof

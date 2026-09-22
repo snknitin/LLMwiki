@@ -18,7 +18,7 @@ This is the canonical progress and navigation page. If an older note suggests a 
 | Workstation GPU | **NVIDIA RTX PRO 5000 Blackwell**, 48,935 MiB, compute capability 12.0, driver 596.59 |
 | Spark foundation | Bash configuration, external secrets, cache/service folders, registries, and status commands completed |
 | Spark inference | Four explicit switchable lanes are installed and lifecycle-tested: `qwen35`, `qwen27-dflash`, `nemotron3-omni`, and `nemotron35-lightning`. `qwen35` remains the resident default, and LM Studio Nemotron 3.5 Lightning is deliberately warm beside it. |
-| Dual-Spark frontier lane | The pinned sparkDash, Qwen 3.8 Flash Next, GLM 5.3 Flash, and DeepSeek V4.1 community guides are ready, but no frontier recipe has been run locally. Each model recipe is an **exclusive hot-swap lane across both Sparks**, not an additional resident model. Current prerequisites are SecondSpark Docker-group access, reverse SSH host-key trust, NVIDIA Container Toolkit parity at `1.20.0`, and a fresh idle/memory baseline. See [[DGX Spark Dual-Node Community Frontier Models Runbook]]. |
+| Dual-Spark frontier lane | Qwen NVFP4/FP8, GLM DFlash/MTP/500K, and DeepSeek 600K DSpark have saved local functional, context, and C1/C2/C4 probe receipts. DeepSeek 131K is a safety bring-up with functional/context receipts; its concurrency was intentionally not measured. A standardized `spark-fast` reference and optional fresh 131K throughput run are documented but not yet measured. Service/soak/rollback gates remain pending as of 2026-09-22. No frontier lane is accepted for permanent LiteLLM/Hermes hot swapping merely from raw receipts. These are **exclusive two-node lanes**, not additional resident models. See [[DGX Spark Frontier Model Qualification Results]], [[DGX Spark DeepSeek 131K And SparkFast Comparison Protocol]], and [[DGX Spark Dual-Node Community Frontier Models Runbook]]. |
 | Hermes | Standalone Hermes Gateway and Hermes Serve run on Spark; the ODS Hermes module is not needed |
 | Routing | Spark LiteLLM exposes the working Qwen routes to Hermes |
 | Networking | Tailscale remains installed on the first Spark, workstation, and laptop. NVIDIA Sync reaches both nodes. FirstSpark (`192.168.0.101`) and SecondSpark (`192.168.0.100`) are direct ConnectX-7 peers on `192.168.100.10/11` and `192.168.101.10/11`. Manual `/etc/netplan/40-cx7.yaml` is authoritative; NVIDIA Sync Cluster Assistant has not created `99-nvidia-sync-cluster.yaml`. |
@@ -322,8 +322,9 @@ Read, in order:
 3. [[DGX Spark Dual-Node Qwen 3.8 Flash Next Tutorial]] — prove NVFP4 first, then run the official FP8 A/B.
 4. [[DGX Spark Dual-Node GLM 5.3 Flash EXL3 Tutorial]] — experimental follow-on after Qwen passes start, stop, and rollback.
 5. [[DGX Spark Dual-Node DeepSeek V4.1 Flash EXL3 Tutorial]] — final, highest-risk recipe after every earlier gate passes.
-6. [[DGX Spark Frontier Model Hot-Swap And Routing Guide]] — permanent LiteLLM/Hermes names and the verified one-resident-backend switch workflow.
-7. [[DGX Spark Dual-Node Frontier Model Recipes Research 2026-09-18]] — source, checkpoint, issue, license, and Aiden-stack evidence.
+6. [[DGX Spark Frontier Model Qualification Results]] — timestamped local Qwen, GLM, and DeepSeek test receipts, missing measurements, and a cross-model comparison.
+7. [[DGX Spark Frontier Model Hot-Swap And Routing Guide]] — permanent LiteLLM/Hermes names and the one-resident-backend switch workflow, only after acceptance gates.
+8. [[DGX Spark Dual-Node Frontier Model Recipes Research 2026-09-18]] — source, checkpoint, issue, license, and Aiden-stack evidence.
 
 Execute in this exact order:
 
@@ -347,6 +348,7 @@ The resource rule is absolute: Qwen, GLM, and DeepSeek each occupy both GB10 dev
 - [[DGX Spark Dual-Node Qwen 3.8 Flash Next Tutorial]] — first model lane: recipe-faithful NVFP4 baseline followed by the official FP8 A/B.
 - [[DGX Spark Dual-Node GLM 5.3 Flash EXL3 Tutorial]] — second, experimental model lane with long-prefill and soak gates.
 - [[DGX Spark Dual-Node DeepSeek V4.1 Flash EXL3 Tutorial]] — final high-risk model lane with source staging, Engram, strict memory, and service-layering gates.
+- [[DGX Spark Frontier Model Qualification Results]] — current local results across all saved frontier profiles, including explicit not-run cells.
 - [[DGX Spark Frontier Model Hot-Swap And Routing Guide]] — registers every accepted named alias and installs the fail-closed two-node switch manager while preserving `spark-fast`.
 - [[DGX Spark Dual-Node Configuration And Operations Reference]] — authoritative live dual-node identities, address plan, persistent network ownership, NCCL build and result, safety procedure, Cluster Assistant decision, and distributed-model next steps.
 - [[DGX Spark Pre-Shutdown And Automatic Recovery Snapshot 2026-08-20]] — live first-Spark service/model snapshot, automatic restart ownership, reboot verification, and safe UPS move checklist.
