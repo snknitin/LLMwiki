@@ -872,6 +872,8 @@ Use this map to decide what to read deeply and what to keep as reference. Update
 - [[DGX Spark Dual-Node Qwen 3.8 Flash Next Tutorial]] — first frontier lane: NVFP4 baseline and official FP8 A/B.
 - [[DGX Spark Dual-Node GLM 5.3 Flash EXL3 Tutorial]] — gated experimental second frontier lane.
 - [[DGX Spark Dual-Node DeepSeek V4.1 Flash EXL3 Tutorial]] — deferred final frontier lane with the tightest memory and staging constraints.
+- [[DGX Spark Frontier Model Qualification Results]] — current eight-profile raw comparison and saved run timestamps.
+- [[DGX Spark DeepSeek 131K And SparkFast Comparison Protocol]] — repeatable 131K and FirstSpark reference measurements.
 - [[DGX Spark Frontier Model Hot-Swap And Routing Guide]] — permanent LiteLLM/Hermes aliases and fail-closed switching across the validated frontier lanes.
 - [[DGX Spark Second Node And Dual Spark Readiness Research 2026-08-20]] — historical pre-cable planning, approved cable choices, and dual-Spark model limits.
 - [[VoiceStudio Windows Portable Usage]] — verified portable VoiceStudio state, first-use workflow, settings, backup, and recovery guidance.
