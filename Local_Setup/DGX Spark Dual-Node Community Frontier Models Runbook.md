@@ -1,5 +1,5 @@
 ---
-updated: 2026-09-21
+updated: 2026-09-22
 status: ready-for-user-execution
 scope: dual-dgx-spark, vllm, exl3, qwen3.8, glm-5.3, deepseek-v4.1, sparkdash, litellm, hermes
 ---
@@ -374,7 +374,7 @@ Run on **FirstSpark**:
 spark-model stop
 systemctl --user stop lmstudio.service 2>/dev/null || true
 systemctl --user stop hermes-dashboard.service hermes-gateway.service hermes-serve.service
-ods stop
+(cd "$HOME/ai/services/litellm" && docker compose -p spark-litellm stop litellm)
 docker ps --format 'table {{.Names}}\t{{.Status}}\t{{.Ports}}'
 nvidia-smi --query-compute-apps=pid,process_name,used_memory --format=csv
 free -h
@@ -398,19 +398,20 @@ Do not set a recipe's idle-GPU guard to false to bypass this gate.
 
 After the raw model passes its long-context/load test, add services back one layer at a time and repeat the identical load:
 
-1. start only `ods-litellm`;
+1. start only the standalone `spark-litellm`;
 2. start `hermes-serve` and `hermes-gateway`;
 3. start sparkDash;
-4. keep the rest of ODS stopped unless a measured low-water proves it is safe.
+4. keep unrelated services stopped unless a measured low-water proves they are safe.
 
-This is necessary because the live ODS containers use several GiB of RSS, while the published Qwen/GLM/DeepSeek low-water margins are only a few GiB.
+FirstSpark ODS was removed on 2026-09-22. The standalone LiteLLM proxy preserves the routing aliases without loading the retired ODS stack.
 
-Run these commands on **FirstSpark**. Do not use `ods start litellm` here: this ODS installation declares `llama-server` as a LiteLLM dependency, so that command also starts the GPU model container.
+Run these commands on **FirstSpark** after the raw model passes.
 
 ```bash
-# 1. LiteLLM only; do not start its declared llama-server dependency.
-docker start ods-litellm
-docker ps --filter name='^/ods-' --format 'table {{.Names}}\t{{.Status}}\t{{.Ports}}'
+# 1. Standalone LiteLLM only.
+cd "$HOME/ai/services/litellm"
+docker compose -p spark-litellm up -d --pull never
+docker inspect spark-litellm --format '{{.State.Status}}|{{.State.Health.Status}}'
 
 # 2. Hermes API and gateway only.
 systemctl --user start hermes-serve.service hermes-gateway.service
@@ -425,8 +426,8 @@ for attempt in $(seq 1 30); do
   sleep 1
 done
 
-# 4. This must print only ods-litellm. If another ODS container appears, stop it.
-docker ps --filter name='^/ods-' --format '{{.Names}}'
+# 4. Confirm the FirstSpark ODS project remains absent.
+docker ps -a --filter label=com.docker.compose.project=ods --format '{{.Names}}'
 ```
 
 ### Observe both nodes during a long start or test
@@ -451,10 +452,11 @@ ss -ltnp | grep -E ':(8100|29521|50000)\b' && exit 1 || true
 ssh -o BatchMode=yes snknitin@192.168.0.100 \
   "ss -ltnp | grep -E ':(8100|29521|50000)\\b' && exit 1 || true"
 nvidia-smi --query-compute-apps=pid,process_name,used_memory --format=csv
-docker stop ods-llama-server 2>/dev/null || true
 "$HOME/.lmstudio/bin/lms" daemon down >/dev/null 2>&1 || true
 spark-model use qwen35
 curl -fsS http://127.0.0.1:8000/v1/models
+(cd "$HOME/ai/services/litellm" && docker compose -p spark-litellm up -d --pull never)
+docker inspect spark-litellm --format '{{.State.Status}}|{{.State.Health.Status}}'
 ```
 
 **Pass:** the frontier containers are absent and `spark-fast` answers on port `8000`.
@@ -886,7 +888,7 @@ Use these distinct aliases:
 | `glm53-flash` | `glm53-flash` | `GLM-5.3-Flash-EXL3` |
 | `deepseek41-flash` | `deepseek41-flash` | `DeepSeek-v4.1-Flash-EXL3` |
 
-All four routes point to `http://192.168.0.101:8100/v1` and use the protected `SPARK_FRONTIER_API_KEY`. They remain present in `/v1/models` and Hermes discovery even while cold. A cold alias is intentionally unavailable until its matching hot-swap command completes; LiteLLM does not launch 200–400 GiB models on an incoming request.
+Each route registered after its acceptance gates points to `http://192.168.0.101:8100/v1` and uses the protected `SPARK_FRONTIER_API_KEY` in the standalone LiteLLM environment. Once registered, it remains present in `/v1/models` and Hermes discovery even while cold. A cold alias is intentionally unavailable until its matching hot-swap command completes; LiteLLM does not launch 200–400 GiB models on an incoming request.
 
 Register a lane only after:
 

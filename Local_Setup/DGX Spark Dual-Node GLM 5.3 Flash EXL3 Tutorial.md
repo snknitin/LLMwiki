@@ -1,5 +1,5 @@
 ---
-updated: 2026-09-21
+updated: 2026-09-22
 status: experimental-user-execution
 scope: dgx-spark, glm-5.3-flash, exl3, dflash2, vllm, dual-node
 ---
@@ -123,7 +123,7 @@ Then drain the models and dashboard:
 spark-model stop
 systemctl --user stop lmstudio.service 2>/dev/null || true
 systemctl --user stop hermes-dashboard.service hermes-gateway.service hermes-serve.service || true
-ods stop
+(cd "$HOME/ai/services/litellm" && docker compose -p spark-litellm stop litellm)
 cd "$HOME/src/frontier/sparkDash"
 docker compose -f docker-compose.yml -f docker-compose.local.yml stop
 nvidia-smi --query-compute-apps=pid,process_name,used_memory --format=csv
@@ -630,7 +630,7 @@ systemctl --user stop lmstudio.service 2>/dev/null || true
 systemctl --user stop \
   hermes-dashboard.service hermes-gateway.service hermes-serve.service \
   2>/dev/null || true
-ods stop 2>/dev/null || true
+(cd "$HOME/ai/services/litellm" && docker compose -p spark-litellm stop litellm) || true
 
 cd "$HOME/src/frontier/sparkDash"
 docker compose -f docker-compose.yml -f docker-compose.local.yml stop

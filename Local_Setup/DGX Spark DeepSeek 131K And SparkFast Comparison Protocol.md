@@ -4,9 +4,24 @@ Use this optional protocol to add two **separately identified** rows to the save
 
 These commands are **user-run on FirstSpark**. They start and stop GPU models and include long-running tests. Keep each launch and probe visible. Record the actual `latest` timestamp after `init`: a new `init` moves that profile's `latest` link, but the previous timestamped receipt stays on disk. Do not append a new boot's concurrency data to the old 131K bring-up directory.
 
-## 1. After the 600K run, drain and verify idle
+**Completed comparison, 2026-09-22:** the fresh `deepseek41-bringup-131k/20260922-174513` and `spark-fast/20260922-191753` receipts passed identity, chat, tool, vision, context, and C1/C2/C4. Their measured values and the eight-profile table are in [[DGX Spark Frontier Model Qualification Results]]. The steps below remain the reproducible procedure for a later run.
 
-Complete the DeepSeek tutorial's Step 18 restoration, then perform its Step 5 drain before the 131K adaptation. It stops `spark-fast`, ODS, Hermes, and sparkDash. In a **FirstSpark Bash terminal**, verify no compute process on either node:
+> [!important] Resuming after a reboot
+> If a Step 3 `context` probe ends with `ConnectionRefusedError`, the saved receipt still exists but the HTTP model server is not listening at its recorded endpoint (`127.0.0.1:8100`). The probe does not start DeepSeek. Return to **Step 1** to drain any services restored at boot, run **Step 2** to reload and start the saved 131K profile, and only then run **Step 3** from its `init` command. Do not reuse the old `latest` run or retry `context` against a stopped server.
+
+## 1. After the 600K run or a reboot, drain and verify idle
+
+After the 600K qualification, complete the DeepSeek tutorial's Step 18 restoration. Before the 131K adaptation, drain the services as in its Step 5. If the Sparks rebooted during this protocol, start here again: boot may have restored `spark-fast`, standalone LiteLLM, Hermes, or sparkDash. Run this in a **FirstSpark Bash terminal**:
+
+```bash
+spark-model stop
+systemctl --user stop lmstudio.service 2>/dev/null || true
+systemctl --user stop hermes-dashboard.service hermes-gateway.service hermes-serve.service
+(cd "$HOME/ai/services/litellm" && docker compose -p spark-litellm stop litellm)
+(cd "$HOME/src/frontier/sparkDash" && docker compose -f docker-compose.yml -f docker-compose.local.yml stop)
+```
+
+Then verify no compute process on either node:
 
 ```bash
 printf 'HEAD compute processes:\n'
@@ -39,10 +54,16 @@ This preserves the current `.env` before replacing it. The existing `.env.bringu
   grep -E '^(SPEC_METHOD|DSPARK_TOKENS|MAX_MODEL_LEN|MAX_NUM_SEQS|MAX_NUM_BATCHED_TOKENS|GPU_MEM_UTIL|KV_CACHE_MEMORY_BYTES)=' .env
   SKIP_BUILD=1 ./start.sh
   curl -fsS http://127.0.0.1:8100/health
+  api_key="$(<"$HOME/.config/frontier/api-key")"
+  curl -fsS -H "Authorization: Bearer $api_key" \
+    http://127.0.0.1:8100/v1/models | \
+    jq -e '.data | any(.id == "DeepSeek-v4.1-Flash-EXL3")' >/dev/null
+  unset api_key
+  echo DEEPSEEK_131K_READY
 )
 ```
 
-**Pass:** the server becomes healthy and the printed configuration is the unchanged saved 131K profile. If launch fails, inspect `./start.sh logs` and `./start.sh logs worker`; do not run probes against the old 600K service or use a different configuration under the same result label.
+**Pass:** the server becomes healthy, `DEEPSEEK_131K_READY` prints, and the printed configuration is the unchanged saved 131K profile. If launch fails, inspect `./start.sh logs` and `./start.sh logs worker`; do not run probes against the old 600K service or use a different configuration under the same result label.
 
 ## 3. Create a fresh 131K receipt and repeat the functional tests
 
@@ -52,9 +73,10 @@ Run the monitoring command in Step 15 of the DeepSeek tutorial on **both** Spark
 (
   set -euo pipefail
   cd "$HOME/src/frontier/deepseek41-dual"
+  cmp -s .env .env.bringup-131k || { echo 'STOP: active .env is not the saved 131K profile; repeat Step 2' >&2; exit 1; }
   test "$(sed -n 's/^MAX_MODEL_LEN=//p' .env | tail -n 1)" = 131072
   test "$(sed -n 's/^MAX_NUM_SEQS=//p' .env | tail -n 1)" = 1
-  curl -fsS http://127.0.0.1:8100/health >/dev/null
+  curl -fsS --max-time 5 http://127.0.0.1:8100/health >/dev/null || { echo 'STOP: DeepSeek is not serving on 127.0.0.1:8100; repeat Steps 1 and 2' >&2; exit 1; }
   python3 "$HOME/ai/tools/frontier-model-probe.py" init \
     --profile deepseek41-bringup-131k \
     --model DeepSeek-v4.1-Flash-EXL3 --max-context 131072
@@ -71,19 +93,29 @@ Run the monitoring command in Step 15 of the DeepSeek tutorial on **both** Spark
 
 **Pass:** identity, quality, tool, and vision tests each print their `*_TEST_OK` marker. In this **same new run**, repeat the safe 131K context rungs:
 
-Before the long loads, run Step 11 of the DeepSeek tutorial for this new 131K profile. It writes `startup-memory.txt` in the new result directory; do not reuse the older bring-up file.
+Before the long loads, run Step 11 of the DeepSeek tutorial for this new 131K profile. It writes `startup-memory.txt` in the new result directory; do not reuse the older bring-up file. Run this block against the **same fresh receipt** after the functional probes. If the node or model restarted in between, repeat Steps 1–3 from the beginning.
 
 ```bash
-python3 "$HOME/ai/tools/frontier-model-probe.py" context \
-  --profile deepseek41-bringup-131k --filler-counts 30000,120000 \
-  --max-tokens 64 --timeout 7200
+(
+  set -euo pipefail
+  cd "$HOME/src/frontier/deepseek41-dual"
+  cmp -s .env .env.bringup-131k || { echo 'STOP: active .env is not the saved 131K profile; repeat Step 2' >&2; exit 1; }
+  RUN="$(readlink -f "$HOME/frontier-results/deepseek41-bringup-131k/latest")"
+  jq -e '.endpoint == "http://127.0.0.1:8100" and .model == "DeepSeek-v4.1-Flash-EXL3" and .max_context == 131072' \
+    "$RUN/metadata.json" >/dev/null
+  curl -fsS --max-time 5 http://127.0.0.1:8100/health >/dev/null || { echo 'STOP: DeepSeek is not serving; repeat Steps 1 and 2, then create a fresh Step 3 receipt' >&2; exit 1; }
+  python3 "$HOME/ai/tools/frontier-model-probe.py" identity --profile deepseek41-bringup-131k
+  python3 "$HOME/ai/tools/frontier-model-probe.py" context \
+    --profile deepseek41-bringup-131k --filler-counts 30000,120000 \
+    --max-tokens 64 --timeout 7200
+)
 ```
 
 **Pass:** both context records pass; save the observed head/worker memory low-water. The 64-token cap applies only to context retrieval, not throughput.
 
 ## 4. Measure offered-client concurrency for 131K
 
-With the raw 131K model still running and ODS/Hermes/sparkDash still stopped, run C1/C2 first. Check the monitoring terminals before deciding on C4:
+With the raw 131K model still running and standalone LiteLLM/Hermes/sparkDash still stopped, run C1/C2 first. Check the monitoring terminals before deciding on C4:
 
 ```bash
 (
@@ -114,7 +146,7 @@ python3 "$HOME/ai/tools/frontier-model-probe.py" concurrency \
 
 ## 5. Stop 131K and benchmark the actual `spark-fast` reference
 
-Stop both DeepSeek ranks, verify the frontier port is closed, restore the saved 600K `.env` **without launching it**, and start the existing `qwen35` lane. Leave ODS/Hermes/sparkDash stopped for the **raw** comparison. `spark-fast` is a FirstSpark-only model; the worker remains idle.
+Stop both DeepSeek ranks, verify the frontier port is closed, restore the saved 600K `.env` **without launching it**, and start the existing `qwen35` lane. Leave standalone LiteLLM/Hermes/sparkDash stopped for the **raw** comparison. `spark-fast` is a FirstSpark-only model; the worker remains idle.
 
 ```bash
 (
@@ -204,6 +236,6 @@ python3 "$HOME/ai/tools/frontier-model-probe.py" compare \
   --output "$HOME/frontier-results/comparison-all.md"
 ```
 
-This table reads each profile's **latest** run. It compares the same probe prompts but not identical hardware, runtime, context, or active-sequence limits: SparkFast uses FirstSpark only; the frontier recipes occupy both Sparks. Keep raw scores separate from LiteLLM/Hermes-routed latency and quality. With `spark-fast` still healthy, restore the previously running ODS and Hermes services using the DeepSeek tutorial's Step 18 commands, then separately test the `spark-fast` LiteLLM/Hermes route. Restore sparkDash only if it was running before the drain, using its own tutorial. A probe to direct port 8000 with these services merely co-resident is **not** a routed test. Preserve `spark-fast` as the default/rollback until a challenger completes the remaining coexistence, soak, restart, and routing gates.
+This table reads each profile's **latest** run. It compares the same probe prompts but not identical hardware, runtime, context, or active-sequence limits: SparkFast uses FirstSpark only; the frontier recipes occupy both Sparks. Keep raw scores separate from LiteLLM/Hermes-routed latency and quality. With `spark-fast` still healthy, restore the previously running standalone LiteLLM and Hermes services using the DeepSeek tutorial's Step 18 commands, then separately test the `spark-fast` LiteLLM/Hermes route. Restore sparkDash only if it was running before the drain, using its own tutorial. A probe to direct port 8000 with these services merely co-resident is **not** a routed test. Preserve `spark-fast` as the default/rollback until a challenger completes the remaining coexistence, soak, restart, and routing gates.
 
 Related: [[DGX Spark Frontier Model Qualification Results]] · [[DGX Spark Dual-Node DeepSeek V4.1 Flash EXL3 Tutorial]] · [[DGX Spark Operations Setup Guide]] · [[DGX Spark Frontier Model Hot-Swap And Routing Guide]]

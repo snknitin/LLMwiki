@@ -1,5 +1,5 @@
 ---
-updated: 2026-09-18
+updated: 2026-09-22
 status: deferred-high-risk-experiment
 scope: dgx-spark, deepseek-v4.1-flash, exl3, engram, dspark, vllm, dual-node
 ---
@@ -213,7 +213,7 @@ Run on **FirstSpark**:
 spark-model stop
 systemctl --user stop lmstudio.service 2>/dev/null || true
 systemctl --user stop hermes-dashboard.service hermes-gateway.service hermes-serve.service
-ods stop
+(cd "$HOME/ai/services/litellm" && docker compose -p spark-litellm stop litellm)
 cd "$HOME/src/frontier/sparkDash"
 docker compose -f docker-compose.yml -f docker-compose.local.yml stop
 ```
@@ -568,25 +568,43 @@ If C4 fails or the memory floor is crossed, stop: keep the saved C1/C2 receipt, 
 
 ### Saved DeepSeek result status after the raw concurrency gate
 
-As of 2026-09-22, the local receipts are `~/frontier-results/deepseek41-bringup-131k/20260922-102723` and `~/frontier-results/deepseek41-flash/20260922-104802`:
+As of 2026-09-22, the latest local raw receipts are `~/frontier-results/deepseek41-bringup-131k/20260922-174513` and `~/frontier-results/deepseek41-flash/20260922-104802`. The earlier 131K safety receipt at `20260922-102723` remains on disk; the later receipt separately measured offered-client throughput:
 
 | Result profile | Quality end-to-end output tok/s | Largest passing prompt | Chat / tool / vision | C1 / C2 / C4 |
 |---|---:|---:|---|---|
-| 131K bring-up | 28.762 | 120,019 tokens | Pass / pass / pass | Not run / not run / not run |
+| 131K bring-up, fresh comparison | 29.564 | 120,019 tokens | Pass / pass / pass | 34.153 / 34.875 / 34.803 tok/s, all passed |
 | 600K DSpark baseline | 29.989 | 580,019 tokens | Pass / pass / pass | 34.477 / 50.746 / 47.014 tok/s, all passed |
 
-These are recorded observations, not a final winner. The 600K C1/C2/C4 values come from `concurrency.json` in the saved 600K run; do not infer concurrency throughput from the quality response. The 131K bring-up does not need a rerun to complete the 600K recipe qualification; its missing concurrency values are intentional unless 131K is promoted as a separate selectable lane. See [[DGX Spark Frontier Model Qualification Results]] for the Qwen/GLM comparison and source-run timestamps. The probe does not save a separate TTFT or head/worker memory low-water value in these JSON files, so preserve those observation-terminal readings separately before comparing operating safety.
+These are recorded observations, not a final winner. C1/C2/C4 come from each saved run's `concurrency.json`; do not infer concurrency throughput from the quality response. The 131K profile has `MAX_NUM_SEQS=1`, so C2/C4 are queued offered-client loads, not multiple active 131K sequences. It remains an adapted safety profile, not the recipe-faithful 600K baseline. The standardized FirstSpark-only `spark-fast` comparison and all eight raw rows are in [[DGX Spark Frontier Model Qualification Results]]. The probe does not save a separate TTFT or head/worker memory low-water value in these JSON files, so preserve those observation-terminal readings separately before comparing operating safety.
 
 ## Step 16 — Add services back one layer at a time
 
-This step determines what can coexist on **this** FirstSpark. Keep the model running after the raw long-context ladder **and Step 15a C1/C2 gate** pass. The service-layer context repeats are labeled separately; they do not substitute for raw throughput or overwrite `concurrency.json`. These probes still call the raw `127.0.0.1:8100` endpoint: they measure **co-residency overhead**, not a request traversing LiteLLM or Hermes. Validate actual routed requests separately in the hot-swap/routing guide before registration.
+This step determines what can coexist on **this** FirstSpark. Complete the raw long-context ladder and Step 15a C1/C2 gate first, then **stop the DeepSeek ranks before introducing each additional service layer**. Start the CPU/control-plane service while the large model is absent, verify that no unintended GPU model came up, and only then relaunch the same saved DeepSeek configuration. If that relaunch cannot pass its boot-margin preflight or either node falls below the 3 GiB `MemAvailable` qualification floor, stop the added service and mark that coexistence layer failed. Do not hot-add several services after DeepSeek has consumed most of FirstSpark's unified memory. The labeled context repeats are separate from raw throughput and do not overwrite `concurrency.json`. They still call the raw `127.0.0.1:8100` endpoint: they measure **co-residency overhead**, not a request traversing LiteLLM or Hermes. Validate routed requests separately in the hot-swap/routing guide before registration.
+
+> [!important] Standalone LiteLLM boundary
+> FirstSpark ODS was retired on 2026-09-22. Start only `spark-litellm` from `$HOME/ai/services/litellm`; its Compose file has no `llama-server` dependency. Do not run an ODS command on FirstSpark. If the proxy is unhealthy, inspect its container and memory state before relaunching a memory-tight frontier rank.
 
 ### 16.1 LiteLLM only
 
+Run only after the FirstSpark shell and Docker daemon are responsive and the raw Step 15a receipt is saved. This is a **cold co-residency** check, not an in-place hot-add:
+
 ```bash
-ods start litellm
-docker stats --no-stream ods-litellm
+(
+  set -euo pipefail
+  cd "$HOME/src/frontier/deepseek41-dual"
+  ./start.sh stop
+  test -z "$(nvidia-smi --query-compute-apps=pid --format=csv,noheader)"
+  ssh snknitin@192.168.100.11 \
+    'test -z "$(nvidia-smi --query-compute-apps=pid --format=csv,noheader)"'
+  (cd "$HOME/ai/services/litellm" && docker compose -p spark-litellm up -d --pull never)
+  docker inspect spark-litellm --format '{{.State.Status}}|{{.State.Health.Status}}'
+  test -z "$(docker ps -a --filter label=com.docker.compose.project=ods --format '{{.Names}}')"
+  SKIP_BUILD=1 ./start.sh
+  docker stats --no-stream spark-litellm
+)
 ```
+
+**Stop:** if an ODS container or any unexpected GPU model appears, identify and stop it before relaunching DeepSeek. If the model fails its preflight or healthy start with LiteLLM already loaded, do not bypass the margin check; stop LiteLLM and classify this 600K configuration as not safely co-resident. Record the actual logs and memory floor.
 
 Repeat the same context/load test and record the new low-water.
 
@@ -606,8 +624,14 @@ python3 "$HOME/ai/tools/frontier-model-probe.py" context \
 ### 16.2 Standalone Hermes
 
 ```bash
-systemctl --user start hermes-serve.service hermes-gateway.service
-systemctl --user status hermes-serve.service hermes-gateway.service --no-pager
+(
+  set -euo pipefail
+  cd "$HOME/src/frontier/deepseek41-dual"
+  ./start.sh stop
+  systemctl --user start hermes-serve.service hermes-gateway.service
+  systemctl --user status hermes-serve.service hermes-gateway.service --no-pager
+  SKIP_BUILD=1 ./start.sh
+)
 ```
 
 Repeat the same test. Do not start the dashboard service yet.
@@ -628,9 +652,16 @@ python3 "$HOME/ai/tools/frontier-model-probe.py" context \
 ### 16.3 sparkDash last
 
 ```bash
-cd "$HOME/src/frontier/sparkDash"
-docker compose -f docker-compose.yml -f docker-compose.local.yml start
-docker stats --no-stream sparkDash
+(
+  set -euo pipefail
+  cd "$HOME/src/frontier/deepseek41-dual"
+  ./start.sh stop
+  cd "$HOME/src/frontier/sparkDash"
+  docker compose -f docker-compose.yml -f docker-compose.local.yml start
+  docker stats --no-stream sparkDash
+  cd "$HOME/src/frontier/deepseek41-dual"
+  SKIP_BUILD=1 ./start.sh
+)
 ```
 
 Repeat once more. If either node drops below the 3 GiB qualification floor, correctness changes, or a rank/kernel error appears, stop sparkDash and keep it as an offline/idle diagnostic tool for this model.
@@ -689,7 +720,7 @@ ss -ltnp | grep -E ':(8100|29521)\b' && exit 1 || true
 ssh snknitin@192.168.0.100 \
   "ss -ltnp | grep -E ':(8100|29521)\\b' && exit 1 || true"
 spark-model use qwen35
-ods start
+(cd "$HOME/ai/services/litellm" && docker compose -p spark-litellm up -d --pull never)
 systemctl --user start hermes-dashboard.service hermes-gateway.service hermes-serve.service
 curl -fsS http://127.0.0.1:8000/v1/models | python3 -m json.tool
 ```
