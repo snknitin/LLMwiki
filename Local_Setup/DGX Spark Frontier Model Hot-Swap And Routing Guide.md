@@ -1,5 +1,5 @@
 ---
-updated: 2026-09-18
+updated: 2026-09-21
 status: implement-after-model-validation
 scope: dgx-spark, litellm, hermes, hot-swap, model-manager, dual-node
 ---
@@ -50,6 +50,9 @@ LiteLLM does not start a 125–400 GiB model in response to an API request. Alwa
 | `deepseek41-flash` | `deepseek41-flash` | `DeepSeek-v4.1-Flash-EXL3` | Use the accepted profile: 131,072, 262,144, or 600,000 |
 
 Do not rename `spark-fast`. Do not use one mutable `spark-frontier` alias as the only client identity; distinct aliases preserve session intent and make errors diagnosable.
+
+> [!important] GLM operating profile is a deployment decision
+> `glm53-flash`, `glm53-flash-mtp-850k`, and `glm53-flash-dflash-500k` are **qualification result profiles**, not automatically three LiteLLM aliases. Complete Step 16 of [[DGX Spark Dual-Node GLM 5.3 Flash EXL3 Tutorial]], choose one accepted operating profile, install that profile as `~/src/frontier/glm53-dual/.env`, and make the hot-swap manager's `GLM53_ACCEPTED_CONTEXT` match it. Keep the named profile files under `~/.config/frontier/glm53-profiles/`; do not leave API-key-bearing `.env.*` copies unignored inside the Git checkout. Register extra public aliases only if you intentionally want multiple GLM operating contracts and the switch manager can select their corresponding configuration files deterministically.
 
 ## Resource policy for normal hot-swaps
 
