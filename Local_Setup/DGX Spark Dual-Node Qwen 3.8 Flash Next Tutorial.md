@@ -252,27 +252,48 @@ unset api_key
 
 **Pass:** model ID is `qwen3.8-flash-next`.
 
+### Step 6a — Start a persistent qualification record
+
+The original version of this tutorial printed most results to the terminal or wrote one tool response under `/tmp`. That was not sufficient for comparison. Every command below now writes to a timestamped directory under `~/frontier-results` and keeps a `latest` symlink for copy-paste commands.
+
+The shared probe and vision fixture are already installed on FirstSpark. Verify them, verify the fixture hash, then create this run's record:
+
+```bash
+test -x "$HOME/ai/tools/frontier-model-probe.py"
+test -f "$HOME/test-assets/frontier-vision-test.png"
+echo '0c0b5e38998befd2f98802175ace84ca1a879c2e5835ea0f28dc56b555a9c297  /home/snknitin/test-assets/frontier-vision-test.png' | sha256sum -c -
+
+python3 "$HOME/ai/tools/frontier-model-probe.py" init \
+  --profile qwen38-nvfp4 \
+  --model qwen3.8-flash-next \
+  --max-context 262144
+```
+
+The image is the known-answer fixture [[Frontier Model Vision Test.png]]: one red triangle, two blue circles, three green squares, and one yellow star, seven objects total.
+
+**Pass:** the hash prints `OK`, and the final line names a new `RESULTS_DIR`. Do not reuse an old result directory for a new boot or configuration.
+
 ## Step 7 — Capture the real memory budget before testing
 
 Run on **FirstSpark**:
 
 ```bash
-docker logs vllm-fn 2>&1 | \
-  grep -E 'Available KV cache memory|GPU KV cache size|Free memory on device|model weights|Maximum concurrency'
-docker image inspect vllm/vllm-openai:qwen38-flash-next \
-  --format 'HEAD_IMAGE_ID={{.Id}} DIGESTS={{json .RepoDigests}}'
-ssh snknitin@192.168.100.11 \
-  "docker image inspect vllm/vllm-openai:qwen38-flash-next --format 'WORKER_IMAGE_ID={{.Id}} DIGESTS={{json .RepoDigests}}'"
-free -h
-nvidia-smi --query-compute-apps=pid,process_name,used_memory --format=csv
-```
-
-Run on **SecondSpark**:
-
-```bash
-free -h
-nvidia-smi --query-compute-apps=pid,process_name,used_memory --format=csv
-docker logs vllm-fn 2>&1 | tail -n 100
+RESULTS_DIR="$(readlink -f "$HOME/frontier-results/qwen38-nvfp4/latest")"
+{
+  date -Is
+  docker logs vllm-fn 2>&1 | \
+    grep -E 'Available KV cache memory|GPU KV cache size|Free memory on device|model weights|Maximum concurrency'
+  docker image inspect vllm/vllm-openai:qwen38-flash-next \
+    --format 'HEAD_IMAGE_ID={{.Id}} DIGESTS={{json .RepoDigests}}'
+  ssh snknitin@192.168.100.11 \
+    "docker image inspect vllm/vllm-openai:qwen38-flash-next --format 'WORKER_IMAGE_ID={{.Id}} DIGESTS={{json .RepoDigests}}'"
+  echo '--- HEAD MEMORY ---'
+  free -h
+  nvidia-smi --query-compute-apps=pid,process_name,used_memory --format=csv
+  echo '--- WORKER MEMORY ---'
+  ssh snknitin@192.168.100.11 \
+    'free -h; nvidia-smi --query-compute-apps=pid,process_name,used_memory --format=csv'
+} | tee "$RESULTS_DIR/startup-memory.txt"
 ```
 
 Record both nodes in the acceptance record. The live lines decide whether this cluster matches the publication.
@@ -282,115 +303,59 @@ Record both nodes in the acceptance record. The live lines decide whether this c
 Run on **FirstSpark**:
 
 ```bash
-api_key="$(<"$HOME/.config/frontier/api-key")"
-curl -fsS http://127.0.0.1:8100/v1/chat/completions \
-  -H "Authorization: Bearer $api_key" \
-  -H 'Content-Type: application/json' \
-  -d '{
-    "model":"qwen3.8-flash-next",
-    "messages":[{"role":"user","content":"What is 17*19? Reply with the integer only."}],
-    "temperature":0,
-    "max_tokens":32
-  }' | python3 -m json.tool
-unset api_key
+python3 "$HOME/ai/tools/frontier-model-probe.py" chat \
+  --profile qwen38-nvfp4 \
+  --max-tokens 1024
 ```
 
-**Pass:** the answer contains `323` and the JSON is well formed.
+This is a real response-quality test, not a 32-token arithmetic smoke test. It requires a two-sentence explanation, five substantive bullets, a three-row Markdown comparison table, at least 120 words, and the exact completion marker. The complete response, usage counts, elapsed time, and end-to-end output rate are written to `chat-quality.json`.
+
+**Pass:** `QUALITY_TEST_OK` prints. A short, malformed, or truncated answer fails.
 
 ## Step 9 — Test structured tool calling
 
 Run on **FirstSpark**:
 
 ```bash
-api_key="$(<"$HOME/.config/frontier/api-key")"
-curl -fsS http://127.0.0.1:8100/v1/chat/completions \
-  -H "Authorization: Bearer $api_key" \
-  -H 'Content-Type: application/json' \
-  -d '{
-    "model":"qwen3.8-flash-next",
-    "messages":[{"role":"user","content":"Use the weather tool for Bengaluru."}],
-    "tools":[{
-      "type":"function",
-      "function":{
-        "name":"get_weather",
-        "description":"Return weather for a city",
-        "parameters":{
-          "type":"object",
-          "properties":{"city":{"type":"string"}},
-          "required":["city"]
-        }
-      }
-    }],
-    "tool_choice":"auto",
-    "temperature":0,
-    "max_tokens":256
-  }' | tee /tmp/qwen38-tool.json | python3 -m json.tool
-unset api_key
-python3 - <<'PY'
-import json
-p='/tmp/qwen38-tool.json'
-d=json.load(open(p, encoding='utf-8'))
-calls=d['choices'][0]['message'].get('tool_calls') or []
-assert calls and calls[0]['function']['name']=='get_weather', d
-print('TOOL_CALL_OK')
-PY
+python3 "$HOME/ai/tools/frontier-model-probe.py" tool \
+  --profile qwen38-nvfp4 \
+  --max-tokens 512
 ```
 
-**Pass:** `TOOL_CALL_OK` prints and the city argument is Bengaluru.
+**Pass:** `TOOL_CALL_OK` prints and the saved `tool-call.json` contains `get_weather` with `city=Bengaluru`.
 
 ## Step 10 — Test vision
 
-Use a small JPEG on FirstSpark. Replace the path:
+Use the same generated known-answer PNG for every model. Do not substitute a random personal photograph; identical inputs are required for comparison.
 
 ```bash
-image_path="$HOME/test-assets/qwen-vision.jpg"
-test -f "$image_path"
-api_key="$(<"$HOME/.config/frontier/api-key")"
-image_b64="$(base64 -w0 "$image_path")"
-curl -fsS http://127.0.0.1:8100/v1/chat/completions \
-  -H "Authorization: Bearer $api_key" \
-  -H 'Content-Type: application/json' \
-  -d "{\"model\":\"qwen3.8-flash-next\",\"messages\":[{\"role\":\"user\",\"content\":[{\"type\":\"text\",\"text\":\"Describe this image precisely.\"},{\"type\":\"image_url\",\"image_url\":{\"url\":\"data:image/jpeg;base64,$image_b64\"}}]}],\"temperature\":0,\"max_tokens\":256}" \
-  | python3 -m json.tool
-unset image_b64 api_key
+python3 "$HOME/ai/tools/frontier-model-probe.py" vision \
+  --profile qwen38-nvfp4 \
+  --image "$HOME/test-assets/frontier-vision-test.png" \
+  --max-tokens 768
 ```
 
-Review the description against the image; HTTP 200 alone is not a quality pass.
+The probe verifies the fixture hash before sending it, asks for colors, shapes, counts, and total objects, and stores the complete answer in `vision.json`.
+
+**Pass:** `VISION_TEST_OK` prints. HTTP 200 alone is not a pass.
 
 ## Step 11 — Test context in a safe ladder
 
 The checked-in `bench/longctx.py` is hard-coded to port `8888` and does not send API authentication. Do not edit the pinned source in place or remove authentication merely to run it.
 
-Use this paste-ready authenticated client on **FirstSpark**. Each loop value is an approximate filler size; trust the returned `usage.prompt_tokens`, not the loop number:
+Use the persistent authenticated probe on **FirstSpark**. Each value is an approximate filler size; trust the saved `usage.prompt_tokens`, not the filler count:
 
 ```bash
-for filler_count in 30000 120000 235000; do
-  FILLER_COUNT="$filler_count" python3 - <<'PY'
-import json, os, pathlib, urllib.request
-
-count = int(os.environ["FILLER_COUNT"])
-key = pathlib.Path.home().joinpath(".config/frontier/api-key").read_text().strip()
-marker = "ORANGE-427"
-prompt = f"Remember this marker: {marker}. " + ("x " * count) + "Reply with only the marker."
-body = json.dumps({
-    "model": "qwen3.8-flash-next",
-    "messages": [{"role": "user", "content": prompt}],
-    "temperature": 0,
-    "max_tokens": 32,
-}).encode()
-req = urllib.request.Request(
-    "http://127.0.0.1:8100/v1/chat/completions",
-    data=body,
-    headers={"Authorization": f"Bearer {key}", "Content-Type": "application/json"},
-)
-with urllib.request.urlopen(req, timeout=3600) as response:
-    result = json.load(response)
-print(json.dumps({"filler_count": count, "usage": result.get("usage"), "answer": result["choices"][0]["message"]["content"]}, indent=2))
-PY
-done
+python3 "$HOME/ai/tools/frontier-model-probe.py" context \
+  --profile qwen38-nvfp4 \
+  --filler-counts 30000,120000,235000 \
+  --max-tokens 64 \
+  --timeout 3600
 ```
 
 **Pass each rung:** HTTP succeeds, the answer is `ORANGE-427`, reported prompt tokens remain below 262,144 after output allowance, both ranks remain healthy, and neither node logs an OOM/Xid/rank error. Stop immediately at the first failed rung; do not try the larger one.
+
+The 64-token cap is deliberate only here: this probe measures long-context retrieval and time to first answer, so a long generated response would add decode cost without testing context recall. Each rung is saved as `context-raw-<filler-count>.json`.
 
 For each step, record exact prompt tokens, TTFT, answer correctness, and head/worker minimum `MemAvailable`. Keep the generated response short so prompt plus output remains below 262,144.
 
@@ -404,7 +369,18 @@ In a **SecondSpark** monitoring terminal, run the same block. Do not assume Firs
 
 ## Step 12 — Test concurrency
 
-Use sparkDash's authenticated port-8100 benchmark after direct tests pass, or send the same short request concurrently from a controlled client at streams 1, 2, 4, then 8. Record:
+Run the standardized saved-output concurrency ladder first:
+
+```bash
+python3 "$HOME/ai/tools/frontier-model-probe.py" concurrency \
+  --profile qwen38-nvfp4 \
+  --levels 1,2,4,8 \
+  --max-tokens 512 \
+  --minimum-tokens 128 \
+  --timeout 1800
+```
+
+This writes every raw response plus per-request and aggregate end-to-end output rates to `concurrency.json`. You may then use sparkDash's authenticated port-8100 benchmark for TTFT, decode-only, prefill, and MTP-acceptance detail. Record:
 
 - per-stream and aggregate output tokens/second;
 - TTFT;
@@ -415,6 +391,14 @@ Use sparkDash's authenticated port-8100 benchmark after direct tests pass, or se
 The eight-sequence scheduler limit is not proof that eight full 262K prompts are operationally safe. Context length and concurrency must be tested together.
 
 **Pass each concurrency rung:** every request returns the expected answer, both ranks remain healthy, and no OOM/Xid/rank error appears. Stop at the first failed rung and do not increase streams.
+
+Refresh the cross-model Markdown table at any time:
+
+```bash
+python3 "$HOME/ai/tools/frontier-model-probe.py" compare
+```
+
+The table is written to `~/frontier-results/comparison.md`; raw evidence remains in the timestamped run directory.
 
 ## Step 13 — Stop NVFP4 and prove rollback
 
@@ -447,7 +431,31 @@ cd "$HOME/src/frontier/qwen38-dual"
 ./download.sh --fp8
 find "$HOME/.cache/huggingface/hub/models--Qwen--Qwen3.8-Flash-Next-FP8/snapshots" \
   -mindepth 1 -maxdepth 1 -type d -printf 'FP8_HEAD_SNAPSHOT=%f\n'
-./start-fp8.sh --no-download --nfs
+```
+
+Verify the one authoritative copy on FirstSpark. This reads the full checkpoint and can take a while:
+
+```bash
+python3 verify-weights.py \
+  --repo Qwen/Qwen3.8-Flash-Next-FP8 \
+  --path "$HOME/.cache/huggingface/hub/models--Qwen--Qwen3.8-Flash-Next-FP8"
+```
+
+Now prepare the NFS export and prove that the worker can see that same copy **without launching a model**:
+
+```bash
+./start-fp8.sh --no-download --no-launch --nfs
+```
+
+**Pass:** the head path is present and the worker line says it can see `hub/models--Qwen--Qwen3.8-Flash-Next-FP8` through the NFS volume. A worker-host path under `~/.cache/huggingface` is intentionally absent in this mode.
+
+> [!warning] Do not use `NFS_SHARE=true ./check-weights.sh --verify`
+> This pinned `check-weights.sh` sources `.env` after reading the process environment, and `.env` contains `NFS_SHARE=false` for the NVFP4 baseline. The file therefore overwrites the temporary prefix and incorrectly checks for a worker-local FP8 copy. Do not follow its rsync suggestion for this NFS-only lane. `--nfs` is parsed after `.env` by `start-fp8.sh` and is the authoritative worker-visibility check.
+
+After Step 13 has removed both NVFP4 ranks and both GPUs are idle, launch FP8:
+
+```bash
+./start-fp8.sh --launch --nfs
 ```
 
 In another terminal:
@@ -456,21 +464,33 @@ In another terminal:
 docker logs -f vllm-fn
 ```
 
-Verify the NFS-mode FP8 weights after the share exists:
-
-```bash
-cd "$HOME/src/frontier/qwen38-dual"
-OVERRIDE_MODEL_ID='Qwen/Qwen3.8-Flash-Next-FP8' \
-NFS_SHARE=true \
-  ./check-weights.sh --verify
-```
-
 ## Step 15 — Test official FP8
 
-Repeat Steps 6–12 with served model:
+Create a separate FP8 record so its results cannot overwrite or masquerade as NVFP4:
+
+```bash
+python3 "$HOME/ai/tools/frontier-model-probe.py" init \
+  --profile qwen38-fp8 \
+  --model qwen3.8-flash-next-fp8 \
+  --max-context 262144
+```
+
+Repeat Steps 6–12 with `--profile qwen38-fp8` and served model:
 
 ```text
 qwen3.8-flash-next-fp8
+```
+
+The reusable commands are:
+
+```bash
+python3 "$HOME/ai/tools/frontier-model-probe.py" identity --profile qwen38-fp8
+python3 "$HOME/ai/tools/frontier-model-probe.py" chat --profile qwen38-fp8 --max-tokens 1024
+python3 "$HOME/ai/tools/frontier-model-probe.py" tool --profile qwen38-fp8 --max-tokens 512
+python3 "$HOME/ai/tools/frontier-model-probe.py" vision --profile qwen38-fp8 --max-tokens 768
+python3 "$HOME/ai/tools/frontier-model-probe.py" context --profile qwen38-fp8 --filler-counts 30000,120000,235000 --max-tokens 64 --timeout 3600
+python3 "$HOME/ai/tools/frontier-model-probe.py" concurrency --profile qwen38-fp8 --levels 1,2,4 --max-tokens 512 --minimum-tokens 128 --timeout 1800
+python3 "$HOME/ai/tools/frontier-model-probe.py" compare
 ```
 
 Capture the live startup lines:
@@ -672,6 +692,7 @@ Do not start another recipe until both ranks are gone.
 - [ ] Both GPUs are idle before launch.
 - [ ] NVFP4 weights pass full verification on both nodes.
 - [ ] NVFP4 passes health, chat, tools, vision, context ladder, and concurrency.
+- [ ] Full responses and measurements exist under `~/frontier-results/qwen38-nvfp4/`, and the comparison table was regenerated.
 - [ ] Live per-node memory and KV lines are recorded.
 - [ ] Stop removes both ranks and `spark-fast` rollback passes.
 - [ ] Official FP8 passes the same gates through explicit NFS mode.
