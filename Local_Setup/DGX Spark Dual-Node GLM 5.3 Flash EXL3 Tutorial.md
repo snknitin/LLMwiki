@@ -56,7 +56,7 @@ The upstream `0.85` value is not sufficient for this pinned image at 850K on thi
 
 Repository evidence says:
 
-- 500K context needs about 10.98 GiB of KV and boots reliably at GMU 0.84;
+- 500K context needs about 10.98 GiB of KV. The repository's GMU 0.84 suggestion did **not** boot on this pair: it exposed only 10.41 GiB. The pair-specific DFlash/500K profile uses GMU 0.86, which exposed 12.69 GiB at the same startup gate;
 - the corrected 850K profile still has little KV margin;
 - E3 adds about 560 MiB of fat-row scratch;
 - prompts around or above 100K are where host-memory pressure becomes important;
@@ -541,11 +541,11 @@ curl -fsS http://127.0.0.1:8000/v1/models | python3 -m json.tool
 
 The validated DFlash/850K baseline does **not** have to be replaced. These adaptations answer two different questions and are not both speed upgrades. The MTP profile retains the same 850K/0.87 serving geometry but needs its own InstantTensor *loader-budget* setting; that is a startup accommodation, not a performance tuning claim:
 
-| Result profile | Speculation | Context / GMU | What it tests |
-|---|---|---|---|
-| `glm53-flash` | DFlash2 k=7 | 850K / 0.87 | Existing validated baseline |
-| `glm53-flash-mtp-850k` | Built-in MTP k=2 | 850K / 0.87 | DFlash-independent control, license boundary, and failure isolation |
-| `glm53-flash-dflash-500k` | DFlash2 k=7 | 500K / 0.84 | Safer memory/context geometry while holding speculation constant |
+| Result profile | Speculation | Context / GMU | InstantTensor loader settings | What it tests |
+|---|---|---|---|---|
+| `glm53-flash` | DFlash2 k=7 | 850K / 0.87 | 512 MiB buffer | Existing validated baseline |
+| `glm53-flash-mtp-850k` | Built-in MTP k=2 | 850K / 0.87 | 512 MiB buffer + free-memory fraction 0.75 | DFlash-independent control, license boundary, and failure isolation |
+| `glm53-flash-dflash-500k` | DFlash2 k=7 | 500K / 0.86 | 512 MiB buffer | Reduced context with a measured 500K KV margin; holds speculation constant |
 
 Do not combine MTP and 500K in either first adaptation. Change one dimension at a time so the comparison remains attributable.
 
@@ -607,7 +607,7 @@ fi
 sed -i \
   -e 's/^SPEC_METHOD=.*/SPEC_METHOD=dflash/' \
   -e 's/^MAX_MODEL_LEN=.*/MAX_MODEL_LEN=500000/' \
-  -e 's/^GPU_MEM_UTIL=.*/GPU_MEM_UTIL=0.84/' \
+  -e 's/^GPU_MEM_UTIL=.*/GPU_MEM_UTIL=0.86/' \
   "$PROFILE_DIR/dflash-500k.env"
 
 chmod 600 "$PROFILE_DIR"/*.env
@@ -619,7 +619,7 @@ for file in "$PROFILE_DIR"/*.env; do
 done
 ```
 
-**Pass:** all three files report mode `600`; the baseline and MTP profiles show 850K/0.87, and the safer DFlash profile shows 500K/0.84. The MTP profile alone includes both InstantTensor variables. If you resume from a failed MTP attempt, the existing `dflash-850k.env` is preserved rather than replaced by the current `.env`.
+**Pass:** all three files report mode `600`; the baseline and MTP profiles show 850K/0.87, and the DFlash adaptation shows 500K/0.86. The MTP profile alone includes both InstantTensor variables. These values are profile-specific: do not copy MTP's loader-budget override to DFlash or DFlash/500K's GMU to an 850K profile. If you resume from a failed MTP attempt, the existing `dflash-850k.env` is preserved rather than replaced by the current `.env`.
 
 ### Step 16b — Drain `spark-fast` once before either adaptation
 
@@ -668,15 +668,7 @@ SKIP_BUILD=1 ./start.sh
 
 **Pass:** the profile prints `GLM53_EXTRA_ENV=INSTANTTENSOR_BUFFER_SIZE=536870912 INSTANTTENSOR_MAX_FREE_MEM_USAGE=0.75`; the launcher reports `spec=mtp`, `max-len=850000`, `gpu-util=0.87`, then `health check passed`. MTP is the checkpoint's built-in k=2 multi-token predictor. It avoids the separate DFlash2 drafter and its CC BY-NC-ND license, but it is a control/fallback—not a promised speed increase. If startup fails, use the exact traceback procedure under Troubleshooting before changing another knob.
 
-In the same FirstSpark terminal, select the unique result identity:
-
-```bash
-PROFILE=glm53-flash-mtp-850k
-MAX_CONTEXT=850000
-FILLERS=30000,100000,250000,490000,790000
-```
-
-Then run the shared evidence suite in **Step 16e**.
+Then run the self-contained evidence suite in **Step 16e** from any FirstSpark terminal. It reads the **running container's** MTP/850K identity and sets the unique result profile itself; no shell variables need to survive the launch command.
 
 After the suite passes, stop MTP and prove both nodes are idle before changing profiles:
 
@@ -696,29 +688,78 @@ If both adaptations are being run in one maintenance window, keep `spark-fast` s
 cd "$HOME/src/frontier/glm53-dual"
 PROFILE_DIR="$HOME/.config/frontier/glm53-profiles"
 
+test -f "$PROFILE_DIR/dflash-500k.env" || {
+  echo 'DFlash/500K profile missing; create it in Step 16a first' >&2
+  exit 1
+}
+grep -q '^SPEC_METHOD=dflash$' "$PROFILE_DIR/dflash-500k.env" &&
+grep -q '^MAX_MODEL_LEN=500000$' "$PROFILE_DIR/dflash-500k.env" || {
+  echo 'Selected profile is not DFlash/500K; stop and inspect it' >&2
+  exit 1
+}
+if grep -q '^GPU_MEM_UTIL=0.84$' "$PROFILE_DIR/dflash-500k.env"; then
+  BACKUP_DIR="$PROFILE_DIR/backups"
+  install -d -m 700 "$BACKUP_DIR"
+  install -m 600 "$PROFILE_DIR/dflash-500k.env" \
+    "$BACKUP_DIR/dflash-500k.env.bak-$(date -u +%Y%m%dT%H%M%SZ)-pre-kv-fix"
+  sed -i 's/^GPU_MEM_UTIL=0.84$/GPU_MEM_UTIL=0.86/' \
+    "$PROFILE_DIR/dflash-500k.env"
+fi
+grep -q '^GPU_MEM_UTIL=0.86$' "$PROFILE_DIR/dflash-500k.env" || {
+  echo 'DFlash/500K needs the qualified GMU 0.86; stop before launch' >&2
+  exit 1
+}
+chmod 600 "$PROFILE_DIR/dflash-500k.env"
 install -m 600 "$PROFILE_DIR/dflash-500k.env" .env
 grep -E '^(SPEC_METHOD|MAX_MODEL_LEN|GPU_MEM_UTIL|GLM53_EXTRA_ENV)=' .env
 
 SKIP_BUILD=1 ./start.sh
 ```
 
-**Pass:** the launcher reports `spec=dflash`, `max-len=500000`, `gpu-util=0.84`, then `health check passed`. The repository reports about 10.98 GiB KV demand and reliable 1.2× capacity at this geometry. This profile is for headroom and stability; reducing context is not expected to materially increase short-request decode throughput.
+**Pass:** the launcher reports `spec=dflash`, `max-len=500000`, `gpu-util=0.86`, at least 10.98 GiB `Available KV cache memory`, then `health check passed`. At the corrected startup gate this pair exposed 12.69 GiB of KV and 1.15× maximum concurrency for 500K. Reducing context is not expected to materially increase short-request decode throughput. The saved private `dflash-500k.env`, not an ad-hoc shell override, carries the correction into later launches.
 
-In the same FirstSpark terminal, select the unique result identity:
-
-```bash
-PROFILE=glm53-flash-dflash-500k
-MAX_CONTEXT=500000
-FILLERS=30000,100000,250000,490000
-```
-
-Then run the shared evidence suite below. Do not include the 790K rung in a 500K profile.
+Then run the self-contained evidence suite below from any FirstSpark terminal. It reads the running DFlash/500K identity, selects a separate result profile, and omits the 790K rung automatically.
 
 ### Step 16e — Shared evidence suite for each adaptation
 
-Run this block immediately after the profile-selection block in Step 16c or 16d, in the same **FirstSpark** terminal. A unique `PROFILE` value is mandatory: reusing `glm53-flash` would leave timestamped history on disk but move that profile's `latest` link and make the comparison table show only the newest variant.
+Run this entire block on **FirstSpark** after Step 16c or 16d reports healthy. It is safe to paste into a **new terminal**: it derives `PROFILE`, `MAX_CONTEXT`, and `FILLERS` from the running head container, checks that `.env` still matches, and stops before `init` if the runtime is absent or not one of these two adaptations. The subshell also stops the suite on the first failed command without closing your interactive terminal. A unique profile keeps the baseline `glm53-flash/latest` untouched.
 
 ```bash
+(
+set -euo pipefail
+cd "$HOME/src/frontier/glm53-dual"
+
+runtime_env="$(docker inspect -f '{{range .Config.Env}}{{println .}}{{end}}' glm53-exl3-head)"
+runtime_spec="$(printf '%s\n' "$runtime_env" | sed -n 's/^SPEC_METHOD=//p')"
+runtime_len="$(printf '%s\n' "$runtime_env" | sed -n 's/^MAX_MODEL_LEN=//p')"
+runtime_gmu="$(printf '%s\n' "$runtime_env" | sed -n 's/^GPU_MEM_UTIL=//p')"
+case "$runtime_spec:$runtime_len:$runtime_gmu" in
+  mtp:850000:0.87)
+    PROFILE=glm53-flash-mtp-850k
+    MAX_CONTEXT=850000
+    FILLERS=30000,100000,250000,490000,790000
+    ;;
+  dflash:500000:0.86)
+    PROFILE=glm53-flash-dflash-500k
+    MAX_CONTEXT=500000
+    FILLERS=30000,100000,250000,490000
+    ;;
+  *)
+    echo "Unexpected running GLM profile: $runtime_spec/$runtime_len/$runtime_gmu; no result run created" >&2
+    exit 1
+    ;;
+esac
+
+file_spec="$(sed -n 's/^SPEC_METHOD=//p' .env)"
+file_len="$(sed -n 's/^MAX_MODEL_LEN=//p' .env)"
+file_gmu="$(sed -n 's/^GPU_MEM_UTIL=//p' .env)"
+if [ "$file_spec:$file_len:$file_gmu" != "$runtime_spec:$runtime_len:$runtime_gmu" ]; then
+  echo 'Current .env differs from the running GLM container; no result run created' >&2
+  exit 1
+fi
+curl -fsS --max-time 10 http://127.0.0.1:8100/health >/dev/null
+printf 'RESULT_PROFILE=%s MAX_CONTEXT=%s FILLERS=%s\n' "$PROFILE" "$MAX_CONTEXT" "$FILLERS"
+
 python3 "$HOME/ai/tools/frontier-model-probe.py" init \
   --profile "$PROFILE" \
   --model GLM-5.3-Flash-EXL3 \
@@ -736,12 +777,14 @@ RESULTS_DIR="$(readlink -f "$HOME/frontier-results/$PROFILE/latest")"
   docker inspect -f '{{range .Config.Env}}{{println .}}{{end}}' glm53-exl3-head \
     | grep -E '^(SPEC_METHOD|DFLASH_TOKENS|DFLASH_DRAFT_TP|MTP_TOKENS|GPU_MEM_UTIL|INSTANTTENSOR_BUFFER_SIZE|INSTANTTENSOR_MAX_FREE_MEM_USAGE)='
   docker logs glm53-exl3-head 2>&1 \
-    | grep -E 'launching:|spec=|DFlash2|MTP|GPU KV cache size|Maximum concurrency|Available KV cache' \
+    | grep -E 'launching:|spec=|DFlash2|MTP|GPU KV cache size|Maximum concurrency|Available KV cache|JIT compilation during inference' \
     | tail -n 200
   free -h
   nvidia-smi --query-compute-apps=pid,process_name,used_memory --format=csv
   ssh snknitin@192.168.100.11 \
     'free -h; nvidia-smi --query-compute-apps=pid,process_name,used_memory --format=csv; docker logs glm53-exl3-worker 2>&1 | tail -n 120'
+  ssh snknitin@192.168.0.100 \
+    'docker logs glm53-exl3-worker 2>&1 | grep -F "JIT compilation during inference" | tail -n 30 || true'
 } | tee "$RESULTS_DIR/startup-memory.txt"
 
 python3 "$HOME/ai/tools/frontier-model-probe.py" chat \
@@ -767,9 +810,12 @@ python3 "$HOME/ai/tools/frontier-model-probe.py" concurrency \
   --max-tokens 512 \
   --minimum-tokens 128 \
   --timeout 1800
+)
 ```
 
 **Pass:** identity, quality, tool, vision, context, and concurrency commands all print their `_OK` marker. The result directory contains `metadata.json`, `identity.json`, `startup-memory.txt`, `chat-quality.json`, `tool-call.json`, `vision.json`, the context rung files, and `concurrency.json`.
+
+`TileLang JIT compilation during inference` and `Triton kernel JIT compilation during inference` are **latency warnings**, not test failures or a reason to restart GLM. They mean an un-warmed shape compiled on its first use; the affected request's elapsed time/TTFT may be a cold-start outlier. Keep the warning in `startup-memory.txt` and warm/repeat an apples-to-apples speed measurement if it affects a comparison. The actual failure is a nonzero probe exit or missing `_OK` marker. `No active result run for .` specifically means an **empty profile name**, not a JIT problem; this revised block never depends on a previously set `$PROFILE`.
 
 You do **not** need to repeat the clone, weight download, checksum verification, Docker image installation, NCCL test, or recipe doctor for each adaptation. Repeat the standardized functional/performance suite because speculation and memory geometry can change correctness, capacity, and speed. Run the 24/48-hour soak only for a profile that may be promoted; retain the DFlash-specific 25K-output test for any DFlash profile under consideration.
 
@@ -815,6 +861,36 @@ api_base: http://192.168.0.101:8100/v1
 Keep `spark-fast` unchanged.
 
 ## Troubleshooting
+
+### `No active result run for .` after Step 16e
+
+The dot is where the profile name should appear. An empty `$PROFILE` was passed to the probe—typically because the old Step 16c/16d assignments were run in another terminal or were never pasted. An empty `$MAX_CONTEXT` also makes `init` reject its integer argument, so no `latest` run is created; subsequent tests repeat `No active result run for .`. This is **not** the GLM engine or JIT failing. Check `curl -fsS http://127.0.0.1:8100/health`, then paste the **entire revised Step 16e block**. It selects the result identity from the live container and stops before writing if the profile does not match. Do not repeat the model launch or download. If the message names a nonempty profile instead, check that profile's `init` output and `~/frontier-results/<profile>/latest` rather than changing loader settings.
+
+### DFlash/500K: `Engine core initialization failed` after the buffer warning
+
+Read the first **fatal** exception, not just the worker's `Enlarge buffer size ... to 1268776960` warning. On 2026-09-22 the DFlash/500K head actually reported:
+
+```text
+ValueError: To serve at least one request with the model's max seq len (500000),
+10.98 GiB KV cache is needed, which is larger than the available KV cache memory (10.41 GiB).
+```
+
+The rank loaded its weights and got past InstantTensor; this is a **KV allocation shortfall at GMU 0.84**, not MTP's staging-buffer failure. Adding `INSTANTTENSOR_MAX_FREE_MEM_USAGE=0.75` to DFlash would address the wrong budget. The failed head can leave the worker rank holding GPU memory, so run on **FirstSpark**:
+
+```bash
+cd "$HOME/src/frontier/glm53-dual"
+docker logs glm53-exl3-head 2>&1 \
+  | grep -E 'Enlarge buffer size|Available KV cache memory|To serve at least one request|Engine core initialization failed' \
+  | tail -n 25
+./start.sh stop
+nvidia-smi --query-compute-apps=pid,process_name,used_gpu_memory --format=csv,noheader
+ssh snknitin@192.168.0.100 \
+  'nvidia-smi --query-compute-apps=pid,process_name,used_gpu_memory --format=csv,noheader'
+```
+
+**Pass before retry:** both GPU commands list no process. Then rerun **Step 16d from its first line**: it backs up any old 0.84 private profile, persists `GPU_MEM_UTIL=0.86`, copies that corrected profile to `.env`, and launches once. At 0.86 this pair measured 12.69 GiB available KV versus 10.98 GiB required; do not lower the 500K context or repeat downloads for this signature. If the retry has a different first fatal exception, stop and diagnose that separately rather than raising GMU again. A healthy boot still requires Step 16e's full functional, context, and throughput qualification before this profile can be accepted for hot swapping.
+
+**Verified on this pair, 2026-09-22:** the corrected DFlash/500K launch returned `/health` HTTP 200, completed post-ready warm-up with 24/24 requests in 71 seconds, and advertised `GLM-5.3-Flash-EXL3` with `spec=DFlash2 k=7`. The private `dflash-500k.env` matched the launched `.env` byte-for-byte. No Step 16e result was created by this startup repair; run that suite before treating the profile as accepted.
 
 ### `WorkerProc initialization failed` / `server did not become healthy`
 
@@ -903,7 +979,7 @@ Save both rank logs, stop, restore `spark-fast`, then test the documented `SPEC_
 
 ### Head is near zero `MemAvailable`
 
-Stop the run. Do not add swap or raise GMU above the validated `0.87`. First repeat without sparkDash and all nonessential jobs. If the validated profile still fails, use the separately named 500K/0.84 adaptation.
+Stop the run. Do not add swap or raise GMU above the validated `0.87`. First repeat without sparkDash and all nonessential jobs. If the validated profile still fails, use the separately named 500K/0.86 adaptation only after its own Step 16 evidence passes.
 
 ### Host stops responding
 

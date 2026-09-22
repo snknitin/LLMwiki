@@ -52,7 +52,7 @@ LiteLLM does not start a 125–400 GiB model in response to an API request. Alwa
 Do not rename `spark-fast`. Do not use one mutable `spark-frontier` alias as the only client identity; distinct aliases preserve session intent and make errors diagnosable.
 
 > [!important] GLM operating profile is a deployment decision
-> `glm53-flash`, `glm53-flash-mtp-850k`, and `glm53-flash-dflash-500k` are **qualification result profiles**, not automatically three LiteLLM aliases. Complete Step 16 of [[DGX Spark Dual-Node GLM 5.3 Flash EXL3 Tutorial]], choose one accepted operating profile, install that profile as `~/src/frontier/glm53-dual/.env`, and make the hot-swap manager's `GLM53_ACCEPTED_CONTEXT` match it. Keep the named profile files under `~/.config/frontier/glm53-profiles/`; do not leave API-key-bearing `.env.*` copies unignored inside the Git checkout. Register extra public aliases only if you intentionally want multiple GLM operating contracts and the switch manager can select their corresponding configuration files deterministically.
+> `glm53-flash`, `glm53-flash-mtp-850k`, and `glm53-flash-dflash-500k` are **qualification result profiles**, not automatically three LiteLLM aliases. Complete Step 16 of [[DGX Spark Dual-Node GLM 5.3 Flash EXL3 Tutorial]] and choose **one fully accepted** operating profile. Keep the three named, API-key-bearing configurations under `~/.config/frontier/glm53-profiles/`: DFlash/850K uses GMU `0.87` and the 512 MiB InstantTensor buffer; MTP/850K uses GMU `0.87`, that buffer, and `INSTANTTENSOR_MAX_FREE_MEM_USAGE=0.75`; DFlash/500K uses GMU `0.86` and the buffer. The old DFlash/500K `0.84` setting failed this pair's KV-cache startup gate. After qualification, freeze the chosen profile as private `accepted.env` in Step 5. The switch manager reinstalls that file before **every** GLM hot-swap and derives Hermes context from its `MAX_MODEL_LEN`; it never trusts a leftover recipe `.env` or defaults to 500K. Do not leave API-key-bearing `.env.*` copies unignored in the Git checkout. Register extra public aliases only if the switch manager can select and validate their corresponding configurations deterministically.
 
 ## Resource policy for normal hot-swaps
 
@@ -305,6 +305,27 @@ It is normal for the aliases to be listed while cold. Do not send chat to a cold
 
 The existing `spark-model` manager supports single-node Compose and LM Studio. Preserve it. Add a separate `spark-frontier` command that calls the repositories' own two-node lifecycle scripts and uses `spark-model` for the known-good single-node rollback.
 
+**After** one GLM profile has passed Step 16e and the release gates, freeze exactly that profile for hot swaps. Run on **FirstSpark**; do not run this while merely testing the three candidates:
+
+```bash
+PROFILE_DIR="$HOME/.config/frontier/glm53-profiles"
+read -r -p 'Accepted GLM profile (dflash-850k.env, mtp-850k.env, or dflash-500k.env): ' PROFILE_NAME
+case "$PROFILE_NAME" in
+  dflash-850k.env|mtp-850k.env|dflash-500k.env) ;;
+  *) echo 'No accepted GLM profile selected; stop' >&2; exit 1 ;;
+esac
+test -f "$PROFILE_DIR/$PROFILE_NAME" || {
+  echo 'Selected private profile is missing; stop' >&2
+  exit 1
+}
+install -m 600 "$PROFILE_DIR/$PROFILE_NAME" "$PROFILE_DIR/accepted.env"
+cmp -s "$PROFILE_DIR/$PROFILE_NAME" "$PROFILE_DIR/accepted.env" || exit 1
+grep -E '^(SPEC_METHOD|MAX_MODEL_LEN|GPU_MEM_UTIL|GLM53_EXTRA_ENV)=' \
+  "$PROFILE_DIR/accepted.env"
+```
+
+**Pass:** the printed profile signature matches the candidate that actually passed qualification. `accepted.env` is a frozen copy: changing a test profile later does not silently change the deployed hot-swap contract. Requalify and deliberately replace `accepted.env` before changing that contract.
+
 Create the file:
 
 ```bash
@@ -322,6 +343,7 @@ STATE_DIR="${XDG_STATE_HOME:-$HOME/.local/state}/spark-frontier"
 LOCK_FILE="$STATE_DIR/manager.lock"
 ACTIVE_FILE="$STATE_DIR/active-lane"
 KEY_FILE="$HOME/.config/frontier/api-key"
+GLM53_PROFILE_FILE="$HOME/.config/frontier/glm53-profiles/accepted.env"
 WORKER_MGMT="snknitin@192.168.0.100"
 API_BASE="http://127.0.0.1:8100"
 HERMES="$HOME/.local/bin/hermes"
@@ -349,7 +371,7 @@ lane_values() {
       START='SKIP_BUILD=1 ./start.sh'
       API_MODEL='GLM-5.3-Flash-EXL3'
       HERMES_ALIAS='glm53-flash'
-      CONTEXT="${GLM53_ACCEPTED_CONTEXT:-500000}"
+      CONTEXT=''
       ;;
     deepseek41-flash)
       DIR="$ROOT/deepseek41-dual"
@@ -363,6 +385,35 @@ lane_values() {
       return 2
       ;;
   esac
+}
+
+validate_glm_accepted_profile() {
+  local spec len gmu loader
+  [[ -f "$GLM53_PROFILE_FILE" ]] || {
+    echo 'No accepted GLM profile; finish tutorial Step 16 first.' >&2
+    return 1
+  }
+  [[ "$(stat -c %a "$GLM53_PROFILE_FILE")" == 600 ]] || {
+    echo 'Accepted GLM profile must have mode 600.' >&2
+    return 1
+  }
+  grep -q '^VLLM_API_KEY=' "$GLM53_PROFILE_FILE" || {
+    echo 'Accepted GLM profile is missing its API key.' >&2
+    return 1
+  }
+  spec="$(sed -n 's/^SPEC_METHOD=//p' "$GLM53_PROFILE_FILE")"
+  len="$(sed -n 's/^MAX_MODEL_LEN=//p' "$GLM53_PROFILE_FILE")"
+  gmu="$(sed -n 's/^GPU_MEM_UTIL=//p' "$GLM53_PROFILE_FILE")"
+  loader="$(sed -n 's/^GLM53_EXTRA_ENV=//p' "$GLM53_PROFILE_FILE")"
+  case "$spec|$len|$gmu|$loader" in
+    'dflash|850000|0.87|INSTANTTENSOR_BUFFER_SIZE=536870912') ;;
+    'mtp|850000|0.87|INSTANTTENSOR_BUFFER_SIZE=536870912 INSTANTTENSOR_MAX_FREE_MEM_USAGE=0.75')
+      [[ "$(sed -n 's/^MTP_TOKENS=//p' "$GLM53_PROFILE_FILE")" == 2 ]] || return 1
+      ;;
+    'dflash|500000|0.86|INSTANTTENSOR_BUFFER_SIZE=536870912') ;;
+    *) echo 'Accepted GLM profile does not match a qualified configuration; refusing switch.' >&2; return 1 ;;
+  esac
+  CONTEXT="$len"
 }
 
 stop_all_frontier() {
@@ -545,6 +596,9 @@ use_lane() {
   lane_values "$requested"
   [[ -s "$KEY_FILE" ]] || { echo "Missing $KEY_FILE" >&2; return 1; }
   [[ -d "$DIR" ]] || { echo "Missing recipe directory: $DIR" >&2; return 1; }
+  if [[ "$requested" == 'glm53-flash' ]]; then
+    validate_glm_accepted_profile || return 1
+  fi
 
   exec 9>"$LOCK_FILE"
   flock -n 9 || { echo 'Another spark-frontier operation is running.' >&2; return 1; }
@@ -563,6 +617,10 @@ use_lane() {
   assert_frontier_stopped
   show_gpu_holders
 
+  if [[ "$requested" == 'glm53-flash' ]]; then
+    install -m 600 "$GLM53_PROFILE_FILE" "$DIR/.env"
+    cmp -s "$GLM53_PROFILE_FILE" "$DIR/.env" || return 1
+  fi
   write_state "starting:$requested"
   printf 'Starting frontier lane %s...\n' "$requested"
   (cd "$DIR" && bash -lc "$START")
@@ -662,10 +720,9 @@ Important boundaries:
 - The command assumes every selected lane has already completed its download/sync/NFS setup.
 - It does not auto-start sparkDash; start it only for lanes whose dashboard-on A/B passed.
 - `spark-frontier` and the existing `spark-model` have different lock files. Never invoke them concurrently; `spark-frontier` is the lifecycle owner from the beginning of a frontier switch until it reports completion.
-- GLM and DeepSeek accepted contexts default conservatively in the command. The variables below change **Hermes metadata only**; they do not change the serving profile. Each value must be a positive integer no larger than the `MAX_MODEL_LEN` already qualified in that repository's `.env`:
+- GLM has **no context default or caller override**: the manager checks the frozen `accepted.env`, installs it before every switch, and sets Hermes context from its `MAX_MODEL_LEN`. A missing or old `0.84` DFlash/500K profile is rejected **before draining the active lane**. DeepSeek's context override below changes Hermes metadata only and does not change its serving profile; it must be no larger than the qualified `MAX_MODEL_LEN` in DeepSeek's `.env`:
 
 ```bash
-GLM53_ACCEPTED_CONTEXT=850000 spark-frontier use glm53-flash
 DEEPSEEK41_ACCEPTED_CONTEXT=600000 spark-frontier use deepseek41-flash
 ```
 
