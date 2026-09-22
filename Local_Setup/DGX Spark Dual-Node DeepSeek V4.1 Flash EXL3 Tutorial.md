@@ -368,20 +368,54 @@ unset api_key
 
 **Pass:** `DeepSeek-v4.1-Flash-EXL3` is served.
 
+### Step 10a — Start a persistent qualification record
+
+Run on **FirstSpark**. This detects whether the active `.env` is the 131K bring-up or the required 600K baseline and keeps their evidence separate.
+
+```bash
+cd "$HOME/src/frontier/deepseek41-dual"
+test -x "$HOME/ai/tools/frontier-model-probe.py"
+test -f "$HOME/test-assets/frontier-vision-test.png"
+echo '0c0b5e38998befd2f98802175ace84ca1a879c2e5835ea0f28dc56b555a9c297  /home/snknitin/test-assets/frontier-vision-test.png' | sha256sum -c -
+
+MAX_CONTEXT="$(sed -n 's/^MAX_MODEL_LEN=//p' .env | tail -n 1)"
+case "$MAX_CONTEXT" in
+  131072) PROFILE=deepseek41-bringup-131k ;;
+  600000) PROFILE=deepseek41-flash ;;
+  *) echo "STOP: unexpected MAX_MODEL_LEN=$MAX_CONTEXT" >&2; exit 1 ;;
+esac
+mkdir -p "$HOME/.config/frontier"
+printf '%s\n' "$PROFILE" > "$HOME/.config/frontier/deepseek-active-results-profile"
+
+python3 "$HOME/ai/tools/frontier-model-probe.py" init \
+  --profile "$PROFILE" \
+  --model DeepSeek-v4.1-Flash-EXL3 \
+  --max-context "$MAX_CONTEXT"
+printf 'ACTIVE_RESULTS_PROFILE=%s\n' "$PROFILE"
+```
+
+The generated fixture is also embedded here for visual inspection: [[Frontier Model Vision Test.png]]. Results go under `~/frontier-results/<profile>/<UTC timestamp>/`; the profile's `latest` link always points to the current run. Only `deepseek41-flash` appears in the final cross-model table because the 131K run is a safety bring-up, not the recipe-faithful baseline.
+
 ## Step 11 — Capture the memory baseline
 
 Run on **FirstSpark**:
 
 ```bash
-docker logs dsv41-exl3-head 2>&1 | \
-  grep -E 'dsv41-mem|Available KV|GPU KV cache size|Maximum concurrency|DSpark|Engram|error|warning' \
-  | tail -n 250
-docker image inspect ghcr.io/miaai-lab/deepseek-v4.1-flash-exl3-2x-dgx-sparks:2.9bpw \
-  --format 'HEAD_IMAGE_ID={{.Id}} DIGESTS={{json .RepoDigests}}'
-ssh snknitin@192.168.0.100 \
-  "docker image inspect ghcr.io/miaai-lab/deepseek-v4.1-flash-exl3-2x-dgx-sparks:2.9bpw --format 'WORKER_IMAGE_ID={{.Id}} DIGESTS={{json .RepoDigests}}'"
-free -h
-nvidia-smi --query-compute-apps=pid,process_name,used_memory --format=csv
+PROFILE="$(<"$HOME/.config/frontier/deepseek-active-results-profile")"
+RESULTS_DIR="$(readlink -f "$HOME/frontier-results/$PROFILE/latest")"
+{
+  docker logs dsv41-exl3-head 2>&1 | \
+    grep -E 'dsv41-mem|Available KV|GPU KV cache size|Maximum concurrency|DSpark|Engram|error|warning' \
+    | tail -n 250
+  docker image inspect ghcr.io/miaai-lab/deepseek-v4.1-flash-exl3-2x-dgx-sparks:2.9bpw \
+    --format 'HEAD_IMAGE_ID={{.Id}} DIGESTS={{json .RepoDigests}}'
+  ssh snknitin@192.168.0.100 \
+    "docker image inspect ghcr.io/miaai-lab/deepseek-v4.1-flash-exl3-2x-dgx-sparks:2.9bpw --format 'WORKER_IMAGE_ID={{.Id}} DIGESTS={{json .RepoDigests}}'"
+  free -h
+  nvidia-smi --query-compute-apps=pid,process_name,used_memory --format=csv
+  ssh snknitin@192.168.0.100 \
+    "docker logs dsv41-exl3-worker 2>&1 | tail -n 160; free -h; nvidia-smi --query-compute-apps=pid,process_name,used_memory --format=csv"
+} | tee "$RESULTS_DIR/startup-memory.txt"
 ```
 
 Run on **SecondSpark**:
@@ -400,66 +434,50 @@ Run on **FirstSpark**:
 
 ```bash
 cd "$HOME/src/frontier/deepseek41-dual"
+PROFILE="$(<"$HOME/.config/frontier/deepseek-active-results-profile")"
+RESULTS_DIR="$(readlink -f "$HOME/frontier-results/$PROFILE/latest")"
 export VLLM_API_KEY="$(<"$HOME/.config/frontier/api-key")"
-tests/test_smoke.sh http://127.0.0.1:8100 DeepSeek-v4.1-Flash-EXL3
+tests/test_smoke.sh http://127.0.0.1:8100 DeepSeek-v4.1-Flash-EXL3 \
+  | tee "$RESULTS_DIR/repository-smoke.txt"
 unset VLLM_API_KEY
+
+python3 "$HOME/ai/tools/frontier-model-probe.py" chat \
+  --profile "$PROFILE" \
+  --max-tokens 1024
 ```
 
-**Pass:** the script reports `smoke OK: 17*19 -> 323`.
+The repository's arithmetic test remains a useful transport smoke check. The second command is the actual response-quality test: it requires a structured answer of at least 120 words and stores the complete response, usage, elapsed time, and end-to-end output rate in `chat-quality.json`.
+
+**Pass:** the script reports `smoke OK: 17*19 -> 323`, then the probe prints `QUALITY_TEST_OK`.
 
 ## Step 13 — Test structured tools
 
 Run on **FirstSpark**:
 
 ```bash
-api_key="$(<"$HOME/.config/frontier/api-key")"
-curl -fsS http://127.0.0.1:8100/v1/chat/completions \
-  -H "Authorization: Bearer $api_key" \
-  -H 'Content-Type: application/json' \
-  -d '{
-    "model":"DeepSeek-v4.1-Flash-EXL3",
-    "messages":[{"role":"user","content":"Use the weather tool for Bengaluru."}],
-    "tools":[{
-      "type":"function",
-      "function":{
-        "name":"get_weather",
-        "description":"Return weather for a city",
-        "parameters":{"type":"object","properties":{"city":{"type":"string"}},"required":["city"]}
-      }
-    }],
-    "tool_choice":"auto",
-    "temperature":0,
-    "max_tokens":256,
-    "chat_template_kwargs":{"enable_thinking":false}
-  }' | tee /tmp/deepseek41-tool.json | python3 -m json.tool
-unset api_key
-python3 - <<'PY'
-import json
-d=json.load(open('/tmp/deepseek41-tool.json', encoding='utf-8'))
-calls=d['choices'][0]['message'].get('tool_calls') or []
-assert calls and calls[0]['function']['name']=='get_weather', d
-print('TOOL_CALL_OK')
-PY
+PROFILE="$(<"$HOME/.config/frontier/deepseek-active-results-profile")"
+python3 "$HOME/ai/tools/frontier-model-probe.py" tool \
+  --profile "$PROFILE" \
+  --max-tokens 512
 ```
+
+**Pass:** `TOOL_CALL_OK` prints and the saved `tool-call.json` contains `get_weather` with `city=Bengaluru`.
 
 ## Step 14 — Test one image
 
 Vision is enabled in the baseline, but the recipe documents a GB10-specific sparse-window compromise. Treat this as a capability test, not proof of parity with the native checkpoint.
 
 ```bash
-image_path="$HOME/test-assets/deepseek-vision.jpg"
-test -f "$image_path"
-api_key="$(<"$HOME/.config/frontier/api-key")"
-image_b64="$(base64 -w0 "$image_path")"
-curl -fsS http://127.0.0.1:8100/v1/chat/completions \
-  -H "Authorization: Bearer $api_key" \
-  -H 'Content-Type: application/json' \
-  -d "{\"model\":\"DeepSeek-v4.1-Flash-EXL3\",\"messages\":[{\"role\":\"user\",\"content\":[{\"type\":\"text\",\"text\":\"Describe this image precisely.\"},{\"type\":\"image_url\",\"image_url\":{\"url\":\"data:image/jpeg;base64,$image_b64\"}}]}],\"temperature\":0,\"max_tokens\":256,\"chat_template_kwargs\":{\"enable_thinking\":false}}" \
-  | python3 -m json.tool
-unset image_b64 api_key
+PROFILE="$(<"$HOME/.config/frontier/deepseek-active-results-profile")"
+python3 "$HOME/ai/tools/frontier-model-probe.py" vision \
+  --profile "$PROFILE" \
+  --image "$HOME/test-assets/frontier-vision-test.png" \
+  --max-tokens 768
 ```
 
-Review answer accuracy. Do not send a large image batch or video during baseline qualification.
+The probe verifies the fixture hash, asks for colors, shapes, counts, and total objects, and stores the full answer in `vision.json`.
+
+**Pass:** `VISION_TEST_OK` prints and the answer includes the exact expected count marker. Do not send a large image batch or video during baseline qualification.
 
 ## Step 15 — Run the long-context ladder
 
@@ -469,13 +487,23 @@ Open an observation terminal on **each** Spark:
 watch -n 1 'free -h; echo; nvidia-smi --query-compute-apps=pid,process_name,used_memory --format=csv; echo; journalctl -k -n 30 --no-pager | grep -E "NV_ERR|NVRM|Xid|oom" || true'
 ```
 
-Then send authenticated needle-retrieval prompts at:
+Then run the ladder from **FirstSpark**. It automatically limits the 131K bring-up to its safe rungs; the 600K baseline runs the complete sequence.
 
-1. 32K tokens;
-2. 128K tokens;
-3. 256K tokens;
-4. 450K tokens;
-5. approximately 600K only after every lower step passes.
+```bash
+PROFILE="$(<"$HOME/.config/frontier/deepseek-active-results-profile")"
+case "$PROFILE" in
+  deepseek41-bringup-131k) FILLER_COUNTS=30000,120000 ;;
+  deepseek41-flash) FILLER_COUNTS=30000,120000,250000,440000,580000 ;;
+  *) echo "STOP: unknown results profile $PROFILE" >&2; exit 1 ;;
+esac
+python3 "$HOME/ai/tools/frontier-model-probe.py" context \
+  --profile "$PROFILE" \
+  --filler-counts "$FILLER_COUNTS" \
+  --max-tokens 64 \
+  --timeout 7200
+```
+
+The 64-token cap is deliberate only here: this is a long-context retrieval and TTFT test, not a response-quality test. Each rung is saved as `context-raw-<filler-count>.json`; the API's reported prompt-token count is authoritative.
 
 Record exact prompt tokens, TTFT, retrieval correctness, response tokens, head/worker low-water `MemAvailable`, and kernel errors.
 
@@ -494,6 +522,17 @@ docker stats --no-stream ods-litellm
 
 Repeat the same context/load test and record the new low-water.
 
+```bash
+PROFILE="$(<"$HOME/.config/frontier/deepseek-active-results-profile")"
+case "$PROFILE" in
+  deepseek41-bringup-131k) TEST_FILLER=120000 ;;
+  deepseek41-flash) TEST_FILLER=440000 ;;
+esac
+python3 "$HOME/ai/tools/frontier-model-probe.py" context \
+  --profile "$PROFILE" --filler-counts "$TEST_FILLER" \
+  --label litellm --max-tokens 64 --timeout 7200
+```
+
 **Pass:** the answer remains correct, both ranks stay healthy, there are no OOM/Xid errors, and each node keeps at least 3 GiB `MemAvailable` at the lowest point. If not, stop LiteLLM and mark this DeepSeek profile raw-only.
 
 ### 16.2 Standalone Hermes
@@ -504,6 +543,17 @@ systemctl --user status hermes-serve.service hermes-gateway.service --no-pager
 ```
 
 Repeat the same test. Do not start the dashboard service yet.
+
+```bash
+PROFILE="$(<"$HOME/.config/frontier/deepseek-active-results-profile")"
+case "$PROFILE" in
+  deepseek41-bringup-131k) TEST_FILLER=120000 ;;
+  deepseek41-flash) TEST_FILLER=440000 ;;
+esac
+python3 "$HOME/ai/tools/frontier-model-probe.py" context \
+  --profile "$PROFILE" --filler-counts "$TEST_FILLER" \
+  --label hermes --max-tokens 64 --timeout 7200
+```
 
 **Pass:** the same correctness and 3 GiB floor hold. If not, stop Hermes and LiteLLM; do not expose this profile as a Hermes choice.
 
@@ -517,19 +567,45 @@ docker stats --no-stream sparkDash
 
 Repeat once more. If either node drops below the 3 GiB qualification floor, correctness changes, or a rank/kernel error appears, stop sparkDash and keep it as an offline/idle diagnostic tool for this model.
 
+```bash
+PROFILE="$(<"$HOME/.config/frontier/deepseek-active-results-profile")"
+case "$PROFILE" in
+  deepseek41-bringup-131k) TEST_FILLER=120000 ;;
+  deepseek41-flash) TEST_FILLER=440000 ;;
+esac
+python3 "$HOME/ai/tools/frontier-model-probe.py" context \
+  --profile "$PROFILE" --filler-counts "$TEST_FILLER" \
+  --label sparkdash --max-tokens 64 --timeout 7200
+```
+
 Do not restore all other ODS containers during qualification. The live stack was measured at several GiB of RSS, which is larger than DeepSeek's long-prefill safety margin.
 
 ## Step 17 — Soak and restart tests
 
 Only after the service-layer A/B passes:
 
-- run one and two concurrent streams;
+- run the saved concurrency test below;
 - run at least 24 hours of mixed chat/tools/context;
 - stop and start twice;
 - verify the NFS export and worker mounts recover cleanly;
 - confirm no unrelated host job can drive `MemAvailable` below the safe floor.
 
 The shipped memory guard is off because it can kill the model when an unrelated process consumes memory. Keep it off for baseline; operational protection must identify and constrain the actual competing process.
+
+```bash
+PROFILE="$(<"$HOME/.config/frontier/deepseek-active-results-profile")"
+case "$PROFILE" in
+  deepseek41-bringup-131k) LEVELS=1 ;;
+  deepseek41-flash) LEVELS=1,2 ;;
+esac
+python3 "$HOME/ai/tools/frontier-model-probe.py" concurrency \
+  --profile "$PROFILE" --levels "$LEVELS" \
+  --max-tokens 512 --minimum-tokens 128 --timeout 1800
+python3 "$HOME/ai/tools/frontier-model-probe.py" compare
+sed -n '1,200p' "$HOME/frontier-results/comparison.md"
+```
+
+The concurrency file contains every raw response plus per-request and aggregate end-to-end output rates. The comparison table includes the required 600K `deepseek41-flash` run alongside Qwen and GLM.
 
 ## Step 18 — Stop and restore production
 
@@ -665,6 +741,7 @@ Do not repeat the same launch without a documented, single-variable mitigation.
 - [ ] Recipe-faithful NFS/600K/two-sequence/DSpark-k3 profile starts.
 - [ ] Warm per-node memory is at least comparable to the published result.
 - [ ] Repository smoke test, tools, and one-image test pass.
+- [ ] Full responses and measurements exist under `~/frontier-results/<profile>/`, and the comparison table was regenerated.
 - [ ] 32K, 128K, 256K, and 450K context gates pass before a near-600K run.
 - [ ] Long-prefill low-water is recorded on both nodes.
 - [ ] LiteLLM-only, Hermes, and sparkDash service-layer A/B tests are recorded.
