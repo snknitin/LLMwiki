@@ -549,18 +549,17 @@ The validated DFlash/850K baseline does **not** have to be replaced. These adapt
 
 Do not combine MTP and 500K in either first adaptation. Change one dimension at a time so the comparison remains attributable.
 
-### What the completed baseline performance means
+### What the completed GLM performance tests mean
 
-The standardized baseline receipt is `~/frontier-results/glm53-flash/20260921-215645`. It recorded:
+These are the saved **local** result runs, not the repository's headline decode numbers. `Quality` is a different prompt from the C1/C2/C4 concurrency probe; all rates below include request and first-token time. `C1`/`C2`/`C4` are aggregate output tok/s for the same 512-token prose probe at 1/2/4 offered client requests. See [[DGX Spark Frontier Model Qualification Results]] for the Qwen and DeepSeek rows and the cross-model caveats.
 
-| Measurement | Observed |
-|---|---:|
-| Quality response | 18.685 end-to-end output tok/s |
-| C1 aggregate | 23.826 tok/s |
-| C2 aggregate | 34.136 tok/s |
-| C4 aggregate | 47.510 tok/s |
-| Maximum passing prompt | 790,022 tokens |
-| Chat, tool, vision, and context retrieval | Pass |
+| Result profile and saved run | Quality tok/s | C1 tok/s | C2 tok/s | C4 tok/s | Largest passing prompt | Chat / tool / vision |
+|---|---:|---:|---:|---:|---:|---|
+| DFlash/850K `glm53-flash/20260921-215645` | 18.685 | 23.826 | 34.136 | 47.510 | 790,022 | Pass / pass / pass |
+| MTP/850K `glm53-flash-mtp-850k/20260922-084501` | 21.798 | 21.700 | 39.730 | 55.196 | 790,022 | Pass / pass / pass |
+| DFlash/500K `glm53-flash-dflash-500k/20260922-092858` | 21.484 | 24.098 | 32.260 | 49.242 | 490,022 | Pass / pass / pass |
+
+MTP was higher on this run's C2/C4 but lower on C1 than DFlash/850K; DFlash/500K gave up validated context. Those are workload-specific observations, **not** a winner declaration. Confirm memory low-water, long generation, soak, clean restart, and SparkFast rollback before choosing an accepted GLM profile.
 
 These results do not indicate a broken DFlash launch. The repository's roughly 62–65 tok/s result is a structured, high-draft-acceptance workload such as counting. Its historical ordinary chat result is about 18.1 tok/s, its stock prose lab result is about 27.1 tok/s, and its MTP k=2 baseline is about 24.6 tok/s. A later roughly 36.1 tok/s prose result used optional adaptive-k, dense-FP8 projections, and a cooperative-MoE overlay that the validated baseline intentionally did not enable.
 

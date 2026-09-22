@@ -501,23 +501,26 @@ docker logs vllm-fn 2>&1 | \
 free -h
 ```
 
-Compare NVFP4 and FP8 on the same prompts, settings, and concurrency. At minimum record:
+Compare NVFP4 and FP8 on the same prompts, settings, and concurrency. The following **local** values come from `~/frontier-results/qwen38-nvfp4/20260921-192534` and `~/frontier-results/qwen38-fp8/20260921-210554`. They are not the upstream recipe's published numbers. See [[DGX Spark Frontier Model Qualification Results]] for the cross-model table and the limits of these measurements.
 
 | Measure | NVFP4 | Official FP8 |
 |---|---:|---:|
-| Weight plus non-torch GiB/node | | |
-| KV GiB/node | | |
-| KV tokens | | |
-| 262K resident concurrency | | |
-| Cold-start time | | |
-| 1-stream tokens/s | | |
-| 4-stream aggregate tokens/s | | |
-| Reasoning pass rate | | |
-| Tool-call pass rate | | |
-| Vision pass | | |
-| Lowest head/worker `MemAvailable` | | |
+| Weight plus non-torch GiB/node | 64.83 on head at startup | Not captured in the saved FP8 run |
+| KV GiB/node | 35.71 on head at startup | Not captured in the saved FP8 run |
+| KV tokens | 4,261,670 | Not captured in the saved FP8 run |
+| 262K KV-capacity equivalent | 16.26× theoretical; scheduler limit is 8 sequences | Not captured in the saved FP8 run |
+| Cold-start time | Not captured as a comparable duration | Not captured as a comparable duration |
+| Quality-response end-to-end output tok/s | 33.494 | 21.153 |
+| C1 aggregate end-to-end output tok/s | 48.840 | 41.354 |
+| C2 aggregate end-to-end output tok/s | 85.973 | 62.964 |
+| C4 aggregate end-to-end output tok/s | 134.719 | 90.977 |
+| Largest passing prompt | 235,029 tokens | 235,029 tokens |
+| Reasoning pass rate | Not measured as a multi-case rate | Not measured as a multi-case rate |
+| Tool-call probe | Pass | Pass |
+| Vision probe | Pass | Pass |
+| Lowest head/worker `MemAvailable` during tests | Not saved in probe results | Not saved in probe results |
 
-Do not choose FP8 from its name. Choose it only if its quality or throughput benefit outweighs the documented loss of KV headroom.
+The C1/C2/C4 tests use the same short prose workload, while the quality test uses a different prompt; do not compare a quality tok/s cell directly with C1. The NVFP4 startup KV figures differ from the older published figures above because they are a local startup measurement. Do not choose FP8 from its name. On the **saved local** throughput and quality probes NVFP4 is ahead, while FP8's startup memory/KV and low-water were not captured in the saved FP8 result; do not claim a complete capacity comparison from this table.
 
 ## Step 16 — Stop FP8 and restore production
 
