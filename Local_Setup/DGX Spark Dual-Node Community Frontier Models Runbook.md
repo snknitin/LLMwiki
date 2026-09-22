@@ -1,5 +1,5 @@
 ---
-updated: 2026-09-18
+updated: 2026-09-21
 status: ready-for-user-execution
 scope: dual-dgx-spark, vllm, exl3, qwen3.8, glm-5.3, deepseek-v4.1, sparkdash, litellm, hermes
 ---
@@ -45,7 +45,7 @@ The three frontier recipes are **hot-swap appliances**, not additional always-ho
 | sparkDash | One management host | No model weights or intentional GPU allocation; Node.js, SSH polling, history, and Docker still consume host RAM. | Usually always on. Stop for the first GLM/DeepSeek boot and re-enable only after measured `MemAvailable` proves room. |
 | Qwen 3.8 Flash Next NVFP4 | Both | Per node: 101.61 GiB vLLM budget at GMU 0.835; approximately 66–69 GiB weights plus non-torch allocations (the README contains two measurements); 1.07 GiB peak activation; 0.54 GiB CUDA graphs; 32.02 GiB FP8 KV. The repository measured a 2.33–2.38 GiB host-memory low-water during its sweep. | Exclusive two-node lane. No other GPU model. Raw-qualify with nonessential services stopped; add LiteLLM/Hermes and sparkDash back only through measured A/B gates. |
 | Qwen 3.8 Flash Next official FP8 | Both | Same two-node launcher and 0.835 budget, but the larger FP8 weight footprint leaves only about 500K cache tokens versus 3.65M for NVFP4. The repository does not publish a complete per-line memory table for this path. | Exclusive two-node lane. Less context/concurrency headroom than NVFP4; measure the live startup lines before promotion. |
-| GLM 5.3 Flash EXL3 4 bpw | Both | Default GMU 0.85 budgets about 103.44 GiB per node. At 500K the recipe reports a 10.98 GiB KV requirement and reliable boot at GMU 0.84; the current 850K default has little KV margin. Long prefills are the memory-critical phase. | Exclusive two-node lane. Stop Spark LM Studio and sparkDash for first boot. Do not schedule downloads, indexing, or other large host jobs beside it. |
+| GLM 5.3 Flash EXL3 4 bpw | Both | On this pair, the pinned image failed at the upstream GMU 0.85 because 850K needed 13.46 GiB KV and only 12.25 GiB was available. The live-validated correction is GMU 0.87 plus `GLM53_EXTRA_ENV=INSTANTTENSOR_BUFFER_SIZE=536870912`; it exposed 14.15 GiB KV / 880,357 tokens. The optional 500K/0.84 profile remains the safer-memory adaptation. | Exclusive two-node lane. Stop Spark LM Studio and sparkDash for first boot. Do not schedule downloads, indexing, or other large host jobs beside it. Use the GLM tutorial's Step 16 for MTP/500K A/B profiles and separate result records. |
 | DeepSeek V4.1 Flash EXL3 2.9 bpw | Both | Per node: 99.5 GiB weights, 2.5 GiB KV, about 5–7 GiB context/CUDA/NCCL/graphs, and about 9 GiB for vLLM/OS/Docker/desktop. Measured 4.07–4.21 GiB available after warm-up and 2.1 GiB after a 601K prefill. | Strictly exclusive. This is the tightest lane and the last one to implement. Stop all nonessential services during qualification. |
 
 These are **unified-memory** figures. `nvidia-smi`, Linux `MemAvailable`, page cache, Docker, and desktop processes all draw from the same physical 128 GB. A model can boot and still fail later during a long prefill; acceptance therefore includes loaded-context tests, not merely `/health`.
@@ -97,7 +97,7 @@ Port `8888`, used by the upstream recipes, is already occupied on FirstSpark by 
 3. Stage all repositories at the reviewed commits.
 4. Prove Qwen NVFP4 exactly as shipped, with only cluster/port/auth substitutions.
 5. A/B the repository's official FP8 path against NVFP4.
-6. Prove GLM 5.3 at its shipped profile.
+6. Prove GLM 5.3 at the tutorial's live-validated 850K/DFlash profile, then optionally A/B MTP/850K and DFlash/500K as separately recorded profiles.
 7. Prove DeepSeek V4.1 last.
 8. Register every validated lane under a distinct LiteLLM/Hermes alias.
 9. Install the cluster-aware hot-swap command only after manual start/stop/rollback is stable.
@@ -636,7 +636,7 @@ spark-model use qwen35
 > [!warning] Reference summary only
 > Execute [[DGX Spark Dual-Node GLM 5.3 Flash EXL3 Tutorial]]. It places stop conditions and rollback beside the risky long-prefill steps.
 
-Only begin after Qwen has passed start, inference, stop, and rollback. The first GLM boot preserves the current repository defaults: EXL3 4 bpw, InstantTensor image, DFlash2 k=7, E3 grouped MoE, 850K maximum context, GMU 0.85, four sequences, and local rsync weight copies.
+Only begin after Qwen has passed start, inference, stop, and rollback. The first GLM boot preserves EXL3 4 bpw, the published InstantTensor image, DFlash2 k=7, E3 grouped MoE, 850K maximum context, four sequences, and local rsync weight copies. On this pair, the tutorial's required startup corrections are GMU 0.87 and the explicit InstantTensor buffer setting; GMU 0.85 failed the 850K KV-capacity gate.
 
 ### 7.1 Configure
 
@@ -653,8 +653,9 @@ sed -i \
   -e 's|^WORKER_CX7_IB=.*|WORKER_CX7_IB=rocep1s0f1|' \
   -e 's|^PORT=.*|PORT=8100|' \
   -e 's|^NFS_SHARE=.*|NFS_SHARE=0|' \
+  -e 's|^GPU_MEM_UTIL=.*|GPU_MEM_UTIL=0.87|' \
   .env
-printf '\nWORKER_SSH=snknitin@192.168.0.100\nNCCL_IB_GID_INDEX=3\n' >> .env
+printf '\nWORKER_SSH=snknitin@192.168.0.100\nNCCL_IB_GID_INDEX=3\nGLM53_EXTRA_ENV=INSTANTTENSOR_BUFFER_SIZE=536870912\n' >> .env
 frontier_key="$(<"$HOME/.config/frontier/api-key")"
 printf 'VLLM_API_KEY=%s\n' "$frontier_key" >> .env
 unset frontier_key
@@ -664,7 +665,7 @@ chmod 600 .env
 Confirm the recipe remains faithful:
 
 ```bash
-grep -E '^(HEAD_IP|WORKER_IP|WORKER_USER|WORKER_SSH|HEAD_CX7_IF|WORKER_CX7_IF|HEAD_CX7_IB|WORKER_CX7_IB|NCCL_IB_GID_INDEX|MODEL|MODEL_REVISION|IMAGE|LOAD_FORMAT|PORT|NFS_SHARE|SPEC_METHOD|DFLASH_REVISION|MAX_MODEL_LEN|GPU_MEM_UTIL|MAX_NUM_SEQS|MAX_NUM_BATCHED_TOKENS|EXL3_FAT_GROUPED)=' .env
+grep -E '^(HEAD_IP|WORKER_IP|WORKER_USER|WORKER_SSH|HEAD_CX7_IF|WORKER_CX7_IF|HEAD_CX7_IB|WORKER_CX7_IB|NCCL_IB_GID_INDEX|MODEL|MODEL_REVISION|IMAGE|LOAD_FORMAT|PORT|NFS_SHARE|SPEC_METHOD|DFLASH_REVISION|MAX_MODEL_LEN|GPU_MEM_UTIL|MAX_NUM_SEQS|MAX_NUM_BATCHED_TOKENS|EXL3_FAT_GROUPED|GLM53_EXTRA_ENV)=' .env
 ```
 
 ### 7.2 Preflight and stage
@@ -715,7 +716,7 @@ docker logs glm53-exl3-head 2>&1 | grep -E 'Available KV|GPU KV cache size|MemAv
 free -h
 ```
 
-Do not lower context or switch speculation before this exact profile has either passed or produced a reproducible failure. If the default cannot safely pass on this cluster, record the failure first; then use the repository's documented rollback `SPEC_METHOD=mtp ./start.sh restart` as a **separate adapted profile**.
+Do not lower context or switch speculation before this corrected baseline has either passed or produced a reproducible failure. The completed local baseline measured 18.685 quality tok/s, 23.826 C1, 47.510 aggregate C4, and passed a 790,022-token prompt; those ordinary prose/end-to-end figures are not comparable to the recipe's high-acceptance structured headline. For MTP/850K and DFlash/500K adaptations, API-key-safe configuration storage, unique result profiles, full retest commands, comparison generation, and FAQs, execute Step 16 of [[DGX Spark Dual-Node GLM 5.3 Flash EXL3 Tutorial]]. Do not use the old one-line `SPEC_METHOD=mtp ./start.sh restart` shortcut while `spark-fast` is resident.
 
 Stop and restore:
 
