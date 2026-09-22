@@ -1,5 +1,5 @@
 ---
-updated: 2026-09-21
+updated: 2026-09-22
 status: implement-after-model-validation
 scope: dgx-spark, litellm, hermes, hot-swap, model-manager, dual-node
 ---
@@ -10,6 +10,9 @@ scope: dgx-spark, litellm, hermes, hot-swap, model-manager, dual-node
 > Keep Qwen 3.8 NVFP4, Qwen 3.8 official FP8, GLM 5.3 Flash, and DeepSeek V4.1 Flash installed and permanently named in LiteLLM/Hermes. A cluster-aware command hot-swaps the resident two-node backend, waits for health, restores LiteLLM/Hermes, selects the matching Hermes default, and preserves `spark-fast` as rollback.
 
 This guide implements the user's required end state: the new frontier models behave like the existing `spark-fast`, `qwen27-dflash`, and `nemotron3-omni` choices from the client perspective, while respecting the fact that only one large dual-node model can be resident.
+
+> [!important] FirstSpark routing changed on 2026-09-22
+> FirstSpark ODS was retired. LiteLLM now runs independently from `$HOME/ai/services/litellm` as `spark-litellm` on `127.0.0.1:4000`; the model services use `spark-model-net`. The old ODS `.env`, `ods` command, and `ods-network` no longer exist on FirstSpark. The separate workstation ODS installation is outside this guide.
 
 ## Required order
 
@@ -58,12 +61,12 @@ Do not rename `spark-fast`. Do not use one mutable `spark-frontier` alias as the
 
 The raw qualification shuts down all nonessential services. Normal routed use adds only the control plane that passed A/B testing:
 
-- `ods-litellm`;
+- `spark-litellm`;
 - `hermes-serve.service`;
 - `hermes-gateway.service`;
 - optionally sparkDash for lanes whose dashboard-on memory A/B passed.
 
-The rest of ODS stays stopped while a memory-tight frontier lane runs. Live inspection found several GiB of RSS across the complete ODS stack, larger than the published low-water margin of some recipes.
+The retired ODS stack is absent from FirstSpark. Keep the standalone LiteLLM and Hermes control plane within the lane's measured low-water margin.
 
 If a lane cannot pass the same long-context/load test with LiteLLM and Hermes running, it is not eligible for this guide. Keep it as a raw research lane instead of presenting it as a usable Hermes choice.
 
@@ -75,9 +78,9 @@ Run on **FirstSpark**:
 stamp="$(date +%Y%m%d-%H%M%S)"
 backup_dir="$HOME/backups/frontier-routing/$stamp"
 install -d -m 700 "$backup_dir"
-cp -a "$HOME/ods/config/litellm/local.yaml" "$backup_dir/litellm-local.yaml"
-cp -a "$HOME/ods/extensions/services/litellm/compose.local.yaml" "$backup_dir/litellm-compose-local.yaml"
-cp -a "$HOME/ods/.env" "$backup_dir/ods.env"
+cp -a "$HOME/ai/services/litellm/config.yaml" "$backup_dir/litellm-config.yaml"
+cp -a "$HOME/ai/services/litellm/compose.yaml" "$backup_dir/litellm-compose.yaml"
+cp -a "$HOME/ai/services/litellm/runtime.env" "$backup_dir/litellm-runtime.env"
 cp -a "$HOME/.local/bin/spark-model" "$backup_dir/spark-model"
 cp -a "$HOME/.config/spark-model" "$backup_dir/spark-model-config"
 if [[ -f "$HOME/.local/bin/spark-frontier" ]]; then
@@ -94,88 +97,41 @@ printf '%s\n' "$backup_dir"
 
 Do not place API-key contents in the backup report.
 
-**Pass:** Hermes reports a valid configuration, the final line is a new timestamped backup directory, and that directory contains the LiteLLM, ODS, Hermes, and manager files listed above. Stop if any `cp` command or `hermes config check` fails.
+**Pass:** Hermes reports a valid configuration, the final line is a new timestamped backup directory, and that directory contains the standalone LiteLLM, Hermes, and manager files listed above. Stop if any `cp` command or `hermes config check` fails.
 
-## Step 2 — Make the frontier key available to LiteLLM
+## Step 2 — Verify the standalone LiteLLM key and environment
 
-Confirm the shared key exists:
+Run on **FirstSpark**. The 2026-09-22 migration already put the shared frontier key into the private standalone `runtime.env`. Keep it outside the retired ODS schema:
 
 ```bash
 test -s "$HOME/.config/frontier/api-key"
-stat -c '%a %n' "$HOME/.config/frontier/api-key"
-```
-
-Expected mode: `600`.
-
-Add it to the existing ODS environment without printing it:
-
-```bash
-cd "$HOME/ods"
-frontier_key="$(<"$HOME/.config/frontier/api-key")"
-if grep -q '^SPARK_FRONTIER_API_KEY=' .env; then
-  sed -i "s|^SPARK_FRONTIER_API_KEY=.*|SPARK_FRONTIER_API_KEY=$frontier_key|" .env
-else
-  printf '\nSPARK_FRONTIER_API_KEY=%s\n' "$frontier_key" >> .env
-fi
-unset frontier_key
-chmod 600 .env
-```
-
-Replace `$HOME/ods/extensions/services/litellm/compose.local.yaml` with the following. Remove the current `depends_on: llama-server` block: a frontier switch must be able to recreate LiteLLM while the ODS llama server and every other ODS service remain stopped.
-
-```yaml
-services:
-  litellm:
-    environment:
-      - SPARK_FRONTIER_API_KEY=${SPARK_FRONTIER_API_KEY:?set SPARK_FRONTIER_API_KEY in ~/ods/.env}
-```
-
-Validate the merged ODS configuration with its supported validator:
-
-```bash
-cd "$HOME/ods"
-ods config validate
-```
-
-The existing Hermes custom provider named `spark-fast` already points to FirstSpark LiteLLM. Make sure its key environment variable holds the ODS LiteLLM master key without printing either secret:
-
-```bash
-set -a
-. "$HOME/ods/.env"
-set +a
-export HERMES_ENV_FILE="$HOME/.hermes/.env"
+test -s "$HOME/ai/services/litellm/runtime.env"
+stat -c '%a %n' "$HOME/.config/frontier/api-key"   "$HOME/ai/services/litellm/runtime.env"
 python3 - <<'PY'
-import os
 from pathlib import Path
-
-name = "HERMES_CUSTOM_127_0_0_1_4000_API_KEY"
-value = os.environ["LITELLM_KEY"]
-path = Path(os.environ["HERMES_ENV_FILE"])
-lines = path.read_text(encoding="utf-8").splitlines() if path.exists() else []
-out = []
-replaced = False
-for line in lines:
-    if line.startswith(name + "="):
-        out.append(f"{name}={value}")
-        replaced = True
-    else:
-        out.append(line)
-if not replaced:
-    out.append(f"{name}={value}")
-path.write_text("\n".join(out) + "\n", encoding="utf-8")
+home = Path.home()
+def values(path):
+    return dict(line.split('=', 1) for line in path.read_text().splitlines() if '=' in line)
+runtime = values(home / 'ai/services/litellm/runtime.env')
+hermes = values(home / '.hermes/.env')
+assert runtime['SPARK_FRONTIER_API_KEY'] == (home / '.config/frontier/api-key').read_text().strip()
+assert runtime['LITELLM_MASTER_KEY'] == hermes['HERMES_CUSTOM_127_0_0_1_4000_API_KEY']
+print('FRONTIER_AND_HERMES_KEYS_MATCH')
 PY
-chmod 600 "$HOME/.hermes/.env"
-unset LITELLM_KEY HERMES_ENV_FILE
+cd "$HOME/ai/services/litellm"
+docker compose -p spark-litellm config --quiet
 ```
 
-**Pass:** `ods config validate` exits successfully, `.env` and `.hermes/.env` both remain mode `600`, and no secret value was printed. Stop before editing routes if validation fails.
+The standalone Compose file loads `runtime.env` as a private service environment file. It has no `llama-server` dependency. `docker compose config --quiet` validates its syntax without printing the merged secrets.
+
+**Pass:** both secret files report mode `600`, the check prints `FRONTIER_AND_HERMES_KEYS_MATCH`, and Compose validation exits successfully. Stop before editing routes if any check fails.
 
 ## Step 3 — Add all validated LiteLLM aliases
 
 Open:
 
 ```bash
-nano "$HOME/ods/config/litellm/local.yaml"
+nano "$HOME/ai/services/litellm/config.yaml"
 ```
 
 Under the existing single `model_list:` heading, add one block for each lane that has passed its tutorial. The intended final set is:
@@ -206,7 +162,7 @@ Under the existing single `model_list:` heading, add one block for each lane tha
       api_key: os.environ/SPARK_FRONTIER_API_KEY
 ```
 
-Keep the existing `spark-fast`, `qwen27-dflash`, `nemotron3-omni`, default, and wildcard entries. Do not create a second `model_list:` heading.
+Keep the existing `spark-fast`, `qwen27-dflash`, and `nemotron3-omni` entries. The retired ODS `llama-server` default and wildcard routes were removed during migration. Do not create a second `model_list:` heading.
 
 The live config currently uses `request_timeout: 120` and `stream_timeout: 60`, which is too short for 500K–850K prefill validation. During frontier qualification, set:
 
@@ -223,10 +179,10 @@ These are client patience limits, not proof that a context fits. Retain the load
 Protect and validate the file:
 
 ```bash
-chmod 600 "$HOME/ods/config/litellm/local.yaml"
+chmod 600 "$HOME/ai/services/litellm/config.yaml"
 python3 - <<'PY'
 import yaml
-p='/home/snknitin/ods/config/litellm/local.yaml'
+p='/home/snknitin/ai/services/litellm/config.yaml'
 d=yaml.safe_load(open(p, encoding='utf-8'))
 names=[x['model_name'] for x in d['model_list']]
 assert len(names)==len(set(names)), names
@@ -271,35 +227,30 @@ Preserve any other existing model entries, including `qwen27-dflash`. Set GLM/De
 
 **Pass:** the LiteLLM validator prints `LITELLM_ROUTE_YAML_OK`, Hermes reports a valid configuration, and every newly listed frontier alias has already passed its individual tutorial. Stop if an alias is duplicated, missing from its matching Hermes mapping, or not yet validated.
 
-## Step 4 — Recreate LiteLLM once with the new environment
+## Step 4 — Recreate standalone LiteLLM once with the new routes
 
 Run on **FirstSpark**:
 
 ```bash
-ods stop litellm
-ods start litellm
-docker logs --tail 120 ods-litellm
-docker inspect ods-litellm --format '{{range .Config.Env}}{{println .}}{{end}}' \
-  | grep '^SPARK_FRONTIER_API_KEY=' \
-  | sed 's/=.*/=<redacted>/'
-docker exec ods-litellm /bin/sh -c 'test -n "$SPARK_FRONTIER_API_KEY"'
+cd "$HOME/ai/services/litellm"
+docker compose -p spark-litellm config --quiet
+docker compose -p spark-litellm up -d --force-recreate --pull never
+docker inspect spark-litellm --format '{{.State.Status}}|{{.State.Health.Status}}'
+docker exec spark-litellm /bin/sh -c 'test -n "$SPARK_FRONTIER_API_KEY"'
 ```
 
-Do not display the real value. If YAML or environment validation fails, restore the Step 1 backup before continuing.
+**Pass:** the container becomes `running|healthy`, the in-container key test exits successfully, and no secret value is printed. If the container is unhealthy, inspect `docker logs --tail 120 spark-litellm` after redacting any secret-bearing line.
 
-Load the LiteLLM master key without printing it and confirm all aliases are advertised:
+Confirm every validated alias is advertised:
 
 ```bash
-set -a
-. "$HOME/ods/.env"
-set +a
-curl -fsS http://127.0.0.1:4000/v1/models \
-  -H "Authorization: Bearer $LITELLM_KEY" \
-  | python3 -m json.tool
-unset LITELLM_KEY
+key="$(sed -n 's/^LITELLM_MASTER_KEY=//p' "$HOME/ai/services/litellm/runtime.env")"
+test -n "$key"
+curl -fsS http://127.0.0.1:4000/v1/models   -H "Authorization: Bearer $key"   | python3 -m json.tool
+unset key
 ```
 
-It is normal for the aliases to be listed while cold. Do not send chat to a cold alias.
+It is normal for aliases to be listed while their backend is cold. Do not send chat to a cold alias.
 
 ## Step 5 — Install a cluster-aware switch command
 
@@ -348,6 +299,7 @@ WORKER_MGMT="snknitin@192.168.0.100"
 API_BASE="http://127.0.0.1:8100"
 HERMES="$HOME/.local/bin/hermes"
 SPARK_MODEL="$HOME/.local/bin/spark-model"
+LITELLM_DIR="$HOME/ai/services/litellm"
 mkdir -p "$STATE_DIR"
 
 lane_values() {
@@ -486,8 +438,7 @@ quiesce_ingress() {
   systemctl --user stop hermes-dashboard.service hermes-gateway.service hermes-serve.service || true
   wait_model_idle 'http://127.0.0.1:8100'
   wait_model_idle 'http://127.0.0.1:8000'
-  ods stop litellm || true
-  ods stop || true
+  (cd "$LITELLM_DIR" && docker compose -p spark-litellm stop litellm)
 }
 
 show_gpu_holders() {
@@ -524,14 +475,14 @@ PY
 
 start_control_plane() {
   local deadline=$((SECONDS + 240)) health
-  ods start litellm
+  (cd "$LITELLM_DIR" && docker compose -p spark-litellm up -d --pull never)
   while (( SECONDS < deadline )); do
-    health="$(docker inspect ods-litellm --format '{{if .State.Health}}{{.State.Health.Status}}{{else}}{{.State.Status}}{{end}}' 2>/dev/null || true)"
+    health="$(docker inspect spark-litellm --format '{{if .State.Health}}{{.State.Health.Status}}{{else}}{{.State.Status}}{{end}}' 2>/dev/null || true)"
     [[ "$health" == 'healthy' ]] && return 0
     [[ "$health" == 'unhealthy' || "$health" == 'exited' ]] && break
     sleep 5
   done
-  docker logs --tail 120 ods-litellm >&2 || true
+  docker logs --tail 120 spark-litellm >&2 || true
   return 1
 }
 
@@ -546,23 +497,20 @@ select_hermes() {
 
 probe_litellm() {
   local alias="$1" key body
-  set -a
-  # shellcheck disable=SC1091
-  source "$HOME/ods/.env"
-  set +a
-  key="${LITELLM_KEY:?LITELLM_KEY missing from ~/ods/.env}"
+  key="$(sed -n 's/^LITELLM_MASTER_KEY=//p' "$LITELLM_DIR/runtime.env")"
+  [[ -n "$key" ]] || { echo 'LITELLM_MASTER_KEY missing from standalone runtime.env' >&2; return 1; }
   body="$(printf '{"model":"%s","messages":[{"role":"user","content":"Reply with exactly ROUTE_OK"}],"temperature":0,"max_tokens":16}' "$alias")"
   curl --fail --silent --show-error --max-time 3600 \
     http://127.0.0.1:4000/v1/chat/completions \
     -H "Authorization: Bearer $key" \
     -H 'Content-Type: application/json' \
     -d "$body" >/dev/null
-  unset LITELLM_KEY key body
+  unset key body
 }
 
 activate_spark_fast() {
   "$SPARK_MODEL" use qwen35
-  ods start
+  start_control_plane
   "$HERMES" config set model.provider custom:spark-fast
   "$HERMES" config set model.base_url http://127.0.0.1:4000/v1
   "$HERMES" config set model.default spark-fast
@@ -646,14 +594,14 @@ restore_spark_fast() {
   stop_all_frontier
   assert_frontier_stopped
   activate_spark_fast
-  echo 'Started spark-fast, restored the full ODS stack, and routed Hermes explicitly to spark-fast.'
+  echo 'Started spark-fast, restored standalone LiteLLM, and routed Hermes explicitly to spark-fast.'
 }
 
 status() {
   printf 'Desired/transition state: '
   cat "$ACTIVE_FILE" 2>/dev/null || echo none
   docker ps -a --format 'table {{.Names}}\t{{.Status}}\t{{.Ports}}' \
-    | grep -E 'NAMES|vllm-fn|glm53|dsv41|ods-litellm' || true
+    | grep -E 'NAMES|vllm-fn|glm53|dsv41|spark-litellm' || true
   ssh -o BatchMode=yes "$WORKER_MGMT" \
     "docker ps -a --format 'table {{.Names}}\t{{.Status}}'" \
     | grep -E 'NAMES|vllm-fn|glm53|dsv41' || true
@@ -664,7 +612,7 @@ status() {
     unset key
     echo
   fi
-  docker inspect ods-litellm --format 'LiteLLM={{if .State.Health}}{{.State.Health.Status}}{{else}}{{.State.Status}}{{end}}' 2>/dev/null || true
+  docker inspect spark-litellm --format 'LiteLLM={{if .State.Health}}{{.State.Health.Status}}{{else}}{{.State.Status}}{{end}}' 2>/dev/null || true
   for k in model.provider model.base_url model.default model.context_length; do
     printf 'Hermes %s=' "$k"
     "$HERMES" config get "$k" 2>/dev/null || true
@@ -695,7 +643,7 @@ case "${1:-status}" in
   emergency-stop-all)
     exec 9>"$LOCK_FILE"; flock -n 9 || exit 1
     systemctl --user stop hermes-dashboard.service hermes-gateway.service hermes-serve.service || true
-    ods stop || true
+    (cd "$LITELLM_DIR" && docker compose -p spark-litellm stop litellm) || true
     "$SPARK_MODEL" stop || "$SPARK_MODEL" stop --force
     stop_all_frontier
     assert_frontier_stopped
@@ -740,19 +688,18 @@ spark-frontier status
 Then test LiteLLM:
 
 ```bash
-set -a
-. "$HOME/ods/.env"
-set +a
+key="$(sed -n 's/^LITELLM_MASTER_KEY=//p' "$HOME/ai/services/litellm/runtime.env")"
+test -n "$key"
 curl -fsS http://127.0.0.1:4000/v1/chat/completions \
-  -H "Authorization: Bearer $LITELLM_KEY" \
+  -H "Authorization: Bearer $key" \
   -H 'Content-Type: application/json' \
   -d '{
     "model":"qwen38-nvfp4",
     "messages":[{"role":"user","content":"Reply with exactly QWEN38_ROUTE_OK"}],
     "temperature":0,
-    "max_tokens":40
+    "max_tokens":512
   }' | python3 -m json.tool
-unset LITELLM_KEY
+unset key
 ```
 
 Test Hermes:
@@ -837,13 +784,14 @@ If the routing or manager integration fails:
 spark-frontier restore-spark-fast || true
 ```
 
-Restore the Step 1 files:
+Restore the Step 1 files on **FirstSpark**:
 
 ```bash
 backup_dir="$(find "$HOME/backups/frontier-routing" -mindepth 1 -maxdepth 1 -type d | sort | tail -n 1)"
-cp -a "$backup_dir/litellm-local.yaml" "$HOME/ods/config/litellm/local.yaml"
-cp -a "$backup_dir/litellm-compose-local.yaml" "$HOME/ods/extensions/services/litellm/compose.local.yaml"
-cp -a "$backup_dir/ods.env" "$HOME/ods/.env"
+test -d "$backup_dir"
+cp -a "$backup_dir/litellm-config.yaml" "$HOME/ai/services/litellm/config.yaml"
+cp -a "$backup_dir/litellm-compose.yaml" "$HOME/ai/services/litellm/compose.yaml"
+cp -a "$backup_dir/litellm-runtime.env" "$HOME/ai/services/litellm/runtime.env"
 cp -a "$backup_dir/hermes-config.yaml" "$HOME/.hermes/config.yaml"
 cp -a "$backup_dir/hermes.env" "$HOME/.hermes/.env"
 if [[ -f "$backup_dir/spark-frontier" ]]; then
@@ -854,14 +802,15 @@ fi
 rm -f "$HOME/.local/state/spark-frontier/active-lane" \
   "$HOME/.local/state/spark-frontier/manager.lock"
 rmdir "$HOME/.local/state/spark-frontier" 2>/dev/null || true
-ods stop litellm || true
-ods start litellm
+cd "$HOME/ai/services/litellm"
+docker compose -p spark-litellm config --quiet
+docker compose -p spark-litellm up -d --force-recreate --pull never
 "$HOME/.local/bin/hermes" config check
 systemctl --user restart hermes-dashboard.service hermes-gateway.service hermes-serve.service
-docker logs --tail 100 ods-litellm
+docker inspect spark-litellm --format '{{.State.Status}}|{{.State.Health.Status}}'
 ```
 
-The model repositories, images, and weights remain installed. This rollback restores ODS and Hermes routing, restores or removes the manager according to its pre-change state, and clears only the manager's own small state files.
+The model repositories, images, and weights remain installed. This rollback restores standalone LiteLLM and Hermes routing, restores or removes the frontier manager according to its pre-change state, and clears only the manager's small state files.
 
 ## Acceptance checklist
 
@@ -876,7 +825,7 @@ The model repositories, images, and weights remain installed. This rollback rest
 - [ ] Cold alias fails cleanly and cannot masquerade as the active model.
 - [ ] Previous head and worker ranks are gone after every switch.
 - [ ] Each lane repeats its accepted load with LiteLLM/Hermes resident.
-- [ ] `spark-frontier restore-spark-fast` starts `spark-fast`, restores full ODS, and routes Hermes explicitly to `spark-fast`.
+- [ ] `spark-frontier restore-spark-fast` starts `spark-fast`, restores standalone LiteLLM, and routes Hermes explicitly to `spark-fast`.
 - [ ] `spark-fast`, `qwen27-dflash`, and `nemotron3-omni` routes remain unchanged.
 
 **Next:** return to [[Task Checklist]], record which aliases passed, and use `spark-frontier status` before every model-selection session.
@@ -885,5 +834,6 @@ The model repositories, images, and weights remain installed. This rollback rest
 
 - [[DGX Spark Dual-Node Community Frontier Models Runbook]]
 - [[DGX Spark Model Installation And Switching Guide]]
+- [[FirstSpark Standalone LiteLLM Operations]]
 - [[Always-On Hermes on DGX Spark]]
 - [[Local Setup Index]]
