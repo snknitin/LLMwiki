@@ -2,16 +2,16 @@
 
 Snapshot: 2026-09-22, after the fresh DeepSeek 131K and `spark-fast` raw comparisons. These are **local, saved probe results**, not upstream recipe claims or pure decode benchmarks. Each source is the timestamped directory under `~/frontier-results/<profile>/` on FirstSpark; a profile's `latest` symlink can later move to a newer run. `C1`, `C2`, `C4`, and the one measured `C8` are aggregate **end-to-end output tokens per second** at that many simultaneous client requests using the shared 512-output-token prose probe. `Quality` is a separate end-to-end response test. Do not compare its rate to a C1 rate as though they were the same request.
 
-| Result profile | Saved run | Served context | Quality tok/s | C1 tok/s | C2 tok/s | C4 tok/s | C8 tok/s | Largest passing prompt tokens | Chat / tool / vision |
-|---|---|---:|---:|---:|---:|---:|---:|---:|---|
-| `spark-fast` (FirstSpark only) | `20260922-191753` | 262,144 | 62.360 | 77.214 | 126.060 | 122.872 | — | 235,029 | Pass / pass / pass |
-| `qwen38-nvfp4` | `20260921-192534` | 262,144 | 33.494 | 48.840 | 85.973 | 134.719 | 205.461 | 235,029 | Pass / pass / pass |
-| `qwen38-fp8` | `20260921-210554` | 262,144 | 21.153 | 41.354 | 62.964 | 90.977 | — | 235,029 | Pass / pass / pass |
-| `glm53-flash` (DFlash/850K) | `20260921-215645` | 850,000 | 18.685 | 23.826 | 34.136 | 47.510 | — | 790,022 | Pass / pass / pass |
-| `glm53-flash-mtp-850k` | `20260922-084501` | 850,000 | 21.798 | 21.700 | 39.730 | 55.196 | — | 790,022 | Pass / pass / pass |
-| `glm53-flash-dflash-500k` | `20260922-092858` | 500,000 | 21.484 | 24.098 | 32.260 | 49.242 | — | 490,022 | Pass / pass / pass |
-| `deepseek41-bringup-131k` | `20260922-174513` | 131,072 | 29.564 | 34.153 | 34.875 | 34.803 | — | 120,019 | Pass / pass / pass |
-| `deepseek41-flash` (DSpark/600K) | `20260922-104802` | 600,000 | 29.989 | 34.477 | 50.746 | 47.014 | — | 580,019 | Pass / pass / pass |
+| Result profile | Served context | Quality tok/s | C1 tok/s | C2 tok/s | C4 tok/s | Largest passing prompt tokens | Chat / tool / vision | Saved run | C8 tok/s |
+|---|---:|---:|---:|---:|---:|---:|---|---|---:|
+| `spark-fast` (FirstSpark only) | 262,144 | 62.360 | 77.214 | 126.060 | 122.872 | 235,029 | Pass / pass / pass | `20260922-191753` | — |
+| `qwen38-nvfp4` | 262,144 | 33.494 | 48.840 | 85.973 | 134.719 | 235,029 | Pass / pass / pass | `20260921-192534` | 205.461 |
+| `qwen38-fp8` | 262,144 | 21.153 | 41.354 | 62.964 | 90.977 | 235,029 | Pass / pass / pass | `20260921-210554` | — |
+| `glm53-flash` (DFlash/850K) | 850,000 | 18.685 | 23.826 | 34.136 | 47.510 | 790,022 | Pass / pass / pass | `20260921-215645` | — |
+| `glm53-flash-mtp-850k` | 850,000 | 21.798 | 21.700 | 39.730 | 55.196 | 790,022 | Pass / pass / pass | `20260922-084501` | — |
+| `glm53-flash-dflash-500k` | 500,000 | 21.484 | 24.098 | 32.260 | 49.242 | 490,022 | Pass / pass / pass | `20260922-092858` | — |
+| `deepseek41-bringup-131k` | 131,072 | 29.564 | 34.153 | 34.875 | 34.803 | 120,019 | Pass / pass / pass | `20260922-174513` | — |
+| `deepseek41-flash` (DSpark/600K) | 600,000 | 29.989 | 34.477 | 50.746 | 47.014 | 580,019 | Pass / pass / pass | `20260922-104802` | — |
 
 All listed chat, tool, vision, context, and concurrency results passed in their saved runs. The fresh 131K and `spark-fast` runs also have passing `identity.json` receipts. The 131K profile remains an adapted one-sequence profile, distinct from the recipe-faithful DeepSeek 600K baseline. Its C2/C4 figures are **offered-client loads with queuing**, not two or four active 131K model sequences. DeepSeek 600K and `spark-fast` each allow two scheduled sequences, so their C4 loads can also queue. The Qwen NVFP4 C8 result comes from its saved raw `concurrency.json`; the comparison generator currently displays only C1/C2/C4. `—` means not measured in that run.
 

@@ -1,0 +1,335 @@
+#!/usr/bin/env python3
+"""Verify one already-active frontier lane; never switches models."""
+import fcntl
+import json
+import os
+import subprocess
+import sys
+import time
+import urllib.request
+from datetime import datetime
+from pathlib import Path
+
+HOME = Path.home()
+STATE = HOME / ".local/state/spark-frontier/active-lane"
+WORKER = "snknitin@192.168.0.100"
+FLOOR_KIB = 3 * 1024 * 1024
+LANES = {
+    "qwen38-nvfp4": ("qwen3.8-flash-next", "vllm-fn", "vllm-fn"),
+    "qwen38-fp8": ("qwen3.8-flash-next-fp8", "vllm-fn", "vllm-fn"),
+    "glm53-flash": ("GLM-5.3-Flash-EXL3", "glm53-exl3-head", "glm53-exl3-worker"),
+    "deepseek41-flash": ("DeepSeek-v4.1-Flash-EXL3", "dsv41-exl3-head", "dsv41-exl3-worker"),
+}
+HEAD_RANKS = {"vllm-fn", "glm53-exl3-head", "dsv41-exl3-head", "vllm-spark-fast"}
+WORKER_RANKS = {"vllm-fn", "vllm-fn-tp1", "glm53-exl3-worker", "dsv41-exl3-worker"}
+QWEN_CACHE_DIRS = {
+    "qwen38-nvfp4": "models--nvidia--Qwen3.8-Flash-Next-NVFP4",
+    "qwen38-fp8": "models--Qwen--Qwen3.8-Flash-Next-FP8",
+}
+
+
+def stop(message):
+    raise SystemExit("STOP: " + message)
+
+
+def output(args, timeout=20):
+    try:
+        done = subprocess.run(args, text=True, capture_output=True, timeout=timeout)
+    except (OSError, subprocess.TimeoutExpired):
+        stop("command unavailable or timed out: " + args[0])
+    if done.returncode:
+        stop("command failed: " + " ".join(args[:2]))
+    return done.stdout.strip()
+
+
+def worker_output(*args):
+    return output(["ssh", "-o", "BatchMode=yes", "-o", "ConnectTimeout=8", WORKER, *args], timeout=20)
+
+
+def env_value(path, name):
+    try:
+        lines = path.read_text().splitlines()
+    except OSError:
+        stop("missing private configuration: " + str(path))
+    for line in lines:
+        if line.startswith(name + "="):
+            return line.split("=", 1)[1].strip().strip('"')
+    stop("missing " + name + " in " + str(path))
+
+
+def request(url, key, body=None, timeout=180):
+    headers = {"Authorization": "Bearer " + key}
+    data = None
+    if body is not None:
+        headers["Content-Type"] = "application/json"
+        data = json.dumps(body).encode()
+    try:
+        with urllib.request.urlopen(
+            urllib.request.Request(url, data=data, headers=headers), timeout=timeout
+        ) as response:
+            return json.load(response)
+    except Exception as exc:
+        stop("API request failed at " + url + " (" + type(exc).__name__ + ")")
+
+
+def memory_kib(text):
+    for line in text.splitlines():
+        if line.startswith("MemAvailable:"):
+            return int(line.split()[1])
+    stop("MemAvailable missing")
+
+
+def memory():
+    head = memory_kib(Path("/proc/meminfo").read_text())
+    worker = memory_kib(worker_output("cat", "/proc/meminfo"))
+    return head, worker
+
+
+def ranks(expected_head, expected_worker):
+    head = set(output(["docker", "ps", "--format", "{{.Names}}"]).splitlines())
+    worker = set(worker_output("docker", "ps", "--format", "{{.Names}}").splitlines())
+    if head & HEAD_RANKS != {expected_head}:
+        stop("head model ranks differ from the selected lane: " + repr(sorted(head & HEAD_RANKS)))
+    if worker & WORKER_RANKS != {expected_worker}:
+        stop("worker model ranks differ from the selected lane: " + repr(sorted(worker & WORKER_RANKS)))
+    print("PASS both ranks; previous ranks absent", flush=True)
+
+
+def qwen_nfs(lane):
+    owner = output(["docker", "ps", "--filter", "name=^/vllm-fn-nfs$", "--format", "{{.Names}}"])
+    if owner != "vllm-fn-nfs":
+        stop("Qwen NFS exporter is not vllm-fn-nfs")
+    source = output([
+        "docker", "inspect", "vllm-fn-nfs", "--format",
+        '{{range .Mounts}}{{if eq .Destination "/export"}}{{.Source}}{{end}}{{end}}',
+    ])
+    expected = str((HOME / ".cache/huggingface").resolve())
+    if not source or str(Path(source).resolve()) != expected:
+        stop("Qwen NFS /export is not backed by " + expected)
+    model_dir = QWEN_CACHE_DIRS[lane]
+    worker_output(
+        "docker", "run", "--rm", "-v", "vllm-fn-hf:/hf:ro", "alpine:latest",
+        "test", "-d", "/hf/hub/" + model_dir,
+    )
+    print("PASS Qwen NFS exporter and worker checkpoint mount", flush=True)
+
+
+def load_profile(lane):
+    if lane == "qwen38-nvfp4":
+        return lane, "235000", 3600, "1,2,4,8"
+    if lane == "qwen38-fp8":
+        return lane, "235000", 3600, "1,2,4"
+    if lane == "glm53-flash":
+        p = HOME / ".config/frontier/glm53-profiles/accepted.env"
+        signature = (env_value(p, "SPEC_METHOD"), env_value(p, "MAX_MODEL_LEN"))
+        profiles = {
+            ("dflash", "850000"): ("glm53-flash", "790000"),
+            ("mtp", "850000"): ("glm53-flash-mtp-850k", "790000"),
+            ("dflash", "500000"): ("glm53-flash-dflash-500k", "490000"),
+        }
+        if signature not in profiles:
+            stop("GLM accepted profile has an unknown signature")
+        profile, filler = profiles[signature]
+        return profile, filler, 7200, "1,2,4"
+    size = env_value(HOME / "src/frontier/deepseek41-dual/.env", "MAX_MODEL_LEN")
+    if size == "600000":
+        return "deepseek41-flash", "440000", 7200, "1,2"
+    stop("the DeepSeek managed load requires the qualified 600K profile")
+
+
+def smoke(lane):
+    if lane not in LANES:
+        stop("use: spark-frontier-check <qwen38-nvfp4|qwen38-fp8|glm53-flash|deepseek41-flash> [--load]")
+    expected_state = "active:" + lane
+    actual_state = STATE.read_text().strip() if STATE.exists() else "none"
+    if actual_state != expected_state:
+        if actual_state.startswith(("starting:", "raw-ready:", "stopping-")):
+            stop("switch is still in progress (" + actual_state + "); wait for its completion line")
+        stop(
+            "active frontier state is " + actual_state + "; expected " + expected_state
+            + ". Run spark-frontier status and do not run --load"
+        )
+    model, head, worker = LANES[lane]
+    ranks(head, worker)
+    if lane in QWEN_CACHE_DIRS:
+        qwen_nfs(lane)
+    h, w = memory()
+    print(f"MEMORY head={h/1048576:.2f} GiB worker={w/1048576:.2f} GiB", flush=True)
+    if min(h, w) < FLOOR_KIB:
+        stop("a node is below the 3 GiB preflight floor")
+
+    key = (HOME / ".config/frontier/api-key").read_text().strip()
+    raw = request("http://127.0.0.1:8100/v1/models", key, timeout=20)
+    ids = {item.get("id") for item in raw.get("data", [])}
+    if model not in ids:
+        stop("raw API model identity does not match " + model)
+    print("PASS raw model identity: " + model, flush=True)
+
+    health = output(["docker", "inspect", "spark-litellm", "--format", "{{.State.Health.Status}}"])
+    if health != "healthy":
+        stop("standalone LiteLLM is " + health)
+    master = env_value(HOME / "ai/services/litellm/runtime.env", "LITELLM_MASTER_KEY")
+    print("CHECK LiteLLM chat route...", flush=True)
+    chat = request("http://127.0.0.1:4000/v1/chat/completions", master, {
+        "model": lane,
+        "messages": [{"role": "user", "content": "Reply with exactly FRONTIER_ROUTE_OK"}],
+        "temperature": 0,
+        "max_tokens": 128,
+    }, timeout=600)
+    answer = (chat["choices"][0]["message"].get("content") or "").strip()
+    if answer != "FRONTIER_ROUTE_OK":
+        stop("LiteLLM chat answer did not match FRONTIER_ROUTE_OK")
+    print("PASS LiteLLM chat route", flush=True)
+
+    print("CHECK structured tool route...", flush=True)
+    tool = request("http://127.0.0.1:4000/v1/chat/completions", master, {
+        "model": lane,
+        "messages": [{"role": "user", "content": "Call get_weather for Bengaluru. Do not answer without using the tool."}],
+        "temperature": 0,
+        "max_tokens": 512,
+        "tools": [{"type": "function", "function": {
+            "name": "get_weather",
+            "description": "Get weather for a city",
+            "parameters": {"type": "object", "properties": {"city": {"type": "string"}}, "required": ["city"]},
+        }}],
+        "tool_choice": "required",
+    }, timeout=600)
+    calls = tool["choices"][0]["message"].get("tool_calls") or []
+    found = False
+    for call in calls:
+        function = call.get("function") or {}
+        try:
+            args = json.loads(function.get("arguments") or "{}")
+        except json.JSONDecodeError:
+            continue
+        found |= function.get("name") == "get_weather" and args.get("city") == "Bengaluru"
+    if not found:
+        stop("structured get_weather(city=Bengaluru) call missing")
+    print("PASS structured tool route", flush=True)
+
+    hermes = str(HOME / ".local/bin/hermes")
+    for setting, expected in (
+        ("model.provider", "custom:spark-fast"),
+        ("model.base_url", "http://127.0.0.1:4000/v1"),
+        ("model.default", lane),
+    ):
+        if output([hermes, "config", "get", setting]) != expected:
+            stop("Hermes " + setting + " does not match " + expected)
+    try:
+        hermes_context = int(output([hermes, "config", "get", "model.context_length"]))
+    except ValueError:
+        stop("Hermes context_length is not a number")
+    if lane.startswith("qwen38-"):
+        accepted_context = 262144
+    elif lane == "glm53-flash":
+        accepted_context = int(env_value(HOME / ".config/frontier/glm53-profiles/accepted.env", "MAX_MODEL_LEN"))
+    else:
+        accepted_context = int(env_value(HOME / "src/frontier/deepseek41-dual/.env", "MAX_MODEL_LEN"))
+    if hermes_context <= 0 or hermes_context > accepted_context:
+        stop("Hermes context_length exceeds the active model's context")
+    if lane.startswith("qwen38-") or lane == "glm53-flash":
+        if hermes_context != accepted_context:
+            stop("Hermes context_length does not match the accepted profile")
+    for service in ("hermes-serve.service", "hermes-gateway.service"):
+        if output(["systemctl", "--user", "is-active", service]) != "active":
+            stop(service + " is not active")
+    print("CHECK Hermes reply...", flush=True)
+    response = output(["timeout", "300", hermes, "-z", "Reply with exactly FRONTIER_HERMES_OK"], timeout=310)
+    if response.strip() != "FRONTIER_HERMES_OK":
+        stop("Hermes answer did not match FRONTIER_HERMES_OK")
+    print("PASS Hermes route", flush=True)
+    ranks(head, worker)
+    h, w = memory()
+    print(f"MEMORY after smoke head={h/1048576:.2f} GiB worker={w/1048576:.2f} GiB", flush=True)
+    if min(h, w) < FLOOR_KIB:
+        stop("a node fell below the 3 GiB preflight floor")
+    print("SMOKE_PASS " + lane, flush=True)
+
+
+def monitored_probe(lane, command, marker, log_path):
+    print("CHECK " + marker + ": " + str(log_path), flush=True)
+    minimum = list(memory())
+    if min(minimum) < FLOOR_KIB:
+        stop("a node is below the 3 GiB preflight floor")
+    with log_path.open("x") as log:
+        os.chmod(log_path, 0o600)
+        proc = subprocess.Popen(command, stdout=log, stderr=subprocess.STDOUT)
+        last_report = 0.0
+        try:
+            while proc.poll() is None:
+                h, w = memory()
+                minimum[0] = min(minimum[0], h)
+                minimum[1] = min(minimum[1], w)
+                if time.monotonic() - last_report >= 30:
+                    print(f"LOAD memory head={h/1048576:.2f} GiB worker={w/1048576:.2f} GiB", flush=True)
+                    last_report = time.monotonic()
+                if min(h, w) < FLOOR_KIB:
+                    stop("load client stopped below 3 GiB; inspect model health before another test")
+                time.sleep(2)
+            code = proc.wait()
+        finally:
+            if proc.poll() is None:
+                proc.terminate()
+                try:
+                    proc.wait(timeout=10)
+                except subprocess.TimeoutExpired:
+                    proc.kill()
+    h, w = memory()
+    minimum[0] = min(minimum[0], h)
+    minimum[1] = min(minimum[1], w)
+    print(f"LOW_WATER head={minimum[0]/1048576:.2f} GiB worker={minimum[1]/1048576:.2f} GiB", flush=True)
+    if code or marker not in log_path.read_text(errors="replace"):
+        stop("managed probe failed; inspect " + str(log_path))
+    model, head, worker = LANES[lane]
+    ranks(head, worker)
+    if STATE.read_text().strip() != "active:" + lane:
+        stop("active lane changed during the load test")
+    return minimum
+
+
+def load(lane):
+    profile, filler, timeout, levels = load_profile(lane)
+    script = HOME / "ai/tools/frontier-model-probe.py"
+    if not script.is_file():
+        stop("missing existing frontier-model-probe.py")
+    results = HOME / "frontier-results" / profile / "latest"
+    if not results.exists():
+        stop("no prior qualification results for " + profile)
+    logs = HOME / ".local/state/spark-frontier/checks"
+    logs.mkdir(mode=0o700, parents=True, exist_ok=True)
+    timestamp = datetime.now().strftime("%Y%m%d-%H%M%S")
+    label = "managed-" + timestamp
+    print(f"MANAGED_LOAD profile={profile} context_filler={filler} concurrency={levels}", flush=True)
+    context = ["python3", str(script), "context", "--profile", profile,
+               "--filler-counts", filler, "--label", label,
+               "--max-tokens", "64", "--timeout", str(timeout)]
+    context_min = monitored_probe(lane, context, "CONTEXT_LADDER_OK",
+                                  logs / (timestamp + "-" + lane + "-context.log"))
+    concurrency = ["python3", str(script), "concurrency", "--profile", profile,
+                   "--levels", levels, "--label", label, "--max-tokens", "512",
+                   "--minimum-tokens", "128", "--timeout", "1800"]
+    concurrency_min = monitored_probe(lane, concurrency, "CONCURRENCY_LADDER_OK",
+                                      logs / (timestamp + "-" + lane + "-concurrency.log"))
+    print(f"MANAGED_LOW_WATER head={min(context_min[0],concurrency_min[0])/1048576:.2f} GiB "
+          f"worker={min(context_min[1],concurrency_min[1])/1048576:.2f} GiB", flush=True)
+    print("LOAD_PASS " + lane, flush=True)
+
+
+def main():
+    if len(sys.argv) not in (2, 3) or (len(sys.argv) == 3 and sys.argv[2] != "--load"):
+        stop("use: spark-frontier-check <lane> [--load]")
+    lane = sys.argv[1]
+    lock_path = HOME / ".local/state/spark-frontier/manager.lock"
+    lock_path.parent.mkdir(mode=0o700, parents=True, exist_ok=True)
+    with lock_path.open("a") as lock:
+        try:
+            fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        except BlockingIOError:
+            stop("a switch is still running; wait for its completion line")
+        smoke(lane)
+        if len(sys.argv) == 3:
+            load(lane)
+
+
+if __name__ == "__main__":
+    main()

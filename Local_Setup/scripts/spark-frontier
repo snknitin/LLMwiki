@@ -1,0 +1,416 @@
+#!/usr/bin/env bash
+set -Eeuo pipefail
+
+ROOT="$HOME/src/frontier"
+STATE_DIR="${XDG_STATE_HOME:-$HOME/.local/state}/spark-frontier"
+LOCK_FILE="$STATE_DIR/manager.lock"
+ACTIVE_FILE="$STATE_DIR/active-lane"
+KEY_FILE="$HOME/.config/frontier/api-key"
+GLM53_PROFILE_FILE="$HOME/.config/frontier/glm53-profiles/accepted.env"
+WORKER_MGMT="snknitin@192.168.0.100"
+API_BASE="http://127.0.0.1:8100"
+HERMES="$HOME/.local/bin/hermes"
+SPARK_MODEL="$HOME/.local/bin/spark-model"
+LITELLM_DIR="$HOME/ai/services/litellm"
+mkdir -p "$STATE_DIR"
+
+lane_values() {
+  case "$1" in
+    qwen38-nvfp4)
+      DIR="$ROOT/qwen38-dual"
+      START='HF_HOME="$HOME/.cache/huggingface" ./start.sh --launch'
+      API_MODEL='qwen3.8-flash-next'
+      HERMES_ALIAS='qwen38-nvfp4'
+      CONTEXT='262144'
+      ;;
+    qwen38-fp8)
+      DIR="$ROOT/qwen38-dual"
+      START='HF_HOME="$HOME/.cache/huggingface" ./start-fp8.sh --no-download --nfs'
+      API_MODEL='qwen3.8-flash-next-fp8'
+      HERMES_ALIAS='qwen38-fp8'
+      CONTEXT='262144'
+      ;;
+    glm53-flash)
+      DIR="$ROOT/glm53-dual"
+      START='SKIP_BUILD=1 ./start.sh'
+      API_MODEL='GLM-5.3-Flash-EXL3'
+      HERMES_ALIAS='glm53-flash'
+      CONTEXT=''
+      ;;
+    deepseek41-flash)
+      DIR="$ROOT/deepseek41-dual"
+      START='SKIP_BUILD=1 ./start.sh'
+      API_MODEL='DeepSeek-v4.1-Flash-EXL3'
+      HERMES_ALIAS='deepseek41-flash'
+      CONTEXT="${DEEPSEEK41_ACCEPTED_CONTEXT:-262144}"
+      ;;
+    *)
+      printf 'Unknown frontier lane: %s\n' "$1" >&2
+      return 2
+      ;;
+  esac
+}
+
+validate_glm_accepted_profile() {
+  local spec len gmu loader
+  [[ -f "$GLM53_PROFILE_FILE" ]] || {
+    echo 'No accepted GLM profile; finish tutorial Step 16 first.' >&2
+    return 1
+  }
+  [[ "$(stat -c %a "$GLM53_PROFILE_FILE")" == 600 ]] || {
+    echo 'Accepted GLM profile must have mode 600.' >&2
+    return 1
+  }
+  grep -q '^VLLM_API_KEY=' "$GLM53_PROFILE_FILE" || {
+    echo 'Accepted GLM profile is missing its API key.' >&2
+    return 1
+  }
+  spec="$(sed -n 's/^SPEC_METHOD=//p' "$GLM53_PROFILE_FILE")"
+  len="$(sed -n 's/^MAX_MODEL_LEN=//p' "$GLM53_PROFILE_FILE")"
+  gmu="$(sed -n 's/^GPU_MEM_UTIL=//p' "$GLM53_PROFILE_FILE")"
+  loader="$(sed -n 's/^GLM53_EXTRA_ENV=//p' "$GLM53_PROFILE_FILE")"
+  case "$spec|$len|$gmu|$loader" in
+    'dflash|850000|0.87|INSTANTTENSOR_BUFFER_SIZE=536870912') ;;
+    'mtp|850000|0.87|INSTANTTENSOR_BUFFER_SIZE=536870912 INSTANTTENSOR_MAX_FREE_MEM_USAGE=0.75')
+      [[ "$(sed -n 's/^MTP_TOKENS=//p' "$GLM53_PROFILE_FILE")" == 2 ]] || return 1
+      ;;
+    'dflash|500000|0.86|INSTANTTENSOR_BUFFER_SIZE=536870912') ;;
+    *) echo 'Accepted GLM profile does not match a qualified configuration; refusing switch.' >&2; return 1 ;;
+  esac
+  CONTEXT="$len"
+}
+
+stop_all_frontier() {
+  local rc=0
+  # Stop DeepSeek before Qwen: DeepSeek may reuse a live Qwen NFS exporter.
+  if [[ -d "$ROOT/deepseek41-dual" ]] && \
+     { docker ps --format '{{.Names}}' | grep -qx 'dsv41-exl3-head' || \
+       ssh -o BatchMode=yes "$WORKER_MGMT" "docker ps --format '{{.Names}}'" | grep -qx 'dsv41-exl3-worker'; }; then
+    (cd "$ROOT/deepseek41-dual" && ./start.sh stop) || rc=1
+  fi
+  if [[ -d "$ROOT/glm53-dual" ]] && \
+     { docker ps --format '{{.Names}}' | grep -qx 'glm53-exl3-head' || \
+       ssh -o BatchMode=yes "$WORKER_MGMT" "docker ps --format '{{.Names}}'" | grep -qx 'glm53-exl3-worker'; }; then
+    (cd "$ROOT/glm53-dual" && ./start.sh stop) || rc=1
+  fi
+  if [[ -d "$ROOT/qwen38-dual" ]] && \
+     { docker ps --format '{{.Names}}' | grep -qx 'vllm-fn' || \
+       ssh -o BatchMode=yes "$WORKER_MGMT" "docker ps --format '{{.Names}}'" | grep -qx 'vllm-fn'; }; then
+    # Keep the NFS exporter; --nfs could tear down an exporter another lane reused.
+    (cd "$ROOT/qwen38-dual" && ./stop.sh) || rc=1
+  fi
+  # The optional SecondSpark TP1 lane cannot coexist with a dual-node lane.
+  ssh -o BatchMode=yes "$WORKER_MGMT" \
+    "docker rm -f vllm-fn-tp1 >/dev/null 2>&1 || true; pkill -f '[m]emwatch.sh vllm-fn-tp1' 2>/dev/null || true" || rc=1
+  return "$rc"
+}
+
+live_nfs_exporter() {
+  docker ps --format '{{.Names}}' | \
+    grep -E '^(vllm-fn-nfs|glm53-nfs|glm53fp8-nfs|dsv41-nfs|dsv41-exl3-nfs)$' | \
+    head -1
+}
+
+nfs_rpc_ready() {
+  timeout 3 rpcinfo -t 127.0.0.1 nfs 4 >/dev/null 2>&1
+}
+
+retire_nfs_exporter() {
+  local exporter="$1" i
+  printf 'Retiring incompatible NFS exporter %s before the next lane starts.\n' "$exporter"
+  timeout 45 docker rm -f "$exporter" >/dev/null
+  for i in {1..20}; do
+    nfs_rpc_ready || return 0
+    sleep 0.5
+  done
+  printf 'NFS port 2049 is still active after removing %s; refusing to start a model.\n' "$exporter" >&2
+  return 1
+}
+
+prepare_nfs_for_lane() {
+  local requested="$1" exporter=''
+  exporter="$(live_nfs_exporter || true)"
+
+  # Qwen requires its own Hugging Face-cache exporter. GLM can reuse that
+  # exporter, but cannot reuse DeepSeek EXL3's different /export layout.
+  case "$requested:$exporter" in
+    qwen38-*:) ;;
+    qwen38-*:vllm-fn-nfs) ;;
+    qwen38-*:*) retire_nfs_exporter "$exporter" ;;
+    glm53-flash:dsv41-exl3-nfs) retire_nfs_exporter "$exporter" ;;
+  esac
+
+  exporter="$(live_nfs_exporter || true)"
+  if nfs_rpc_ready && [[ -z "$exporter" ]]; then
+    printf '%s\n' 'NFS port 2049 is owned by an unknown service; refusing to guess its export layout.' >&2
+    return 1
+  fi
+}
+
+assert_frontier_stopped() {
+  local head worker ports_head ports_worker
+  head="$(docker ps --format '{{.Names}}' | \
+    grep -E '^(vllm-fn|glm53-exl3-head|dsv41-exl3-head)$' || true)"
+  worker="$(ssh -o BatchMode=yes "$WORKER_MGMT" \
+    "docker ps --format '{{.Names}}'" | \
+    grep -E '^(vllm-fn|vllm-fn-tp1|glm53-exl3-worker|dsv41-exl3-worker)$' || true)"
+  ports_head="$(ss -ltn | grep -E ':(8100|29521|50000)([[:space:]]|$)' || true)"
+  ports_worker="$(ssh -o BatchMode=yes "$WORKER_MGMT" ss -ltn | \
+    grep -E ':(8100|29521|50000)([[:space:]]|$)' || true)"
+  if [[ -n "$head$worker$ports_head$ports_worker" ]]; then
+    printf '%s\n' 'Refusing to continue: a frontier rank or distributed port remains.' >&2
+    printf 'HEAD_CONTAINERS=%s\nWORKER_CONTAINERS=%s\nHEAD_PORTS=%s\nWORKER_PORTS=%s\n' \
+      "$head" "$worker" "$ports_head" "$ports_worker" >&2
+    return 1
+  fi
+  rm -f "$ACTIVE_FILE"
+}
+
+wait_model_idle() {
+  local base="$1" deadline=$((SECONDS + 300)) metrics sum matches key=''
+  local -a auth=()
+  [[ "$base" == *':8100' ]] && key="$(<"$KEY_FILE")"
+  [[ -n "$key" ]] && auth=(-H "Authorization: Bearer $key")
+  if ! curl -fsS "$base/health" "${auth[@]}" >/dev/null 2>&1; then
+    return 0
+  fi
+  while (( SECONDS < deadline )); do
+    metrics="$(curl -fsS "$base/metrics" "${auth[@]}" 2>/dev/null || true)"
+    matches="$(printf '%s\n' "$metrics" | grep -Ec '^vllm:(num_requests_running|num_requests_waiting)' || true)"
+    sum="$(printf '%s\n' "$metrics" | awk '$1 ~ /^vllm:(num_requests_running|num_requests_waiting)/ {s+=$2} END {print s+0}')"
+    if [[ "$matches" -gt 0 && "$sum" == '0' ]]; then
+      return 0
+    fi
+    sleep 5
+  done
+  printf 'Could not prove zero active/queued requests at %s within 300 seconds.\n' "$base" >&2
+  return 1
+}
+
+quiesce_ingress() {
+  printf '%s\n' 'Entering maintenance mode; do not submit new direct API requests.'
+  systemctl --user stop hermes-dashboard.service hermes-gateway.service hermes-serve.service || true
+  wait_model_idle 'http://127.0.0.1:8100'
+  wait_model_idle 'http://127.0.0.1:8000'
+  (cd "$LITELLM_DIR" && docker compose -p spark-litellm stop litellm)
+}
+
+show_gpu_holders() {
+  printf '%s\n' 'Head GPU holders:'
+  nvidia-smi --query-compute-apps=pid,process_name,used_memory --format=csv
+  printf '%s\n' 'Worker GPU holders:'
+  ssh -o BatchMode=yes "$WORKER_MGMT" \
+    'nvidia-smi --query-compute-apps=pid,process_name,used_memory --format=csv'
+}
+
+wait_api() {
+  local expected="$1" deadline=$((SECONDS + 3600)) key
+  key="$(<"$KEY_FILE")"
+  while (( SECONDS < deadline )); do
+    if body="$(curl -fsS "$API_BASE/v1/models" \
+      -H "Authorization: Bearer $key" 2>/dev/null)"; then
+      if python3 - "$expected" "$body" <<'PY'
+import json,sys
+expected=sys.argv[1]
+d=json.loads(sys.argv[2])
+ids={x.get('id') for x in d.get('data',[])}
+raise SystemExit(0 if expected in ids else 1)
+PY
+      then
+        unset key
+        return 0
+      fi
+    fi
+    sleep 10
+  done
+  unset key
+  return 1
+}
+
+start_control_plane() {
+  local deadline=$((SECONDS + 240)) health
+  (cd "$LITELLM_DIR" && docker compose -p spark-litellm up -d --pull never)
+  while (( SECONDS < deadline )); do
+    health="$(docker inspect spark-litellm --format '{{if .State.Health}}{{.State.Health.Status}}{{else}}{{.State.Status}}{{end}}' 2>/dev/null || true)"
+    [[ "$health" == 'healthy' ]] && return 0
+    [[ "$health" == 'unhealthy' || "$health" == 'exited' ]] && break
+    sleep 5
+  done
+  docker logs --tail 120 spark-litellm >&2 || true
+  return 1
+}
+
+select_hermes() {
+  "$HERMES" config set model.provider custom:spark-fast
+  "$HERMES" config set model.base_url http://127.0.0.1:4000/v1
+  "$HERMES" config set model.default "$HERMES_ALIAS"
+  "$HERMES" config set model.context_length "$CONTEXT"
+  "$HERMES" config check
+  systemctl --user restart hermes-serve.service hermes-gateway.service
+}
+
+probe_litellm() {
+  local alias="$1" key body
+  key="$(sed -n 's/^LITELLM_MASTER_KEY=//p' "$LITELLM_DIR/runtime.env")"
+  [[ -n "$key" ]] || { echo 'LITELLM_MASTER_KEY missing from standalone runtime.env' >&2; return 1; }
+  body="$(printf '{"model":"%s","messages":[{"role":"user","content":"Reply with exactly ROUTE_OK"}],"temperature":0,"max_tokens":16}' "$alias")"
+  curl --fail --silent --show-error --max-time 3600 \
+    http://127.0.0.1:4000/v1/chat/completions \
+    -H "Authorization: Bearer $key" \
+    -H 'Content-Type: application/json' \
+    -d "$body" >/dev/null
+  unset key body
+}
+
+activate_spark_fast() {
+  "$SPARK_MODEL" use qwen35
+  start_control_plane
+  "$HERMES" config set model.provider custom:spark-fast
+  "$HERMES" config set model.base_url http://127.0.0.1:4000/v1
+  "$HERMES" config set model.default spark-fast
+  "$HERMES" config set model.context_length 262144
+  "$HERMES" config check
+  systemctl --user start hermes-dashboard.service hermes-gateway.service hermes-serve.service
+  rm -f "$ACTIVE_FILE"
+}
+
+rollback_verified() {
+  set +e
+  printf '%s\n' 'Rollback requested; first proving every frontier compute rank is gone.' >&2
+  stop_all_frontier
+  local stop_rc=$?
+  assert_frontier_stopped
+  local verify_rc=$?
+  set -e
+  if (( stop_rc != 0 || verify_rc != 0 )); then
+    printf '%s\n' 'ROLLBACK BLOCKED: do not start spark-fast; remove the reported rank/port and rerun restore-spark-fast.' >&2
+    return 1
+  fi
+  activate_spark_fast
+}
+
+write_state() {
+  printf '%s\n' "$1" > "$ACTIVE_FILE"
+}
+
+use_lane() {
+  local requested="$1"
+  lane_values "$requested"
+  [[ -s "$KEY_FILE" ]] || { echo "Missing $KEY_FILE" >&2; return 1; }
+  [[ -d "$DIR" ]] || { echo "Missing recipe directory: $DIR" >&2; return 1; }
+  if [[ "$requested" == 'glm53-flash' ]]; then
+    validate_glm_accepted_profile || return 1
+  fi
+
+  exec 9>"$LOCK_FILE"
+  flock -n 9 || { echo 'Another spark-frontier operation is running.' >&2; return 1; }
+
+  local rollback_armed=1 switch_pid="$BASHPID"
+  trap 'rc=$?; trap - ERR INT TERM; if [[ "$BASHPID" == "$switch_pid" ]] && (( rollback_armed )); then rollback_verified || true; fi; exit "$rc"' ERR INT TERM
+  write_state 'stopping-old'
+  quiesce_ingress
+  if [[ -d "$ROOT/sparkDash" ]]; then
+    (cd "$ROOT/sparkDash" && \
+      docker compose -f docker-compose.yml -f docker-compose.local.yml stop) || true
+  fi
+
+  "$SPARK_MODEL" stop
+  stop_all_frontier
+  assert_frontier_stopped
+  prepare_nfs_for_lane "$requested"
+  show_gpu_holders
+
+  if [[ "$requested" == 'glm53-flash' ]]; then
+    install -m 600 "$GLM53_PROFILE_FILE" "$DIR/.env"
+    cmp -s "$GLM53_PROFILE_FILE" "$DIR/.env" || return 1
+  fi
+  write_state "starting:$requested"
+  printf 'Starting frontier lane %s...\n' "$requested"
+  (cd "$DIR" && bash -lc "$START")
+  wait_api "$API_MODEL"
+
+  write_state "raw-ready:$requested"
+  start_control_plane
+  probe_litellm "$HERMES_ALIAS"
+  select_hermes
+  write_state "active:$requested"
+  rollback_armed=0
+  trap - ERR INT TERM
+  printf 'Active frontier lane: %s; Hermes model: %s; context: %s\n' \
+    "$requested" "$HERMES_ALIAS" "$CONTEXT"
+}
+
+restore_spark_fast() {
+  exec 9>"$LOCK_FILE"
+  flock -n 9 || { echo 'Another spark-frontier operation is running.' >&2; return 1; }
+  write_state 'stopping-old'
+  quiesce_ingress
+  "$SPARK_MODEL" stop
+  stop_all_frontier
+  assert_frontier_stopped
+  activate_spark_fast
+  echo 'Started spark-fast, restored standalone LiteLLM, and routed Hermes explicitly to spark-fast.'
+}
+
+status() {
+  local nfs_exporter nfs_source=''
+  printf 'Desired/transition state: '
+  cat "$ACTIVE_FILE" 2>/dev/null || echo none
+  docker ps -a --format 'table {{.Names}}\t{{.Status}}\t{{.Ports}}' \
+    | grep -E 'NAMES|vllm-fn|glm53|dsv41|spark-litellm' || true
+  ssh -o BatchMode=yes "$WORKER_MGMT" \
+    "docker ps -a --format 'table {{.Names}}\t{{.Status}}'" \
+    | grep -E 'NAMES|vllm-fn|glm53|dsv41' || true
+  ss -ltnp | grep -E ':(4000|8000|8100|29521|50000)([[:space:]]|$)' || true
+  if [[ -s "$KEY_FILE" ]]; then
+    local key; key="$(<"$KEY_FILE")"
+    curl -fsS "$API_BASE/v1/models" -H "Authorization: Bearer $key" 2>/dev/null || true
+    unset key
+    echo
+  fi
+  docker inspect spark-litellm --format 'LiteLLM={{if .State.Health}}{{.State.Health.Status}}{{else}}{{.State.Status}}{{end}}' 2>/dev/null || true
+  nfs_exporter="$(live_nfs_exporter || true)"
+  if [[ -n "$nfs_exporter" ]]; then
+    nfs_source="$(docker inspect "$nfs_exporter" --format '{{range .Mounts}}{{if eq .Destination "/export"}}{{.Source}}{{end}}{{end}}' 2>/dev/null || true)"
+  fi
+  printf 'NFS exporter=%s source=%s\n' "${nfs_exporter:-none}" "${nfs_source:-unknown}"
+  for k in model.provider model.base_url model.default model.context_length; do
+    printf 'Hermes %s=' "$k"
+    "$HERMES" config get "$k" 2>/dev/null || true
+  done
+  systemctl --user is-active hermes-dashboard.service hermes-gateway.service hermes-serve.service || true
+  show_gpu_holders
+  free -h
+  ssh -o BatchMode=yes "$WORKER_MGMT" free -h
+}
+
+usage() {
+  cat <<'EOF'
+Usage:
+  spark-frontier use qwen38-nvfp4
+  spark-frontier use qwen38-fp8
+  spark-frontier use glm53-flash
+  spark-frontier use deepseek41-flash
+  spark-frontier status
+  spark-frontier emergency-stop-all
+  spark-frontier restore-spark-fast
+
+Cold models remain listed in LiteLLM/Hermes but must not receive requests.
+EOF
+}
+
+case "${1:-status}" in
+  use) [[ $# -eq 2 ]] || { usage >&2; exit 2; }; use_lane "$2" ;;
+  emergency-stop-all)
+    exec 9>"$LOCK_FILE"; flock -n 9 || exit 1
+    systemctl --user stop hermes-dashboard.service hermes-gateway.service hermes-serve.service || true
+    (cd "$LITELLM_DIR" && docker compose -p spark-litellm stop litellm) || true
+    "$SPARK_MODEL" stop || "$SPARK_MODEL" stop --force
+    stop_all_frontier
+    assert_frontier_stopped
+    ;;
+  restore-spark-fast) restore_spark_fast ;;
+  status) status ;;
+  help|-h|--help) usage ;;
+  *) usage >&2; exit 2 ;;
+esac
