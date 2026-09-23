@@ -46,13 +46,15 @@ The DFlash2 component is not appropriate for a commercial deployment without a s
 
 ## Memory and coexistence limits
 
-At the live-validated `GPU_MEM_UTIL=0.87`, vLLM budgets approximately:
+The DFlash/850K baseline was live-validated at `GPU_MEM_UTIL=0.87`, where vLLM budgets approximately:
 
 ```text
 121.69 GiB × 0.87 = 105.87 GiB per node
 ```
 
 The upstream `0.85` value is not sufficient for this pinned image at 850K on this pair. On 2026-09-21 it left 12.25 GiB for KV while vLLM required 13.46 GiB, so startup stopped with an estimated maximum length of 680,960. At `0.87`, the same launch exposed 14.15 GiB of KV and reported capacity for 880,357 tokens. This is enough to boot 850K, but it remains a narrow, exclusive-node profile—not permission to co-reside other services.
+
+The accepted managed profile is now **MTP k=2 at 850K and GMU `0.84`**. This is a different speculation mode with a smaller KV allocation: it retained one full 850K request slot, passed the 790,022-token retrieval and C1/C2/C4 routed load, and kept the observed head-node memory low-water above the 3 GiB safety floor. MTP at `0.87` booted and passed smoke, but its normal routed load crossed that floor.
 
 Repository evidence says:
 
@@ -295,7 +297,7 @@ Run on **FirstSpark** and keep it visible:
 
 ```bash
 cd "$HOME/src/frontier/glm53-dual"
-SKIP_BUILD=1 ./start.sh
+HF_HOME="$HOME/.cache/huggingface" SKIP_BUILD=1 ./start.sh
 ```
 
 `SKIP_BUILD=1` makes the test use the published InstantTensor image instead of silently compiling a locally different overlay. If the pinned checkout and published image refuse to match, record that as a provenance failure rather than building during the baseline.
@@ -539,12 +541,12 @@ curl -fsS http://127.0.0.1:8000/v1/models | python3 -m json.tool
 
 ## Step 16 — Optional, separately recorded MTP and 500K adaptations
 
-The validated DFlash/850K baseline does **not** have to be replaced. These adaptations answer two different questions and are not both speed upgrades. The MTP profile retains the same 850K/0.87 serving geometry but needs its own InstantTensor *loader-budget* setting; that is a startup accommodation, not a performance tuning claim:
+The validated DFlash/850K baseline does **not** have to be replaced. These adaptations answer two different questions and are not both speed upgrades. The accepted MTP profile retains 850K context at GMU `0.84` and needs its own InstantTensor *loader-budget* setting; that is a startup accommodation, not a performance tuning claim:
 
 | Result profile | Speculation | Context / GMU | InstantTensor loader settings | What it tests |
 |---|---|---|---|---|
 | `glm53-flash` | DFlash2 k=7 | 850K / 0.87 | 512 MiB buffer | Existing validated baseline |
-| `glm53-flash-mtp-850k` | Built-in MTP k=2 | 850K / 0.87 | 512 MiB buffer + free-memory fraction 0.75 | DFlash-independent control, license boundary, and failure isolation |
+| `glm53-flash-mtp-850k` | Built-in MTP k=2 | 850K / 0.84 | 512 MiB buffer + free-memory fraction 0.99 | Accepted managed profile with routed-load memory margin |
 | `glm53-flash-dflash-500k` | DFlash2 k=7 | 500K / 0.86 | 512 MiB buffer | Reduced context with a measured 500K KV margin; holds speculation constant |
 
 Do not combine MTP and 500K in either first adaptation. Change one dimension at a time so the comparison remains attributable.
@@ -557,6 +559,7 @@ These are the saved **local** result runs, not the repository's headline decode 
 |---|---:|---:|---:|---:|---:|---|
 | DFlash/850K `glm53-flash/20260921-215645` | 18.685 | 23.826 | 34.136 | 47.510 | 790,022 | Pass / pass / pass |
 | MTP/850K `glm53-flash-mtp-850k/20260922-084501` | 21.798 | 21.700 | 39.730 | 55.196 | 790,022 | Pass / pass / pass |
+| Accepted managed MTP/850K `managed-20260923-141515` | — | 23.717 | 39.036 | 59.207 | 790,022 | Routed smoke passed; tool/vision not repeated |
 | DFlash/500K `glm53-flash-dflash-500k/20260922-092858` | 21.484 | 24.098 | 32.260 | 49.242 | 490,022 | Pass / pass / pass |
 
 MTP was higher on this run's C2/C4 but lower on C1 than DFlash/850K; DFlash/500K gave up validated context. Those are workload-specific observations, **not** a winner declaration. Confirm memory low-water, long generation, soak, clean restart, and SparkFast rollback before choosing an accepted GLM profile.
@@ -595,8 +598,8 @@ fi
 sed -i \
   -e 's/^SPEC_METHOD=.*/SPEC_METHOD=mtp/' \
   -e 's/^MAX_MODEL_LEN=.*/MAX_MODEL_LEN=850000/' \
-  -e 's/^GPU_MEM_UTIL=.*/GPU_MEM_UTIL=0.87/' \
-  -e 's/^GLM53_EXTRA_ENV=.*/GLM53_EXTRA_ENV=INSTANTTENSOR_BUFFER_SIZE=536870912 INSTANTTENSOR_MAX_FREE_MEM_USAGE=0.75/' \
+  -e 's/^GPU_MEM_UTIL=.*/GPU_MEM_UTIL=0.84/' \
+  -e 's/^GLM53_EXTRA_ENV=.*/GLM53_EXTRA_ENV="INSTANTTENSOR_BUFFER_SIZE=536870912 INSTANTTENSOR_MAX_FREE_MEM_USAGE=0.99"/' \
   "$PROFILE_DIR/mtp-850k.env"
 
 # Adaptation B: retain DFlash and change only memory/context geometry.
@@ -618,7 +621,7 @@ for file in "$PROFILE_DIR"/*.env; do
 done
 ```
 
-**Pass:** all three files report mode `600`; the baseline and MTP profiles show 850K/0.87, and the DFlash adaptation shows 500K/0.86. The MTP profile alone includes both InstantTensor variables. These values are profile-specific: do not copy MTP's loader-budget override to DFlash or DFlash/500K's GMU to an 850K profile. If you resume from a failed MTP attempt, the existing `dflash-850k.env` is preserved rather than replaced by the current `.env`.
+**Pass:** all three files report mode `600`; the DFlash baseline shows 850K/0.87, MTP shows 850K/0.84, and the DFlash adaptation shows 500K/0.86. The MTP profile alone includes both InstantTensor variables. These values are profile-specific: do not copy MTP's loader-budget override to DFlash or another profile's GMU to MTP. If you resume from a failed MTP attempt, the existing `dflash-850k.env` is preserved rather than replaced by the current `.env`.
 
 ### Step 16b — Drain `spark-fast` once before either adaptation
 
@@ -656,16 +659,17 @@ grep -q '^GLM53_EXTRA_ENV=' "$PROFILE_DIR/mtp-850k.env" || {
   exit 1
 }
 sed -i \
-  's/^GLM53_EXTRA_ENV=.*/GLM53_EXTRA_ENV=INSTANTTENSOR_BUFFER_SIZE=536870912 INSTANTTENSOR_MAX_FREE_MEM_USAGE=0.75/' \
+  -e 's/^GPU_MEM_UTIL=.*/GPU_MEM_UTIL=0.84/' \
+  -e 's/^GLM53_EXTRA_ENV=.*/GLM53_EXTRA_ENV="INSTANTTENSOR_BUFFER_SIZE=536870912 INSTANTTENSOR_MAX_FREE_MEM_USAGE=0.99"/' \
   "$PROFILE_DIR/mtp-850k.env"
 chmod 600 "$PROFILE_DIR/mtp-850k.env"
 install -m 600 "$PROFILE_DIR/mtp-850k.env" .env
 grep -E '^(SPEC_METHOD|MAX_MODEL_LEN|GPU_MEM_UTIL|GLM53_EXTRA_ENV)=' .env
 
-SKIP_BUILD=1 ./start.sh
+HF_HOME="$HOME/.cache/huggingface" SKIP_BUILD=1 ./start.sh
 ```
 
-**Pass:** the profile prints `GLM53_EXTRA_ENV=INSTANTTENSOR_BUFFER_SIZE=536870912 INSTANTTENSOR_MAX_FREE_MEM_USAGE=0.75`; the launcher reports `spec=mtp`, `max-len=850000`, `gpu-util=0.87`, then `health check passed`. MTP is the checkpoint's built-in k=2 multi-token predictor. It avoids the separate DFlash2 drafter and its CC BY-NC-ND license, but it is a control/fallback—not a promised speed increase. If startup fails, use the exact traceback procedure under Troubleshooting before changing another knob.
+**Pass:** the profile prints `GPU_MEM_UTIL=0.84` and `GLM53_EXTRA_ENV="INSTANTTENSOR_BUFFER_SIZE=536870912 INSTANTTENSOR_MAX_FREE_MEM_USAGE=0.99"`; the launcher reports both extra variable names, `spec=mtp`, `max-len=850000`, `gpu-util=0.84`, then `health check passed`. The double quotes are required because both assignments must remain one `.env` value. The `0.99` value changes only InstantTensor's upper-bound check: the pinned checkpoint still expands the configured buffer to the same 1,268,776,960-byte largest-tensor requirement. MTP is the checkpoint's built-in k=2 multi-token predictor. It avoids the separate DFlash2 drafter and its CC BY-NC-ND license. If startup fails, use the exact traceback procedure under Troubleshooting before changing another knob.
 
 Then run the self-contained evidence suite in **Step 16e** from any FirstSpark terminal. It reads the **running container's** MTP/850K identity and sets the unique result profile itself; no shell variables need to survive the launch command.
 
@@ -712,7 +716,7 @@ chmod 600 "$PROFILE_DIR/dflash-500k.env"
 install -m 600 "$PROFILE_DIR/dflash-500k.env" .env
 grep -E '^(SPEC_METHOD|MAX_MODEL_LEN|GPU_MEM_UTIL|GLM53_EXTRA_ENV)=' .env
 
-SKIP_BUILD=1 ./start.sh
+HF_HOME="$HOME/.cache/huggingface" SKIP_BUILD=1 ./start.sh
 ```
 
 **Pass:** the launcher reports `spec=dflash`, `max-len=500000`, `gpu-util=0.86`, at least 10.98 GiB `Available KV cache memory`, then `health check passed`. At the corrected startup gate this pair exposed 12.69 GiB of KV and 1.15× maximum concurrency for 500K. Reducing context is not expected to materially increase short-request decode throughput. The saved private `dflash-500k.env`, not an ad-hoc shell override, carries the correction into later launches.
@@ -733,7 +737,7 @@ runtime_spec="$(printf '%s\n' "$runtime_env" | sed -n 's/^SPEC_METHOD=//p')"
 runtime_len="$(printf '%s\n' "$runtime_env" | sed -n 's/^MAX_MODEL_LEN=//p')"
 runtime_gmu="$(printf '%s\n' "$runtime_env" | sed -n 's/^GPU_MEM_UTIL=//p')"
 case "$runtime_spec:$runtime_len:$runtime_gmu" in
-  mtp:850000:0.87)
+  mtp:850000:0.84)
     PROFILE=glm53-flash-mtp-850k
     MAX_CONTEXT=850000
     FILLERS=30000,100000,250000,490000,790000
@@ -874,7 +878,7 @@ ValueError: To serve at least one request with the model's max seq len (500000),
 10.98 GiB KV cache is needed, which is larger than the available KV cache memory (10.41 GiB).
 ```
 
-The rank loaded its weights and got past InstantTensor; this is a **KV allocation shortfall at GMU 0.84**, not MTP's staging-buffer failure. Adding `INSTANTTENSOR_MAX_FREE_MEM_USAGE=0.75` to DFlash would address the wrong budget. The failed head can leave the worker rank holding GPU memory, so run on **FirstSpark**:
+The rank loaded its weights and got past InstantTensor; this is a **KV allocation shortfall at GMU 0.84**, not MTP's staging-buffer failure. Adding MTP's `INSTANTTENSOR_MAX_FREE_MEM_USAGE=0.99` setting to DFlash would address the wrong budget. The failed head can leave the worker rank holding GPU memory, so run on **FirstSpark**:
 
 ```bash
 cd "$HOME/src/frontier/glm53-dual"
@@ -917,7 +921,7 @@ RuntimeError: buffer_size (1268776960 B) exceeds device memory budget (937799680
 
 The 512 MiB override **was present** in both containers; InstantTensor raised it to fit the largest tensor. Its default staging-memory allowance is half of CUDA-reported free memory, which was too small at that MTP load point. This is not a bad checkpoint, an absent override, a network failure, or something a longer health timeout will fix. The generic `WorkerProc` message hides this earlier exception.
 
-If and only if that is your current MTP signature, repair the existing **private MTP profile** and retry on **FirstSpark**. The 0.75 value changes InstantTensor's fraction of *currently free loader memory*, not `GPU_MEM_UTIL`, the model context, or the DFlash baseline. The original 512 MiB value remains so I/O depth is reduced before the buffer is enlarged to the largest tensor. Do not copy this MTP setting into `dflash-850k.env` or invent a higher fraction if the next traceback differs.
+If and only if that is your current MTP signature, repair the existing **private MTP profile** and retry on **FirstSpark**. The `0.99` value changes InstantTensor's upper-bound check against *currently free loader memory*, not `GPU_MEM_UTIL`, the model context, the DFlash baseline, or the actual 1,268,776,960-byte allocation the pinned checkpoint requires. The original 512 MiB value remains so I/O depth is reduced before the buffer is enlarged to the largest tensor. Keep both assignments inside one pair of double quotes so the launcher forwards both. Do not copy this MTP setting into `dflash-850k.env`; if a later traceback differs, diagnose that error separately.
 
 ```bash
 cd "$HOME/src/frontier/glm53-dual"
@@ -937,7 +941,8 @@ grep -q '^GLM53_EXTRA_ENV=' "$PROFILE_DIR/mtp-850k.env" || {
   exit 1
 }
 sed -i \
-  's/^GLM53_EXTRA_ENV=.*/GLM53_EXTRA_ENV=INSTANTTENSOR_BUFFER_SIZE=536870912 INSTANTTENSOR_MAX_FREE_MEM_USAGE=0.75/' \
+  -e 's/^GPU_MEM_UTIL=.*/GPU_MEM_UTIL=0.84/' \
+  -e 's/^GLM53_EXTRA_ENV=.*/GLM53_EXTRA_ENV="INSTANTTENSOR_BUFFER_SIZE=536870912 INSTANTTENSOR_MAX_FREE_MEM_USAGE=0.99"/' \
   "$PROFILE_DIR/mtp-850k.env"
 chmod 600 "$PROFILE_DIR/mtp-850k.env"
 BACKUP_DIR="$PROFILE_DIR/backups"
@@ -951,16 +956,20 @@ ssh snknitin@192.168.0.100 \
   'nvidia-smi --query-compute-apps=pid,process_name,used_gpu_memory --format=csv,noheader'
 ```
 
-**Pass before launch:** `SPEC_METHOD=mtp`, `MTP_TOKENS=2`, `MAX_MODEL_LEN=850000`, `GPU_MEM_UTIL=0.87`, and both InstantTensor variables print; neither GPU command lists a process. If a GPU is occupied (including by `spark-fast`), stop here and follow Step 16b. Then run one visible launch:
+**Pass before launch:** `SPEC_METHOD=mtp`, `MTP_TOKENS=2`, `MAX_MODEL_LEN=850000`, `GPU_MEM_UTIL=0.84`, and both InstantTensor variables print; neither GPU command lists a process. If a GPU is occupied (including by `spark-fast`), stop here and follow Step 16b. Then run one visible launch:
 
 ```bash
 cd "$HOME/src/frontier/glm53-dual"
-SKIP_BUILD=1 ./start.sh
+HF_HOME="$HOME/.cache/huggingface" SKIP_BUILD=1 ./start.sh
 ```
 
-**Pass after launch:** `health check passed` and `GLM-5.3-Flash EXL3 is UP`; both containers show `INSTANTTENSOR_MAX_FREE_MEM_USAGE=0.75` with the Step 7 `docker inspect` pattern. Continue with Step 16c's unique `PROFILE=glm53-flash-mtp-850k` and Step 16e's evidence suite—**do not repeat download or installation**. The failed boot is **not** a benchmark and creates no successful result receipt. If it still fails, save the new head and worker tracebacks and stop; a later KV-cache, CUDA OOM, or recipe-stamp error needs its own diagnosis. Do not promote MTP or replace `spark-fast` based on a successful health check alone.
+**Pass after launch:** `health check passed` and `GLM-5.3-Flash EXL3 is UP`; both containers show `INSTANTTENSOR_MAX_FREE_MEM_USAGE=0.99` with the Step 7 `docker inspect` pattern. Continue with Step 16c's unique `PROFILE=glm53-flash-mtp-850k` and Step 16e's evidence suite—**do not repeat download or installation**. The failed boot is **not** a benchmark and creates no successful result receipt. If it still fails, save the new head and worker tracebacks and stop; a later KV-cache, CUDA OOM, or recipe-stamp error needs its own diagnosis. Do not promote MTP or replace `spark-fast` based on a successful health check alone.
 
-**Verified on this pair, 2026-09-22:** the corrected MTP/850K launch reached `/health` HTTP 200 after 270 seconds, completed post-ready warm-up with 24/24 requests in 77 seconds, and left both containers running with both InstantTensor variables present. This proves the startup repair, **not** the Step 16e functional, context, or throughput gates. The launcher's warm-up banner still says `DFlash2/sampler`; that generic banner is not proof that DFlash2 was selected. The final `features` line reported `spec=MTP k=2`, as did the vLLM launch arguments.
+**Historical verification on this pair, 2026-09-22:** the MTP/850K launch using the earlier `0.75` upper-bound setting reached `/health` HTTP 200 after 270 seconds, completed post-ready warm-up with 24/24 requests in 77 seconds, and left both containers running with both InstantTensor variables present. This proves that run's startup repair, **not** the Step 16e functional, context, or throughput gates. The launcher's warm-up banner still says `DFlash2/sampler`; that generic banner is not proof that DFlash2 was selected. The final `features` line reported `spec=MTP k=2`, as did the vLLM launch arguments.
+
+**Managed-switch verification on this pair, 2026-09-23:** a clean GMU `0.87` launch had 1,418,981,376 bytes free when InstantTensor checked its staging budget. The earlier `0.75` ceiling allowed only 1,064,236,032 bytes and rejected the checkpoint's fixed 1,268,776,960-byte largest tensor. The quoted `0.99` profile passed without changing the actual staging-buffer size, reached `/health` HTTP 200 after 240 seconds, completed 24/24 warm-up requests in 91 seconds, exposed 13.25 GiB of KV cache and 1.91x maximum 850K concurrency, and passed routed smoke. Its managed load then crossed the 3 GiB head-memory safety floor, so it was not accepted for routine routed use.
+
+**Accepted managed profile on this pair, 2026-09-23:** MTP/850K at GMU `0.84` with the same quoted `0.99` loader setting reached `active:glm53-flash`; both ranks matched all accepted settings, raw health returned HTTP 200, LiteLLM was healthy, and Hermes used context 850,000. It passed routed smoke, retrieved `ORANGE-427` from a 790,022-token prompt in 577.043 seconds, and completed C1/C2/C4 at 23.717, 39.036, and 59.207 aggregate output tok/s. During the long-context run, the observed available-memory low-water was approximately 4.77 GiB on the head and 8.66 GiB on the worker, above the 3 GiB managed stop floor.
 
 ### Launcher wants to rebuild
 

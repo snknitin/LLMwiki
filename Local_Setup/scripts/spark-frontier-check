@@ -72,6 +72,43 @@ def request(url, key, body=None, timeout=180):
         stop("API request failed at " + url + " (" + type(exc).__name__ + ")")
 
 
+def require_reasoning_stream(key):
+    body = {
+        "model": "glm53-flash",
+        "messages": [{"role": "user", "content": "Think briefly, then answer: what is 17 + 25?"}],
+        "reasoning_effort": "high",
+        "stream": True,
+        "max_tokens": 64,
+    }
+    req = urllib.request.Request(
+        "http://127.0.0.1:4000/v1/chat/completions",
+        data=json.dumps(body).encode(),
+        headers={
+            "Authorization": "Bearer " + key,
+            "Content-Type": "application/json",
+        },
+    )
+    try:
+        with urllib.request.urlopen(req, timeout=180) as response:
+            for raw in response:
+                if not raw.startswith(b"data: "):
+                    continue
+                data = raw[6:].strip()
+                if data == b"[DONE]":
+                    break
+                try:
+                    payload = json.loads(data)
+                except json.JSONDecodeError:
+                    continue
+                delta = ((payload.get("choices") or [{}])[0].get("delta") or {})
+                if delta.get("reasoning_content"):
+                    print("PASS GLM reasoning stream reaches LiteLLM", flush=True)
+                    return
+    except Exception as exc:
+        stop("GLM reasoning stream request failed (" + type(exc).__name__ + ")")
+    stop("GLM reasoning stream did not expose reasoning_content")
+
+
 def memory_kib(text):
     for line in text.splitlines():
         if line.startswith("MemAvailable:"):
@@ -114,6 +151,32 @@ def qwen_nfs(lane):
     print("PASS Qwen NFS exporter and worker checkpoint mount", flush=True)
 
 
+def glm_profile(head, worker):
+    profile = HOME / ".config/frontier/glm53-profiles/accepted.env"
+    expected = {
+        name: env_value(profile, name)
+        for name in ("SPEC_METHOD", "MTP_TOKENS", "MAX_MODEL_LEN", "GPU_MEM_UTIL")
+    }
+    for assignment in env_value(profile, "GLM53_EXTRA_ENV").split():
+        if "=" not in assignment:
+            stop("GLM accepted profile has a malformed GLM53_EXTRA_ENV entry")
+        name, value = assignment.split("=", 1)
+        expected[name] = value
+
+    try:
+        head_items = json.loads(output(["docker", "inspect", head]))[0]["Config"]["Env"]
+        worker_items = json.loads(worker_output("docker", "inspect", worker))[0]["Config"]["Env"]
+        head_env = dict(item.split("=", 1) for item in head_items if "=" in item)
+        worker_env = dict(item.split("=", 1) for item in worker_items if "=" in item)
+    except (IndexError, KeyError, ValueError, json.JSONDecodeError):
+        stop("could not read the running GLM container profiles")
+
+    for name, value in expected.items():
+        if head_env.get(name) != value or worker_env.get(name) != value:
+            stop("running GLM ranks do not match accepted profile field " + name)
+    print("PASS accepted GLM profile matches both running ranks", flush=True)
+
+
 def load_profile(lane):
     if lane == "qwen38-nvfp4":
         return lane, "235000", 3600, "1,2,4,8"
@@ -153,6 +216,8 @@ def smoke(lane):
     ranks(head, worker)
     if lane in QWEN_CACHE_DIRS:
         qwen_nfs(lane)
+    elif lane == "glm53-flash":
+        glm_profile(head, worker)
     h, w = memory()
     print(f"MEMORY head={h/1048576:.2f} GiB worker={w/1048576:.2f} GiB", flush=True)
     if min(h, w) < FLOOR_KIB:
@@ -180,6 +245,11 @@ def smoke(lane):
     if answer != "FRONTIER_ROUTE_OK":
         stop("LiteLLM chat answer did not match FRONTIER_ROUTE_OK")
     print("PASS LiteLLM chat route", flush=True)
+
+    if lane == "glm53-flash":
+        if output(["systemctl", "--user", "is-active", "glm-reasoning-shim.service"]) != "active":
+            stop("glm-reasoning-shim.service is not active")
+        require_reasoning_stream(master)
 
     print("CHECK structured tool route...", flush=True)
     tool = request("http://127.0.0.1:4000/v1/chat/completions", master, {
@@ -215,6 +285,8 @@ def smoke(lane):
     ):
         if output([hermes, "config", "get", setting]) != expected:
             stop("Hermes " + setting + " does not match " + expected)
+    if lane == "glm53-flash" and output([hermes, "config", "get", "display.show_reasoning"]).lower() != "true":
+        stop("Hermes display.show_reasoning is not enabled for GLM")
     try:
         hermes_context = int(output([hermes, "config", "get", "model.context_length"]))
     except ValueError:

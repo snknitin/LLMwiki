@@ -1,5 +1,5 @@
 ---
-updated: 2026-09-22
+updated: 2026-09-23
 status: implement-after-model-validation
 scope: dgx-spark, litellm, hermes, hot-swap, model-manager, dual-node
 ---
@@ -52,13 +52,14 @@ LiteLLM does not start a 125–400 GiB model in response to an API request. Alwa
 Do not rename `spark-fast`. Do not use one mutable `spark-frontier` alias as the only client identity; distinct aliases preserve session intent and make errors diagnosable.
 
 > [!important] GLM operating profile is a deployment decision
-> `glm53-flash`, `glm53-flash-mtp-850k`, and `glm53-flash-dflash-500k` are **qualification result profiles**, not automatically three LiteLLM aliases. Complete Step 16 of [[DGX Spark Dual-Node GLM 5.3 Flash EXL3 Tutorial]] and choose **one fully accepted** operating profile. Keep the three named, API-key-bearing configurations under `~/.config/frontier/glm53-profiles/`: DFlash/850K uses GMU `0.87` and the 512 MiB InstantTensor buffer; MTP/850K uses GMU `0.87`, that buffer, and `INSTANTTENSOR_MAX_FREE_MEM_USAGE=0.75`; DFlash/500K uses GMU `0.86` and the buffer. The old DFlash/500K `0.84` setting failed this pair's KV-cache startup gate. After qualification, freeze the chosen profile as private `accepted.env` in Step 5. The switch manager reinstalls that file before **every** GLM hot-swap and derives Hermes context from its `MAX_MODEL_LEN`; it never trusts a leftover recipe `.env` or defaults to 500K. Do not leave API-key-bearing `.env.*` copies unignored in the Git checkout. Register extra public aliases only if the switch manager can select and validate their corresponding configurations deterministically.
+> `glm53-flash`, `glm53-flash-mtp-850k`, and `glm53-flash-dflash-500k` are **qualification result profiles**, not automatically three LiteLLM aliases. Complete Step 16 of [[DGX Spark Dual-Node GLM 5.3 Flash EXL3 Tutorial]] and choose **one fully accepted** operating profile. Keep the three named, API-key-bearing configurations under `~/.config/frontier/glm53-profiles/`: DFlash/850K uses GMU `0.87` and the 512 MiB InstantTensor buffer; the accepted MTP/850K profile uses GMU `0.84`, that buffer, and `INSTANTTENSOR_MAX_FREE_MEM_USAGE=0.99`; DFlash/500K uses GMU `0.86` and the buffer. MTP at GMU `0.87` booted, but its normal routed load test crossed the 3 GiB head-memory safety floor. GMU `0.84` retained one complete 850K request slot and passed the same load test with safer host-memory headroom. The MTP loader limit is only an upper-bound check against currently free device memory; InstantTensor still allocates the same 1,268,776,960-byte staging buffer required by the pinned checkpoint. The old `0.75` limit could reject that fixed buffer after a normal change in initialization headroom. The old DFlash/500K `0.84` setting failed that different profile's KV-cache startup gate. After qualification, freeze the chosen profile as private `accepted.env` in Step 5. The switch manager reinstalls that file before **every** GLM hot-swap and derives Hermes context from its `MAX_MODEL_LEN`; it never trusts a leftover recipe `.env` or defaults to 500K. Do not leave API-key-bearing `.env.*` copies unignored in the Git checkout. Register extra public aliases only if the switch manager can select and validate their corresponding configurations deterministically.
 
 ## Resource policy for normal hot-swaps
 
 The raw qualification shuts down all nonessential services. Normal routed use adds only the control plane that passed A/B testing:
 
 - `spark-litellm`;
+- `glm-reasoning-shim.service` while GLM is selected;
 - `hermes-serve.service`;
 - `hermes-gateway.service`;
 - optionally sparkDash for lanes whose dashboard-on memory A/B passed.
@@ -149,7 +150,7 @@ Under the existing single `model_list:` heading, add one block for each lane tha
   - model_name: glm53-flash
     litellm_params:
       model: openai/GLM-5.3-Flash-EXL3
-      api_base: http://192.168.0.101:8100/v1
+      api_base: http://172.19.0.1:8101/v1
       api_key: os.environ/SPARK_FRONTIER_API_KEY
 
   - model_name: deepseek41-flash
@@ -160,6 +161,8 @@ Under the existing single `model_list:` heading, add one block for each lane tha
 ```
 
 Keep the existing `spark-fast`, `qwen27-dflash`, and `nemotron3-omni` entries. The retired ODS `llama-server` default and wildcard routes were removed during migration. Do not create a second `model_list:` heading.
+
+The GLM alias deliberately uses the private Docker bridge on port `8101`. The already-installed `glm-reasoning-shim.service` forwards to the raw GLM server on port `8100` and renames vLLM's streamed `reasoning` field to the `reasoning_content` field expected by the pinned LiteLLM release. It does not change prompts, tokens, final answers, authentication, or other model routes. Do not point GLM directly back to `8100` unless LiteLLM has been upgraded and the reasoning stream has been revalidated.
 
 The live config currently uses `request_timeout: 120` and `stream_timeout: 60`, which is too short for 500K–850K prefill validation. During frontier qualification, set:
 
@@ -211,12 +214,12 @@ custom_providers:
       qwen38-fp8:
         context_length: 262144
       glm53-flash:
-        context_length: 500000
+        context_length: 850000
       deepseek41-flash:
         context_length: 262144
 ```
 
-Preserve any other existing model entries, including `qwen27-dflash`. Set GLM/DeepSeek metadata to the context that actually passes; the values above are conservative starting metadata. Then run:
+Preserve any other existing model entries, including `qwen27-dflash`. The GLM value above matches the accepted MTP/850K profile; set DeepSeek metadata to the context that actually passes. Then run:
 
 ```bash
 "$HOME/.local/bin/hermes" config check
@@ -270,18 +273,20 @@ test -x "$HOME/.local/bin/spark-frontier" && bash -n "$HOME/.local/bin/spark-fro
 The current qualified GLM profile is already frozen for managed switching. Inspect its nonsecret signature:
 
 ```bash
-grep -E '^(SPEC_METHOD|MAX_MODEL_LEN|GPU_MEM_UTIL)=' "$HOME/.config/frontier/glm53-profiles/accepted.env"
+grep -E '^(SPEC_METHOD|MTP_TOKENS|MAX_MODEL_LEN|GPU_MEM_UTIL|GLM53_EXTRA_ENV)=' "$HOME/.config/frontier/glm53-profiles/accepted.env"
 ```
 
 **Pass:** the output is exactly:
 
 ```text
 SPEC_METHOD=mtp
+MTP_TOKENS=2
 MAX_MODEL_LEN=850000
-GPU_MEM_UTIL=0.87
+GPU_MEM_UTIL=0.84
+GLM53_EXTRA_ENV="INSTANTTENSOR_BUFFER_SIZE=536870912 INSTANTTENSOR_MAX_FREE_MEM_USAGE=0.99"
 ```
 
-**Stop:** missing or different values. Do not select `glm53-flash` until its accepted profile is restored or requalified.
+**Stop:** missing or different values, including missing double quotes around the two `GLM53_EXTRA_ENV` assignments. Do not select `glm53-flash` until its accepted profile is restored or requalified.
 
 ### 5.3 Safety rules enforced by the manager
 
@@ -294,11 +299,17 @@ Every `spark-frontier use <lane>` operation automatically:
 5. removes a known exporter whose filesystem layout is incompatible with the requested lane;
 6. refuses to continue when an unknown service owns NFS port `2049`;
 7. requires Qwen's exporter to map `/export` to the verified Hugging Face cache;
-8. proves the worker can see the requested checkpoint before starting its model rank;
-9. waits for the correct raw model identity, restarts LiteLLM, probes the matching alias, and updates Hermes; and
-10. writes `active:<lane>` only after every preceding check passes, otherwise restoring `spark-fast`.
+8. uses Hugging Face's local-only resolver and verifies the config, tokenizer metadata, index, and every referenced checkpoint shard before stopping the current lane;
+9. rejects a GLM profile that differs from a qualified signature, including a multi-variable `GLM53_EXTRA_ENV` value that is not quoted as one value;
+10. pins GLM to the writable cache under `$HOME/.cache/huggingface` instead of an inherited `/opt/models` path;
+11. starts and health-checks the private GLM reasoning bridge before exposing GLM through LiteLLM;
+12. waits for the correct raw model identity, restarts LiteLLM, probes the matching alias, and updates Hermes; and
+13. writes `active:<lane>` only after every preceding check passes, otherwise restoring `spark-fast`.
 
 The NFS checks prevent the DeepSeek-exporter/Qwen-cache mismatch that previously caused Qwen FP8 to roll back. Startup logs also hide configured API-key values.
+
+> [!success] Verified on FirstSpark, 2026-09-23
+> The manager rejected an intentionally malformed, unquoted MTP profile before stopping the active GLM ranks (`GLM_PROFILE_PREFLIGHT_GUARD_PASS`). With the accepted GMU `0.84` and quoted `0.99` loader profile restored, the managed switch reached `active:glm53-flash`; both ranks stayed running, raw health returned HTTP 200, LiteLLM was healthy, Hermes selected `glm53-flash` at context `850000`, and the Step 7 smoke command ended with `SMOKE_PASS glm53-flash`. The managed load then retrieved `ORANGE-427` from a 790,022-token prompt in 577.043 seconds and passed C1/C2/C4 at 23.717, 39.036, and 59.207 aggregate output tok/s. The observed memory low-water stayed above the 3 GiB stop floor.
 
 Read the current state without changing anything:
 
@@ -463,18 +474,20 @@ Do this subsection only after the GLM tutorial and its release gates have passed
 Confirm the accepted GLM profile:
 
 ```bash
-grep -E '^(SPEC_METHOD|MAX_MODEL_LEN|GPU_MEM_UTIL)=' "$HOME/.config/frontier/glm53-profiles/accepted.env"
+grep -E '^(SPEC_METHOD|MTP_TOKENS|MAX_MODEL_LEN|GPU_MEM_UTIL|GLM53_EXTRA_ENV)=' "$HOME/.config/frontier/glm53-profiles/accepted.env"
 ```
 
 **Pass:** the current qualified profile prints exactly these values:
 
 ```text
 SPEC_METHOD=mtp
+MTP_TOKENS=2
 MAX_MODEL_LEN=850000
-GPU_MEM_UTIL=0.87
+GPU_MEM_UTIL=0.84
+GLM53_EXTRA_ENV="INSTANTTENSOR_BUFFER_SIZE=536870912 INSTANTTENSOR_MAX_FREE_MEM_USAGE=0.99"
 ```
 
-**Stop:** missing file or different values. Do not switch to GLM until the accepted profile matches the qualified result.
+**Stop:** missing file or different values, including missing double quotes around the two `GLM53_EXTRA_ENV` assignments. Do not switch to GLM until the accepted profile matches the qualified result.
 
 Switch to GLM:
 
@@ -486,6 +499,8 @@ Switch to GLM:
 
 **Stop:** rollback, failure, or no completion line.
 
+If the later verifier says `active frontier state is none`, the GLM switch did not finish: the manager rolled back to `spark-fast`, and the verifier correctly refused to send GLM load. Run `spark-frontier status` and diagnose the switch output. Repeating either verifier command cannot start GLM.
+
 Run the smoke check:
 
 ```bash
@@ -493,6 +508,10 @@ Run the smoke check:
 ```
 
 **Pass:** the final line is `SMOKE_PASS glm53-flash`.
+
+The GLM smoke check also requires `glm-reasoning-shim.service`, proves that a live streamed response contains `reasoning_content`, and requires Hermes `display.show_reasoning=true`. This prevents the old failure where GLM generated normally but Hermes received empty chunks until its stale-stream watchdog fired.
+
+Earlier GLM sessions could still appear normal because a short reasoning pass finished before the watchdog or because thinking was disabled for that request. That did not prove the long reasoning stream was compatible. The smoke check now tests that exact transport path.
 
 **Stop:** any `STOP:` line or missing pass marker.
 
@@ -688,6 +707,7 @@ The model repositories, images, and weights remain installed. This rollback rest
 - [ ] Qwen NVFP4, Qwen FP8, GLM, and DeepSeek each start through the manager.
 - [ ] Manager verifies the expected upstream model identity.
 - [ ] Matching LiteLLM alias and Hermes request pass for each active lane.
+- [ ] GLM reasoning chunks reach LiteLLM as `reasoning_content`, the compatibility service is active, and Hermes visible reasoning is enabled.
 - [ ] Cold alias fails cleanly and cannot masquerade as the active model.
 - [ ] Previous head and worker ranks are gone after every switch.
 - [ ] Each lane repeats its accepted load with LiteLLM/Hermes resident.

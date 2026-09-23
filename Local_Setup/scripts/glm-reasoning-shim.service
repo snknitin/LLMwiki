@@ -1,0 +1,18 @@
+[Unit]
+Description=GLM reasoning-field compatibility bridge for LiteLLM
+After=network-online.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/python3 %h/ai/services/litellm/glm-reasoning-shim.py --listen-host 172.19.0.1 --listen-port 8101 --upstream-host 127.0.0.1 --upstream-port 8100
+Restart=always
+RestartSec=3
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=read-only
+RestrictAddressFamilies=AF_INET AF_INET6
+Environment=PYTHONUNBUFFERED=1
+
+[Install]
+WantedBy=default.target

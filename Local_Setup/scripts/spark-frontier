@@ -12,6 +12,8 @@ API_BASE="http://127.0.0.1:8100"
 HERMES="$HOME/.local/bin/hermes"
 SPARK_MODEL="$HOME/.local/bin/spark-model"
 LITELLM_DIR="$HOME/ai/services/litellm"
+GLM_REASONING_SERVICE='glm-reasoning-shim.service'
+GLM_REASONING_HEALTH='http://172.19.0.1:8101/_shim/health'
 mkdir -p "$STATE_DIR"
 
 lane_values() {
@@ -32,7 +34,7 @@ lane_values() {
       ;;
     glm53-flash)
       DIR="$ROOT/glm53-dual"
-      START='SKIP_BUILD=1 ./start.sh'
+      START='HF_HOME="$HOME/.cache/huggingface" SKIP_BUILD=1 ./start.sh'
       API_MODEL='GLM-5.3-Flash-EXL3'
       HERMES_ALIAS='glm53-flash'
       CONTEXT=''
@@ -49,6 +51,51 @@ lane_values() {
       return 2
       ;;
   esac
+}
+
+validate_lane_cache() {
+  local requested="$1" cache='' repo='' resolved=''
+  case "$requested" in
+    qwen38-nvfp4) repo='nvidia/Qwen3.8-Flash-Next-NVFP4' ;;
+    qwen38-fp8) repo='Qwen/Qwen3.8-Flash-Next-FP8' ;;
+    glm53-flash) repo='Mia-AiLab/GLM-5.3-Flash-EXL3-TR3-4bpw' ;;
+    deepseek41-flash) cache="$ROOT/deepseek41-dual/model" ;;
+  esac
+
+  if [[ -n "$repo" ]]; then
+    if ! resolved="$(HF_HOME="$HOME/.cache/huggingface" python3 - "$repo" <<'PY'
+import json
+import sys
+from pathlib import Path
+from huggingface_hub import snapshot_download
+
+snapshot = Path(snapshot_download(sys.argv[1], local_files_only=True))
+for required in ("config.json", "tokenizer_config.json", "model.safetensors.index.json"):
+    if not (snapshot / required).is_file():
+        raise SystemExit("missing " + required)
+index = json.loads((snapshot / "model.safetensors.index.json").read_text())
+missing = sorted({name for name in index["weight_map"].values() if not (snapshot / name).is_file()})
+if missing:
+    raise SystemExit("missing checkpoint shards: " + ", ".join(missing[:3]))
+print(snapshot)
+PY
+)"; then
+      printf 'Could not resolve a complete local checkpoint for %s under %s\n' \
+        "$repo" "$HOME/.cache/huggingface/hub" >&2
+      return 1
+    fi
+    cache="$resolved"
+  fi
+
+  [[ -d "$cache" ]] || {
+    printf 'Required checkpoint path is missing: %s\n' "$cache" >&2
+    return 1
+  }
+  if [[ -n "$repo" && ! -w "$HOME/.cache/huggingface" ]]; then
+    printf 'Verified Hugging Face cache is not writable: %s\n' "$HOME/.cache/huggingface" >&2
+    return 1
+  fi
+  printf 'Preflight checkpoint ready: %s\n' "$cache"
 }
 
 validate_glm_accepted_profile() {
@@ -71,11 +118,15 @@ validate_glm_accepted_profile() {
   loader="$(sed -n 's/^GLM53_EXTRA_ENV=//p' "$GLM53_PROFILE_FILE")"
   case "$spec|$len|$gmu|$loader" in
     'dflash|850000|0.87|INSTANTTENSOR_BUFFER_SIZE=536870912') ;;
-    'mtp|850000|0.87|INSTANTTENSOR_BUFFER_SIZE=536870912 INSTANTTENSOR_MAX_FREE_MEM_USAGE=0.75')
+    'mtp|850000|0.84|"INSTANTTENSOR_BUFFER_SIZE=536870912 INSTANTTENSOR_MAX_FREE_MEM_USAGE=0.99"')
       [[ "$(sed -n 's/^MTP_TOKENS=//p' "$GLM53_PROFILE_FILE")" == 2 ]] || return 1
       ;;
     'dflash|500000|0.86|INSTANTTENSOR_BUFFER_SIZE=536870912') ;;
-    *) echo 'Accepted GLM profile does not match a qualified configuration; refusing switch.' >&2; return 1 ;;
+    *)
+      echo 'Accepted GLM profile does not match a qualified configuration; refusing switch.' >&2
+      echo 'For MTP/850K, GLM53_EXTRA_ENV must wrap both assignments in one pair of double quotes.' >&2
+      return 1
+      ;;
   esac
   CONTEXT="$len"
 }
@@ -240,6 +291,21 @@ start_control_plane() {
   return 1
 }
 
+ensure_glm_reasoning_bridge() {
+  local deadline=$((SECONDS + 30))
+  systemctl --user start "$GLM_REASONING_SERVICE"
+  while (( SECONDS < deadline )); do
+    if systemctl --user is-active --quiet "$GLM_REASONING_SERVICE" \
+      && curl --fail --silent --max-time 3 "$GLM_REASONING_HEALTH" >/dev/null; then
+      return 0
+    fi
+    sleep 2
+  done
+  systemctl --user status "$GLM_REASONING_SERVICE" --no-pager >&2 || true
+  echo 'GLM reasoning compatibility bridge is unavailable; refusing to expose an empty reasoning stream.' >&2
+  return 1
+}
+
 select_hermes() {
   "$HERMES" config set model.provider custom:spark-fast
   "$HERMES" config set model.base_url http://127.0.0.1:4000/v1
@@ -298,6 +364,7 @@ use_lane() {
   lane_values "$requested"
   [[ -s "$KEY_FILE" ]] || { echo "Missing $KEY_FILE" >&2; return 1; }
   [[ -d "$DIR" ]] || { echo "Missing recipe directory: $DIR" >&2; return 1; }
+  validate_lane_cache "$requested" || return 1
   if [[ "$requested" == 'glm53-flash' ]]; then
     validate_glm_accepted_profile || return 1
   fi
@@ -330,6 +397,9 @@ use_lane() {
   wait_api "$API_MODEL"
 
   write_state "raw-ready:$requested"
+  if [[ "$requested" == 'glm53-flash' ]]; then
+    ensure_glm_reasoning_bridge
+  fi
   start_control_plane
   probe_litellm "$HERMES_ALIAS"
   select_hermes
@@ -369,6 +439,8 @@ status() {
     echo
   fi
   docker inspect spark-litellm --format 'LiteLLM={{if .State.Health}}{{.State.Health.Status}}{{else}}{{.State.Status}}{{end}}' 2>/dev/null || true
+  printf 'GLM reasoning bridge='
+  systemctl --user is-active "$GLM_REASONING_SERVICE" 2>/dev/null || true
   nfs_exporter="$(live_nfs_exporter || true)"
   if [[ -n "$nfs_exporter" ]]; then
     nfs_source="$(docker inspect "$nfs_exporter" --format '{{range .Mounts}}{{if eq .Destination "/export"}}{{.Source}}{{end}}{{end}}' 2>/dev/null || true)"
