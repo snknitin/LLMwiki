@@ -1,5 +1,5 @@
 ---
-updated: 2026-09-22
+updated: 2026-09-24
 status: active
 ---
 
@@ -14,13 +14,13 @@ This is the canonical progress and navigation page. If an older note suggests a 
 
 | Area | Confirmed state |
 |---|---|
-| Spark hardware | Two DGX Sparks with 128 GB unified memory each. `FirstSpark` owns the production stack and `SecondSpark` is the worker/experiment node. One approved QSFP112 DAC is installed; persistent manual CX-7 Netplan, two 200,000 Mb/s rails, bidirectional private-network ping, and the official full NCCL direct test are verified. `Avg bus bandwidth` was 21.7568 GB/s with zero out-of-bounds values. A real distributed-model workload remains pending. See [[DGX Spark Dual-Node Configuration And Operations Reference]]. |
+| Spark hardware | Two DGX Sparks with 128 GB unified memory each. `FirstSpark` owns the production stack and `SecondSpark` is the worker/experiment node. One approved QSFP112 DAC is installed; persistent manual CX-7 Netplan, two 200,000 Mb/s rails, bidirectional private-network ping, the official full NCCL direct test, and real distributed Frontier workloads are verified. `Avg bus bandwidth` was 21.7568 GB/s with zero out-of-bounds values. See [[DGX Spark Dual-Node Configuration And Operations Reference]]. |
 | Workstation GPU | **NVIDIA RTX PRO 5000 Blackwell**, 48,935 MiB, compute capability 12.0, driver 596.59 |
 | Spark foundation | Bash configuration, external secrets, cache/service folders, registries, and status commands completed |
 | Spark inference | Four explicit switchable lanes are installed and lifecycle-tested: `qwen35`, `qwen27-dflash`, `nemotron3-omni`, and `nemotron35-lightning`. `qwen35` remains the resident default, and LM Studio Nemotron 3.5 Lightning is deliberately warm beside it. |
-| Dual-Spark frontier lane | Eight saved raw comparison runs now cover FirstSpark-only `spark-fast`, Qwen NVFP4/FP8, GLM DFlash/MTP/500K, and DeepSeek 131K/600K. All eight have passing chat, tool, vision, context, and C1/C2/C4 receipts; Qwen NVFP4 also has a passing C8 receipt. DeepSeek 131K is an adapted one-sequence profile, so its C2/C4 clients queue. Service coexistence, routed requests, soak, and restart/rollback gates remain separate as of 2026-09-22. No frontier lane is accepted for permanent LiteLLM/Hermes hot swapping merely from raw receipts. The frontier models are **exclusive two-node lanes**, not additional resident models. See [[DGX Spark Frontier Model Qualification Results]], [[DGX Spark DeepSeek 131K And SparkFast Comparison Protocol]], and [[DGX Spark Dual-Node Community Frontier Models Runbook]]. |
+| Dual-Spark frontier lane | Completed 2026-09-24. Eight saved raw comparison runs cover FirstSpark-only `spark-fast`, Qwen NVFP4/FP8, GLM DFlash/MTP/500K, and DeepSeek 131K/600K. The full tutorial set, service coexistence, routed requests, soak, restart/rollback gates, cold-route rejection, rank cleanup, and fail-closed hot swapping passed. The permanent aliases are `qwen38-nvfp4`, `qwen38-fp8`, `glm53-flash`, and `deepseek41-flash`; `spark-fast` remains the verified rollback. The Frontier models are **exclusive two-node lanes**, not additional resident models. See [[DGX Spark Frontier Model Qualification Results]], [[DGX Spark Dual-Node Community Frontier Models Runbook]], and [[DGX Spark Frontier Model Hot-Swap And Routing Guide]]. |
 | Hermes | Standalone Hermes Gateway and Hermes Serve run on Spark; the ODS Hermes module is not needed |
-| Routing | FirstSpark ODS was retired on 2026-09-22. Standalone LiteLLM uses the previously deployed v1.81.3 image digest, `$HOME/ai/services/litellm`, `spark-model-net`, and loopback port `4000`. The existing `spark-fast`, `qwen27-dflash`, and `nemotron3-omni` aliases and Hermes master key were preserved; the unused ODS `llama-server` default/wildcard aliases were removed. A real `spark-fast` request through LiteLLM and a Hermes one-shot request passed. The former ODS install and data are in a restricted rollback archive under `$HOME/backups/ods-to-standalone-litellm/20260922-142725/`; workstation ODS is separate. |
+| Routing | FirstSpark ODS was retired on 2026-09-22. Standalone LiteLLM uses the previously deployed v1.81.3 image digest, `$HOME/ai/services/litellm`, `spark-model-net`, and loopback port `4000`. The existing `spark-fast`, `qwen27-dflash`, and `nemotron3-omni` aliases and Hermes master key were preserved; the permanent `qwen38-nvfp4`, `qwen38-fp8`, `glm53-flash`, and `deepseek41-flash` aliases and the fail-closed `spark-frontier` manager are now validated. Cold aliases fail rather than masquerade as the resident model, and `spark-frontier restore-spark-fast` restores the production route. The unused ODS `llama-server` default/wildcard aliases were removed. The former ODS install and data are in a restricted rollback archive under `$HOME/backups/ods-to-standalone-litellm/20260922-142725/`; workstation ODS is separate. |
 | Networking | Tailscale remains installed on the first Spark, workstation, and laptop. NVIDIA Sync reaches both nodes. FirstSpark (`192.168.0.101`) and SecondSpark (`192.168.0.100`) are direct ConnectX-7 peers on `192.168.100.10/11` and `192.168.101.10/11`. Manual `/etc/netplan/40-cx7.yaml` is authoritative; NVIDIA Sync Cluster Assistant has not created `99-nvidia-sync-cluster.yaml`. |
 | Workstation ODS | ODS is installed; Dashboard is at `localhost:3001` and Open WebUI is at `localhost:3000`. The supported image update completed on 2026-08-15; ODS still reports 2.5.3 and pins Open WebUI 0.7.2. DeepSeek 70B was stopped and removed; the optional ODS llama-server is stopped and reserved at host port `11436`. |
 | Ollama | Native Ollama 0.32.13 uses port `11434`, stores models at `D:\LocalLLama\models\ollama`, and is configured for 128K context and one resident model. **Expose Ollama to the network** is off again and Ollama itself listens only on `127.0.0.1`; Tailscale Serve owns tailnet-only HTTPS `8443`, and the Spark provider supplies Ollama's required loopback `Host` header. Both Gemma 4 models passed local and Spark-remote Hermes tool calls at a reported runtime context of `131072`; selecting 31B after 26B proved automatic one-model eviction. Both were unloaded afterward. |
@@ -313,7 +313,10 @@ See [[Qwen 3.8 27B Ollama Remote Access Research]] for official model facts, sec
 
 ### 9. Qualify the community dual-Spark frontier lane
 
-This is the active two-node model track requested on 2026-09-18. It is separate from the workstation-sized Qwen 3.8 27B lane above and may proceed once its own readiness gate passes.
+> [!success] Completed 2026-09-24
+> The dual-node runbook, sparkDash, Qwen NVFP4/FP8, GLM, DeepSeek, and the permanent-alias hot-swap routine passed their acceptance gates. `spark-fast` remains the production rollback.
+
+This completed two-node model track is separate from the workstation-sized Qwen 3.8 27B lane above. The sequence below remains the canonical reproduction and recovery order.
 
 Read, in order:
 
@@ -324,8 +327,9 @@ Read, in order:
 5. [[DGX Spark Dual-Node DeepSeek V4.1 Flash EXL3 Tutorial]] — final, highest-risk recipe after every earlier gate passes.
 6. [[DGX Spark Frontier Model Qualification Results]] — eight timestamped raw `spark-fast`, Qwen, GLM, and DeepSeek comparison rows, including remaining measurement limits.
 7. [[DGX Spark Frontier Model Hot-Swap And Routing Guide]] — permanent LiteLLM/Hermes names and the one-resident-backend switch workflow, only after acceptance gates.
-8. [[FirstSpark Standalone LiteLLM Operations]] — current FirstSpark router files, commands, migration proof, and rollback archive.
-9. [[DGX Spark Dual-Node Frontier Model Recipes Research 2026-09-18]] — source, checkpoint, issue, license, and Aiden-stack evidence.
+8. [[DGX Spark Additional Services Controller]] — one editable `aux-services stop|start|status|edit` command for state-aware sequential control of lightweight services, sparkDash, and Hermes schedules around a large-model switch.
+9. [[FirstSpark Standalone LiteLLM Operations]] — current FirstSpark router files, commands, migration proof, and rollback archive.
+10. [[DGX Spark Dual-Node Frontier Model Recipes Research 2026-09-18]] — source, checkpoint, issue, license, and Aiden-stack evidence.
 
 Execute in this exact order:
 
@@ -352,6 +356,7 @@ The resource rule is absolute: Qwen, GLM, and DeepSeek each occupy both GB10 dev
 - [[DGX Spark Frontier Model Qualification Results]] — current eight-profile raw comparison, run timestamps, and explicit unmeasured cells.
 - [[DGX Spark DeepSeek 131K And SparkFast Comparison Protocol]] — reproducible user-run steps behind the fresh 131K DeepSeek and FirstSpark `spark-fast` receipts.
 - [[DGX Spark Frontier Model Hot-Swap And Routing Guide]] — registers every accepted named alias and installs the fail-closed two-node switch manager while preserving `spark-fast`.
+- [[DGX Spark Additional Services Controller]] — state-aware, editable start/stop control for optional user services, schedules, and sparkDash around a large-model session.
 - [[DGX Spark Dual-Node Configuration And Operations Reference]] — authoritative live dual-node identities, address plan, persistent network ownership, NCCL build and result, safety procedure, Cluster Assistant decision, and distributed-model next steps.
 - [[DGX Spark Pre-Shutdown And Automatic Recovery Snapshot 2026-08-20]] — live first-Spark service/model snapshot, automatic restart ownership, reboot verification, and safe UPS move checklist.
 - [[DGX Spark Automatic Power Recovery Research]] — official NVIDIA evidence for `Auto Boot` after AC power returns and the UEFI setting path.
