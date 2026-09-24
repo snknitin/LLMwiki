@@ -1,0 +1,463 @@
+#!/usr/bin/env bash
+set -Eeuo pipefail
+
+CONFIG_FILE="${XDG_CONFIG_HOME:-$HOME/.config}/aux-services/services.conf"
+STATE_DIR="${XDG_STATE_HOME:-$HOME/.local/state}/aux-services"
+SNAPSHOT_FILE="$STATE_DIR/restore.list"
+LOCK_FILE="$STATE_DIR/operation.lock"
+FRONTIER_STATE="${XDG_STATE_HOME:-$HOME/.local/state}/spark-frontier/active-lane"
+FRONTIER_KEY="$HOME/.config/frontier/api-key"
+FRONTIER_HEALTH="http://127.0.0.1:8100/health"
+
+mkdir -p "$STATE_DIR"
+
+die() {
+  printf 'ERROR: %s\n' "$*" >&2
+  exit 1
+}
+
+load_config() {
+  [[ -f "$CONFIG_FILE" ]] || die "Missing $CONFIG_FILE"
+  # This is an operator-owned shell configuration. Keep it mode 600.
+  # shellcheck source=/dev/null
+  source "$CONFIG_FILE"
+  declare -p EXTRA_ITEMS >/dev/null 2>&1 || die 'EXTRA_ITEMS is not defined in the config.'
+  [[ "$(stat -c %a "$CONFIG_FILE")" == 600 ]] || die "$CONFIG_FILE must have mode 600."
+  START_SETTLE_SECONDS="${START_SETTLE_SECONDS:-3}"
+  [[ "$START_SETTLE_SECONDS" =~ ^[0-9]+$ ]] || die 'START_SETTLE_SECONDS must be a non-negative integer.'
+}
+
+parse_item() {
+  local spec="$1"
+  local overflow=''
+  IFS='|' read -r ITEM_KIND ITEM_NAME ITEM_PATH ITEM_FILES ITEM_SERVICE ITEM_CONTROL ITEM_PORTS ITEM_POLICY overflow <<<"$spec"
+  [[ -n "${ITEM_KIND:-}" && -n "${ITEM_NAME:-}" ]] || die "Invalid item: $spec"
+  case "$ITEM_KIND" in
+    user-service|user-timer|system-service|system-timer|docker|frontier)
+      [[ -z "${ITEM_CONTROL:-}${ITEM_PORTS:-}${ITEM_POLICY:-}${overflow:-}" ]] || \
+        die "Unexpected fields in item: $spec"
+      ITEM_CONTROL="${ITEM_PATH:-${ITEM_NAME%.service}}"
+      ITEM_CONTROL="${ITEM_CONTROL%.timer}"
+      ITEM_PORTS="${ITEM_FILES:--}"
+      ITEM_POLICY="${ITEM_SERVICE:-managed}"
+      ITEM_PATH=''
+      ITEM_FILES=''
+      ITEM_SERVICE=''
+      ;;
+    compose)
+      [[ -n "${ITEM_PATH:-}" && -n "${ITEM_FILES:-}" && -n "${ITEM_SERVICE:-}" ]] || \
+        die "Compose item needs name, directory, files, and service: $spec"
+      [[ -z "${overflow:-}" ]] || die "Too many fields in item: $spec"
+      ITEM_CONTROL="${ITEM_CONTROL:-$ITEM_NAME}"
+      ITEM_PORTS="${ITEM_PORTS:--}"
+      ITEM_POLICY="${ITEM_POLICY:-managed}"
+      ;;
+    *) die "Unsupported item type '$ITEM_KIND' in: $spec" ;;
+  esac
+  [[ "$ITEM_CONTROL" =~ ^[a-z0-9][a-z0-9._-]*$ ]] || \
+    die "Control name must use lowercase letters, numbers, dots, underscores, or hyphens: $ITEM_CONTROL"
+  [[ "$ITEM_POLICY" == managed || "$ITEM_POLICY" == protected || "$ITEM_POLICY" == locked ]] || \
+    die "Policy must be managed, protected, or locked: $ITEM_POLICY"
+}
+
+compose_command() {
+  local files_csv="$1" file
+  COMPOSE_CMD=(docker compose)
+  IFS=',' read -ra COMPOSE_FILES <<<"$files_csv"
+  for file in "${COMPOSE_FILES[@]}"; do
+    [[ -n "$file" ]] || continue
+    COMPOSE_CMD+=(-f "$file")
+  done
+}
+
+item_is_active() {
+  local spec="$1"
+  parse_item "$spec"
+  case "$ITEM_KIND" in
+    user-service|user-timer) systemctl --user is-active --quiet "$ITEM_NAME" ;;
+    system-service|system-timer) systemctl is-active --quiet "$ITEM_NAME" ;;
+    docker) docker inspect -f '{{.State.Running}}' "$ITEM_NAME" 2>/dev/null | grep -Fxq true ;;
+    frontier) [[ -s "$FRONTIER_STATE" ]] && [[ "$(<"$FRONTIER_STATE")" == active:* ]] ;;
+    compose)
+      compose_command "$ITEM_FILES"
+      (cd "$ITEM_PATH" && "${COMPOSE_CMD[@]}" ps --status running --services) \
+        | grep -Fxq "$ITEM_SERVICE"
+      ;;
+  esac
+}
+
+stop_item() {
+  local spec="$1"
+  parse_item "$spec"
+  printf 'Stopping %-14s %s\n' "$ITEM_KIND" "$ITEM_NAME"
+  case "$ITEM_KIND" in
+    user-service|user-timer) systemctl --user stop "$ITEM_NAME" ;;
+    system-service|system-timer) sudo systemctl stop "$ITEM_NAME" ;;
+    docker) docker stop "$ITEM_NAME" >/dev/null ;;
+    frontier) die 'Frontier model lifecycle belongs to spark-frontier.' ;;
+    compose)
+      compose_command "$ITEM_FILES"
+      (cd "$ITEM_PATH" && "${COMPOSE_CMD[@]}" stop "$ITEM_SERVICE")
+      ;;
+  esac
+}
+
+start_item() {
+  local spec="$1"
+  parse_item "$spec"
+  printf 'Starting %-14s %s\n' "$ITEM_KIND" "$ITEM_NAME"
+  case "$ITEM_KIND" in
+    user-service|user-timer) systemctl --user start "$ITEM_NAME" ;;
+    system-service|system-timer) sudo systemctl start "$ITEM_NAME" ;;
+    docker) docker start "$ITEM_NAME" >/dev/null ;;
+    frontier) die 'Frontier model lifecycle belongs to spark-frontier.' ;;
+    compose)
+      compose_command "$ITEM_FILES"
+      (cd "$ITEM_PATH" && "${COMPOSE_CMD[@]}" up -d "$ITEM_SERVICE")
+      ;;
+  esac
+  sleep "$START_SETTLE_SECONDS"
+  item_is_active "$spec" || die "Started item did not become active: $ITEM_NAME"
+}
+
+verify_frontier_health() {
+  local state='' key=''
+  state="$(<"$FRONTIER_STATE")" 2>/dev/null || true
+  [[ "$state" == active:* ]] || return 0
+  [[ -s "$FRONTIER_KEY" ]] || die "Frontier state is $state but $FRONTIER_KEY is missing."
+  key="$(<"$FRONTIER_KEY")"
+  if ! curl --fail --silent --show-error --max-time 10 "$FRONTIER_HEALTH" \
+    -H "Authorization: Bearer $key" >/dev/null; then
+    unset key
+    die "Frontier health failed after restoring $ITEM_NAME; remaining extras stay off."
+  fi
+  unset key
+  printf 'Frontier healthy after %s\n' "$ITEM_NAME"
+}
+
+capture_active_items() {
+  local tmp="$SNAPSHOT_FILE.tmp" spec
+  : > "$tmp"
+  for spec in "${EXTRA_ITEMS[@]}"; do
+    parse_item "$spec"
+    [[ "$ITEM_POLICY" == managed ]] || continue
+    if item_is_active "$spec"; then
+      printf '%s\n' "$spec" >> "$tmp"
+    fi
+  done
+  if [[ -s "$tmp" ]]; then
+    chmod 600 "$tmp"
+    mv -f "$tmp" "$SNAPSHOT_FILE"
+  else
+    rm -f "$tmp" "$SNAPSHOT_FILE"
+  fi
+}
+
+remove_snapshot_item() {
+  local completed="$1" tmp="$SNAPSHOT_FILE.tmp"
+  grep -Fvx -- "$completed" "$SNAPSHOT_FILE" > "$tmp" || true
+  if [[ -s "$tmp" ]]; then
+    chmod 600 "$tmp"
+    mv -f "$tmp" "$SNAPSHOT_FILE"
+  else
+    rm -f "$tmp" "$SNAPSHOT_FILE"
+  fi
+}
+
+extras_off() {
+  local -a saved=()
+  local i spec
+  if [[ -s "$SNAPSHOT_FILE" ]]; then
+    printf 'Resuming the existing drain snapshot: %s\n' "$SNAPSHOT_FILE"
+  else
+    capture_active_items
+  fi
+  if [[ ! -s "$SNAPSHOT_FILE" ]]; then
+    echo 'No configured auxiliary service is active; nothing to stop.'
+    return 0
+  fi
+  mapfile -t saved < "$SNAPSHOT_FILE"
+  for ((i=${#saved[@]}-1; i>=0; i--)); do
+    spec="${saved[$i]}"
+    if item_is_active "$spec"; then
+      stop_item "$spec"
+    else
+      parse_item "$spec"
+      printf 'Already stopped  %-14s %s\n' "$ITEM_KIND" "$ITEM_NAME"
+    fi
+  done
+  echo "Auxiliary services are stopped. Restore snapshot: $SNAPSHOT_FILE"
+}
+
+extras_on() {
+  local spec
+  if [[ ! -s "$SNAPSHOT_FILE" ]]; then
+    echo 'No saved pre-drain state; nothing to restore.'
+    return 0
+  fi
+  while IFS= read -r spec; do
+    [[ -n "$spec" ]] || continue
+    if item_is_active "$spec"; then
+      parse_item "$spec"
+      printf 'Already active   %-14s %s\n' "$ITEM_KIND" "$ITEM_NAME"
+    else
+      start_item "$spec"
+    fi
+    verify_frontier_health
+    remove_snapshot_item "$spec"
+  done < "$SNAPSHOT_FILE"
+  echo 'Every previously active auxiliary service has been restored, one by one.'
+}
+
+extras_status() {
+  local spec state wanted='no'
+  printf 'Config:   %s\n' "$CONFIG_FILE"
+  printf 'Snapshot: %s\n' "$SNAPSHOT_FILE"
+  printf '%-4s  %-26s  %-24s  %-10s  %-14s  %-32s  %s\n' WANT CONTROL PORTS POLICY TYPE RESOURCE STATE
+  for spec in "${EXTRA_ITEMS[@]}"; do
+    parse_item "$spec"
+    [[ -s "$SNAPSHOT_FILE" ]] && grep -Fxq -- "$spec" "$SNAPSHOT_FILE" && wanted='yes' || wanted='no'
+    item_is_active "$spec" && state='active' || state='inactive'
+    printf '%-4s  %-26s  %-24s  %-10s  %-14s  %-32s  %s\n' \
+      "$wanted" "$ITEM_CONTROL" "$ITEM_PORTS" "$ITEM_POLICY" "$ITEM_KIND" "$ITEM_NAME" "$state"
+  done
+}
+
+extras_list() {
+  local spec state
+  printf '%-26s  %-24s  %-10s  %-14s  %-9s  %s\n' CONTROL PORTS POLICY TYPE STATE RESOURCE
+  for spec in "${EXTRA_ITEMS[@]}"; do
+    parse_item "$spec"
+    item_is_active "$spec" && state='active' || state='inactive'
+    printf '%-26s  %-24s  %-10s  %-14s  %-9s  %s\n' \
+      "$ITEM_CONTROL" "$ITEM_PORTS" "$ITEM_POLICY" "$ITEM_KIND" "$state" "$ITEM_NAME"
+  done
+  printf '\nmanaged: bulk and named control; protected: named control only; locked: inventory/remove only\n'
+  printf 'Use: aux-services start NAME | aux-services stop NAME | aux-services remove NAME\n'
+}
+
+edit_config() {
+  local editor="${EDITOR:-nano}"
+  "$editor" "$CONFIG_FILE"
+  chmod 600 "$CONFIG_FILE"
+  load_config
+  echo 'Configuration syntax is valid.'
+}
+
+save_config() {
+  local tmp="$CONFIG_FILE.tmp" backup="$CONFIG_FILE.bak.$(date +%Y%m%d-%H%M%S-%N)" spec
+  cp -p "$CONFIG_FILE" "$backup"
+  {
+    echo '# Managed by aux-services add/remove. Use `aux-services edit` for manual changes.'
+    echo '# Entries are in start order; the controller stops them in reverse order.'
+    printf 'START_SETTLE_SECONDS=%q\n\n' "$START_SETTLE_SECONDS"
+    echo 'EXTRA_ITEMS=('
+    for spec in "${EXTRA_ITEMS[@]}"; do
+      printf '  %q\n' "$spec"
+    done
+    echo ')'
+  } > "$tmp"
+  bash -n "$tmp" || { rm -f "$tmp"; die 'Generated configuration failed syntax validation.'; }
+  chmod 600 "$tmp"
+  mv -f "$tmp" "$CONFIG_FILE"
+  printf 'Configuration saved. Backup: %s\n' "$backup"
+}
+
+validate_field() {
+  local label="$1" value="$2"
+  [[ -n "$value" ]] || die "$label cannot be empty."
+  [[ "$value" != *'|'* && "$value" != *$'\n'* ]] || die "$label contains an unsupported character."
+}
+
+validate_item_exists() {
+  local spec="$1" file
+  parse_item "$spec"
+  case "$ITEM_KIND" in
+    user-service|user-timer)
+      systemctl --user cat "$ITEM_NAME" >/dev/null 2>&1 || die "Unknown user unit: $ITEM_NAME"
+      ;;
+    system-service|system-timer)
+      systemctl cat "$ITEM_NAME" >/dev/null 2>&1 || die "Unknown system unit: $ITEM_NAME"
+      ;;
+    docker)
+      docker inspect "$ITEM_NAME" >/dev/null 2>&1 || die "Unknown Docker container: $ITEM_NAME"
+      ;;
+    frontier)
+      command -v spark-frontier >/dev/null 2>&1 || die 'spark-frontier is not installed.'
+      ;;
+    compose)
+      [[ -d "$ITEM_PATH" ]] || die "Compose directory does not exist: $ITEM_PATH"
+      IFS=',' read -ra COMPOSE_FILES <<<"$ITEM_FILES"
+      for file in "${COMPOSE_FILES[@]}"; do
+        [[ -f "$ITEM_PATH/$file" ]] || die "Compose file does not exist: $ITEM_PATH/$file"
+      done
+      compose_command "$ITEM_FILES"
+      (cd "$ITEM_PATH" && "${COMPOSE_CMD[@]}" config --services) | grep -Fxq "$ITEM_SERVICE" || \
+        die "Compose service is not defined: $ITEM_SERVICE"
+      ;;
+  esac
+}
+
+add_item() {
+  [[ $# -ge 2 ]] || die 'add needs a type and resource name'
+  local policy='managed'
+  if [[ "${1:-}" == --protected || "${1:-}" == --locked ]]; then
+    policy="${1#--}"
+    shift
+  fi
+  [[ $# -ge 2 ]] || die 'add needs a type and resource name'
+  local kind="$1" spec='' name control ports path files service existing new_name new_control
+  shift
+  case "$kind" in
+    user-service|user-timer|system-service|system-timer|docker|frontier)
+      [[ $# -ge 1 && $# -le 3 ]] || \
+        die "Usage: aux-services add $kind RESOURCE [CONTROL_NAME] [PORTS]"
+      name="$1"
+      control="${2:-${name%.service}}"
+      control="${control%.timer}"
+      ports="${3:--}"
+      validate_field RESOURCE "$name"
+      validate_field CONTROL_NAME "$control"
+      validate_field PORTS "$ports"
+      spec="$kind|$name|$control|$ports|$policy"
+      ;;
+    compose)
+      [[ $# -ge 4 && $# -le 6 ]] || \
+        die 'Usage: aux-services add compose DISPLAY_NAME DIRECTORY FILES SERVICE [CONTROL_NAME] [PORTS]'
+      name="$1"; path="$2"; files="$3"; service="$4"; control="${5:-${name,,}}"; ports="${6:--}"
+      validate_field DISPLAY_NAME "$name"
+      validate_field DIRECTORY "$path"
+      validate_field FILES "$files"
+      validate_field SERVICE "$service"
+      validate_field CONTROL_NAME "$control"
+      validate_field PORTS "$ports"
+      spec="$kind|$name|$path|$files|$service|$control|$ports|$policy"
+      ;;
+    *) die "Unsupported add type: $kind" ;;
+  esac
+
+  parse_item "$spec"
+  new_name="${ITEM_NAME,,}"
+  new_control="${ITEM_CONTROL,,}"
+  for existing in "${EXTRA_ITEMS[@]}"; do
+    parse_item "$existing"
+    [[ "${ITEM_NAME,,}" != "$new_name" ]] || die "Resource is already configured: $ITEM_NAME"
+    [[ "${ITEM_CONTROL,,}" != "$new_control" ]] || die "Control name is already configured: $ITEM_CONTROL"
+  done
+  validate_item_exists "$spec"
+  EXTRA_ITEMS+=("$spec")
+  save_config
+  parse_item "$spec"
+  printf 'Added %-26s -> %s (%s). It was not started.\n' "$ITEM_CONTROL" "$ITEM_NAME" "$ITEM_KIND"
+}
+
+remove_item() {
+  [[ $# -eq 1 ]] || die 'remove needs exactly one configured name'
+  find_item "$1"
+  local removed="$FOUND_ITEM" active='no' spec
+  local -a kept=()
+  item_is_active "$removed" && active='yes' || true
+  parse_item "$removed"
+  local removed_name="$ITEM_NAME" removed_control="$ITEM_CONTROL"
+  for spec in "${EXTRA_ITEMS[@]}"; do
+    [[ "$spec" == "$removed" ]] || kept+=("$spec")
+  done
+  EXTRA_ITEMS=("${kept[@]}")
+  save_config
+  [[ -s "$SNAPSHOT_FILE" ]] && remove_snapshot_item "$removed" || true
+  printf 'Removed %s from the controller catalog.\n' "$removed_control"
+  if [[ "$active" == yes ]]; then
+    printf 'The underlying resource is still running: %s\n' "$removed_name"
+  else
+    printf 'The underlying resource remains stopped: %s\n' "$removed_name"
+  fi
+}
+
+find_item() {
+  local requested="${1,,}" spec short
+  FOUND_ITEM=''
+  for spec in "${EXTRA_ITEMS[@]}"; do
+    parse_item "$spec"
+    short="${ITEM_NAME%.service}"
+    short="${short%.timer}"
+    if [[ "${ITEM_CONTROL,,}" == "$requested" || "${ITEM_NAME,,}" == "$requested" || \
+      "${short,,}" == "$requested" ]]; then
+      [[ -z "$FOUND_ITEM" ]] || die "More than one configured item matches: $1"
+      FOUND_ITEM="$spec"
+    fi
+  done
+  [[ -n "$FOUND_ITEM" ]] || die "No configured auxiliary service matches: $1"
+}
+
+start_one() {
+  find_item "$1"
+  parse_item "$FOUND_ITEM"
+  [[ "$ITEM_POLICY" != locked ]] || die "$ITEM_CONTROL is inventory-only and cannot be controlled here."
+  if item_is_active "$FOUND_ITEM"; then
+    parse_item "$FOUND_ITEM"
+    printf 'Already active   %-14s %s\n' "$ITEM_KIND" "$ITEM_NAME"
+  else
+    start_item "$FOUND_ITEM"
+  fi
+  verify_frontier_health
+}
+
+stop_one() {
+  find_item "$1"
+  parse_item "$FOUND_ITEM"
+  [[ "$ITEM_POLICY" != locked ]] || die "$ITEM_CONTROL is inventory-only and cannot be controlled here."
+  if item_is_active "$FOUND_ITEM"; then
+    stop_item "$FOUND_ITEM"
+  else
+    parse_item "$FOUND_ITEM"
+    printf 'Already stopped  %-14s %s\n' "$ITEM_KIND" "$ITEM_NAME"
+  fi
+}
+
+usage() {
+  cat <<'EOF'
+Usage:
+  aux-services stop     Save active configured services, then stop them in reverse order
+  aux-services start    Restore only the saved services, one by one in config order
+  aux-services stop NAME
+                        Stop one configured service without changing the restore snapshot
+  aux-services start NAME
+                        Start one configured service and recheck Frontier health
+  aux-services list     List controls, ports, policy, live state, and resources
+  aux-services add [--protected|--locked] TYPE RESOURCE [CONTROL_NAME] [PORTS]
+                        Validate and add a systemd unit
+  aux-services add [--protected|--locked] compose DISPLAY DIRECTORY FILES SERVICE [CONTROL_NAME] [PORTS]
+                        Validate and add a Docker Compose service
+  aux-services remove NAME
+                        Unregister one item without stopping or uninstalling it
+  aux-services status   Show configured, active, and pending-restore state
+  aux-services edit     Edit the allow-list and validate it
+  aux-services config   Print the config path
+
+Protected control-plane services are excluded from bulk stop/start. Locked
+transport and Frontier entries are inventory-only and use their owning tools.
+EOF
+}
+
+load_config
+exec 9>"$LOCK_FILE"
+flock -n 9 || die 'Another aux-services operation is running.'
+
+case "${1:-status}" in
+  stop)
+    [[ $# -le 2 ]] || die 'stop accepts at most one service name'
+    [[ $# -eq 2 ]] && stop_one "$2" || extras_off
+    ;;
+  start)
+    [[ $# -le 2 ]] || die 'start accepts at most one service name'
+    [[ $# -eq 2 ]] && start_one "$2" || extras_on
+    ;;
+  list) [[ $# -eq 1 ]] || die 'list takes no arguments'; extras_list ;;
+  add) shift; add_item "$@" ;;
+  remove) shift; remove_item "$@" ;;
+  status) [[ $# -eq 1 ]] || die 'status takes no arguments'; extras_status ;;
+  edit) [[ $# -eq 1 ]] || die 'edit takes no arguments'; edit_config ;;
+  config) printf '%s\n' "$CONFIG_FILE" ;;
+  help|-h|--help) usage ;;
+  *) usage >&2; exit 2 ;;
+esac

@@ -10,7 +10,6 @@ $TaskName = 'DGX Spark sparkDash Tunnel'
 $SshExe = "$env:WINDIR\System32\OpenSSH\ssh.exe"
 $SshConfig = "$env:LOCALAPPDATA\NVIDIA Corporation\Sync\config\ssh_config"
 $HealthUrl = 'http://127.0.0.1:5555/api/health'
-$RemoteStart = 'cd "$HOME/src/frontier/sparkDash" && docker compose -f docker-compose.yml -f docker-compose.local.yml up -d >/dev/null && curl -fsS --retry 12 --retry-all-errors --retry-delay 1 --max-time 4 http://127.0.0.1:5555/api/health >/dev/null'
 
 function Test-SparkDashLocal {
     try {
@@ -20,6 +19,14 @@ function Test-SparkDashLocal {
     catch {
         return $false
     }
+}
+
+function Test-SparkDashTunnel {
+    return $null -ne (Get-NetTCPConnection `
+        -LocalAddress '127.0.0.1' `
+        -LocalPort 5555 `
+        -State Listen `
+        -ErrorAction SilentlyContinue)
 }
 
 function Invoke-FirstSpark {
@@ -37,12 +44,6 @@ function Invoke-FirstSpark {
 
 switch ($Mode) {
     'Run' {
-        $remoteResult = Invoke-FirstSpark -Command $RemoteStart
-        if ($remoteResult -ne 0) {
-            Write-Error "FirstSpark sparkDash failed to become healthy (SSH exit $remoteResult)."
-            exit $remoteResult
-        }
-
         & $SshExe `
             -F $SshConfig `
             -N `
@@ -62,45 +63,44 @@ switch ($Mode) {
     }
 
     'Start' {
-        if (Test-SparkDashLocal) {
-            Write-Output 'sparkDash is already ready at http://127.0.0.1:5555/'
+        if (Test-SparkDashTunnel) {
+            Write-Output 'The persistent Windows sparkDash tunnel is already listening on 127.0.0.1:5555.'
             exit 0
         }
 
-        $remoteResult = Invoke-FirstSpark -Command $RemoteStart
-        if ($remoteResult -ne 0) {
-            Write-Error "FirstSpark sparkDash failed to become healthy (SSH exit $remoteResult)."
-            exit $remoteResult
-        }
-
+        Enable-ScheduledTask -TaskName $TaskName | Out-Null
         Start-ScheduledTask -TaskName $TaskName
         $deadline = (Get-Date).AddSeconds(45)
         do {
             Start-Sleep -Seconds 1
-            if (Test-SparkDashLocal) {
-                Write-Output 'sparkDash is ready at http://127.0.0.1:5555/'
+            if (Test-SparkDashTunnel) {
+                Write-Output 'The persistent Windows sparkDash tunnel is listening on 127.0.0.1:5555.'
                 exit 0
             }
         } while ((Get-Date) -lt $deadline)
 
         $info = Get-ScheduledTaskInfo -TaskName $TaskName
-        Write-Error "sparkDash did not become ready within 45 seconds. LastTaskResult=$($info.LastTaskResult)"
+        Write-Error "The sparkDash tunnel did not start within 45 seconds. LastTaskResult=$($info.LastTaskResult)"
         exit 1
     }
 
     'Stop' {
         Stop-ScheduledTask -TaskName $TaskName -ErrorAction SilentlyContinue
-        Write-Output 'The Windows sparkDash tunnel is stopped. The remote monitoring container was left intact.'
+        Disable-ScheduledTask -TaskName $TaskName | Out-Null
+        Write-Output 'The Windows sparkDash tunnel is stopped and disabled. The remote monitoring container was left intact.'
     }
 
     'Status' {
         $task = Get-ScheduledTask -TaskName $TaskName
         $info = Get-ScheduledTaskInfo -TaskName $TaskName
+        $tunnelReady = Test-SparkDashTunnel
         $localReady = Test-SparkDashLocal
         $remoteResult = Invoke-FirstSpark -Command 'curl -fsS --max-time 4 http://127.0.0.1:5555/api/health >/dev/null'
 
         [pscustomobject]@{
             TaskState = $task.State
+            TaskEnabled = $task.Settings.Enabled
+            Tunnel = if ($tunnelReady) { 'listening' } else { 'unavailable' }
             LocalHealth = if ($localReady) { 'healthy' } else { 'unavailable' }
             RemoteHealth = if ($remoteResult -eq 0) { 'healthy' } else { 'unavailable' }
             LastRunTime = $info.LastRunTime

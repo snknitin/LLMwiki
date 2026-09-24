@@ -1,6 +1,6 @@
 ---
 created: 2026-09-18
-updated: 2026-09-18
+updated: 2026-09-24
 status: active-authoritative-reference
 scope: dgx-spark, dual-node, connectx-7, qsfp112, netplan, ssh, nccl, vllm, tensorrt-llm
 authority: live-audit-plus-successful-nccl-run
@@ -67,6 +67,9 @@ ssh -F "$env:LOCALAPPDATA\NVIDIA Corporation\Sync\config\ssh_config" SecondSpark
 | `nccl-tests` revision | `b4d5bee` plus local build/link correction | `b4d5bee` plus local build/link correction | Matched functional build |
 
 Do not assume firmware parity from this table; firmware was not re-read during the 2026-09-18 live audit.
+
+> [!success] Frontier readiness update — 2026-09-24
+> The later dual-Spark Frontier run reconciled Docker access, reverse SSH trust, and NVIDIA Container Toolkit parity before the distributed model tutorials were completed. The table above remains the dated 2026-09-18 audit snapshot.
 
 ## Physical Topology
 
@@ -170,6 +173,8 @@ ssh -o BatchMode=yes snknitin@192.168.0.101 hostname
 ```
 
 This does not invalidate the completed NCCL run because FirstSpark is the launcher and its direction works. It is nevertheless a preflight item for runtimes that require symmetric SSH. Diagnose the exact stale/conflicting `known_hosts` entry before removing anything; do not disable host-key verification globally.
+
+The reverse trust issue was subsequently repaired and rechecked during the completed Frontier readiness gate on 2026-09-24.
 
 The earlier missing `~/.ssh/id_rsa.pub` error was not evidence that SSH was unconfigured. The environment uses Ed25519 material, and FirstSpark-to-SecondSpark passwordless SSH is already functional.
 
@@ -345,12 +350,12 @@ Before either distributed path:
 
 ## Known Open Items
 
-- [ ] Diagnose and repair SecondSpark-to-FirstSpark management-IP host-key verification without disabling strict checking globally.
-- [ ] Decide whether to add `snknitin` to SecondSpark's `docker` group or standardize on `sudo docker` there.
-- [ ] Reconcile NVIDIA Container Toolkit `1.19.1` versus `1.20.0` before the first distributed container workload.
+- [x] Diagnose and repair SecondSpark-to-FirstSpark management-IP host-key verification without disabling strict checking globally.
+- [x] Add `snknitin` to SecondSpark's `docker` group and prove normal Docker access without `sudo`.
+- [x] Reconcile NVIDIA Container Toolkit `1.19.1` versus `1.20.0` before the first distributed container workload.
 - [ ] Re-read and record firmware versions on both nodes.
 - [ ] Prove one NVIDIA-documented two-node workload end to end.
-- [ ] Decide whether the first distributed proof is vLLM/Ray Llama 3.3 70B or TensorRT-LLM Qwen3-235B-A22B-FP4.
+- [x] Close the original either/or decision: the first real distributed-model proof used the pinned dual-Spark Qwen 3.8 NVFP4/FP8 Frontier recipe instead; the NVIDIA-documented workload remains a separate optional item above.
 - [ ] Keep Cluster Assistant migration optional; it is not a prerequisite for the already working manual network.
 - [ ] Treat MTU 1500 as the current fact. Do not assume jumbo frames or NemoClaw-specific MTU 9000 prerequisites are satisfied.
 
@@ -400,4 +405,3 @@ Expected peer hostname: `spark-7047`.
 - [[DGX Spark Qwen NVFP4 Memory And Startup Optimization Research]]
 - [[DGX Spark Operations Setup Guide]]
 - [[DGX Spark Model Installation And Switching Guide]]
-
