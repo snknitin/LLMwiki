@@ -1,10 +1,13 @@
 ---
-updated: 2026-09-22
-status: ready-for-user-execution
+updated: 2026-09-24
+status: completed
 scope: dual-dgx-spark, vllm, exl3, qwen3.8, glm-5.3, deepseek-v4.1, sparkdash, litellm, hermes
 ---
 
 # DGX Spark Dual-Node Community Frontier Models Runbook
+
+> [!success] Completed 2026-09-24
+> The dual-DGX-Spark readiness, qualification, rollback, service-layering, and Frontier hot-swap path has been completed. The commands below remain the reproducible operating runbook.
 
 > [!summary] Decision
 > Implement the MiaAI-Lab repositories as pinned, isolated, two-node challenger lanes. Preserve their tested images, checkpoints, launchers, quantization, speculative decoding, and default runtime geometry for the first successful boot. Change only this cluster's addresses, interface/HCA names, API port, SSH user, and authentication. Keep `spark-fast` as the rollback. After each lane passes direct and coexistence validation, register it under its own LiteLLM/Hermes alias so every installed model remains selectable while only one large backend is resident.

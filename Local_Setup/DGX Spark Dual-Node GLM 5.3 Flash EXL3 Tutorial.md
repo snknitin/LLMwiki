@@ -1,10 +1,13 @@
 ---
-updated: 2026-09-22
-status: experimental-user-execution
+updated: 2026-09-24
+status: completed
 scope: dgx-spark, glm-5.3-flash, exl3, dflash2, vllm, dual-node
 ---
 
 # DGX Spark Dual-Node GLM 5.3 Flash EXL3 Tutorial
+
+> [!success] Completed 2026-09-24
+> The recipe-faithful baseline, considered adaptations, service integration, stop, and `spark-fast` rollback gates are complete.
 
 > [!warning] Position in the rollout
 > Run this only after sparkDash is installed and the Qwen NVFP4 lane has passed start, inference, stop, and `spark-fast` rollback. GLM is a community-verified recipe, but its current issue tracker includes reports of host lockups, hard resets, long-generation corruption, cache failures, and a CUDA failure after long output. Treat it as an experimental lane until this pair passes its own soak.
@@ -1039,24 +1042,24 @@ No. GLM is an exclusive dual-node lane. Stop `spark-fast` and all other GPU cons
 
 ## Acceptance checklist
 
-- [ ] sparkDash tutorial is complete and Qwen dual-node rollback passed.
-- [ ] Repository is pinned at `ca8557665bffa6529758f2c330ba8fb44c1e801a`.
-- [ ] Published image digest is recorded.
-- [ ] Model and DFlash2 revisions match this tutorial.
-- [ ] DFlash2 license is acceptable for the intended use.
-- [ ] Recipe doctor passes.
-- [ ] Both GPUs are idle before launch.
-- [ ] Validated 850K/DFlash2/E3 profile starts with GMU 0.87 and the InstantTensor buffer correction, without a local rebuild.
-- [ ] Health, chat, tool call, and one-image test pass.
-- [ ] Full responses and measurements exist under `~/frontier-results/glm53-flash/`, and the comparison table was regenerated.
-- [ ] 32K, 100K, 256K, and 500K context gates pass before a near-limit run.
-- [ ] Long-generation, concurrency, and soak gates pass without corruption or host instability.
-- [ ] Stop removes both ranks.
-- [ ] `spark-fast` rollback passes.
-- [ ] Named configuration copies live under `~/.config/frontier/glm53-profiles/`, not as unignored API-key-bearing files in the Git checkout.
-- [ ] Any MTP or 500K adaptation has its own probe profile, timestamped evidence directory, identity record, and startup/runtime configuration evidence.
-- [ ] `glm53-variant-comparison.md` was generated after every adaptation being considered.
-- [ ] LiteLLM/Hermes promotion occurs only after direct validation.
+- [x] sparkDash tutorial is complete and Qwen dual-node rollback passed.
+- [x] Repository is pinned at `ca8557665bffa6529758f2c330ba8fb44c1e801a`.
+- [x] Published image digest is recorded.
+- [x] Model and DFlash2 revisions match this tutorial.
+- [x] DFlash2 license is acceptable for the intended use.
+- [x] Recipe doctor passes.
+- [x] Both GPUs are idle before launch.
+- [x] Validated 850K/DFlash2/E3 profile starts with GMU 0.87 and the InstantTensor buffer correction, without a local rebuild.
+- [x] Health, chat, tool call, and one-image test pass.
+- [x] Full responses and measurements exist under `~/frontier-results/glm53-flash/`, and the comparison table was regenerated.
+- [x] 32K, 100K, 256K, and 500K context gates pass before a near-limit run.
+- [x] Long-generation, concurrency, and soak gates pass without corruption or host instability.
+- [x] Stop removes both ranks.
+- [x] `spark-fast` rollback passes.
+- [x] Named configuration copies live under `~/.config/frontier/glm53-profiles/`, not as unignored API-key-bearing files in the Git checkout.
+- [x] Any MTP or 500K adaptation has its own probe profile, timestamped evidence directory, identity record, and startup/runtime configuration evidence.
+- [x] `glm53-variant-comparison.md` was generated after every adaptation being considered.
+- [x] LiteLLM/Hermes promotion occurs only after direct validation.
 
 **Next:** stop GLM, prove `spark-fast` rollback, then open [[DGX Spark Dual-Node DeepSeek V4.1 Flash EXL3 Tutorial]].
 

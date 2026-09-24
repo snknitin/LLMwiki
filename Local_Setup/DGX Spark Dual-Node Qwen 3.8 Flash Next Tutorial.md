@@ -1,10 +1,13 @@
 ---
-updated: 2026-09-18
-status: ready-for-user-execution
+updated: 2026-09-24
+status: completed
 scope: dgx-spark, qwen3.8-flash-next, nvfp4, fp8, vllm, dual-node
 ---
 
 # DGX Spark Dual-Node Qwen 3.8 Flash Next Tutorial
+
+> [!success] Completed 2026-09-24
+> The NVFP4 and official FP8 qualification paths, comparison, soak, service integration, stop, and `spark-fast` rollback gates are complete.
 
 > [!summary] Outcome
 > Install and validate the pinned MiaAI-Lab two-Spark recipe twice: first with NVIDIA's Qwen 3.8 Flash Next NVFP4 checkpoint, then with the official Qwen FP8 checkpoint. Both are exclusive two-node lanes on port `8100`; neither runs beside `spark-fast` or a Spark LM Studio model.
@@ -689,19 +692,19 @@ Do not start another recipe until both ranks are gone.
 
 ## Acceptance checklist
 
-- [ ] Repository is pinned at `d2f54b78c0d2f9d74ac61aa56200e3c40fac3f22`.
-- [ ] Topology, HCA, GID, and port `8100` match this pair.
-- [ ] API key is enabled and protected.
-- [ ] Both GPUs are idle before launch.
-- [ ] NVFP4 weights pass full verification on both nodes.
-- [ ] NVFP4 passes health, chat, tools, vision, context ladder, and concurrency.
-- [ ] Full responses and measurements exist under `~/frontier-results/qwen38-nvfp4/`, and the comparison table was regenerated.
-- [ ] Live per-node memory and KV lines are recorded.
-- [ ] Stop removes both ranks and `spark-fast` rollback passes.
-- [ ] Official FP8 passes the same gates through explicit NFS mode.
-- [ ] NVFP4-versus-FP8 decision uses matched evidence.
-- [ ] A 32-hour-or-longer soak is complete before production promotion because the public issue tracker includes a roughly 31-hour failure report.
-- [ ] LiteLLM/Hermes integration occurs only after direct validation.
+- [x] Repository is pinned at `d2f54b78c0d2f9d74ac61aa56200e3c40fac3f22`.
+- [x] Topology, HCA, GID, and port `8100` match this pair.
+- [x] API key is enabled and protected.
+- [x] Both GPUs are idle before launch.
+- [x] NVFP4 weights pass full verification on both nodes.
+- [x] NVFP4 passes health, chat, tools, vision, context ladder, and concurrency.
+- [x] Full responses and measurements exist under `~/frontier-results/qwen38-nvfp4/`, and the comparison table was regenerated.
+- [x] Live per-node memory and KV lines are recorded.
+- [x] Stop removes both ranks and `spark-fast` rollback passes.
+- [x] Official FP8 passes the same gates through explicit NFS mode.
+- [x] NVFP4-versus-FP8 decision uses matched evidence.
+- [x] A 32-hour-or-longer soak is complete before production promotion because the public issue tracker includes a roughly 31-hour failure report.
+- [x] LiteLLM/Hermes integration occurs only after direct validation.
 
 **Next:** stop Qwen, prove `spark-fast` rollback, then open [[DGX Spark Dual-Node GLM 5.3 Flash EXL3 Tutorial]]. Return to the routing guide only after the model lanes you want have passed.
 

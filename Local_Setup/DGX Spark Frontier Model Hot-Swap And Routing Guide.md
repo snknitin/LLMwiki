@@ -1,10 +1,13 @@
 ---
-updated: 2026-09-23
-status: implement-after-model-validation
+updated: 2026-09-24
+status: completed
 scope: dgx-spark, litellm, hermes, hot-swap, model-manager, dual-node
 ---
 
 # DGX Spark Frontier Model Hot-Swap And Routing Guide
+
+> [!success] Completed 2026-09-24
+> The fail-closed switch manager, all four permanent Frontier aliases, routed checks, cold-route rejection, and `spark-fast` restoration routine are complete.
 
 > [!summary] Outcome
 > Keep Qwen 3.8 NVFP4, Qwen 3.8 official FP8, GLM 5.3 Flash, and DeepSeek V4.1 Flash installed and permanently named in LiteLLM/Hermes. A cluster-aware command hot-swaps the resident two-node backend, waits for health, restores LiteLLM/Hermes, selects the matching Hermes default, and preserves `spark-fast` as rollback.
@@ -585,6 +588,8 @@ You do not enter these values manually. They document what each `--load` command
 The saved API `usage.prompt_tokens` value is authoritative because filler counts are approximate. The verifier saves timestamped results under the existing qualification result directories and stops its load client if either Spark falls below 3 GiB available memory.
 ## Step 8 — Normal session workflow
 
+For one editable controller covering lightweight dashboards, sync services, sparkDash, and Hermes schedules around a model change, use [[DGX Spark Additional Services Controller]]. Its normal sequence is `aux-services stop`, `spark-frontier use <lane>`, then `aux-services start`. The auxiliary-services command restores only services that were active before the drain and never owns the model, LiteLLM, Hermes gateway/serve, or the GLM compatibility bridge.
+
 These blocks are **alternatives**, not a sequence. In the **FirstSpark SSH terminal**, copy only the block for the model you want now. Wait for its `Active frontier lane: ...` completion line before using its Hermes alias. For a newly qualified lane or after a configuration change, run the matching Step 7 verifier again.
 
 Before a Qwen NVFP4 session:
@@ -699,25 +704,26 @@ The model repositories, images, and weights remain installed. This rollback rest
 
 ## Acceptance checklist
 
-- [ ] Every registered alias already passed its individual tutorial.
-- [ ] LiteLLM config and manager state have timestamped backups.
-- [ ] Shared frontier key reaches LiteLLM without being printed.
-- [ ] `/v1/models` lists all validated aliases plus existing routes.
-- [ ] `spark-frontier` passes `bash -n`; the operator prohibition on concurrent `spark-model` use is documented.
-- [ ] Qwen NVFP4, Qwen FP8, GLM, and DeepSeek each start through the manager.
-- [ ] Manager verifies the expected upstream model identity.
-- [ ] Matching LiteLLM alias and Hermes request pass for each active lane.
-- [ ] GLM reasoning chunks reach LiteLLM as `reasoning_content`, the compatibility service is active, and Hermes visible reasoning is enabled.
-- [ ] Cold alias fails cleanly and cannot masquerade as the active model.
-- [ ] Previous head and worker ranks are gone after every switch.
-- [ ] Each lane repeats its accepted load with LiteLLM/Hermes resident.
-- [ ] `spark-frontier restore-spark-fast` starts `spark-fast`, restores standalone LiteLLM, and routes Hermes explicitly to `spark-fast`.
-- [ ] `spark-fast`, `qwen27-dflash`, and `nemotron3-omni` routes remain unchanged.
+- [x] Every registered alias already passed its individual tutorial.
+- [x] LiteLLM config and manager state have timestamped backups.
+- [x] Shared frontier key reaches LiteLLM without being printed.
+- [x] `/v1/models` lists all validated aliases plus existing routes.
+- [x] `spark-frontier` passes `bash -n`; the operator prohibition on concurrent `spark-model` use is documented.
+- [x] Qwen NVFP4, Qwen FP8, GLM, and DeepSeek each start through the manager.
+- [x] Manager verifies the expected upstream model identity.
+- [x] Matching LiteLLM alias and Hermes request pass for each active lane.
+- [x] GLM reasoning chunks reach LiteLLM as `reasoning_content`, the compatibility service is active, and Hermes visible reasoning is enabled.
+- [x] Cold alias fails cleanly and cannot masquerade as the active model.
+- [x] Previous head and worker ranks are gone after every switch.
+- [x] Each lane repeats its accepted load with LiteLLM/Hermes resident.
+- [x] `spark-frontier restore-spark-fast` starts `spark-fast`, restores standalone LiteLLM, and routes Hermes explicitly to `spark-fast`.
+- [x] `spark-fast`, `qwen27-dflash`, and `nemotron3-omni` routes remain unchanged.
 
 **Next:** return to [[Task Checklist]], record which aliases passed, and use `spark-frontier status` before every model-selection session.
 
 ## Related notes
 
+- [[DGX Spark Additional Services Controller]]
 - [[DGX Spark Dual-Node Community Frontier Models Runbook]]
 - [[DGX Spark Model Installation And Switching Guide]]
 - [[FirstSpark Standalone LiteLLM Operations]]

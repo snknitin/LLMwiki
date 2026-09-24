@@ -1,10 +1,13 @@
 ---
-updated: 2026-09-18
-status: ready-for-user-execution
+updated: 2026-09-24
+status: completed
 scope: dgx-spark, sparkdash, monitoring, benchmarks, ssh
 ---
 
 # DGX Spark sparkDash Monitoring Tutorial
+
+> [!success] Completed 2026-09-24
+> The monitoring tutorial and its acceptance checklist are complete for both DGX Sparks.
 
 > [!summary] Outcome
 > Install the pinned MiaAI-Lab sparkDash release on FirstSpark as a loopback-only observer for both DGX Sparks. It may monitor and benchmark the active model, but it does not own model start/stop, Hermes, LiteLLM, or machine shutdown.
@@ -255,6 +258,16 @@ Record cold prefill, warm prefill, TTFT, one-stream decode, and supported concur
 
 ## Daily commands
 
+The Windows SSH tunnel is persistent transport owned by Task Scheduler. It starts at sign-in and receives a five-minute recovery trigger. It does **not** start sparkDash on FirstSpark, so it cannot fight an intentional model-memory drain. Normally, control the remote application only:
+
+```bash
+aux-services start sparkdash
+aux-services stop sparkdash
+aux-services status
+```
+
+When the remote service starts, the already-present Windows tunnel makes `http://127.0.0.1:5555/` healthy automatically. The longer Compose commands below remain recovery references.
+
 Status and logs on **FirstSpark**:
 
 ```bash
@@ -309,16 +322,16 @@ Stop it and repeat the same long-prefill test. Keep it off if the dashboard-on r
 
 ## Acceptance checklist
 
-- [ ] Source is pinned at `e448d6b940fefa1762aca25200273484170d4b6c`.
-- [ ] Tests pass or any limitation is explicitly recorded.
-- [ ] Listener is only `127.0.0.1:5555`.
-- [ ] Windows access works through the SSH tunnel.
-- [ ] Both Sparks report correct hardware telemetry.
-- [ ] The worker uses key authentication without password prompts.
-- [ ] Model port `8100` works with a stored per-port API key.
-- [ ] No shutdown, Wake, Hermes-update, or model-lifecycle authority is enabled.
-- [ ] `.secrets-key` has a protected backup.
-- [ ] GLM/DeepSeek A/B testing establishes whether sparkDash can remain resident.
+- [x] Source is pinned at `e448d6b940fefa1762aca25200273484170d4b6c`.
+- [x] Tests pass or any limitation is explicitly recorded.
+- [x] Listener is only `127.0.0.1:5555`.
+- [x] Windows access works through the SSH tunnel.
+- [x] Both Sparks report correct hardware telemetry.
+- [x] The worker uses key authentication without password prompts.
+- [x] Model port `8100` works with a stored per-port API key.
+- [x] No shutdown, Wake, Hermes-update, or model-lifecycle authority is enabled.
+- [x] `.secrets-key` has a protected backup.
+- [x] GLM/DeepSeek A/B testing establishes whether sparkDash can remain resident.
 
 ## Primary source
 

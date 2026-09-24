@@ -1,10 +1,13 @@
 ---
-updated: 2026-09-22
-status: deferred-high-risk-experiment
+updated: 2026-09-24
+status: completed
 scope: dgx-spark, deepseek-v4.1-flash, exl3, engram, dspark, vllm, dual-node
 ---
 
 # DGX Spark Dual-Node DeepSeek V4.1 Flash EXL3 Tutorial
+
+> [!success] Completed 2026-09-24
+> The 131K safety profile and recipe-faithful 600K profile, service layering, soak, restart, stop, and `spark-fast` rollback gates are complete.
 
 > [!danger] Position in the rollout
 > This is the final and highest-risk model recipe. Do not run it until sparkDash, Qwen, and GLM have each completed the required start/stop/rollback gates. The repository is new, stages about 387 GiB of source weights, and operates with only a few GiB of unified-memory headroom per node.
@@ -829,23 +832,23 @@ Do not repeat the same launch without a documented, single-variable mitigation.
 
 ## Acceptance checklist
 
-- [ ] sparkDash, Qwen, and GLM tutorials reached their required rollback gates.
-- [ ] Repository is pinned at `8404ac7d389c418300d0bee960d52313247930e1`.
-- [ ] Published image digest is recorded.
-- [ ] Approximately 387 GiB source set is complete and layout tests pass.
-- [ ] Both GPUs and nonessential services are stopped for raw qualification.
-- [ ] Recipe-faithful NFS/600K/two-sequence/DSpark-k3 profile starts.
-- [ ] Warm per-node memory is at least comparable to the published result.
-- [ ] Repository smoke test, tools, and one-image test pass.
-- [ ] Full responses and measurements exist under `~/frontier-results/<profile>/`, and the comparison table was regenerated.
-- [ ] 32K, 128K, 256K, and 450K context gates pass before a near-600K run.
-- [ ] Long-prefill low-water is recorded on both nodes.
-- [ ] LiteLLM-only, Hermes, and sparkDash service-layer A/B tests are recorded.
-- [ ] No full ODS restoration occurs without measured margin.
-- [ ] Soak and two stop/start cycles pass.
-- [ ] Stop removes both ranks and `spark-fast` rollback passes.
-- [ ] Any lower-context or speculation-off profile has a separate record.
-- [ ] LiteLLM/Hermes promotion occurs only after direct validation.
+- [x] sparkDash, Qwen, and GLM tutorials reached their required rollback gates.
+- [x] Repository is pinned at `8404ac7d389c418300d0bee960d52313247930e1`.
+- [x] Published image digest is recorded.
+- [x] Approximately 387 GiB source set is complete and layout tests pass.
+- [x] Both GPUs and nonessential services are stopped for raw qualification.
+- [x] Recipe-faithful NFS/600K/two-sequence/DSpark-k3 profile starts.
+- [x] Warm per-node memory is at least comparable to the published result.
+- [x] Repository smoke test, tools, and one-image test pass.
+- [x] Full responses and measurements exist under `~/frontier-results/<profile>/`, and the comparison table was regenerated.
+- [x] 32K, 128K, 256K, and 450K context gates pass before a near-600K run.
+- [x] Long-prefill low-water is recorded on both nodes.
+- [x] LiteLLM-only, Hermes, and sparkDash service-layer A/B tests are recorded.
+- [x] No full ODS restoration occurs without measured margin.
+- [x] Soak and two stop/start cycles pass.
+- [x] Stop removes both ranks and `spark-fast` rollback passes.
+- [x] Any lower-context or speculation-off profile has a separate record.
+- [x] LiteLLM/Hermes promotion occurs only after direct validation.
 
 **Next:** after stop/rollback succeeds, open [[DGX Spark Frontier Model Hot-Swap And Routing Guide]] to register only the profiles that actually passed, then update [[Task Checklist]].
 
