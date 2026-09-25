@@ -170,7 +170,7 @@ Stop both DeepSeek ranks, verify the frontier port is closed, restore the saved 
 
 **Pass:** DeepSeek ranks and port 8100 are gone, and `SPARK_FAST_RAW_ENDPOINT_READY` prints. If `spark-model` cannot start because a service or lock remains, follow the Spark operations guide's owner/lock check; do not delete a live lock file. Do not start another two-node frontier model beside it.
 
-The current `spark-fast` configuration is the pinned `unsloth/Qwen3.6-35B-A3B-NVFP4` checkpoint, served as `spark-fast` on direct port 8000 with a 262,144-token ceiling, 10 GiB explicit KV, and `MAX_NUM_SEQS=2`. Verify these again before interpreting future runs. Its direct endpoint does not require the frontier key, but the generic probe sends the key from `~/.config/frontier/api-key` as an Authorization header; the key is not printed or copied.
+The saved `20260922-191753` comparison used the pinned `unsloth/Qwen3.6-35B-A3B-NVFP4` checkpoint on direct port 8000 with a 262,144-token ceiling, 10 GiB explicit KV, and `MAX_NUM_SEQS=2`. On 2026-09-26 the production service was restored to 18 GiB explicit KV and `MAX_NUM_SEQS=5` at the same context ceiling; the separate co-resident retest is recorded in [[DGX Spark Frontier Model Qualification Results]]. Verify the live arguments before interpreting any future run. The direct endpoint does not require the frontier key, but the generic probe sends the key from `~/.config/frontier/api-key` as an Authorization header; the key is not printed or copied.
 
 Create a **new** `spark-fast` profile and run the same functional probes:
 
@@ -213,7 +213,7 @@ python3 "$HOME/ai/tools/frontier-model-probe.py" context \
   --max-tokens 64 --timeout 7200
 ```
 
-**Pass:** all three context rungs pass. This rechecks the *current* 10 GiB KV/two-sequence configuration; an older 18 GiB-KV/262K success does not prove it. Then run C1/C2, and C4 only if the monitored memory/correctness gates hold:
+**Pass for the saved 2026-09-22 receipt:** all three context rungs pass under the then-current 10 GiB KV/two-sequence configuration. The live service returned to the independently reverified 18 GiB/five-sequence profile on 2026-09-26. For a future run, treat the profile captured in the new receipt—not this historical sentence—as authoritative. Then run C1/C2, and C4 only if the monitored memory/correctness gates hold:
 
 ```bash
 python3 "$HOME/ai/tools/frontier-model-probe.py" concurrency \

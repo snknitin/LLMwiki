@@ -1,24 +1,26 @@
 # DGX Spark Qwen NVFP4 Memory And Startup Optimization Research
 
-_Primary-source review and live implementation verified on 2026-08-15._
+_Primary-source review and live implementation verified on 2026-08-15; production profile reverified on 2026-09-26._
 
-## Current low-residency profile — 2026-09-18
+## Current five-session co-resident profile — 2026-09-26
 
-The stopped `vllm-spark-fast` service on FirstSpark is now configured for the following balanced profile:
+The live, healthy `vllm-spark-fast` service on FirstSpark is configured for the following production profile:
 
 | Setting | Current value |
 |---|---:|
 | Maximum model length | 262,144 tokens |
-| Explicit FP8 KV cache | 10 GiB |
-| Maximum scheduled sequences | 2 |
+| Explicit FP8 KV cache | 18 GiB |
+| Maximum scheduled sequences | 5 |
 | Maximum batched tokens | 8,192 |
 | GPU memory utilization preflight | 0.72 |
 
-This preserves the model's full 262K request ceiling while reducing the explicit KV reservation by 8 GiB relative to the previously verified 18 GiB profile. Scaling from the measured 18 GiB capacity of 1,588,632 KV tokens predicts approximately 882,573 KV tokens, or 3.37 full 262,144-token context equivalents. That is a planning estimate, not a new runtime measurement; it leaves theoretical margin above the scheduler limit of two.
+The 2026-09-26 boot measured 24.84 GiB of model memory, reserved the configured 18.0 GiB KV pool, allocated **1,588,632 KV tokens**, and reported **6.06 complete 262,144-token contexts**. Five simultaneous short requests all returned HTTP 200 with exact responses, the low-water was 39,418 MiB `MemAvailable`, and vLLM preemptions remained zero while LM Studio Nemotron stayed resident.
 
-The live compose file, Spark model-lane declaration, main Hermes provider metadata, and the orchestrator, builder, researcher, and reviewer profiles all agree on the 262,144-token ceiling. LiteLLM required no change because the route and served model name are unchanged. The container remained stopped during the edit. Runtime acceptance remains pending until the next deliberate start proves readiness, reports at least two full-context equivalents, and completes a request without OOM or preemption.
+The live compose file, Spark model-lane declaration, main Hermes provider metadata, and the orchestrator, builder, researcher, and reviewer profiles all agree on the 262,144-token ceiling. LiteLLM required no route change because the served model name remains `spark-fast`. The 2026-09-26 checks passed the raw endpoint, standalone LiteLLM, Hermes, YouTube Learning Center's real structured model adapter, and Signal Desk's AI consolidation path against a disposable sample queue.
 
-Timestamped copies of both the former 18 GiB profile and the brief unstarted 131K/6 GiB staging profile are retained beside the live FirstSpark files. The results below document the earlier 18 GiB/5-sequence profile and remain useful as historical measurement evidence; they do not claim that the new 10 GiB profile has already passed runtime testing.
+LM Studio's `nvidia/nemotron-3.5-lightning` remains loaded beside Spark-Fast at 65,536 context and four parallel slots. The final idle state retained about 35 GiB `MemAvailable`; a simultaneous request to both models passed with a 36,057 MiB low-water and no new kernel error. Start order is mandatory: Spark-Fast's image-specific 0.72 preflight rejected a Nemotron-first start by 0.24 GiB, so boot Spark-Fast first and load Nemotron only after Qwen is healthy. The first successful Nemotron reload emitted one recoverable `NV_ERR_NO_MEMORY` event during GPU-max allocation before completing; retain this warning in future restart checks.
+
+The previous 10 GiB/two-sequence low-residency profile and the brief unstarted 131K/6 GiB staging profile remain available through timestamped backups. The current pre-change backup is `/home/snknitin/ai/services/qwen35/compose.yaml.pre-five-sessions-20260926-005337`.
 
 ## Historical verified 18 GiB profile
 
@@ -35,7 +37,7 @@ The verified posture is therefore:
 1. Keep 262,144 context, an 18 GiB explicit KV pool, five maximum sequences, and 8,192 batched tokens.
 2. Treat the 6.06 startup concurrency line and the 260,016-token request as the adoption evidence.
 3. Keep the 0.72 preflight flag for this exact custom image; do not interpret it as the KV allocation after explicit bytes are set.
-4. Keep exclusive lane switching as the default instead of assuming Qwen and LM Studio can generate concurrently at unchanged speed.
+4. Keep Qwen first in the startup order, serialize sustained heavy generation, and use exclusive lane switching if concurrent latency or allocation warnings become material.
 5. Re-run capacity, long-context, tool, and latency checks after any image, checkpoint, backend, MTP, or graph-setting change.
 
 ## Scope and model identity

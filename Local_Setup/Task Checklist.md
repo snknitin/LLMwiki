@@ -676,7 +676,7 @@ The immediate goal remains the **operational setup**, not every future model, fr
 
 | Lane | Published or observed per-node pressure | Checklist decision |
 |---|---|---|
-| Current `spark-fast` | About 40.2 GiB model allocation; roughly 50 GiB end-to-end after the 10 GiB KV/two-sequence profile | May leave SecondSpark free for a separately designed single-node lane, but must stop before any two-node recipe. |
+| Current `spark-fast` | About 48.2 GiB by `nvidia-smi` with the restored 18 GiB KV/five-sequence profile; the 2026-09-26 co-resident Qwen/Nemotron state retained about 35 GiB `MemAvailable` | May leave SecondSpark free for a separately designed single-node lane and may coexist with FirstSpark LM Studio Nemotron when Qwen starts first, but must stop before any two-node recipe. |
 | Optional Qwen 3.8 NVFP4 TP1 on SecondSpark | 71.75 GiB GPU weights, about 5.6 GiB non-weight overhead, a configurable 7–15 GiB KV cache, and a 26.82 GiB memory-mapped PLE in the community measurements | May coexist with `spark-fast` as an explicitly separate SecondSpark-only lane after its own load test. Stop it before starting any dual-node recipe. See the optional TP1 section in [[DGX Spark Dual-Node Qwen 3.8 Flash Next Tutorial]]. |
 | Qwen NVFP4 | 101.61 GiB vLLM budget, 32.02 GiB KV, and only about 2.33–2.38 GiB published host-memory low-water | Exclusive; qualify with all nonessential services stopped. |
 | Qwen official FP8 | Same two-node 0.835 budget, larger weights, and roughly 500K cache tokens; no complete published memory breakdown | Exclusive; measure independently rather than inheriting NVFP4 assumptions. |

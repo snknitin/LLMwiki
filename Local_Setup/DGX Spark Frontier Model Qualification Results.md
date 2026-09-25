@@ -1,6 +1,6 @@
 # DGX Spark Frontier Model Qualification Results
 
-Snapshot: 2026-09-26, including the GLM recipe refresh at commit `0f49cfdbaa131286eb592cd6ebfa048f3aa85c4e` and both SecondSpark single-node Qwen v0.30 qualification attempts. The headline rows are **local, saved probe results**, not upstream recipe claims or pure decode benchmarks. Each headline source is the timestamped directory under `~/frontier-results/<profile>/` on FirstSpark; a profile's `latest` symlink can later move to a newer run. `C1`, `C2`, `C4`, and the one measured `C8` are aggregate **end-to-end output tokens per second** at that many simultaneous client requests using the shared 512-output-token prose probe. `Quality` is a separate end-to-end response test. Do not compare its rate to a C1 rate as though they were the same request. The SecondSpark attempts used the recipe's own smoke and structured harnesses, so they are tabulated separately rather than mixed into the standardized headline table.
+Snapshot: 2026-09-26, including the GLM recipe refresh at commit `0f49cfdbaa131286eb592cd6ebfa048f3aa85c4e`, both SecondSpark single-node Qwen v0.30 qualification attempts, and the FirstSpark five-session Spark-Fast/LM Studio Nemotron co-residency retest. The headline rows are **local, saved probe results**, not upstream recipe claims or pure decode benchmarks. Each headline source is the timestamped directory under `~/frontier-results/<profile>/` on FirstSpark; a profile's `latest` symlink can later move to a newer run. `C1`, `C2`, `C4`, and the one measured `C8` are aggregate **end-to-end output tokens per second** at that many simultaneous client requests using the shared 512-output-token prose probe. `Quality` is a separate end-to-end response test. Do not compare its rate to a C1 rate as though they were the same request. The SecondSpark attempts used the recipe's own smoke and structured harnesses, so they are tabulated separately rather than mixed into the standardized headline table. The later co-residency retest uses its own explicitly labelled prompt and therefore does not overwrite the saved standardized `spark-fast` headline row.
 
 | Result profile | Served context | Quality tok/s | C1 tok/s | C2 tok/s | C4 tok/s | Largest passing prompt tokens | Chat / tool / vision | Saved run | C8 tok/s |
 |---|---:|---:|---:|---:|---:|---:|---|---|---:|
@@ -26,6 +26,36 @@ The fresh 131K and `spark-fast` runs also have passing `identity.json` receipts.
 |---|---|---|---|---|
 | `deepseek41-bringup-131k` | 353 tokens / 281 words / 11.940 s | 30,019; 29.879 s · 120,019; 122.715 s | 14.991 / 29.362 / 58.846 s | 7.5 / 9.4 GiB |
 | `spark-fast` | 362 tokens / 294 words / 5.805 s | 30,029; 5.357 s · 120,029; 37.288 s · 235,029; 115.847 s | 6.631 / 8.123 / 16.668 s | 72 GiB / worker idle |
+
+### FirstSpark five-session Spark-Fast and Nemotron retest — 2026-09-26
+
+FirstSpark's production `spark-fast` service was restored from the temporary 10 GiB/two-sequence profile to the previously proven **18 GiB FP8 KV / five-sequence / 262,144-token** profile. The unchanged custom vLLM image loaded 24.84 GiB of model memory, allocated **1,588,632 KV tokens**, and reported **6.06 complete 262,144-token contexts**. `--max-num-batched-tokens 8192`, MTP-2, FlashInfer, asynchronous scheduling, and the image-specific `--gpu-memory-utilization 0.72` preflight remain unchanged.
+
+LM Studio then loaded `nvidia/nemotron-3.5-lightning` Q4_K_M at 65,536 context and four parallel slots. LM Studio reported 22.83 GiB allocation; `nvidia-smi` attributed about 24.1 GiB to `llama-server`. Final idle co-residency left about **35 GiB `MemAvailable`**. The ordering constraint is now directly reproduced: starting Nemotron first left 87.38 GiB CUDA-visible memory, just below Spark-Fast's 87.62 GiB preflight request. The stable order is therefore **Spark-Fast first, Nemotron second**; the existing `lmstudio.service` already waits for Spark-Fast health.
+
+| Gate | Result | Evidence |
+|---|---|---|
+| Spark-Fast identity and chat | Pass | `/v1/models` exposed `spark-fast`; the direct completion returned `SPARK_FAST_FIVE_READY` |
+| Five simultaneous Spark-Fast sessions | Pass | 5/5 HTTP 200 with exact responses; 39,418 MiB `MemAvailable` low-water; vLLM preemptions remained zero |
+| Nemotron raw chat | Pass | `/v1/models` exposed `nvidia/nemotron-3.5-lightning`; 512-token-budget request returned `NEMOTRON_READY` |
+| Simultaneous Qwen plus Nemotron generation | Pass | Both exact responses completed together; 36,057 MiB `MemAvailable` low-water; zero new kernel allocation errors |
+| LiteLLM `spark-fast` route | Pass | Standalone LiteLLM was healthy and returned `LITELLM_SPARK_FAST_OK` |
+| Hermes Spark-Fast route | Pass | Explicit `custom:spark-fast` one-shot returned `HERMES_SPARK_FAST_OK` |
+| Hermes Nemotron route | Pass | Explicit `custom:spark-lmstudio` one-shot returned `HERMES_NEMOTRON_OK` |
+| Telegram and Discord configuration | Pass without outbound message | Telegram logged a current polling connection. Discord is enabled, the YouTube channel override selects `custom:spark-fast`/`spark-fast`, and the gateway process held an established TLS connection to the current `gateway.discord.gg` address. No representational test message was sent. |
+| YouTube Learning Center | Pass | Live `/api/health` reported `local-vllm`; its real `LocalVllmAdapter.feedback` tool-call path returned schema-valid non-empty feedback through direct Spark-Fast |
+| Signal Desk / Social Capture | Pass | Live `/api/health` passed; AI consolidation against a temporary copy of the sample queue completed in `live-spark-fast-validation` mode without touching the authoritative queue |
+
+One `NV_ERR_NO_MEMORY` kernel event occurred at 01:01:04 IST during LM Studio's initial `--gpu max` load. The model finished loading five seconds later, both APIs remained healthy, later five-session and simultaneous dual-model requests passed, and the simultaneous generation window produced no new kernel error. Record this as a **recoverable startup warning**, not a zero-error load receipt. If it repeats or either service becomes unstable, keep the five-session Spark-Fast profile and unload/reload Nemotron rather than shrinking the verified KV pool silently.
+
+The following three-run benchmark used the same 180-word local-first prompt for both models, one warm-up per model, 512 maximum completion tokens, and serial requests while **both models remained resident**. Every measured request reached the 512-token cap. Rates are completion tokens divided by wall-clock HTTP time and include reasoning tokens; they are not isolated decode-only engine counters and are not interchangeable with the standardized headline table.
+
+| Model | Run 1 tok/s | Run 2 tok/s | Run 3 tok/s | Median tok/s | Co-resident configuration |
+|---|---:|---:|---:|---:|---|
+| `spark-fast` | 76.549 | 81.173 | 75.125 | **76.549** | 262,144 context, 18 GiB FP8 KV, five sequences |
+| `nvidia/nemotron-3.5-lightning` | 64.013 | 64.404 | 64.325 | **64.325** | 65,536 context, four parallel slots, GPU-max Q4_K_M |
+
+Configuration backup: `/home/snknitin/ai/services/qwen35/compose.yaml.pre-five-sessions-20260926-005337`. The live file remains `/home/snknitin/ai/services/qwen35/compose.yaml`.
 
 ### SecondSpark single-node Qwen v0.30 — Attempt 1
 

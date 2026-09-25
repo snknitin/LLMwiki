@@ -273,7 +273,7 @@ docker inspect -f '{{.State.Health.Status}}' vllm-spark-fast
 curl -sS http://127.0.0.1:8000/v1/models
 ```
 
-Current Qwen details and the 10 GiB KV-cache profile are documented in [[DGX Spark Qwen NVFP4 Memory And Startup Optimization Research]].
+Current Qwen details and the restored 18 GiB KV-cache/five-sequence profile are documented in [[DGX Spark Qwen NVFP4 Memory And Startup Optimization Research]].
 
 ## NVIDIA Driver/CDI Recovery Note
 
