@@ -10,7 +10,7 @@ scope: dgx-spark, second-spark, qwen3.8-flash-next, nvfp4, vllm-0.30, single-nod
 > Install and qualify MiaAI-Lab's pinned vLLM 0.30 single-Spark lane on **SecondSpark**. FirstSpark keeps its existing `spark-fast`, LiteLLM, Hermes, and LM Studio/Nemotron configuration. Do not add the new model to FirstSpark LiteLLM or Hermes until both the raw API gate and the 100-turn long-agent gate pass.
 
 > [!warning] Current status
-> **Installed but not qualified or promoted.** On 2026-09-25, the pinned v0.30 server passed raw API, streaming, smoke, tool, vision, 1/2/4-stream, and 100/100 sequential tool-call tests. The near-limit 206K-token long-agent load then reduced `MemAvailable` to 3,208 MiB and produced nine `NV_ERR_NO_MEMORY` kernel events, so the memory/kernel gate correctly failed. The recipe was stopped gracefully; SecondSpark returned to about 118 GiB available and 50 °C at idle. The model remains absent from LiteLLM and Hermes. FirstSpark's `spark-fast`/LiteLLM and LM Studio/Nemotron configuration were not changed.
+> **Raw-qualified; promotion pending.** Attempt 1's unintended 206K-token stress load failed the safety gate and remains preserved as a real 262K-capability limitation. After a clean restart, Attempt 2 used the corrected 90K–140K gate: it completed 100/100 tool calls from 103,425 to 108,944 prompt tokens, kept at least 17,094 MiB available, produced zero `NV_ERR_NO_MEMORY` events and zero preemptions, and passed Step 12 on 2026-09-26. The server is healthy on SecondSpark. It is now eligible for the controlled Steps 13–24 promotion, but it has not yet been registered in LiteLLM or Hermes. FirstSpark's existing routes and every Hermes profile default remain unchanged.
 
 Run one command block at a time. Unless a step explicitly says **FirstSpark**, run it in the **SecondSpark NVIDIA Sync terminal**. Stop after any failed gate and share the complete output before changing anything.
 
@@ -678,48 +678,668 @@ Final raw qualification requires all of the following:
 - minimum `MemAvailable` during qualification is at least 10 GiB;
 - the container and memwatch remain healthy.
 
-## Step 13 — Keep promotion blocked and record the endpoint
+## Step 13 — Record the accepted raw endpoint
 
-At this point, stop and review the saved logs. A pass makes the raw server **eligible** for routing; it does not silently change FirstSpark.
+Step 12 passed on Attempt 2. This makes the raw server **eligible** for routing; it does not change FirstSpark. Run this receipt block in the **SecondSpark NVIDIA Sync terminal**.
 
-Qualified direct endpoint:
+```bash
+set -euo pipefail
+test "$(hostname)" = "spark-7047" || { echo "STOP: this is not SecondSpark" >&2; exit 1; }
+cd "$HOME/src/frontier/qwen38-single-v030"
+
+export API_KEY="$(tr -d '\r\n' < "$HOME/.config/frontier/qwen38-single-api-key")"
+since="$(<logs/qualification-v030-raw-started-at.txt)"
+
+curl -fsS http://127.0.0.1:8888/health >/dev/null
+API_KEY="$API_KEY" python3 - <<'PY'
+import json, os, urllib.request
+req = urllib.request.Request(
+    "http://127.0.0.1:8888/v1/models",
+    headers={"Authorization": f"Bearer {os.environ['API_KEY']}"},
+)
+with urllib.request.urlopen(req, timeout=30) as response:
+    ids = {row["id"] for row in json.load(response)["data"]}
+assert "qwen3.8-flash-next" in ids, f"STOP: wrong model list: {sorted(ids)}"
+print("MODEL_ID_PASS=qwen3.8-flash-next")
+PY
+
+min_mib=$(grep -oE 'avail=[0-9]+MiB' logs/memwatch-vllm-fn-tp1.log | cut -d= -f2 | tr -d 'MiB' | sort -n | head -1)
+nverr=$(journalctl -k --since "$since" | grep -c 'NV_ERR_NO_MEMORY' || true)
+metrics=$(curl -fsS -H "Authorization: Bearer $API_KEY" http://127.0.0.1:8888/metrics)
+preemptions=$(printf '%s\n' "$metrics" | awk '/^vllm:num_preemptions_total/ {sum += $NF; n++} END {if (n == 0) exit 2; print sum+0}')
+health=$(docker inspect -f '{{.State.Health.Status}}' vllm-fn-tp1)
+
+(( min_mib >= 10240 )) || { echo "STOP: memory floor failed: ${min_mib} MiB" >&2; exit 1; }
+(( nverr == 0 )) || { echo "STOP: NV_ERR_NO_MEMORY_COUNT=$nverr" >&2; exit 1; }
+python3 - "$preemptions" <<'PY'
+import sys
+assert float(sys.argv[1]) == 0, f"STOP: preemptions={sys.argv[1]}"
+PY
+test "$health" = healthy || { echo "STOP: container health=$health" >&2; exit 1; }
+
+{
+  date -Is
+  echo "MODEL_ID=qwen3.8-flash-next"
+  echo "BASE_URL=http://192.168.100.11:8888/v1"
+  echo "MIN_MEMAVAILABLE_MIB=$min_mib"
+  echo "NV_ERR_NO_MEMORY_COUNT=$nverr"
+  echo "PREEMPTIONS=$preemptions"
+  echo "CONTAINER_HEALTH=$health"
+  echo "RAW_PROMOTION_ELIGIBLE=YES"
+} | tee logs/qualification-v030-attempt2-accepted.txt
+unset API_KEY metrics
+echo "PASS: raw endpoint is eligible for controlled promotion"
+```
+
+**Pass:** the last line is `PASS: raw endpoint is eligible for controlled promotion`, with at least 10,240 MiB, zero NVIDIA allocation errors, zero preemptions, and `healthy`. **Stop:** share the complete output if any assertion fails.
+
+The qualified endpoint is:
 
 ```text
 Base URL: http://192.168.100.11:8888/v1
 Model id: qwen3.8-flash-next
 Authentication: Bearer key from ~/.config/frontier/qwen38-single-api-key on SecondSpark
+LiteLLM alias to add later: qwen38-tp1-second
 ```
 
-Before promotion, verify from the FirstSpark host and from inside the `spark-litellm` container that the authenticated models and chat requests work over `192.168.100.11`. Do not copy the key into shell history or print it.
+## Controlled LiteLLM and Hermes promotion
 
-## Deferred LiteLLM and Hermes promotion
+Run Steps 14–24 in order, one code block at a time. Steps 14 runs on **SecondSpark**. Steps 15–24 run in the **FirstSpark NVIDIA Sync terminal**. Do not paste across blocks. None of these steps uses `sudo`, installs packages, changes a model default, or stops a model container.
 
-Do not execute this section until Steps 8–12 pass and their evidence is reviewed.
+Do not reuse `qwen38-nvfp4`: that alias belongs to the dual-Spark lane. `qwen38-tp1-second` identifies this independent SecondSpark server and keeps rollback unambiguous.
 
-The intended FirstSpark LiteLLM entry is a new alias, not a replacement for any existing route:
+## Step 14 — Copy the raw API key to FirstSpark without displaying it
 
-```yaml
-- model_name: qwen38-tp1-second
-  litellm_params:
-    model: openai/qwen3.8-flash-next
-    api_base: http://192.168.100.11:8888/v1
-    api_key: os.environ/SPARK_QWEN38_SINGLE_API_KEY
+Run in the **SecondSpark NVIDIA Sync terminal**:
+
+```bash
+set -euo pipefail
+test "$(hostname)" = "spark-7047" || { echo "STOP: this is not SecondSpark" >&2; exit 1; }
+
+first="snknitin@192.168.100.10"
+source_key="$HOME/.config/frontier/qwen38-single-api-key"
+dest_dir="/home/snknitin/.config/frontier"
+dest_key="$dest_dir/qwen38-single-api-key"
+
+test -s "$source_key" || { echo "STOP: SecondSpark API key is missing" >&2; exit 1; }
+test "$(stat -c '%a' "$source_key")" = "600" || { echo "STOP: source key is not mode 600" >&2; exit 1; }
+ssh "$first" 'test "$(hostname)" = "spark-07a8" || { echo "STOP: destination is not FirstSpark" >&2; exit 1; }; install -d -m 700 /home/snknitin/.config/frontier'
+
+if ssh "$first" "test -e '$dest_key'"; then
+  local_sha=$(sha256sum "$source_key" | awk '{print $1}')
+  remote_sha=$(ssh "$first" "sha256sum '$dest_key' | awk '{print \\$1}'")
+  test "$local_sha" = "$remote_sha" || { echo "STOP: FirstSpark already has a different key file" >&2; exit 1; }
+  echo "Existing FirstSpark key matches; no overwrite needed"
+else
+  scp -p "$source_key" "$first:$dest_key"
+fi
+
+ssh "$first" "chmod 600 '$dest_key'; test \"\$(stat -c '%a' '$dest_key')\" = 600"
+unset local_sha remote_sha
+echo "PASS: protected API key is present on FirstSpark"
 ```
 
-Promotion procedure:
+**Pass:** `PASS: protected API key is present on FirstSpark`. This copies the key through SSH but never prints it. **Stop:** do not overwrite a different existing key.
 
-1. copy the SecondSpark API key to a new protected FirstSpark secret without printing it;
-2. back up FirstSpark LiteLLM `config.yaml` and `runtime.env`;
-3. add only the new `qwen38-tp1-second` entry and `SPARK_QWEN38_SINGLE_API_KEY`;
-4. validate YAML and restart only `spark-litellm`;
-5. prove `/v1/models`, non-streaming chat, streaming, and tool calls through `http://127.0.0.1:4000/v1`;
-6. add `qwen38-tp1-second: {context_length: 262144}` to the global Hermes custom provider and every existing Hermes profile without changing any profile's default model;
-7. refresh Hermes' provider-model cache and prove a new test session can switch to the alias;
-8. run a Hermes-native long task with tools; retain `spark-fast` as the default and immediate rollback.
+## Step 15 — Prove FirstSpark and the LiteLLM container can reach SecondSpark
 
-The route is independent and can serve multiple Hermes sessions. LiteLLM forwards each request to SecondSpark; Hermes retains each conversation's history. vLLM admits up to four sequences concurrently and queues excess work. This is operational concurrency, not four permanently resident chat sessions inside the model server.
+Open the **FirstSpark NVIDIA Sync terminal**. Run:
 
-Do not reuse `qwen38-nvfp4`: that alias belongs to the already-qualified dual-Spark lane. Keeping a distinct alias makes model identity, rollback, and incident diagnosis unambiguous.
+```bash
+set -euo pipefail
+test "$(hostname)" = "spark-07a8" || { echo "STOP: this is not FirstSpark" >&2; exit 1; }
+
+key_file="$HOME/.config/frontier/qwen38-single-api-key"
+test -s "$key_file" || { echo "STOP: transferred key is missing" >&2; exit 1; }
+raw_key="$(tr -d '\r\n' < "$key_file")"
+probe=$(mktemp /tmp/qwen38-cross-node-probe.XXXXXX.py)
+trap 'rm -f "$probe"' EXIT
+
+cat >"$probe" <<'PY'
+import json, os, urllib.request
+
+base = "http://192.168.100.11:8888/v1"
+key = os.environ["RAW_API_KEY"]
+
+def call(path, body=None):
+    data = None if body is None else json.dumps(body).encode()
+    req = urllib.request.Request(
+        base + path,
+        data=data,
+        headers={"Authorization": f"Bearer {key}", "Content-Type": "application/json"},
+    )
+    with urllib.request.urlopen(req, timeout=900) as response:
+        return json.load(response)
+
+models = {row["id"] for row in call("/models")["data"]}
+assert "qwen3.8-flash-next" in models, f"wrong models: {sorted(models)}"
+result = call("/chat/completions", {
+    "model": "qwen3.8-flash-next",
+    "messages": [{"role": "user", "content": "Reply with exactly CROSS_NODE_OK"}],
+    "temperature": 0,
+    "max_tokens": 512,
+    "chat_template_kwargs": {"enable_thinking": False},
+})
+answer = result["choices"][0]["message"].get("content") or ""
+assert answer.strip() == "CROSS_NODE_OK", repr(answer)
+print("RAW_REACHABILITY_PASS")
+PY
+
+RAW_API_KEY="$raw_key" python3 "$probe"
+docker exec -i -e RAW_API_KEY="$raw_key" spark-litellm python3 - <"$probe"
+
+rm -f "$probe"
+trap - EXIT
+unset raw_key
+echo "PASS: FirstSpark host and spark-litellm container reach the authenticated raw endpoint"
+```
+
+**Pass:** `RAW_REACHABILITY_PASS` appears twice, followed by the final `PASS`. **Stop:** a host-only pass is insufficient; the container must also pass before its route is edited.
+
+## Step 16 — Back up LiteLLM and every Hermes profile
+
+Run in the **FirstSpark NVIDIA Sync terminal**:
+
+```bash
+set -euo pipefail
+test "$(hostname)" = "spark-07a8" || { echo "STOP: this is not FirstSpark" >&2; exit 1; }
+
+litellm_dir="$HOME/ai/services/litellm"
+test "$(docker inspect -f '{{.State.Health.Status}}' spark-litellm)" = healthy || { echo "STOP: existing LiteLLM is not healthy" >&2; exit 1; }
+(cd "$litellm_dir" && docker compose config -q)
+"$HOME/.local/bin/hermes" config check
+for profile in builder creator orchestrator researcher reviewer; do
+  "$HOME/.local/bin/$profile" config check
+done
+
+stamp=$(date -u +%Y%m%dT%H%M%SZ)
+backup_dir="$HOME/backups/qwen38-tp1-second-promotion/$stamp"
+umask 077
+install -d -m 700 "$backup_dir/litellm" "$backup_dir/hermes/profiles"
+cp -a "$litellm_dir/compose.yaml" "$litellm_dir/config.yaml" "$litellm_dir/runtime.env" "$backup_dir/litellm/"
+cp -a "$HOME/.hermes/config.yaml" "$HOME/.hermes/.env" "$backup_dir/hermes/"
+
+for profile_dir in "$HOME"/.hermes/profiles/*; do
+  test -d "$profile_dir" || continue
+  profile=$(basename "$profile_dir")
+  install -d -m 700 "$backup_dir/hermes/profiles/$profile"
+  test ! -f "$profile_dir/config.yaml" || cp -a "$profile_dir/config.yaml" "$backup_dir/hermes/profiles/$profile/"
+  test ! -f "$profile_dir/.env" || cp -a "$profile_dir/.env" "$backup_dir/hermes/profiles/$profile/"
+done
+
+install -d -m 700 "$HOME/.config/frontier"
+printf '%s\n' "$backup_dir" > "$HOME/.config/frontier/qwen38-single-promotion-backup-dir"
+chmod 600 "$HOME/.config/frontier/qwen38-single-promotion-backup-dir"
+find "$backup_dir" -type f -printf '%m %p\n' | sort
+echo "PASS: backup recorded at $backup_dir"
+```
+
+**Pass:** all three LiteLLM files, the main Hermes files, and every profile's `config.yaml`/`.env` are listed under one new timestamped directory. **Stop:** do not edit anything if a current config check or copy fails.
+
+## Step 17 — Add the new LiteLLM secret and route
+
+This block is idempotent: an exact existing entry passes; a conflicting entry stops. Run in the **FirstSpark NVIDIA Sync terminal**:
+
+```bash
+set -euo pipefail
+test "$(hostname)" = "spark-07a8" || { echo "STOP: this is not FirstSpark" >&2; exit 1; }
+test -s "$HOME/.config/frontier/qwen38-single-promotion-backup-dir" || { echo "STOP: Step 16 backup receipt is missing" >&2; exit 1; }
+
+litellm_dir="$HOME/ai/services/litellm"
+secret_file="$HOME/.config/frontier/qwen38-single-api-key"
+runtime_env="$litellm_dir/runtime.env"
+secret="$(tr -d '\r\n' < "$secret_file")"
+[[ "$secret" =~ ^[0-9a-fA-F]{64}$ ]] || { echo "STOP: transferred key has the wrong format" >&2; exit 1; }
+
+existing_count=$(grep -c '^SPARK_QWEN38_SINGLE_API_KEY=' "$runtime_env" || true)
+if (( existing_count == 0 )); then
+  printf 'SPARK_QWEN38_SINGLE_API_KEY=%s\n' "$secret" >> "$runtime_env"
+elif (( existing_count == 1 )); then
+  existing="$(sed -n 's/^SPARK_QWEN38_SINGLE_API_KEY=//p' "$runtime_env")"
+  test "$existing" = "$secret" || { echo "STOP: runtime.env contains a different key" >&2; exit 1; }
+else
+  echo "STOP: duplicate SPARK_QWEN38_SINGLE_API_KEY entries" >&2
+  exit 1
+fi
+unset secret existing
+chmod 600 "$runtime_env"
+
+python3 - <<'PY'
+from pathlib import Path
+import os, yaml
+
+path = Path("/home/snknitin/ai/services/litellm/config.yaml")
+data = yaml.safe_load(path.read_text())
+models = data.get("model_list")
+assert isinstance(models, list), "STOP: model_list is missing"
+
+entry = {
+    "model_name": "qwen38-tp1-second",
+    "litellm_params": {
+        "model": "openai/qwen3.8-flash-next",
+        "api_base": "http://192.168.100.11:8888/v1",
+        "api_key": "os.environ/SPARK_QWEN38_SINGLE_API_KEY",
+    },
+}
+matches = [row for row in models if row.get("model_name") == "qwen38-tp1-second"]
+assert len(matches) <= 1, "STOP: duplicate qwen38-tp1-second routes"
+if matches:
+    assert matches[0] == entry, f"STOP: conflicting existing route: {matches[0]!r}"
+    print("LITELLM_ROUTE_ALREADY_EXACT")
+else:
+    models.append(entry)
+    temp = path.with_name(path.name + ".tmp-qwen38-single")
+    temp.write_text(yaml.safe_dump(data, sort_keys=False, allow_unicode=True))
+    os.chmod(temp, 0o600)
+    os.replace(temp, path)
+    print("LITELLM_ROUTE_ADDED")
+
+check = yaml.safe_load(path.read_text())
+assert sum(row.get("model_name") == "qwen38-tp1-second" for row in check["model_list"]) == 1
+required = {"spark-fast", "qwen27-dflash", "nemotron3-omni", "qwen38-nvfp4", "qwen38-fp8", "glm53-flash", "deepseek41-flash"}
+assert required <= {row.get("model_name") for row in check["model_list"]}, "STOP: an existing route disappeared"
+print("LITELLM_ROUTE_YAML_OK")
+PY
+
+test "$(grep -c '^SPARK_QWEN38_SINGLE_API_KEY=' "$runtime_env")" = 1
+echo "PASS: LiteLLM files are edited but the running container is still unchanged"
+```
+
+**Pass:** `LITELLM_ROUTE_YAML_OK` and the final `PASS`. The block does not print the key and does not restart anything yet.
+
+## Step 18 — Validate and restart only LiteLLM
+
+Run in the **FirstSpark NVIDIA Sync terminal**:
+
+```bash
+set -euo pipefail
+test "$(hostname)" = "spark-07a8" || { echo "STOP: this is not FirstSpark" >&2; exit 1; }
+cd "$HOME/ai/services/litellm"
+
+docker compose config -q
+python3 - <<'PY'
+import yaml
+with open("config.yaml") as handle:
+    data = yaml.safe_load(handle)
+rows = [row for row in data["model_list"] if row.get("model_name") == "qwen38-tp1-second"]
+assert len(rows) == 1
+assert rows[0]["litellm_params"]["api_base"] == "http://192.168.100.11:8888/v1"
+assert rows[0]["litellm_params"]["api_key"] == "os.environ/SPARK_QWEN38_SINGLE_API_KEY"
+print("LITELLM_CONFIG_PASS")
+PY
+
+docker compose up -d --no-deps --force-recreate litellm
+for _ in $(seq 1 90); do
+  status=$(docker inspect -f '{{.State.Health.Status}}' spark-litellm 2>/dev/null || true)
+  test "$status" = healthy && break
+  sleep 2
+done
+status=$(docker inspect -f '{{.State.Health.Status}}' spark-litellm 2>/dev/null || true)
+if test "$status" != healthy; then
+  docker logs --tail 200 spark-litellm
+  echo "STOP: spark-litellm health=$status; use the rollback block" >&2
+  exit 1
+fi
+
+docker ps --filter name=spark-litellm --format 'table {{.Names}}\t{{.Status}}\t{{.Ports}}'
+echo "PASS: only spark-litellm was recreated and it is healthy"
+```
+
+**Pass:** `spark-litellm` is healthy on `127.0.0.1:4000` and the final line is `PASS`. This does not restart `spark-fast`, the SecondSpark server, or Hermes.
+
+## Step 19 — Test the new route through LiteLLM
+
+Run in the **FirstSpark NVIDIA Sync terminal**. This checks model discovery, ordinary chat, streaming, and a forced structured tool call through port 4000.
+
+```bash
+set -euo pipefail
+test "$(hostname)" = "spark-07a8" || { echo "STOP: this is not FirstSpark" >&2; exit 1; }
+cd "$HOME/ai/services/litellm"
+
+python3 - <<'PY'
+import json, urllib.request
+from pathlib import Path
+
+def env_value(name):
+    matches = []
+    for line in Path("runtime.env").read_text().splitlines():
+        if line.startswith(name + "="):
+            matches.append(line.split("=", 1)[1])
+    assert len(matches) == 1, f"STOP: expected one {name} entry"
+    return matches[0]
+
+base = "http://127.0.0.1:4000/v1"
+key = env_value("LITELLM_MASTER_KEY")
+headers = {"Authorization": f"Bearer {key}", "Content-Type": "application/json"}
+
+def request(path, payload=None, timeout=900):
+    data = None if payload is None else json.dumps(payload).encode()
+    req = urllib.request.Request(base + path, data=data, headers=headers)
+    return urllib.request.urlopen(req, timeout=timeout)
+
+with request("/models", timeout=30) as response:
+    ids = {row["id"] for row in json.load(response)["data"]}
+assert "qwen38-tp1-second" in ids, f"STOP: alias missing: {sorted(ids)}"
+print("LITELLM_MODELS_PASS")
+
+common = {
+    "model": "qwen38-tp1-second",
+    "temperature": 0,
+    "max_tokens": 512,
+    "chat_template_kwargs": {"enable_thinking": False},
+}
+with request("/chat/completions", {**common, "messages": [{"role": "user", "content": "Reply with exactly LITELLM_CHAT_OK"}]}) as response:
+    result = json.load(response)
+answer = result["choices"][0]["message"].get("content") or ""
+assert answer.strip() == "LITELLM_CHAT_OK", repr(answer)
+print("LITELLM_CHAT_PASS")
+
+stream_payload = {**common, "stream": True, "messages": [{"role": "user", "content": "Reply with exactly LITELLM_STREAM_OK"}]}
+chunks, done = [], False
+with request("/chat/completions", stream_payload) as response:
+    for raw in response:
+        line = raw.decode().strip()
+        if not line.startswith("data:"):
+            continue
+        data = line[5:].strip()
+        if data == "[DONE]":
+            done = True
+            break
+        delta = json.loads(data)["choices"][0].get("delta", {})
+        if delta.get("content"):
+            chunks.append(delta["content"])
+stream_text = "".join(chunks).strip()
+assert done and stream_text == "LITELLM_STREAM_OK", (done, stream_text)
+print("LITELLM_STREAM_PASS")
+
+tool_payload = {
+    **common,
+    "messages": [{"role": "user", "content": "Call get_weather for Bengaluru."}],
+    "tools": [{
+        "type": "function",
+        "function": {
+            "name": "get_weather",
+            "description": "Get current weather for a city.",
+            "parameters": {
+                "type": "object",
+                "properties": {"city": {"type": "string"}},
+                "required": ["city"],
+                "additionalProperties": False,
+            },
+        },
+    }],
+    "tool_choice": {"type": "function", "function": {"name": "get_weather"}},
+}
+with request("/chat/completions", tool_payload) as response:
+    result = json.load(response)
+calls = result["choices"][0]["message"].get("tool_calls") or []
+assert len(calls) == 1 and calls[0]["function"]["name"] == "get_weather", calls
+json.loads(calls[0]["function"]["arguments"])
+print("LITELLM_TOOL_PASS")
+print("PASS: qwen38-tp1-second passed every LiteLLM route gate")
+PY
+```
+
+**Pass:** five `PASS` lines ending with `PASS: qwen38-tp1-second passed every LiteLLM route gate`. **Stop:** use rollback if the old LiteLLM service is healthy but any new-alias request fails.
+
+## Step 20 — Add the alias to the main Hermes config and every profile
+
+The live profiles are `default`, `builder`, `creator`, `orchestrator`, `researcher`, and `reviewer`. This block adds only model metadata beneath the existing `custom:spark-fast` provider. It asserts that each profile's existing default model is unchanged.
+
+Run in the **FirstSpark NVIDIA Sync terminal**:
+
+```bash
+set -euo pipefail
+test "$(hostname)" = "spark-07a8" || { echo "STOP: this is not FirstSpark" >&2; exit 1; }
+test -s "$HOME/.config/frontier/qwen38-single-promotion-backup-dir" || { echo "STOP: backup receipt is missing" >&2; exit 1; }
+
+python3 - <<'PY'
+from pathlib import Path
+import os, yaml
+
+paths = [Path("/home/snknitin/.hermes/config.yaml")]
+paths += sorted(Path("/home/snknitin/.hermes/profiles").glob("*/config.yaml"))
+assert len(paths) == 6, f"STOP: expected 6 Hermes configs, found {len(paths)}"
+
+for path in paths:
+    text = path.read_text()
+    before = yaml.safe_load(text)
+    original_model = before.get("model")
+    providers = before.get("custom_providers") or []
+    targets = [row for row in providers if row.get("name") == "spark-fast"]
+    assert len(targets) == 1, f"STOP: expected one spark-fast provider in {path}"
+    models = targets[0].get("models")
+    assert isinstance(models, dict), f"STOP: models map missing in {path}"
+
+    if "qwen38-tp1-second" in models:
+        assert models["qwen38-tp1-second"] == {"context_length": 262144}, f"STOP: conflicting alias in {path}"
+        state = "ALREADY_EXACT"
+    else:
+        marker = "smart_model_routing:"
+        assert marker in text, f"STOP: insertion marker missing in {path}"
+        head, tail = text.split(marker, 1)
+        assert "custom_providers:" in head, f"STOP: custom provider block missing in {path}"
+        addition = "      qwen38-tp1-second:\n        context_length: 262144\n"
+        temp = path.with_name(path.name + ".tmp-qwen38-single")
+        temp.write_text(head.rstrip() + "\n" + addition + marker + tail)
+        os.chmod(temp, 0o600)
+        os.replace(temp, path)
+        state = "ADDED"
+
+    after = yaml.safe_load(path.read_text())
+    assert after.get("model") == original_model, f"STOP: default model changed in {path}"
+    target = next(row for row in after["custom_providers"] if row.get("name") == "spark-fast")
+    assert target["models"]["qwen38-tp1-second"]["context_length"] == 262144
+    print(f"{state}: {path} default={after['model'].get('default')}")
+
+print("HERMES_ALL_PROFILES_EDIT_PASS")
+PY
+
+chmod 600 "$HOME/.hermes/config.yaml" "$HOME"/.hermes/profiles/*/config.yaml
+echo "PASS: alias added to all Hermes profiles without changing defaults"
+```
+
+**Pass:** six paths are listed, `creator` still shows its existing `glm53-flash` default, the others retain their existing defaults, and the block ends in `PASS`.
+
+## Step 21 — Validate Hermes, refresh its model cache, and restart only Hermes
+
+Run in the **FirstSpark NVIDIA Sync terminal**:
+
+```bash
+set -euo pipefail
+test "$(hostname)" = "spark-07a8" || { echo "STOP: this is not FirstSpark" >&2; exit 1; }
+backup_dir="$(<"$HOME/.config/frontier/qwen38-single-promotion-backup-dir")"
+test -d "$backup_dir" || { echo "STOP: backup directory is missing" >&2; exit 1; }
+
+"$HOME/.local/bin/hermes" config check
+for profile in builder creator orchestrator researcher reviewer; do
+  "$HOME/.local/bin/$profile" config check
+done
+
+install -d -m 700 "$backup_dir/hermes-model-caches"
+for hermes_home in "$HOME/.hermes" "$HOME"/.hermes/profiles/*; do
+  test -d "$hermes_home" || continue
+  cache="$hermes_home/provider_models_cache.json"
+  test -f "$cache" || continue
+  if test "$hermes_home" = "$HOME/.hermes"; then
+    label=default
+  else
+    label=$(basename "$hermes_home")
+  fi
+  mv "$cache" "$backup_dir/hermes-model-caches/$label.provider_models_cache.json"
+  echo "Moved stale cache for $label into the promotion backup"
+done
+
+systemctl --user restart hermes-dashboard.service hermes-gateway.service hermes-serve.service
+for _ in $(seq 1 30); do
+  if systemctl --user is-active --quiet hermes-dashboard.service hermes-gateway.service hermes-serve.service; then
+    break
+  fi
+  sleep 2
+done
+systemctl --user is-active hermes-dashboard.service hermes-gateway.service hermes-serve.service
+echo "PASS: Hermes configs validate, stale caches are preserved in backup, and services are active"
+```
+
+**Pass:** every config check succeeds and all three service states print `active`. The cache files are moved into the protected backup rather than deleted; Hermes rebuilds them from the live LiteLLM model list when the picker is next opened.
+
+## Step 22 — Prove the alias works in every Hermes profile
+
+This uses a one-command model override for each test. It does not persist a model change. Run in the **FirstSpark NVIDIA Sync terminal**:
+
+```bash
+set -euo pipefail
+test "$(hostname)" = "spark-07a8" || { echo "STOP: this is not FirstSpark" >&2; exit 1; }
+
+for cli in hermes builder creator orchestrator researcher reviewer; do
+  output=$("$HOME/.local/bin/$cli" \
+    --provider custom:spark-fast \
+    --model qwen38-tp1-second \
+    --reasoning minimal \
+    -z "Reply with exactly HERMES_${cli^^}_QWEN38_OK")
+  expected="HERMES_${cli^^}_QWEN38_OK"
+  test "$output" = "$expected" || { echo "STOP: $cli returned: $output" >&2; exit 1; }
+  echo "PASS: $expected"
+done
+
+python3 - <<'PY'
+from pathlib import Path
+import yaml
+paths = [Path("/home/snknitin/.hermes/config.yaml")]
+paths += sorted(Path("/home/snknitin/.hermes/profiles").glob("*/config.yaml"))
+for path in paths:
+    data = yaml.safe_load(path.read_text())
+    provider = next(row for row in data["custom_providers"] if row.get("name") == "spark-fast")
+    assert provider["models"]["qwen38-tp1-second"]["context_length"] == 262144
+    print(f"DEFAULT_PRESERVED {path}: {data['model']['default']}")
+print("PASS: every Hermes profile can use the new alias without changing its default")
+PY
+```
+
+**Pass:** six one-shot markers pass, followed by six `DEFAULT_PRESERVED` lines and the final `PASS`. This is the provider-cache/session-switch proof.
+
+## Step 23 — Prove concurrent Hermes sessions and a Hermes-native tool task
+
+Run in the **FirstSpark NVIDIA Sync terminal**:
+
+```bash
+set -euo pipefail
+test "$(hostname)" = "spark-07a8" || { echo "STOP: this is not FirstSpark" >&2; exit 1; }
+
+test_dir=$(mktemp -d /tmp/qwen38-hermes-promotion.XXXXXX)
+"$HOME/.local/bin/hermes" --provider custom:spark-fast --model qwen38-tp1-second --reasoning minimal \
+  -z 'Reply with exactly HERMES_SESSION_A_OK' >"$test_dir/session-a.txt" &
+pid_a=$!
+"$HOME/.local/bin/hermes" --provider custom:spark-fast --model qwen38-tp1-second --reasoning minimal \
+  -z 'Reply with exactly HERMES_SESSION_B_OK' >"$test_dir/session-b.txt" &
+pid_b=$!
+wait "$pid_a"
+wait "$pid_b"
+grep -Fxq 'HERMES_SESSION_A_OK' "$test_dir/session-a.txt" || { echo "STOP: session A failed; evidence=$test_dir" >&2; exit 1; }
+grep -Fxq 'HERMES_SESSION_B_OK' "$test_dir/session-b.txt" || { echo "STOP: session B failed; evidence=$test_dir" >&2; exit 1; }
+echo "PASS: two simultaneous Hermes sessions completed"
+
+checkpoint_file="$test_dir/tool-checkpoints.txt"
+tool_result=$("$HOME/.local/bin/hermes" \
+  --provider custom:spark-fast \
+  --model qwen38-tp1-second \
+  --reasoning low \
+  -z "Use the terminal tool sequentially to append the numbers 01 through 12, one number per line and in order, to $checkpoint_file. Verify the file yourself. After every tool operation succeeds, reply with exactly HERMES_TOOL_CHAIN_OK and nothing else.")
+test "$tool_result" = "HERMES_TOOL_CHAIN_OK" || { echo "STOP: Hermes final answer was: $tool_result; evidence=$test_dir" >&2; exit 1; }
+test -f "$checkpoint_file" || { echo "STOP: tool checkpoint file was not created; evidence=$test_dir" >&2; exit 1; }
+diff -u <(seq -w 1 12) "$checkpoint_file" || { echo "STOP: tool checkpoints are wrong; evidence=$test_dir" >&2; exit 1; }
+echo "PASS: Hermes-native sequential tool task completed"
+
+rm -rf -- "$test_dir"
+echo "PASS: concurrency and Hermes tool gates passed"
+```
+
+**Pass:** both session markers and the twelve-checkpoint tool task pass. If it stops, keep the printed evidence directory and do not declare promotion complete.
+
+The route can support multiple independent Hermes conversations. Hermes stores each conversation history; LiteLLM forwards each request; vLLM schedules up to four active sequences and queues excess requests. This does not mean four permanent sessions live inside vLLM, and it does not make four simultaneous 262K requests safe.
+
+## Step 24 — Final promotion receipt
+
+Run in the **FirstSpark NVIDIA Sync terminal** only after Steps 13–23 pass:
+
+```bash
+set -euo pipefail
+test "$(hostname)" = "spark-07a8" || { echo "STOP: this is not FirstSpark" >&2; exit 1; }
+test "$(docker inspect -f '{{.State.Health.Status}}' spark-litellm)" = healthy || { echo "STOP: LiteLLM is not healthy" >&2; exit 1; }
+systemctl --user is-active --quiet hermes-dashboard.service hermes-gateway.service hermes-serve.service || { echo "STOP: a Hermes service is inactive" >&2; exit 1; }
+
+python3 - <<'PY'
+from pathlib import Path
+import yaml
+
+litellm = yaml.safe_load(Path("/home/snknitin/ai/services/litellm/config.yaml").read_text())
+rows = [row for row in litellm["model_list"] if row.get("model_name") == "qwen38-tp1-second"]
+assert len(rows) == 1
+
+paths = [Path("/home/snknitin/.hermes/config.yaml")]
+paths += sorted(Path("/home/snknitin/.hermes/profiles").glob("*/config.yaml"))
+assert len(paths) == 6
+for path in paths:
+    data = yaml.safe_load(path.read_text())
+    provider = next(row for row in data["custom_providers"] if row.get("name") == "spark-fast")
+    assert provider["models"]["qwen38-tp1-second"]["context_length"] == 262144
+    print(f"{path}: default={data['model']['default']} alias=present")
+print("ROUTING_FILES_PASS")
+PY
+
+ssh snknitin@192.168.100.11 'test "$(hostname)" = "spark-7047"; test "$(docker inspect -f "{{.State.Health.Status}}" vllm-fn-tp1)" = healthy; awk "/MemAvailable:/ {printf \"SECONDSPARK_MEMAVAILABLE_MIB=%d\\n\", \\$2/1024}" /proc/meminfo'
+
+date -Is | tee "$HOME/.config/frontier/qwen38-tp1-second-promoted-at"
+chmod 600 "$HOME/.config/frontier/qwen38-tp1-second-promoted-at"
+echo "PROMOTION_PASS: qwen38-tp1-second is registered; existing Hermes defaults are preserved"
+```
+
+**Pass:** `ROUTING_FILES_PASS`, a healthy SecondSpark result with at least 10,240 MiB available, and the final `PROMOTION_PASS`. Only then mark LiteLLM and Hermes promotion complete in the qualification record.
+
+### Promotion rollback — use only if Steps 17–24 fail
+
+This restores the exact Step 16 files. It does not delete the copied key, model weights, PLE cache, logs, or the SecondSpark installation. Run in the **FirstSpark NVIDIA Sync terminal**:
+
+```bash
+set -euo pipefail
+test "$(hostname)" = "spark-07a8" || { echo "STOP: this is not FirstSpark" >&2; exit 1; }
+receipt="$HOME/.config/frontier/qwen38-single-promotion-backup-dir"
+test -s "$receipt" || { echo "STOP: backup receipt is missing" >&2; exit 1; }
+backup_dir="$(<"$receipt")"
+test -d "$backup_dir" || { echo "STOP: backup directory is missing: $backup_dir" >&2; exit 1; }
+
+cp -a "$backup_dir/litellm/compose.yaml" "$HOME/ai/services/litellm/compose.yaml"
+cp -a "$backup_dir/litellm/config.yaml" "$HOME/ai/services/litellm/config.yaml"
+cp -a "$backup_dir/litellm/runtime.env" "$HOME/ai/services/litellm/runtime.env"
+cp -a "$backup_dir/hermes/config.yaml" "$HOME/.hermes/config.yaml"
+cp -a "$backup_dir/hermes/.env" "$HOME/.hermes/.env"
+
+for saved_profile in "$backup_dir"/hermes/profiles/*; do
+  test -d "$saved_profile" || continue
+  profile=$(basename "$saved_profile")
+  test ! -f "$saved_profile/config.yaml" || cp -a "$saved_profile/config.yaml" "$HOME/.hermes/profiles/$profile/config.yaml"
+  test ! -f "$saved_profile/.env" || cp -a "$saved_profile/.env" "$HOME/.hermes/profiles/$profile/.env"
+done
+
+cd "$HOME/ai/services/litellm"
+docker compose config -q
+docker compose up -d --no-deps --force-recreate litellm
+for _ in $(seq 1 90); do
+  test "$(docker inspect -f '{{.State.Health.Status}}' spark-litellm 2>/dev/null || true)" = healthy && break
+  sleep 2
+done
+test "$(docker inspect -f '{{.State.Health.Status}}' spark-litellm)" = healthy
+
+"$HOME/.local/bin/hermes" config check
+for profile in builder creator orchestrator researcher reviewer; do
+  "$HOME/.local/bin/$profile" config check
+done
+systemctl --user restart hermes-dashboard.service hermes-gateway.service hermes-serve.service
+systemctl --user is-active hermes-dashboard.service hermes-gateway.service hermes-serve.service
+echo "ROLLBACK_PASS: LiteLLM and all Hermes routing files restored from $backup_dir"
+```
+
+**Pass:** LiteLLM is healthy, all Hermes configs validate, all three Hermes services are active, and the last line is `ROLLBACK_PASS`. The SecondSpark raw server may remain running for diagnosis; stop it separately with its own `./stop.sh` only if you want to release SecondSpark memory.
 
 ## Status, logs, stop, and restart
 
@@ -779,10 +1399,13 @@ If a later dual-Spark experiment is needed, first stop this SecondSpark server w
 | Preemption metric gate | Not reached | Step 12 exited at the memory failure before evaluating the metric |
 | Thermal observation | Safe, not causal | 57 °C, 11.1 W, 0% GPU use before stop; 50 °C, 3.7 W, 0% after stop |
 | Recovery | Passed | `./stop.sh` completed; no model container; about 118 GiB `MemAvailable` afterward; weights and PLE cache retained |
-| Corrected 90K–140K long-agent rerun | Pending | Step 11 now uses 4,500 filler lines and validates first-turn prompt size |
-| LiteLLM alias | **Blocked** until every raw safety gate passes | `qwen38-tp1-second` was not registered |
-| Hermes profile registration | **Blocked** until every raw safety gate passes | no profile was changed; retain `spark-fast` default |
-| Hermes-native long-agent gate | Blocked until after controlled promotion | retain `spark-fast` default |
+| Corrected 90K–140K long-agent rerun | **Passed 2026-09-26** | 100/100 tool calls plus final `DONE`; 103,425→108,944 prompt tokens; 418.0 s total |
+| Attempt 2 memory floor | **Passed** | minimum `MemAvailable=17,094 MiB`, above the 10 GiB floor |
+| Attempt 2 kernel and preemption gate | **Passed** | post-start `NV_ERR_NO_MEMORY=0`; vLLM preemptions `0` |
+| Attempt 2 live state | **Passed** | container healthy; about 18 GiB currently available; 53 °C, 10.48 W, 0% GPU use after the test |
+| LiteLLM alias | Eligible; promotion pending | `qwen38-tp1-second` was not registered as of the raw pass |
+| Hermes profile registration | Eligible; promotion pending | no profile was changed; all existing defaults must be preserved |
+| Hermes-native long-agent gate | Pending controlled promotion | retain existing defaults and `spark-fast` rollback |
 
 ### Attempt 1 diagnosis and next experiment
 
@@ -790,7 +1413,7 @@ The request behavior passed, but the deployment did not pass as a safe 262K serv
 
 The shipped v0.30 watchdog protects at roughly 3 GiB, not this qualification's 10 GiB floor. It logged a leak trend and allocation failures but did not stop the server. That is a safety-control gap exposed by the run, separate from the underlying memory growth.
 
-Keep the server stopped and routing blocked. The next single-variable experiment is a clean restart with the shipped settings unchanged, followed by the corrected 90K–140K long-agent gate. Compare the driver-accounted memory and `MemAvailable` low-water with Attempt 1. Do not change `V030_KV_GIB`, `MAX_MODEL_LEN`, or the watchdog threshold in that same experiment; those are later mitigations only if the corrected workload still violates the 10 GiB floor.
+After Attempt 1, the server was stopped and routing remained blocked. The clean Attempt 2 restart kept the shipped settings unchanged and passed the corrected 90K–140K long-agent, memory, kernel, and preemption gates. This qualifies the measured 103K–109K agent workload; it does **not** erase the evidence that a 206K request was unsafe with the current 12 GiB KV reservation. Keep `V030_KV_GIB`, `MAX_MODEL_LEN`, and the watchdog settings unchanged during promotion so the routed test measures the same accepted configuration.
 
 ## Primary sources
 

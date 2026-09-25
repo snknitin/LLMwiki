@@ -54,6 +54,23 @@ This is the pinned `b8439110eec0230facbe4ddf0dffe01b8f769be0` lane serving `qwen
 
 Saved evidence on SecondSpark under `~/src/frontier/qwen38-single-v030/logs/`: `qualification-v030-raw-started-at.txt`, `qualification-v030-smoke.txt`, `qualification-v030-structured.txt`, `qualification-v030-long-agent.txt`, and archived stop-time logs `archive/vllm-fn-tp1-20260925T233028-{container,memwatch}.log`. The full procedure and corrected rerun are in [[DGX Spark Single-Node Qwen 3.8 Flash Next v0.30 Tutorial]].
 
+### SecondSpark single-node Qwen v0.30 — Attempt 2 corrected safety retest
+
+Attempt 2 restarted the same pinned server with the shipped settings unchanged and ran only the corrected long-agent workload plus the Step 12 safety gate. This establishes raw eligibility for controlled promotion at the measured 103K–109K workload; it does not prove the unsafe 206K Attempt 1 workload can now pass.
+
+| Test or observation | Result | Evidence / measurement | Gate disposition |
+|---|---|---|---|
+| First-turn prompt size | 103,425 tokens | inside the required 90K–140K band | Pass |
+| 100-turn sequential tool loop | 100/100 plus final `DONE` | prompt grew to 108,944 tokens; 418.0 s total | Pass |
+| Memory low-water | 17,094 MiB available | above the mandatory 10 GiB floor | Pass |
+| Kernel allocation errors | 0 | counted from `2026-09-25T23:52:27+05:30` | Pass |
+| vLLM preemptions | 0 | one metric series present, summed value zero | Pass |
+| Post-test server | Healthy | `vllm-fn-tp1` remained running; about 18 GiB available | Pass |
+| Post-test thermal state | 53 °C, 10.48 W, 0% GPU use | measured after the gate | Safe |
+| Raw qualification verdict | Eligible for controlled promotion | LiteLLM and Hermes remained unchanged at the time of this receipt | Pass |
+
+Attempt 2 uses `logs/qualification-v030-long-agent.txt`, the current `logs/memwatch-vllm-fn-tp1.log`, `logs/qualification-v030-raw-started-at.txt`, the kernel journal, and the live vLLM metrics endpoint. Preserve both attempts: Attempt 1 defines the current near-limit failure boundary, while Attempt 2 defines the accepted long-agent operating point.
+
 The context elapsed values are whole-request timings and may reflect prefix-cache state; they are not separate prefill or time-to-first-token (TTFT) measurements. Startup memory comes from each run's `startup-memory.txt` after launch, **not** the minimum during context or concurrency loads. The preliminary C1/C2 passes are preserved as `concurrency-c1-c2-before-c4.json`; the headline table uses the final `concurrency.json` that repeated C1/C2 and added C4. Each C request asked for 512 output tokens and every level passed its 128-token-per-request minimum.
 
 Source files per run: `metadata.json`, `chat-quality.json`, `tool-call.json`, `vision.json`, `context-raw-*.json`, `startup-memory.txt`, and `concurrency.json`; the two new runs also have `identity.json`. The probe's `compare` command reads **only each profile's latest run**. Regenerate its eight-profile raw table with:
