@@ -1,6 +1,6 @@
 ---
 created: 2026-09-24
-updated: 2026-09-24
+updated: 2026-09-25
 status: installed
 scope: dgx-spark, frontier, services, schedules, sparkdash, docker, systemd
 ---
@@ -77,9 +77,24 @@ The Local Setup dashboard is Windows-local on port `8767`, so it is not a FirstS
 
 ## Why there is no second Windows command
 
-sparkDash binds only to FirstSpark loopback. Windows therefore needs an SSH local-forward listener so Dashboard Command Center can use its stable local URL, `http://127.0.0.1:5555/`. The direct OpenSSH tunnel is owned by the Windows scheduled task `DGX Spark sparkDash Tunnel`; it starts at sign-in and has a five-minute recovery trigger.
+sparkDash binds only to FirstSpark loopback. Windows therefore needs an SSH local-forward listener so Dashboard Command Center can use its stable local URL, `http://127.0.0.1:5555/`. The direct OpenSSH tunnel is owned by the Windows scheduled task `DGX Spark sparkDash Tunnel`; it starts at sign-in and has a one-minute recovery trigger. The interval was tightened from five minutes on 2026-09-25 after Dashboard Command Center caught a real tunnel-only outage while the remote container remained healthy.
 
-The tunnel does not start or stop the remote container. It can safely remain connected while sparkDash is intentionally stopped. Consequently, `aux-services start sparkdash` makes the Windows endpoint healthy automatically, and `aux-services stop sparkdash` makes it unavailable without creating a second manual lifecycle.
+The scheduled tunnel does not start or stop the remote container. It can safely remain connected while sparkDash is intentionally stopped. Consequently, `aux-services start sparkdash` makes the Windows endpoint healthy automatically, and `aux-services stop sparkdash` makes it unavailable without creating a second unattended lifecycle.
+
+Dashboard Command Center's explicit **Refresh** action is the bounded recovery path. For the `sparkdash-local` endpoint only, Refresh first checks `http://127.0.0.1:5555/api/health`. If it is healthy, the page reloads and no recovery process starts. If it is unavailable, Electron invokes the fixed allowlisted action `sparkdash-recover`; the installed `sparkdash-control.ps1 -Mode Recover` then:
+
+1. connects through NVIDIA Sync's `FirstSpark` SSH configuration with `BatchMode=yes` and `StrictHostKeyChecking=yes`;
+2. runs the fixed `~/.local/bin/aux-services start sparkdash` command and waits for FirstSpark loopback health;
+3. enables and starts `DGX Spark sparkDash Tunnel`;
+4. stops and replaces a task instance that reports `Running` without a `127.0.0.1:5555` listener;
+5. waits at most 45 seconds for the listener and 30 seconds for local health, then returns one JSON result.
+
+Failures identify the boundary as `FirstSpark service`, `SSH connection`, `Windows tunnel`, or `local health`. The renderer cannot supply PowerShell paths or shell commands. Refresh is the user's authorization to start Spark Dash; no timer, startup hook, health watcher, or background retry starts the remote service during an intentional Frontier memory drain.
+
+`aux-services start sparkdash` itself does not start the Windows task. Its live catalog entry is a managed Compose service at `$HOME/src/frontier/sparkDash`; it contains no reverse SSH or Tailscale command into Windows. This avoids giving FirstSpark workstation-control credentials. Dashboard Command Center Refresh is the explicit point where the two independently owned sides are repaired together.
+
+> [!success] Refresh recovery verified — 2026-09-25
+> The full repository gate passed 75 Vitest checks and all 6 packaged workflows. In the first live test, `aux-services stop sparkdash` made local health fail while the existing loopback tunnel remained present; clicking the real Refresh control started the remote container and reached the `Live` UI in 8.638 seconds. In the second live test, the remote container remained healthy while `DGX Spark sparkDash Tunnel` was stopped and disabled with no Windows listener; Refresh re-enabled and started the task and reached `Live` in 9.538 seconds. Final evidence: remote and local `/api/health` returned `ok: true`, the root returned HTTP 200, Windows listened only on `127.0.0.1:5555` through `ssh.exe`, and the task was enabled and `Running`.
 
 ## Edit the allow-list
 

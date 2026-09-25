@@ -1,5 +1,5 @@
 ---
-updated: 2026-09-24
+updated: 2026-09-25
 status: completed
 scope: dgx-spark, sparkdash, monitoring, benchmarks, ssh
 ---
@@ -258,7 +258,7 @@ Record cold prefill, warm prefill, TTFT, one-stream decode, and supported concur
 
 ## Daily commands
 
-The Windows SSH tunnel is persistent transport owned by Task Scheduler. It starts at sign-in and receives a five-minute recovery trigger. It does **not** start sparkDash on FirstSpark, so it cannot fight an intentional model-memory drain. Normally, control the remote application only:
+The Windows SSH tunnel is persistent transport owned by Task Scheduler. It starts at sign-in and receives a one-minute recovery trigger. The scheduled task does **not** start sparkDash on FirstSpark, so it cannot fight an intentional model-memory drain. The interval was tightened from five minutes on 2026-09-25 after a tunnel-only outage produced `ERR_CONNECTION_REFUSED` while the FirstSpark container remained healthy. Normally, control the remote application only:
 
 ```bash
 aux-services start sparkdash
@@ -267,6 +267,14 @@ aux-services status
 ```
 
 When the remote service starts, the already-present Windows tunnel makes `http://127.0.0.1:5555/` healthy automatically. The longer Compose commands below remain recovery references.
+
+From Dashboard Command Center, clicking **Refresh** on Spark Dash is also an explicit, bounded start-and-repair command. It checks local health first; a healthy endpoint reloads without launching PowerShell. An unavailable endpoint runs only the Electron allowlisted `sparkdash-recover` action, which starts Spark Dash through `~/.local/bin/aux-services`, replaces a false-running tunnel task when no listener exists, waits for listener and health, and reloads only after health passes. It attempts recovery once and reports the failed boundary instead of looping. The Origin view states:
+
+> Refresh checks the FirstSpark Spark Dash service and the Windows SSH tunnel, repairs either when needed, waits for health, and then reloads this dashboard.
+
+This action is deliberately click-only. Do not convert it into an unattended health watcher: Spark Dash may be stopped intentionally for Frontier memory qualification.
+
+Live acceptance on 2026-09-25 covered both independent failures. With the remote Compose service stopped and the Windows listener still present, Refresh restored Spark Dash and the UI reached `Live` in 8.638 seconds. With the remote service healthy but the Windows task stopped and disabled, Refresh restored the task/listener and reached `Live` in 9.538 seconds. Final checks showed an enabled `Running` task, `ssh.exe` bound only to `127.0.0.1:5555`, remote/local health JSON with `ok: true`, and dashboard-root HTTP 200.
 
 Status and logs on **FirstSpark**:
 
