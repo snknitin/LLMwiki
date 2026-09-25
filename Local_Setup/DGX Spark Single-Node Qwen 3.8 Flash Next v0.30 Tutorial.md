@@ -1,5 +1,5 @@
 ---
-updated: 2026-09-25
+updated: 2026-09-26
 status: in-progress
 scope: dgx-spark, second-spark, qwen3.8-flash-next, nvfp4, vllm-0.30, single-node
 ---
@@ -707,7 +707,7 @@ min_mib=$(grep -oE 'avail=[0-9]+MiB' logs/memwatch-vllm-fn-tp1.log | cut -d= -f2
 nverr=$(journalctl -k --since "$since" | grep -c 'NV_ERR_NO_MEMORY' || true)
 metrics=$(curl -fsS -H "Authorization: Bearer $API_KEY" http://127.0.0.1:8888/metrics)
 preemptions=$(printf '%s\n' "$metrics" | awk '/^vllm:num_preemptions_total/ {sum += $NF; n++} END {if (n == 0) exit 2; print sum+0}')
-health=$(docker inspect -f '{{.State.Health.Status}}' vllm-fn-tp1)
+running=$(docker inspect -f '{{.State.Running}}' vllm-fn-tp1)
 
 (( min_mib >= 10240 )) || { echo "STOP: memory floor failed: ${min_mib} MiB" >&2; exit 1; }
 (( nverr == 0 )) || { echo "STOP: NV_ERR_NO_MEMORY_COUNT=$nverr" >&2; exit 1; }
@@ -715,7 +715,7 @@ python3 - "$preemptions" <<'PY'
 import sys
 assert float(sys.argv[1]) == 0, f"STOP: preemptions={sys.argv[1]}"
 PY
-test "$health" = healthy || { echo "STOP: container health=$health" >&2; exit 1; }
+test "$running" = true || { echo "STOP: container running=$running" >&2; exit 1; }
 
 {
   date -Is
@@ -724,14 +724,15 @@ test "$health" = healthy || { echo "STOP: container health=$health" >&2; exit 1;
   echo "MIN_MEMAVAILABLE_MIB=$min_mib"
   echo "NV_ERR_NO_MEMORY_COUNT=$nverr"
   echo "PREEMPTIONS=$preemptions"
-  echo "CONTAINER_HEALTH=$health"
+  echo "CONTAINER_RUNNING=$running"
+  echo "HTTP_HEALTH=PASS"
   echo "RAW_PROMOTION_ELIGIBLE=YES"
 } | tee logs/qualification-v030-attempt2-accepted.txt
 unset API_KEY metrics
 echo "PASS: raw endpoint is eligible for controlled promotion"
 ```
 
-**Pass:** the last line is `PASS: raw endpoint is eligible for controlled promotion`, with at least 10,240 MiB, zero NVIDIA allocation errors, zero preemptions, and `healthy`. **Stop:** share the complete output if any assertion fails.
+**Pass:** the last line is `PASS: raw endpoint is eligible for controlled promotion`, with at least 10,240 MiB, zero NVIDIA allocation errors, zero preemptions, `CONTAINER_RUNNING=true`, and `HTTP_HEALTH=PASS`. The recipe container intentionally has no Docker `HEALTHCHECK`, so do not query `.State.Health.Status`; the authoritative readiness signal is its HTTP `/health` endpoint. **Stop:** share the complete output if any assertion fails.
 
 The qualified endpoint is:
 
@@ -744,7 +745,7 @@ LiteLLM alias to add later: qwen38-tp1-second
 
 ## Controlled LiteLLM and Hermes promotion
 
-Run Steps 14–24 in order, one code block at a time. Steps 14 runs on **SecondSpark**. Steps 15–24 run in the **FirstSpark NVIDIA Sync terminal**. Do not paste across blocks. None of these steps uses `sudo`, installs packages, changes a model default, or stops a model container.
+Run Steps 14–24 in order, one code block at a time. Step 14 runs on **SecondSpark**. Steps 15–24 run in the **FirstSpark NVIDIA Sync terminal**. Do not paste across blocks. None of these steps uses `sudo`, installs packages, changes a model default, or stops a model container.
 
 Do not reuse `qwen38-nvfp4`: that alias belongs to the dual-Spark lane. `qwen38-tp1-second` identifies this independent SecondSpark server and keeps rollback unambiguous.
 
@@ -767,7 +768,7 @@ ssh "$first" 'test "$(hostname)" = "spark-07a8" || { echo "STOP: destination is 
 
 if ssh "$first" "test -e '$dest_key'"; then
   local_sha=$(sha256sum "$source_key" | awk '{print $1}')
-  remote_sha=$(ssh "$first" "sha256sum '$dest_key' | awk '{print \\$1}'")
+  remote_sha=$(ssh "$first" "sha256sum '$dest_key' | awk '{print \$1}'")
   test "$local_sha" = "$remote_sha" || { echo "STOP: FirstSpark already has a different key file" >&2; exit 1; }
   echo "Existing FirstSpark key matches; no overwrite needed"
 else
@@ -846,7 +847,7 @@ test "$(hostname)" = "spark-07a8" || { echo "STOP: this is not FirstSpark" >&2; 
 
 litellm_dir="$HOME/ai/services/litellm"
 test "$(docker inspect -f '{{.State.Health.Status}}' spark-litellm)" = healthy || { echo "STOP: existing LiteLLM is not healthy" >&2; exit 1; }
-(cd "$litellm_dir" && docker compose config -q)
+(cd "$litellm_dir" && docker compose -p spark-litellm config -q)
 "$HOME/.local/bin/hermes" config check
 for profile in builder creator orchestrator researcher reviewer; do
   "$HOME/.local/bin/$profile" config check
@@ -949,14 +950,14 @@ echo "PASS: LiteLLM files are edited but the running container is still unchange
 
 ## Step 18 — Validate and restart only LiteLLM
 
-Run in the **FirstSpark NVIDIA Sync terminal**:
+Run in the **FirstSpark NVIDIA Sync terminal**. The Compose project name is explicitly `spark-litellm`; it is not the directory-derived default `litellm`. The auxiliary-services controller lists this container as `protected`, so bulk auxiliary stop/start does not own or race this restart. Do not stop `aux-services` and do not remove or rename the existing container.
 
 ```bash
 set -euo pipefail
 test "$(hostname)" = "spark-07a8" || { echo "STOP: this is not FirstSpark" >&2; exit 1; }
 cd "$HOME/ai/services/litellm"
 
-docker compose config -q
+docker compose -p spark-litellm config -q
 python3 - <<'PY'
 import yaml
 with open("config.yaml") as handle:
@@ -968,7 +969,16 @@ assert rows[0]["litellm_params"]["api_key"] == "os.environ/SPARK_QWEN38_SINGLE_A
 print("LITELLM_CONFIG_PASS")
 PY
 
-docker compose up -d --no-deps --force-recreate litellm
+owner_project=$(docker inspect -f '{{index .Config.Labels "com.docker.compose.project"}}' spark-litellm)
+compose_id=$(docker compose -p spark-litellm ps -q litellm)
+live_id=$(docker inspect -f '{{.Id}}' spark-litellm)
+aux_policy=$("$HOME/.local/bin/aux-services" list | awk '$1 == "spark-litellm" {print $3}')
+test "$owner_project" = spark-litellm || { echo "STOP: container owner project=$owner_project" >&2; exit 1; }
+test -n "$compose_id" && test "$compose_id" = "$live_id" || { echo "STOP: Compose project does not own the live container" >&2; exit 1; }
+test "$aux_policy" = protected || { echo "STOP: aux-services policy=$aux_policy, expected protected" >&2; exit 1; }
+echo "LITELLM_OWNERSHIP_PASS project=$owner_project aux_policy=$aux_policy"
+
+docker compose -p spark-litellm up -d --no-deps --force-recreate litellm
 for _ in $(seq 1 90); do
   status=$(docker inspect -f '{{.State.Health.Status}}' spark-litellm 2>/dev/null || true)
   test "$status" = healthy && break
@@ -985,7 +995,7 @@ docker ps --filter name=spark-litellm --format 'table {{.Names}}\t{{.Status}}\t{
 echo "PASS: only spark-litellm was recreated and it is healthy"
 ```
 
-**Pass:** `spark-litellm` is healthy on `127.0.0.1:4000` and the final line is `PASS`. This does not restart `spark-fast`, the SecondSpark server, or Hermes.
+**Pass:** `LITELLM_OWNERSHIP_PASS project=spark-litellm aux_policy=protected`, `spark-litellm` is healthy on `127.0.0.1:4000`, and the final line is `PASS`. This does not restart `spark-fast`, the SecondSpark server, Hermes, or any auxiliary service. If an earlier unpinned `docker compose up` failed with a container-name conflict while the original remained healthy, rerun this corrected Step 18 from the beginning; do not roll back or repeat Steps 13–17.
 
 ## Step 19 — Test the new route through LiteLLM
 
@@ -1287,14 +1297,14 @@ for path in paths:
 print("ROUTING_FILES_PASS")
 PY
 
-ssh snknitin@192.168.100.11 'test "$(hostname)" = "spark-7047"; test "$(docker inspect -f "{{.State.Health.Status}}" vllm-fn-tp1)" = healthy; awk "/MemAvailable:/ {printf \"SECONDSPARK_MEMAVAILABLE_MIB=%d\\n\", \\$2/1024}" /proc/meminfo'
+ssh snknitin@192.168.100.11 'set -euo pipefail; test "$(hostname)" = "spark-7047"; test "$(docker inspect -f "{{.State.Running}}" vllm-fn-tp1)" = true; key=$(tr -d "\r\n" < /home/snknitin/.config/frontier/qwen38-single-api-key); curl -fsS -H "Authorization: Bearer $key" http://127.0.0.1:8888/health >/dev/null; read -r _ mem_kib _ < <(grep "^MemAvailable:" /proc/meminfo); mem_mib=$((mem_kib/1024)); (( mem_mib >= 10240 )); echo "SECONDSPARK_CONTAINER_RUNNING=true"; echo "SECONDSPARK_HTTP_HEALTH=PASS"; echo "SECONDSPARK_MEMAVAILABLE_MIB=$mem_mib"'
 
 date -Is | tee "$HOME/.config/frontier/qwen38-tp1-second-promoted-at"
 chmod 600 "$HOME/.config/frontier/qwen38-tp1-second-promoted-at"
 echo "PROMOTION_PASS: qwen38-tp1-second is registered; existing Hermes defaults are preserved"
 ```
 
-**Pass:** `ROUTING_FILES_PASS`, a healthy SecondSpark result with at least 10,240 MiB available, and the final `PROMOTION_PASS`. Only then mark LiteLLM and Hermes promotion complete in the qualification record.
+**Pass:** `ROUTING_FILES_PASS`, `SECONDSPARK_CONTAINER_RUNNING=true`, `SECONDSPARK_HTTP_HEALTH=PASS`, at least 10,240 MiB available, and the final `PROMOTION_PASS`. Only then mark LiteLLM and Hermes promotion complete in the qualification record.
 
 ### Promotion rollback — use only if Steps 17–24 fail
 
@@ -1322,8 +1332,8 @@ for saved_profile in "$backup_dir"/hermes/profiles/*; do
 done
 
 cd "$HOME/ai/services/litellm"
-docker compose config -q
-docker compose up -d --no-deps --force-recreate litellm
+docker compose -p spark-litellm config -q
+docker compose -p spark-litellm up -d --no-deps --force-recreate litellm
 for _ in $(seq 1 90); do
   test "$(docker inspect -f '{{.State.Health.Status}}' spark-litellm 2>/dev/null || true)" = healthy && break
   sleep 2
