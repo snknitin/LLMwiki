@@ -1,5 +1,5 @@
 ---
-updated: 2026-09-24
+updated: 2026-09-25
 status: completed
 scope: dgx-spark, litellm, hermes, hot-swap, model-manager, dual-node
 ---
@@ -55,7 +55,7 @@ LiteLLM does not start a 125–400 GiB model in response to an API request. Alwa
 Do not rename `spark-fast`. Do not use one mutable `spark-frontier` alias as the only client identity; distinct aliases preserve session intent and make errors diagnosable.
 
 > [!important] GLM operating profile is a deployment decision
-> `glm53-flash`, `glm53-flash-mtp-850k`, and `glm53-flash-dflash-500k` are **qualification result profiles**, not automatically three LiteLLM aliases. Complete Step 16 of [[DGX Spark Dual-Node GLM 5.3 Flash EXL3 Tutorial]] and choose **one fully accepted** operating profile. Keep the three named, API-key-bearing configurations under `~/.config/frontier/glm53-profiles/`: DFlash/850K uses GMU `0.87` and the 512 MiB InstantTensor buffer; the accepted MTP/850K profile uses GMU `0.84`, that buffer, and `INSTANTTENSOR_MAX_FREE_MEM_USAGE=0.99`; DFlash/500K uses GMU `0.86` and the buffer. MTP at GMU `0.87` booted, but its normal routed load test crossed the 3 GiB head-memory safety floor. GMU `0.84` retained one complete 850K request slot and passed the same load test with safer host-memory headroom. The MTP loader limit is only an upper-bound check against currently free device memory; InstantTensor still allocates the same 1,268,776,960-byte staging buffer required by the pinned checkpoint. The old `0.75` limit could reject that fixed buffer after a normal change in initialization headroom. The old DFlash/500K `0.84` setting failed that different profile's KV-cache startup gate. After qualification, freeze the chosen profile as private `accepted.env` in Step 5. The switch manager reinstalls that file before **every** GLM hot-swap and derives Hermes context from its `MAX_MODEL_LEN`; it never trusts a leftover recipe `.env` or defaults to 500K. Do not leave API-key-bearing `.env.*` copies unignored in the Git checkout. Register extra public aliases only if the switch manager can select and validate their corresponding configurations deterministically.
+> `glm53-flash`, `glm53-flash-mtp-850k`, `glm53-flash-v2`, and `glm53-flash-dflash-500k` are **qualification result profiles**, not automatically four LiteLLM aliases. The public route remains `glm53-flash`. Complete Step 16 of [[DGX Spark Dual-Node GLM 5.3 Flash EXL3 Tutorial]] and choose **one fully accepted** operating profile. The current accepted MTP/850K profile uses GMU `0.84`, the 512 MiB InstantTensor buffer, `INSTANTTENSOR_MAX_FREE_MEM_USAGE=0.99`, `GLM53_DRAFT_KV_COMPACT=0`, and automatic KV sizing at recipe commit `0f49cfdbaa131286eb592cd6ebfa048f3aa85c4e`. A trial of the upstream TP2 14 GiB reservation booted but reduced head `MemAvailable` to about 2.6 GiB, below the managed 3 GiB floor, so that reservation is retained only for the DFlash/850K research profile. DFlash/500K also uses automatic sizing. The switch manager reinstalls `accepted.env` before **every** GLM hot-swap and derives Hermes context from its `MAX_MODEL_LEN`; it never trusts a leftover recipe `.env` or defaults to 500K. Do not leave API-key-bearing `.env.*` copies unignored in the Git checkout.
 
 ## Resource policy for normal hot-swaps
 
@@ -276,7 +276,7 @@ test -x "$HOME/.local/bin/spark-frontier" && bash -n "$HOME/.local/bin/spark-fro
 The current qualified GLM profile is already frozen for managed switching. Inspect its nonsecret signature:
 
 ```bash
-grep -E '^(SPEC_METHOD|MTP_TOKENS|MAX_MODEL_LEN|GPU_MEM_UTIL|GLM53_EXTRA_ENV)=' "$HOME/.config/frontier/glm53-profiles/accepted.env"
+grep -E '^(SPEC_METHOD|MTP_TOKENS|MAX_MODEL_LEN|GPU_MEM_UTIL|GLM53_EXTRA_ENV|GLM53_DRAFT_KV_COMPACT|EXTRA_ARGS)=' "$HOME/.config/frontier/glm53-profiles/accepted.env"
 ```
 
 **Pass:** the output is exactly:
@@ -287,9 +287,10 @@ MTP_TOKENS=2
 MAX_MODEL_LEN=850000
 GPU_MEM_UTIL=0.84
 GLM53_EXTRA_ENV="INSTANTTENSOR_BUFFER_SIZE=536870912 INSTANTTENSOR_MAX_FREE_MEM_USAGE=0.99"
+GLM53_DRAFT_KV_COMPACT=0
 ```
 
-**Stop:** missing or different values, including missing double quotes around the two `GLM53_EXTRA_ENV` assignments. Do not select `glm53-flash` until its accepted profile is restored or requalified.
+**Stop:** missing or different values, any MTP `EXTRA_ARGS` containing `--kv-cache-memory-bytes`, or missing double quotes around the two `GLM53_EXTRA_ENV` assignments. Do not select `glm53-flash` until its accepted profile is restored or requalified.
 
 ### 5.3 Safety rules enforced by the manager
 
@@ -303,7 +304,7 @@ Every `spark-frontier use <lane>` operation automatically:
 6. refuses to continue when an unknown service owns NFS port `2049`;
 7. requires Qwen's exporter to map `/export` to the verified Hugging Face cache;
 8. uses Hugging Face's local-only resolver and verifies the config, tokenizer metadata, index, and every referenced checkpoint shard before stopping the current lane;
-9. rejects a GLM profile that differs from a qualified signature, including a multi-variable `GLM53_EXTRA_ENV` value that is not quoted as one value;
+9. rejects a GLM profile that differs from a qualified signature, recipe commit, compact-cache guard, or profile-specific KV policy, including a multi-variable `GLM53_EXTRA_ENV` value that is not quoted as one value;
 10. pins GLM to the writable cache under `$HOME/.cache/huggingface` instead of an inherited `/opt/models` path;
 11. starts and health-checks the private GLM reasoning bridge before exposing GLM through LiteLLM;
 12. waits for the correct raw model identity, restarts LiteLLM, probes the matching alias, and updates Hermes; and
@@ -311,8 +312,8 @@ Every `spark-frontier use <lane>` operation automatically:
 
 The NFS checks prevent the DeepSeek-exporter/Qwen-cache mismatch that previously caused Qwen FP8 to roll back. Startup logs also hide configured API-key values.
 
-> [!success] Verified on FirstSpark, 2026-09-23
-> The manager rejected an intentionally malformed, unquoted MTP profile before stopping the active GLM ranks (`GLM_PROFILE_PREFLIGHT_GUARD_PASS`). With the accepted GMU `0.84` and quoted `0.99` loader profile restored, the managed switch reached `active:glm53-flash`; both ranks stayed running, raw health returned HTTP 200, LiteLLM was healthy, Hermes selected `glm53-flash` at context `850000`, and the Step 7 smoke command ended with `SMOKE_PASS glm53-flash`. The managed load then retrieved `ORANGE-427` from a 790,022-token prompt in 577.043 seconds and passed C1/C2/C4 at 23.717, 39.036, and 59.207 aggregate output tok/s. The observed memory low-water stayed above the 3 GiB stop floor.
+> [!success] Reverified on FirstSpark, 2026-09-25
+> With recipe commit `0f49cfdbaa131286eb592cd6ebfa048f3aa85c4e`, the accepted MTP/850K profile reached `active:glm53-flash`; both ranks, raw identity, LiteLLM chat, reasoning stream, structured tool call, Hermes, and the 3 GiB memory guard passed, ending with `SMOKE_PASS glm53-flash`. A separate raw result profile passed quality, tool, vision, 30K/100K/250K/490K/790K retrieval, and C1/C2/C4. The route name and Hermes context stayed `glm53-flash` / `850000`.
 
 Read the current state without changing anything:
 
@@ -477,7 +478,7 @@ Do this subsection only after the GLM tutorial and its release gates have passed
 Confirm the accepted GLM profile:
 
 ```bash
-grep -E '^(SPEC_METHOD|MTP_TOKENS|MAX_MODEL_LEN|GPU_MEM_UTIL|GLM53_EXTRA_ENV)=' "$HOME/.config/frontier/glm53-profiles/accepted.env"
+grep -E '^(SPEC_METHOD|MTP_TOKENS|MAX_MODEL_LEN|GPU_MEM_UTIL|GLM53_EXTRA_ENV|GLM53_DRAFT_KV_COMPACT|EXTRA_ARGS)=' "$HOME/.config/frontier/glm53-profiles/accepted.env"
 ```
 
 **Pass:** the current qualified profile prints exactly these values:
@@ -488,9 +489,10 @@ MTP_TOKENS=2
 MAX_MODEL_LEN=850000
 GPU_MEM_UTIL=0.84
 GLM53_EXTRA_ENV="INSTANTTENSOR_BUFFER_SIZE=536870912 INSTANTTENSOR_MAX_FREE_MEM_USAGE=0.99"
+GLM53_DRAFT_KV_COMPACT=0
 ```
 
-**Stop:** missing file or different values, including missing double quotes around the two `GLM53_EXTRA_ENV` assignments. Do not switch to GLM until the accepted profile matches the qualified result.
+**Stop:** missing file or different values, any MTP `EXTRA_ARGS` containing `--kv-cache-memory-bytes`, or missing double quotes around the two `GLM53_EXTRA_ENV` assignments. Do not switch to GLM until the accepted profile matches the qualified result.
 
 Switch to GLM:
 
@@ -512,7 +514,7 @@ Run the smoke check:
 
 **Pass:** the final line is `SMOKE_PASS glm53-flash`.
 
-The GLM smoke check also requires `glm-reasoning-shim.service`, proves that a live streamed response contains `reasoning_content`, and requires Hermes `display.show_reasoning=true`. This prevents the old failure where GLM generated normally but Hermes received empty chunks until its stale-stream watchdog fired.
+The GLM smoke check also pins the reviewed recipe commit, checks both running ranks against `accepted.env`, enforces the profile-specific manual/automatic KV policy, requires `glm-reasoning-shim.service`, proves that a live streamed response contains `reasoning_content`, and requires Hermes `display.show_reasoning=true`. This prevents both configuration drift and the old failure where GLM generated normally but Hermes received empty chunks until its stale-stream watchdog fired.
 
 Earlier GLM sessions could still appear normal because a short reasoning pass finished before the watchdog or because thinking was disabled for that request. That did not prove the long reasoning stream was compatible. The smoke check now tests that exact transport path.
 

@@ -1,13 +1,13 @@
 ---
-updated: 2026-09-24
+updated: 2026-09-25
 status: completed
 scope: dgx-spark, glm-5.3-flash, exl3, dflash2, vllm, dual-node
 ---
 
 # DGX Spark Dual-Node GLM 5.3 Flash EXL3 Tutorial
 
-> [!success] Completed 2026-09-24
-> The recipe-faithful baseline, considered adaptations, service integration, stop, and `spark-fast` rollback gates are complete.
+> [!success] Updated and revalidated 2026-09-25
+> The accepted MTP/850K lane now runs the reviewed upstream revision, retains the existing LiteLLM/Hermes route, and has a separate full qualification receipt. Historical rollback gates remain preserved.
 
 > [!warning] Position in the rollout
 > Run this only after sparkDash is installed and the Qwen NVFP4 lane has passed start, inference, stop, and `spark-fast` rollback. GLM is a community-verified recipe, but its current issue tracker includes reports of host lockups, hard resets, long-generation corruption, cache failures, and a CUDA failure after long output. Treat it as an experimental lane until this pair passes its own soak.
@@ -30,7 +30,7 @@ Read first:
 | Item | Value |
 |---|---|
 | Repository | `MiaAI-Lab/GLM-5.3-Flash-EXL3-2x-DGX-Sparks` |
-| Reviewed commit | `ca8557665bffa6529758f2c330ba8fb44c1e801a` |
+| Reviewed commit | `0f49cfdbaa131286eb592cd6ebfa048f3aa85c4e` |
 | Checkpoint | `Mia-AiLab/GLM-5.3-Flash-EXL3-TR3-4bpw` |
 | Pinned model revision | `25a44fdbf16862a46b7cc9921142c6c81350af2f` |
 | Drafter | `incoai/GLM-5.3-Flash-DFlash2` |
@@ -47,6 +47,12 @@ Read first:
 
 The DFlash2 component is not appropriate for a commercial deployment without a separate license decision. Do not silently promote this exact profile into a commercial service.
 
+### 2026-09-25 upstream refresh
+
+The installed checkout advanced from `ca8557665bffa6529758f2c330ba8fb44c1e801a` to `0f49cfdbaa131286eb592cd6ebfa048f3aa85c4e` after reading the current README, `.env.example`, `examples/tp2-long-coding.env`, and CHANGELOG. The relevant runtime changes include Mamba-aligned chunking, release of superseded Mamba state, recipe-stamp fixes, a TP2 KV-reservation recommendation, and new opt-in DFlash compact-page, long-coding, KDA-BF16, thin-decode, and spin-wait paths.
+
+For the accepted MTP lane, keep `GLM53_DRAFT_KV_COMPACT=0`. The compact-page path is experimental and DFlash-only; the optional DFlash/FP8/cooperative/long-coding knobs remain off because they change the validated quality, license, context, or memory envelope. The updated source is mounted through the recipe-supported `SKIP_BUILD=1` path while the public image remains at digest `sha256:447114ee…`.
+
 ## Memory and coexistence limits
 
 The DFlash/850K baseline was live-validated at `GPU_MEM_UTIL=0.87`, where vLLM budgets approximately:
@@ -57,7 +63,7 @@ The DFlash/850K baseline was live-validated at `GPU_MEM_UTIL=0.87`, where vLLM b
 
 The upstream `0.85` value is not sufficient for this pinned image at 850K on this pair. On 2026-09-21 it left 12.25 GiB for KV while vLLM required 13.46 GiB, so startup stopped with an estimated maximum length of 680,960. At `0.87`, the same launch exposed 14.15 GiB of KV and reported capacity for 880,357 tokens. This is enough to boot 850K, but it remains a narrow, exclusive-node profile—not permission to co-reside other services.
 
-The accepted managed profile is now **MTP k=2 at 850K and GMU `0.84`**. This is a different speculation mode with a smaller KV allocation: it retained one full 850K request slot, passed the 790,022-token retrieval and C1/C2/C4 routed load, and kept the observed head-node memory low-water above the 3 GiB safety floor. MTP at `0.87` booted and passed smoke, but its normal routed load crossed that floor.
+The accepted managed profile is **MTP k=2 at 850K and GMU `0.84`**, with automatic KV sizing. This is a different speculation mode with a smaller KV allocation: it retained one full 850K request slot, passed the 790,022-token retrieval and C1/C2/C4 routed load, and kept the observed head-node memory low-water above the 3 GiB safety floor. MTP at `0.87` booted and passed smoke, but its normal routed load crossed that floor. The refreshed recipe's TP2 14 GiB manual KV reservation also booted, but left only about 2.6 GiB `MemAvailable` on the head at idle, so it is not accepted for this cluster's routed MTP lane. Automatic sizing exposed 10.29 GiB KV, reported 1.46x capacity at 850K, and retained about 5.0 GiB head / 8.6 GiB worker memory when idle.
 
 Repository evidence says:
 
@@ -159,14 +165,14 @@ install -d "$HOME/src/frontier"
 cd "$HOME/src/frontier"
 git clone https://github.com/MiaAI-Lab/GLM-5.3-Flash-EXL3-2x-DGX-Sparks.git glm53-dual
 cd glm53-dual
-git checkout --detach ca8557665bffa6529758f2c330ba8fb44c1e801a
+git checkout --detach 0f49cfdbaa131286eb592cd6ebfa048f3aa85c4e
 git rev-parse HEAD
 ```
 
 Expected:
 
 ```text
-ca8557665bffa6529758f2c330ba8fb44c1e801a
+0f49cfdbaa131286eb592cd6ebfa048f3aa85c4e
 ```
 
 ## Step 4 — Configure only this cluster's substitutions
@@ -198,7 +204,7 @@ chmod 600 .env
 Verify without printing the secret:
 
 ```bash
-grep -E '^(HEAD_IP|WORKER_IP|WORKER_USER|WORKER_SSH|HEAD_CX7_IF|WORKER_CX7_IF|HEAD_CX7_IB|WORKER_CX7_IB|NCCL_IB_GID_INDEX|MODEL|MODEL_REVISION|NFS_SHARE|IMAGE|LOAD_FORMAT|PORT|SERVED_MODEL_NAME|SPEC_METHOD|DFLASH_MODEL|DFLASH_REVISION|DFLASH_TOKENS|MAX_MODEL_LEN|MAX_NUM_SEQS|MAX_NUM_BATCHED_TOKENS|GPU_MEM_UTIL|KV_CACHE_DTYPE|EXL3_FAT_GROUPED|GLM53_INDEXER_WORKSPACE|GLM53_EXTRA_ENV|ABLIT)=' .env
+grep -E '^(HEAD_IP|WORKER_IP|WORKER_USER|WORKER_SSH|HEAD_CX7_IF|WORKER_CX7_IF|HEAD_CX7_IB|WORKER_CX7_IB|NCCL_IB_GID_INDEX|MODEL|MODEL_REVISION|NFS_SHARE|IMAGE|LOAD_FORMAT|PORT|SERVED_MODEL_NAME|SPEC_METHOD|DFLASH_MODEL|DFLASH_REVISION|DFLASH_TOKENS|MAX_MODEL_LEN|MAX_NUM_SEQS|MAX_NUM_BATCHED_TOKENS|GPU_MEM_UTIL|KV_CACHE_DTYPE|EXTRA_ARGS|EXL3_FAT_GROUPED|GLM53_INDEXER_WORKSPACE|GLM53_DRAFT_KV_COMPACT|GLM53_EXTRA_ENV|ABLIT)=' .env
 ```
 
 Expected baseline values include:
@@ -219,8 +225,10 @@ MAX_NUM_SEQS=4
 MAX_NUM_BATCHED_TOKENS=7168
 GPU_MEM_UTIL=0.87
 KV_CACHE_DTYPE=fp8
+EXTRA_ARGS="--kv-cache-memory-bytes 15032385536"
 EXL3_FAT_GROUPED=1
 GLM53_INDEXER_WORKSPACE=rightsize
+GLM53_DRAFT_KV_COMPACT=0
 GLM53_EXTRA_ENV=INSTANTTENSOR_BUFFER_SIZE=536870912
 ABLIT=0
 ```
@@ -549,7 +557,8 @@ The validated DFlash/850K baseline does **not** have to be replaced. These adapt
 | Result profile | Speculation | Context / GMU | InstantTensor loader settings | What it tests |
 |---|---|---|---|---|
 | `glm53-flash` | DFlash2 k=7 | 850K / 0.87 | 512 MiB buffer | Existing validated baseline |
-| `glm53-flash-mtp-850k` | Built-in MTP k=2 | 850K / 0.84 | 512 MiB buffer + free-memory fraction 0.99 | Accepted managed profile with routed-load memory margin |
+| `glm53-flash-mtp-850k` | Built-in MTP k=2 | 850K / 0.84 | 512 MiB buffer + free-memory fraction 0.99; automatic KV sizing | Historical accepted managed profile |
+| `glm53-flash-v2` | Built-in MTP k=2 | 850K / 0.84 | Same loader settings; `GLM53_DRAFT_KV_COMPACT=0`; automatic KV sizing | 2026-09-25 upstream-refresh qualification |
 | `glm53-flash-dflash-500k` | DFlash2 k=7 | 500K / 0.86 | 512 MiB buffer | Reduced context with a measured 500K KV margin; holds speculation constant |
 
 Do not combine MTP and 500K in either first adaptation. Change one dimension at a time so the comparison remains attributable.
@@ -563,11 +572,14 @@ These are the saved **local** result runs, not the repository's headline decode 
 | DFlash/850K `glm53-flash/20260921-215645` | 18.685 | 23.826 | 34.136 | 47.510 | 790,022 | Pass / pass / pass |
 | MTP/850K `glm53-flash-mtp-850k/20260922-084501` | 21.798 | 21.700 | 39.730 | 55.196 | 790,022 | Pass / pass / pass |
 | Accepted managed MTP/850K `managed-20260923-141515` | — | 23.717 | 39.036 | 59.207 | 790,022 | Routed smoke passed; tool/vision not repeated |
+| Updated MTP/850K `glm53-flash-v2/20260925-123053` | 22.283 | 18.741 | 29.457 | 31.421 | 790,022 | Pass / pass / pass |
 | DFlash/500K `glm53-flash-dflash-500k/20260922-092858` | 21.484 | 24.098 | 32.260 | 49.242 | 490,022 | Pass / pass / pass |
 
 MTP was higher on this run's C2/C4 but lower on C1 than DFlash/850K; DFlash/500K gave up validated context. Those are workload-specific observations, **not** a winner declaration. Confirm memory low-water, long generation, soak, clean restart, and SparkFast rollback before choosing an accepted GLM profile.
 
-These results do not indicate a broken DFlash launch. The repository's roughly 62–65 tok/s result is a structured, high-draft-acceptance workload such as counting. Its historical ordinary chat result is about 18.1 tok/s, its stock prose lab result is about 27.1 tok/s, and its MTP k=2 baseline is about 24.6 tok/s. A later roughly 36.1 tok/s prose result used optional adaptive-k, dense-FP8 projections, and a cooperative-MoE overlay that the validated baseline intentionally did not enable.
+These results do not indicate a broken DFlash launch. The repository's roughly 62–65 tok/s result is a structured, high-draft-acceptance DFlash workload such as counting. Its historical ordinary chat result is about 18.1 tok/s, its stock prose lab result is about 27.1 tok/s, and its MTP k=2 baseline is about 24.6 tok/s. A later roughly 36.1 tok/s prose result used optional adaptive-k, dense-FP8 projections, and a cooperative-MoE overlay that the validated baseline intentionally did not enable.
+
+The recipe's matched five-run MTP benchmark improved after the source refresh: structured decode rose from **18.966** to **24.169 tok/s** (+27.4%), while hash-map prose moved from **19.261** to **19.572 tok/s** (+1.6%). The updated structured result is essentially at the README's ~24.6 MTP baseline; it must not be compared directly with the README's 62.9 tok/s DFlash structured result. The standardized C2/C4 prose probe regressed materially versus the earlier MTP row. A repeat measured C1/C2/C4 at 18.642/29.809/42.626, improving the first C4 receipt but not closing the earlier-profile gap. Keep the new row separate and flagged for follow-up rather than replacing the older evidence.
 
 The shared probe reports **end-to-end** output rates, including request and first-token time. In the context files, a rate such as `0.025 tok/s` is not GLM's decode speed: that request generated only six output tokens after ingesting nearly 790K prompt tokens. Use the context files for prompt-token count, elapsed/TTFT behavior, retrieval correctness, and memory stability; use `chat-quality.json` and `concurrency.json` for standardized output-rate comparisons.
 
@@ -620,11 +632,11 @@ chmod 600 "$PROFILE_DIR"/*.env
 for file in "$PROFILE_DIR"/*.env; do
   echo "===== $file ====="
   stat -c 'mode=%a' "$file"
-  grep -E '^(SPEC_METHOD|MAX_MODEL_LEN|GPU_MEM_UTIL|GLM53_EXTRA_ENV)=' "$file"
+  grep -E '^(SPEC_METHOD|MAX_MODEL_LEN|GPU_MEM_UTIL|GLM53_EXTRA_ENV|GLM53_DRAFT_KV_COMPACT|EXTRA_ARGS)=' "$file"
 done
 ```
 
-**Pass:** all three files report mode `600`; the DFlash baseline shows 850K/0.87, MTP shows 850K/0.84, and the DFlash adaptation shows 500K/0.86. The MTP profile alone includes both InstantTensor variables. These values are profile-specific: do not copy MTP's loader-budget override to DFlash or another profile's GMU to MTP. If you resume from a failed MTP attempt, the existing `dflash-850k.env` is preserved rather than replaced by the current `.env`.
+**Pass:** all three files report mode `600`; the DFlash baseline shows 850K/0.87, MTP shows 850K/0.84, and the DFlash adaptation shows 500K/0.86. Every current profile explicitly sets `GLM53_DRAFT_KV_COMPACT=0`. The MTP profile alone includes both InstantTensor variables and has no `--kv-cache-memory-bytes` in `EXTRA_ARGS`; DFlash/850K retains its qualified 14 GiB reservation. These values are profile-specific: do not copy MTP's loader-budget override to DFlash or another profile's GMU to MTP. If you resume from a failed MTP attempt, the existing `dflash-850k.env` is preserved rather than replaced by the current `.env`.
 
 ### Step 16b — Drain `spark-fast` once before either adaptation
 
@@ -667,12 +679,14 @@ sed -i \
   "$PROFILE_DIR/mtp-850k.env"
 chmod 600 "$PROFILE_DIR/mtp-850k.env"
 install -m 600 "$PROFILE_DIR/mtp-850k.env" .env
-grep -E '^(SPEC_METHOD|MAX_MODEL_LEN|GPU_MEM_UTIL|GLM53_EXTRA_ENV)=' .env
+grep -E '^(SPEC_METHOD|MAX_MODEL_LEN|GPU_MEM_UTIL|GLM53_EXTRA_ENV|GLM53_DRAFT_KV_COMPACT|EXTRA_ARGS)=' .env
+grep -q '^GLM53_DRAFT_KV_COMPACT=0$' .env
+! grep -E '^EXTRA_ARGS=.*--kv-cache-memory-bytes' .env
 
 HF_HOME="$HOME/.cache/huggingface" SKIP_BUILD=1 ./start.sh
 ```
 
-**Pass:** the profile prints `GPU_MEM_UTIL=0.84` and `GLM53_EXTRA_ENV="INSTANTTENSOR_BUFFER_SIZE=536870912 INSTANTTENSOR_MAX_FREE_MEM_USAGE=0.99"`; the launcher reports both extra variable names, `spec=mtp`, `max-len=850000`, `gpu-util=0.84`, then `health check passed`. The double quotes are required because both assignments must remain one `.env` value. The `0.99` value changes only InstantTensor's upper-bound check: the pinned checkpoint still expands the configured buffer to the same 1,268,776,960-byte largest-tensor requirement. MTP is the checkpoint's built-in k=2 multi-token predictor. It avoids the separate DFlash2 drafter and its CC BY-NC-ND license. If startup fails, use the exact traceback procedure under Troubleshooting before changing another knob.
+**Pass:** the profile prints `GPU_MEM_UTIL=0.84`, `GLM53_DRAFT_KV_COMPACT=0`, and `GLM53_EXTRA_ENV="INSTANTTENSOR_BUFFER_SIZE=536870912 INSTANTTENSOR_MAX_FREE_MEM_USAGE=0.99"`; it does not print a manual KV reservation. The launcher reports both extra variable names, `spec=mtp`, `max-len=850000`, `gpu-util=0.84`, then `health check passed`. The double quotes are required because both assignments must remain one `.env` value. The `0.99` value changes only InstantTensor's upper-bound check: the pinned checkpoint still expands the configured buffer to the same 1,268,776,960-byte largest-tensor requirement. MTP is the checkpoint's built-in k=2 multi-token predictor. It avoids the separate DFlash2 drafter and its CC BY-NC-ND license. If startup fails, use the exact traceback procedure under Troubleshooting before changing another knob.
 
 Then run the self-contained evidence suite in **Step 16e** from any FirstSpark terminal. It reads the **running container's** MTP/850K identity and sets the unique result profile itself; no shell variables need to survive the launch command.
 
@@ -846,7 +860,7 @@ Generate the GLM-only A/B table:
 
 ```bash
 python3 "$HOME/ai/tools/frontier-model-probe.py" compare \
-  --profiles glm53-flash,glm53-flash-mtp-850k,glm53-flash-dflash-500k \
+  --profiles glm53-flash,glm53-flash-mtp-850k,glm53-flash-v2,glm53-flash-dflash-500k \
   --output "$HOME/frontier-results/glm53-variant-comparison.md"
 
 sed -n '1,200p' "$HOME/frontier-results/glm53-variant-comparison.md"
@@ -1026,7 +1040,7 @@ No. Reuse the pinned repository, image, weights, API key, network setup, and det
 
 ### Will the results be kept separately?
 
-Yes, only if every runtime variant receives a distinct probe `--profile`. Use `glm53-flash`, `glm53-flash-mtp-850k`, and `glm53-flash-dflash-500k`. `init` creates a timestamped directory under each profile and updates only that profile's `latest` symlink. Reusing `glm53-flash` for all variants preserves old timestamp directories but makes the default comparison point at only the newest one.
+Yes, only if every runtime variant receives a distinct probe `--profile`. Use `glm53-flash`, `glm53-flash-mtp-850k`, `glm53-flash-v2`, and `glm53-flash-dflash-500k`. `init` creates a timestamped directory under each profile and updates only that profile's `latest` symlink. Reusing `glm53-flash` for all variants preserves old timestamp directories but makes the default comparison point at only the newest one.
 
 ### Which token-rate field should I compare?
 
@@ -1043,7 +1057,7 @@ No. GLM is an exclusive dual-node lane. Stop `spark-fast` and all other GPU cons
 ## Acceptance checklist
 
 - [x] sparkDash tutorial is complete and Qwen dual-node rollback passed.
-- [x] Repository is pinned at `ca8557665bffa6529758f2c330ba8fb44c1e801a`.
+- [x] Repository is pinned at `0f49cfdbaa131286eb592cd6ebfa048f3aa85c4e`.
 - [x] Published image digest is recorded.
 - [x] Model and DFlash2 revisions match this tutorial.
 - [x] DFlash2 license is acceptable for the intended use.
@@ -1053,7 +1067,8 @@ No. GLM is an exclusive dual-node lane. Stop `spark-fast` and all other GPU cons
 - [x] Health, chat, tool call, and one-image test pass.
 - [x] Full responses and measurements exist under `~/frontier-results/glm53-flash/`, and the comparison table was regenerated.
 - [x] 32K, 100K, 256K, and 500K context gates pass before a near-limit run.
-- [x] Long-generation, concurrency, and soak gates pass without corruption or host instability.
+- [x] Concurrency gates pass without corruption or host instability.
+- [ ] A new long-generation receipt and 48-hour soak are still required before removing the experimental-lane warning.
 - [x] Stop removes both ranks.
 - [x] `spark-fast` rollback passes.
 - [x] Named configuration copies live under `~/.config/frontier/glm53-profiles/`, not as unignored API-key-bearing files in the Git checkout.

@@ -7,6 +7,7 @@ LOCK_FILE="$STATE_DIR/manager.lock"
 ACTIVE_FILE="$STATE_DIR/active-lane"
 KEY_FILE="$HOME/.config/frontier/api-key"
 GLM53_PROFILE_FILE="$HOME/.config/frontier/glm53-profiles/accepted.env"
+GLM53_RECIPE_COMMIT="0f49cfdbaa131286eb592cd6ebfa048f3aa85c4e"
 WORKER_MGMT="snknitin@192.168.0.100"
 API_BASE="http://127.0.0.1:8100"
 HERMES="$HOME/.local/bin/hermes"
@@ -99,7 +100,7 @@ PY
 }
 
 validate_glm_accepted_profile() {
-  local spec len gmu loader
+  local spec len gmu loader extra_args compact actual_commit
   [[ -f "$GLM53_PROFILE_FILE" ]] || {
     echo 'No accepted GLM profile; finish tutorial Step 16 first.' >&2
     return 1
@@ -116,15 +117,23 @@ validate_glm_accepted_profile() {
   len="$(sed -n 's/^MAX_MODEL_LEN=//p' "$GLM53_PROFILE_FILE")"
   gmu="$(sed -n 's/^GPU_MEM_UTIL=//p' "$GLM53_PROFILE_FILE")"
   loader="$(sed -n 's/^GLM53_EXTRA_ENV=//p' "$GLM53_PROFILE_FILE")"
-  case "$spec|$len|$gmu|$loader" in
-    'dflash|850000|0.87|INSTANTTENSOR_BUFFER_SIZE=536870912') ;;
-    'mtp|850000|0.84|"INSTANTTENSOR_BUFFER_SIZE=536870912 INSTANTTENSOR_MAX_FREE_MEM_USAGE=0.99"')
+  extra_args="$(sed -n 's/^EXTRA_ARGS=//p' "$GLM53_PROFILE_FILE")"
+  compact="$(sed -n 's/^GLM53_DRAFT_KV_COMPACT=//p' "$GLM53_PROFILE_FILE")"
+  actual_commit="$(git -C "$ROOT/glm53-dual" rev-parse HEAD 2>/dev/null || true)"
+  [[ "$actual_commit" == "$GLM53_RECIPE_COMMIT" ]] || {
+    printf 'GLM recipe commit mismatch: expected %s, found %s\n' \
+      "$GLM53_RECIPE_COMMIT" "${actual_commit:-missing}" >&2
+    return 1
+  }
+  case "$spec|$len|$gmu|$loader|$extra_args|$compact" in
+    'dflash|850000|0.87|INSTANTTENSOR_BUFFER_SIZE=536870912|"--kv-cache-memory-bytes 15032385536"|0') ;;
+    'mtp|850000|0.84|"INSTANTTENSOR_BUFFER_SIZE=536870912 INSTANTTENSOR_MAX_FREE_MEM_USAGE=0.99"||0')
       [[ "$(sed -n 's/^MTP_TOKENS=//p' "$GLM53_PROFILE_FILE")" == 2 ]] || return 1
       ;;
-    'dflash|500000|0.86|INSTANTTENSOR_BUFFER_SIZE=536870912') ;;
+    'dflash|500000|0.86|INSTANTTENSOR_BUFFER_SIZE=536870912||0') ;;
     *)
       echo 'Accepted GLM profile does not match a qualified configuration; refusing switch.' >&2
-      echo 'For MTP/850K, GLM53_EXTRA_ENV must wrap both assignments in one pair of double quotes.' >&2
+      echo 'The accepted profile must include the reviewed recipe commit, compact-cache guard, and topology-sized KV policy.' >&2
       return 1
       ;;
   esac

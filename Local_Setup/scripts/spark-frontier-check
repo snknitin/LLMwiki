@@ -3,6 +3,7 @@
 import fcntl
 import json
 import os
+import shlex
 import subprocess
 import sys
 import time
@@ -11,6 +12,7 @@ from datetime import datetime
 from pathlib import Path
 
 HOME = Path.home()
+GLM53_RECIPE_COMMIT = "0f49cfdbaa131286eb592cd6ebfa048f3aa85c4e"
 STATE = HOME / ".local/state/spark-frontier/active-lane"
 WORKER = "snknitin@192.168.0.100"
 FLOOR_KIB = 3 * 1024 * 1024
@@ -55,6 +57,17 @@ def env_value(path, name):
         if line.startswith(name + "="):
             return line.split("=", 1)[1].strip().strip('"')
     stop("missing " + name + " in " + str(path))
+
+
+def optional_env_value(path, name, default=""):
+    try:
+        lines = path.read_text().splitlines()
+    except OSError:
+        stop("missing private configuration: " + str(path))
+    for line in lines:
+        if line.startswith(name + "="):
+            return line.split("=", 1)[1].strip().strip('"')
+    return default
 
 
 def request(url, key, body=None, timeout=180):
@@ -153,10 +166,24 @@ def qwen_nfs(lane):
 
 def glm_profile(head, worker):
     profile = HOME / ".config/frontier/glm53-profiles/accepted.env"
+    checkout = HOME / "src/frontier/glm53-dual"
+    actual_commit = output(["git", "-C", str(checkout), "rev-parse", "HEAD"])
+    if actual_commit != GLM53_RECIPE_COMMIT:
+        stop("GLM recipe commit does not match the accepted validation revision")
     expected = {
         name: env_value(profile, name)
-        for name in ("SPEC_METHOD", "MTP_TOKENS", "MAX_MODEL_LEN", "GPU_MEM_UTIL")
+        for name in (
+            "SPEC_METHOD", "MTP_TOKENS", "MAX_MODEL_LEN", "GPU_MEM_UTIL",
+            "GLM53_DRAFT_KV_COMPACT",
+        )
     }
+    signature = (expected["SPEC_METHOD"], expected["MAX_MODEL_LEN"])
+    expected_extra = shlex.split(optional_env_value(profile, "EXTRA_ARGS"))
+    if signature == ("dflash", "850000"):
+        if expected_extra != ["--kv-cache-memory-bytes", "15032385536"]:
+            stop("DFlash/850K accepted profile is missing its 14 GiB KV reservation")
+    elif expected_extra:
+        stop("this accepted GLM profile must use automatic KV sizing")
     for assignment in env_value(profile, "GLM53_EXTRA_ENV").split():
         if "=" not in assignment:
             stop("GLM accepted profile has a malformed GLM53_EXTRA_ENV entry")
@@ -174,7 +201,13 @@ def glm_profile(head, worker):
     for name, value in expected.items():
         if head_env.get(name) != value or worker_env.get(name) != value:
             stop("running GLM ranks do not match accepted profile field " + name)
-    print("PASS accepted GLM profile matches both running ranks", flush=True)
+    for rank, runtime in (("head", head_env), ("worker", worker_env)):
+        runtime_extra = shlex.split(runtime.get("EXTRA_ARGS", ""))
+        if expected_extra and runtime_extra[: len(expected_extra)] != expected_extra:
+            stop(rank + " GLM rank is missing the accepted KV reservation")
+        if not expected_extra and "--kv-cache-memory-bytes" in runtime_extra:
+            stop(rank + " GLM rank has an unqualified manual KV reservation")
+    print("PASS accepted GLM profile and recipe revision match both running ranks", flush=True)
 
 
 def load_profile(lane):
@@ -187,7 +220,7 @@ def load_profile(lane):
         signature = (env_value(p, "SPEC_METHOD"), env_value(p, "MAX_MODEL_LEN"))
         profiles = {
             ("dflash", "850000"): ("glm53-flash", "790000"),
-            ("mtp", "850000"): ("glm53-flash-mtp-850k", "790000"),
+            ("mtp", "850000"): ("glm53-flash-v2", "790000"),
             ("dflash", "500000"): ("glm53-flash-dflash-500k", "490000"),
         }
         if signature not in profiles:
