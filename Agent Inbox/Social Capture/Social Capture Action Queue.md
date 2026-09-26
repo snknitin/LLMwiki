@@ -56,6 +56,24 @@ Rules:
 
 <!-- Hermes appends new, ready actions below this line. Keep the queue ordered by current leverage, not capture time. -->
 
+- [ ] **Xiaomi MiMo Open-Sourced RL Environments** — [source](https://x.com/adithya_s_k/status/2103737116857708849?s=20)
+  - Contains: Xiaomi has open-sourced approximately 7,000 reinforcement learning environments used to train their MiMo model on HuggingFace. The dataset spans multiple domains including code, cybersecurity, general tasks, music, and web development.
+  - Potential benefit: This release provides a massive, high-quality dataset for training and evaluating frontier LLM agents. It offers a rare glimpse into the specific environments used by a major player in the RLHF space.
+  - Intent: learn · inferred
+  - Topic: Open Source AI Data
+  - Source author: Adithya S K
+  - Priority: P1
+  - Impact: high
+  - Ease: easy
+  - Important: yes
+  - Importance reason: It provides a significant new resource for the open-source community to advance frontier agent capabilities.
+  - Urgent: no
+  - Urgency reason: The data is already available, so there is no immediate time pressure to act.
+  - Done when: Bookmark saved and HuggingFace page checked for immediate access.
+  - Effort: 5m
+  - Captured: 2026-09-26 17:14 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_ef86e4e659487716
+
 - [ ] **Evaluate Jev-based agent decision and routing architectures**
   - Contains:
     - Compare Jev and CLM for Custom AI Harnesses: CLM outperforms Jev in speed and long-horizon verification for custom AI agent harnesses. This comparison highlights distinct architectural approaches to decision-making in agent loops.

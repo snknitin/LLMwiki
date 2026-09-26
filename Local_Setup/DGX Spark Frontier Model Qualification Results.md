@@ -1,6 +1,6 @@
 # DGX Spark Frontier Model Qualification Results
 
-Snapshot: 2026-09-26, including the GLM recipe refresh at commit `0f49cfdbaa131286eb592cd6ebfa048f3aa85c4e`, both SecondSpark single-node Qwen v0.30 qualification attempts, and the FirstSpark five-session Spark-Fast/LM Studio Nemotron co-residency retest. The headline rows are **local, saved probe results**, not upstream recipe claims or pure decode benchmarks. Each headline source is the timestamped directory under `~/frontier-results/<profile>/` on FirstSpark; a profile's `latest` symlink can later move to a newer run. `C1`, `C2`, `C4`, and the one measured `C8` are aggregate **end-to-end output tokens per second** at that many simultaneous client requests using the shared 512-output-token prose probe. `Quality` is a separate end-to-end response test. Do not compare its rate to a C1 rate as though they were the same request. The SecondSpark attempts used the recipe's own smoke and structured harnesses, so they are tabulated separately rather than mixed into the standardized headline table. The later co-residency retest uses its own explicitly labelled prompt and therefore does not overwrite the saved standardized `spark-fast` headline row.
+Snapshot: 2026-09-26, including the GLM recipe refresh at commit `0f49cfdbaa131286eb592cd6ebfa048f3aa85c4e`, both SecondSpark single-node Qwen v0.30 qualification attempts, the FirstSpark five-session Spark-Fast/LM Studio Nemotron co-residency retest, and the later permanent Nemotron 1M-context/one-slot profile. The headline rows are **local, saved probe results**, not upstream recipe claims or pure decode benchmarks. Each headline source is the timestamped directory under `~/frontier-results/<profile>/` on FirstSpark; a profile's `latest` symlink can later move to a newer run. `C1`, `C2`, `C4`, and the one measured `C8` are aggregate **end-to-end output tokens per second** at that many simultaneous client requests using the shared 512-output-token prose probe. `Quality` is a separate end-to-end response test. Do not compare its rate to a C1 rate as though they were the same request. The SecondSpark attempts used the recipe's own smoke and structured harnesses, so they are tabulated separately rather than mixed into the standardized headline table. The later co-residency retest uses its own explicitly labelled prompt and therefore does not overwrite the saved standardized `spark-fast` headline row.
 
 | Result profile | Served context | Quality tok/s | C1 tok/s | C2 tok/s | C4 tok/s | Largest passing prompt tokens | Chat / tool / vision | Saved run | C8 tok/s |
 |---|---:|---:|---:|---:|---:|---:|---|---|---:|
@@ -56,6 +56,40 @@ The following three-run benchmark used the same 180-word local-first prompt for 
 | `nvidia/nemotron-3.5-lightning` | 64.013 | 64.404 | 64.325 | **64.325** | 65,536 context, four parallel slots, GPU-max Q4_K_M |
 
 Configuration backup: `/home/snknitin/ai/services/qwen35/compose.yaml.pre-five-sessions-20260926-005337`. The live file remains `/home/snknitin/ai/services/qwen35/compose.yaml`.
+
+### FirstSpark permanent Nemotron 1M × 1 profile — 2026-09-26
+
+The enabled user unit `/home/snknitin/.config/systemd/user/lmstudio.service` now persistently loads `nvidia/nemotron-3.5-lightning` with `--context-length 1048576 --parallel 1`. Its existing Spark-Fast readiness wait and loopback-only port `127.0.0.1:1234` are unchanged. A five-second guard after `lms daemon up` prevents the CLI executable-update race described below. The previous 65,536-context unit is preserved at `/home/snknitin/.config/systemd/user/lmstudio.service.bak-20260926-104829`; the pre-guard 1M unit is preserved at `/home/snknitin/.config/systemd/user/lmstudio.service.bak-20260926-110435-start-race`.
+
+| Gate | Result | Evidence |
+|---|---|---|
+| Persistent configuration | Pass | `systemd-analyze --user verify` passed; the enabled live unit contains the post-daemon guard followed by `--context-length 1048576 --parallel 1` |
+| Actual backend arguments | Pass | Live `llama-server` command contained `--ctx-size 1048576 --parallel 1` with F16 K/V cache and KV offload |
+| Raw model identity and completion | Pass | `/v1/models` exposed `nvidia/nemotron-3.5-lightning`; a 400-token-budget request returned `OK` with `finish_reason=stop` (21 prompt, 141 completion, 136 reasoning tokens) |
+| Co-resident memory | Pass with startup warning | `llama-server` used 30,617 MiB alongside Spark-Fast's 48,170 MiB; idle `MemAvailable` was 27,569 MiB, above the 10 GiB safety floor |
+| Existing services and Hermes route | Pass | Spark-Fast and standalone LiteLLM remained healthy. Hermes's live `spark-lmstudio` entry was raised from 65,536 to 1,048,576, both Hermes services restarted, Hermes's own config parser returned `1048576`, and an explicit route returned `HERMES_NEMOTRON_1M_OK`. |
+| Driver/kernel gate | Warning | One recoverable `NV_ERR_NO_MEMORY` occurred at 10:49:04 IST during the `--gpu max` load. The model completed loading two seconds later and the API test passed. Treat a repeat plus instability as a stop condition, not as an error-free start receipt. |
+| Unload recovery | Pass | Nemotron was unloaded after the initial qualification while the service stayed enabled. `MemAvailable` recovered to 60,444 MiB; only Spark-Fast remained GPU-resident; the GPU was 49 °C, 12.48 W, and 0% utilized. |
+| Requested running state | Pass | The corrected controlled restart completed on its first attempt with `NRestarts=0`. LM Studio, Hermes Gateway, and Hermes Serve were active; Spark-Fast and LiteLLM were healthy; `MemAvailable` was 28,703 MiB. |
+
+This gate proves that the permanent profile loads and serves at 1,048,576 configured context with one slot; it is not a million-token prompt-quality benchmark. The earlier 65,536 × 4 throughput row remains the latest measured Nemotron speed result and must not be relabelled as a 1M benchmark.
+
+At 10:59:50 IST, the first user-issued start failed because systemd attempted the next `lms` command while the CLI executable was being replaced after `lms daemon up`; the exact error was `Failed to execute .../lms: Text file busy`. The existing `Restart=on-failure` recovered automatically, but the initiating terminal correctly reported the first failed job. The permanent five-second post-daemon guard removes that immediate execution race. A controlled restart at 11:06 ran the guard, loaded the model once, reached the API without a systemd retry, and produced no new `Text file busy` or `Failed to start` event. Hermes's previous 65K display was a separate stale static value in `/home/snknitin/.hermes/config.yaml`, not evidence that the live LM Studio backend had remained at 65K; that authoritative metadata is now 1,048,576. Its prior config is preserved at `/home/snknitin/.hermes/config.yaml.bak-20260926-110435-nemotron-1m`.
+
+#### SparkFast orphan-request guard — 2026-09-26
+
+An automatic Hermes title-generation request continued decoding through SparkFast after its user turn had ended and its client connection had disappeared. It produced sustained GPU load with `num_requests_running=1`, no waiting requests, zero established port-8000 clients, and a steadily growing KV allocation. Because this vLLM chat-completion request exposed no usable cancellation endpoint, the controlled recovery stopped Hermes, unloaded Nemotron, restarted only `vllm-spark-fast`, waited for SparkFast health, reloaded Nemotron in the required second position, and restarted Hermes. The final two-sample audit reported `running=0`, `waiting=0`, 0.000% KV use, 0% GPU utilization, and an idle 1,048,576-context/one-slot Nemotron.
+
+Hermes automatic LLM title upgrades are now disabled with `auxiliary.title_generation.enabled: false`; ordinary chats and the other explicitly configured auxiliary jobs remain enabled. The previous config is preserved at `/home/snknitin/.hermes/config.yaml.bak-20260926-112026-disable-title-generation`.
+
+Two manual commands are installed in `/home/snknitin/.local/bin`:
+
+```bash
+spark-gpu-audit
+spark-clear-orphans --confirm
+```
+
+Always run `spark-gpu-audit` first. It samples request counts, KV growth, port-8000 clients, LM Studio state, and GPU activity twice over ten seconds. `spark-clear-orphans` refuses to run without `--confirm`, exits without restarting when no requests remain, refuses when an established client exists, and rechecks for fifteen seconds before recovery. It is deliberately manual: no timer or unattended self-healing restart may interrupt a legitimate long request.
 
 ### SecondSpark single-node Qwen v0.30 — Attempt 1
 
