@@ -70,6 +70,7 @@ The optional name is case-insensitive and may omit `.service` or `.timer`. A nam
 | Signal Desk | `signal-desk` | `social-capture.service` | Tailscale Serve `:8765` |
 | Hermes Agent | `hermes-dashboard` | `hermes-dashboard.service` | direct tailnet `:9120` |
 | YouTube Learning Center | `youtube-learning-center` | `youtube-learning-center.service` | Tailscale Serve `:8443` |
+| Kaggle Learning Lab | `kaggle-learning-center` | `kaggle-learning-center.service` | Tailscale Serve `:8772` → loopback `:8772` |
 | Dunbar Dossier | `dunbar-dossier` | `dunbar-dossier.service` | Tailscale Serve `:10000` to loopback `:8766` |
 | sparkDash | `sparkdash` | Docker Compose `sparkDash` | Windows SSH tunnel `127.0.0.1:5555` |
 

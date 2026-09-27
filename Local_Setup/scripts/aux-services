@@ -122,6 +122,7 @@ start_item() {
 
 verify_frontier_health() {
   local state='' key=''
+  [[ -r "$FRONTIER_STATE" ]] || return 0
   state="$(<"$FRONTIER_STATE")" 2>/dev/null || true
   [[ "$state" == active:* ]] || return 0
   [[ -s "$FRONTIER_KEY" ]] || die "Frontier state is $state but $FRONTIER_KEY is missing."
