@@ -1,15 +1,18 @@
 ---
-updated: 2026-09-26
-status: in-progress
+updated: 2026-09-30
+status: replacement-planned
 scope: dgx-spark, second-spark, qwen3.8-flash-next, nvfp4, vllm-0.30, single-node
 ---
 
 # DGX Spark Single-Node Qwen 3.8 Flash Next v0.30 Tutorial
 
+> [!warning] Replacement path as observed on 2026-09-30
+> This is the **existing vLLM v0.30 installation**, not the TensorFold recipe. A later 2026-09-30 read-only check found `vllm-fn-tp1` stopped while TensorFold served SecondSpark port `8888`; the v0.30 checkpoint and files remain. FirstSpark LiteLLM still had `qwen38-tp1-second`, and all six Hermes configurations listed it; builder and orchestrator still defaulted to it at that check. The 2026-09-26 promotion-pending statements below are historical receipts. Follow [[DGX Spark Single-Node Qwen 3.8 Flash Next TensorFold Replacement Tutorial]] to add a separate TensorFold alias, park this alias while port 8888 serves TensorFold, qualify the new model, and retain this lane for rollback. Old-model deletion is an optional later retirement after validation.
+
 > [!summary] Outcome
 > Install and qualify MiaAI-Lab's pinned vLLM 0.30 single-Spark lane on **SecondSpark**. FirstSpark keeps its existing `spark-fast`, LiteLLM, Hermes, and LM Studio/Nemotron configuration. Do not add the new model to FirstSpark LiteLLM or Hermes until both the raw API gate and the 100-turn long-agent gate pass.
 
-> [!warning] Current status
+> [!warning] Historical status on 2026-09-26
 > **Raw-qualified; promotion pending.** Attempt 1's unintended 206K-token stress load failed the safety gate and remains preserved as a real 262K-capability limitation. After a clean restart, Attempt 2 used the corrected 90K–140K gate: it completed 100/100 tool calls from 103,425 to 108,944 prompt tokens, kept at least 17,094 MiB available, produced zero `NV_ERR_NO_MEMORY` events and zero preemptions, and passed Step 12 on 2026-09-26. The server is healthy on SecondSpark. It is now eligible for the controlled Steps 13–24 promotion, but it has not yet been registered in LiteLLM or Hermes. FirstSpark's existing routes and every Hermes profile default remain unchanged.
 
 Run one command block at a time. Unless a step explicitly says **FirstSpark**, run it in the **SecondSpark NVIDIA Sync terminal**. Stop after any failed gate and share the complete output before changing anything.
