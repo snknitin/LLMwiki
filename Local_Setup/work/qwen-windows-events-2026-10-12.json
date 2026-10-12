@@ -1,0 +1,76 @@
+[
+  {
+    "Time": "2026-10-06T20:32:49.3773042+05:30",
+    "Provider": "Microsoft-Windows-Kernel-Power",
+    "Id": 41,
+    "Message": "The system has rebooted without cleanly shutting down first. This error could be caused if the system stopped responding, crashed, or lost power unexpectedly.",
+    "TextData": []
+  },
+  {
+    "Time": "2026-10-06T20:33:04.8797702+05:30",
+    "Provider": "EventLog",
+    "Id": 6008,
+    "Message": "The previous system shutdown at 8:14:41 PM on ‎10/‎6/‎2026 was unexpected.",
+    "TextData": [
+      "8:14:41 PM",
+      "‎10/‎6/‎2026",
+      "",
+      "",
+      "336020",
+      "",
+      ""
+    ]
+  },
+  {
+    "Time": "2026-10-06T20:28:36.7098996+05:30",
+    "Provider": "nvlddmkm",
+    "Id": 153,
+    "Message": null,
+    "TextData": [
+      "\\Device\\Video3",
+      "Resetting TDR occurred on GPUID:200"
+    ]
+  },
+  {
+    "Time": "2026-10-06T20:28:24.2820365+05:30",
+    "Provider": "nvlddmkm",
+    "Id": 153,
+    "Message": null,
+    "TextData": [
+      "\\Device\\Video3",
+      "UCodeReset TDR occurred on GPUID:200"
+    ]
+  },
+  {
+    "Time": "2026-10-06T20:28:24.2820365+05:30",
+    "Provider": "nvlddmkm",
+    "Id": 14,
+    "Message": null,
+    "TextData": [
+      "\\Device\\Video3",
+      "3243ec3b 000119b8 00000000 2065a1ae 2065a8f8 00000000 00000000 00000000"
+    ]
+  },
+  {
+    "Time": "2026-10-02T22:52:58.1883023+05:30",
+    "Provider": "Microsoft-Windows-Kernel-Power",
+    "Id": 41,
+    "Message": "The system has rebooted without cleanly shutting down first. This error could be caused if the system stopped responding, crashed, or lost power unexpectedly.",
+    "TextData": []
+  },
+  {
+    "Time": "2026-10-02T22:53:13.8012536+05:30",
+    "Provider": "EventLog",
+    "Id": 6008,
+    "Message": "The previous system shutdown at 10:13:58 PM on ‎10/‎2/‎2026 was unexpected.",
+    "TextData": [
+      "10:13:58 PM",
+      "‎10/‎2/‎2026",
+      "",
+      "",
+      "769417",
+      "",
+      ""
+    ]
+  }
+]

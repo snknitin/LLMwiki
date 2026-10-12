@@ -1,0 +1,22 @@
+[Unit]
+Description=Qwen3.8 27B Unsloth Q5 XL native llama.cpp worker
+After=network-online.target
+Wants=network-online.target qwen38-admission.service
+StartLimitIntervalSec=600
+StartLimitBurst=2
+
+[Service]
+Type=simple
+WorkingDirectory=/home/snknitin/ai/tools/qwen38-migration
+ExecStartPre=/home/snknitin/.local/bin/wait-for-spark-fast
+ExecStart=/usr/bin/python3 /home/snknitin/ai/tools/qwen38-migration/run_native_qwen.py
+Restart=on-failure
+RestartSec=30
+TimeoutStartSec=1000
+TimeoutStopSec=60
+KillSignal=SIGINT
+NoNewPrivileges=yes
+UMask=0077
+
+[Install]
+WantedBy=default.target

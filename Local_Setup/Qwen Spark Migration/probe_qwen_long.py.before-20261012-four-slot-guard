@@ -1,0 +1,161 @@
+"""Two synchronized long-prefill requests against an ALREADY RESIDENT model.
+
+No loading or config edits. Run only in an explicitly reserved qualification
+window. Synthetic filler measures long input/KV handling, not real task quality.
+Actual server usage must meet --min-prompt-tokens; repetitions are not a tokenizer.
+"""
+import argparse
+import concurrent.futures
+import datetime
+import json
+from pathlib import Path
+import threading
+import time
+import urllib.request
+import uuid
+
+
+def make_prompt(repetitions, index):
+    nonce = uuid.uuid4().hex[:12]
+    markers = [f'CHECKPOINT_{index}_{position}_{nonce}' for position in range(4)]
+    segment = ' x' * (repetitions // 4)
+    prompt = ('Read the entire input. Ignore filler x tokens. At the end, return the four '
+              'CHECKPOINT identifiers in their original order, verbatim, and nothing else.\n')
+    for marker in markers:
+        prompt += segment + '\n' + marker + '\n'
+    prompt += '\nReturn the four CHECKPOINT identifiers now. Do not explain.'
+    return prompt, markers
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--base', default='http://127.0.0.1:1234/v1')
+    parser.add_argument('--model', default='qwen38-27b-spark')
+    parser.add_argument('--context', type=int, default=262144)
+    parser.add_argument('--repetitions', type=int, default=240000)
+    parser.add_argument('--min-prompt-tokens', type=int, default=240000)
+    parser.add_argument('--parallel', type=int, choices=(1, 2), default=2)
+    parser.add_argument('--max-tokens', type=int, default=2048)
+    parser.add_argument('--timeout', type=int, default=1800)
+    parser.add_argument('--min-memory-gib', type=float, default=20.0)
+    parser.add_argument('--output', default='qwen-long-probe.json')
+    args = parser.parse_args()
+    if not 1 <= args.repetitions <= 1000000 or not 1 <= args.min_prompt_tokens < args.context - args.max_tokens:
+        parser.error('Bound repetitions and leave output headroom within the requested context')
+    samples, receipts = [], []
+    stop = threading.Event()
+    pressure = threading.Event()
+    barrier = threading.Barrier(args.parallel)
+    epoch = time.monotonic()
+
+    def monitor():
+        while not stop.is_set():
+            try:
+                mem = {line.split(':')[0]: int(line.split()[1]) for line in
+                       Path('/proc/meminfo').read_text().splitlines()
+                       if line.startswith(('MemAvailable:', 'SwapFree:'))}
+                vm = {line.split()[0]: int(line.split()[1]) for line in
+                      Path('/proc/vmstat').read_text().splitlines()
+                      if line.startswith(('pswpin ', 'pswpout '))}
+                sample = {'elapsed': round(time.monotonic()-epoch, 3), **mem, **vm}
+                samples.append(sample)
+                if mem['MemAvailable'] / 1024**2 < args.min_memory_gib:
+                    pressure.set()
+            except (OSError, ValueError):
+                pass
+            stop.wait(0.25)
+
+    def request(index):
+        prompt, markers = make_prompt(args.repetitions, index)
+        result = {'request': index, 'passed': False, 'input_characters': len(prompt)}
+        try:
+            barrier.wait(timeout=20)
+            if pressure.is_set():
+                raise RuntimeError('Available memory already below safety floor')
+            started = time.monotonic()
+            result['started_offset_seconds'] = round(started-epoch, 3)
+            payload = {'model': args.model, 'messages': [{'role': 'user', 'content': prompt}],
+                       'stream': True, 'stream_options': {'include_usage': True},
+                       'temperature': 0, 'max_tokens': args.max_tokens}
+            req = urllib.request.Request(args.base.rstrip('/')+'/chat/completions',
+                  data=json.dumps(payload).encode(), headers={'Content-Type': 'application/json'})
+            output, usage, finish, first_output, first_visible, done = '', None, None, None, None, False
+            with urllib.request.urlopen(req, timeout=args.timeout) as response:
+                for raw in response:
+                    elapsed = time.monotonic()-started
+                    if pressure.is_set():
+                        raise RuntimeError('Memory safety floor breached; stream closed')
+                    if elapsed > args.timeout:
+                        raise TimeoutError('Overall request budget exceeded')
+                    if not raw.startswith(b'data:'):
+                        continue
+                    data = raw[5:].strip()
+                    if data == b'[DONE]':
+                        done = True
+                        break
+                    event = json.loads(data)
+                    usage = event.get('usage') or usage
+                    for choice in event.get('choices', []):
+                        finish = choice.get('finish_reason') or finish
+                        delta = choice.get('delta', {})
+                        text = delta.get('content') or ''
+                        if text or delta.get('reasoning_content') or delta.get('reasoning'):
+                            if first_output is None:
+                                first_output = elapsed
+                        if text:
+                            if first_visible is None:
+                                first_visible = elapsed
+                            output += text
+            result.update(seconds=round(time.monotonic()-started, 3),
+                          first_output_seconds=first_output, first_visible_seconds=first_visible,
+                          usage=usage, finish_reason=finish,
+                          finished_offset_seconds=round(time.monotonic()-epoch, 3))
+            if not done or finish != 'stop' or not output.strip():
+                raise ValueError('Missing final visible answer, stream terminator, or normal completion')
+            positions = [output.find(marker) for marker in markers]
+            if any(position < 0 for position in positions) or positions != sorted(positions):
+                raise ValueError('Long-input checkpoint retrieval failed')
+            if not usage or usage.get('prompt_tokens', 0) < args.min_prompt_tokens:
+                raise ValueError('Actual prompt-token usage absent or below the required qualification target')
+            if usage['prompt_tokens'] + usage.get('completion_tokens', 0) > args.context:
+                raise ValueError('Reported total tokens exceed requested context; investigate runtime semantics')
+            result['passed'] = True
+        except Exception as error:
+            result.update(error_type=type(error).__name__, error=str(error)[:240])
+        return result
+
+    worker = threading.Thread(target=monitor, daemon=True)
+    worker.start()
+    try:
+        with urllib.request.urlopen(args.base.rstrip('/')+'/models', timeout=15) as response:
+            models = json.load(response)
+        if args.model not in {item['id'] for item in models['data']}:
+            raise ValueError('Exact alias absent; no request sent')
+        with concurrent.futures.ThreadPoolExecutor(max_workers=args.parallel) as pool:
+            receipts = list(pool.map(request, range(args.parallel)))
+        result = {'passed': all(row['passed'] for row in receipts) and not pressure.is_set(),
+                  'requests': receipts}
+    except Exception as error:
+        result = {'passed': False, 'requests': receipts, 'error': str(error)[:240]}
+    finally:
+        stop.set()
+        worker.join(timeout=2)
+    result.update(timestamp_utc=datetime.datetime.now(datetime.timezone.utc).isoformat(),
+                  model=args.model, requested_context=args.context,
+                  minimum_required_prompt_tokens_per_request=args.min_prompt_tokens,
+                  parallel_requests=args.parallel, memory_floor_gib=args.min_memory_gib,
+                  memory_floor_breached=pressure.is_set(), memory_samples=samples,
+                  scope='Synthetic long input and synchronized clients. Does not prove scheduler concurrency, useful full-window histories, Hermes quality, or sustained thermal stability.')
+    if samples:
+        result['minimum_mem_available_gib'] = round(min(s['MemAvailable'] for s in samples)/1024**2, 3)
+        result['swap_out_pages_delta'] = samples[-1]['pswpout']-samples[0]['pswpout']
+        result['swap_in_pages_delta'] = samples[-1]['pswpin']-samples[0]['pswpin']
+    path = Path(args.output)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(result, indent=2)+'\n', encoding='utf-8')
+    print(json.dumps({key:value for key,value in result.items() if key != 'memory_samples'}, indent=2))
+    raise SystemExit(0 if result['passed'] else 1)
+
+
+if __name__ == '__main__':
+    main()

@@ -1,0 +1,14 @@
+[Unit]
+Description=Finite Qwen Q5 native installation and qualification
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+WorkingDirectory=/home/snknitin/ai/tools/qwen38-migration
+ExecStart=/usr/bin/python3 /home/snknitin/ai/tools/qwen38-migration/finish_native_install.py
+TimeoutStartSec=30h
+TimeoutStopSec=120
+KillMode=control-group
+UMask=0077
+NoNewPrivileges=yes

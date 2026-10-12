@@ -1,0 +1,20 @@
+[Unit]
+Description=Private Qwen request admission and OpenAI API
+After=qwen38-native.service
+Requires=qwen38-native.service
+PartOf=qwen38-native.service
+StartLimitIntervalSec=300
+StartLimitBurst=3
+
+[Service]
+Type=simple
+WorkingDirectory=/home/snknitin/ai/tools/qwen38-migration
+ExecStart=/home/snknitin/.hermes/hermes-agent/venv/bin/python /home/snknitin/ai/tools/qwen38-migration/admission_proxy.py
+Restart=on-failure
+RestartSec=10
+TimeoutStopSec=30
+NoNewPrivileges=yes
+UMask=0077
+
+[Install]
+WantedBy=default.target

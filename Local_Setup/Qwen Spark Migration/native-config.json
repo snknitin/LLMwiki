@@ -1,0 +1,16 @@
+{
+  "model": "/home/snknitin/ai/stores/models/unsloth-Qwen3.8-27B-UD-Q5_K_XL/Qwen3.8-27B-UD-Q5_K_XL.gguf",
+  "model_sha256": "8601193d3d5760c37fb8ce1b43afebc69df5fb24e1fbc5a547c32e2200305276",
+  "binary": "/home/snknitin/.local/opt/llama.cpp-b11429/build/bin/llama-server",
+  "alias": "qwen38-27b-spark",
+  "backend_port": 1236,
+  "parallel": 4,
+  "total_context": 1048576,
+  "per_slot_context": 262144,
+  "cache_k": "q4_0",
+  "cache_v": "q4_0",
+  "checkpoints": 2,
+  "speculation": "none",
+  "draft_max": 2,
+  "minimum_start_mem_available_gib": 52
+}

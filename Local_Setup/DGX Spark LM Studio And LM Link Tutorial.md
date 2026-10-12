@@ -1,5 +1,8 @@
 # DGX Spark LM Studio And LM Link Tutorial
 
+> [!important] Newer live state and Qwen migration — 12 October 2026
+> This tutorial preserves the original Nemotron rollout. Live Nemotron is now **1M context / parallel 1**, not the earlier 65K profile below. For the requested Qwen3.8 27B migration, use [[Qwen 3.8 27B Spark LM Studio Migration Tutorial]]; do not repeat this tutorial's download, vLLM-stop, or old residency steps. The new migration is documented but has not been deployed.
+
 LM Studio's headless CLI is already installed on your Spark:
 
 ```text
