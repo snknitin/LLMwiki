@@ -1,7 +1,7 @@
 ---
 title: Task Checklist
 created: 2026-08-15
-updated: 2026-09-24
+updated: 2026-10-12
 status: active
 type: checklist
 tags:
@@ -42,6 +42,23 @@ Only work supported by the task record, live verification, or a dated evidence n
 | `Connect Obsidian vaults to DGX Spark` | Official headless Sync replicas for `LLMWiki` and `Personal-Sync`, two enabled continuous user services, verified two-way file/hash propagation, and the active Windows `Personal-Sync` vault moved to `F:\Vaults\Personal-Sync`. | Retrieval evaluation, hard Hermes write confinement, a simultaneous-edit conflict test, and an independent `Personal-Sync` backup. |
 
 ## Current operational finish line
+
+### Qwen desktop relief — documented 12 October 2026
+
+Use [[Qwen 3.8 27B Native Spark Setup Tutorial]]. The user selected native llama.cpp and **UD-Q5_K_XL**, targeting four independent 262K sessions with **Q4 K/V caches and uncapped output**. Long-context qualification is required before publication. Installation is in progress. Fresh Brief stays on Windows Ollama.
+
+- [x] Inspect current Spark/Windows services, memory, exact weights and Nemotron concurrency; audit Hermes homes/profiles.
+- [x] Capture desktop contention, runner reload and NVIDIA TDR evidence in [[Qwen Spark Migration Evidence 2026-10-12]]. Exact regression onset and sole triggering update remain unproven.
+- [x] Prepare checked transfer, API-probe, startup and reversible Hermes-catalog helpers; preserve three distinct Gemmas, each once.
+- [x] Review the two author tweet threads, accessible replies and images; compare Unsloth/native/LM Studio and correct memory/context assumptions.
+- [x] Stop/disable LM Studio, preserve its rollback assets, and build the pinned native CUDA runtime on FirstSpark.
+- [ ] Complete the pinned Unsloth Q5 download directly on FirstSpark and verify its full hash. Do not resume the superseded Windows copy.
+- [ ] Load Qwen, qualify four independent Q4-cache contexts and four uncapped Hermes research/coding sessions while `spark-fast` runs.
+- [ ] Verify actual remote generation keeps Windows responsive; qualify tools, streaming, memory and temperature.
+- [ ] Promote startup, verify restart/reboot, apply catalog cleanup to both Hermes homes/profiles and switch saved desktop-Qwen chats.
+- [ ] Verify Windows private API/client access to Spark; use LM Link only if the LM Studio alternative is selected.
+- [x] Preserve Fresh Brief's Windows Ollama model, 8 AM/8 PM IST schedule and cached editions; revert the unneeded adapter changes. Its GPU load remains outside this Hermes migration.
+- [ ] Complete representative 24-hour soak before retiring any rollback assets.
 
 The immediate goal remains the **operational setup**, not every future model, framework, and portfolio lab.
 
@@ -756,6 +773,30 @@ These remain historical backlog and do not precede the community sequence above:
 
 ---
 
+### 8J — Social Capture Windows local-model exploration
+
+> [!info] Research completed 2026-09-28; execution open
+> [[Social Capture Local AI Model Exploration Guide]] is the ordered entrypoint. Its linked per-model tutorials audit the exact source tweets, relevant replies, repository/model cards, Windows fit, and pass/stop criteria. None of the new weights or applications has been installed or tested merely because the notes exist. The live Social Capture dashboard queue remains open; this checklist does not mark its tasks done.
+
+- [ ] Record fresh workstation `nvidia-smi`, available RAM, free disk, loaded GPU processes, ComfyUI presence/version, existing routes, and consented/labeled test inputs. Select an isolated experiment path; preserve current ODS/Ollama/Hermes/LiteLLM/Spark services.
+- [ ] Establish Qwen Image 2.1 base text-to-image and edit with pinned model, encoder, VAE, workflow, seed, resolution, VRAM, and cleanup proof. Follow [[RTX PRO 5000 Qwen Image 2.1 Base Windows Tutorial]].
+- [ ] Test [[RTX PRO 5000 Qwen Image 2.1 BFS Body Swap Windows Tutorial]] on at least two consented pairs, using the author's scene-first/reference-second order and full-body plain-background reference; compare to a no-LoRA baseline.
+- [ ] Test [[RTX PRO 5000 Qwen Image 2.1 BFS Head Swap Windows Tutorial]] separately, beginning with the author's V1.1 file and a simple official-core workflow before optional custom nodes or fast LoRAs.
+- [ ] Audit, then A/B [[RTX PRO 5000 Qwen Image 2.1 Uncensored Variant Windows Tutorial]] against the base on matched benign inputs. Do not call an “uncensored” label or no-safety-checker claim proof of modified weights, nor merge it with the BFS trials.
+- [ ] Baseline local H3 Base and its audio using [[MiniMax H3 Windows Video Exploration Tutorial]], then test Turbo and Realism one adapter at a time. Keep hosted H3 Max claims separate from local timings.
+- [ ] Test [[MiniMax H3 Handheld Shaky Cam LoRA Windows Tutorial]] alone against the H3 baseline, including the author's high-noise-stage and approximate 1.7-strength tip as explicit A/B settings; record camera effect versus character/scene deformation.
+- [ ] Try [[MiniMax H3 Character Swap LoRA Windows Tutorial]] only on an H3 Ref2VA-capable baseline with licensed/consented source video and reference; compare fresh generation against Context continuation using the exact [fnoji post](https://x.com/fnoji/status/2103865411754459347) as a hypothesis, not a guarantee.
+- [ ] Decide whether [[LongCat Video Avatar 1.5 Workstation Feasibility Tutorial]] fits the Windows 48 GB machine before weight downloads; if the official path needs Linux/Spark, make that a separate approved, capacity-checked trial.
+- [ ] Evaluate [[Realtime Conversation Video Windows Feasibility Tutorial]] separately from H3: qualify LTX-2.5 renderer, audio-input LLM, TTS, then conversation client under WSL2/Linux; measure first-frame/first-audio latency and listener scope before claiming one-GPU real time.
+- [ ] Run [[RTX PRO 5000 EVIE Visual Document Retrieval Tutorial]] against labeled pages; compare the captured legacy Preview with current EVIE-4.5B under matched image/index settings.
+- [ ] Run [[RTX PRO 5000 Laya Decision Model Tutorial]] against held-out typed-decision labels, deterministic rules, and end-to-end latency; do not promote a fast classifier based on a Snake-game clip alone.
+- [ ] Evaluate [[RTX PRO 5000 Perplexity Portable Computer Tutorial]] as a separate local application/privacy trial on supported Windows hardware; do not conflate its bundled model with a general-purpose Ollama checkpoint.
+- [ ] Complete [[RTX PRO 5000 Qwen 3.8 BF16 LM Head Audit Tutorial]] as a reproducible matched checkpoint comparison; do not overwrite the existing workstation Ollama or Spark routes for an unproven social claim.
+- [ ] Use [[RTX PRO 5000 Jev Agent Decision Evaluation Tutorial]] and [[RTX PRO 5000 Local Inference Measurement Tutorial]] to test Jev judging/routing and llama.cpp flag claims with held-out labels and a disposable runtime. Do not change production routing on the basis of social tips.
+- [ ] For every candidate, save exact source URLs, revisions/hashes, license, prompt/input, cold/warm time, peak VRAM/RAM, quality rubric, errors, unload proof, and a **keep / adapt-and-retest / reject** decision. Only then consider a separate promotion/route change.
+
+---
+
 ## Sequence 9 — Fine-tuning and SLM engineering
 
 **Priority:** P1 after inference/retrieval stability  
@@ -856,7 +897,7 @@ Read [[DGX Spark ODS Playbook and Model Roadmap#Phase 3 - FDE portfolio applicat
 
 ## Complete source map — all existing notes accounted for
 
-Use this map to decide what to read deeply and what to keep as reference. Updated on 2026-09-18, it covers the current Markdown notes in this folder without treating newly written instructions as completed execution.
+Use this map to decide what to read deeply and what to keep as reference. Updated on 2026-09-28, it covers the current Markdown notes in this folder without treating newly written instructions as completed execution.
 
 ### Canonical/current operating notes
 
@@ -894,6 +935,11 @@ Use this map to decide what to read deeply and what to keep as reference. Update
 
 ### Optional model tutorials — not the active default path
 
+- [[Social Capture Local AI Model Exploration Guide]] — 2026-09-28 Windows model/repo intake order and cross-model evaluation record; all actual trials still open.
+- [[RTX PRO 5000 Qwen Image 2.1 Base Windows Tutorial]], [[RTX PRO 5000 Qwen Image 2.1 BFS Body Swap Windows Tutorial]], [[RTX PRO 5000 Qwen Image 2.1 BFS Head Swap Windows Tutorial]], and [[RTX PRO 5000 Qwen Image 2.1 Uncensored Variant Windows Tutorial]] — base-plus-adapter image experiments, with the uncensored comparison clearly supplemental.
+- [[MiniMax H3 Windows Video Exploration Tutorial]], [[MiniMax H3 Handheld Shaky Cam LoRA Windows Tutorial]], [[MiniMax H3 Character Swap LoRA Windows Tutorial]], [[LongCat Video Avatar 1.5 Workstation Feasibility Tutorial]], and [[Realtime Conversation Video Windows Feasibility Tutorial]] — short audio-video baseline, separate H3 camera and character-swap LoRAs, avatar feasibility, and unrelated LTX-2.5 conversation stack.
+- [[RTX PRO 5000 EVIE Visual Document Retrieval Tutorial]], [[RTX PRO 5000 Laya Decision Model Tutorial]], [[RTX PRO 5000 Perplexity Portable Computer Tutorial]], and [[RTX PRO 5000 Qwen 3.8 BF16 LM Head Audit Tutorial]] — retrieval, typed decisions, local application, and checkpoint-claim audit.
+- [[RTX PRO 5000 Jev Agent Decision Evaluation Tutorial]] and [[RTX PRO 5000 Local Inference Measurement Tutorial]] — captured Jev and llama.cpp evaluation/measurement tips.
 - [[DGX Spark Additional Model Tutorials Index]] — catalog only; [[Local Setup Index]] supersedes its older all-on-Spark order.
 - [[DGX Spark Gemma 4 Models Tutorial]] — optional Spark-specific Gemma benchmark; workstation Ollama Gemmas are already complete.
 - [[DGX Spark Nemotron 3.5 Lightning Tutorial]] — vLLM/DSpark reference only; LM Studio on Spark is the chosen deployment.
