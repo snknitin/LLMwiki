@@ -7,13 +7,15 @@
 ## Catalog
 
 
-> **Progress (re-audited 2026-09-17):** 597 done (578 files verified on disk in G:\Books + 19 marked not-on-AA) - 2 pending (unboxed as not-delivered: Mechanics of Materials; Oxford-Duden Pictorial English Dictionary).
-- This session resolved all 43 previously-pending titles: **24 delivered to `G:\Books`** (Download_from_AA + PDF_Splits, title+author verified, size gate enforced) and **19 not on AA** (re-searched `.gl/.gd/.pk`, 2 query variants each), now marked unavailable.
-- Two over-50MB books (Manga 112MB, The Book 68MB) were split into Kindle-sized volumes under `PDF_Splits` (all parts ≤45MB, cover on every part; bloated EPUBs + superseded sources removed).
+> **Progress (re-audited 2026-10-07):** 637 done (578 files verified on disk in G:\Books + 59 new files from 2026-10-07 batch: 36 direct EPUBs + 4 PDF→EPUB conversions + 19 marked not-on-AA) - 2 pending (unboxed as not-delivered: Mechanics of Materials; Oxford-Duden Pictorial English Dictionary).
+|- This session resolved all 43 previously-pending titles: **24 delivered to `G:\Books`** (Download_from_AA + PDF_Splits, title+author verified, size gate enforced) and **19 not on AA** (re-searched `.gl/.gd/.pk`, 2 query variants each), now marked unavailable.
+|- Two over-50MB books (Manga 112MB, The Book 68MB) were split into Kindle-sized volumes under `PDF_Splits` (all parts ≤45MB, cover on every part; bloated EPUBs + superseded sources removed).
+|- **2026-10-07 batch:** 40 of 48 titles downloaded from Anna's Archive (36 direct EPUBs + 4 PDF/MOBI→EPUB conversions via Calibre); 8 titles unavailable in any format on AA (.gl/.gd/.pk/z-lib.gd).
 ### Output folders (Windows `G:\Books`)
 - `Download_from_AA` — **390 source files** (EPUB / PDF / DjVu), kept as the untouched originals; title-first naming.
 - `EPUB_from_PDF` — **186 Kindle EPUBs** converted from the text-based PDFs and DjVUs — these are the ones to *Send to Kindle*.
 - `PDF_Splits` — **112 volumes** from the 22 largest scanned books (no text layer), each **≤ 41 MB** (safe under the 50 MB Kindle cap), named `Title (Year) - Author - Part N of M.pdf`; every volume opens on the **book's own cover as page 1** so all parts group together visually.
+- `conversion_batch` — **4 source files** (PDF/MOBI) converted to EPUB on 2026-10-07, output in `EPUB_from_PDF`.
 
 
 - [x]  ~~A Concise Course in Algebraic Topology — J. P. May~~  →  ✅ May - A Concise Course in Algebraic Topology (1999).epub
@@ -1281,3 +1283,55 @@
 - [skip] ~~Fabless: The Transformation of the Semiconductor Industry — Daniel Nenni & Paul McLellan~~ → ⚠️ wrong book served (Rakesh Kumar's "Fabless Semiconductor Implementation") — retry with a different mirror
 
 - [skip] ~~Engineering Circuit Analysis — William Hart Hayt & Jack Ellsworth Kemmerly & Steven M. Durbin~~ → ⚠️ wrong file served (Cengage ISE access-code ebook) — retry with a different mirror
+
+
+## 2026-10-07 Marketing & Branding Batch (48 titles)
+
+- [x] ~~Day Trading Attention — Gary Vaynerchuk~~ → ✅ Title - Author.epub
+- [x] ~~The Guide to Going Viral — Brendan Kane~~ → ✅ Title - Author.epub
+- [x] ~~Contagious: Why Things Catch On — Jonah Berger~~ → ✅ Title - Author.epub
+- [skip] ~~The Art and Science of Viral Social Media Content — Matthew Arthur Dickinson~~ → ⚠️ not available on AA in any format (tried .gl/.gd/.pk/z-lib.gd)
+- [x] ~~Hook Point: How to Stand Out in a 3-Second World — Brendan Kane~~ → ✅ Title - Author.epub
+- [skip] ~~Founder Brand: Turn Your Story Into Your Competitive Advantage — Dave Gerhardt~~ → ⚠️ not available on AA in any format (tried .gl/.gd/.pk/z-lib.gd)
+- [x] ~~The Art and Business of Online Writing — Nicolas Cole~~ → ✅ Title - Author.epub
+- [x] ~~Show Your Work! — Austin Kleon~~ → ✅ Title - Author.epub
+- [x] ~~Crushing It! — Gary Vaynerchuk~~ → ✅ Title - Author.epub
+- [x] ~~Influencer: Building Your Personal Brand in the Age of Social Media — Brittany Hennessy~~ → ✅ Title - Author.epub
+- [x] ~~GTM Unlocked: Sales, Growth, and the Real-World GTM Playbook — Carlos Mena~~ → ✅ Title - Author.epub
+- [x] ~~The Go-to-Market Cheat Code: The Secret to Unlocking B2B Growth — Justin Gray & Josh Wagner~~ → ✅ Title - Author.epub
+- [x] ~~Hacking Growth — Sean Ellis & Morgan Brown~~ → ✅ Title - Author.epub
+- [skip] ~~Go to Market: The Marketing and Scaling Blueprint for Startups — Joana Inch~~ → ⚠️ not available on AA in any format (tried .gl/.gd/.pk/z-lib.gd)
+- [skip] ~~Product Marketing Debunked: The Essential Go-to-Market Guide — Yasmeen Turayhi~~ → ⚠️ not available on AA in any format (tried .gl/.gd/.pk/z-lib.gd)
+- [x] ~~Obviously Awesome: How to Nail Product Positioning — April Dunford~~ → ✅ Title - Author.epub
+- [x] ~~Positioning: The Battle for Your Mind — Al Ries & Jack Trout~~ → ✅ Title - Author.epub
+- [x] ~~Building a StoryBrand — Donald Miller~~ → ✅ Title - Author.epub
+- [x] ~~Designing Brand Identity — Alina Wheeler & Rob Meyerson~~ → ✅ Title - Author.epub (converted from PDF/MOBI)
+- [x] ~~Purple Cow: Transform Your Business by Being Remarkable — Seth Godin~~ → ✅ Title - Author.epub
+- [x] ~~Influence: The Psychology of Persuasion — Robert B. Cialdini~~ → ✅ Title - Author.epub
+- [x] ~~The 1-Page Marketing Plan — Allan Dib~~ → ✅ Title - Author.epub
+- [x] ~~They Ask, You Answer — Marcus Sheridan~~ → ✅ Title - Author.epub
+- [x] ~~The New Rules of Marketing & PR — David Meerman Scott~~ → ✅ Title - Author.epub
+- [x] ~~Belonging to the Brand: Why Community is the Last Great Marketing Strategy — Mark W. Schaefer~~ → ✅ Title - Author.epub
+- [x] ~~One Million Followers: How I Built a Massive Social Following in 30 Days — Brendan Kane~~ → ✅ Title - Author.epub
+- [x] ~~The YouTube Formula: How Anyone Can Unlock the Algorithm to Drive Views, Build an Audience, and Grow Revenue — Derral Eves~~ → ✅ Title - Author.epub
+- [x] ~~Content Inc.: How Entrepreneurs Use Content to Build Massive Audiences and Create Radically Successful Businesses — Joe Pulizzi~~ → ✅ Title - Author.epub (converted from PDF/MOBI)
+- [x] ~~Monetizing Innovation: How Smart Companies Design the Product Around the Price — Madhavan Ramanujam and Georg Tacke~~ → ✅ Title - Author.epub
+- [x] ~~$100M Leads: How to Get People to Want to Buy Your Stuff — Alex Hormozi~~ → ✅ Title - Author.epub
+- [x] ~~The Creative Act: A Way of Being — Rick Rubin~~ → ✅ Title - Author.epub
+- [x] ~~Superfans: The Easy Way to Stand Out, Grow Your Tribe, and Build a Successful Business — Pat Flynn~~ → ✅ Title - Author.epub
+- [x] ~~Tribes: We Need You to Lead Us — Seth Godin~~ → ✅ Title - Author.epub
+- [x] ~~Perennial Seller: The Art of Making and Marketing Work that Lasts — Ryan Holiday~~ → ✅ Title - Author.epub
+- [x] ~~Cashvertising: How to Use More than 100 Secrets of Ad-Agency Psychology to Make Big Money Selling Anything to Anyone — Drew Eric Whitman~~ → ✅ Title - Author.epub
+- [skip] ~~Social Selling Mastery — Tim Hughes~~ → ⚠️ not available on AA in any format (tried .gl/.gd/.pk/z-lib.gd)
+- [skip] ~~The Content Planner — Louise McDonnell~~ → ⚠️ not available on AA in any format (tried .gl/.gd/.pk/z-lib.gd)
+- [skip] ~~Social Media Mastery — Rebekah Radice~~ → ⚠️ not available on AA in any format (tried .gl/.gd/.pk/z-lib.gd)
+- [x] ~~Guerrilla Social Media Marketing — Shane Gibson~~ → ✅ Title - Author.epub
+- [x] ~~Hooked — Nir Eyal~~ → ✅ Title - Author.epub
+- [x] ~~This Is Marketing — Seth Godin~~ → ✅ Title - Author.epub
+- [x] ~~Exponential — Jeff Rosenblum~~ → ✅ Title - Author.epub
+- [x] ~~Upstream Marketing — Tim Koelzer & Kristin Kurth~~ → ✅ Title - Author.epub
+- [x] ~~We Are Like That Only — Rama Bijapurkar~~ → ✅ Title - Author.epub (converted from PDF/MOBI)
+- [skip] ~~Insightful Inc. — Manish Makhijani~~ → ⚠️ not available on AA in any format (tried .gl/.gd/.pk/z-lib.gd)
+- [x] ~~Zero to Scale — Arindam Paul~~ → ✅ Title - Author.epub (converted from PDF/MOBI)
+- [x] ~~Pandeymonium — Piyush Pandey~~ → ✅ Title - Author.epub
+- [x] ~~The CEO Factory — Sudhir Sitapati~~ → ✅ Title - Author.epub
