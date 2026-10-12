@@ -56,6 +56,300 @@ Rules:
 
 <!-- Hermes appends new, ready actions below this line. Keep the queue ordered by current leverage, not capture time. -->
 
+- [ ] **Self-host Laya for free desktop file sorting** — [source](https://x.com/hanghuang_/status/2105324037903679931?s=20)
+  - Contains: User sorted 600+ files using self-hosted Laya on InstaCloud. This demonstrates a free, open-source alternative to paid automation tools.
+  - Potential benefit: Laya offers a viable path for personal data organization without subscription fees. It highlights the value of self-hosting for privacy and cost control.
+  - Intent: idea · inferred
+  - Topic: self-hosting
+  - Source author: Hang Huang ☁️
+  - Priority: P2
+  - Impact: medium
+  - Ease: moderate
+  - Important: yes
+  - Importance reason: Reduces recurring software costs and increases data privacy.
+  - Urgent: no
+  - Urgency reason: No immediate deadline or critical dependency exists.
+  - Done when: Laya repo reviewed and local test completed.
+  - Effort: 30m
+  - Captured: 2026-10-02 11:34 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_43f5341f90fe797c
+
+- [ ] **PageIndex: Vectorless Reasoning-Based RAG** — [source](https://x.com/oliviscusAI/status/2104534255636513268)
+  - Contains: PageIndex is an open-source RAG system that replaces vector databases and chunking with a tree index for LLM reasoning. It achieves 98.7% accuracy on FinanceBench, outperforming traditional vector-based methods.
+  - Potential benefit: This approach mimics human reading by navigating document structures rather than relying on semantic similarity. It offers a high-accuracy, free alternative to standard RAG pipelines.
+  - Intent: learn · stated
+  - Topic: PageIndex
+  - Source author: Oliver Prompts
+  - Priority: P1
+  - Impact: high
+  - Ease: easy
+  - Important: yes
+  - Importance reason: New RAG architecture that challenges standard vector-based approaches.
+  - Urgent: no
+  - Urgency reason: No deadline was identified.
+  - Done when: Understand the tree indexing concept and evaluate its suitability for your use case.
+  - Effort: 15m
+  - Matrix order: 1000
+  - Captured: 2026-09-29 09:36 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_493d4abb62f5f394
+
+- [ ] **Install Unsloth and review cinematic video techniques**
+  - Contains:
+    - Run Laya Decision Models Locally with Unsloth: Unsloth Desktop now supports running the Laya decision model locally on Mac, Windows, and Linux with as little as 4GB RAM. The tool allows users to serve the model via a Jev-compatible API for local automation tasks.
+    - jevgrep: Low-cost code search agent skill: jevgrep is a CLI tool that reduces coding agent costs by 40% via efficient context collection. It uses Jev to judge relevance and returns source excerpts for implementation.
+  - Potential benefit: Handles 2 closely related captures in one focused batch.
+  - Intent: implement
+  - Topic: AI Video
+  - Sources:
+    - [article](https://github.com/unslothai/unsloth) — Run Laya Decision Models Locally with Unsloth
+    - [X post](https://x.com/UnslothAI/status/2104592692072304916) — Run Laya Decision Models Locally with Unsloth
+    - [article](https://github.com/dzhng/jevgrep) — jevgrep: Low-cost code search agent skill
+    - [X post](https://x.com/dzhng/status/2103920741481848861) — jevgrep: Low-cost code search agent skill
+  - Source author: Unsloth AI
+  - Priority: P2
+  - Impact: medium
+  - Ease: moderate
+  - Important: yes
+  - Importance reason: This batch combines 2 actions that support the same outcome.
+  - Urgent: no
+  - Urgency reason: Preserved from the member tasks; batch size alone does not create urgency.
+  - Done when: All 2 source-specific items are processed and one combined artifact or decision is recorded.
+  - Effort: 30m
+  - Consolidation key: local-video-setup-and-techniques
+  - Consolidation reason: Both tasks involve setting up or reviewing tools for local AI video generation. Unsloth enables local decision models which can be part of a video pipeline, while the cinematic techniques list provides the creative prompts for such generation. They share the context of local video production setup and can be reviewed together to inform a local video workflow.
+  - Consolidated IDs: sc_1970f2aab6a882fb, sc_7831c36521ba3f52
+  - Consolidated at: 2026-09-30T08:10:48+05:30
+  - Batch size: 2
+  - Matrix order: 2750
+  - Captured: 2026-09-29 09:00 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_1970f2aab6a882fb
+
+- [ ] **Test ComfyUI optimizations and style nodes**
+  - Contains:
+    - Optimize Minimax H3 VAE with --fast fp16_accumulation: ComfyUI v0.36+ enables 2.2x faster encoding via --fast fp16_accumulation. This flag optimizes custom convolution kernels for NVIDIA RTX 20-50 series GPUs.
+    - Test Clio Style Library in ComfyUI: The user wants to test a ComfyUI node with 398 art-style prompts. This tool allows visual selection and application of dense style descriptions to subjects.
+  - Potential benefit: Handles 2 closely related captures in one focused batch.
+  - Intent: test
+  - Topic: ComfyUI
+  - Sources:
+    - [article](https://blog.comfy.org/p/making-the-minimax-h3-video-vae-2x) — Optimize Minimax H3 VAE with --fast fp16_accumulation
+    - [X post](https://x.com/ITOKtw/status/2104570119905280325) — Optimize Minimax H3 VAE with --fast fp16_accumulation
+    - [source](https://github.com/lumenastrum/clio-style-preview) — Test Clio Style Library in ComfyUI
+  - Source author: ITOK
+  - Priority: P2
+  - Impact: medium
+  - Ease: moderate
+  - Important: yes
+  - Importance reason: This batch combines 2 actions that support the same outcome.
+  - Urgent: no
+  - Urgency reason: Preserved from the member tasks; batch size alone does not create urgency.
+  - Done when: All 2 source-specific items are processed and one combined artifact or decision is recorded.
+  - Effort: 20m
+  - Consolidation key: comfyui-optimization-and-style-test
+  - Consolidation reason: Both tasks involve direct experimentation within the ComfyUI environment. The first adds a performance flag for VAE encoding, while the second tests a new node for art styles. They share the same execution context (ComfyUI interface and workflow) and can be completed in a single focused session of local AI image/video generation testing.
+  - Consolidated IDs: sc_2baeccff28e324be, sc_221f3f308769c503
+  - Consolidated at: 2026-09-30T08:10:48+05:30
+  - Batch size: 2
+  - Matrix order: 2250
+  - Captured: 2026-09-29 08:37 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_2baeccff28e324be
+
+- [ ] **Evaluate Jev routing and agent trace embeddings**
+  - Contains:
+    - JEV: Low-Cost LLM Routing & Filtering: JEV routes LLM tasks to cut costs by 99.6% while maintaining accuracy. It filters inputs and escalates only uncertain cases to expensive models.
+    - Jev Judgments for Agent Trace Embeddings: Use named Jev judgments to create interpretable embeddings of agent interaction traces. This enables precise clustering and searching of user sessions based on specific behavioral signals.
+  - Potential benefit: Handles 2 closely related captures in one focused batch.
+  - Intent: learn
+  - Topic: Jev
+  - Source author: NO1ennn
+  - Priority: P2
+  - Impact: medium
+  - Ease: moderate
+  - Important: yes
+  - Importance reason: This batch combines 2 actions that support the same outcome.
+  - Urgent: no
+  - Urgency reason: Preserved from the member tasks; batch size alone does not create urgency.
+  - Done when: All 2 source-specific items are processed and one combined artifact or decision is recorded.
+  - Effort: 1h
+  - Consolidation key: jev-agent-intelligence-eval
+  - Consolidation reason: Both tasks focus on understanding and implementing Jev for advanced agent capabilities. The first evaluates Jev for cost-effective routing/filtering, while the second explores using Jev judgments for creating interpretable embeddings of agent traces. They share the same tool (Jev) and intent (evaluating/using Jev for agent intelligence) and can be processed in a single research session.
+  - Consolidated IDs: sc_6d8e8f091cfce56e, sc_ba3698c9305e5781
+  - Consolidated at: 2026-09-30T08:10:48+05:30
+  - Batch size: 2
+  - Sources:
+    - [source](https://x.com/N01ennn/status/2104514351147155889) — JEV: Low-Cost LLM Routing & Filtering
+    - [source](https://x.com/annabellschfr/status/2103723431711690768?s=20) — Jev Judgments for Agent Trace Embeddings
+  - Matrix order: 5000
+  - Captured: 2026-09-29 08:31 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_6d8e8f091cfce56e
+
+- [ ] **MiniMax H3 Video Reverse-Engineering Skill** — [source](https://x.com/GeekCatX/status/2104242449132757398?s=20)
+  - Contains: The post shares an open-source tool for generating accurate video-to-prompt conversions for MiniMax H3. It emphasizes verifying temporal facts and narrative intent to avoid misinterpreting visual actions.
+  - Potential benefit: This skill solves the common problem of prompt drift by enforcing a fact-checking layer before generation. It ensures the generated prompts reflect the actual video content rather than assumed narratives.
+  - Intent: implement · inferred
+  - Topic: AI Video Generation Tools
+  - Source author: 知识猫AI实验室
+  - Priority: P2
+  - Impact: medium
+  - Ease: moderate
+  - Important: yes
+  - Importance reason: It addresses a specific pain point in AI video generation: maintaining narrative consistency across complex scenes. This improves the reliability of prompt engineering for this specific model.
+  - Urgent: no
+  - Urgency reason: The tool is already released and stable, with no immediate deadline or time-sensitive context driving its adoption.
+  - Done when: The skill is installed and successfully generates a corrected prompt for a test video.
+  - Effort: 30m
+  - Matrix order: 2500
+  - Captured: 2026-09-28 15:54 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_d463596304611870
+
+- [ ] **424 Cinematic AI Video Techniques** — [source](https://x.com/VibeEverything/status/2104160871589220365?s=20)
+  - Contains: A curated list of 424 cinematic techniques for video creation, covering camera movement, lighting, and transitions. It includes definitions, effects, and AI prompts to help creators enhance their visual output.
+  - Potential benefit: This resource provides a comprehensive toolkit for generating high-quality AI video content. It bridges the gap between technical knowledge and practical application through structured examples.
+  - Intent: learn · inferred
+  - Topic: AI Video Production
+  - Source author: LOOPY
+  - Priority: P2
+  - Impact: medium
+  - Ease: moderate
+  - Important: yes
+  - Importance reason: Cinematic quality significantly elevates AI video output, making this a valuable reference for creators. It offers structured learning rather than just inspiration.
+  - Urgent: no
+  - Urgency reason: There is no time-sensitive deadline or breaking news associated with this educational resource. It can be reviewed at the user's own pace.
+  - Done when: User has reviewed the list and tested at least one prompt.
+  - Effort: 15m
+  - Matrix order: 6000
+  - Captured: 2026-09-28 12:23 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_872ed32957877d53
+
+- [ ] **Nano Banana Audio Tool** — [source](https://x.com/itsPaulAi/status/2103956418332094897?s=20)
+  - Contains: Nano Banana is an open-source audio tool for cloning and editing voices. It supports rapid voice cloning and detailed audio manipulation.
+  - Potential benefit: This tool enables rapid voice cloning and editing for creative projects. It offers a flexible, open-source solution for audio tasks.
+  - Intent: learn · inferred
+  - Topic: AI Audio Tools
+  - Source author: Paul Couvert
+  - Priority: P2
+  - Impact: medium
+  - Ease: easy
+  - Important: yes
+  - Importance reason: Open-source audio tools are valuable for developers. They enable flexible voice manipulation without licensing costs.
+  - Urgent: no
+  - Urgency reason: The tool is newly released but not time-critical. Exploration can be scheduled at convenience.
+  - Done when: Repository cloned and basic test run completed.
+  - Effort: 15m
+  - Matrix order: 7000
+  - Captured: 2026-09-28 12:23 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_6fbfc3428648da99
+
+- [ ] **Track DHH Coding is Dead POV** — [source](https://x.com/venturebackedtv/status/2103986909923983722?s=20)
+  - Contains: The post shares a POV meme about DHH explaining that coding is dead. It frames this as a cultural observation rather than a technical tutorial.
+  - Potential benefit: This captures a sentiment about AI replacing developers. It serves as a cultural barometer for industry anxiety.
+  - Intent: idea · inferred
+  - Topic: AI Impact on Coding
+  - Source author: Venture Backed
+  - Priority: P3
+  - Impact: low
+  - Ease: quick
+  - Important: no
+  - Importance reason: It is a meme reflecting sentiment, not a technical directive. It does not require immediate action or deep study.
+  - Urgent: no
+  - Urgency reason: There is no time-sensitive deadline or critical risk. It is a passive observation suitable for later review.
+  - Done when: Added to idea backlog for cultural reference.
+  - Effort: 5m
+  - Captured: 2026-09-28 12:23 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_ce44d160835beff9
+
+- [ ] **Test Qwen Image 2.1 body swap LoRA models**
+  - Contains:
+    - BFS Body Swap for Qwen Image 2.1: Alisson Pereira released a LoRA model for Qwen Image 2.1 that replaces a person's body while preserving the original pose and background. The model requires full-body reference images with plain backgrounds for optimal results. It is available on Hugging Face and Civitai for immediate use.
+    - Qwen Image 2.1 Body Swap LoRA Weights: The Hugging Face repository BFS-Best-Face-Swap provides LoRA weights for Qwen Image 2.1 to perform body swapping. It includes specific files for Qwen 2.1 and Krea 2 models to enable image-to-image editing.
+  - Potential benefit: Handles 2 closely related captures in one focused batch.
+  - Intent: implement
+  - Topic: AI Image Editing
+  - Sources:
+    - [article](https://huggingface.co/Alissonerdx/BFS-Best-Face-Swap/blob/main/bfs_body_swap_v1.0_qwen_2.1.safetensors) — BFS Body Swap for Qwen Image 2.1
+    - [X post](https://x.com/Alissonerdx/status/2104336590826840303) — BFS Body Swap for Qwen Image 2.1
+    - [article](https://huggingface.co/Alissonerdx/BFS-Best-Face-Swap/tree/main) — Qwen Image 2.1 Body Swap LoRA Weights
+    - [X post](https://x.com/aisearchio/status/2104366377977196668) — Qwen Image 2.1 Body Swap LoRA Weights
+  - Source author: Alisson Pereira
+  - Priority: P2
+  - Impact: medium
+  - Ease: moderate
+  - Important: yes
+  - Importance reason: This batch combines 2 actions that support the same outcome.
+  - Urgent: no
+  - Urgency reason: Preserved from the member tasks; batch size alone does not create urgency.
+  - Done when: All 2 source-specific items are processed and one combined artifact or decision is recorded.
+  - Effort: 30m
+  - Consolidation key: qwen-body-swap-lora-test
+  - Consolidation reason: Both tasks involve testing the same specific LoRA model (BFS Body Swap) for Qwen Image 2.1. They share the exact execution context (downloading and testing the model) and can be completed in a single session to verify the model's performance.
+  - Consolidated IDs: sc_2ab42ca49ac53673, sc_b685df0f37cb16ce
+  - Consolidated at: 2026-09-28T11:07:37+05:30
+  - Batch size: 2
+  - Matrix order: 8000
+  - Captured: 2026-09-28 09:31 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_2ab42ca49ac53673
+
+- [ ] **Review Jev evals and llama.cpp CLI mastery**
+  - Contains:
+    - Use Jev for Evals: Validate Against Human Labels: Jev is a general-purpose classifier suitable for evals when validated against trusted human labels. The post emphasizes separating data into train, dev, and test sets to avoid overfitting.
+    - llama.cpp CLI flags for local AI mastery: The post argues that using high-level wrappers like Ollama hides critical performance mechanics, urging users to build llama.cpp directly. It details eight specific CLI flags, such as -ngl and -ctk, that control VRAM usage and inference speed. This approach allows developers to understand the underlying hardware constraints of their local AI setup.
+  - Potential benefit: Handles 2 closely related captures in one focused batch.
+  - Intent: learn
+  - Topic: Local AI Engineering
+  - Sources:
+    - [article](https://hamel.dev/blog/posts/evals-faq/can-i-use-jev-for-evals.html) — Use Jev for Evals: Validate Against Human Labels
+    - [X post](https://x.com/HamelHusain/status/2104305090743992821) — Use Jev for Evals: Validate Against Human Labels
+    - [article](http://github.com/ggml-org/llama.cpp) — llama.cpp CLI flags for local AI mastery
+    - [X post](https://x.com/sudoingX/status/2104017679908540472) — llama.cpp CLI flags for local AI mastery
+  - Source author: Hamel Husain
+  - Priority: P1
+  - Impact: medium
+  - Ease: moderate
+  - Important: yes
+  - Importance reason: This batch combines 2 actions that support the same outcome.
+  - Urgent: no
+  - Urgency reason: Preserved from the member tasks; batch size alone does not create urgency.
+  - Done when: All 2 source-specific items are processed and one combined artifact or decision is recorded.
+  - Effort: 45m
+  - Consolidation key: local-ai-engineering-review
+  - Consolidation reason: Both tasks involve deep technical review of local AI infrastructure and evaluation methodologies. Jev evals focus on using Jev for decision-making/evals, while llama.cpp CLI flags focus on understanding local LLM serving mechanics. They share the context of local AI engineering and can be reviewed together to inform infrastructure decisions.
+  - Consolidated IDs: sc_455689100f3c696a, sc_7178f78c387649ab
+  - Consolidated at: 2026-09-28T11:07:37+05:30
+  - Batch size: 2
+  - Matrix order: 9000
+  - Captured: 2026-09-28 07:49 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_455689100f3c696a
+
+- [ ] **Test local AI video generation and chat clients**
+  - Contains:
+    - Minimax H3 Handheld Shaky Cam LoRA: A LoRA model adds realistic handheld camera shake to Stable Diffusion outputs. It targets short-form video aesthetics with dynamic motion blur.
+    - Local Realtime AI Video Chat Client: A local AI client enables real-time voice and video conversation with characters using a single GPU. It bypasses ASR by feeding audio directly to an LLM and uses LTX-2.5 for video generation.
+  - Potential benefit: Handles 2 closely related captures in one focused batch.
+  - Intent: implement
+  - Topic: Local AI Video
+  - Source author: Stable Diffusion Tutorials
+  - Priority: P2
+  - Impact: medium
+  - Ease: moderate
+  - Important: yes
+  - Importance reason: This batch combines 2 actions that support the same outcome.
+  - Urgent: no
+  - Urgency reason: Preserved from the member tasks; batch size alone does not create urgency.
+  - Done when: All 2 source-specific items are processed and one combined artifact or decision is recorded.
+  - Effort: 2h 15m
+  - Consolidation key: local-video-ai-testing
+  - Consolidation reason: Both tasks involve setting up and testing local AI video generation capabilities. The Minimax H3 LoRA is for video aesthetics, and the Local Realtime AI Video Chat Client is for real-time video interaction. They share the execution context of local GPU inference and video pipeline testing.
+  - Consolidated IDs: sc_24747b719124dc16, sc_2296164d5b2626ae
+  - Consolidated at: 2026-09-28T11:07:37+05:30
+  - Batch size: 2
+  - Sources:
+    - [source](https://x.com/SD_Tutorial/status/2103763712356356167) — Minimax H3 Handheld Shaky Cam LoRA
+    - [article](http://github.com/animede/Realtime_Conversation_Video) — Local Realtime AI Video Chat Client
+    - [X post](https://x.com/uzuki425/status/2104115350614995055) — Local Realtime AI Video Chat Client
+  - Matrix order: 10000
+  - Captured: 2026-09-28 07:49 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_24747b719124dc16
+
 - [ ] **Xiaomi MiMo Open-Sourced RL Environments** — [source](https://x.com/adithya_s_k/status/2103737116857708849?s=20)
   - Contains: Xiaomi has open-sourced approximately 7,000 reinforcement learning environments used to train their MiMo model on HuggingFace. The dataset spans multiple domains including code, cybersecurity, general tasks, music, and web development.
   - Potential benefit: This release provides a massive, high-quality dataset for training and evaluating frontier LLM agents. It offers a rare glimpse into the specific environments used by a major player in the RLHF space.
@@ -65,12 +359,13 @@ Rules:
   - Priority: P1
   - Impact: high
   - Ease: easy
-  - Important: yes
+  - Important: no
   - Importance reason: It provides a significant new resource for the open-source community to advance frontier agent capabilities.
-  - Urgent: no
+  - Urgent: yes
   - Urgency reason: The data is already available, so there is no immediate time pressure to act.
   - Done when: Bookmark saved and HuggingFace page checked for immediate access.
   - Effort: 5m
+  - Matrix order: 1500
   - Captured: 2026-09-26 17:14 IST via Telegram · Hermes Swarm / Capture
   - ID: sc_ef86e4e659487716
 
@@ -106,7 +401,7 @@ Rules:
   - Ease: deep
   - Important: yes
   - Importance reason: This batch combines 8 actions that support the same outcome.
-  - Urgent: no
+  - Urgent: yes
   - Urgency reason: Preserved from the member tasks; batch size alone does not create urgency.
   - Done when: All 8 source-specific items are processed and one combined artifact or decision is recorded.
   - Effort: 3h 15m
@@ -115,6 +410,7 @@ Rules:
   - Consolidated IDs: sc_79e697fa7ff15714, sc_543e7610eeac8e7a, sc_17de17f6553b2e59, sc_18afac6e0c33a941, sc_3d7543bbb9cfdb32, sc_f7beca4c14bb8ed8, sc_67af0a52e93d3345, sc_38ffa19f0aa61b7d
   - Consolidated at: 2026-09-26T09:57:15+05:30
   - Batch size: 8
+  - Matrix order: 1500
   - Captured: 2026-09-26 09:22 IST via Telegram · Hermes Swarm / Capture
   - ID: sc_79e697fa7ff15714
 
@@ -133,7 +429,7 @@ Rules:
   - Ease: deep
   - Important: yes
   - Importance reason: This batch combines 4 actions that support the same outcome.
-  - Urgent: no
+  - Urgent: yes
   - Urgency reason: Preserved from the member tasks; batch size alone does not create urgency.
   - Done when: All 4 source-specific items are processed and one combined artifact or decision is recorded.
   - Effort: 55m
@@ -147,6 +443,7 @@ Rules:
     - [source](https://x.com/tamarajtran/status/2100694549362553153?s=20) — Jev Use Case: Instant Compaction
     - [source](https://x.com/Richelle_Ji/status/2101064292242219407?s=20) — Jev Open Source Model Classification
     - [source](https://x.com/BoweFrankema/status/2101244134975562083?s=20) — Install typesafe-ai skill for Jev
+  - Matrix order: 2500
   - Captured: 2026-09-26 09:16 IST via Telegram · Hermes Swarm / Capture
   - ID: sc_d95ff364860b0af0
 
@@ -164,7 +461,7 @@ Rules:
   - Ease: moderate
   - Important: yes
   - Importance reason: This batch combines 3 actions that support the same outcome.
-  - Urgent: no
+  - Urgent: yes
   - Urgency reason: Preserved from the member tasks; batch size alone does not create urgency.
   - Done when: All 3 source-specific items are processed and one combined artifact or decision is recorded.
   - Effort: 35m
@@ -178,18 +475,20 @@ Rules:
     - [article](https://huggingface.co/unsloth/Qwen-Image-2.1-GGUF) — Unsloth GGUFs for Qwen-Image-2.1 on 12GB VRAM
     - [X post](https://x.com/UnslothAI/status/2102431304591761728?s=20) — Unsloth GGUFs for Qwen-Image-2.1 on 12GB VRAM
     - [source](https://x.com/ComfyUI/status/2102499304724381707?s=20) — MiniMax H3 Video VAE Performance Update
+  - Matrix order: 3500
   - Captured: 2026-09-26 09:04 IST via Telegram · Hermes Swarm / Capture
   - ID: sc_acdf7e80cbebe89d
 
-- [ ] **Curate foundational CS and career strategy learning paths**
+- [ ] **Curate CS and urban analytics learning paths**
   - Contains:
-    - Curate distributed systems and AI infrastructure learning paths: Curate distributed systems and CS fundamentals learning path: Distributed Systems Learning Path: Phil Eaton recommends three steps for learning distributed systems: reading DDIA, following MIT 6.5840, and doing the fly.io challenge. The post emphasizes that the order of these steps does not matter.
-    - Curate distributed systems and AI infrastructure learning paths: Curate distributed systems and CS fundamentals learning path: MIT 6.172 Performance Engineering of Software Systems: The MIT OpenCourseWare page for course 6.172 lists 23 lecture videos covering performance optimization, assembly language, and parallel programming. The course is taught by Prof. Charles Leiserson and Prof. Julian Shun in Fall 2018.
-    - Curate distributed systems and AI infrastructure learning paths: Curate distributed systems and CS fundamentals learning path: Teach Yourself Computer Science Guide: The linked guide provides a curated curriculum of nine computer science subjects with recommended textbooks and videos for self-taught engineers. It aims to fill knowledge gaps in areas like algorithms and computer architecture to improve engineering intuition.
-    - Curate distributed systems and AI infrastructure learning paths: Add Inference Engineering Course: The user wants to study inference engineering using a specific roadmap. The post highlights hands-on exercises for building expertise in this field.
-    - Curate distributed systems and AI infrastructure learning paths: Mercor SkyRL 397B RL Training Guide: Mercor details post-training Qwen3.5-397B with SkyRL on knowledge work tasks. They release scripts, weights, and benchmarks showing significant Pass@1 gains.
-    - Dan Koe: Multi-Interest Strategy Summary: The images summarize Dan Koe's article arguing that generalists should build a 'vessel' to channel curiosity into income. It outlines a seven-part framework covering self-education, intersectional advantage, and brand building.
-  - Potential benefit: Handles 6 closely related captures in one focused batch.
+    - Curate foundational CS and career strategy learning paths: Curate distributed systems and AI infrastructure learning paths: Curate distributed systems and CS fundamentals learning path: Distributed Systems Learning Path: Phil Eaton recommends three steps for learning distributed systems: reading DDIA, following MIT 6.5840, and doing the fly.io challenge. The post emphasizes that the order of these steps does not matter.
+    - Curate foundational CS and career strategy learning paths: Curate distributed systems and AI infrastructure learning paths: Curate distributed systems and CS fundamentals learning path: MIT 6.172 Performance Engineering of Software Systems: The MIT OpenCourseWare page for course 6.172 lists 23 lecture videos covering performance optimization, assembly language, and parallel programming. The course is taught by Prof. Charles Leiserson and Prof. Julian Shun in Fall 2018.
+    - Curate foundational CS and career strategy learning paths: Curate distributed systems and AI infrastructure learning paths: Curate distributed systems and CS fundamentals learning path: Teach Yourself Computer Science Guide: The linked guide provides a curated curriculum of nine computer science subjects with recommended textbooks and videos for self-taught engineers. It aims to fill knowledge gaps in areas like algorithms and computer architecture to improve engineering intuition.
+    - Curate foundational CS and career strategy learning paths: Curate distributed systems and AI infrastructure learning paths: Add Inference Engineering Course: The user wants to study inference engineering using a specific roadmap. The post highlights hands-on exercises for building expertise in this field.
+    - Curate foundational CS and career strategy learning paths: Curate distributed systems and AI infrastructure learning paths: Mercor SkyRL 397B RL Training Guide: Mercor details post-training Qwen3.5-397B with SkyRL on knowledge work tasks. They release scripts, weights, and benchmarks showing significant Pass@1 gains.
+    - Curate foundational CS and career strategy learning paths: Dan Koe: Multi-Interest Strategy Summary: The images summarize Dan Koe's article arguing that generalists should build a 'vessel' to channel curiosity into income. It outlines a seven-part framework covering self-education, intersectional advantage, and brand building.
+    - Urban Analytics with Python Course: The post advertises a new course on urban analytics using Python and OpenStreetMap. It outlines six modules covering data acquisition, building footprints, road networks, projections, and livability indices.
+  - Potential benefit: Handles 7 closely related captures in one focused batch.
   - Intent: learn
   - Topic: Education and Career
   - Source author: Tanay Vaswani
@@ -197,16 +496,16 @@ Rules:
   - Impact: medium
   - Ease: deep
   - Important: yes
-  - Importance reason: This batch combines 6 actions that support the same outcome.
-  - Urgent: no
+  - Importance reason: This batch combines 7 actions that support the same outcome.
+  - Urgent: yes
   - Urgency reason: Preserved from the member tasks; batch size alone does not create urgency.
-  - Done when: All 6 source-specific items are processed and one combined artifact or decision is recorded.
-  - Effort: 2h 15m
+  - Done when: All 7 source-specific items are processed and one combined artifact or decision is recorded.
+  - Effort: 2h 30m
   - Consolidation key: cs-and-career-learning-paths
-  - Consolidation reason: Both tasks involve reviewing and selecting educational resources for professional development (distributed systems/CS fundamentals and generalist career strategy). They share the same intent (learn/curate) and can be combined into a single review session for personal knowledge management.
-  - Consolidated IDs: sc_3bc9757af5218ba0, sc_55d37182a1817d19, sc_4bf8ca815d14cb1b, sc_9b1709318059cb86, sc_b84d72a2529e0084, sc_12e12f2e2718a278
-  - Consolidated at: 2026-09-26T09:18:50+05:30
-  - Batch size: 6
+  - Consolidation reason: Both tasks involve curating educational resources for professional development. The Urban Analytics course is a specific technical skill path, while the CS/Career paths are broader foundational learning. They share the intent of 'learn/curate' and can be processed in a single review session for personal knowledge management.
+  - Consolidated IDs: sc_3bc9757af5218ba0, sc_55d37182a1817d19, sc_4bf8ca815d14cb1b, sc_9b1709318059cb86, sc_b84d72a2529e0084, sc_12e12f2e2718a278, sc_59ab824e2a819f78
+  - Consolidated at: 2026-09-28T11:07:37+05:30
+  - Batch size: 7
   - Sources:
     - [source](https://x.com/iTanayVaswani/status/2099331599204814896) — Distributed Systems Learning Path
     - [article](https://ocw.mit.edu/courses/6-172-performance-engineering-of-software-systems-fall-2018/video_galleries/lecture-videos/) — MIT 6.172 Performance Engineering of Software Systems
@@ -217,67 +516,45 @@ Rules:
     - [article](https://www.mercor.com/blog/training-frontier-knowledge-work-agents-a-397b-rl-training-guide-with-skyrl/) — Mercor SkyRL 397B RL Training Guide
     - [X post](https://x.com/adithya_s_k/status/2095809751078907928?s=20) — Mercor SkyRL 397B RL Training Guide
     - [source](https://x.com/MindBranches/status/2096063354682949746) — Dan Koe: Multi-Interest Strategy Summary
+    - [source](https://x.com/milan_janosov/status/2104219527252713532) — Urban Analytics with Python Course
+  - Matrix order: 2000
   - Captured: 2026-09-14 14:41 IST via Telegram · Hermes Swarm / Capture
   - ID: sc_3bc9757af5218ba0
 
-- [ ] **Bookmark video production reference resources**
+- [ ] **Review video production references and apply writing clarity rules**
   - Contains:
-    - Film Techniques Cheat Sheet: The post offers a single-page reference for 150 film techniques with examples and prompts. It serves as a quick lookup tool for visual storytelling and production details.
-    - Video Reference Site for Frames & Motion: This bookmark highlights a website offering video references with frame and motion data. It supports filtering by media type, color, and lighting for quick mood matching.
-  - Potential benefit: Handles 2 closely related captures in one focused batch.
+    - Bookmark video production reference resources: Film Techniques Cheat Sheet: The post offers a single-page reference for 150 film techniques with examples and prompts. It serves as a quick lookup tool for visual storytelling and production details.
+    - Bookmark video production reference resources: Video Reference Site for Frames & Motion: This bookmark highlights a website offering video references with frame and motion data. It supports filtering by media type, color, and lighting for quick mood matching.
+    - Apply writing clarity rules to current drafts: Paul Graham: Write Simply: The attached image summarizes Paul Graham's essay on writing simply, emphasizing that low friction keeps readers engaged. It argues that clarity respects the reader's time and exposes weak thinking while simplicity enforces honesty.
+    - Apply writing clarity rules to current drafts: Apply Orwell's Rules to Avoid AI Slop: The post advocates using Orwell's six writing rules to counteract AI-generated text flaws like passive voice and jargon. This framing positions the rules as a practical defense against incoherent or overly complex AI output.
+    - Apply writing clarity rules to current drafts: GEOFlow 3.0 Enterprise GEO System: GEOFlow 3.0 is an open-source system for enterprise GEO operations, integrating AI content production, quality gates, and multi-site distribution. It centralizes knowledge management and publishing workflows into a unified backend with audit trails.
+  - Potential benefit: Handles 5 closely related captures in one focused batch.
   - Intent: learn
-  - Topic: Video Production
+  - Topic: Creative Skills
   - Source author: Ivan Flugelman — VVSVS™
-  - Priority: P2
+  - Priority: P1
   - Impact: medium
-  - Ease: moderate
+  - Ease: deep
   - Important: yes
-  - Importance reason: This batch combines 2 actions that support the same outcome.
-  - Urgent: no
+  - Importance reason: This batch combines 5 actions that support the same outcome.
+  - Urgent: yes
   - Urgency reason: Preserved from the member tasks; batch size alone does not create urgency.
-  - Done when: All 2 source-specific items are processed and one combined artifact or decision is recorded.
-  - Effort: 10m
-  - Consolidation key: video-production-references
-  - Consolidation reason: Both tasks involve saving specific reference materials for video production (film techniques cheat sheet and video reference site for frames/motion). They share the same low-effort context (bookmarking/saving) and can be done in one quick session.
-  - Consolidated IDs: sc_343fc066b3ce22a9, sc_531c34c19666b083
-  - Consolidated at: 2026-09-26T09:18:50+05:30
-  - Batch size: 2
+  - Done when: All 5 source-specific items are processed and one combined artifact or decision is recorded.
+  - Effort: 1h 30m
+  - Consolidation key: creative-guidelines-review
+  - Consolidation reason: Both tasks involve reviewing and applying specific creative/technical guidelines. The video production references are for visual storytelling, while the writing clarity rules are for textual output. They share the low-effort context of 'review and apply' and can be done in a single focused session of creative skill refinement.
+  - Consolidated IDs: sc_343fc066b3ce22a9, sc_531c34c19666b083, sc_6672ae296a775f36, sc_69babc169e36a663, sc_a3cc9e560c027a7e
+  - Consolidated at: 2026-09-28T11:07:37+05:30
+  - Batch size: 5
   - Sources:
     - [source](https://x.com/_VVSVS/status/2097793753998070056) — Film Techniques Cheat Sheet
     - [source](https://x.com/VibeEverything/status/2094077291941048763) — Video Reference Site for Frames & Motion
-  - Captured: 2026-09-10 16:41 IST via Telegram · Hermes Swarm / Capture
-  - ID: sc_343fc066b3ce22a9
-
-- [ ] **Apply writing clarity rules to current drafts**
-  - Contains:
-    - Apply writing clarity rules to current drafts: Paul Graham: Write Simply: The attached image summarizes Paul Graham's essay on writing simply, emphasizing that low friction keeps readers engaged. It argues that clarity respects the reader's time and exposes weak thinking while simplicity enforces honesty.
-    - Apply writing clarity rules to current drafts: Apply Orwell's Rules to Avoid AI Slop: The post advocates using Orwell's six writing rules to counteract AI-generated text flaws like passive voice and jargon. This framing positions the rules as a practical defense against incoherent or overly complex AI output.
-    - GEOFlow 3.0 Enterprise GEO System: GEOFlow 3.0 is an open-source system for enterprise GEO operations, integrating AI content production, quality gates, and multi-site distribution. It centralizes knowledge management and publishing workflows into a unified backend with audit trails.
-  - Potential benefit: Combines two writing improvement tasks into one editing session, ensuring a comprehensive application of clarity rules.
-  - Intent: implement · inferred
-  - Topic: Writing and Communication
-  - Source author: Nitin
-  - Priority: P1
-  - Impact: medium
-  - Ease: moderate
-  - Important: yes
-  - Importance reason: This batch combines 3 actions that support the same outcome.
-  - Urgent: no
-  - Urgency reason: Preserved from the member tasks; batch size alone does not create urgency.
-  - Done when: One current draft is edited to remove passive voice, jargon, and unnecessary words, applying both Paul Graham's and Orwell's principles.
-  - Effort: 1h 20m
-  - Consolidation key: apply-writing-clarity-rules
-  - Consolidation reason: Both tasks involve applying specific writing principles to improve clarity and reduce 'AI slop'. Paul Graham's 'Write Simply' emphasizes low friction and honesty, while Orwell's rules target passive voice and jargon. Both are 'implement' tasks with a similar effort (15m) and can be done by applying these rules to the same current draft or writing project.
-  - Consolidated IDs: sc_6672ae296a775f36, sc_69babc169e36a663, sc_a3cc9e560c027a7e
-  - Consolidated at: 2026-09-16T21:02:03+05:30
-  - Batch size: 3
-  - Sources:
     - [source](https://x.com/rdominguezibar/status/2096314617421000881) — Paul Graham: Write Simply
     - [source](https://x.com/josephfwyer/status/2092819538505273544) — Apply Orwell's Rules to Avoid AI Slop
     - [article](https://github.com/yaojingang/GEOFlow) — GEOFlow 3.0 Enterprise GEO System
     - [X post](https://x.com/yaojingang/status/2096030272538255559?s=20) — GEOFlow 3.0 Enterprise GEO System
-  - Captured: 2026-09-06 09:26 IST via Telegram · Hermes Swarm / Capture
-  - ID: sc_6672ae296a775f36
+  - Captured: 2026-09-10 16:41 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_343fc066b3ce22a9
 
 - [ ] **Configure local automation and agent infrastructure**
   - Contains:
@@ -304,7 +581,7 @@ Rules:
   - Ease: deep
   - Important: yes
   - Importance reason: This batch combines 5 actions that support the same outcome.
-  - Urgent: no
+  - Urgent: yes
   - Urgency reason: Preserved from the member tasks; batch size alone does not create urgency.
   - Done when: All 5 source-specific items are processed and one combined artifact or decision is recorded.
   - Effort: 1h 10m
@@ -313,6 +590,7 @@ Rules:
   - Consolidated IDs: sc_0c0680bce76a2f5a, sc_036930e3e7d9f16f, sc_d39136a49c721fd8, sc_1b92ae032bcd84ba, sc_15233c529d70f730
   - Consolidated at: 2026-09-26T09:57:15+05:30
   - Batch size: 5
+  - Matrix order: 2750
   - Captured: 2026-09-05 18:07 IST via Telegram · Hermes Swarm / Capture
   - ID: sc_0c0680bce76a2f5a
 
@@ -331,6 +609,7 @@ Rules:
   - Urgency reason: The skills are valuable but not immediately time-sensitive for most current workflows. Learning can be paced according to personal development goals.
   - Done when: Custom op is successfully integrated and profiled in vLLM or SGLang.
   - Effort: 2d
+  - Matrix order: 11000
   - Captured: 2026-09-04 08:11 IST via Telegram · Hermes Swarm / Capture
   - ID: sc_c6abf5fb499a0926
 
@@ -356,7 +635,7 @@ Rules:
   - Ease: deep
   - Important: yes
   - Importance reason: This batch combines 4 actions that support the same outcome.
-  - Urgent: no
+  - Urgent: yes
   - Urgency reason: Preserved from the member tasks; batch size alone does not create urgency.
   - Done when: oh-my-hermes is installed and running, Telegram bridge is connected and responding, and at least one automation bot is deployed and verified on the DGX Spark.
   - Effort: 4d 45m
@@ -365,6 +644,7 @@ Rules:
   - Consolidated IDs: sc_be80ae1bec07939f, sc_887a47a1d55c8383, sc_2fc9d70c74d83393, sc_2f9a28b1825645ad
   - Consolidated at: 2026-09-16T21:02:03+05:30
   - Batch size: 4
+  - Matrix order: 3000
   - Captured: 2026-09-04 07:53 IST via Telegram · Hermes Swarm / Capture
   - ID: sc_be80ae1bec07939f
 
@@ -381,7 +661,7 @@ Rules:
   - Ease: moderate
   - Important: yes
   - Importance reason: This batch combines 2 actions that support the same outcome.
-  - Urgent: no
+  - Urgent: yes
   - Urgency reason: Preserved from the member tasks; batch size alone does not create urgency.
   - Done when: All 2 source-specific items are processed and one combined artifact or decision is recorded.
   - Effort: 30m
@@ -393,97 +673,9 @@ Rules:
   - Sources:
     - [source](https://x.com/Zhiyu333/status/2094719194302706136) — Lieflat Charts: HTML-based AI Visualization Skill
     - [source](https://x.com/yadong_xie/status/2092623470630973826?s=20) — Blueprint UI Dashboard Idea
+  - Matrix order: 4500
   - Captured: 2026-09-02 12:14 IST via Telegram · Hermes Swarm / Capture
   - ID: sc_1b9faaef9bc74916
-
-- [ ] **Review AI model and market research briefs**
-  - Contains:
-    - NVIDIA Nemotron 3.5 Lightning for Agentic Workflows: The post highlights Nemotron 3.5 Lightning as a high-speed model for lightweight coding and agentic tasks on DGX Spark. The attached image confirms the product name and its positioning as an AI agent workhorse.
-    - Women's Fitness App Revenue Benchmarks: The post claims building workout apps for women is highly profitable. The attached AppKittie screenshot lists top-grossing apps like Sweat and EvolveYou with revenues up to $1M.
-  - Potential benefit: Handles 2 closely related captures in one focused batch.
-  - Intent: learn
-  - Topic: Research
-  - Source author: Mia
-  - Priority: P1
-  - Impact: medium
-  - Ease: moderate
-  - Important: yes
-  - Importance reason: This batch combines 2 actions that support the same outcome.
-  - Urgent: no
-  - Urgency reason: Preserved from the member tasks; batch size alone does not create urgency.
-  - Done when: All 2 source-specific items are processed and one combined artifact or decision is recorded.
-  - Effort: 10m
-  - Consolidation key: ai-model-and-market-briefs
-  - Consolidation reason: Both tasks involve reviewing specific technical or market briefs (NVIDIA Nemotron specs and Women's Fitness App revenue benchmarks). They share the same low-effort context (reading/reviewing) and can be done in one quick session.
-  - Consolidated IDs: sc_39ea631b4ff44dd7, sc_8cb5f6bbdc2c819d
-  - Consolidated at: 2026-09-26T09:18:50+05:30
-  - Batch size: 2
-  - Sources:
-    - [source](https://x.com/MiaAI_lab/status/2094045216353251361) — NVIDIA Nemotron 3.5 Lightning for Agentic Workflows
-    - [source](https://x.com/jacobrodri_/status/2094056970223292618) — Women's Fitness App Revenue Benchmarks
-  - Captured: 2026-08-31 12:45 IST via Telegram · Hermes Swarm / Capture
-  - ID: sc_39ea631b4ff44dd7
-
-- [ ] **Review database simulation and AI coding prompt resources**
-  - Contains:
-    - BreakScale DB Simulation Tool: The post praises BreakScale for simulating database reactions to request loads. It encourages users to explore the tool to understand backend mechanics.
-    - Free UI Prompts for AI Coding Agents: The post shares a collection of free UI prompts to help AI coding agents generate better-looking designs. It suggests copying these prompts to create unique interfaces without detailed manual descriptions.
-  - Potential benefit: Handles 2 closely related captures in one focused batch.
-  - Intent: learn
-  - Topic: Technical Resources
-  - Source author: Ojas Sharma
-  - Priority: P2
-  - Impact: medium
-  - Ease: moderate
-  - Important: yes
-  - Importance reason: This batch combines 2 actions that support the same outcome.
-  - Urgent: no
-  - Urgency reason: Preserved from the member tasks; batch size alone does not create urgency.
-  - Done when: All 2 source-specific items are processed and one combined artifact or decision is recorded.
-  - Effort: 10m
-  - Consolidation key: db-sim-and-ai-prompts
-  - Consolidation reason: Both tasks involve reviewing specific technical resources (BreakScale DB simulation and Free UI Prompts for AI agents). They share the same low-effort context (exploring/saving) and can be done in one quick session.
-  - Consolidated IDs: sc_7fb7a8d5c04d14a3, sc_ae013dd6b26e0a04
-  - Consolidated at: 2026-09-26T09:18:50+05:30
-  - Batch size: 2
-  - Sources:
-    - [source](https://x.com/OjasSharma276/status/2093593295658397934) — BreakScale DB Simulation Tool
-    - [source](https://x.com/rammcodes/status/2093377746852511919) — Free UI Prompts for AI Coding Agents
-  - Captured: 2026-08-30 05:15 IST via Telegram · Hermes Swarm / Capture
-  - ID: sc_7fb7a8d5c04d14a3
-
-- [ ] **Benchmark local AI models on DGX Spark hardware**
-  - Contains:
-    - Benchmark local AI models on DGX Spark hardware: Benchmark and test local models on DGX Spark hardware: Test Minimax H3 Max on RTX 5000: The user wants to test Minimax H3 Max locally on an RTX 5000 GPU. This is a concrete technical exploration task based on a viral demo.
-    - Benchmark local AI models on DGX Spark hardware: Benchmark and test local models on DGX Spark hardware: Benchmark Qwen3.8-27B BF16 lm_head update on DGX Spark: Qwen3.8-27B model update with new BF16 lm_head from SGLang project, claimed to give significant accuracy improvement. Pre-built Docker images available for RTX PRO 6000 and DGX Spark. Community reports token generation nearly doubled from pure BF16 with almost no quality loss. One commenter asks if it fixes the 'overthinking problem.'
-    - Benchmark local AI models on DGX Spark hardware: DeepSeek V4 Flash on 2x DGX Spark: MiaAI Lab released a recipe for running DeepSeek V4 Flash on dual DGX Sparks using vLLM and speculative decoding. The post highlights performance improvements and credits PlotArmor Dev for the project contributions.
-    - Benchmark Perplexity Portable Computer against Hermes on one local-agent workflow: Perplexity announced Portable Computer for NVIDIA DGX Spark: a local agent runtime with orchestrator, subagent model, and harness running on-device, using a post-trained PPLX 27B model with other local models planned. Hybrid routing can request approval before using frontier cloud models.
-  - Potential benefit: Handles 3 closely related captures in one focused batch.
-  - Intent: test · inferred
-  - Topic: Local AI Inference
-  - Source author: Nitin
-  - Priority: P1
-  - Impact: medium
-  - Ease: deep
-  - Important: yes
-  - Importance reason: This batch combines 4 actions that support the same outcome.
-  - Urgent: no
-  - Urgency reason: Preserved from the member tasks; batch size alone does not create urgency.
-  - Done when: All 3 source-specific items are processed and one combined artifact or decision is recorded.
-  - Effort: half-day
-  - Consolidation key: dgx-spark-model-benchmarks
-  - Consolidation reason: Both tasks involve testing or benchmarking specific AI models on the user's DGX Spark hardware. They share the same execution context (DGX Spark), same intent (test/benchmark), and can be completed in a single hardware-focused session to compare performance and resource usage.
-  - Consolidated IDs: sc_2674a104ad7790d2, sc_3c232f8d7e1624b1, sc_08ee7b62d73785b8, sc_d431a02d7a4e3e98
-  - Consolidated at: 2026-09-16T21:02:03+05:30
-  - Batch size: 4
-  - Sources:
-    - [source](https://x.com/rehan_shei/status/2093528415576211819) — Test Minimax H3 Max on RTX 5000
-    - [source](https://x.com/MiaAI_lab/status/2092017038319386782) — Benchmark Qwen3.8-27B BF16 lm_head update on DGX Spark
-    - [article](https://github.com/MiaAI-Lab/DeepSeek-v4-Flash-DSpark-2x-DGX-Spark) — DeepSeek V4 Flash on 2x DGX Spark
-    - [X post](https://x.com/MiaAI_lab/status/2092366604604502029?s=20) — DeepSeek V4 Flash on 2x DGX Spark
-    - [source](https://x.com/perplexity_ai/status/2092268362386780270) — Benchmark Perplexity Portable Computer against Hermes on one local-agent workflow
-  - Captured: 2026-08-29 12:05 IST via Telegram · Hermes Swarm / Capture
-  - ID: sc_2674a104ad7790d2
 
 - [ ] **Build a centralized AI knowledge and skill governance system**
   - Contains:
@@ -503,9 +695,9 @@ Rules:
   - Priority: P1
   - Impact: high
   - Ease: moderate
-  - Important: yes
+  - Important: no
   - Importance reason: This batch combines 3 actions that support the same outcome.
-  - Urgent: no
+  - Urgent: yes
   - Urgency reason: Preserved from the member tasks; batch size alone does not create urgency.
   - Done when: One document maps the four core Company Brain functions to concrete tools or patterns available in the current stack, with a pilot skill or correction repository created.
   - Effort: 1h 45m
@@ -514,123 +706,132 @@ Rules:
   - Consolidated IDs: sc_490a08dd1f72970f, sc_02d9fcd50189fb31, sc_2297d258364d622b
   - Consolidated at: 2026-09-16T21:02:03+05:30
   - Batch size: 3
+  - Matrix order: 4125/4
   - Captured: 2026-08-27 19:28 IST via Telegram · Hermes Swarm / Capture
   - ID: sc_490a08dd1f72970f
 
-- [ ] **AI Volume Job Search Strategy** — [source](https://lnkd.in/p/dpp-ay2w)
-  - Contains: The post advocates using AI to generate hundreds of personalized CVs to secure volume. This approach treats early interviews as practice for soft skills.
-  - Potential benefit: It reframes job hunting as a high-volume experiment rather than a quality contest. The goal is learning corporate dynamics through repeated exposure.
-  - Intent: implement · inferred
-  - Topic: Career Strategy
-  - Source author: lnkd.in
-  - Priority: P2
-  - Impact: medium
-  - Ease: moderate
-  - Important: yes
-  - Importance reason: It addresses a critical barrier for graduates entering a competitive market. The method offers a scalable way to gain necessary experience.
-  - Urgent: no
-  - Urgency reason: Job hunting is ongoing but not an immediate emergency requiring instant action. The advice is useful for current or future applications.
-  - Done when: You have drafted and sent a batch of AI-assisted applications. You have conducted at least one practice interview.
-  - Effort: 30m
-  - Captured: 2026-08-27 16:40 IST via Telegram · Hermes Swarm / Capture
-  - ID: sc_08365b2eb7f188ab
-
-- [ ] **Bookmark AI research and engineering references**
+- [ ] **Bookmark AI research and technical resources**
   - Contains:
-    - Top 9 Most Impactful AI Papers of 2026 (Papers With Code): Niels Rogge shares a list of the top 9 most impactful AI papers of 2026 based on Papers With Code citation counts as of August 26, 2026. The list highlights key advancements in LLMs, agentic coding, and robotics, with DeepSeek-V4 leading the rankings.
-    - Machine Learning Engineering Open Book by Stas Bekman: Stas Bekman released a massively revised August 2026 edition of his Machine Learning Engineering open book, now 498 pages long. The update refreshes high-end hardware specs, recent PyTorch/CUDA examples, and fixes prior bugs and inaccuracies.
-  - Potential benefit: Handles 2 closely related captures in one focused batch.
+    - Bookmark AI research and engineering references: Top 9 Most Impactful AI Papers of 2026 (Papers With Code): Niels Rogge shares a list of the top 9 most impactful AI papers of 2026 based on Papers With Code citation counts as of August 26, 2026. The list highlights key advancements in LLMs, agentic coding, and robotics, with DeepSeek-V4 leading the rankings.
+    - Bookmark AI research and engineering references: Machine Learning Engineering Open Book by Stas Bekman: Stas Bekman released a massively revised August 2026 edition of his Machine Learning Engineering open book, now 498 pages long. The update refreshes high-end hardware specs, recent PyTorch/CUDA examples, and fixes prior bugs and inaccuracies.
+    - Review AI model and market research briefs: NVIDIA Nemotron 3.5 Lightning for Agentic Workflows: The post highlights Nemotron 3.5 Lightning as a high-speed model for lightweight coding and agentic tasks on DGX Spark. The attached image confirms the product name and its positioning as an AI agent workhorse.
+    - Review AI model and market research briefs: Women's Fitness App Revenue Benchmarks: The post claims building workout apps for women is highly profitable. The attached AppKittie screenshot lists top-grossing apps like Sweat and EvolveYou with revenues up to $1M.
+  - Potential benefit: Handles 4 closely related captures in one focused batch.
   - Intent: learn
   - Topic: AI Research
   - Source author: Niels Rogge
   - Priority: P1
   - Impact: medium
-  - Ease: moderate
+  - Ease: deep
   - Important: yes
-  - Importance reason: This batch combines 2 actions that support the same outcome.
+  - Importance reason: This batch combines 4 actions that support the same outcome.
   - Urgent: no
   - Urgency reason: Preserved from the member tasks; batch size alone does not create urgency.
-  - Done when: All 2 source-specific items are processed and one combined artifact or decision is recorded.
-  - Effort: 10m
+  - Done when: All 4 source-specific items are processed and one combined artifact or decision is recorded.
+  - Effort: 20m
   - Consolidation key: ai-research-references
-  - Consolidation reason: Both tasks involve bookmarking high-level reference materials (Top AI Papers 2026 and Stas Bekman's ML Engineering book). They share the same intent (read/learn) and can be combined into a single reference collection update.
-  - Consolidated IDs: sc_d79f31a16e7ed621, sc_b7864fcb39b68475
-  - Consolidated at: 2026-09-26T09:18:50+05:30
-  - Batch size: 2
+  - Consolidation reason: Both tasks involve bookmarking high-level reference materials. The AI papers list is for research trends, while the DB simulation and UI prompts are for technical tools. They share the low-effort context of 'bookmarking/saving' and can be done in one quick session of resource curation.
+  - Consolidated IDs: sc_d79f31a16e7ed621, sc_b7864fcb39b68475, sc_39ea631b4ff44dd7, sc_8cb5f6bbdc2c819d
+  - Consolidated at: 2026-09-28T11:07:37+05:30
+  - Batch size: 4
   - Sources:
     - [source](https://x.com/NielsRogge/status/2092654851322777934) — Top 9 Most Impactful AI Papers of 2026 (Papers With Code)
     - [article](https://github.com/stas00/ml-engineering) — Machine Learning Engineering Open Book by Stas Bekman
     - [X post](https://x.com/StasBekman/status/2092668712830513233?s=20) — Machine Learning Engineering Open Book by Stas Bekman
+    - [source](https://x.com/MiaAI_lab/status/2094045216353251361) — NVIDIA Nemotron 3.5 Lightning for Agentic Workflows
+    - [source](https://x.com/jacobrodri_/status/2094056970223292618) — Women's Fitness App Revenue Benchmarks
+  - Matrix order: 12000
   - Captured: 2026-08-27 11:06 IST via Telegram · Hermes Swarm / Capture
   - ID: sc_d79f31a16e7ed621
 
-- [ ] **Test local AI video automation and clipping tools**
+- [ ] **Test local AI video and model benchmarks**
   - Contains:
-    - OpenMontage: Agentic Video Production: OpenMontage automates video creation via 700+ agents, handling scripting, asset retrieval, and editing from plain text prompts. It enables full pipeline replication of viral content without manual intervention.
-    - Evaluate the self-hosted AI video clipping tool: An open-source clipping tool for YouTube or local videos with self-hosting, no watermarks or usage limits, model customization, and a claimed paid-Gemini dependency.
-  - Potential benefit: Handles 2 closely related captures in one focused batch.
+    - Test local AI video automation and clipping tools: OpenMontage: Agentic Video Production: OpenMontage automates video creation via 700+ agents, handling scripting, asset retrieval, and editing from plain text prompts. It enables full pipeline replication of viral content without manual intervention.
+    - Test local AI video automation and clipping tools: Evaluate the self-hosted AI video clipping tool: An open-source clipping tool for YouTube or local videos with self-hosting, no watermarks or usage limits, model customization, and a claimed paid-Gemini dependency.
+    - Benchmark local AI models on DGX Spark hardware: Benchmark and test local models on DGX Spark hardware: Test Minimax H3 Max on RTX 5000: The user wants to test Minimax H3 Max locally on an RTX 5000 GPU. This is a concrete technical exploration task based on a viral demo.
+    - Benchmark local AI models on DGX Spark hardware: Benchmark and test local models on DGX Spark hardware: Benchmark Qwen3.8-27B BF16 lm_head update on DGX Spark: Qwen3.8-27B model update with new BF16 lm_head from SGLang project, claimed to give significant accuracy improvement. Pre-built Docker images available for RTX PRO 6000 and DGX Spark. Community reports token generation nearly doubled from pure BF16 with almost no quality loss. One commenter asks if it fixes the 'overthinking problem.'
+    - Benchmark local AI models on DGX Spark hardware: DeepSeek V4 Flash on 2x DGX Spark: MiaAI Lab released a recipe for running DeepSeek V4 Flash on dual DGX Sparks using vLLM and speculative decoding. The post highlights performance improvements and credits PlotArmor Dev for the project contributions.
+    - Benchmark local AI models on DGX Spark hardware: Benchmark Perplexity Portable Computer against Hermes on one local-agent workflow: Perplexity announced Portable Computer for NVIDIA DGX Spark: a local agent runtime with orchestrator, subagent model, and harness running on-device, using a post-trained PPLX 27B model with other local models planned. Hybrid routing can request approval before using frontier cloud models.
+  - Potential benefit: Handles 6 closely related captures in one focused batch.
   - Intent: test
-  - Topic: Video AI
+  - Topic: Local AI
   - Sources:
     - [article](http://github.com/calesthio/OpenMontage) — OpenMontage: Agentic Video Production
     - [X post](https://x.com/huoshan007/status/2092463295194104276) — OpenMontage: Agentic Video Production
     - [X post](https://x.com/vikktorrrre/status/2092195882472997305) — Evaluate the self-hosted AI video clipping tool
+    - [source](https://x.com/rehan_shei/status/2093528415576211819) — Test Minimax H3 Max on RTX 5000
+    - [source](https://x.com/MiaAI_lab/status/2092017038319386782) — Benchmark Qwen3.8-27B BF16 lm_head update on DGX Spark
+    - [article](https://github.com/MiaAI-Lab/DeepSeek-v4-Flash-DSpark-2x-DGX-Spark) — DeepSeek V4 Flash on 2x DGX Spark
+    - [X post](https://x.com/MiaAI_lab/status/2092366604604502029?s=20) — DeepSeek V4 Flash on 2x DGX Spark
+    - [source](https://x.com/perplexity_ai/status/2092268362386780270) — Benchmark Perplexity Portable Computer against Hermes on one local-agent workflow
   - Source author: 火山哥🕊️
   - Priority: P1
   - Impact: medium
-  - Ease: moderate
-  - Important: yes
-  - Importance reason: This batch combines 2 actions that support the same outcome.
-  - Urgent: no
+  - Ease: deep
+  - Important: no
+  - Importance reason: This batch combines 6 actions that support the same outcome.
+  - Urgent: yes
   - Urgency reason: Preserved from the member tasks; batch size alone does not create urgency.
-  - Done when: All 2 source-specific items are processed and one combined artifact or decision is recorded.
-  - Effort: 1h 15m
-  - Consolidation key: local-video-ai-testing
-  - Consolidation reason: Both tasks involve testing specific local AI video tools (OpenMontage for production and a self-hosted clipping tool). They share the same execution context (local video AI testing) and can be combined into a single evaluation session.
-  - Consolidated IDs: sc_db74d7ad59d793e8, sc_d008c9d3fd8827e8
-  - Consolidated at: 2026-09-26T09:18:50+05:30
-  - Batch size: 2
+  - Done when: All 6 source-specific items are processed and one combined artifact or decision is recorded.
+  - Effort: 5h 15m
+  - Consolidation key: local-ai-testing
+  - Consolidation reason: Both tasks involve testing local AI models. The video automation tools are for content creation, while the model benchmarks are for performance evaluation. They share the execution context of local hardware testing and can be combined into a single evaluation session.
+  - Consolidated IDs: sc_db74d7ad59d793e8, sc_d008c9d3fd8827e8, sc_2674a104ad7790d2, sc_3c232f8d7e1624b1, sc_08ee7b62d73785b8, sc_d431a02d7a4e3e98
+  - Consolidated at: 2026-09-28T11:07:37+05:30
+  - Batch size: 6
+  - Matrix order: 2125/2
   - Captured: 2026-08-27 08:54 IST via Telegram · Hermes Swarm / Capture
   - ID: sc_db74d7ad59d793e8
 
-- [ ] **Review interview guides and build a combined senior AI interview prep checklist**
+- [ ] **Review senior AI interview prep and personal brand content**
   - Contains:
     - Review interview guides and build a combined senior AI interview prep checklist: Microsoft Applied Scientist 2 Interview Guide: The post details a five-round Microsoft Applied Scientist 2 interview process emphasizing deep technical intuition. It covers screening, DSA, statistics, ML depth, and behavioral rounds with specific topic examples. This provides a concrete roadmap for candidates preparing for similar high-level technical roles. Understanding this structure helps applicants focus on reasoning rather than rote memorization.
     - Review interview guides and build a combined senior AI interview prep checklist: Agentic AI Interview Gaps: Eval & Orchestration: The post highlights that RAG implementation skills are common, but candidates lack depth in evaluation, embedding selection, and agent orchestration. It argues that production readiness requires mastering metrics like precision and tools like LangGraph.
-    - Execute senior AI career preparation actions: Recruiting: Relevance Over Volume: Personalized outreach using eight minutes of research significantly boosts response rates compared to bulk messaging. This shift from volume to relevance transforms candidate engagement and hiring efficiency.
-    - Execute senior AI career preparation actions: Evaluate OpenAI Applied AI Architect and Engineer roles for fit: OpenAI is hiring Applied AI Architect and Applied AI Engineer in Delhi, India. The roles focus on helping customers turn frontier models into production systems. Application form and job pages linked by poster @arjun_gupta95. Nitin's stated preference: OpenAI and top frontier labs are worth exploring regardless of location.
-  - Potential benefit: One focused review session covering both Microsoft Applied Scientist 2 and agentic AI interview expectations, producing a unified prep checklist.
-  - Intent: learn · inferred
+    - Review interview guides and build a combined senior AI interview prep checklist: Execute senior AI career preparation actions: Recruiting: Relevance Over Volume: Personalized outreach using eight minutes of research significantly boosts response rates compared to bulk messaging. This shift from volume to relevance transforms candidate engagement and hiring efficiency.
+    - Review interview guides and build a combined senior AI interview prep checklist: Execute senior AI career preparation actions: Evaluate OpenAI Applied AI Architect and Engineer roles for fit: OpenAI is hiring Applied AI Architect and Applied AI Engineer in Delhi, India. The roles focus on helping customers turn frontier models into production systems. Application form and job pages linked by poster @arjun_gupta95. Nitin's stated preference: OpenAI and top frontier labs are worth exploring regardless of location.
+    - Prepare AI personal brand content and UI grounding: Strengthen agent-built UI grounding with vetted references and reusable components: Build an agent-ready frontend component reference library from proven product patterns: Machina describes replacing one-shot frontend prompting with a curated “Lego” of components extracted from products such as Stripe and Linear. Agents receive real reference links, fetch component patterns, and adapt vetted pieces rather than inventing an entire design from abstract style prompts; a top reply also points to Mobbin MCP for collecting product-design references.
+    - Prepare AI personal brand content and UI grounding: Strengthen agent-built UI grounding with vetted references and reusable components: Add five concrete design-reference sites to the Kole Jain UI/UX skill: The post curates five grounding resources for AI coding agents: ui-skills.com for UI patterns, coss.com/ui for interface examples, designsystemchecklist.com for audits, reui.io/components for reusable components, and emilkowal.ski/ui/you-dont-need-animations for avoiding decorative animation. These supplement the existing Kole Jain principles with concrete references.
+    - Prepare AI personal brand content and UI grounding: Outline a four-post dual-DGX-Spark build-in-public series: Sudo says NVIDIA supplied both of his DGX Sparks after a year of consistently publishing hands-on local-AI work as a solo builder; the attached photo visibly shows two DGX Spark units, branded packaging, and a high-speed cable, while the quoted post proposes joining the systems for larger distributed-model workloads.
+    - Prepare AI personal brand content and UI grounding: Run a ThreeUI fit spike for one agent-built frontend: Meng To open-sourced ThreeUI, a library of more than 160 procedural three.js components and landing pages, generally 100–200 KB each, with agent skills for adjusting theme, lighting, motion, and layout. A paid tier adds more components and MCP support.
+    - Prepare AI personal brand content and UI grounding: Publish personal-brand pages in an AI-readable format: A prompt and publishing workflow for turning a website into structured Markdown that AI agents can discover, parse, and retrieve more reliably than presentation-first pages.
+  - Potential benefit: Handles 9 closely related captures in one focused batch.
+  - Intent: implement
   - Topic: Career Preparation
   - Source author: www.linkedin.com / www.linkedin.com
   - Priority: P1
   - Impact: medium
   - Ease: deep
-  - Important: yes
-  - Importance reason: This batch combines 4 actions that support the same outcome.
+  - Important: no
+  - Importance reason: This batch combines 9 actions that support the same outcome.
   - Urgent: yes
   - Urgency reason: Preserved from the member tasks; batch size alone does not create urgency.
-  - Done when: Both guides are reviewed and a single combined checklist is produced covering technical depth, evaluation/orchestration skills, and behavioral preparation.
-  - Effort: 1h 45m
-  - Matrix order: 2000
-  - Consolidation key: review-senior-ai-interview-prep-guides
-  - Consolidation reason: Both tasks address understanding interview structure and skill gaps for senior AI/ML roles. Consolidating into one batch avoids reviewing overlapping topics (DSA, ML depth, evaluation, orchestration) separately.
-  - Consolidated IDs: sc_fe86ee294179a282, sc_9c20596fdfd8a191, sc_2a44ee5495ea0eb9, sc_81de50ddaaaccff4
-  - Consolidated at: 2026-09-16T21:02:03+05:30
-  - Batch size: 4
+  - Done when: All 9 source-specific items are processed and one combined artifact or decision is recorded.
+  - Effort: 7h 15m
+  - Matrix order: 1000
+  - Consolidation key: senior-ai-career-prep
+  - Consolidation reason: Both tasks involve preparing for senior AI roles. The interview prep guides provide the technical/behavioral framework, while the personal brand content builds the necessary credibility and visibility. They share the intent of 'career preparation' and can be processed in a single session of professional development.
+  - Consolidated IDs: sc_fe86ee294179a282, sc_9c20596fdfd8a191, sc_2a44ee5495ea0eb9, sc_81de50ddaaaccff4, sc_4cea548f48144c0e, sc_e24295fc2920d36a, sc_19529a865b85742d, sc_94eada8d053c1211, sc_dabb85ee65b0fc25
+  - Consolidated at: 2026-09-28T11:07:37+05:30
+  - Batch size: 9
   - Sources:
     - [source](https://www.linkedin.com/feed/update/urn:li:activity:7490262829577441281?updateEntityUrn=urn%3Ali%3Afs_updateV2%3A%28urn%3Ali%3Aactivity%3A7490262829577441281%2CFEED_DETAIL%2CEMPTY%2CDEFAULT%2Cfalse%29) — Microsoft Applied Scientist 2 Interview Guide
     - [source](https://www.linkedin.com/feed/update/urn:li:activity:7497990088187019264?updateEntityUrn=urn%3Ali%3Afs_updateV2%3A%28urn%3Ali%3Aactivity%3A7497990088187019264%2CFEED_DETAIL%2CEMPTY%2CDEFAULT%2Cfalse%29) — Agentic AI Interview Gaps: Eval & Orchestration
     - [source](https://www.linkedin.com/feed/update/urn:li:activity:7495447513139896320?updateEntityUrn=urn%3Ali%3Afs_updateV2%3A%28urn%3Ali%3Aactivity%3A7495447513139896320%2CFEED_DETAIL%2CEMPTY%2CDEFAULT%2Cfalse%29) — Recruiting: Relevance Over Volume
     - [source](https://x.com/arjun_gupta95/status/2091909090704503119) — Evaluate OpenAI Applied AI Architect and Engineer roles for fit
+    - [source](https://x.com/EXM7777/status/2092250905655812121) — Build an agent-ready frontend component reference library from proven product patterns
+    - [source](https://x.com/eptwts/status/2092298910190448727) — Add five concrete design-reference sites to the Kole Jain UI/UX skill
+    - [source](https://x.com/sudoingX/status/2090304783370559565) — Outline a four-post dual-DGX-Spark build-in-public series
+    - [source](https://x.com/MengTo/status/2090817187900780961) — Run a ThreeUI fit spike for one agent-built frontend
+    - [source](https://x.com/zenorocha/status/2087547759083901252) — Publish personal-brand pages in an AI-readable format
   - Captured: 2026-08-27 08:21 IST via Telegram · Hermes Swarm / Capture
   - ID: sc_fe86ee294179a282
 
-- [ ] **Explore passive income and AI career automation ideas**
+- [ ] **Explore AI career and income automation ideas**
   - Contains:
-    - Passive Income via Single Long-Form Video: A single 10-hour fireplace video generated over $1M in estimated ad revenue through compounding watch time. This demonstrates how low-effort, high-retention content can create significant long-term passive income streams.
-    - Hermes Agent X Profile to Job Hunt: The post describes using the Hermes Agent to autonomously search for AI Automation Engineer roles by analyzing a public X profile without a traditional résumé. It highlights the agent's ability to verify job validity, match experience, and identify skill gaps rather than fabricating qualifications.
-  - Potential benefit: Handles 2 closely related captures in one focused batch.
+    - Explore passive income and AI career automation ideas: Passive Income via Single Long-Form Video: A single 10-hour fireplace video generated over $1M in estimated ad revenue through compounding watch time. This demonstrates how low-effort, high-retention content can create significant long-term passive income streams.
+    - Explore passive income and AI career automation ideas: Hermes Agent X Profile to Job Hunt: The post describes using the Hermes Agent to autonomously search for AI Automation Engineer roles by analyzing a public X profile without a traditional résumé. It highlights the agent's ability to verify job validity, match experience, and identify skill gaps rather than fabricating qualifications.
+    - AI Volume Job Search Strategy: The post advocates using AI to generate hundreds of personalized CVs to secure volume. This approach treats early interviews as practice for soft skills.
+  - Potential benefit: Handles 3 closely related captures in one focused batch.
   - Intent: idea
   - Topic: Career and Income
   - Source author: startupbroclassic
@@ -638,313 +839,192 @@ Rules:
   - Impact: medium
   - Ease: moderate
   - Important: yes
-  - Importance reason: This batch combines 2 actions that support the same outcome.
-  - Urgent: no
-  - Urgency reason: Preserved from the member tasks; batch size alone does not create urgency.
-  - Done when: All 2 source-specific items are processed and one combined artifact or decision is recorded.
-  - Effort: 1h 30m
-  - Consolidation key: ai-income-and-career-ideas
-  - Consolidation reason: Both tasks involve exploring specific ideas for passive income and career automation using AI (single long-form video and Hermes Agent job hunting). They share the same intent (idea/exploration) and can be reviewed together.
-  - Consolidated IDs: sc_9a42de6cc8ec6564, sc_3e576a2075d57586
-  - Consolidated at: 2026-09-26T09:18:50+05:30
-  - Batch size: 2
-  - Sources:
-    - [source](https://www.instagram.com/p/Db1ZN0UlHY0/?img_index=1&igsi=MXJ1ajV2c3oxZmpueQ==) — Passive Income via Single Long-Form Video
-    - [source](https://x.com/BkashJosi/status/2092558415742791802?s=20) — Hermes Agent X Profile to Job Hunt
-  - Captured: 2026-08-26 22:24 IST via Telegram · Hermes Swarm / Capture
-  - ID: sc_9a42de6cc8ec6564
-
-- [ ] **Review open-source AI infrastructure and collaboration tools**
-  - Contains:
-    - World Monitor: Open-Source Geopolitical War Room: World Monitor is a free, open-source desktop application that replicates Palantir-style geopolitical monitoring using local AI and live data feeds. It aggregates news, financial data, and map layers into a single 3D interface without requiring API keys or cloud subscriptions.
-    - OpenAI WebMCP and Collaborative Notebooks: OpenAI introduces WebMCP to enable direct browser-based collaboration between agents and humans, distinct from traditional APIs. They also release an open-source notebook format that treats files as markdown to facilitate interactive state management and documentation.
-  - Potential benefit: Handles 2 closely related captures in one focused batch.
-  - Intent: learn
-  - Topic: AI Infrastructure
-  - Source author: Kyronis
-  - Priority: P2
-  - Impact: medium
-  - Ease: moderate
-  - Important: yes
-  - Importance reason: This batch combines 2 actions that support the same outcome.
-  - Urgent: no
-  - Urgency reason: Preserved from the member tasks; batch size alone does not create urgency.
-  - Done when: All 2 source-specific items are processed and one combined artifact or decision is recorded.
-  - Effort: 45m
-  - Consolidation key: open-source-ai-infrastructure
-  - Consolidation reason: Both tasks involve reviewing specific open-source AI infrastructure tools (World Monitor for geopolitical monitoring and OpenAI WebMCP for collaboration). They share the same intent (learn/review) and can be done in one session.
-  - Consolidated IDs: sc_b6ec853131d3d3ce, sc_b0c182ea6ac60b1a
-  - Consolidated at: 2026-09-26T09:18:50+05:30
-  - Batch size: 2
-  - Sources:
-    - [source](https://x.com/kyronis_talks/status/2092477355725844955) — World Monitor: Open-Source Geopolitical War Room
-    - [source](https://x.com/HamelHusain/status/2092628886572200169) — OpenAI WebMCP and Collaborative Notebooks
-  - Captured: 2026-08-26 21:06 IST via Telegram · Hermes Swarm / Capture
-  - ID: sc_b6ec853131d3d3ce
-
-- [ ] **Review AI marketing and local RAG model capabilities**
-  - Contains:
-    - Maxfusion Marketing AGI Playbook: The source provides a structured marketing department framework powered by a single Claude skill that coordinates specialized AI agents for positioning, copy, creative, launch, and analysis. It claims to replace the need for the first five marketing hires by automating the entire loop from problem identification to outcome grading.
-    - EVIE-Preview-4.5B: Local Visual Document Retrieval: Tencent released a 4.5B parameter model that visually searches PDFs and charts locally without flattening to text, achieving top rankings on ViDoRe benchmarks.
-  - Potential benefit: Handles 2 closely related captures in one focused batch.
-  - Intent: learn
-  - Topic: AI Models
-  - Source author: Ori Silver
-  - Priority: P1
-  - Impact: medium
-  - Ease: moderate
-  - Important: yes
-  - Importance reason: This batch combines 2 actions that support the same outcome.
-  - Urgent: no
-  - Urgency reason: Preserved from the member tasks; batch size alone does not create urgency.
-  - Done when: All 2 source-specific items are processed and one combined artifact or decision is recorded.
-  - Effort: 45m
-  - Consolidation key: ai-marketing-and-rag-reviews
-  - Consolidation reason: Both tasks involve reviewing specific AI model capabilities (Maxfusion Marketing AGI and EVIE-Preview-4.5B for local RAG). They share the same intent (learn/review) and can be combined into a single technical review session.
-  - Consolidated IDs: sc_3473c100ecb8927d, sc_68e3218fa4b41a74
-  - Consolidated at: 2026-09-26T09:18:50+05:30
-  - Batch size: 2
-  - Sources:
-    - [source](https://x.com/OriSilver/status/2092225524210827424?s=20) — Maxfusion Marketing AGI Playbook
-    - [source](https://x.com/TeksEdge/status/2091924068681625781?s=20) — EVIE-Preview-4.5B: Local Visual Document Retrieval
-  - Captured: 2026-08-26 20:11 IST via Telegram · Hermes Swarm / Capture
-  - ID: sc_3473c100ecb8927d
-
-- [ ] **Review trading education and MCP server creation techniques**
-  - Contains:
-    - Market Sense for Young Traders: The author urges young traders to bookmark and read the linked content line by line to understand the current market.
-    - Document HAR/fetch-to-MCP-server technique for creating custom MCP servers: Technique for creating an API or MCP server from any website without touching its backend: open DevTools → Network tab → Keep Log → login and navigate pages → export all requests as HAR and fetch format → feed to Claude to build a TypeScript API + MCP server. Comments suggest using AI-driven browser automation (Playwright) or building a reusable skill for this workflow.
-  - Potential benefit: Handles 2 closely related captures in one focused batch.
-  - Intent: learn
-  - Topic: Technical Learning
-  - Source author: MRKT
-  - Priority: P1
-  - Impact: medium
-  - Ease: moderate
-  - Important: yes
-  - Importance reason: This batch combines 2 actions that support the same outcome.
-  - Urgent: no
-  - Urgency reason: Preserved from the member tasks; batch size alone does not create urgency.
-  - Done when: All 2 source-specific items are processed and one combined artifact or decision is recorded.
-  - Effort: 1h
-  - Consolidation key: trading-and-mcp-reviews
-  - Consolidation reason: Both tasks involve reviewing specific technical/educational content (Market Sense for traders and HAR/fetch-to-MCP-server technique). They share the same low-effort context (reading/learning) and can be done in one session.
-  - Consolidated IDs: sc_5880f8ca8d839095, sc_bbe35c33039405d0
-  - Consolidated at: 2026-09-26T09:18:50+05:30
-  - Batch size: 2
-  - Sources:
-    - [source](https://x.com/MRKT_AI/status/2092237686744523247?s=20) — Market Sense for Young Traders
-    - [source](https://x.com/Fluyeporlaweb/status/2085244574184739165?s=20) — Document HAR/fetch-to-MCP-server technique for creating custom MCP servers
-  - Captured: 2026-08-26 19:43 IST via Telegram · Hermes Swarm / Capture
-  - ID: sc_5880f8ca8d839095
-
-- [ ] **Review marketing content formats and SaaS operating guidelines**
-  - Contains:
-    - Review AI-avatar carousel content format for marketing adaptation: SDDFounder shares a carousel content format used by apps making $10k-$50k/month: an AI avatar image (slim figure in leggings, minimalist interior, face not shown) paired with a daily routine slide deck (meals, hydration, calorie tracking, macro tracking, habit tracking, app integration). The post emphasizes the first image and hook text as most important, and claims the format can be scaled into dozens of variations within a niche. A workflow link is provided for generating these visuals.
-    - Encode applicable SaaS operating guidelines into project guidance: A concrete SaaS operating checklist covering login friction, charging from day one, post-launch marketing, dogfooding, retention, MVP scope, user contact, value pricing, landing-page quality, and stop criteria.
-  - Potential benefit: Handles 2 closely related captures in one focused batch.
-  - Intent: learn
-  - Topic: Business Strategy
-  - Source author: Ramzi B. @SDDFounder
-  - Priority: P2
-  - Impact: medium
-  - Ease: moderate
-  - Important: yes
-  - Importance reason: This batch combines 2 actions that support the same outcome.
-  - Urgent: no
-  - Urgency reason: Preserved from the member tasks; batch size alone does not create urgency.
-  - Done when: All 2 source-specific items are processed and one combined artifact or decision is recorded.
-  - Effort: 45m
-  - Consolidation key: marketing-and-saas-guidelines
-  - Consolidation reason: Both tasks involve reviewing specific operational guidelines (AI-avatar carousel content and SaaS operating checklist). They share the same intent (learn/evaluate) and can be combined into a single review of business/marketing tactics.
-  - Consolidated IDs: sc_71eb7af2501ad07a, sc_8141580b6da6d7f7
-  - Consolidated at: 2026-09-26T09:18:50+05:30
-  - Batch size: 2
-  - Sources:
-    - [source](https://x.com/SDDFounder/status/2092183047584047575) — Review AI-avatar carousel content format for marketing adaptation
-    - [X post](https://x.com/hridoyreh/status/2092260962103439363) — Encode applicable SaaS operating guidelines into project guidance
-  - Captured: 2026-08-26 17:12 IST via Telegram · Hermes Swarm / Capture
-  - ID: sc_71eb7af2501ad07a
-
-- [ ] **Survey current Hermes ecosystem: connectors catalog, Tool Search, and oh-my-hermes community setup**
-  - Contains:
-    - Survey current Hermes ecosystem: connectors catalog, Tool Search, and oh-my-hermes community setup: Survey expanded Hermes connectors catalog and Tool Search capability: Teknium announces the Hermes connectors catalog now supports Cloudflare, Datadog, Metabase, GitLab, Railway, DeepWiki and more with one-click access, plus a Tool Search tool that prevents context waste when connectors are activated. Top comments note Tool Search is a significant improvement and ask about MCP support without DCR.
-    - Survey current Hermes ecosystem: connectors catalog, Tool Search, and oh-my-hermes community setup: Evaluate oh-my-hermes packaged memory and coding harness setup: Community project 'oh-my-hermes' packages Hermes Agent's long-term memory and coding harnesses into a one-line install. Features include file-based block-level memory management (Facts, Decisions, Episodes with TTL), observability, sub-agent model routing, ast-grep, parallel tool calling, per-model prompt optimization, cache hit rate tuning, custom TUI, and design capabilities. Author claims to code exclusively with Hermes using this setup.
-    - Hermes Desktop Plugin SDK for Custom Workflows: Hermes Desktop allows users to create custom plugins via a simple SDK to extend functionality. This enables personal dashboards, bot controls, and automated task queues directly within the interface.
-  - Potential benefit: One focused review of the Hermes integration surface (official connectors, Tool Search, community projects) with a consolidated assessment of what's immediately useful.
-  - Intent: learn · inferred
-  - Topic: Hermes infrastructure
-  - Source author: Teknium / HOPE
-  - Priority: P2
-  - Impact: medium
-  - Ease: moderate
-  - Important: yes
   - Importance reason: This batch combines 3 actions that support the same outcome.
   - Urgent: yes
   - Urgency reason: Preserved from the member tasks; batch size alone does not create urgency.
-  - Done when: Both the connectors catalog and oh-my-hermes are reviewed, and a single note documents available integrations, Tool Search relevance, and any reusable components worth integrating.
-  - Effort: 1h 45m
-  - Consolidation key: survey-hermes-ecosystem-integrations
-  - Consolidation reason: Both tasks assess the current Hermes integration and community ecosystem. Consolidating into one batch avoids overlapping review of Hermes capabilities and produces a single integration assessment.
-  - Consolidated IDs: sc_22aac32340dd3f86, sc_465e0a9675992467, sc_0a64f2c03f3a489a
-  - Consolidated at: 2026-09-16T21:02:03+05:30
-  - Batch size: 3
-  - Sources:
-    - [source](https://x.com/Teknium/status/2092321384085299665) — Survey expanded Hermes connectors catalog and Tool Search capability
-    - [source](https://x.com/rlaope/status/2092465376424501476) — Evaluate oh-my-hermes packaged memory and coding harness setup
-    - [source](https://x.com/HermesWatcher/status/2093413323832541628) — Hermes Desktop Plugin SDK for Custom Workflows
-  - Captured: 2026-08-26 17:09 IST via Telegram · Hermes Swarm / Capture
-  - ID: sc_22aac32340dd3f86
-
-- [ ] **Complete evaluate agent ui component libraries in one batch**
-  - Contains:
-    - Complete evaluate agent ui component libraries in one batch: Evaluate MetalForge for reusable cross-platform mobile UI components: A cross-platform mobile component system intended to accelerate polished Android and iOS interface construction from reusable building blocks.
-    - Complete evaluate agent ui component libraries in one batch: Evaluate Amicro UI for reusable dashboard components: A UI component collection featuring charts, loaders, backgrounds, and other polished primitives that could be referenced or adapted by frontend-building agents.
-    - Evaluate Archify as an app-architecture design skill: A repository for generating and communicating app architecture that may be adaptable into a reusable agent skill for design decisions and implementation handoffs.
-  - Potential benefit: Handles 2 closely related captures in one focused batch.
-  - Intent: decide · inferred
-  - Topic: Agent UI component libraries
-  - Consolidation key: evaluate-agent-ui-component-libraries
-  - Priority: P2
-  - Impact: medium
-  - Ease: moderate
-  - Important: yes
-  - Importance reason: This batch combines 3 actions that support the same outcome.
-  - Urgent: no
-  - Urgency reason: Preserved from the member tasks; batch size alone does not create urgency.
-  - Done when: All 2 source-specific items are processed and one combined artifact or decision is recorded.
+  - Done when: All 3 source-specific items are processed and one combined artifact or decision is recorded.
   - Effort: 2h
-  - Consolidation reason: All member tasks share the explicit consolidation key `evaluate-agent-ui-component-libraries` and workflow state.
-  - Consolidated IDs: sc_8d26a421dc1ffa16, sc_16d6c5ebf3d54be7, sc_71420822e7835b5f
-  - Consolidated at: 2026-09-16T21:02:03+05:30
+  - Consolidation key: ai-career-income-ideas
+  - Consolidation reason: Both tasks involve exploring ideas for leveraging AI in career and income generation. The job search strategy uses AI for volume applications, while the passive income idea uses AI for content generation. They share the intent of 'idea/exploration' and can be reviewed together to identify viable automation opportunities.
+  - Consolidated IDs: sc_9a42de6cc8ec6564, sc_3e576a2075d57586, sc_08365b2eb7f188ab
+  - Consolidated at: 2026-09-28T11:07:37+05:30
   - Batch size: 3
   - Sources:
-    - [source](https://x.com/sucodeee/status/2092222674478993525?s=20) — Evaluate MetalForge for reusable cross-platform mobile UI components
-    - [source](https://x.com/Delroy715/status/2092430784036843607?s=20) — Evaluate Amicro UI for reusable dashboard components
-    - [source](https://x.com/UnTalNixon_exe/status/2092424305455825164?s=20) — Evaluate Archify as an app-architecture design skill
-  - Captured: 2026-08-26 10:39 IST via Telegram · Hermes Swarm / Capture
-  - ID: sc_8d26a421dc1ffa16
+    - [source](https://www.instagram.com/p/Db1ZN0UlHY0/?img_index=1&igsi=MXJ1ajV2c3oxZmpueQ==) — Passive Income via Single Long-Form Video
+    - [source](https://x.com/BkashJosi/status/2092558415742791802?s=20) — Hermes Agent X Profile to Job Hunt
+    - [source](https://lnkd.in/p/dpp-ay2w) — AI Volume Job Search Strategy
+  - Captured: 2026-08-26 22:24 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_9a42de6cc8ec6564
 
-- [ ] **Prepare AI personal brand content and UI grounding**
+- [ ] **Review open-source AI infrastructure and marketing tools**
   - Contains:
-    - Prepare AI personal brand content and UI grounding: Strengthen agent-built UI grounding with vetted references and reusable components: Build an agent-ready frontend component reference library from proven product patterns: Machina describes replacing one-shot frontend prompting with a curated “Lego” of components extracted from products such as Stripe and Linear. Agents receive real reference links, fetch component patterns, and adapt vetted pieces rather than inventing an entire design from abstract style prompts; a top reply also points to Mobbin MCP for collecting product-design references.
-    - Prepare AI personal brand content and UI grounding: Strengthen agent-built UI grounding with vetted references and reusable components: Add five concrete design-reference sites to the Kole Jain UI/UX skill: The post curates five grounding resources for AI coding agents: ui-skills.com for UI patterns, coss.com/ui for interface examples, designsystemchecklist.com for audits, reui.io/components for reusable components, and emilkowal.ski/ui/you-dont-need-animations for avoiding decorative animation. These supplement the existing Kole Jain principles with concrete references.
-    - Prepare AI personal brand content and UI grounding: Outline a four-post dual-DGX-Spark build-in-public series: Sudo says NVIDIA supplied both of his DGX Sparks after a year of consistently publishing hands-on local-AI work as a solo builder; the attached photo visibly shows two DGX Spark units, branded packaging, and a high-speed cable, while the quoted post proposes joining the systems for larger distributed-model workloads.
-    - Prepare AI personal brand content and UI grounding: Run a ThreeUI fit spike for one agent-built frontend: Meng To open-sourced ThreeUI, a library of more than 160 procedural three.js components and landing pages, generally 100–200 KB each, with agent skills for adjusting theme, lighting, motion, and layout. A paid tier adds more components and MCP support.
-    - Publish personal-brand pages in an AI-readable format: A prompt and publishing workflow for turning a website into structured Markdown that AI agents can discover, parse, and retrieve more reliably than presentation-first pages.
-  - Potential benefit: Handles 5 closely related captures in one focused batch.
-  - Intent: implement
-  - Topic: Personal Brand
-  - Source author: Machina · @EXM7777
-  - Priority: P1
-  - Impact: medium
-  - Ease: deep
-  - Important: yes
-  - Importance reason: This batch combines 5 actions that support the same outcome.
-  - Urgent: no
-  - Urgency reason: Preserved from the member tasks; batch size alone does not create urgency.
-  - Done when: All 5 source-specific items are processed and one combined artifact or decision is recorded.
-  - Effort: 5h 30m
-  - Matrix order: 8000
-  - Consolidation key: ai-brand-content-prep
-  - Consolidation reason: Both tasks involve creating or preparing content/assets for the user's personal brand and technical credibility (publishing in AI-readable format and strengthening agent-built UI grounding). They share the same execution context (content creation for technical audience) and can be done in one focused session.
-  - Consolidated IDs: sc_4cea548f48144c0e, sc_e24295fc2920d36a, sc_19529a865b85742d, sc_94eada8d053c1211, sc_dabb85ee65b0fc25
-  - Consolidated at: 2026-09-26T09:18:50+05:30
-  - Batch size: 5
-  - Sources:
-    - [source](https://x.com/EXM7777/status/2092250905655812121) — Build an agent-ready frontend component reference library from proven product patterns
-    - [source](https://x.com/eptwts/status/2092298910190448727) — Add five concrete design-reference sites to the Kole Jain UI/UX skill
-    - [source](https://x.com/sudoingX/status/2090304783370559565) — Outline a four-post dual-DGX-Spark build-in-public series
-    - [source](https://x.com/MengTo/status/2090817187900780961) — Run a ThreeUI fit spike for one agent-built frontend
-    - [source](https://x.com/zenorocha/status/2087547759083901252) — Publish personal-brand pages in an AI-readable format
-  - Captured: 2026-08-26 07:42 IST via Telegram · Hermes Swarm / Capture
-  - ID: sc_4cea548f48144c0e
-
-- [ ] **Implement git provenance and Google L6 readiness diagnostics**
-  - Contains:
-    - Implement git provenance and Google L6 readiness diagnostics: Wire pre-commit and commit-msg hooks to block agent-generated git attribution trailers: Ahmad Osman warns that AI coding agents inject Co-authored-by trailers into git history, fragmenting authorship attribution. He recommends hardcoding author/committer identity, blocking third-party trailers via pre-commit/commit-msg/pre-merge-commit hooks, and packaging the guards as a reusable skill. Top comments confirm pre-commit is the right layer because it catches all commits regardless of agent behavior.
-    - Implement git provenance and Google L6 readiness diagnostics: Run a Google L6 readiness diagnostic before collecting more prep material: A Microsoft L64 engineer with 14 years of experience asks how to prepare for Google India L6, naming NeetCode 150, Hello Interview, mock interviews, and difficulty retaining system-design concepts. The most useful replies recommend solving designs from requirements and data/storage constraints, making mistakes before studying reference solutions, using repeated mocks and feedback, and discussing real distributed-system trade-offs; suggested resources include Alex Xu’s two system-design volumes, Hello Interview’s design questions and story builder, and Alex Croitor for behavioral preparation, while commenters disagree on whether NeetCode 150 is sufficient.
-    - Prepare for senior AI engineering roles via projects and skill testing: 12 FDE Projects for Hiring: The post lists twelve specific engineering projects demonstrating enterprise AI integration skills. It claims completing these proves readiness for Forward Deployed Engineer roles.
-    - Prepare for senior AI engineering roles via projects and skill testing: Use the 440Hz conspiracy as a test case for the Physics Claim Debunker Skill: Direct task: Nitin wants to use the 440Hz Rockefeller conspiracy / cymatics content as a test case for his Physics Claim Debunker Skill project (already in vault at Ideas/Physics Claim Debunker Skill.md). The content promotes pseudoscientific conspiracy theory about 440Hz tuning disrupting human biology — a good candidate to demonstrate the debunker's reasoning path.
-  - Potential benefit: Handles 2 closely related captures in one focused batch.
-  - Intent: implement · inferred
-  - Topic: Engineering Hygiene
+    - Review open-source AI infrastructure and collaboration tools: World Monitor: Open-Source Geopolitical War Room: World Monitor is a free, open-source desktop application that replicates Palantir-style geopolitical monitoring using local AI and live data feeds. It aggregates news, financial data, and map layers into a single 3D interface without requiring API keys or cloud subscriptions.
+    - Review open-source AI infrastructure and collaboration tools: OpenAI WebMCP and Collaborative Notebooks: OpenAI introduces WebMCP to enable direct browser-based collaboration between agents and humans, distinct from traditional APIs. They also release an open-source notebook format that treats files as markdown to facilitate interactive state management and documentation.
+    - Review AI marketing and local RAG model capabilities: Maxfusion Marketing AGI Playbook: The source provides a structured marketing department framework powered by a single Claude skill that coordinates specialized AI agents for positioning, copy, creative, launch, and analysis. It claims to replace the need for the first five marketing hires by automating the entire loop from problem identification to outcome grading.
+    - Review AI marketing and local RAG model capabilities: EVIE-Preview-4.5B: Local Visual Document Retrieval: Tencent released a 4.5B parameter model that visually searches PDFs and charts locally without flattening to text, achieving top rankings on ViDoRe benchmarks.
+  - Potential benefit: Handles 4 closely related captures in one focused batch.
+  - Intent: learn
+  - Topic: AI Infrastructure
+  - Source author: Kyronis
   - Priority: P1
   - Impact: medium
   - Ease: deep
   - Important: yes
   - Importance reason: This batch combines 4 actions that support the same outcome.
+  - Urgent: no
+  - Urgency reason: Preserved from the member tasks; batch size alone does not create urgency.
+  - Done when: All 4 source-specific items are processed and one combined artifact or decision is recorded.
+  - Effort: 1h 30m
+  - Consolidation key: open-source-ai-tools-review
+  - Consolidation reason: Both tasks involve reviewing specific open-source AI tools. The infrastructure tools (World Monitor, WebMCP) are for monitoring and collaboration, while the marketing tools (Maxfusion, EVIE) are for content and retrieval. They share the intent of 'learn/review' and can be done in one session of technical landscape scanning.
+  - Consolidated IDs: sc_b6ec853131d3d3ce, sc_b0c182ea6ac60b1a, sc_3473c100ecb8927d, sc_68e3218fa4b41a74
+  - Consolidated at: 2026-09-28T11:07:37+05:30
+  - Batch size: 4
+  - Sources:
+    - [source](https://x.com/kyronis_talks/status/2092477355725844955) — World Monitor: Open-Source Geopolitical War Room
+    - [source](https://x.com/HamelHusain/status/2092628886572200169) — OpenAI WebMCP and Collaborative Notebooks
+    - [source](https://x.com/OriSilver/status/2092225524210827424?s=20) — Maxfusion Marketing AGI Playbook
+    - [source](https://x.com/TeksEdge/status/2091924068681625781?s=20) — EVIE-Preview-4.5B: Local Visual Document Retrieval
+  - Matrix order: 13000
+  - Captured: 2026-08-26 21:06 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_b6ec853131d3d3ce
+
+- [ ] **Review trading education and SaaS operating guidelines**
+  - Contains:
+    - Review trading education and MCP server creation techniques: Market Sense for Young Traders: The author urges young traders to bookmark and read the linked content line by line to understand the current market.
+    - Review trading education and MCP server creation techniques: Document HAR/fetch-to-MCP-server technique for creating custom MCP servers: Technique for creating an API or MCP server from any website without touching its backend: open DevTools → Network tab → Keep Log → login and navigate pages → export all requests as HAR and fetch format → feed to Claude to build a TypeScript API + MCP server. Comments suggest using AI-driven browser automation (Playwright) or building a reusable skill for this workflow.
+    - Review marketing content formats and SaaS operating guidelines: Review AI-avatar carousel content format for marketing adaptation: SDDFounder shares a carousel content format used by apps making $10k-$50k/month: an AI avatar image (slim figure in leggings, minimalist interior, face not shown) paired with a daily routine slide deck (meals, hydration, calorie tracking, macro tracking, habit tracking, app integration). The post emphasizes the first image and hook text as most important, and claims the format can be scaled into dozens of variations within a niche. A workflow link is provided for generating these visuals.
+    - Review marketing content formats and SaaS operating guidelines: Encode applicable SaaS operating guidelines into project guidance: A concrete SaaS operating checklist covering login friction, charging from day one, post-launch marketing, dogfooding, retention, MVP scope, user contact, value pricing, landing-page quality, and stop criteria.
+  - Potential benefit: Handles 4 closely related captures in one focused batch.
+  - Intent: learn
+  - Topic: Business Strategy
+  - Source author: MRKT
+  - Priority: P1
+  - Impact: medium
+  - Ease: deep
+  - Important: yes
+  - Importance reason: This batch combines 4 actions that support the same outcome.
+  - Urgent: no
+  - Urgency reason: Preserved from the member tasks; batch size alone does not create urgency.
+  - Done when: All 4 source-specific items are processed and one combined artifact or decision is recorded.
+  - Effort: 1h 45m
+  - Consolidation key: business-strategy-review
+  - Consolidation reason: Both tasks involve reviewing specific operational guidelines. The trading education is for financial markets, while the SaaS guidelines are for business operations. They share the low-effort context of 'reading/learning' and can be done in one session of business/financial strategy review.
+  - Consolidated IDs: sc_5880f8ca8d839095, sc_bbe35c33039405d0, sc_71eb7af2501ad07a, sc_8141580b6da6d7f7
+  - Consolidated at: 2026-09-28T11:07:37+05:30
+  - Batch size: 4
+  - Sources:
+    - [source](https://x.com/MRKT_AI/status/2092237686744523247?s=20) — Market Sense for Young Traders
+    - [source](https://x.com/Fluyeporlaweb/status/2085244574184739165?s=20) — Document HAR/fetch-to-MCP-server technique for creating custom MCP servers
+    - [source](https://x.com/SDDFounder/status/2092183047584047575) — Review AI-avatar carousel content format for marketing adaptation
+    - [X post](https://x.com/hridoyreh/status/2092260962103439363) — Encode applicable SaaS operating guidelines into project guidance
+  - Matrix order: 14000
+  - Captured: 2026-08-26 19:43 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_5880f8ca8d839095
+
+- [ ] **Survey Hermes ecosystem and evaluate UI component libraries**
+  - Contains:
+    - Survey current Hermes ecosystem: connectors catalog, Tool Search, and oh-my-hermes community setup: Survey expanded Hermes connectors catalog and Tool Search capability: Teknium announces the Hermes connectors catalog now supports Cloudflare, Datadog, Metabase, GitLab, Railway, DeepWiki and more with one-click access, plus a Tool Search tool that prevents context waste when connectors are activated. Top comments note Tool Search is a significant improvement and ask about MCP support without DCR.
+    - Survey current Hermes ecosystem: connectors catalog, Tool Search, and oh-my-hermes community setup: Evaluate oh-my-hermes packaged memory and coding harness setup: Community project 'oh-my-hermes' packages Hermes Agent's long-term memory and coding harnesses into a one-line install. Features include file-based block-level memory management (Facts, Decisions, Episodes with TTL), observability, sub-agent model routing, ast-grep, parallel tool calling, per-model prompt optimization, cache hit rate tuning, custom TUI, and design capabilities. Author claims to code exclusively with Hermes using this setup.
+    - Survey current Hermes ecosystem: connectors catalog, Tool Search, and oh-my-hermes community setup: Hermes Desktop Plugin SDK for Custom Workflows: Hermes Desktop allows users to create custom plugins via a simple SDK to extend functionality. This enables personal dashboards, bot controls, and automated task queues directly within the interface.
+    - Complete evaluate agent ui component libraries in one batch: Evaluate MetalForge for reusable cross-platform mobile UI components: A cross-platform mobile component system intended to accelerate polished Android and iOS interface construction from reusable building blocks.
+    - Complete evaluate agent ui component libraries in one batch: Evaluate Amicro UI for reusable dashboard components: A UI component collection featuring charts, loaders, backgrounds, and other polished primitives that could be referenced or adapted by frontend-building agents.
+    - Complete evaluate agent ui component libraries in one batch: Evaluate Archify as an app-architecture design skill: A repository for generating and communicating app architecture that may be adaptable into a reusable agent skill for design decisions and implementation handoffs.
+  - Potential benefit: Handles 6 closely related captures in one focused batch.
+  - Intent: decide
+  - Topic: Developer Tools
+  - Source author: Teknium / HOPE
+  - Priority: P2
+  - Impact: medium
+  - Ease: deep
+  - Important: no
+  - Importance reason: This batch combines 6 actions that support the same outcome.
   - Urgent: yes
   - Urgency reason: Preserved from the member tasks; batch size alone does not create urgency.
-  - Done when: All 2 source-specific items are processed and one combined artifact or decision is recorded.
-  - Effort: 2d 3h
-  - Matrix order: 6000
-  - Consolidation key: git-provenance-and-l6-diagnostic
-  - Consolidation reason: Both tasks are concrete implementation or diagnostic steps for professional engineering hygiene and career readiness. One involves setting up git hooks to protect authorship, and the other involves running a diagnostic for a specific senior role level. They share the intent of 'implementing' a process or test to improve professional standing.
-  - Consolidated IDs: sc_801a7e39073fb1ed, sc_b9cabd2eedaaca56, sc_31fe3695426fce1b, sc_22bd2c1fb5d483d8
-  - Consolidated at: 2026-09-16T21:02:03+05:30
-  - Batch size: 4
+  - Done when: All 6 source-specific items are processed and one combined artifact or decision is recorded.
+  - Effort: 3h 45m
+  - Consolidation key: dev-tools-evaluation
+  - Consolidation reason: Both tasks involve evaluating tools for AI-assisted development. The Hermes ecosystem survey covers connectors and community tools, while the UI component libraries cover frontend building blocks. They share the intent of 'evaluate/decide' and can be combined into a single review of development aids.
+  - Consolidated IDs: sc_22aac32340dd3f86, sc_465e0a9675992467, sc_0a64f2c03f3a489a, sc_8d26a421dc1ffa16, sc_16d6c5ebf3d54be7, sc_71420822e7835b5f
+  - Consolidated at: 2026-09-28T11:07:37+05:30
+  - Batch size: 6
+  - Sources:
+    - [source](https://x.com/Teknium/status/2092321384085299665) — Survey expanded Hermes connectors catalog and Tool Search capability
+    - [source](https://x.com/rlaope/status/2092465376424501476) — Evaluate oh-my-hermes packaged memory and coding harness setup
+    - [source](https://x.com/HermesWatcher/status/2093413323832541628) — Hermes Desktop Plugin SDK for Custom Workflows
+    - [source](https://x.com/sucodeee/status/2092222674478993525?s=20) — Evaluate MetalForge for reusable cross-platform mobile UI components
+    - [source](https://x.com/Delroy715/status/2092430784036843607?s=20) — Evaluate Amicro UI for reusable dashboard components
+    - [source](https://x.com/UnTalNixon_exe/status/2092424305455825164?s=20) — Evaluate Archify as an app-architecture design skill
+  - Matrix order: 2000
+  - Captured: 2026-08-26 17:09 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_22aac32340dd3f86
+
+- [ ] **Implement git provenance and run AutoGTM test**
+  - Contains:
+    - Implement git provenance and Google L6 readiness diagnostics: Wire pre-commit and commit-msg hooks to block agent-generated git attribution trailers: Ahmad Osman warns that AI coding agents inject Co-authored-by trailers into git history, fragmenting authorship attribution. He recommends hardcoding author/committer identity, blocking third-party trailers via pre-commit/commit-msg/pre-merge-commit hooks, and packaging the guards as a reusable skill. Top comments confirm pre-commit is the right layer because it catches all commits regardless of agent behavior.
+    - Implement git provenance and Google L6 readiness diagnostics: Run a Google L6 readiness diagnostic before collecting more prep material: A Microsoft L64 engineer with 14 years of experience asks how to prepare for Google India L6, naming NeetCode 150, Hello Interview, mock interviews, and difficulty retaining system-design concepts. The most useful replies recommend solving designs from requirements and data/storage constraints, making mistakes before studying reference solutions, using repeated mocks and feedback, and discussing real distributed-system trade-offs; suggested resources include Alex Xu’s two system-design volumes, Hello Interview’s design questions and story builder, and Alex Croitor for behavioral preparation, while commenters disagree on whether NeetCode 150 is sufficient.
+    - Implement git provenance and Google L6 readiness diagnostics: Prepare for senior AI engineering roles via projects and skill testing: 12 FDE Projects for Hiring: The post lists twelve specific engineering projects demonstrating enterprise AI integration skills. It claims completing these proves readiness for Forward Deployed Engineer roles.
+    - Implement git provenance and Google L6 readiness diagnostics: Prepare for senior AI engineering roles via projects and skill testing: Use the 440Hz conspiracy as a test case for the Physics Claim Debunker Skill: Direct task: Nitin wants to use the 440Hz Rockefeller conspiracy / cymatics content as a test case for his Physics Claim Debunker Skill project (already in vault at Ideas/Physics Claim Debunker Skill.md). The content promotes pseudoscientific conspiracy theory about 440Hz tuning disrupting human biology — a good candidate to demonstrate the debunker's reasoning path.
+    - Execute AutoGTM test and agent evaluation benchmark: Run a tracked, value-first YouTube comment acquisition test for HalfBlood Professor: The video’s audience is already interested in book annotation, active reading, and turning source material into useful notes. Nitin’s HalfBlood Professor at `https://hb-pdf.higgsfield.app/` converts searchable textbook chapters into annotated study PDFs with corrections, questions, underlining, circles, and expert-style margin notes; Nitin’s stated intent is to introduce it under this video to recruit paid users and feedback participants as one repeatable AutoGTM channel experiment.
+    - Execute AutoGTM test and agent evaluation benchmark: Benchmark a bounded critic–revision loop against a one-pass agent: Peter Yang proposes improving AI output by having a manager agent repeatedly challenge a worker to reconsider and try harder; the underlying mechanism is additional test-time compute and iterative critique, but vague pressure should be compared with a rubric-based evaluator rather than assumed effective.
+  - Potential benefit: Handles 6 closely related captures in one focused batch.
+  - Intent: implement
+  - Topic: Engineering
+  - Priority: P1
+  - Impact: medium
+  - Ease: deep
+  - Important: no
+  - Importance reason: This batch combines 6 actions that support the same outcome.
+  - Urgent: yes
+  - Urgency reason: Preserved from the member tasks; batch size alone does not create urgency.
+  - Done when: All 6 source-specific items are processed and one combined artifact or decision is recorded.
+  - Effort: 2d 7h
+  - Matrix order: 3000
+  - Consolidation key: technical-implementation
+  - Consolidation reason: Both tasks involve implementing specific technical processes. The git provenance hooks protect authorship, while the AutoGTM test validates a marketing channel. They share the intent of 'implement/test' and can be done in one focused session of technical execution.
+  - Consolidated IDs: sc_801a7e39073fb1ed, sc_b9cabd2eedaaca56, sc_31fe3695426fce1b, sc_22bd2c1fb5d483d8, sc_4348b5fff10f6ef9, sc_f6f87d8954c6b762
+  - Consolidated at: 2026-09-28T11:07:37+05:30
+  - Batch size: 6
   - Sources:
     - [source](https://x.com/TheAhmadOsman/status/2091956352247550437) — Wire pre-commit and commit-msg hooks to block agent-generated git attribution trailers
     - [source](https://www.teamblind.com/us/cm/r7w9gsnwklac) — Run a Google L6 readiness diagnostic before collecting more prep material
     - [source](https://x.com/suraj_sharma14/status/2095127540222603432?s=20) — 12 FDE Projects for Hiring
+    - [source](https://youtu.be/3L3fWRQqrUE?si=daZAZWbxg5o-mB58) — Run a tracked, value-first YouTube comment acquisition test for HalfBlood Professor
+    - [source](https://x.com/petergyang/status/2090564541499498919) — Benchmark a bounded critic–revision loop against a one-pass agent
   - Source author: Nitin
   - Captured: 2026-08-25 08:00 IST via Telegram · Hermes Swarm / Capture
   - ID: sc_801a7e39073fb1ed
 
-- [ ] **Execute AutoGTM test and agent evaluation benchmark**
+- [ ] **Write Feynman note and review database simulation resources**
   - Contains:
-    - Run a tracked, value-first YouTube comment acquisition test for HalfBlood Professor: The video’s audience is already interested in book annotation, active reading, and turning source material into useful notes. Nitin’s HalfBlood Professor at `https://hb-pdf.higgsfield.app/` converts searchable textbook chapters into annotated study PDFs with corrections, questions, underlining, circles, and expert-style margin notes; Nitin’s stated intent is to introduce it under this video to recruit paid users and feedback participants as one repeatable AutoGTM channel experiment.
-    - Benchmark a bounded critic–revision loop against a one-pass agent: Peter Yang proposes improving AI output by having a manager agent repeatedly challenge a worker to reconsider and try harder; the underlying mechanism is additional test-time compute and iterative critique, but vague pressure should be compared with a rubric-based evaluator rather than assumed effective.
-  - Potential benefit: Handles 2 closely related captures in one focused batch.
-  - Intent: test
-  - Topic: Experiments
-  - Priority: P1
-  - Impact: high
-  - Ease: moderate
-  - Important: yes
-  - Importance reason: This batch combines 2 actions that support the same outcome.
-  - Urgent: yes
-  - Urgency reason: Preserved from the member tasks; batch size alone does not create urgency.
-  - Done when: All 2 source-specific items are processed and one combined artifact or decision is recorded.
-  - Effort: half-day
-  - Matrix order: 1000
-  - Consolidation key: autogtm-and-agent-benchmarks
-  - Consolidation reason: Both tasks involve running specific technical tests/experiments (YouTube comment acquisition test and critic-revision loop benchmark). They share the same intent (implement/test) and can be done in one focused experimental session.
-  - Consolidated IDs: sc_4348b5fff10f6ef9, sc_f6f87d8954c6b762
-  - Consolidated at: 2026-09-26T09:18:50+05:30
-  - Batch size: 2
-  - Sources:
-    - [source](https://youtu.be/3L3fWRQqrUE?si=daZAZWbxg5o-mB58) — Run a tracked, value-first YouTube comment acquisition test for HalfBlood Professor
-    - [source](https://x.com/petergyang/status/2090564541499498919) — Benchmark a bounded critic–revision loop against a one-pass agent
-  - Captured: 2026-08-23 16:55 IST via Telegram · Hermes Swarm / Capture
-  - ID: sc_4348b5fff10f6ef9
-
-- [ ] **Write Feynman note and run LongCat video feasibility spike**
-  - Contains:
-    - Write a source-checked Feynman note connecting probability, insurance, and modern risk: The post tells a compressed history from Girolamo Cardano’s dice analysis in *Liber de Ludo Aleae* through Pascal, Fermat, Peter Bernstein, insurance, and Black–Scholes; its core link between gambling mathematics and quantified risk is useful, but claims such as the entire insurance industry running on one Cardano equation and nobody connecting the history before 1996 are rhetorical overstatements that require verification.
-    - Run a LongCat-Video-Avatar 1.5 feasibility spike on one DGX Spark: The Spanish post demonstrates turning one image plus audio into a minutes-long synchronized talking-person video. The underlying Meituan LongCat project is genuinely open source under MIT, with code at `meituan-longcat/LongCat-Video`, downloadable Avatar and Avatar 1.5 weights, audio-text-image-to-video, multi-character audio, continuation, distilled inference, and optional INT8 loading; the viral claim of replacing an entire studio still needs a local quality and resource test.
-  - Potential benefit: Handles 2 closely related captures in one focused batch.
+    - Write Feynman note and run LongCat video feasibility spike: Write a source-checked Feynman note connecting probability, insurance, and modern risk: The post tells a compressed history from Girolamo Cardano’s dice analysis in *Liber de Ludo Aleae* through Pascal, Fermat, Peter Bernstein, insurance, and Black–Scholes; its core link between gambling mathematics and quantified risk is useful, but claims such as the entire insurance industry running on one Cardano equation and nobody connecting the history before 1996 are rhetorical overstatements that require verification.
+    - Write Feynman note and run LongCat video feasibility spike: Run a LongCat-Video-Avatar 1.5 feasibility spike on one DGX Spark: The Spanish post demonstrates turning one image plus audio into a minutes-long synchronized talking-person video. The underlying Meituan LongCat project is genuinely open source under MIT, with code at `meituan-longcat/LongCat-Video`, downloadable Avatar and Avatar 1.5 weights, audio-text-image-to-video, multi-character audio, continuation, distilled inference, and optional INT8 loading; the viral claim of replacing an entire studio still needs a local quality and resource test.
+    - Review database simulation and AI coding prompt resources: BreakScale DB Simulation Tool: The post praises BreakScale for simulating database reactions to request loads. It encourages users to explore the tool to understand backend mechanics.
+    - Review database simulation and AI coding prompt resources: Free UI Prompts for AI Coding Agents: The post shares a collection of free UI prompts to help AI coding agents generate better-looking designs. It suggests copying these prompts to create unique interfaces without detailed manual descriptions.
+  - Potential benefit: Handles 4 closely related captures in one focused batch.
   - Intent: test
   - Topic: Technical Exploration
   - Priority: P2
   - Impact: medium
-  - Ease: moderate
+  - Ease: deep
   - Important: yes
-  - Importance reason: This batch combines 2 actions that support the same outcome.
+  - Importance reason: This batch combines 4 actions that support the same outcome.
   - Urgent: no
   - Urgency reason: Preserved from the member tasks; batch size alone does not create urgency.
-  - Done when: All 2 source-specific items are processed and one combined artifact or decision is recorded.
-  - Effort: 5h
-  - Matrix order: 1000
-  - Consolidation key: probability-note-and-video-spike
-  - Consolidation reason: Both tasks involve deep technical exploration and testing (probability/risk note and LongCat video avatar spike). They share the same intent (learn/test) and can be done in one focused session of technical verification.
-  - Consolidated IDs: sc_c03359e24eacea9c, sc_1e85b5bd109c8475
-  - Consolidated at: 2026-09-26T09:18:50+05:30
-  - Batch size: 2
+  - Done when: All 4 source-specific items are processed and one combined artifact or decision is recorded.
+  - Effort: 5h 10m
+  - Matrix order: 3000
+  - Consolidation key: technical-exploration
+  - Consolidation reason: Both tasks involve deep technical exploration and review. The Feynman note connects probability and risk, while the DB simulation tool explores backend mechanics. They share the intent of 'learn/test' and can be done in one focused session of technical verification.
+  - Consolidated IDs: sc_c03359e24eacea9c, sc_1e85b5bd109c8475, sc_7fb7a8d5c04d14a3, sc_ae013dd6b26e0a04
+  - Consolidated at: 2026-09-28T11:07:37+05:30
+  - Batch size: 4
   - Sources:
     - [source](https://x.com/betraidx/status/2090447521717858775) — Write a source-checked Feynman note connecting probability, insurance, and modern risk
     - [source](https://x.com/0xJokker/status/2090441836317811176) — Run a LongCat-Video-Avatar 1.5 feasibility spike on one DGX Spark
+    - [source](https://x.com/OjasSharma276/status/2093593295658397934) — BreakScale DB Simulation Tool
+    - [source](https://x.com/rammcodes/status/2093377746852511919) — Free UI Prompts for AI Coding Agents
+  - Source author: Ojas Sharma
   - Captured: 2026-08-22 18:15 IST via Telegram · Hermes Swarm / Capture
   - ID: sc_c03359e24eacea9c
 
