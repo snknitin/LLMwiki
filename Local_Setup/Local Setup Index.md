@@ -12,6 +12,9 @@ This is the canonical progress and navigation page. If an older note suggests a 
 
 ## Current confirmed state
 
+> [!important] Desktop Qwen — 13 October 2026 evening
+> Fast Qwen 3.8 27B now runs on the workstation RTX through Ollama's bundled `llama-server`: 2 sessions × 262K, ~96 tok/s single / ~82 each with two, shared by Hermes (`desktop-qwen`) and Fresh Brief. Monitors moved to the Intel iGPU, which removed the desktop lag. Operations, ComfyUI on/off, model upgrades and rollback: [[Desktop Qwen Runbook]]. Root causes: [[Qwen 27B Windows Lag And Spark Download Fix 2026-10-13]]. The "Fresh Brief and Windows Ollama remain unchanged" line below is superseded.
+
 > [!important] Qwen desktop relief — published 13 October 2026
 > [[Qwen 3.8 27B Native Spark Setup Tutorial]] — **Unsloth UD-Q5_K_XL with native llama.cpp on FirstSpark** is published in all six Hermes profiles as **FirstSpark Qwen 3.8 27B (llama.cpp)** / `qwen38-27b-spark`, alongside unchanged `spark-fast`. Four independent262K contexts use Q4 K/V and no production output-token cap. Four real Hermes research/coding sessions, reviewed memory-pressure checks and native service restart passed; both native units are enabled. LM Studio is stopped/disabled, rollback assets retained, all three Gemmas appear once and the desktop Qwen picker entry is removed. The original240K strict zero-swap test remains failed on176KiB despite correct answers; the documented follow-up passed with15.115GiB available and zero new swap-out/OOM. The real main-profile native request passed with262K/no output cap/7200second timeouts. Authenticated Windows UI observation, controlled reboot and extended soak remain separate checks. **Fresh Brief and Windows Ollama remain unchanged.**
 

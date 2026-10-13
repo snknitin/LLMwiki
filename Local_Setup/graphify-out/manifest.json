@@ -30,22 +30,22 @@
     "semantic_hash": "8397d5362da67c7f4df3e88a87794661"
   },
   "Qwen Spark Migration/FINAL-VERIFICATION.json": {
-    "mtime": 1791830726.9512367,
-    "seen": 1791891178.0930667,
-    "ast_hash": "6be8d03d68bd850464b6c99e970ce7ab",
-    "semantic_hash": "6be8d03d68bd850464b6c99e970ce7ab"
+    "mtime": 1791893787.81989,
+    "seen": 1791904879.43932,
+    "ast_hash": "c81437948d93e7ae093fe0ebe80265ce",
+    "semantic_hash": "c81437948d93e7ae093fe0ebe80265ce"
   },
   "Qwen Spark Migration/add_desktop_qwen.py": {
-    "mtime": 1791890099.9074352,
-    "seen": 1791891178.0930667,
-    "ast_hash": "12f717a2669b623ba82464b6d8b6aaf7",
-    "semantic_hash": "12f717a2669b623ba82464b6d8b6aaf7"
+    "mtime": 1791893787.81989,
+    "seen": 1791904879.43932,
+    "ast_hash": "a6b7c280da827f7b01fc70d34e8e924d",
+    "semantic_hash": "a6b7c280da827f7b01fc70d34e8e924d"
   },
   "Qwen Spark Migration/admission_proxy.py": {
-    "mtime": 1791886425.0954852,
-    "seen": 1791891178.0930667,
-    "ast_hash": "9ce267405b2256bbd15b80bcc8463e6f",
-    "semantic_hash": "9ce267405b2256bbd15b80bcc8463e6f"
+    "mtime": 1791893787.81989,
+    "seen": 1791904879.43932,
+    "ast_hash": "ee757d202ba8786a59f1873c6f48d94b",
+    "semantic_hash": "ee757d202ba8786a59f1873c6f48d94b"
   },
   "Qwen Spark Migration/build_native_runtime.sh": {
     "mtime": 1791798761.8856432,
@@ -66,28 +66,28 @@
     "semantic_hash": "98af8dee64ebb60faa06f1f3bb4f4d94"
   },
   "Qwen Spark Migration/configure_hermes_native.py": {
-    "mtime": 1791825775.9298413,
-    "seen": 1791891178.0930667,
-    "ast_hash": "137df5bfd8c6514f933e9c1a542fbe40",
-    "semantic_hash": "137df5bfd8c6514f933e9c1a542fbe40"
+    "mtime": 1791893787.820889,
+    "seen": 1791904879.43932,
+    "ast_hash": "f2ee92c37053dfec9511f620556c16eb",
+    "semantic_hash": "f2ee92c37053dfec9511f620556c16eb"
   },
   "Qwen Spark Migration/continue_native_reviewed.py": {
-    "mtime": 1791828866.1196713,
-    "seen": 1791891178.0930667,
-    "ast_hash": "25b377415ebf625a4bdbedc1dbffb473",
-    "semantic_hash": "25b377415ebf625a4bdbedc1dbffb473"
+    "mtime": 1791893787.820889,
+    "seen": 1791904879.43932,
+    "ast_hash": "fa8d36bf255fcc348b13da7a9c26fcb6",
+    "semantic_hash": "fa8d36bf255fcc348b13da7a9c26fcb6"
   },
   "Qwen Spark Migration/diagnose_native_memory.py": {
-    "mtime": 1791823829.0482404,
-    "seen": 1791891178.0930667,
-    "ast_hash": "93fa7f839462b2efb280e8085a5ca6e3",
-    "semantic_hash": "93fa7f839462b2efb280e8085a5ca6e3"
+    "mtime": 1791893787.8218896,
+    "seen": 1791904879.43932,
+    "ast_hash": "3d1548fedeafa389679887f6293caf74",
+    "semantic_hash": "3d1548fedeafa389679887f6293caf74"
   },
   "Qwen Spark Migration/download_dflash2.py": {
-    "mtime": 1791865698.5126505,
-    "seen": 1791891178.0930667,
-    "ast_hash": "90c268ca6145aa24a220c0e7f744288d",
-    "semantic_hash": "90c268ca6145aa24a220c0e7f744288d"
+    "mtime": 1791893787.8218896,
+    "seen": 1791904879.43932,
+    "ast_hash": "05bd74659f8772eed1b8281e98a5b55d",
+    "semantic_hash": "05bd74659f8772eed1b8281e98a5b55d"
   },
   "Qwen Spark Migration/download_native_http.py": {
     "mtime": 1791799189.456684,
@@ -108,10 +108,10 @@
     "semantic_hash": "173bfb1b2c7c833cd1b95e49e6b1276f"
   },
   "Qwen Spark Migration/finish_native_install.py": {
-    "mtime": 1791886425.0954852,
-    "seen": 1791891178.0930667,
-    "ast_hash": "624340372a966a3451a15ba1ea6d284a",
-    "semantic_hash": "624340372a966a3451a15ba1ea6d284a"
+    "mtime": 1791893787.8218896,
+    "seen": 1791904879.43932,
+    "ast_hash": "f181372b0a6b8c0dc3f11d1ebd4331a2",
+    "semantic_hash": "f181372b0a6b8c0dc3f11d1ebd4331a2"
   },
   "Qwen Spark Migration/load_qwen.mjs": {
     "mtime": 1791797040.3358452,
@@ -120,64 +120,64 @@
     "semantic_hash": "471470fdf83b1c628d29498f97f499aa"
   },
   "Qwen Spark Migration/measure_interactive_speed.py": {
-    "mtime": 1791890194.8267784,
-    "seen": 1791891178.0930667,
-    "ast_hash": "ee71b4e1124dcb50904dee09c6db540b",
-    "semantic_hash": "ee71b4e1124dcb50904dee09c6db540b"
+    "mtime": 1791893787.8218896,
+    "seen": 1791904879.43932,
+    "ast_hash": "e158c16bb81e834170d51aafd0fc9604",
+    "semantic_hash": "e158c16bb81e834170d51aafd0fc9604"
   },
   "Qwen Spark Migration/monitor_qualification.py": {
-    "mtime": 1791825227.4538517,
-    "seen": 1791891178.0930667,
-    "ast_hash": "d3988c48024692c8896650741ba61a5e",
-    "semantic_hash": "d3988c48024692c8896650741ba61a5e"
+    "mtime": 1791893787.8218896,
+    "seen": 1791904879.43932,
+    "ast_hash": "6a0fea50b318a6a25d3c1af8262d6724",
+    "semantic_hash": "6a0fea50b318a6a25d3c1af8262d6724"
   },
   "Qwen Spark Migration/native-config.firstspark.json": {
-    "mtime": 1791887240.7033758,
-    "seen": 1791891178.0930667,
-    "ast_hash": "8d16d291b9a5a1c5f66a40bb6ff3af3e",
-    "semantic_hash": "8d16d291b9a5a1c5f66a40bb6ff3af3e"
+    "mtime": 1791893787.8218896,
+    "seen": 1791904879.43932,
+    "ast_hash": "42954145460a5b6c0023d60904157768",
+    "semantic_hash": "42954145460a5b6c0023d60904157768"
   },
   "Qwen Spark Migration/native-config.json": {
-    "mtime": 1791830328.3117487,
-    "seen": 1791891178.0930667,
-    "ast_hash": "27d34d212a1cb241388cbdb9251dcc51",
-    "semantic_hash": "27d34d212a1cb241388cbdb9251dcc51"
+    "mtime": 1791893787.8228896,
+    "seen": 1791904879.43932,
+    "ast_hash": "b4819d28765aae0dd0b945fae8830917",
+    "semantic_hash": "b4819d28765aae0dd0b945fae8830917"
   },
   "Qwen Spark Migration/patch_hermes_timeouts.py": {
-    "mtime": 1791826153.329466,
-    "seen": 1791891178.0930667,
-    "ast_hash": "a77abb7ce3edcfc770d2e94fa2f3f081",
-    "semantic_hash": "a77abb7ce3edcfc770d2e94fa2f3f081"
+    "mtime": 1791893787.8228896,
+    "seen": 1791904879.43932,
+    "ast_hash": "590ee5762e59aeb6a93228427928c8ce",
+    "semantic_hash": "590ee5762e59aeb6a93228427928c8ce"
   },
   "Qwen Spark Migration/precheck_hermes_bootstrap.py": {
-    "mtime": 1791829188.4984212,
-    "seen": 1791891178.0930667,
-    "ast_hash": "b5d82b9851d4b899c741c900a7847ec4",
-    "semantic_hash": "b5d82b9851d4b899c741c900a7847ec4"
+    "mtime": 1791893787.8228896,
+    "seen": 1791904879.43932,
+    "ast_hash": "cc2a602ac494bc64efca90ce7b37afcc",
+    "semantic_hash": "cc2a602ac494bc64efca90ce7b37afcc"
   },
   "Qwen Spark Migration/precheck_spark_fast.py": {
-    "mtime": 1791828818.8721051,
-    "seen": 1791891178.0930667,
-    "ast_hash": "6d9206f42bd271da751d11c44a49a10f",
-    "semantic_hash": "6d9206f42bd271da751d11c44a49a10f"
+    "mtime": 1791893787.8228896,
+    "seen": 1791904879.43932,
+    "ast_hash": "3da1819e95f8520633dffeae124fff19",
+    "semantic_hash": "3da1819e95f8520633dffeae124fff19"
   },
   "Qwen Spark Migration/probe_hermes_pair.py": {
-    "mtime": 1791829155.6116562,
-    "seen": 1791891178.0930667,
-    "ast_hash": "3f3fbb094d2e37d165cf679fa1310952",
-    "semantic_hash": "3f3fbb094d2e37d165cf679fa1310952"
+    "mtime": 1791893787.8238895,
+    "seen": 1791904879.43932,
+    "ast_hash": "a4ea29b2dc08f7ca85aad90fdb2ecf3a",
+    "semantic_hash": "a4ea29b2dc08f7ca85aad90fdb2ecf3a"
   },
   "Qwen Spark Migration/probe_hermes_production.py": {
-    "mtime": 1791830619.3233738,
-    "seen": 1791891178.0930667,
-    "ast_hash": "b4a4c31c53e8b0d613e258b561b9c2a2",
-    "semantic_hash": "b4a4c31c53e8b0d613e258b561b9c2a2"
+    "mtime": 1791893787.8238895,
+    "seen": 1791904879.43932,
+    "ast_hash": "91b9b14477111e525e457a8c082b89fc",
+    "semantic_hash": "91b9b14477111e525e457a8c082b89fc"
   },
   "Qwen Spark Migration/probe_qwen.py": {
-    "mtime": 1791822860.440307,
-    "seen": 1791891178.0930667,
-    "ast_hash": "8cc110c3e16c28335e64da5cef089f9b",
-    "semantic_hash": "8cc110c3e16c28335e64da5cef089f9b"
+    "mtime": 1791893787.8238895,
+    "seen": 1791904879.43932,
+    "ast_hash": "306c811a142b49f376b40f27b1c9a072",
+    "semantic_hash": "306c811a142b49f376b40f27b1c9a072"
   },
   "Qwen Spark Migration/probe_qwen_long.py": {
     "mtime": 1791800016.957278,
@@ -186,76 +186,76 @@
     "semantic_hash": "040e0e9d9572ce1d77a6aa81365fba9b"
   },
   "Qwen Spark Migration/read_hermes_restart_evidence.py": {
-    "mtime": 1791827136.477925,
-    "seen": 1791891178.0930667,
-    "ast_hash": "5043370f7844acea4ef6531982514956",
-    "semantic_hash": "5043370f7844acea4ef6531982514956"
+    "mtime": 1791893787.8238895,
+    "seen": 1791904879.43932,
+    "ast_hash": "c60d4d02657dd475e61f08375163e97a",
+    "semantic_hash": "c60d4d02657dd475e61f08375163e97a"
   },
   "Qwen Spark Migration/retry_native_240k.py": {
-    "mtime": 1791828065.6884966,
-    "seen": 1791891178.0930667,
-    "ast_hash": "5760f5e25fd853ff6acbef2f3a70fb15",
-    "semantic_hash": "5760f5e25fd853ff6acbef2f3a70fb15"
+    "mtime": 1791893787.8238895,
+    "seen": 1791904879.43932,
+    "ast_hash": "01f7f1f9a9159324b88916b2a8cfdede",
+    "semantic_hash": "01f7f1f9a9159324b88916b2a8cfdede"
   },
   "Qwen Spark Migration/run_native_qwen.py": {
-    "mtime": 1791887092.1803362,
-    "seen": 1791891178.0930667,
-    "ast_hash": "2e3d53668cee5fae7b7bd2b8896085c4",
-    "semantic_hash": "2e3d53668cee5fae7b7bd2b8896085c4"
+    "mtime": 1791893787.8248894,
+    "seen": 1791904879.43932,
+    "ast_hash": "aa935a675d6ee06033b79234b0a4e9be",
+    "semantic_hash": "aa935a675d6ee06033b79234b0a4e9be"
   },
   "Qwen Spark Migration/run_timeout_checks_isolated.py": {
-    "mtime": 1791826837.2995987,
-    "seen": 1791891178.0930667,
-    "ast_hash": "47a5071766fe8748aeb32ab9ac53c3ec",
-    "semantic_hash": "47a5071766fe8748aeb32ab9ac53c3ec"
+    "mtime": 1791893787.8248894,
+    "seen": 1791904879.43932,
+    "ast_hash": "a1db943c55fd4c36e4428909749ec61a",
+    "semantic_hash": "a1db943c55fd4c36e4428909749ec61a"
   },
   "Qwen Spark Migration/shared-host-memory-review-20261012.json": {
-    "mtime": 1791828227.1581929,
-    "seen": 1791891178.0930667,
-    "ast_hash": "692d81495444cb4805c3ca51fe4d9dcd",
-    "semantic_hash": "692d81495444cb4805c3ca51fe4d9dcd"
+    "mtime": 1791893787.8248894,
+    "seen": 1791904879.43932,
+    "ast_hash": "640cc7af4b1a6c17d2b3dc37204eca5e",
+    "semantic_hash": "640cc7af4b1a6c17d2b3dc37204eca5e"
   },
   "Qwen Spark Migration/test_add_desktop_qwen.py": {
-    "mtime": 1791890099.9079473,
-    "seen": 1791891178.0930667,
-    "ast_hash": "2c9a51e450fb87f0adc7326d89aeb25a",
-    "semantic_hash": "2c9a51e450fb87f0adc7326d89aeb25a"
+    "mtime": 1791893787.8248894,
+    "seen": 1791904879.43932,
+    "ast_hash": "a775f809814571b19f07105fa23f9b03",
+    "semantic_hash": "a775f809814571b19f07105fa23f9b03"
   },
   "Qwen Spark Migration/test_admission_proxy.py": {
-    "mtime": 1791886425.0954852,
-    "seen": 1791891178.0930667,
-    "ast_hash": "e24414281ac1d9220711b715213d6dbb",
-    "semantic_hash": "e24414281ac1d9220711b715213d6dbb"
+    "mtime": 1791893787.8258889,
+    "seen": 1791904879.43932,
+    "ast_hash": "61782cf67190635d2c233f644df297c0",
+    "semantic_hash": "61782cf67190635d2c233f644df297c0"
   },
   "Qwen Spark Migration/test_continue_native_reviewed.py": {
-    "mtime": 1791828866.121175,
-    "seen": 1791891178.0930667,
-    "ast_hash": "6823fd644e5c92c4e85933150196d183",
-    "semantic_hash": "6823fd644e5c92c4e85933150196d183"
+    "mtime": 1791893787.8258889,
+    "seen": 1791904879.43932,
+    "ast_hash": "b7d0aeffcf380ff26c7fdb560f6d5abc",
+    "semantic_hash": "b7d0aeffcf380ff26c7fdb560f6d5abc"
   },
   "Qwen Spark Migration/test_finish_native_install.py": {
-    "mtime": 1791821039.6335788,
-    "seen": 1791891178.0930667,
-    "ast_hash": "1541779680dad9408c2e3168d30a4f6c",
-    "semantic_hash": "1541779680dad9408c2e3168d30a4f6c"
+    "mtime": 1791893787.8258889,
+    "seen": 1791904879.43932,
+    "ast_hash": "30616f527d3ce1a754f09cb47f9783f0",
+    "semantic_hash": "30616f527d3ce1a754f09cb47f9783f0"
   },
   "Qwen Spark Migration/test_hermes_timeouts.py": {
-    "mtime": 1791826153.341449,
-    "seen": 1791891178.0930667,
-    "ast_hash": "95add4458a7f3fd9da0e6551f9d22755",
-    "semantic_hash": "95add4458a7f3fd9da0e6551f9d22755"
+    "mtime": 1791893787.8258889,
+    "seen": 1791904879.43932,
+    "ast_hash": "3a2c6a8e5a959e16541b56580f5be182",
+    "semantic_hash": "3a2c6a8e5a959e16541b56580f5be182"
   },
   "Qwen Spark Migration/test_named_custom_timeout_resolution.py": {
-    "mtime": 1791826799.6780262,
-    "seen": 1791891178.0930667,
-    "ast_hash": "9331781fc6ef4ceebfdbac9a531a389b",
-    "semantic_hash": "9331781fc6ef4ceebfdbac9a531a389b"
+    "mtime": 1791893787.8258889,
+    "seen": 1791904879.43932,
+    "ast_hash": "41738ca889502dd7841297ee960cdec0",
+    "semantic_hash": "41738ca889502dd7841297ee960cdec0"
   },
   "Qwen Spark Migration/test_probe_hermes_production.py": {
-    "mtime": 1791830619.3233738,
-    "seen": 1791891178.0930667,
-    "ast_hash": "e415f654b6fae9ffa2ab6ae7441d1903",
-    "semantic_hash": "e415f654b6fae9ffa2ab6ae7441d1903"
+    "mtime": 1791893787.8258889,
+    "seen": 1791904879.43932,
+    "ast_hash": "3994834093bf35d8b93748c372ee2542",
+    "semantic_hash": "3994834093bf35d8b93748c372ee2542"
   },
   "Qwen Spark Migration/test_probe_qwen_long.py": {
     "mtime": 1791800016.957278,
@@ -264,28 +264,28 @@
     "semantic_hash": "6cc498734e3b0d69f20da64176d54f2a"
   },
   "Qwen Spark Migration/test_run_native_qwen.py": {
-    "mtime": 1791887108.4507987,
-    "seen": 1791891178.0930667,
-    "ast_hash": "760a4f131839388b5cc5840995774e20",
-    "semantic_hash": "760a4f131839388b5cc5840995774e20"
+    "mtime": 1791893787.8268895,
+    "seen": 1791904879.43932,
+    "ast_hash": "37da74f796519c4fd2ee7f6265494956",
+    "semantic_hash": "37da74f796519c4fd2ee7f6265494956"
   },
   "Qwen Spark Migration/test_verify_native_catalog.py": {
-    "mtime": 1791890127.0426266,
-    "seen": 1791891178.0930667,
-    "ast_hash": "d5deb1a3cefddfb89c5eb921e8f9a6c2",
-    "semantic_hash": "d5deb1a3cefddfb89c5eb921e8f9a6c2"
+    "mtime": 1791893787.8268895,
+    "seen": 1791904879.43932,
+    "ast_hash": "57b1e297d1650e3182c8f0cd36f4423b",
+    "semantic_hash": "57b1e297d1650e3182c8f0cd36f4423b"
   },
   "Qwen Spark Migration/timeout-patch-installed-manifest.json": {
-    "mtime": 1791826231.092822,
-    "seen": 1791891178.0930667,
-    "ast_hash": "1295f98ee668fe5893881a3b2e0f05e2",
-    "semantic_hash": "1295f98ee668fe5893881a3b2e0f05e2"
+    "mtime": 1791893787.8273928,
+    "seen": 1791904879.43932,
+    "ast_hash": "21415060dd86ade109cafc91f4f4fe80",
+    "semantic_hash": "21415060dd86ade109cafc91f4f4fe80"
   },
   "Qwen Spark Migration/verify_native_catalog.py": {
-    "mtime": 1791890127.0413892,
-    "seen": 1791891178.0930667,
-    "ast_hash": "af4659c603cafb1d83c56a69951a709f",
-    "semantic_hash": "af4659c603cafb1d83c56a69951a709f"
+    "mtime": 1791893787.8273928,
+    "seen": 1791904879.43932,
+    "ast_hash": "e4dd89cd215fca3a2738ce569af017e4",
+    "semantic_hash": "e4dd89cd215fca3a2738ce569af017e4"
   },
   "scripts/aux-services": {
     "mtime": 1790431031.4712427,
@@ -360,8 +360,8 @@
     "semantic_hash": "f337f715657f96ccaff3f9a3baaf78b8"
   },
   "DGX Spark Additional Services Controller.md": {
-    "mtime": 1791830695.7781136,
-    "seen": 1791891178.0930667,
+    "mtime": 1791893787.8168895,
+    "seen": 1791894861.94415,
     "ast_hash": "83b568d273dac55183c2c384e5290b9e",
     "semantic_hash": "83b568d273dac55183c2c384e5290b9e"
   },
@@ -510,10 +510,10 @@
     "semantic_hash": "d753ef3fa2b7c62817b582c3005bff2d"
   },
   "DGX Spark Qwen NVFP4 Memory And Startup Optimization Research.md": {
-    "mtime": 1791809777.8844614,
-    "seen": 1791891178.0930667,
-    "ast_hash": "758a2031a8cfeaf19e830783f0165d86",
-    "semantic_hash": "758a2031a8cfeaf19e830783f0165d86"
+    "mtime": 1791893787.8178906,
+    "seen": 1791904879.43932,
+    "ast_hash": "75c675d3111229014fdeb1c16f186fb6",
+    "semantic_hash": "75c675d3111229014fdeb1c16f186fb6"
   },
   "DGX Spark Second Node And Dual Spark Readiness Research 2026-08-20.md": {
     "mtime": 1789722200.62712,
@@ -558,10 +558,10 @@
     "semantic_hash": "248714e5ff337dc37863df7a1b2e926c"
   },
   "Local Setup Index.md": {
-    "mtime": 1791890309.8799942,
-    "seen": 1791891178.0930667,
-    "ast_hash": "2ec6b2a6e93010413e641580d8513711",
-    "semantic_hash": "2ec6b2a6e93010413e641580d8513711"
+    "mtime": 1791904212.2480755,
+    "seen": 1791904879.43932,
+    "ast_hash": "a5177e151b531669ecbb1f3179c5c67a",
+    "semantic_hash": "a5177e151b531669ecbb1f3179c5c67a"
   },
   "LongCat Video Avatar 1.5 Workstation Feasibility Tutorial.md": {
     "mtime": 1790577065.5830407,
@@ -600,14 +600,14 @@
     "semantic_hash": "cd3a61d933666db34b821ba91c25a01f"
   },
   "Qwen 3.8 27B DFlash2 Speed Upgrade.md": {
-    "mtime": 1791890309.8799942,
-    "seen": 1791891178.0930667,
-    "ast_hash": "f3c94a35fa3af5643010784371fe00e9",
-    "semantic_hash": "f3c94a35fa3af5643010784371fe00e9"
+    "mtime": 1791893787.8188906,
+    "seen": 1791904879.43932,
+    "ast_hash": "95518af416631d222291376a4047da51",
+    "semantic_hash": "95518af416631d222291376a4047da51"
   },
   "Qwen 3.8 27B Native Spark Setup Tutorial.md": {
-    "mtime": 1791866060.773306,
-    "seen": 1791891178.0930667,
+    "mtime": 1791893787.8188906,
+    "seen": 1791894861.94415,
     "ast_hash": "9ba441b181b9c328e7796498a5548777",
     "semantic_hash": "9ba441b181b9c328e7796498a5548777"
   },
@@ -630,14 +630,14 @@
     "semantic_hash": "766f0a51ce2dc211c09f3cfe97e8a67a"
   },
   "Qwen Spark Migration Evidence 2026-10-12.md": {
-    "mtime": 1791826204.729301,
-    "seen": 1791891178.0930667,
-    "ast_hash": "1c44134e225d28b885b77f17becf1584",
-    "semantic_hash": "1c44134e225d28b885b77f17becf1584"
+    "mtime": 1791893787.8188906,
+    "seen": 1791904879.43932,
+    "ast_hash": "caf06a31d8684a2b7a548c92859197c9",
+    "semantic_hash": "caf06a31d8684a2b7a548c92859197c9"
   },
   "Qwen Spark Migration/DECISION-README.md": {
-    "mtime": 1791830647.5533636,
-    "seen": 1791891178.0930667,
+    "mtime": 1791893787.81989,
+    "seen": 1791894861.94415,
     "ast_hash": "f0c5275794a435892389cb5a99121d05",
     "semantic_hash": "f0c5275794a435892389cb5a99121d05"
   },
@@ -744,14 +744,14 @@
     "semantic_hash": "ae66d93f0d34620f84f899f6caf37b5a"
   },
   "SparkFast And Qwen 27B Capacity Comparison.md": {
-    "mtime": 1791830647.55237,
-    "seen": 1791891178.0930667,
+    "mtime": 1791893787.8273928,
+    "seen": 1791894861.94415,
     "ast_hash": "cbb2b53ca51ae06cd0a963d76fe856c2",
     "semantic_hash": "cbb2b53ca51ae06cd0a963d76fe856c2"
   },
   "Task Checklist.md": {
-    "mtime": 1791830647.5472715,
-    "seen": 1791891178.0930667,
+    "mtime": 1791893787.8283978,
+    "seen": 1791894861.94415,
     "ast_hash": "d8e46b8769ab6a410e8aa9518673c5c9",
     "semantic_hash": "d8e46b8769ab6a410e8aa9518673c5c9"
   },
@@ -814,5 +814,71 @@
     "seen": 1791891178.0930667,
     "ast_hash": "b4c831df6e8cec72b2d9b6b2fa8f9e4a",
     "semantic_hash": "b4c831df6e8cec72b2d9b6b2fa8f9e4a"
+  },
+  ".claude/launch.json": {
+    "mtime": 1791893787.8158894,
+    "seen": 1791904879.43932,
+    "ast_hash": "17c9398c97efc40f769da56e11d7b163",
+    "semantic_hash": "17c9398c97efc40f769da56e11d7b163"
+  },
+  ".claude/settings.json": {
+    "mtime": 1791893787.8168895,
+    "seen": 1791904879.43932,
+    "ast_hash": "7a90779227f89ea51bfe27f77d562717",
+    "semantic_hash": "7a90779227f89ea51bfe27f77d562717"
+  },
+  "CLAUDE.md": {
+    "mtime": 1791893787.8168895,
+    "seen": 1791904879.43932,
+    "ast_hash": "7144c633c373c854731b8106f46224bb",
+    "semantic_hash": "7144c633c373c854731b8106f46224bb"
+  },
+  "Qwen 27B Windows Lag And Spark Download Fix 2026-10-13.md": {
+    "mtime": 1791904216.9029818,
+    "seen": 1791904879.43932,
+    "ast_hash": "405328704a6ca575dd694f5d8c5fbda4",
+    "semantic_hash": "405328704a6ca575dd694f5d8c5fbda4"
+  },
+  "work/ollama-env-before-20261013.txt": {
+    "mtime": 1791894440.4401839,
+    "seen": 1791904879.43932,
+    "ast_hash": "7e7503114541488d21db30b867f73538",
+    "semantic_hash": "7e7503114541488d21db30b867f73538"
+  },
+  "scripts/qwen-off.ps1": {
+    "mtime": 1791903881.5652194,
+    "seen": 1791904879.43932,
+    "ast_hash": "9049c112098ff0b9c7cac73af7c9e032",
+    "semantic_hash": "9049c112098ff0b9c7cac73af7c9e032"
+  },
+  "scripts/qwen-on.ps1": {
+    "mtime": 1791903884.3309119,
+    "seen": 1791904879.43932,
+    "ast_hash": "7303a5dfcc54ace527dc1835f8a02614",
+    "semantic_hash": "7303a5dfcc54ace527dc1835f8a02614"
+  },
+  "scripts/start-desktop-qwen.ps1": {
+    "mtime": 1791904504.1628127,
+    "seen": 1791904879.43932,
+    "ast_hash": "f1cd989d967c9f5e27aac356597be10f",
+    "semantic_hash": "f1cd989d967c9f5e27aac356597be10f"
+  },
+  "Desktop Qwen Runbook.md": {
+    "mtime": 1791905005.0610223,
+    "seen": 1791907219.108768,
+    "ast_hash": "1d0c304a75eb1bfd744fc220703cc2c1",
+    "semantic_hash": "1d0c304a75eb1bfd744fc220703cc2c1"
+  },
+  "scripts/desktop-qwen-run-at-boot.ps1": {
+    "mtime": 1791904526.958735,
+    "seen": 1791904879.43932,
+    "ast_hash": "6eac80bba8c1d84731d3bbb9047b77c2",
+    "semantic_hash": "6eac80bba8c1d84731d3bbb9047b77c2"
+  },
+  "work/desktop-qwen-run-at-boot-result.txt": {
+    "mtime": 1791904572.585037,
+    "seen": 1791904879.43932,
+    "ast_hash": "fa37b07ff08fbcb71fe3e8024b383768",
+    "semantic_hash": "fa37b07ff08fbcb71fe3e8024b383768"
   }
 }
