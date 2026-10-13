@@ -1,7 +1,7 @@
 ---
 title: Task Checklist
 created: 2026-08-15
-updated: 2026-10-12
+updated: 2026-10-13
 status: active
 type: checklist
 tags:
@@ -45,17 +45,23 @@ Only work supported by the task record, live verification, or a dated evidence n
 
 ### Qwen desktop relief — documented 12 October 2026
 
-Use [[Qwen 3.8 27B Native Spark Setup Tutorial]]. The user selected native llama.cpp and **UD-Q5_K_XL**, targeting four independent 262K sessions with **Q4 K/V caches and uncapped output**. Long-context qualification is required before publication. Installation is in progress. Fresh Brief stays on Windows Ollama.
+Use [[Qwen 3.8 27B Native Spark Setup Tutorial]]. The user selected native llama.cpp and **UD-Q5_K_XL**, targeting four independent 262K sessions with **Q4 K/V caches and uncapped output**. Long-context qualification is required before publication. The native provider is qualified, published and verified through the real main profile. Fresh Brief stays on Windows Ollama.
 
 - [x] Inspect current Spark/Windows services, memory, exact weights and Nemotron concurrency; audit Hermes homes/profiles.
 - [x] Capture desktop contention, runner reload and NVIDIA TDR evidence in [[Qwen Spark Migration Evidence 2026-10-12]]. Exact regression onset and sole triggering update remain unproven.
 - [x] Prepare checked transfer, API-probe, startup and reversible Hermes-catalog helpers; preserve three distinct Gemmas, each once.
 - [x] Review the two author tweet threads, accessible replies and images; compare Unsloth/native/LM Studio and correct memory/context assumptions.
 - [x] Stop/disable LM Studio, preserve its rollback assets, and build the pinned native CUDA runtime on FirstSpark.
-- [ ] Complete the pinned Unsloth Q5 download directly on FirstSpark and verify its full hash. Do not resume the superseded Windows copy.
-- [ ] Load Qwen, qualify four independent Q4-cache contexts and four uncapped Hermes research/coding sessions while `spark-fast` runs.
-- [ ] Verify actual remote generation keeps Windows responsive; qualify tools, streaming, memory and temperature.
-- [ ] Promote startup, verify restart/reboot, apply catalog cleanup to both Hermes homes/profiles and switch saved desktop-Qwen chats.
+- [x] Complete the pinned Unsloth Q5 download directly on FirstSpark and verify its full hash (20:33 IST, 12 October). Do not resume the superseded Windows copy.
+- [x] Load Qwen and pass short API/tool/four-stream tests plus four100K-input retrieval checks alongside `spark-fast`; minimum14.65GiB available in that long batch, zero swap-out.
+- [x] Complete four240K-input functional/capacity test: four correct answers,961,716tokens,13.747GiB minimum,44.7minutes; original strict zero-swap gate failed176KiB and remains recorded as failed.
+- [x] Complete reviewed pressure-aware acceptance and four uncapped Hermes research/coding sessions: all passed; minimum15.115GiB available, worker swap0, host page-out0 and OOM deltas0. Original240K strict failure remains preserved.
+- [x] Observe Windows during active Spark inference:23:00IST snapshot3% GPU,29.55W,43°C and no Ollama model loaded. This is not a desktop UI latency benchmark.
+- [x] Add native worker1236 and admission1235 to live auxiliary inventory as locked entries; preserve all existing service policies and restore snapshot.
+- [x] Restart gateway, Serve and dashboard with user authorization; fresh PIDs and HTTP gateway status verified23:46–23:48IST.
+- [x] Enable startup, verify worker restart, apply catalog cleanup to six authoritative Spark configs, and verify the real main-profile Hermes request with262K/no output cap/7200second timeouts. Windows configuration remains unchanged.
+- [ ] Verify the authenticated Windows Remote Gateway picker/chat; explicitly select the new provider for saved desktop-Qwen chats rather than rewriting active conversation history.
+- [ ] Verify a controlled reboot in a separate maintenance window.
 - [ ] Verify Windows private API/client access to Spark; use LM Link only if the LM Studio alternative is selected.
 - [x] Preserve Fresh Brief's Windows Ollama model, 8 AM/8 PM IST schedule and cached editions; revert the unneeded adapter changes. Its GPU load remains outside this Hermes migration.
 - [ ] Complete representative 24-hour soak before retiring any rollback assets.

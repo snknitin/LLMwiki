@@ -1,0 +1,150 @@
+▶ not activated — using HERMES_PYTHON: /tmp/hermes-timeout-source-toytdoy0/single-worker-python
+▶ running per-file parallel test suite via run_tests_parallel.py
+  (TZ=UTC LANG=C.UTF-8 PYTHONHASHSEED=0; clean env)
+▶ pre-compiling bytecode cache
+▶ launching test runner
+Discovered 1 test files (~2 tests) under ['tests/hermes_cli/test_named_custom_timeout_resolution.py']; running with -j 1
+[100.0% |     2/~2 | ✓0 | ✗2] ✗ tests/hermes_cli/test_named_custom_timeout_resolution.py (2✗, 3.5s)
+
+  ╔╍ Failed: tests/hermes_cli/test_named_custom_timeout_resolution.py ╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍
+  ║ INFO     hermes_cli.plugins:plugins.py:373 Plugin 'web-keenable' registered web provider: keenable
+  ║ INFO     hermes_cli.plugins:plugins.py:373 Plugin 'web-openai-native' registered web provider: openai-native
+  ║ INFO     hermes_cli.plugins:plugins.py:373 Plugin 'web-parallel' registered web provider: parallel
+  ║ INFO     hermes_cli.plugins:plugins.py:373 Plugin 'web-perplexity' registered web provider: perplexity
+  ║ INFO     hermes_cli.plugins:plugins.py:373 Plugin 'web-searxng' registered web provider: searxng
+  ║ INFO     hermes_cli.plugins:plugins.py:373 Plugin 'web-tavily' registered web provider: tavily
+  ║ INFO     hermes_cli.plugins:plugins.py:373 Plugin 'web-xai' registered web provider: xai
+  ║ INFO     hermes_cli.plugins:plugins.py:1428 Plugin discovery complete: 56 found, 51 enabled
+  ║ INFO     run_agent:agent_runtime_helpers.py:2095 OpenAI client created (agent_init, shared=True) thread=MainThread:260429715165216 provider=custom base_url=http://127.0.0.1:1235/v1 model=test-model
+  ║ INFO     run_agent:client_lifecycle.py:206 OpenAI client closed (agent_close, shared=True, tcp_force_closed=0) thread=MainThread:260429715165216 provider=custom base_url=http://127.0.0.1:1235/v1 model=test-model
+  ║ INFO     hermes_cli.mem_trim:mem_trim.py:179 memory trim: reason=agent close malloc_trim=1 rss_kib=128908->128548 rss_anon_kib=111748->111388 threads=3 duration_ms=67.8
+  ║ ______________ test_named_override_precedence_and_legacy_fallback ______________
+  ║ 
+  ║ configured_home = PosixPath('/var/tmp/hermes-pytest-1000/r-_z2xe93_/pytest-of-snknitin/pytest-0/test_named_override_precedence0')
+  ║ 
+  ║     def test_named_override_precedence_and_legacy_fallback(configured_home):
+  ║         from hermes_cli.timeouts import get_provider_request_timeout, get_provider_stale_timeout
+  ║     
+  ║         request = get_provider_request_timeout
+  ║         stale = get_provider_stale_timeout
+  ║         named = {"requested_provider": "custom:local-timeout-test"}
+  ║ >       assert request("custom", "special", **named) == 111
+  ║                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  ║ E       TypeError: get_provider_request_timeout() got an unexpected keyword argument 'requested_provider'
+  ║ 
+  ║ tests/hermes_cli/test_named_custom_timeout_resolution.py:73: TypeError
+  ║ =========================== short test summary info ============================
+  ║ FAILED tests/hermes_cli/test_named_custom_timeout_resolution.py::test_named_custom_runtime_agent_and_stream_timeouts
+  ║ FAILED tests/hermes_cli/test_named_custom_timeout_resolution.py::test_named_override_precedence_and_legacy_fallback
+  ║ ============================== 2 failed in 1.27s ===============================
+  ║
+  ║  Repro: python -m pytest tests/hermes_cli/test_named_custom_timeout_resolution.py
+  ╚╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍
+
+
+=== Summary: 1 files, 0 tests passed, 2 failed (100% complete) in 3.5s (1 workers) ===
+
+=== Per-file subprocess time distribution ===
+  Files:   1
+  Total subprocess CPU-wall: 3.5s  (runner wall: 3.5s, parallelism: 1x)
+  P50: 3.45s  P90: 3.45s  P95: 3.45s  P99: 3.45s  Max: 3.45s
+  <1s: 0 files (0%)  <2s: 0 files (0%)
+  Top 10 slowest:
+      3.45s  tests/hermes_cli/test_named_custom_timeout_resolution.py
+
+=== Failure output ===
+
+--- tests/hermes_cli/test_named_custom_timeout_resolution.py ---
+============================= test session starts ==============================
+platform linux -- Python 3.11.15, pytest-9.1.1, pluggy-1.6.0
+rootdir: /tmp/hermes-timeout-source-toytdoy0/source
+configfile: pyproject.toml
+plugins: asyncio-1.3.0, anyio-4.12.1
+asyncio: mode=Mode.STRICT, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collected 2 items
+
+tests/hermes_cli/test_named_custom_timeout_resolution.py FF              [100%]
+
+=================================== FAILURES ===================================
+_____________ test_named_custom_runtime_agent_and_stream_timeouts ______________
+
+configured_home = PosixPath('/var/tmp/hermes-pytest-1000/r-_z2xe93_/pytest-of-snknitin/pytest-0/test_named_custom_runtime_agen0')
+
+    def test_named_custom_runtime_agent_and_stream_timeouts(configured_home):
+        from hermes_cli.runtime_provider import resolve_runtime_provider
+        from run_agent import AIAgent
+        from agent.chat_completion_helpers import _StreamingCall
+    
+        requested = "custom:local-timeout-test"
+        runtime = resolve_runtime_provider(requested=requested, target_model="test-model")
+        assert runtime["provider"] == "custom"
+        assert runtime["base_url"].rstrip("/") == "http://127.0.0.1:1235/v1"
+        agent = AIAgent(
+            model="test-model", provider=runtime["provider"], requested_provider=requested,
+            api_key=runtime["api_key"], base_url=runtime["base_url"], api_mode=runtime["api_mode"],
+            enabled_toolsets=[], fallback_model=[], credential_pool=None,
+            skip_memory=True, skip_background_review=True, skip_context_files=True,
+            load_soul_identity=False, session_db=None, save_trajectories=False, quiet_mode=True,
+        )
+        try:
+>           assert agent._resolved_api_call_timeout() == 7200
+E           assert 80.0 == 7200
+E            +  where 80.0 = _resolved_api_call_timeout()
+E            +    where _resolved_api_call_timeout = <run_agent.AIAgent object at 0xecdbfa632010>._resolved_api_call_timeout
+
+tests/hermes_cli/test_named_custom_timeout_resolution.py:53: AssertionError
+------------------------------ Captured log call -------------------------------
+INFO     run_agent:run_agent.py:98 Loaded environment variables from /var/tmp/hermes-pytest-1000/r-_z2xe93_/pytest-of-snknitin/pytest-0/test_named_custom_runtime_agen0/.env
+INFO     hermes_cli.plugins:plugins.py:373 Plugin 'browser-browser-use' registered browser provider: browser-use
+INFO     hermes_cli.plugins:plugins.py:373 Plugin 'browser-browserbase' registered browser provider: browserbase
+INFO     hermes_cli.plugins:plugins.py:373 Plugin 'browser-firecrawl' registered browser provider: firecrawl
+INFO     hermes_cli.plugins:plugins.py:373 Plugin 'deepinfra' registered image_gen provider: deepinfra
+INFO     hermes_cli.plugins:plugins.py:373 Plugin 'fal' registered image_gen provider: fal
+INFO     hermes_cli.plugins:plugins.py:373 Plugin 'krea' registered image_gen provider: krea
+INFO     hermes_cli.plugins:plugins.py:373 Plugin 'meta-ai-image-gen' registered image_gen provider: meta-ai
+INFO     hermes_cli.plugins:plugins.py:373 Plugin 'openai' registered image_gen provider: openai
+INFO     hermes_cli.plugins:plugins.py:373 Plugin 'openai-codex' registered image_gen provider: openai-codex
+INFO     hermes_cli.plugins:plugins.py:373 Plugin 'openrouter' registered image_gen provider: openrouter
+INFO     hermes_cli.plugins:plugins.py:373 Plugin 'openrouter' registered image_gen provider: nous
+INFO     hermes_cli.plugins:plugins.py:373 Plugin 'xai' registered image_gen provider: xai
+INFO     hermes_cli.plugins:plugins.py:373 Plugin 'deepinfra' registered video_gen provider: deepinfra
+INFO     hermes_cli.plugins:plugins.py:373 Plugin 'fal' registered video_gen provider: fal
+INFO     hermes_cli.plugins:plugins.py:373 Plugin 'openrouter' registered video_gen provider: openrouter
+INFO     hermes_cli.plugins:plugins.py:373 Plugin 'xai' registered video_gen provider: xai
+INFO     hermes_cli.plugins:plugins.py:373 Plugin 'web-brave-free' registered web provider: brave-free
+INFO     hermes_cli.plugins:plugins.py:373 Plugin 'web-ddgs' registered web provider: ddgs
+INFO     hermes_cli.plugins:plugins.py:373 Plugin 'web-exa' registered web provider: exa
+INFO     hermes_cli.plugins:plugins.py:373 Plugin 'web-firecrawl' registered web provider: firecrawl
+INFO     hermes_cli.plugins:plugins.py:373 Plugin 'web-keenable' registered web provider: keenable
+INFO     hermes_cli.plugins:plugins.py:373 Plugin 'web-openai-native' registered web provider: openai-native
+INFO     hermes_cli.plugins:plugins.py:373 Plugin 'web-parallel' registered web provider: parallel
+INFO     hermes_cli.plugins:plugins.py:373 Plugin 'web-perplexity' registered web provider: perplexity
+INFO     hermes_cli.plugins:plugins.py:373 Plugin 'web-searxng' registered web provider: searxng
+INFO     hermes_cli.plugins:plugins.py:373 Plugin 'web-tavily' registered web provider: tavily
+INFO     hermes_cli.plugins:plugins.py:373 Plugin 'web-xai' registered web provider: xai
+INFO     hermes_cli.plugins:plugins.py:1428 Plugin discovery complete: 56 found, 51 enabled
+INFO     run_agent:agent_runtime_helpers.py:2095 OpenAI client created (agent_init, shared=True) thread=MainThread:260429715165216 provider=custom base_url=http://127.0.0.1:1235/v1 model=test-model
+INFO     run_agent:client_lifecycle.py:206 OpenAI client closed (agent_close, shared=True, tcp_force_closed=0) thread=MainThread:260429715165216 provider=custom base_url=http://127.0.0.1:1235/v1 model=test-model
+INFO     hermes_cli.mem_trim:mem_trim.py:179 memory trim: reason=agent close malloc_trim=1 rss_kib=128908->128548 rss_anon_kib=111748->111388 threads=3 duration_ms=67.8
+______________ test_named_override_precedence_and_legacy_fallback ______________
+
+configured_home = PosixPath('/var/tmp/hermes-pytest-1000/r-_z2xe93_/pytest-of-snknitin/pytest-0/test_named_override_precedence0')
+
+    def test_named_override_precedence_and_legacy_fallback(configured_home):
+        from hermes_cli.timeouts import get_provider_request_timeout, get_provider_stale_timeout
+    
+        request = get_provider_request_timeout
+        stale = get_provider_stale_timeout
+        named = {"requested_provider": "custom:local-timeout-test"}
+>       assert request("custom", "special", **named) == 111
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: get_provider_request_timeout() got an unexpected keyword argument 'requested_provider'
+
+tests/hermes_cli/test_named_custom_timeout_resolution.py:73: TypeError
+=========================== short test summary info ============================
+FAILED tests/hermes_cli/test_named_custom_timeout_resolution.py::test_named_custom_runtime_agent_and_stream_timeouts
+FAILED tests/hermes_cli/test_named_custom_timeout_resolution.py::test_named_override_precedence_and_legacy_fallback
+============================== 2 failed in 1.27s ===============================
+
+=== 1 file with test failures (2 tests failed) ===
+  tests/hermes_cli/test_named_custom_timeout_resolution.py  (2 tests failed)

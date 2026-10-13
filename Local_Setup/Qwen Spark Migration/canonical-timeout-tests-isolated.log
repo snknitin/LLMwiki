@@ -1,0 +1,28 @@
+▶ not activated — using HERMES_PYTHON: /tmp/hermes-timeout-source-n_pcrxnq/single-worker-python
+▶ running per-file parallel test suite via run_tests_parallel.py
+  (TZ=UTC LANG=C.UTF-8 PYTHONHASHSEED=0; clean env)
+▶ pre-compiling bytecode cache
+▶ launching test runner
+Discovered 6 test files (~18 tests) under ['tests/hermes_cli/test_named_custom_timeout_resolution.py', 'tests/hermes_cli/test_timeouts.py', 'tests/hermes_cli/test_user_provider_timeout_only_entry.py', 'tests/agent/test_non_stream_stale_timeout.py', 'tests/agent/test_local_stream_timeout.py', 'tests/agent/test_reasoning_stale_timeout_floor.py']; running with -j 1
+[ 11.1% |     2/~18 | ✓14 | ✗ 0] ✓ tests/agent/test_local_stream_timeout.py (14✓, 0.6s)
+[ 33.3% |     6/~18 | ✓18 | ✗ 0] ✓ tests/agent/test_non_stream_stale_timeout.py (4✓, 1.8s)
+[ 61.1% |    11/~18 | ✓23 | ✗ 0] ✓ tests/agent/test_reasoning_stale_timeout_floor.py (5✓, 1.8s)
+[ 72.2% |    13/~18 | ✓25 | ✗ 0] ✓ tests/hermes_cli/test_named_custom_timeout_resolution.py (2✓, 1.7s)
+[ 83.3% |    15/~18 | ✓26 | ✗ 0] ✓ tests/hermes_cli/test_timeouts.py (1✓ 1s, 1.8s)
+[100.0% |    18/~18 | ✓29 | ✗ 0] ✓ tests/hermes_cli/test_user_provider_timeout_only_entry.py (3✓, 1.6s)
+
+=== Summary: 6 files, 29 tests passed, 0 failed, 1 skipped (100% complete) in 9.2s (1 workers) ===
+  Durations cached to test_durations.json (6 files)
+
+=== Per-file subprocess time distribution ===
+  Files:   6
+  Total subprocess CPU-wall: 9.2s  (runner wall: 9.2s, parallelism: 1x)
+  P50: 1.76s  P90: 1.84s  P95: 1.84s  P99: 1.84s  Max: 1.84s
+  <1s: 1 files (17%)  <2s: 6 files (100%)
+  Top 10 slowest:
+      1.84s  tests/agent/test_reasoning_stale_timeout_floor.py
+      1.78s  tests/hermes_cli/test_timeouts.py
+      1.76s  tests/agent/test_non_stream_stale_timeout.py
+      1.70s  tests/hermes_cli/test_named_custom_timeout_resolution.py
+      1.57s  tests/hermes_cli/test_user_provider_timeout_only_entry.py
+      0.55s  tests/agent/test_local_stream_timeout.py

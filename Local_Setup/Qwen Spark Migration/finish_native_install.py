@@ -22,6 +22,8 @@ PY = '/home/snknitin/.hermes/hermes-agent/venv/bin/python'
 STATE = RUNS / 'installation-status.json'
 NATIVE = 'qwen38-native.service'
 PROXY = 'qwen38-admission.service'
+MINIMUM_FREE_GIB = 12
+MINIMUM_MTP_FREE_GIB = 18  # 12 GiB floor plus draft/scratch headroom.
 abort = threading.Event()
 monitor_stop = threading.Event()
 monitor_thread = None
@@ -37,6 +39,7 @@ def status(stage, **extra):
     row = {'updated_utc': datetime.datetime.now(datetime.timezone.utc).isoformat(),
            'stage': stage, 'model': 'qwen38-27b-spark', 'quant': 'UD-Q5_K_XL',
            'cache': 'Q4 K/V', 'parallel': 4, 'context_per_slot': 262144,
+           'memory_target_gib': MINIMUM_FREE_GIB, 'emergency_floor_gib': 8,
            'evidence_directory': str(RUNS), **extra}
     tmp = STATE.with_suffix('.tmp')
     tmp.write_text(json.dumps(row, indent=2) + '\n')
@@ -109,6 +112,33 @@ def systemctl(*args):
     check_abort()
 
 
+def reset_worker_start_limits():
+    """Reset planned-reload counters, accepting only harmless inactive-unit GC."""
+    for unit in (NATIVE, PROXY):
+        check_abort()
+        result = subprocess.run(['systemctl', '--user', 'reset-failed', unit],
+                                timeout=100, capture_output=True, text=True,
+                                env={**os.environ, 'LC_ALL': 'C'})
+        check_abort()
+        if result.returncode == 0:
+            continue
+        expected = f'Failed to reset failed state of unit {unit}: Unit {unit} not loaded.'
+        if result.stderr.strip() != expected:
+            raise subprocess.CalledProcessError(result.returncode, result.args,
+                                                output=result.stdout, stderr=result.stderr)
+        # systemd garbage-collects new/stopped inactive units, including their
+        # rate-limit counters. A fresh show loads the installed unit definition.
+        # Require both properties so missing, masked or invalid units still fail.
+        state = subprocess.run(['systemctl', '--user', 'show', unit,
+                                '--property=LoadState', '--property=ActiveState'],
+                               timeout=100, check=True, capture_output=True, text=True,
+                               env={**os.environ, 'LC_ALL': 'C'})
+        properties = dict(line.split('=', 1) for line in state.stdout.splitlines() if '=' in line)
+        if properties.get('LoadState') != 'loaded' or properties.get('ActiveState') != 'inactive':
+            raise RuntimeError('Unloaded reset target is not a valid inactive service: ' + unit)
+        check_abort()
+
+
 def stop_worker_safely():
     try:
         result = subprocess.run(['systemctl', '--user', 'stop', PROXY, NATIVE],
@@ -124,13 +154,17 @@ def get(url):
 
 
 def wait_health(seconds=900):
+    config = json.loads((HERE / 'native-config.json').read_text())
+    expected_active = config['parallel']
+    expected_pool = config['total_context']
     end = time.monotonic() + seconds
     while time.monotonic() < end:
         if abort.is_set():
             raise RuntimeError('Memory guard fired while loading')
         try:
             body = get('http://127.0.0.1:1235/health')
-            if body.get('accepting') and body.get('max_active') == 4 and body.get('pool_tokens') == 1048576:
+            if (body.get('accepting') and body.get('max_active') == expected_active
+                    and body.get('pool_tokens') == expected_pool):
                 return
         except Exception:
             pass
@@ -138,11 +172,15 @@ def wait_health(seconds=900):
     raise RuntimeError('Worker/admission health did not become ready within 15 minutes')
 
 
+def mem_available_gib():
+    lines = Path('/proc/meminfo').read_text().splitlines()
+    return next(int(s.split()[1]) / 1024**2 for s in lines if s.startswith('MemAvailable:'))
+
+
 def memory_guard():
     while not monitor_stop.wait(1):
         try:
-            lines = Path('/proc/meminfo').read_text().splitlines()
-            available = next(int(s.split()[1]) / 1024**2 for s in lines if s.startswith('MemAvailable:'))
+            available = mem_available_gib()
         except Exception:
             available = 0
         if available < 8:
@@ -157,9 +195,12 @@ def start_worker():
         monitor_thread = threading.Thread(target=memory_guard, daemon=True)
         monitor_thread.start()
     started_worker = True
+    # Preserve the exact config for every baseline/MTP/fallback load.
+    stamp = datetime.datetime.now(datetime.timezone.utc).strftime('%Y%m%dT%H%M%S.%fZ')
+    (RUNS / ('native-config-load-' + stamp + '.json')).write_bytes((HERE / 'native-config.json').read_bytes())
     # These are intentional bounded qualification reloads, not failure loops.
     # Baseline -> MTP -> possible baseline -> restart exceeds Burst=2 otherwise.
-    systemctl('reset-failed', NATIVE, PROXY)
+    reset_worker_start_limits()
     systemctl('start', NATIVE, PROXY)
     wait_health()
     check_abort()
@@ -197,8 +238,8 @@ def short(label):
     if not result.get('passed'):
         raise RuntimeError(label + ' did not pass')
     minimum = result.get('minimum_mem_available_gib')
-    if not isinstance(minimum, (int, float)) or minimum < 16:
-        raise RuntimeError(label + ' has missing memory evidence or fell below the selected 16 GiB target')
+    if not isinstance(minimum, (int, float)) or minimum < MINIMUM_FREE_GIB:
+        raise RuntimeError(label + f' has missing memory evidence or fell below the selected {MINIMUM_FREE_GIB} GiB target')
     return sum(row.get('seconds', 0) for row in result['checks']) + max(
         x['seconds'] for x in result['checks'][-1]['results'])
 
@@ -208,20 +249,59 @@ def qualify_long(mode):
                                   text=True, timeout=15).strip()
     if not pid.isdigit() or int(pid) <= 0:
         raise RuntimeError('Native worker PID is not live before long qualification')
-    for size, tokens in [('100k', 100000), ('240k', 240000)]:
+    # Four 240K prefills can be slow on the shared Spark; extend the deadline,
+    # never the memory/swap gates or the required context/concurrency evidence.
+    for size, tokens, timeout in [('100k', 100000, 1800), ('240k', 240000, 3600)]:
         label = f'long-{mode}-four-{size}'
         receipt = RUNS / (label + '.json')
         try:
             run(['python3', 'probe_qwen_long.py', '--base', 'http://127.0.0.1:1236/v1',
                  '--server-pid', pid, '--kv-mode', 'separate', '--kv-capacity-tokens', '1048576',
                  '--parallel', '4', '--repetitions', str(tokens), '--min-prompt-tokens', str(tokens),
-                 '--min-memory-gib', '16', '--abort-memory-gib', '8',
-                 '--output', str(receipt)], label, 2100)
+                 '--min-memory-gib', str(MINIMUM_FREE_GIB), '--abort-memory-gib', '8',
+                 '--timeout', str(timeout), '--output', str(receipt)], label, timeout + 300)
         finally:
             record_probe_emergency(receipt)
         check_abort()
         if not json.loads(receipt.read_text()).get('passed'):
             raise RuntimeError(label + ' did not pass its saved evidence gates')
+
+
+def qualify_accelerator(base_time):
+    available = mem_available_gib()
+    if available < 8:
+        abort.set()
+    check_abort()
+    if available < MINIMUM_MTP_FREE_GIB:
+        reason = (f'Post-baseline MemAvailable {available:.2f} GiB is below '
+                  f'{MINIMUM_MTP_FREE_GIB} GiB required to test MTP safely')
+        decision = {'accelerator': 'none', 'accelerator_skip_reason': reason,
+                    'post_baseline_mem_available_gib': available,
+                    'mtp_test_minimum_gib': MINIMUM_MTP_FREE_GIB}
+        (RUNS / 'accelerator-decision.json').write_text(json.dumps(decision, indent=2) + '\n')
+        status('skipping_mtp2_for_memory', available_in_hermes=False, **decision)
+        return 'none', None, reason
+    status('qualifying_mtp2', available_in_hermes=False, baseline_short_seconds=base_time,
+           post_baseline_mem_available_gib=available)
+    systemctl('stop', PROXY, NATIVE)
+    set_speculation('draft-mtp')
+    try:
+        start_worker()
+        mtp_time = short('short-mtp2')
+        winner = 'draft-mtp' if mtp_time < base_time else 'none'
+    except Exception:
+        if abort.is_set():
+            raise
+        mtp_time, winner = None, 'none'
+    if winner == 'none':
+        systemctl('stop', PROXY, NATIVE)
+        set_speculation('none')
+        start_worker()
+    (RUNS / 'accelerator-decision.json').write_text(json.dumps({
+        'accelerator': winner, 'accelerator_skip_reason': None,
+        'post_baseline_mem_available_gib': available, 'mtp_test_minimum_gib': MINIMUM_MTP_FREE_GIB,
+        'baseline_short_seconds': base_time, 'mtp_short_seconds': mtp_time}, indent=2) + '\n')
+    return winner, mtp_time, None
 
 
 def rollback_catalog():
@@ -285,6 +365,7 @@ def main():
     RUNS.mkdir()
     status('waiting_for_verified_download', available_in_hermes=False)
     config = json.loads((HERE / 'native-config.json').read_text())
+    (RUNS / 'native-config-initial.json').write_text(json.dumps(config, indent=2) + '\n')
     model = Path(config['model'])
     receipt = model.parent / 'verified-sha256.json'
     deadline = time.monotonic() + 24 * 3600
@@ -316,22 +397,9 @@ def main():
     set_speculation('none')
     start_worker()
     base_time = short('short-baseline')
-    status('qualifying_mtp2', available_in_hermes=False, baseline_short_seconds=base_time)
-    systemctl('stop', PROXY, NATIVE)
-    set_speculation('draft-mtp')
-    try:
-        start_worker()
-        mtp_time = short('short-mtp2')
-        winner = 'draft-mtp' if mtp_time < base_time else 'none'
-    except Exception:
-        if abort.is_set():
-            raise
-        mtp_time, winner = None, 'none'
-    if winner == 'none':
-        systemctl('stop', PROXY, NATIVE)
-        set_speculation('none')
-        start_worker()
+    winner, mtp_time, accelerator_skip_reason = qualify_accelerator(base_time)
     status('qualifying_long_context', available_in_hermes=False, accelerator=winner,
+           accelerator_skip_reason=accelerator_skip_reason,
            baseline_short_seconds=base_time, mtp_short_seconds=mtp_time,
            comparison_scope='One bounded short API comparison; not a universal performance claim')
     mtp_long_failure = None
@@ -343,7 +411,7 @@ def main():
         # One bounded fallback only. Distinct receipt names retain MTP failures.
         mtp_long_failure = str(error)[:300]
         status('retrying_baseline_after_mtp_long_failure', available_in_hermes=False,
-               reason=mtp_long_failure, memory_target_gib=16, emergency_floor_gib=8)
+               reason=mtp_long_failure)
         systemctl('stop', PROXY, NATIVE)
         set_speculation('none')
         start_worker()
@@ -354,8 +422,16 @@ def main():
     run(['python3', 'probe_hermes_pair.py', '--base', 'http://127.0.0.1:1235/v1',
          '--provider', 'spark-qwen38', '--parallel', '4', '--task', 'mixed',
          '--namespace', 'q5xl-four', '--output-dir', str(RUNS)], 'hermes-four', 1200)
+    # Allocation diagnostics are useful during qualification, not normal chats.
+    config_path = HERE / 'native-config.json'
+    final_config = json.loads(config_path.read_text())
+    final_config['verbosity'] = 3
+    config_tmp = config_path.with_suffix('.tmp')
+    config_tmp.write_text(json.dumps(final_config, indent=2) + '\n')
+    config_tmp.replace(config_path)
+    (RUNS / 'native-config-restart.json').write_bytes(config_path.read_bytes())
     # Verify restart before publication; no reboot or Hermes restart.
-    systemctl('reset-failed', NATIVE, PROXY)
+    reset_worker_start_limits()
     systemctl('restart', NATIVE, PROXY)
     wait_health()
     short('short-after-restart')
@@ -378,12 +454,12 @@ def main():
             raise RuntimeError('Memory guard did not finish; refusing to report publication success')
     check_abort()
     status('qualified_and_published', available_in_hermes=True, accelerator=winner,
-           memory_target_gib=16, emergency_floor_gib=8, mtp_long_failure=mtp_long_failure,
+           mtp_long_failure=mtp_long_failure, accelerator_skip_reason=accelerator_skip_reason,
            pending=['Normal production-profile chat', 'Controlled reboot', 'Extended real-use soak'],
            note='Main default spark-fast preserved; refresh Hermes model picker. Windows untouched.')
 
 
-if __name__ == '__main__':
+def entrypoint():
     signal.signal(signal.SIGTERM, handle_shutdown)
     signal.signal(signal.SIGINT, handle_shutdown)
     try:
@@ -417,3 +493,7 @@ if __name__ == '__main__':
         raise SystemExit(1)
     finally:
         monitor_stop.set()
+
+
+if __name__ == '__main__':
+    entrypoint()

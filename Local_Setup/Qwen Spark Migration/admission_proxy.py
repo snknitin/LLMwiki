@@ -19,8 +19,8 @@ import time
 
 LOG = logging.getLogger("qwen-admission")
 PER_REQUEST = 262144
-POOL = 1048576  # Four independently allocated 262144-token native slots (Q4 KV).
-MAX_ACTIVE = 4
+POOL = 524288  # Two independently allocated 262144-token native slots (Q4 KV).
+MAX_ACTIVE = 2
 MAX_WAITING = 8
 QUEUE_SECONDS = 120
 MARGIN = 256

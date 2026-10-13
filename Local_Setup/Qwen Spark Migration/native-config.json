@@ -9,7 +9,10 @@
   "per_slot_context": 262144,
   "cache_k": "q4_0",
   "cache_v": "q4_0",
-  "checkpoints": 2,
+  "checkpoints": 1,
+  "cache_ram_mib": 0,
+  "ubatch_size": 256,
+  "verbosity": 3,
   "speculation": "none",
   "draft_max": 2,
   "minimum_start_mem_available_gib": 52

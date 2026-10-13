@@ -9,3 +9,9 @@ Bookmarks/Twitter/Claude Code/*/videos/*
 Course Notes/*
 .obsidian/*
 .obsidian/app.json
+
+# Auto-generated churn (caused stash prompts)
+__pycache__/
+*.pyc
+Local_Setup/graphify-out/cache/hook_sessions/
+Local_Setup/graphify-out/cache/last_query_stamp

@@ -21,6 +21,7 @@ import configure_hermes as core
 
 NATIVE_PROVIDER = 'spark-qwen38'
 NATIVE_BASE = 'http://127.0.0.1:1235/v1'
+NATIVE_TIMEOUT_SECONDS = 7200
 DISABLE_LMSTUDIO_DISCOVERY = False
 DISABLE_LMSTUDIO_PROVIDER = False
 
@@ -97,6 +98,10 @@ def transform(data, migrate_default, template=None):
         native['models'] = {core.ALIAS: {'context_length': core.CONTEXT}}
         native['discover_models'] = False
         native.pop('models_discovered', None)
+    # Four large cold prompts can spend more than the local 900s stale default
+    # in prefill. Scope patience to this provider; do not change global policy.
+    native['request_timeout_seconds'] = NATIVE_TIMEOUT_SECONDS
+    native['stale_timeout_seconds'] = NATIVE_TIMEOUT_SECONDS
     if DISABLE_LMSTUDIO_DISCOVERY and isinstance(providers.get('spark-lmstudio'), dict):
         providers['spark-lmstudio']['discover_models'] = False
     if DISABLE_LMSTUDIO_PROVIDER and isinstance(providers.get('spark-lmstudio'), dict):
@@ -110,6 +115,8 @@ def transform(data, migrate_default, template=None):
         'desktop_models': list(core.GEMMAS), 'desktop_discovery': False,
         'native_provider': NATIVE_PROVIDER, 'native_base': NATIVE_BASE,
         'native_model': core.ALIAS, 'qwen_context': core.CONTEXT,
+        'native_request_timeout_seconds': NATIVE_TIMEOUT_SECONDS,
+        'native_stale_timeout_seconds': NATIVE_TIMEOUT_SECONDS,
         'default_changed': False,
         'lmstudio_catalog_pinned': DISABLE_LMSTUDIO_DISCOVERY,
         'lmstudio_provider_disabled': DISABLE_LMSTUDIO_PROVIDER,

@@ -1,0 +1,118 @@
+{
+  "schema_version": 1,
+  "created_at_utc": "2026-10-12T18:03:48.547448+00:00",
+  "kind": "observational_shared_host_memory_review",
+  "receipt": {
+    "path": "/home/snknitin/runs/qwen38-native/qualification-20261012T165724.907854Z/long-none-four-240k.json",
+    "sha256": "e881e2c5bd81fdba7cc51cb12dc6ac1cd931e4e64736677e495ba3970cda2717"
+  },
+  "supporting_receipt": {
+    "path": "/home/snknitin/runs/qwen38-native/qualification-20261012T165724.907854Z/long-none-four-100k.json",
+    "sha256": "bd50d59616d98433ae3b9554d252ef4b590bff58af08de8ebfa2bab29c5dc71e",
+    "passed": true
+  },
+  "original_result": {
+    "passed": false,
+    "response_gate_passed": true,
+    "memory_gate_passed": false,
+    "observed_concurrency_gate_passed": true,
+    "aggregate_token_gate_passed": true,
+    "minimum_mem_available_gib": 13.747,
+    "swap_out_pages_delta": 44,
+    "swap_in_pages_delta": 52564,
+    "actual_aggregate_tokens": 961716,
+    "maximum_observed_busy_slots": 4,
+    "memory_floor_breached": false,
+    "cancellation_reasons": []
+  },
+  "swap_observation": {
+    "page_size_bytes": 4096,
+    "sample_count": 5361,
+    "observed_elapsed_seconds": 2683.244,
+    "nonzero_swap_out_intervals": [
+      {
+        "elapsed_seconds": 1186.158,
+        "pages": 44,
+        "bytes": 180224,
+        "mib_per_second": 0.343,
+        "mem_available_kib": 15115124,
+        "mem_available_gib": 14.414905548095703,
+        "previous_elapsed_seconds": 1185.657
+      }
+    ],
+    "event_wall_time_approximate_utc": "2026-10-12T17:32:18.75Z",
+    "event_wall_time_approximate_ist": "2026-10-12T23:02:18.75+05:30",
+    "wall_time_method_and_limit": "Receipt timestamp minus final memory-sample elapsed plus event elapsed; approximate because receipt write time is after sampling, not a timestamp recorded at the event.",
+    "swap_in_bytes": 215302144,
+    "attribution": "Host-global counters do not identify the responsible process or cgroup. No causal attribution to Qwen or another workload is made."
+  },
+  "archived_sysstat": {
+    "source": "/var/log/sysstat/sa12",
+    "timezone": "Asia/Kolkata (UTC+05:30)",
+    "selection_start_local": "2026-10-12 22:40:00",
+    "selection_end_local": "2026-10-12 23:30:00",
+    "actual_psi_sample_times_local": [
+      "22:50:00",
+      "23:00:00",
+      "23:10:00",
+      "23:20:00"
+    ],
+    "memory_psi_raw_rounded": "Linux 6.17.0-1029-nvidia (spark-07a8) \t10/12/26 \t_aarch64_\t(20 CPU)\n\n22:40:00     %smem-10  %smem-60 %smem-300     %smem  %fmem-10  %fmem-60 %fmem-300     %fmem\n22:50:00         0.00      0.00      0.00      0.00      0.00      0.00      0.00      0.00\n23:00:00         0.00      0.00      0.00      0.00      0.00      0.00      0.00      0.00\n23:10:00         0.00      0.00      0.00      0.00      0.00      0.00      0.00      0.00\n23:20:00         0.00      0.00      0.00      0.00      0.00      0.00      0.00      0.00\nAverage:         0.00      0.00      0.00      0.00      0.00      0.00      0.00      0.00",
+    "swap_rates_raw_rounded": "Linux 6.17.0-1029-nvidia (spark-07a8) \t10/12/26 \t_aarch64_\t(20 CPU)\n\n22:40:00     pswpin/s pswpout/s\n22:50:00        20.72      0.00\n23:00:00        49.00      0.00\n23:10:00         4.07      0.07\n23:20:00        13.48      0.00\nAverage:        21.82      0.02",
+    "paging_raw_rounded": "Linux 6.17.0-1029-nvidia (spark-07a8) \t10/12/26 \t_aarch64_\t(20 CPU)\n\n22:40:00     pgpgin/s pgpgout/s   fault/s  majflt/s  pgfree/s pgscank/s pgscand/s pgsteal/s    %vmeff\n22:50:00       936.87    547.70  15278.74     20.37  16823.07    380.90      0.00    761.37    199.89\n23:00:00       285.91    518.20  16353.68     33.44  17164.07      0.00      0.00      0.00      0.00\n23:10:00      2835.58   2720.84  27965.79     14.05  29701.82   1176.85      8.99   2369.80    199.84\n23:20:00       242.72   2214.00  21839.95     12.21  22764.71      0.00      0.00      0.00      0.00\nAverage:      1075.50   1500.42  20360.95     20.02  21614.85    389.53      2.25    782.98    199.85",
+    "scope_and_limits": "Historical system-wide PSI columns all display0.00 at these ten-minute samples. Display rounding and sparse sampling cannot prove zero subsecond stalls; the archive here does not identify the process causing the44-page event. Paging includes direct reclaim during the23:00-23:10 interval."
+  },
+  "post_run_oom_and_pressure": {
+    "captured_after_worker_stopped": true,
+    "host_oom_kill_counter_since_boot": 0,
+    "user_cgroup_path": "/sys/fs/cgroup/user.slice/user-1000.slice",
+    "user_cgroup_memory_events": {
+      "low": 0,
+      "high": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_kill": 0,
+      "oom_group_kill": 0
+    },
+    "host_memory_pressure_current": "some avg10=0.00 avg60=0.00 avg300=0.00 total=974292328\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=963602869",
+    "kernel_journal_query_returncode": 0,
+    "kernel_journal_selected_window_utc": [
+      "2026-10-12T17:05:00Z",
+      "2026-10-12T17:59:00Z"
+    ],
+    "kernel_journal_matching_memory_error_lines": 0,
+    "scope_and_limits": "Current boot/user-cgroup cumulative OOM counters are not per-request telemetry. Current PSI is after shutdown and is not historical evidence. Worker VmSwap and fine-grained PSI were not captured by the original test."
+  },
+  "decision": {
+    "original_strict_zero_gate": "FAIL_RETAINED",
+    "rewrite_original_receipts": false,
+    "capacity_and_response_result": "The original four240K run provides passed functional, token-capacity and concurrency evidence; it does not retroactively pass its declared strict-zero-swap rule.",
+    "engineering_recommendation": "Treat nonzero host-global swap counts alone as diagnostic, not sufficient evidence of model-serving memory failure. Do not rerun the45-minute test merely to seek a zero host counter. Complete the already-required real Hermes tests under the preregistered monitored criteria below, retaining this independent review and original failure.",
+    "no_attribution_or_guarantee": "The176KiB event is consistent with a negligible shared-host paging event, but its cause is unknown. This review does not guarantee unlimited24/7 stability."
+  },
+  "preregistered_followup": {
+    "workload": "Four actual Hermes research/coding sessions with Qwen resident alongside SparkFast; collect before, during and after data in the continuation wrapper.",
+    "memory_target_gib": 12,
+    "emergency_floor_gib": 8,
+    "worker_vmswap_max_kib": 0,
+    "oom_kill_delta_max": 0,
+    "cgroup_oom_delta_max": 0,
+    "memory_psi_full_stall_fraction_max": 0.01,
+    "memory_psi_fraction_definition": "Delta of PSI full total microseconds divided by elapsed monotonic microseconds, measured from before through after the complete observation; record both host and worker cgroup and require each<=0.01. Also retain intermediate samples and maximum window values for review.",
+    "sustained_swap_out_mib_per_second": 8,
+    "sustained_swap_seconds": 5,
+    "collection_requirements": [
+      "Pin worker PID and cgroup identity; fail if it changes or telemetry is unreadable.",
+      "Sample MemAvailable, worker VmSwap, host/cgroup PSI full totals, host oom_kill and worker memory.events; take before and after baselines.",
+      "Retain host pswpin/pswpout and measured rates; abort on existing sustained swap-out guard.",
+      "Require actual Hermes task correctness/tool completion plus SparkFast health and a bounded responsiveness check.",
+      "Do not rewrite historical receipts or describe the old strict-zero check as passed."
+    ],
+    "policy_status": "New operator-selected engineering criteria declared before the follow-up, not Linux-prescribed universal safety thresholds."
+  },
+  "primary_sources": [
+    "https://docs.kernel.org/accounting/psi.html",
+    "https://docs.kernel.org/admin-guide/sysctl/vm.html"
+  ],
+  "privacy": "Contains model/runtime paths, aggregate counts, timestamps and system telemetry only; no prompts, responses, credentials or personal session identifiers."
+}

@@ -1,0 +1,25 @@
+{
+  "root": "/home/snknitin/.hermes/hermes-agent",
+  "files": [
+    {
+      "path": "hermes_cli/timeouts.py",
+      "before_sha256": "ba0de5b2a6ad58c235975d30bce153aaa2579c6e8bd5fdd6c0da450ddcbe4e96",
+      "after_sha256": "eeed0207496a6e9fd093721f35765d683d18b9a9ec9a9460b4220f5d493998de"
+    },
+    {
+      "path": "run_agent.py",
+      "before_sha256": "5fd87d39bf3e5a31a34ee5657dd94e5fe5474cae8eb2fd3be851e047855ebf4f",
+      "after_sha256": "5fd87d39bf3e5a31a34ee5657dd94e5fe5474cae8eb2fd3be851e047855ebf4f"
+    },
+    {
+      "path": "agent/agent_init.py",
+      "before_sha256": "19cca48eba22a33fc8f098928955e72da39e31e6e6a17f054b06cbfafb513e0a",
+      "after_sha256": "19cca48eba22a33fc8f098928955e72da39e31e6e6a17f054b06cbfafb513e0a"
+    },
+    {
+      "path": "agent/chat_completion_helpers.py",
+      "before_sha256": "77c0330e56f9c6a475ed5fade8d12797bee42c28b891e8b85c7a539bf93202af",
+      "after_sha256": "77c0330e56f9c6a475ed5fade8d12797bee42c28b891e8b85c7a539bf93202af"
+    }
+  ]
+}

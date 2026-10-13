@@ -8,7 +8,7 @@ The desktop problem is real. The preserved 28 September investigation measured a
 
 These observations support moving the foreground Qwen inference off the Windows display GPU. They do **not** establish that every Qwen request causes visible lag, that a particular Ollama release introduced the problem, or that the first occurrence was exactly three to four weeks ago. No matched pre-regression desktop responsiveness benchmark survives in the inspected evidence. A successful HTTP 200 also does not prove a whole streamed task completed correctly.
 
-Removing Qwen only from Hermes is insufficient: **Fresh Brief currently runs scheduled Qwen requests on the same Windows Ollama server.** A complete migration must account for that client as well.
+Removing Qwen only from Hermes does not eliminate all Windows inference: **Fresh Brief currently runs scheduled Qwen requests on the same Windows Ollama server.** The user's later final decision explicitly retains that dependency unchanged and moves only Hermes Qwen work to Spark. This relieves desktop load from those migrated Hermes requests; it does not promise that Fresh Brief or another deliberate Windows GPU workload cannot cause contention.
 
 ## Current Windows snapshot
 
@@ -107,4 +107,4 @@ nvidia-smi --query-gpu=name,driver_version,memory.total,memory.used,utilization.
 Invoke-RestMethod http://127.0.0.1:8787/api/health
 ```
 
-Final migration acceptance must demonstrate an active Spark Qwen response, the actual Hermes endpoint/model, Windows GPU load staying near its normal desktop baseline during that response, and no automatic remaining Windows Qwen consumer. A model merely appearing in a picker or being loaded but idle does not pass this test.
+For the selected scope, migration acceptance must demonstrate an active Spark Qwen response and the actual Hermes endpoint/model while retaining Windows Ollama/Fresh Brief. A Windows GPU observation during that response is a separate end-to-end check; it cannot be inferred solely from a picker or resident weights. The scheduled Fresh Brief consumer deliberately remains on Windows. See [[Qwen 3.8 27B Native Spark Setup Tutorial]] for the final configuration and measured qualification status.

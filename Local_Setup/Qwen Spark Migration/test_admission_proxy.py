@@ -117,7 +117,7 @@ class HttpTests(unittest.IsolatedAsyncioTestCase):
 
         async def slots(_request):
             return web.json_response([{"n_ctx": proxy.PER_REQUEST,
-                "is_processing": not self.slots_idle} for _ in range(4)])
+                "is_processing": not self.slots_idle} for _ in range(proxy.MAX_ACTIVE)])
 
         backend = web.Application()
         backend.router.add_post("/v1/chat/completions/input_tokens", count)
@@ -164,22 +164,23 @@ class HttpTests(unittest.IsolatedAsyncioTestCase):
 
     async def test_missing_limits_reserve_full_slots_and_disconnect_drains(self):
         self.finished.clear()
-        active = [await self.client.post("/v1/chat/completions", json=self.body()) for _ in range(4)]
+        active = [await self.client.post("/v1/chat/completions", json=self.body())
+                  for _ in range(proxy.MAX_ACTIVE)]
         active[0].close()
-        fifth = asyncio.create_task(self.client.post("/v1/chat/completions", json=self.body()))
+        queued = asyncio.create_task(self.client.post("/v1/chat/completions", json=self.body()))
         await asyncio.sleep(0.08)
-        self.assertEqual(self.started, 4)
-        self.assertEqual(self.gate.stats()["reserved_tokens"], 1048576)
-        if fifth.done():
-            early = await fifth
-            self.fail(f"Fifth request returned early: {early.status} {await early.text()}; {self.gate.stats()}")
+        self.assertEqual(self.started, proxy.MAX_ACTIVE)
+        self.assertEqual(self.gate.stats()["reserved_tokens"], proxy.POOL)
+        if queued.done():
+            early = await queued
+            self.fail(f"Queued request returned early: {early.status} {await early.text()}; {self.gate.stats()}")
         self.finished.set()
         for response in active[1:]:
             await response.read()
-        last = await fifth
+        last = await queued
         await last.read()
         await asyncio.sleep(0.03)
-        self.assertEqual(self.started, 5)
+        self.assertEqual(self.started, proxy.MAX_ACTIVE + 1)
         self.assertEqual(self.gate.stats()["reserved_tokens"], 0)
 
     async def test_timeout_quarantines_then_requires_idle_recovery(self):

@@ -19,6 +19,14 @@ import uuid
 from urllib.parse import urlparse
 
 
+def qualification_environment(home):
+    # Supported Docker/hermetic-test bridge: use the already installed venv;
+    # a borrowing HERMES_HOME must not trigger a new PM dependency generation.
+    environment = dict(os.environ, HERMES_HOME=str(home), HERMES_DISABLE_LAZY_INSTALLS='1')
+    environment.pop('HERMES_PROFILE', None)
+    return environment
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--hermes-python', default=str(Path.home()/'.hermes/hermes-agent/venv/bin/python'))
@@ -99,14 +107,14 @@ def main():
                 'transport': 'chat_completions', 'discover_models': False,
                 'models': {args.model: {'context_length': args.context}}}},
             'fallback_providers': [],
+            'security': {'allow_lazy_installs': False},
             'auxiliary': {'title_generation': {'enabled': False}},
             'terminal': {'backend': 'local', 'cwd': str(work)},
         }
         # JSON is a valid YAML mapping; this helper needs no YAML dependency.
         (home/'config.yaml').write_text(json.dumps(config, indent=2)+'\n', encoding='utf-8')
         (home/'.env').write_text('', encoding='utf-8')
-        environment = dict(os.environ, HERMES_HOME=str(home))
-        environment.pop('HERMES_PROFILE', None)
+        environment = qualification_environment(home)
         command = [args.hermes_python, '-m', 'hermes_cli.main', 'chat', '--provider',
                    'custom:'+args.provider, '--model', args.model, '--oneshot',
                    '--max-turns', '12', '--run-budget', str(args.timeout-30), '--query-file', str(query),

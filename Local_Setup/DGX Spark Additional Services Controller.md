@@ -1,6 +1,6 @@
 ---
 created: 2026-09-24
-updated: 2026-09-25
+updated: 2026-10-13
 status: installed
 scope: dgx-spark, frontier, services, schedules, sparkdash, docker, systemd
 ---
@@ -8,7 +8,7 @@ scope: dgx-spark, frontier, services, schedules, sparkdash, docker, systemd
 # DGX Spark Additional Services Controller
 
 > [!summary] Outcome
-> `aux-services` is the single catalog and lifecycle controller for FirstSpark services around a large-model session. Its list includes ports, live state, underlying resource, and safety policy. Managed services participate in the bulk drain; protected control-plane services are named-control only; locked transport and Frontier entries are inventory-only. Hermes schedules remain owned entirely by Hermes and are not included.
+> `aux-services` is the single catalog and lifecycle controller for FirstSpark services around a large-model session. Its list includes ports, live state, underlying resource, and safety policy. Managed services participate in the bulk drain; protected control-plane services are named-control only; locked transport, Frontier and native Qwen entries are inventory-only. Hermes schedules remain owned entirely by Hermes and are not included.
 
 The maintained script is `scripts/aux-services`. Its live command is `$HOME/.local/bin/aux-services` on FirstSpark. Its editable allow-list is `$HOME/.config/aux-services/services.conf`.
 
@@ -34,6 +34,8 @@ aux-services stop
 ```
 
 ```bash
+# After draining native Qwen requests, stop its separately owned resident pair first:
+systemctl --user stop qwen38-admission.service qwen38-native.service
 spark-frontier use qwen38-nvfp4
 # or: qwen38-fp8 | glm53-flash | deepseek41-flash
 ```
@@ -74,7 +76,20 @@ The optional name is case-insensitive and may omit `.service` or `.timer`. A nam
 | Dunbar Dossier | `dunbar-dossier` | `dunbar-dossier.service` | Tailscale Serve `:10000` to loopback `:8766` |
 | sparkDash | `sparkdash` | Docker Compose `sparkDash` | Windows SSH tunnel `127.0.0.1:5555` |
 
-The Local Setup dashboard is Windows-local on port `8767`, so it is not a FirstSpark item. Hermes Gateway, Hermes Serve, LiteLLM, and the reasoning shim appear as `protected`: bulk stop/start leaves them alone, but an explicit named command can control them. Tailscale Serve, SSH, and the Frontier API appear as `locked`: they can be listed or removed from the catalog, but this command will not start or stop them.
+The Local Setup dashboard is Windows-local on port `8767`, so it is not a FirstSpark item. Hermes Gateway, Hermes Serve, LiteLLM, and the reasoning shim appear as `protected`: bulk stop/start leaves them alone, but an explicit named command can control them. Tailscale Serve, SSH, the Frontier API and native Qwen pair appear as `locked`: they can be listed or removed from the catalog, but this command will not start or stop them.
+
+### Native Qwen inventory — 12 October 2026
+
+| Inventory name | Owner | FirstSpark bind | Policy |
+|---|---|---|---|
+| `qwen38-native` | `qwen38-native.service` | `127.0.0.1:1236` | `locked`, inventory only |
+| `qwen38-admission` | `qwen38-admission.service` | `127.0.0.1:1235` | `locked`, inventory only |
+
+Both rows are excluded from bulk drain/restore and named `aux-services` start/stop. Therefore `aux-services stop` alone does not prepare memory for an exclusive Frontier lane: drain and stop the native Qwen pair separately before invoking `spark-frontier use`. Restore the pair only after SparkFast is restored and its startup memory/readiness checks pass. The dedicated Qwen systemd units and guarded launcher own model residency; follow [[Qwen 3.8 27B Native Spark Setup Tutorial]] for their lifecycle. Port 1235 is the client route; port 1236 is the internal worker. A listed `active` unit is process-state evidence, not proof of model readiness or completed qualification.
+
+The live catalog previously contained neither SparkFast nor LM Studio. Those existing ownership boundaries are unchanged. LM Studio remains stopped and disabled with its assets retained for rollback; this inventory update does not enable it or add model services to the optional-service drain.
+
+Only these two rows were added to the live config, preserving all 18 prior entries, their order, the controller script and the saved restore snapshot. The config remains mode 0600. Backup: `/home/snknitin/.config/aux-services/services.conf.before-qwen38-inventory-20261012T182138Z`. Validation used Bash syntax/entry checks and `aux-services list`/`status`; no service was started or stopped for this update.
 
 ## Why there is no second Windows command
 
@@ -123,10 +138,10 @@ The initial allow-list contains:
 - Dunbar Dossier, Signal Desk/social capture, OpenCode Web, YouTube Learning Center, the optional Hermes dashboard, and the optional Hermes HTML viewer;
 - the loopback-only sparkDash Compose service;
 - protected Hermes Gateway, Hermes Serve, LiteLLM, and GLM reasoning-shim entries;
-- locked Tailscale Serve, SSH, Frontier API, and Frontier NFS inventory entries.
+- locked Tailscale Serve, SSH, Frontier API, Frontier NFS, and native Qwen worker/admission inventory entries.
 
 > [!danger] Do not make model or transport owners bulk-managed
-> Keep `spark-litellm`, `hermes-gateway`, `hermes-serve`, and `glm-reasoning-shim` protected. Keep the Frontier API/NFS, Tailscale, and SSH entries locked. Never change those policies to `managed`: a bulk drain must not sever routing, remote access, or the active model lane.
+> Keep `spark-litellm`, `hermes-gateway`, `hermes-serve`, and `glm-reasoning-shim` protected. Keep the Frontier API/NFS, Tailscale, SSH, `qwen38-native`, and `qwen38-admission` entries locked. Never change those policies to `managed`: a bulk drain must not sever routing, remote access, or the active model lane.
 
 ## State and recovery
 

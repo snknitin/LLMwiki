@@ -1,7 +1,9 @@
 """Bounded OpenAI API checks; never loads a cold alias deliberately or changes config.
 
-Run only AFTER lms ps verifies qwen38-27b-spark is resident. Test requests generate
-work on the selected endpoint. Standard library only; no prompts/responses saved.
+Run only AFTER the native worker and admission endpoint report healthy. Test
+requests generate work on the selected endpoint. Standard library only; no
+prompts/responses saved. Tool coverage is required single-tool calling, not
+OpenAI named-object tool_choice compatibility.
 """
 import argparse
 import concurrent.futures
@@ -14,7 +16,7 @@ from pathlib import Path
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--base', default='http://127.0.0.1:1234/v1')
+    parser.add_argument('--base', default='http://127.0.0.1:1235/v1')
     parser.add_argument('--model', default='qwen38-27b-spark')
     parser.add_argument('--output', default='qwen-probe.json')
     parser.add_argument('--parallel', type=int, choices=(1, 2, 4), default=2)
@@ -83,14 +85,15 @@ def main():
         assert answer['choices'][0].get('finish_reason') == 'stop', 'Plain response did not finish normally'
         records.append({'check': 'plain', 'seconds': elapsed, 'usage': answer.get('usage')})
 
-        # This tool is a harmless echo schema. Nothing is executed on the host.
+        # This sole tool is a harmless echo schema. Nothing is executed on the
+        # host. llama.cpp supports required/auto/none, not named-object forcing.
         tool = {'type': 'function', 'function': {'name': 'echo_token',
                 'description': 'Return the supplied token.', 'parameters': {
                 'type': 'object', 'properties': {'token': {'type': 'string'}},
                 'required': ['token'], 'additionalProperties': False}}}
         messages = [{'role': 'user', 'content': 'Call echo_token with token TOOL_OK, then repeat its result.'}]
         answer, elapsed = post({**common, 'messages': messages, 'tools': [tool],
-            'tool_choice': {'type': 'function', 'function': {'name': 'echo_token'}}})
+            'tool_choice': 'required'})
         message = answer['choices'][0]['message']
         calls = message.get('tool_calls', [])
         assert len(calls) == 1 and calls[0]['function']['name'] == 'echo_token', 'Structured tool call missing'
@@ -101,7 +104,9 @@ def main():
         answer, follow_elapsed = post({**common, 'messages': messages, 'tools': [tool], 'tool_choice': 'none'})
         assert 'TOOL_OK' in (answer['choices'][0]['message'].get('content') or ''), 'Tool result continuation failed'
         assert answer['choices'][0].get('finish_reason') == 'stop', 'Tool continuation was truncated/refused'
-        records.append({'check': 'tool_round_trip', 'seconds': elapsed + follow_elapsed})
+        records.append({'check': 'tool_round_trip', 'tool_choice': 'required',
+                        'tool_scope': 'single supplied tool; named-object forcing not tested',
+                        'seconds': elapsed + follow_elapsed})
 
         barrier = threading.Barrier(args.parallel)
         def one(index):

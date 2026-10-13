@@ -1,0 +1,14 @@
+
+=== profile-archives (failed) ===
+::error::profile export archives are forbidden in source and Docker build contexts
+  .cache/desktop-inputs/packager/builder/7zip@1.0.0/7zip-linux-arm64.tar.gz
+  .cache/desktop-inputs/packager/builder/downloads/21d7dbf4ea639cc210ff75364927ed4cc8eb568fd92493eb863c8208cca55090/icons-bundle.tar.gz
+  .cache/desktop-inputs/packager/builder/downloads/cfdeea0a4db84f58987e55bae3e48d9bcc36b8af815bd084b4474995879db443/7zip-linux-arm64.tar.gz
+  .cache/desktop-inputs/packager/builder/icons@1.2.1/icons-bundle.tar.gz
+Move the archive outside the checkout or pass an explicit external output path to the profile export command.
+
+=== health (failed) ===
+code health: git diff --name-status -M -z --no-color 7318e666c236aa8fffc3506c705d1c00a4821441 failed: warning: lazy fetching disabled; some objects may not be available
+fatal: could not fetch 71b1880c177b33f9dd4f118fc4f01976f5d88233 from promisor remote
+
+scripts/check: 11 checks, FAILED: profile-archives, health

@@ -1,0 +1,383 @@
+{
+  "state": {
+    "updated_utc": "2026-10-12T18:43:39.510136+00:00",
+    "stage": "qualified_and_published",
+    "model": "qwen38-27b-spark",
+    "quant": "UD-Q5_K_XL",
+    "cache": "Q4 K/V",
+    "parallel": 4,
+    "context_per_slot": 262144,
+    "memory_target_gib": 12,
+    "emergency_floor_gib": 8,
+    "evidence_directory": "/home/snknitin/runs/qwen38-native/qualification-20261012T182033.027090Z",
+    "available_in_hermes": true,
+    "accelerator": "none",
+    "mtp_long_failure": null,
+    "accelerator_skip_reason": "Pinned accelerator none for the explicitly reviewed continuation; no new MTP comparison",
+    "pending": [
+      "Authenticated Windows picker/chat observation",
+      "Controlled reboot in maintenance window",
+      "Extended real-use soak",
+      "Optional direct Windows API client test"
+    ],
+    "note": "Main default spark-fast preserved; refresh Hermes model picker. Windows untouched.",
+    "original_strict_zero_swap_gate": "FAIL_RETAINED",
+    "long_context_acceptance": "Explicit reviewed exception; fresh pressure-aware qualification passed",
+    "review_sha256": "8758836e80ff4e49fbbb96ddc08e474235bf9cc32819a1a1cd7d5e581616e871",
+    "production_route_verified": true,
+    "catalog_inventory_verified": true,
+    "pressure_followup_verified": true,
+    "production_receipt": "/home/snknitin/runs/qwen38-native/qualification-20261012T182033.027090Z/production-route-v2.json",
+    "catalog_receipt": "/home/snknitin/runs/qwen38-native/qualification-20261012T182033.027090Z/catalog-verification.json"
+  },
+  "production": {
+    "passed": true,
+    "mode": "inference",
+    "requested_provider": "custom:spark-qwen38",
+    "model": "qwen38-27b-spark",
+    "base": "http://127.0.0.1:1235/v1",
+    "context_length": 262144,
+    "fallback_count": 0,
+    "tool_count": 0,
+    "output_token_cap": null,
+    "request_timeout_seconds": 7200.0,
+    "stale_timeout_seconds": 7200.0,
+    "effective_stream_watchdog_seconds": 7200.0,
+    "effective_stream_socket_timeouts": [
+      7200.0,
+      7200.0,
+      60.0
+    ],
+    "inference_requests": 1,
+    "answer_marker_verified": true,
+    "final_answer_sha256": "56f71e0f9a2d6f786a45685f8d4baaaeffce813abe7935ce3b3d9223d9eb77ad",
+    "main_config_unchanged": true
+  },
+  "catalog": {
+    "passed": true,
+    "checks": [
+      {
+        "config": "config.yaml",
+        "passed": true,
+        "default_unchanged": true,
+        "gemmas_each_once": true,
+        "native_context": 262144,
+        "lmstudio_hidden": true,
+        "native_request_timeout_seconds": 7200,
+        "native_stale_timeout_seconds": 7200
+      },
+      {
+        "config": "profiles/builder/config.yaml",
+        "passed": true,
+        "default_unchanged": true,
+        "gemmas_each_once": true,
+        "native_context": 262144,
+        "lmstudio_hidden": true,
+        "native_request_timeout_seconds": 7200,
+        "native_stale_timeout_seconds": 7200
+      },
+      {
+        "config": "profiles/creator/config.yaml",
+        "passed": true,
+        "default_unchanged": true,
+        "gemmas_each_once": true,
+        "native_context": 262144,
+        "lmstudio_hidden": true,
+        "native_request_timeout_seconds": 7200,
+        "native_stale_timeout_seconds": 7200
+      },
+      {
+        "config": "profiles/orchestrator/config.yaml",
+        "passed": true,
+        "default_unchanged": true,
+        "gemmas_each_once": true,
+        "native_context": 262144,
+        "lmstudio_hidden": true,
+        "native_request_timeout_seconds": 7200,
+        "native_stale_timeout_seconds": 7200
+      },
+      {
+        "config": "profiles/researcher/config.yaml",
+        "passed": true,
+        "default_unchanged": true,
+        "gemmas_each_once": true,
+        "native_context": 262144,
+        "lmstudio_hidden": true,
+        "native_request_timeout_seconds": 7200,
+        "native_stale_timeout_seconds": 7200
+      },
+      {
+        "config": "profiles/reviewer/config.yaml",
+        "passed": true,
+        "default_unchanged": true,
+        "gemmas_each_once": true,
+        "native_context": 262144,
+        "lmstudio_hidden": true,
+        "native_request_timeout_seconds": 7200,
+        "native_stale_timeout_seconds": 7200
+      }
+    ],
+    "scope": "Saved config and installed picker inventory; network blocked in inventory process",
+    "http_picker_verified": false,
+    "http_note": "Serve9119 and dashboard9120 require an authenticated OAuth browser session."
+  },
+  "pressure": {
+    "passed": true,
+    "worker_pid": 1431542,
+    "failures": [],
+    "spark_fast_responsiveness": {
+      "before": {
+        "passed": true,
+        "test_only_max_tokens": 16,
+        "test_only_enable_thinking": false,
+        "production_settings_unchanged": true,
+        "model": "spark-fast",
+        "completion_seconds": 0.1280596700962633,
+        "finish_reason": "stop",
+        "reasoning_characters": 0,
+        "visible_content": "OK",
+        "visible_content_nonempty": true,
+        "ok_response_verified": true,
+        "total_check_seconds": 0.13114298414438963
+      },
+      "after": {
+        "passed": true,
+        "test_only_max_tokens": 16,
+        "test_only_enable_thinking": false,
+        "production_settings_unchanged": true,
+        "model": "spark-fast",
+        "completion_seconds": 0.14728814992122352,
+        "finish_reason": "stop",
+        "reasoning_characters": 0,
+        "visible_content": "OK",
+        "visible_content_nonempty": true,
+        "ok_response_verified": true,
+        "total_check_seconds": 0.15014595398679376
+      }
+    },
+    "duration_seconds": 767.2827347959392,
+    "idle_observation_started": 1763698.997062513,
+    "minimum_mem_available_gib": 15.115379333496094,
+    "maximum_worker_vmswap_kib": 0,
+    "maximum_swap_out_mib_per_second": 0,
+    "oom_counter_deltas": {
+      "global_oom_kill": 0,
+      "cgroup_oom": 0,
+      "cgroup_oom_kill": 0
+    },
+    "global_swap_out_pages_delta": 0,
+    "memory_psi_full_stall_fraction": 9.425469480847069e-06,
+    "cgroup_memory_psi_full_stall_fraction": 0.0,
+    "maximum_host_full_psi_window_fraction": 0.004019709266931009,
+    "maximum_cgroup_full_psi_window_fraction": 0,
+    "original_strict_zero_swap_gate": "FAIL_RETAINED"
+  },
+  "runtime": {
+    "captured_utc": "2026-10-12T18:38:14.578141+00:00",
+    "units": {
+      "qwen38-native.service": {
+        "MainPID": "1455846",
+        "ExecMainStartTimestamp": "Tue 2026-10-13 00:05:10 IST",
+        "ActiveState": "active",
+        "SubState": "running",
+        "UnitFileState": "enabled"
+      },
+      "qwen38-admission.service": {
+        "MainPID": "1455848",
+        "ExecMainStartTimestamp": "Tue 2026-10-13 00:05:10 IST",
+        "ActiveState": "active",
+        "SubState": "running",
+        "UnitFileState": "enabled"
+      },
+      "lmstudio.service": {
+        "MainPID": "0",
+        "ExecMainStartTimestamp": "",
+        "ActiveState": "inactive",
+        "SubState": "dead",
+        "UnitFileState": "disabled"
+      },
+      "hermes-gateway.service": {
+        "MainPID": "1420941",
+        "ExecMainStartTimestamp": "Mon 2026-10-12 23:46:21 IST",
+        "ActiveState": "active",
+        "SubState": "running",
+        "UnitFileState": "enabled"
+      },
+      "hermes-serve.service": {
+        "MainPID": "1421309",
+        "ExecMainStartTimestamp": "Mon 2026-10-12 23:46:24 IST",
+        "ActiveState": "active",
+        "SubState": "running",
+        "UnitFileState": "enabled"
+      },
+      "hermes-dashboard.service": {
+        "MainPID": "1421266",
+        "ExecMainStartTimestamp": "Mon 2026-10-12 23:46:23 IST",
+        "ActiveState": "active",
+        "SubState": "running",
+        "UnitFileState": "enabled"
+      }
+    },
+    "health": {
+      "1235": {
+        "status": 200,
+        "body": {
+          "active": 0,
+          "queued": 0,
+          "reserved_tokens": 0,
+          "pool_tokens": 1048576,
+          "max_active": 4,
+          "per_request_tokens": 262144,
+          "accepting": true
+        }
+      },
+      "8000": {
+        "status": 200,
+        "body": null
+      }
+    },
+    "native_config": {
+      "model": "/home/snknitin/ai/stores/models/unsloth-Qwen3.8-27B-UD-Q5_K_XL/Qwen3.8-27B-UD-Q5_K_XL.gguf",
+      "model_sha256": "8601193d3d5760c37fb8ce1b43afebc69df5fb24e1fbc5a547c32e2200305276",
+      "binary": "/home/snknitin/.local/opt/llama.cpp-b11429/build/bin/llama-server",
+      "alias": "qwen38-27b-spark",
+      "backend_port": 1236,
+      "parallel": 4,
+      "total_context": 1048576,
+      "per_slot_context": 262144,
+      "cache_k": "q4_0",
+      "cache_v": "q4_0",
+      "checkpoints": 1,
+      "cache_ram_mib": 0,
+      "ubatch_size": 256,
+      "verbosity": 3,
+      "speculation": "none",
+      "draft_max": 2,
+      "minimum_start_mem_available_gib": 52
+    },
+    "listeners": "State  Recv-Q Send-Q Local Address:Port Peer Address:PortProcess\nLISTEN 0      512        127.0.0.1:1236      0.0.0.0:*          \nLISTEN 0      128        127.0.0.1:1235      0.0.0.0:*          \n",
+    "spark_fast_container": "running 2026-10-09T18:52:48.480796531Z",
+    "mem_available_kib": 17321884,
+    "gpu_processes": "2034230, VLLM::EngineCore, 48820 MiB\n1455846, /home/snknitin/.local/opt/llama.cpp-b11429/build/bin/llama-server, 42082 MiB\n"
+  },
+  "thermal": {
+    "maximum_temperature_c": 81.0,
+    "samples_with_active_thermal_slowdown": 0,
+    "sampling_errors": 0,
+    "final_installer_stage": "qualified_and_published",
+    "scope": "15-second snapshots during this qualification only; not a 24-hour soak or proof of no unsampled throttling."
+  },
+  "hermes": {
+    "passed": true,
+    "sessions": [
+      {
+        "session": 1,
+        "task": "research",
+        "passed": true,
+        "exit_code": 0,
+        "actual": {
+          "selected": "Alpha",
+          "concurrency": 4,
+          "context": 262144,
+          "beta_qualified": false,
+          "citations": [
+            "source-a.txt:2",
+            "source-b.txt:2"
+          ]
+        },
+        "expected": {
+          "selected": "Alpha",
+          "concurrency": 4,
+          "context": 262144,
+          "beta_qualified": false,
+          "citations": [
+            "source-a.txt:2",
+            "source-b.txt:2"
+          ]
+        },
+        "seconds": 252.775
+      },
+      {
+        "session": 2,
+        "task": "coding",
+        "passed": true,
+        "exit_code": 0,
+        "actual": {
+          "amber": 30,
+          "blue": 150
+        },
+        "expected": {
+          "amber": 30,
+          "blue": 150
+        },
+        "independent_exit_code": 0,
+        "generated_tests_exit_code": 0,
+        "held_out_actual": {
+          "orange": 9,
+          "violet": 6
+        },
+        "empty_actual": {},
+        "seconds": 515.729
+      },
+      {
+        "session": 3,
+        "task": "research",
+        "passed": true,
+        "exit_code": 0,
+        "actual": {
+          "selected": "Alpha",
+          "concurrency": 4,
+          "context": 262144,
+          "beta_qualified": false,
+          "citations": [
+            "source-a.txt:2",
+            "source-b.txt:2"
+          ]
+        },
+        "expected": {
+          "selected": "Alpha",
+          "concurrency": 4,
+          "context": 262144,
+          "beta_qualified": false,
+          "citations": [
+            "source-a.txt:2",
+            "source-b.txt:2"
+          ]
+        },
+        "seconds": 337.315
+      },
+      {
+        "session": 4,
+        "task": "coding",
+        "passed": true,
+        "exit_code": 0,
+        "actual": {
+          "amber": 30,
+          "blue": 150
+        },
+        "expected": {
+          "amber": 30,
+          "blue": 150
+        },
+        "independent_exit_code": 0,
+        "generated_tests_exit_code": 0,
+        "held_out_actual": {
+          "orange": 9,
+          "violet": 6
+        },
+        "empty_actual": {},
+        "seconds": 706.8
+      }
+    ],
+    "output_dir": "/home/snknitin/runs/qwen38-native/qualification-20261012T182033.027090Z/q5xl-four-986efb09a85c",
+    "base": "http://127.0.0.1:1235/v1",
+    "provider": "spark-qwen38",
+    "model": "qwen38-27b-spark",
+    "parallel": 4,
+    "context": 262144,
+    "scope": "Short isolated real Hermes sessions, no fallback, with local research/coding/tool evidence. Does not qualify web research, production customizations, long goals, or full-context capacity."
+  },
+  "original_240k_strict_pass": false,
+  "original_240k_swap_out_bytes": 180224,
+  "original_evidence_unchanged": true
+}

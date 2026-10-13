@@ -1,5 +1,7 @@
 # DGX Spark Qwen NVFP4 Memory And Startup Optimization Research
 
+> **Current-state correction, 2026-10-12:** live SparkFast uses **eight** scheduled sequences, **18 GiB FP8 KV**, **262,144 context**, and utilization preflight **0.60**. The October 1 saved audit confirms the change; current boot still reports **6.06 full-context equivalents**, not eight full 262K contexts. GPU-process memory is **47.68 GiB**. See [[SparkFast And Qwen 27B Capacity Comparison]] for the exact history and memory-accounting explanation. Five-sequence and 0.72 references below are preserved historical evidence.
+
 _Primary-source review and live implementation verified on 2026-08-15; production profile reverified on 2026-09-26._
 
 ## Current five-session co-resident profile — 2026-09-26
