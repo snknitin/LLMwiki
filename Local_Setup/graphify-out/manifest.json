@@ -1,0 +1,818 @@
+{
+  ".setup-dashboard/app.js": {
+    "mtime": 1790086109.0816896,
+    "seen": 1791891178.0930667,
+    "ast_hash": "e0fba89785371f8433bd677be3c49192",
+    "semantic_hash": "e0fba89785371f8433bd677be3c49192"
+  },
+  ".setup-dashboard/build_dashboard.py": {
+    "mtime": 1789741800.1462686,
+    "seen": 1791891178.0930667,
+    "ast_hash": "b12e6c8c94c6856acf98f798b1569261",
+    "semantic_hash": "b12e6c8c94c6856acf98f798b1569261"
+  },
+  ".setup-dashboard/preview.py": {
+    "mtime": 1789797124.245437,
+    "seen": 1791891178.0930667,
+    "ast_hash": "0f38a6e38ad9b776b26a500e10d293ba",
+    "semantic_hash": "0f38a6e38ad9b776b26a500e10d293ba"
+  },
+  ".setup-dashboard/test_writer.py": {
+    "mtime": 1789797116.4432194,
+    "seen": 1791891178.0930667,
+    "ast_hash": "e45b90331bf551957267df8c1df517f7",
+    "semantic_hash": "e45b90331bf551957267df8c1df517f7"
+  },
+  "Qwen Spark Migration/Copy-QwenToSpark.ps1": {
+    "mtime": 1791795477.2280774,
+    "seen": 1791891178.0930667,
+    "ast_hash": "8397d5362da67c7f4df3e88a87794661",
+    "semantic_hash": "8397d5362da67c7f4df3e88a87794661"
+  },
+  "Qwen Spark Migration/FINAL-VERIFICATION.json": {
+    "mtime": 1791830726.9512367,
+    "seen": 1791891178.0930667,
+    "ast_hash": "6be8d03d68bd850464b6c99e970ce7ab",
+    "semantic_hash": "6be8d03d68bd850464b6c99e970ce7ab"
+  },
+  "Qwen Spark Migration/add_desktop_qwen.py": {
+    "mtime": 1791890099.9074352,
+    "seen": 1791891178.0930667,
+    "ast_hash": "12f717a2669b623ba82464b6d8b6aaf7",
+    "semantic_hash": "12f717a2669b623ba82464b6d8b6aaf7"
+  },
+  "Qwen Spark Migration/admission_proxy.py": {
+    "mtime": 1791886425.0954852,
+    "seen": 1791891178.0930667,
+    "ast_hash": "9ce267405b2256bbd15b80bcc8463e6f",
+    "semantic_hash": "9ce267405b2256bbd15b80bcc8463e6f"
+  },
+  "Qwen Spark Migration/build_native_runtime.sh": {
+    "mtime": 1791798761.8856432,
+    "seen": 1791891178.0930667,
+    "ast_hash": "de3187279a150998d30741e95844549e",
+    "semantic_hash": "de3187279a150998d30741e95844549e"
+  },
+  "Qwen Spark Migration/configure_boot.py": {
+    "mtime": 1791796800.7958972,
+    "seen": 1791891178.0930667,
+    "ast_hash": "4ae607dd482aad1b612b201070f851d8",
+    "semantic_hash": "4ae607dd482aad1b612b201070f851d8"
+  },
+  "Qwen Spark Migration/configure_hermes.py": {
+    "mtime": 1791796800.796408,
+    "seen": 1791891178.0930667,
+    "ast_hash": "98af8dee64ebb60faa06f1f3bb4f4d94",
+    "semantic_hash": "98af8dee64ebb60faa06f1f3bb4f4d94"
+  },
+  "Qwen Spark Migration/configure_hermes_native.py": {
+    "mtime": 1791825775.9298413,
+    "seen": 1791891178.0930667,
+    "ast_hash": "137df5bfd8c6514f933e9c1a542fbe40",
+    "semantic_hash": "137df5bfd8c6514f933e9c1a542fbe40"
+  },
+  "Qwen Spark Migration/continue_native_reviewed.py": {
+    "mtime": 1791828866.1196713,
+    "seen": 1791891178.0930667,
+    "ast_hash": "25b377415ebf625a4bdbedc1dbffb473",
+    "semantic_hash": "25b377415ebf625a4bdbedc1dbffb473"
+  },
+  "Qwen Spark Migration/diagnose_native_memory.py": {
+    "mtime": 1791823829.0482404,
+    "seen": 1791891178.0930667,
+    "ast_hash": "93fa7f839462b2efb280e8085a5ca6e3",
+    "semantic_hash": "93fa7f839462b2efb280e8085a5ca6e3"
+  },
+  "Qwen Spark Migration/download_dflash2.py": {
+    "mtime": 1791865698.5126505,
+    "seen": 1791891178.0930667,
+    "ast_hash": "90c268ca6145aa24a220c0e7f744288d",
+    "semantic_hash": "90c268ca6145aa24a220c0e7f744288d"
+  },
+  "Qwen Spark Migration/download_native_http.py": {
+    "mtime": 1791799189.456684,
+    "seen": 1791891178.0930667,
+    "ast_hash": "43a6e5f478f04148b68c988986a64a1e",
+    "semantic_hash": "43a6e5f478f04148b68c988986a64a1e"
+  },
+  "Qwen Spark Migration/download_native_parallel.py": {
+    "mtime": 1791799590.936684,
+    "seen": 1791891178.0930667,
+    "ast_hash": "72b6d0d793cf160edc61990be2664ce7",
+    "semantic_hash": "72b6d0d793cf160edc61990be2664ce7"
+  },
+  "Qwen Spark Migration/download_native_qwen.sh": {
+    "mtime": 1791799051.5291572,
+    "seen": 1791891178.0930667,
+    "ast_hash": "173bfb1b2c7c833cd1b95e49e6b1276f",
+    "semantic_hash": "173bfb1b2c7c833cd1b95e49e6b1276f"
+  },
+  "Qwen Spark Migration/finish_native_install.py": {
+    "mtime": 1791886425.0954852,
+    "seen": 1791891178.0930667,
+    "ast_hash": "624340372a966a3451a15ba1ea6d284a",
+    "semantic_hash": "624340372a966a3451a15ba1ea6d284a"
+  },
+  "Qwen Spark Migration/load_qwen.mjs": {
+    "mtime": 1791797040.3358452,
+    "seen": 1791891178.0930667,
+    "ast_hash": "471470fdf83b1c628d29498f97f499aa",
+    "semantic_hash": "471470fdf83b1c628d29498f97f499aa"
+  },
+  "Qwen Spark Migration/measure_interactive_speed.py": {
+    "mtime": 1791890194.8267784,
+    "seen": 1791891178.0930667,
+    "ast_hash": "ee71b4e1124dcb50904dee09c6db540b",
+    "semantic_hash": "ee71b4e1124dcb50904dee09c6db540b"
+  },
+  "Qwen Spark Migration/monitor_qualification.py": {
+    "mtime": 1791825227.4538517,
+    "seen": 1791891178.0930667,
+    "ast_hash": "d3988c48024692c8896650741ba61a5e",
+    "semantic_hash": "d3988c48024692c8896650741ba61a5e"
+  },
+  "Qwen Spark Migration/native-config.firstspark.json": {
+    "mtime": 1791887240.7033758,
+    "seen": 1791891178.0930667,
+    "ast_hash": "8d16d291b9a5a1c5f66a40bb6ff3af3e",
+    "semantic_hash": "8d16d291b9a5a1c5f66a40bb6ff3af3e"
+  },
+  "Qwen Spark Migration/native-config.json": {
+    "mtime": 1791830328.3117487,
+    "seen": 1791891178.0930667,
+    "ast_hash": "27d34d212a1cb241388cbdb9251dcc51",
+    "semantic_hash": "27d34d212a1cb241388cbdb9251dcc51"
+  },
+  "Qwen Spark Migration/patch_hermes_timeouts.py": {
+    "mtime": 1791826153.329466,
+    "seen": 1791891178.0930667,
+    "ast_hash": "a77abb7ce3edcfc770d2e94fa2f3f081",
+    "semantic_hash": "a77abb7ce3edcfc770d2e94fa2f3f081"
+  },
+  "Qwen Spark Migration/precheck_hermes_bootstrap.py": {
+    "mtime": 1791829188.4984212,
+    "seen": 1791891178.0930667,
+    "ast_hash": "b5d82b9851d4b899c741c900a7847ec4",
+    "semantic_hash": "b5d82b9851d4b899c741c900a7847ec4"
+  },
+  "Qwen Spark Migration/precheck_spark_fast.py": {
+    "mtime": 1791828818.8721051,
+    "seen": 1791891178.0930667,
+    "ast_hash": "6d9206f42bd271da751d11c44a49a10f",
+    "semantic_hash": "6d9206f42bd271da751d11c44a49a10f"
+  },
+  "Qwen Spark Migration/probe_hermes_pair.py": {
+    "mtime": 1791829155.6116562,
+    "seen": 1791891178.0930667,
+    "ast_hash": "3f3fbb094d2e37d165cf679fa1310952",
+    "semantic_hash": "3f3fbb094d2e37d165cf679fa1310952"
+  },
+  "Qwen Spark Migration/probe_hermes_production.py": {
+    "mtime": 1791830619.3233738,
+    "seen": 1791891178.0930667,
+    "ast_hash": "b4a4c31c53e8b0d613e258b561b9c2a2",
+    "semantic_hash": "b4a4c31c53e8b0d613e258b561b9c2a2"
+  },
+  "Qwen Spark Migration/probe_qwen.py": {
+    "mtime": 1791822860.440307,
+    "seen": 1791891178.0930667,
+    "ast_hash": "8cc110c3e16c28335e64da5cef089f9b",
+    "semantic_hash": "8cc110c3e16c28335e64da5cef089f9b"
+  },
+  "Qwen Spark Migration/probe_qwen_long.py": {
+    "mtime": 1791800016.957278,
+    "seen": 1791891178.0930667,
+    "ast_hash": "040e0e9d9572ce1d77a6aa81365fba9b",
+    "semantic_hash": "040e0e9d9572ce1d77a6aa81365fba9b"
+  },
+  "Qwen Spark Migration/read_hermes_restart_evidence.py": {
+    "mtime": 1791827136.477925,
+    "seen": 1791891178.0930667,
+    "ast_hash": "5043370f7844acea4ef6531982514956",
+    "semantic_hash": "5043370f7844acea4ef6531982514956"
+  },
+  "Qwen Spark Migration/retry_native_240k.py": {
+    "mtime": 1791828065.6884966,
+    "seen": 1791891178.0930667,
+    "ast_hash": "5760f5e25fd853ff6acbef2f3a70fb15",
+    "semantic_hash": "5760f5e25fd853ff6acbef2f3a70fb15"
+  },
+  "Qwen Spark Migration/run_native_qwen.py": {
+    "mtime": 1791887092.1803362,
+    "seen": 1791891178.0930667,
+    "ast_hash": "2e3d53668cee5fae7b7bd2b8896085c4",
+    "semantic_hash": "2e3d53668cee5fae7b7bd2b8896085c4"
+  },
+  "Qwen Spark Migration/run_timeout_checks_isolated.py": {
+    "mtime": 1791826837.2995987,
+    "seen": 1791891178.0930667,
+    "ast_hash": "47a5071766fe8748aeb32ab9ac53c3ec",
+    "semantic_hash": "47a5071766fe8748aeb32ab9ac53c3ec"
+  },
+  "Qwen Spark Migration/shared-host-memory-review-20261012.json": {
+    "mtime": 1791828227.1581929,
+    "seen": 1791891178.0930667,
+    "ast_hash": "692d81495444cb4805c3ca51fe4d9dcd",
+    "semantic_hash": "692d81495444cb4805c3ca51fe4d9dcd"
+  },
+  "Qwen Spark Migration/test_add_desktop_qwen.py": {
+    "mtime": 1791890099.9079473,
+    "seen": 1791891178.0930667,
+    "ast_hash": "2c9a51e450fb87f0adc7326d89aeb25a",
+    "semantic_hash": "2c9a51e450fb87f0adc7326d89aeb25a"
+  },
+  "Qwen Spark Migration/test_admission_proxy.py": {
+    "mtime": 1791886425.0954852,
+    "seen": 1791891178.0930667,
+    "ast_hash": "e24414281ac1d9220711b715213d6dbb",
+    "semantic_hash": "e24414281ac1d9220711b715213d6dbb"
+  },
+  "Qwen Spark Migration/test_continue_native_reviewed.py": {
+    "mtime": 1791828866.121175,
+    "seen": 1791891178.0930667,
+    "ast_hash": "6823fd644e5c92c4e85933150196d183",
+    "semantic_hash": "6823fd644e5c92c4e85933150196d183"
+  },
+  "Qwen Spark Migration/test_finish_native_install.py": {
+    "mtime": 1791821039.6335788,
+    "seen": 1791891178.0930667,
+    "ast_hash": "1541779680dad9408c2e3168d30a4f6c",
+    "semantic_hash": "1541779680dad9408c2e3168d30a4f6c"
+  },
+  "Qwen Spark Migration/test_hermes_timeouts.py": {
+    "mtime": 1791826153.341449,
+    "seen": 1791891178.0930667,
+    "ast_hash": "95add4458a7f3fd9da0e6551f9d22755",
+    "semantic_hash": "95add4458a7f3fd9da0e6551f9d22755"
+  },
+  "Qwen Spark Migration/test_named_custom_timeout_resolution.py": {
+    "mtime": 1791826799.6780262,
+    "seen": 1791891178.0930667,
+    "ast_hash": "9331781fc6ef4ceebfdbac9a531a389b",
+    "semantic_hash": "9331781fc6ef4ceebfdbac9a531a389b"
+  },
+  "Qwen Spark Migration/test_probe_hermes_production.py": {
+    "mtime": 1791830619.3233738,
+    "seen": 1791891178.0930667,
+    "ast_hash": "e415f654b6fae9ffa2ab6ae7441d1903",
+    "semantic_hash": "e415f654b6fae9ffa2ab6ae7441d1903"
+  },
+  "Qwen Spark Migration/test_probe_qwen_long.py": {
+    "mtime": 1791800016.957278,
+    "seen": 1791891178.0930667,
+    "ast_hash": "6cc498734e3b0d69f20da64176d54f2a",
+    "semantic_hash": "6cc498734e3b0d69f20da64176d54f2a"
+  },
+  "Qwen Spark Migration/test_run_native_qwen.py": {
+    "mtime": 1791887108.4507987,
+    "seen": 1791891178.0930667,
+    "ast_hash": "760a4f131839388b5cc5840995774e20",
+    "semantic_hash": "760a4f131839388b5cc5840995774e20"
+  },
+  "Qwen Spark Migration/test_verify_native_catalog.py": {
+    "mtime": 1791890127.0426266,
+    "seen": 1791891178.0930667,
+    "ast_hash": "d5deb1a3cefddfb89c5eb921e8f9a6c2",
+    "semantic_hash": "d5deb1a3cefddfb89c5eb921e8f9a6c2"
+  },
+  "Qwen Spark Migration/timeout-patch-installed-manifest.json": {
+    "mtime": 1791826231.092822,
+    "seen": 1791891178.0930667,
+    "ast_hash": "1295f98ee668fe5893881a3b2e0f05e2",
+    "semantic_hash": "1295f98ee668fe5893881a3b2e0f05e2"
+  },
+  "Qwen Spark Migration/verify_native_catalog.py": {
+    "mtime": 1791890127.0413892,
+    "seen": 1791891178.0930667,
+    "ast_hash": "af4659c603cafb1d83c56a69951a709f",
+    "semantic_hash": "af4659c603cafb1d83c56a69951a709f"
+  },
+  "scripts/aux-services": {
+    "mtime": 1790431031.4712427,
+    "seen": 1791891178.0930667,
+    "ast_hash": "b6dfcf69e9d803ce36a7e6157682a539",
+    "semantic_hash": "b6dfcf69e9d803ce36a7e6157682a539"
+  },
+  "scripts/frontier_model_probe.py": {
+    "mtime": 1789989915.3330307,
+    "seen": 1791891178.0930667,
+    "ast_hash": "2a6105e8b0d59b5c1d687c7429d4f15c",
+    "semantic_hash": "2a6105e8b0d59b5c1d687c7429d4f15c"
+  },
+  "scripts/glm-reasoning-shim.py": {
+    "mtime": 1790183419.7963784,
+    "seen": 1791891178.0930667,
+    "ast_hash": "8421cac04c4d51a2b08d6692e09e25ee",
+    "semantic_hash": "8421cac04c4d51a2b08d6692e09e25ee"
+  },
+  "scripts/spark-frontier": {
+    "mtime": 1790319076.612666,
+    "seen": 1791891178.0930667,
+    "ast_hash": "9b2454e435d3d3369af21b9c0110a8ba",
+    "semantic_hash": "9b2454e435d3d3369af21b9c0110a8ba"
+  },
+  "scripts/spark-frontier-check": {
+    "mtime": 1790321885.012791,
+    "seen": 1791891178.0930667,
+    "ast_hash": "5de06d432fa8cb62b3104411ad888c5c",
+    "semantic_hash": "5de06d432fa8cb62b3104411ad888c5c"
+  },
+  "scripts/sparkdash-control.ps1": {
+    "mtime": 1790340512.4691803,
+    "seen": 1791891178.0930667,
+    "ast_hash": "d9992647eedd408b1c29750ebbd7a200",
+    "semantic_hash": "d9992647eedd408b1c29750ebbd7a200"
+  },
+  "work/qwen-regression-audit-2026-10-12.json": {
+    "mtime": 1791795244.863575,
+    "seen": 1791891178.0930667,
+    "ast_hash": "b931cdbbd0c902da97a297b8e4b4516b",
+    "semantic_hash": "b931cdbbd0c902da97a297b8e4b4516b"
+  },
+  "work/qwen-windows-events-2026-10-12.json": {
+    "mtime": 1791795480.5136845,
+    "seen": 1791891178.0930667,
+    "ast_hash": "27486bb3627085533a43813d076e1e5d",
+    "semantic_hash": "27486bb3627085533a43813d076e1e5d"
+  },
+  ".setup-dashboard/template.html": {
+    "mtime": 1789743753.0479097,
+    "seen": 1791891178.0930667,
+    "ast_hash": "58b590dd12da5f0b124f696f7f5bb7c5",
+    "semantic_hash": "58b590dd12da5f0b124f696f7f5bb7c5"
+  },
+  "Always-On Hermes on DGX Spark.md": {
+    "mtime": 1785430844.6978512,
+    "seen": 1791891178.0930667,
+    "ast_hash": "fe947660efaac07b5b948065666a5f14",
+    "semantic_hash": "fe947660efaac07b5b948065666a5f14"
+  },
+  "DGX Spark Additional Model Tutorials Index.md": {
+    "mtime": 1786702566.3981404,
+    "seen": 1791891178.0930667,
+    "ast_hash": "d9946ce818952c725735f814ea062bfb",
+    "semantic_hash": "d9946ce818952c725735f814ea062bfb"
+  },
+  "DGX Spark Additional Models And Convenience Runtimes Research.md": {
+    "mtime": 1786701940.710374,
+    "seen": 1791891178.0930667,
+    "ast_hash": "f337f715657f96ccaff3f9a3baaf78b8",
+    "semantic_hash": "f337f715657f96ccaff3f9a3baaf78b8"
+  },
+  "DGX Spark Additional Services Controller.md": {
+    "mtime": 1791830695.7781136,
+    "seen": 1791891178.0930667,
+    "ast_hash": "83b568d273dac55183c2c384e5290b9e",
+    "semantic_hash": "83b568d273dac55183c2c384e5290b9e"
+  },
+  "DGX Spark And RTX 5000 Workstation Model Placement Research.md": {
+    "mtime": 1786733180.0441616,
+    "seen": 1791891178.0930667,
+    "ast_hash": "94333288c2d26df632368599cec154d1",
+    "semantic_hash": "94333288c2d26df632368599cec154d1"
+  },
+  "DGX Spark Aug 2026 Model Deployment Research.md": {
+    "mtime": 1786092910.3476636,
+    "seen": 1791891178.0930667,
+    "ast_hash": "8af1f7c1faf493cf7f6b3efe9825a918",
+    "semantic_hash": "8af1f7c1faf493cf7f6b3efe9825a918"
+  },
+  "DGX Spark Automatic Power Recovery Research.md": {
+    "mtime": 1787228585.720422,
+    "seen": 1791891178.0930667,
+    "ast_hash": "61525bad1b1aafe2a3373f0c31631f01",
+    "semantic_hash": "61525bad1b1aafe2a3373f0c31631f01"
+  },
+  "DGX Spark DeepSeek 131K And SparkFast Comparison Protocol.md": {
+    "mtime": 1790365315.9614382,
+    "seen": 1791891178.0930667,
+    "ast_hash": "ed02b00fee79efc136faa1d8327a1d49",
+    "semantic_hash": "ed02b00fee79efc136faa1d8327a1d49"
+  },
+  "DGX Spark Dual-Node Community Frontier Models Runbook.md": {
+    "mtime": 1790365315.9614382,
+    "seen": 1791891178.0930667,
+    "ast_hash": "10d77853ac29883f77ab5f03237f595e",
+    "semantic_hash": "10d77853ac29883f77ab5f03237f595e"
+  },
+  "DGX Spark Dual-Node Configuration And Operations Reference.md": {
+    "mtime": 1790365315.9614382,
+    "seen": 1791891178.0930667,
+    "ast_hash": "ee6a5ffdda35ef71b6e73eb538749f9e",
+    "semantic_hash": "ee6a5ffdda35ef71b6e73eb538749f9e"
+  },
+  "DGX Spark Dual-Node DeepSeek V4.1 Flash EXL3 Tutorial.md": {
+    "mtime": 1790224318.4653,
+    "seen": 1791891178.0930667,
+    "ast_hash": "296f0073e225b056d38d2a086061a396",
+    "semantic_hash": "296f0073e225b056d38d2a086061a396"
+  },
+  "DGX Spark Dual-Node Frontier Model Recipes Research 2026-09-18.md": {
+    "mtime": 1789729808.5919979,
+    "seen": 1791891178.0930667,
+    "ast_hash": "8cb5defb9ce184c81fae544c2f1fc1e7",
+    "semantic_hash": "8cb5defb9ce184c81fae544c2f1fc1e7"
+  },
+  "DGX Spark Dual-Node GLM 5.3 Flash EXL3 Tutorial.md": {
+    "mtime": 1790321885.012791,
+    "seen": 1791891178.0930667,
+    "ast_hash": "37f6902f16e64ac1eb388641fb058c35",
+    "semantic_hash": "37f6902f16e64ac1eb388641fb058c35"
+  },
+  "DGX Spark Dual-Node Qwen 3.8 Flash Next Tutorial.md": {
+    "mtime": 1790224318.449664,
+    "seen": 1791891178.0930667,
+    "ast_hash": "11a63f25f844ecf9f7d1d4c3cecaab7d",
+    "semantic_hash": "11a63f25f844ecf9f7d1d4c3cecaab7d"
+  },
+  "DGX Spark Frontier Model Hot-Swap And Routing Guide.md": {
+    "mtime": 1790321885.0140169,
+    "seen": 1791891178.0930667,
+    "ast_hash": "0a2071a8762a898f48106fcd5fa518f6",
+    "semantic_hash": "0a2071a8762a898f48106fcd5fa518f6"
+  },
+  "DGX Spark Frontier Model Qualification Results.md": {
+    "mtime": 1790757373.2058742,
+    "seen": 1791891178.0930667,
+    "ast_hash": "cb4788d91e7aa1ee307be1e8782b5f17",
+    "semantic_hash": "cb4788d91e7aa1ee307be1e8782b5f17"
+  },
+  "DGX Spark Gemma 4 Models Tutorial.md": {
+    "mtime": 1786722031.2259133,
+    "seen": 1791891178.0930667,
+    "ast_hash": "64526f7c75708a96ef4793af3162124c",
+    "semantic_hash": "64526f7c75708a96ef4793af3162124c"
+  },
+  "DGX Spark LM Studio And LM Link Tutorial.md": {
+    "mtime": 1791795932.0172737,
+    "seen": 1791891178.0930667,
+    "ast_hash": "78e6173dadcfba9a6edcecd17cf2549c",
+    "semantic_hash": "78e6173dadcfba9a6edcecd17cf2549c"
+  },
+  "DGX Spark Model Installation And Switching Guide.md": {
+    "mtime": 1786782991.3021593,
+    "seen": 1791891178.0930667,
+    "ast_hash": "1c95d75e32de679c0f6ab83eebce3d91",
+    "semantic_hash": "1c95d75e32de679c0f6ab83eebce3d91"
+  },
+  "DGX Spark Multi-Model Runtime Research.md": {
+    "mtime": 1786782991.3009746,
+    "seen": 1791891178.0930667,
+    "ast_hash": "1d2f84719a1fd562a82ff42c041b6d15",
+    "semantic_hash": "1d2f84719a1fd562a82ff42c041b6d15"
+  },
+  "DGX Spark Muse Glimmer 30B Readiness Tutorial.md": {
+    "mtime": 1786702539.4070325,
+    "seen": 1791891178.0930667,
+    "ast_hash": "6f6e741246b1a7d3447cf5bbaf5311dc",
+    "semantic_hash": "6f6e741246b1a7d3447cf5bbaf5311dc"
+  },
+  "DGX Spark Nemotron 3 Nano Omni Tutorial.md": {
+    "mtime": 1786782991.3009746,
+    "seen": 1791891178.0930667,
+    "ast_hash": "9991101eaab74bb37bc24c5f6e9f7e60",
+    "semantic_hash": "9991101eaab74bb37bc24c5f6e9f7e60"
+  },
+  "DGX Spark Nemotron 3.5 Lightning Tutorial.md": {
+    "mtime": 1786722079.9782338,
+    "seen": 1791891178.0930667,
+    "ast_hash": "3e2d95991a31f45123a52a1c30a65b50",
+    "semantic_hash": "3e2d95991a31f45123a52a1c30a65b50"
+  },
+  "DGX Spark Nemotron 3.5 Lightning Via LM Studio Research.md": {
+    "mtime": 1786768584.0861752,
+    "seen": 1791891178.0930667,
+    "ast_hash": "840f1b0e0808d78f07ec481fce53ba8e",
+    "semantic_hash": "840f1b0e0808d78f07ec481fce53ba8e"
+  },
+  "DGX Spark ODS Playbook and Model Roadmap.md": {
+    "mtime": 1785689104.2374897,
+    "seen": 1791891178.0930667,
+    "ast_hash": "59b5b7752a3a5431efc53d9c5b023365",
+    "semantic_hash": "59b5b7752a3a5431efc53d9c5b023365"
+  },
+  "DGX Spark Ollama And ODS Tutorial.md": {
+    "mtime": 1786702370.9000633,
+    "seen": 1791891178.0930667,
+    "ast_hash": "41431acc756f427326c1a40353930dc5",
+    "semantic_hash": "41431acc756f427326c1a40353930dc5"
+  },
+  "DGX Spark Operations Setup Guide.md": {
+    "mtime": 1786776856.7005098,
+    "seen": 1791891178.0930667,
+    "ast_hash": "b96d96e5274f5ac45b9ed0eba2912ff4",
+    "semantic_hash": "b96d96e5274f5ac45b9ed0eba2912ff4"
+  },
+  "DGX Spark Pre-Shutdown And Automatic Recovery Snapshot 2026-08-20.md": {
+    "mtime": 1787230284.4327433,
+    "seen": 1791891178.0930667,
+    "ast_hash": "d753ef3fa2b7c62817b582c3005bff2d",
+    "semantic_hash": "d753ef3fa2b7c62817b582c3005bff2d"
+  },
+  "DGX Spark Qwen NVFP4 Memory And Startup Optimization Research.md": {
+    "mtime": 1791809777.8844614,
+    "seen": 1791891178.0930667,
+    "ast_hash": "758a2031a8cfeaf19e830783f0165d86",
+    "semantic_hash": "758a2031a8cfeaf19e830783f0165d86"
+  },
+  "DGX Spark Second Node And Dual Spark Readiness Research 2026-08-20.md": {
+    "mtime": 1789722200.62712,
+    "seen": 1791891178.0930667,
+    "ast_hash": "1ba2de34b154e3fbee0c7b3b1ee66407",
+    "semantic_hash": "1ba2de34b154e3fbee0c7b3b1ee66407"
+  },
+  "DGX Spark Single-Node Qwen 3.8 Flash Next TensorFold Replacement Tutorial.md": {
+    "mtime": 1790748358.6105044,
+    "seen": 1791891178.0930667,
+    "ast_hash": "331ef193a74a703b853bb772af7df4ed",
+    "semantic_hash": "331ef193a74a703b853bb772af7df4ed"
+  },
+  "DGX Spark Single-Node Qwen 3.8 Flash Next v0.30 Tutorial.md": {
+    "mtime": 1790748005.122479,
+    "seen": 1791891178.0930667,
+    "ast_hash": "fc1c8f8015630958427f73aa4d35f802",
+    "semantic_hash": "fc1c8f8015630958427f73aa4d35f802"
+  },
+  "DGX Spark sparkDash Monitoring Tutorial.md": {
+    "mtime": 1790341477.5934818,
+    "seen": 1791891178.0930667,
+    "ast_hash": "e7c920716539198df8ce0c76cd9a3400",
+    "semantic_hash": "e7c920716539198df8ce0c76cd9a3400"
+  },
+  "FirstSpark Standalone LiteLLM Operations.md": {
+    "mtime": 1790068702.2225583,
+    "seen": 1791891178.0930667,
+    "ast_hash": "89f4dc1549e9b02a2f5c32ff32244a5f",
+    "semantic_hash": "89f4dc1549e9b02a2f5c32ff32244a5f"
+  },
+  "Fresh Brief Spark Qwen Migration Requirements.md": {
+    "mtime": 1791797481.379059,
+    "seen": 1791891178.0930667,
+    "ast_hash": "7fced9799034c9d108e9f2d7545d6fdd",
+    "semantic_hash": "7fced9799034c9d108e9f2d7545d6fdd"
+  },
+  "Hermes LM Link And Workstation Model Routing Research.md": {
+    "mtime": 1786781306.0718646,
+    "seen": 1791891178.0930667,
+    "ast_hash": "248714e5ff337dc37863df7a1b2e926c",
+    "semantic_hash": "248714e5ff337dc37863df7a1b2e926c"
+  },
+  "Local Setup Index.md": {
+    "mtime": 1791890309.8799942,
+    "seen": 1791891178.0930667,
+    "ast_hash": "2ec6b2a6e93010413e641580d8513711",
+    "semantic_hash": "2ec6b2a6e93010413e641580d8513711"
+  },
+  "LongCat Video Avatar 1.5 Workstation Feasibility Tutorial.md": {
+    "mtime": 1790577065.5830407,
+    "seen": 1791891178.0930667,
+    "ast_hash": "f9496291699e3788600da039d495d36d",
+    "semantic_hash": "f9496291699e3788600da039d495d36d"
+  },
+  "Markdown Backed Interactive Dashboard Research.md": {
+    "mtime": 1787380018.7722652,
+    "seen": 1791891178.0930667,
+    "ast_hash": "bab59b37163285b602e2b2943d5abfaa",
+    "semantic_hash": "bab59b37163285b602e2b2943d5abfaa"
+  },
+  "MiniMax H3 Character Swap LoRA Windows Tutorial.md": {
+    "mtime": 1790577224.6495912,
+    "seen": 1791891178.0930667,
+    "ast_hash": "52a5310e90c7a3b2493bf74cefbc168f",
+    "semantic_hash": "52a5310e90c7a3b2493bf74cefbc168f"
+  },
+  "MiniMax H3 Handheld Shaky Cam LoRA Windows Tutorial.md": {
+    "mtime": 1790577658.3824165,
+    "seen": 1791891178.0930667,
+    "ast_hash": "742ba09f7060be0d5159068a2c712f85",
+    "semantic_hash": "742ba09f7060be0d5159068a2c712f85"
+  },
+  "MiniMax H3 Windows Video Exploration Tutorial.md": {
+    "mtime": 1790577658.3834178,
+    "seen": 1791891178.0930667,
+    "ast_hash": "7a24bcb9b8bc76987b6755b6d6329588",
+    "semantic_hash": "7a24bcb9b8bc76987b6755b6d6329588"
+  },
+  "ODS Workstation Ollama Integration Research.md": {
+    "mtime": 1786767501.534507,
+    "seen": 1791891178.0930667,
+    "ast_hash": "cd3a61d933666db34b821ba91c25a01f",
+    "semantic_hash": "cd3a61d933666db34b821ba91c25a01f"
+  },
+  "Qwen 3.8 27B DFlash2 Speed Upgrade.md": {
+    "mtime": 1791890309.8799942,
+    "seen": 1791891178.0930667,
+    "ast_hash": "f3c94a35fa3af5643010784371fe00e9",
+    "semantic_hash": "f3c94a35fa3af5643010784371fe00e9"
+  },
+  "Qwen 3.8 27B Native Spark Setup Tutorial.md": {
+    "mtime": 1791866060.773306,
+    "seen": 1791891178.0930667,
+    "ast_hash": "9ba441b181b9c328e7796498a5548777",
+    "semantic_hash": "9ba441b181b9c328e7796498a5548777"
+  },
+  "Qwen 3.8 27B Ollama Remote Access Research.md": {
+    "mtime": 1787239431.1581137,
+    "seen": 1791891178.0930667,
+    "ast_hash": "50b138193eb560c03c172bafc26af634",
+    "semantic_hash": "50b138193eb560c03c172bafc26af634"
+  },
+  "Qwen 3.8 27B Spark LM Studio Migration Tutorial.md": {
+    "mtime": 1791797481.379059,
+    "seen": 1791891178.0930667,
+    "ast_hash": "1741138681f69f24d5f33747b6c3f2af",
+    "semantic_hash": "1741138681f69f24d5f33747b6c3f2af"
+  },
+  "Qwen 3.8 27B Spark Serving Options.md": {
+    "mtime": 1791799813.9223564,
+    "seen": 1791891178.0930667,
+    "ast_hash": "766f0a51ce2dc211c09f3cfe97e8a67a",
+    "semantic_hash": "766f0a51ce2dc211c09f3cfe97e8a67a"
+  },
+  "Qwen Spark Migration Evidence 2026-10-12.md": {
+    "mtime": 1791826204.729301,
+    "seen": 1791891178.0930667,
+    "ast_hash": "1c44134e225d28b885b77f17becf1584",
+    "semantic_hash": "1c44134e225d28b885b77f17becf1584"
+  },
+  "Qwen Spark Migration/DECISION-README.md": {
+    "mtime": 1791830647.5533636,
+    "seen": 1791891178.0930667,
+    "ast_hash": "f0c5275794a435892389cb5a99121d05",
+    "semantic_hash": "f0c5275794a435892389cb5a99121d05"
+  },
+  "Qwen Spark Migration/LONG-PROBE-GUARDS.md": {
+    "mtime": 1791800079.1669579,
+    "seen": 1791891178.0930667,
+    "ast_hash": "64523b40acfa8f319cace416bdebbb1a",
+    "semantic_hash": "64523b40acfa8f319cace416bdebbb1a"
+  },
+  "RTX PRO 5000 EVIE Visual Document Retrieval Tutorial.md": {
+    "mtime": 1790576776.3523564,
+    "seen": 1791891178.0930667,
+    "ast_hash": "e70c1570991101b8a632caa55534c7ba",
+    "semantic_hash": "e70c1570991101b8a632caa55534c7ba"
+  },
+  "RTX PRO 5000 Jev Agent Decision Evaluation Tutorial.md": {
+    "mtime": 1790577277.5481026,
+    "seen": 1791891178.0930667,
+    "ast_hash": "a73bc30a32005379014d792b0c023b5e",
+    "semantic_hash": "a73bc30a32005379014d792b0c023b5e"
+  },
+  "RTX PRO 5000 Laya Decision Model Tutorial.md": {
+    "mtime": 1790576837.182471,
+    "seen": 1791891178.0930667,
+    "ast_hash": "35cf0081bf3a065567a3745fcf224539",
+    "semantic_hash": "35cf0081bf3a065567a3745fcf224539"
+  },
+  "RTX PRO 5000 Local Inference Measurement Tutorial.md": {
+    "mtime": 1790577203.882641,
+    "seen": 1791891178.0930667,
+    "ast_hash": "0489cb05980ae68098d6bf8eb8129766",
+    "semantic_hash": "0489cb05980ae68098d6bf8eb8129766"
+  },
+  "RTX PRO 5000 Perplexity Portable Computer Tutorial.md": {
+    "mtime": 1790577325.4696286,
+    "seen": 1791891178.0930667,
+    "ast_hash": "797352dbd0de51016cb0d3596628da59",
+    "semantic_hash": "797352dbd0de51016cb0d3596628da59"
+  },
+  "RTX PRO 5000 Qwen 3.8 BF16 LM Head Audit Tutorial.md": {
+    "mtime": 1790577420.1936717,
+    "seen": 1791891178.0930667,
+    "ast_hash": "6aa37ecc5371c52191b4fa0d2157077a",
+    "semantic_hash": "6aa37ecc5371c52191b4fa0d2157077a"
+  },
+  "RTX PRO 5000 Qwen Image 2.1 BFS Body Swap Windows Tutorial.md": {
+    "mtime": 1790576767.62829,
+    "seen": 1791891178.0930667,
+    "ast_hash": "02c0a020e98f2b5e5f298e5859a2b4fa",
+    "semantic_hash": "02c0a020e98f2b5e5f298e5859a2b4fa"
+  },
+  "RTX PRO 5000 Qwen Image 2.1 BFS Head Swap Windows Tutorial.md": {
+    "mtime": 1790576807.5602014,
+    "seen": 1791891178.0930667,
+    "ast_hash": "a2bd061c4f67a247d983e0b482816344",
+    "semantic_hash": "a2bd061c4f67a247d983e0b482816344"
+  },
+  "RTX PRO 5000 Qwen Image 2.1 Base Windows Tutorial.md": {
+    "mtime": 1790576974.4659202,
+    "seen": 1791891178.0930667,
+    "ast_hash": "e5144b0f0fa08c2ce6236406cd059b9f",
+    "semantic_hash": "e5144b0f0fa08c2ce6236406cd059b9f"
+  },
+  "RTX PRO 5000 Qwen Image 2.1 Uncensored Variant Windows Tutorial.md": {
+    "mtime": 1790576896.9503899,
+    "seen": 1791891178.0930667,
+    "ast_hash": "638510ebd29d8bfb4ccd0840fac24636",
+    "semantic_hash": "638510ebd29d8bfb4ccd0840fac24636"
+  },
+  "RTX PRO 5000 Workstation Models And LM Studio Lab Tutorial.md": {
+    "mtime": 1786733112.0954392,
+    "seen": 1791891178.0930667,
+    "ast_hash": "7859b6c9c2da1545c8f485ccde1b5a22",
+    "semantic_hash": "7859b6c9c2da1545c8f485ccde1b5a22"
+  },
+  "RTX PRO 5000 Workstation ODS Models And LM Studio Desktop Tutorial.md": {
+    "mtime": 1787239431.1564856,
+    "seen": 1791891178.0930667,
+    "ast_hash": "e843477351ff7e04792f51ee7a1d502e",
+    "semantic_hash": "e843477351ff7e04792f51ee7a1d502e"
+  },
+  "Realtime Conversation Video Windows Feasibility Tutorial.md": {
+    "mtime": 1790577577.7375307,
+    "seen": 1791891178.0930667,
+    "ast_hash": "fd1500f7728ba9b5c44dd049f022a344",
+    "semantic_hash": "fd1500f7728ba9b5c44dd049f022a344"
+  },
+  "Social Capture Local AI Model Exploration Guide.md": {
+    "mtime": 1790577638.87772,
+    "seen": 1791891178.0930667,
+    "ast_hash": "7194fdbc6e2d3006ce71e541ad5e0901",
+    "semantic_hash": "7194fdbc6e2d3006ce71e541ad5e0901"
+  },
+  "Social Capture Pipeline.md": {
+    "mtime": 1787402561.894,
+    "seen": 1791891178.0930667,
+    "ast_hash": "d31c95120c0bd4a577a6a93691b4861a",
+    "semantic_hash": "d31c95120c0bd4a577a6a93691b4861a"
+  },
+  "Spark Hermes Setup Runbook.md": {
+    "mtime": 1785934304.8177679,
+    "seen": 1791891178.0930667,
+    "ast_hash": "ae66d93f0d34620f84f899f6caf37b5a",
+    "semantic_hash": "ae66d93f0d34620f84f899f6caf37b5a"
+  },
+  "SparkFast And Qwen 27B Capacity Comparison.md": {
+    "mtime": 1791830647.55237,
+    "seen": 1791891178.0930667,
+    "ast_hash": "cbb2b53ca51ae06cd0a963d76fe856c2",
+    "semantic_hash": "cbb2b53ca51ae06cd0a963d76fe856c2"
+  },
+  "Task Checklist.md": {
+    "mtime": 1791830647.5472715,
+    "seen": 1791891178.0930667,
+    "ast_hash": "d8e46b8769ab6a410e8aa9518673c5c9",
+    "semantic_hash": "d8e46b8769ab6a410e8aa9518673c5c9"
+  },
+  "VoiceStudio Risk Audit.md": {
+    "mtime": 1787248356.210991,
+    "seen": 1791891178.0930667,
+    "ast_hash": "b9e87e1c0e78e45f1e156abcbc40b05d",
+    "semantic_hash": "b9e87e1c0e78e45f1e156abcbc40b05d"
+  },
+  "VoiceStudio Windows Portable Usage.md": {
+    "mtime": 1787246959.744061,
+    "seen": 1791891178.0930667,
+    "ast_hash": "24eb3cdbb574f88d5de8419691ef99cc",
+    "semantic_hash": "24eb3cdbb574f88d5de8419691ef99cc"
+  },
+  "dgx-spark-current-models-report.md": {
+    "mtime": 1785670255.3735237,
+    "seen": 1791891178.0930667,
+    "ast_hash": "d3b96cd234fcef54b198719b6eafaa8d",
+    "semantic_hash": "d3b96cd234fcef54b198719b6eafaa8d"
+  },
+  "dgx-spark-playbook-roadmap-draft.md": {
+    "mtime": 1785670354.131286,
+    "seen": 1791891178.0930667,
+    "ast_hash": "0fdaca6204cf106584028b8d560a0266",
+    "semantic_hash": "0fdaca6204cf106584028b8d560a0266"
+  },
+  "dgx-spark-twitter-bookmarks-analysis.md": {
+    "mtime": 1785670588.4000578,
+    "seen": 1791891178.0930667,
+    "ast_hash": "a34dfa1eb0004b016594f627300cd743",
+    "semantic_hash": "a34dfa1eb0004b016594f627300cd743"
+  },
+  "hermes-qwen-desktop-lag-handoff-2026-09-28.md": {
+    "mtime": 1790692840.6656904,
+    "seen": 1791891178.0930667,
+    "ast_hash": "72ef53b077148e00f4dea3aa755c70d5",
+    "semantic_hash": "72ef53b077148e00f4dea3aa755c70d5"
+  },
+  "local-ai-architecture-research.md": {
+    "mtime": 1785430790.445829,
+    "seen": 1791891178.0930667,
+    "ast_hash": "c4ec0ec0fd825d3d533b0ae84bff7c5d",
+    "semantic_hash": "c4ec0ec0fd825d3d533b0ae84bff7c5d"
+  },
+  "local-ai-tooling-catalog-and-rollout.md": {
+    "mtime": 1785430692.4458637,
+    "seen": 1791891178.0930667,
+    "ast_hash": "0c494ca6628dc603d0c6e10b45a8f292",
+    "semantic_hash": "0c494ca6628dc603d0c6e10b45a8f292"
+  },
+  "personal-hermes-obsidian-multinode-design.md": {
+    "mtime": 1785837014.700484,
+    "seen": 1791891178.0930667,
+    "ast_hash": "d66aaba03034301a37c699a840fcc4fa",
+    "semantic_hash": "d66aaba03034301a37c699a840fcc4fa"
+  },
+  "Frontier Model Vision Test.png": {
+    "mtime": 1789988931.2503345,
+    "seen": 1791891178.0930667,
+    "ast_hash": "b4c831df6e8cec72b2d9b6b2fa8f9e4a",
+    "semantic_hash": "b4c831df6e8cec72b2d9b6b2fa8f9e4a"
+  }
+}
