@@ -1,0 +1,10 @@
+# generated/vendored files that add noise, not knowledge
+Local Setup Dashboard.html
+.setup-dashboard/marked.umd.js
+.setup-dashboard/MARKED-LICENSE.txt
+.setup-dashboard/source-hashes-before.json
+.setup-dashboard/progress-import-check.json
+**/__pycache__/
+.codex-staging/
+.codex-tmp-qwen38/
+graphify-out/
