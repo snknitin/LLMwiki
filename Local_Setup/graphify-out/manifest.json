@@ -558,8 +558,8 @@
     "semantic_hash": "248714e5ff337dc37863df7a1b2e926c"
   },
   "Local Setup Index.md": {
-    "mtime": 1791904212.2480755,
-    "seen": 1791904879.43932,
+    "mtime": 1791909006.7853558,
+    "seen": 1791913001.6218152,
     "ast_hash": "a5177e151b531669ecbb1f3179c5c67a",
     "semantic_hash": "a5177e151b531669ecbb1f3179c5c67a"
   },
@@ -834,51 +834,45 @@
     "semantic_hash": "7144c633c373c854731b8106f46224bb"
   },
   "Qwen 27B Windows Lag And Spark Download Fix 2026-10-13.md": {
-    "mtime": 1791904216.9029818,
-    "seen": 1791904879.43932,
-    "ast_hash": "405328704a6ca575dd694f5d8c5fbda4",
-    "semantic_hash": "405328704a6ca575dd694f5d8c5fbda4"
+    "mtime": 1791909006.7853558,
+    "seen": 1791912974.9275506,
+    "ast_hash": "ac2da0c2765508794edd882bc045ced8",
+    "semantic_hash": "ac2da0c2765508794edd882bc045ced8"
   },
   "work/ollama-env-before-20261013.txt": {
-    "mtime": 1791894440.4401839,
-    "seen": 1791904879.43932,
+    "mtime": 1791909006.8121214,
+    "seen": 1791913001.6218152,
     "ast_hash": "7e7503114541488d21db30b867f73538",
     "semantic_hash": "7e7503114541488d21db30b867f73538"
   },
   "scripts/qwen-off.ps1": {
-    "mtime": 1791903881.5652194,
-    "seen": 1791904879.43932,
-    "ast_hash": "9049c112098ff0b9c7cac73af7c9e032",
-    "semantic_hash": "9049c112098ff0b9c7cac73af7c9e032"
+    "mtime": 1791912227.301558,
+    "seen": 1791912974.9275506,
+    "ast_hash": "c420ee8da693759e0c8151f19f2230e9",
+    "semantic_hash": "c420ee8da693759e0c8151f19f2230e9"
   },
   "scripts/qwen-on.ps1": {
-    "mtime": 1791903884.3309119,
-    "seen": 1791904879.43932,
-    "ast_hash": "7303a5dfcc54ace527dc1835f8a02614",
-    "semantic_hash": "7303a5dfcc54ace527dc1835f8a02614"
-  },
-  "scripts/start-desktop-qwen.ps1": {
-    "mtime": 1791904504.1628127,
-    "seen": 1791904879.43932,
-    "ast_hash": "f1cd989d967c9f5e27aac356597be10f",
-    "semantic_hash": "f1cd989d967c9f5e27aac356597be10f"
+    "mtime": 1791912231.4755914,
+    "seen": 1791912974.9275506,
+    "ast_hash": "cfb8e0efbc603f358e89e0cfe88c5df5",
+    "semantic_hash": "cfb8e0efbc603f358e89e0cfe88c5df5"
   },
   "Desktop Qwen Runbook.md": {
-    "mtime": 1791905005.0610223,
-    "seen": 1791907219.108768,
-    "ast_hash": "1d0c304a75eb1bfd744fc220703cc2c1",
-    "semantic_hash": "1d0c304a75eb1bfd744fc220703cc2c1"
-  },
-  "scripts/desktop-qwen-run-at-boot.ps1": {
-    "mtime": 1791904526.958735,
-    "seen": 1791904879.43932,
-    "ast_hash": "6eac80bba8c1d84731d3bbb9047b77c2",
-    "semantic_hash": "6eac80bba8c1d84731d3bbb9047b77c2"
+    "mtime": 1791913023.035091,
+    "seen": 1791913209.675133,
+    "ast_hash": "5972cd00b897f97db85ed5cddd0314e5",
+    "semantic_hash": "5972cd00b897f97db85ed5cddd0314e5"
   },
   "work/desktop-qwen-run-at-boot-result.txt": {
-    "mtime": 1791904572.585037,
-    "seen": 1791904879.43932,
+    "mtime": 1791909006.8121214,
+    "seen": 1791913001.6218152,
     "ast_hash": "fa37b07ff08fbcb71fe3e8024b383768",
     "semantic_hash": "fa37b07ff08fbcb71fe3e8024b383768"
+  },
+  "scripts/desktop-qwen-apply.ps1": {
+    "mtime": 1791912893.9153311,
+    "seen": 1791912974.9275506,
+    "ast_hash": "beee9bf1d183dde3e0de8d44cb8741af",
+    "semantic_hash": "beee9bf1d183dde3e0de8d44cb8741af"
   }
 }

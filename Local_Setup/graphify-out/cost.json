@@ -17,8 +17,20 @@
       "input_tokens": 74560,
       "output_tokens": 0,
       "files": 1
+    },
+    {
+      "date": "2026-10-13T17:36:41.640345+00:00",
+      "input_tokens": 82832,
+      "output_tokens": 0,
+      "files": 5
+    },
+    {
+      "date": "2026-10-13T17:40:26.755690+00:00",
+      "input_tokens": 76519,
+      "output_tokens": 0,
+      "files": 1
     }
   ],
-  "total_input_tokens": 1816168,
+  "total_input_tokens": 1975519,
   "total_output_tokens": 0
 }
