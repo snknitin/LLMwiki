@@ -1,5 +1,7 @@
 # DGX Spark Nemotron 3 Nano Omni Tutorial
 
+Names: `spark-fast` was renamed on 13 Oct 2026; see [[Model And Provider Names]].
+
 This tutorial installs NVIDIA's multimodal NVFP4 model as a stopped-by-default vLLM profile:
 
 | Item                | Value                                                 |
@@ -356,7 +358,7 @@ In Hermes Desktop, select `nemotron3-omni` and perform one text test. Then add o
 ```bash
 spark-model use qwen35
 
-hermes config set model.default spark-fast
+hermes config set model.default qwen3.6-35b-a3b
 hermes config set model.context_length 262144
 hermes config check
 systemctl --user restart hermes-serve.service

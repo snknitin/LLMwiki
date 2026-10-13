@@ -6,13 +6,15 @@ scope: dgx-spark, litellm, hermes, hot-swap, model-manager, dual-node
 
 # DGX Spark Frontier Model Hot-Swap And Routing Guide
 
+Names: `spark-fast` was renamed on 13 Oct 2026; see [[Model And Provider Names]].
+
 > [!success] Completed 2026-09-24
 > The fail-closed switch manager, all four permanent Frontier aliases, routed checks, cold-route rejection, and `spark-fast` restoration routine are complete.
 
 > [!summary] Outcome
-> Keep Qwen 3.8 NVFP4, Qwen 3.8 official FP8, GLM 5.3 Flash, and DeepSeek V4.1 Flash installed and permanently named in LiteLLM/Hermes. A cluster-aware command hot-swaps the resident two-node backend, waits for health, restores LiteLLM/Hermes, selects the matching Hermes default, and preserves `spark-fast` as rollback.
+> Keep Qwen 3.8 NVFP4, Qwen 3.8 official FP8, GLM 5.3 Flash, and DeepSeek V4.1 Flash installed and permanently named in LiteLLM/Hermes. A cluster-aware command hot-swaps the resident two-node backend, waits for health, restores LiteLLM/Hermes, selects the matching Hermes default, and preserves `qwen3.6-35b-a3b` as rollback.
 
-This guide implements the user's required end state: the new frontier models behave like the existing `spark-fast`, `qwen27-dflash`, and `nemotron3-omni` choices from the client perspective, while respecting the fact that only one large dual-node model can be resident.
+This guide implements the user's required end state: the new frontier models behave like the existing `qwen3.6-35b-a3b`, `qwen27-dflash`, and `nemotron3-omni` choices from the client perspective, while respecting the fact that only one large dual-node model can be resident.
 
 > [!important] FirstSpark routing changed on 2026-09-22
 > FirstSpark ODS was retired. LiteLLM now runs independently from `$HOME/ai/services/litellm` as `spark-litellm` on `127.0.0.1:4000`; the model services use `spark-model-net`. The old ODS `.env`, `ods` command, and `ods-network` no longer exist on FirstSpark. The separate workstation ODS installation is outside this guide.
@@ -39,7 +41,7 @@ Then complete the individual tutorial **only for each lane you intend to registe
 | Warming | The cluster switch command is loading both ranks |
 | Raw-ready | Both ranks and port `8100` are healthy, but LiteLLM/Hermes are still closed |
 | Active | Raw identity, matching LiteLLM alias, and Hermes routing have all passed |
-| Rollback | Frontier rank pair is stopped and `spark-fast` is restored |
+| Rollback | Frontier rank pair is stopped and Qwen 3.6 35B-A3B (`qwen3.6-35b-a3b`) is restored |
 
 LiteLLM does not start a 125–400 GiB model in response to an API request. Always run the hot-swap command before selecting a cold alias in Hermes.
 
@@ -52,7 +54,7 @@ LiteLLM does not start a 125–400 GiB model in response to an API request. Alwa
 | `glm53-flash` | `glm53-flash` | `GLM-5.3-Flash-EXL3` | Use the accepted profile: 500,000 or 850,000 |
 | `deepseek41-flash` | `deepseek41-flash` | `DeepSeek-v4.1-Flash-EXL3` | Use the accepted profile: 131,072, 262,144, or 600,000 |
 
-Do not rename `spark-fast`. Do not use one mutable `spark-frontier` alias as the only client identity; distinct aliases preserve session intent and make errors diagnosable.
+Do not repoint `qwen3.6-35b-a3b` (formerly `spark-fast`) at another model. Do not use one mutable `spark-frontier` alias as the only client identity; distinct aliases preserve session intent and make errors diagnosable.
 
 > [!important] GLM operating profile is a deployment decision
 > `glm53-flash`, `glm53-flash-mtp-850k`, `glm53-flash-v2`, and `glm53-flash-dflash-500k` are **qualification result profiles**, not automatically four LiteLLM aliases. The public route remains `glm53-flash`. Complete Step 16 of [[DGX Spark Dual-Node GLM 5.3 Flash EXL3 Tutorial]] and choose **one fully accepted** operating profile. The current accepted MTP/850K profile uses GMU `0.84`, the 512 MiB InstantTensor buffer, `INSTANTTENSOR_MAX_FREE_MEM_USAGE=0.99`, `GLM53_DRAFT_KV_COMPACT=0`, and automatic KV sizing at recipe commit `0f49cfdbaa131286eb592cd6ebfa048f3aa85c4e`. A trial of the upstream TP2 14 GiB reservation booted but reduced head `MemAvailable` to about 2.6 GiB, below the managed 3 GiB floor, so that reservation is retained only for the DFlash/850K research profile. DFlash/500K also uses automatic sizing. The switch manager reinstalls `accepted.env` before **every** GLM hot-swap and derives Hermes context from its `MAX_MODEL_LEN`; it never trusts a leftover recipe `.env` or defaults to 500K. Do not leave API-key-bearing `.env.*` copies unignored in the Git checkout.
@@ -163,7 +165,7 @@ Under the existing single `model_list:` heading, add one block for each lane tha
       api_key: os.environ/SPARK_FRONTIER_API_KEY
 ```
 
-Keep the existing `spark-fast`, `qwen27-dflash`, and `nemotron3-omni` entries. The retired ODS `llama-server` default and wildcard routes were removed during migration. Do not create a second `model_list:` heading.
+Keep the existing `qwen3.6-35b-a3b`, `qwen27-dflash`, and `nemotron3-omni` entries. The retired ODS `llama-server` default and wildcard routes were removed during migration. Do not create a second `model_list:` heading.
 
 The GLM alias deliberately uses the private Docker bridge on port `8101`. The already-installed `glm-reasoning-shim.service` forwards to the raw GLM server on port `8100` and renames vLLM's streamed `reasoning` field to the `reasoning_content` field expected by the pinned LiteLLM release. It does not change prompts, tokens, final answers, authentication, or other model routes. Do not point GLM directly back to `8100` unless LiteLLM has been upgraded and the reasoning stream has been revalidated.
 
@@ -189,7 +191,7 @@ p='/home/snknitin/ai/services/litellm/config.yaml'
 d=yaml.safe_load(open(p, encoding='utf-8'))
 names=[x['model_name'] for x in d['model_list']]
 assert len(names)==len(set(names)), names
-required_base={'spark-fast','qwen27-dflash','nemotron3-omni'}
+required_base={'qwen3.6-35b-a3b','qwen27-dflash','nemotron3-omni'}
 known_frontier={'qwen38-nvfp4','qwen38-fp8','glm53-flash','deepseek41-flash'}
 assert required_base.issubset(names), (required_base-set(names))
 assert known_frontier.intersection(names), 'add at least one validated frontier alias'
@@ -199,16 +201,16 @@ PY
 
 If host Python lacks PyYAML, validate through the LiteLLM container after recreation instead of installing into the system Python.
 
-Also edit `$HOME/.hermes/config.yaml`. In the existing `custom_providers` list, keep the `spark-fast` provider's `base_url`, `model`, and `key_env` unchanged. Add only the lanes that have passed; the block below shows the intended final mapping after all four pass, so omit any unvalidated frontier entry for now:
+Also edit `$HOME/.hermes/config.yaml`. In the existing `custom_providers` list, keep the `local-models` provider's `base_url`, `model`, and `key_env` unchanged. Add only the lanes that have passed; the block below shows the intended final mapping after all four pass, so omit any unvalidated frontier entry for now:
 
 ```yaml
 custom_providers:
-  - name: spark-fast
+  - name: local-models
     base_url: http://127.0.0.1:4000/v1
-    model: spark-fast
+    model: qwen3.6-35b-a3b
     key_env: HERMES_CUSTOM_127_0_0_1_4000_API_KEY
     models:
-      spark-fast:
+      qwen3.6-35b-a3b:
         context_length: 262144
       nemotron3-omni:
         context_length: 131072
@@ -308,7 +310,7 @@ Every `spark-frontier use <lane>` operation automatically:
 10. pins GLM to the writable cache under `$HOME/.cache/huggingface` instead of an inherited `/opt/models` path;
 11. starts and health-checks the private GLM reasoning bridge before exposing GLM through LiteLLM;
 12. waits for the correct raw model identity, restarts LiteLLM, probes the matching alias, and updates Hermes; and
-13. writes `active:<lane>` only after every preceding check passes, otherwise restoring `spark-fast`.
+13. writes `active:<lane>` only after every preceding check passes, otherwise restoring Qwen 3.6 35B-A3B.
 
 The NFS checks prevent the DeepSeek-exporter/Qwen-cache mismatch that previously caused Qwen FP8 to roll back. Startup logs also hide configured API-key values.
 
@@ -321,7 +323,7 @@ Read the current state without changing anything:
 "$HOME/.local/bin/spark-frontier" status
 ```
 
-**Pass:** one stable state is shown: `active:<lane>` for a frontier model, or `none` while the rollback model `spark-fast` is active. A `starting:`, `raw-ready:`, or `stopping-old` state means a switch is still in progress; wait for that switch command to return.
+**Pass:** one stable state is shown: `active:<lane>` for a frontier model, or `none` while the rollback model `qwen3.6-35b-a3b` is active. A `starting:`, `raw-ready:`, or `stopping-old` state means a switch is still in progress; wait for that switch command to return.
 ## Step 6 — First managed switch: Qwen NVFP4
 
 Use the **FirstSpark SSH terminal**. Copy **one code block at a time**. A two-node model can take more than ten minutes to load. While the switch is running, port `4000` is deliberately unavailable; do not start the next block or send a LiteLLM request yet.
@@ -504,7 +506,7 @@ Switch to GLM:
 
 **Stop:** rollback, failure, or no completion line.
 
-If the later verifier says `active frontier state is none`, the GLM switch did not finish: the manager rolled back to `spark-fast`, and the verifier correctly refused to send GLM load. Run `spark-frontier status` and diagnose the switch output. Repeating either verifier command cannot start GLM.
+If the later verifier says `active frontier state is none`, the GLM switch did not finish: the manager rolled back to Qwen 3.6 35B-A3B, and the verifier correctly refused to send GLM load. Run `spark-frontier status` and diagnose the switch output. Repeating either verifier command cannot start GLM.
 
 Run the smoke check:
 

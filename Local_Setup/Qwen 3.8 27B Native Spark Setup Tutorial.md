@@ -6,13 +6,15 @@ tags: [dgx-spark, qwen, hermes, llama-cpp]
 
 # Qwen 3.8 27B Native Spark Setup Tutorial
 
+Names: `spark-fast` was renamed on 13 Oct 2026; see [[Model And Provider Names]].
+
 ## Speed correction — 13 October 2026
 
 The initial baseline met capacity/tool checks but failed the user's required interactive speed: real Hermes decode measured approximately6–9tokens/second. **DFlash was not enabled** (`speculation:none`); MTP was also skipped. Treat the capacity qualification below as historical evidence, not approval of this baseline for fast interactive work. A matching DFlash2 assistant is now being installed and will be compared on the existing Q5 weights first. Q4 target weights are allowed only if they provide a worthwhile further speed gain.
 
 ## Final decision and scope
 
-The user selected **Unsloth Qwen3.8-27B UD-Q5_K_XL served by native llama.cpp on FirstSpark**. It will serve research, planning, tool use and coding in Hermes alongside the existing Qwen3.6-35B-A3B `spark-fast` service. Main Hermes remains on `spark-fast`; Qwen3.8 is an explicit selectable provider.
+The user selected **Unsloth Qwen3.8-27B UD-Q5_K_XL served by native llama.cpp on FirstSpark**. It will serve research, planning, tool use and coding in Hermes alongside the existing Qwen 3.6 35B-A3B service (`qwen3.6-35b-a3b`). Main Hermes remains on `qwen3.6-35b-a3b`; Qwen3.8 is an explicit selectable provider.
 
 LM Studio is stopped and disabled on FirstSpark. Its files and Nemotron weights are retained for rollback, but neither is meant to be resident. **Windows Ollama, its existing Qwen copy, Fresh Brief and Windows configuration are unchanged.** This removes Hermes Qwen inference from the desktop GPU; Fresh Brief can still use that GPU intentionally.
 
@@ -20,7 +22,7 @@ Q5 retains more weight precision than Q4. This is a quality preference, not a me
 
 ## Find the model now
 
-Refresh the Hermes model picker. Select **FirstSpark Qwen 3.8 27B (llama.cpp)** and **`qwen38-27b-spark`**; the CLI provider is `custom:spark-qwen38`. You can favorite this entry or choose it as the default through Hermes. This installation deliberately preserves your existing SparkFast default and profile defaults. Select the new entry explicitly when resuming a chat that previously used Windows Qwen; saved conversation history was not rewritten.
+Refresh the Hermes model picker. Select **FirstSpark Qwen 3.8 27B (llama.cpp)** and **`qwen38-27b-spark`**; the CLI provider is `custom:spark-qwen38`. You can favorite this entry or choose it as the default through Hermes. This installation deliberately preserves your existing Qwen 3.6 35B-A3B default and profile defaults. Select the new entry explicitly when resuming a chat that previously used Windows Qwen; saved conversation history was not rewritten.
 
 The provider is installed in the main, builder, creator, orchestrator, researcher and reviewer configurations. Ollama shows exactly `gemma4:31b-it-qat`, `gemma4:26b-a4b-it-qat` and `gemma3:4b`. Removing Windows Qwen from the Hermes picker does not remove it from Ollama or Fresh Brief.
 
@@ -28,7 +30,7 @@ Catalog backup: `/home/snknitin/.hermes/backups/qwen-spark-migration-20261012T18
 
 ## Exact configuration
 
-For the current eight-request SparkFast settings, measured cache capacity, and explanation of its 47 GiB versus whole-system near-100 GB readings, see [[SparkFast And Qwen 27B Capacity Comparison]].
+For the current eight-request Qwen 3.6 35B-A3B settings, measured cache capacity, and explanation of its 47 GiB versus whole-system near-100 GB readings, see [[SparkFast And Qwen 27B Capacity Comparison]].
 
 | Setting | Selected value |
 |---|---|
@@ -53,7 +55,7 @@ For the current eight-request SparkFast settings, measured cache capacity, and e
 
 Admission counts rendered input including tools, reserves the request's declared output allowance plus a small margin, and permits at most four active requests. If an output cap is absent, it reserves the full262K request capacity; the new aggregate allocation accommodates **four uncapped requests**. It does **not** insert a permanent output or tool-turn limit. Up to eight additional requests may wait; the current wait limit is120seconds, after which clients receive an explicit retryable503. Excessive requests therefore have a clear capacity boundary, not a no-delay guarantee. Uncapped output is still bounded by the model's total context and client/runtime timeouts.
 
-The proxy allows at most7200seconds for an admitted upstream request. The new Hermes provider explicitly uses7200second request/stale settings because its ordinary local streaming default is900seconds without output; a large cold prefill can exceed that. The existing SparkFast and other provider timeout settings remain unchanged. This permits long work but does not make it fast or remove finite timeout boundaries.
+The proxy allows at most7200seconds for an admitted upstream request. The new Hermes provider explicitly uses7200second request/stale settings because its ordinary local streaming default is900seconds without output; a large cold prefill can exceed that. The existing Qwen 3.6 35B-A3B and other provider timeout settings remain unchanged. This permits long work but does not make it fast or remove finite timeout boundaries.
 
 On a client disconnect the proxy drains the upstream response while retaining its reservation. This avoids admitting too much work before native cancellation has completed, but generation may continue after a client closes. Ambiguous upstream failures close admission until repeated checks confirm all four slots idle. The endpoint serves text/tool chat, not image or audio requests.
 
@@ -87,7 +89,7 @@ The first automatic attempt stopped at20:34IST before model loading: systemd rej
 
 At23:00IST on12October, while Spark was actively prefilling the second240K prompt, Windows reported3% GPU utilization,3,934MiB GPU memory,29.55W and43°C; Ollama `/api/ps` listed no loaded model. During the final Hermes coding session after midnight on13October, a second read-only Windows observation showed2% GPU,3,149MiB,27.06W,45°C and zero loaded Ollama models. This is a simultaneous observation of desktop relief during Spark inference, not a measured desktop UI latency benchmark or proof about the retained Fresh Brief workload.
 
-The finite `qwen38-install.service` continuation waits up to24hours for the verified download, checks baseline and, only with sufficient headroom, bundledMTP2; qualifies long context and isolated Hermes, verifies a worker restart, and publishes the provider only after acceptance. It records progress in `/home/snknitin/runs/qwen38-native/installation-status.json`; its `evidence_directory` identifies the unique folder holding this attempt's receipts and logs. It is a one-time installation job, not a recurring monitor or reboot task. Failure stops the new worker for review; it never stops `spark-fast` or changes Windows. `qualified_and_published` is the success stage; `waiting_for_verified_download` is **not** ready for use. SIGTERM/SIGINT stop qualification and trigger cleanup; partial downloads remain resumable.
+The finite `qwen38-install.service` continuation waits up to24hours for the verified download, checks baseline and, only with sufficient headroom, bundledMTP2; qualifies long context and isolated Hermes, verifies a worker restart, and publishes the provider only after acceptance. It records progress in `/home/snknitin/runs/qwen38-native/installation-status.json`; its `evidence_directory` identifies the unique folder holding this attempt's receipts and logs. It is a one-time installation job, not a recurring monitor or reboot task. Failure stops the new worker for review; it never stops Qwen 3.6 35B-A3B or changes Windows. `qualified_and_published` is the success stage; `waiting_for_verified_download` is **not** ready for use. SIGTERM/SIGINT stop qualification and trigger cleanup; partial downloads remain resumable.
 
 ### Review of the completed 240K test
 
@@ -109,7 +111,7 @@ These are short-context synthetic task checks using the real Hermes tool loop. T
 
 ### Q8 versus Q4 context caches
 
-Both proposals use the same Q5 model weights. The earlier Q8 proposal allocated a shared524K cache, accommodating approximately two uncapped262K requests within the selected budget. Q8 keeps more cache precision and reduces compression-related accuracy risk. Four fully allocated Q8 contexts would approximately double that cache allocation and leave too little margin alongside SparkFast under the current plan.
+Both proposals use the same Q5 model weights. The earlier Q8 proposal allocated a shared524K cache, accommodating approximately two uncapped262K requests within the selected budget. Q8 keeps more cache precision and reduces compression-related accuracy risk. Four fully allocated Q8 contexts would approximately double that cache allocation and leave too little margin alongside Qwen 3.6 35B-A3B under the current plan.
 
 The selected Q4 proposal allocates four independent262K contexts for a similar total cache budget. Its advantage is concurrent capacity; its cost is greater risk of long-context accuracy loss. Four active requests still share GPU throughput. The long retrieval, tool, memory and concurrency probes are qualification evidence, not proof that Q4 equals Q8 on every research task. Uncapped output means no separate output limit is imposed; each session still has a finite262K combined input/output context.
 
@@ -202,7 +204,7 @@ docker inspect --format '{{.State.Status}}' vllm-spark-fast
 loginctl show-user snknitin -p Linger
 ```
 
-Expected: helper present, container `running`, an installed `aiohttp` version, and `Linger=yes`. The startup helper must continue to wait for the existing SparkFast endpoint rather than launch a second model worker.
+Expected: helper present, container `running`, an installed `aiohttp` version, and `Linger=yes`. The startup helper must continue to wait for the existing Qwen 3.6 35B-A3B endpoint rather than launch a second model worker.
 
 Once preparation has passed, install the two user units:
 
@@ -336,7 +338,7 @@ A new CLI session can select it directly:
 ~/.hermes/hermes-agent/venv/bin/python -m hermes_cli.main chat --provider custom:spark-qwen38 --model qwen38-27b-spark
 ```
 
-Run this from the installed Hermes source directory if Python cannot resolve the module. Keep `spark-fast` as the default for other sessions. A normal production-profile chat must be checked after the isolated qualification. The provider's7200second timeout applies to individual inference requests and stalled streams, not the lifetime of an entire saved chat or research goal; the262K context and output-token policy are separate limits.
+Run this from the installed Hermes source directory if Python cannot resolve the module. Keep `qwen3.6-35b-a3b` as the default for other sessions. A normal production-profile chat must be checked after the isolated qualification. The provider's7200second timeout applies to individual inference requests and stalled streams, not the lifetime of an entire saved chat or research goal; the262K context and output-token policy are separate limits.
 
 From the migration tools directory, the following bounded check reads the real main profile, resolves the native provider and262K context, and generates one no-tools response. It verifies7200second effective client/stream timeouts and confirms that no output-token cap or fallback was sent. Its default180second test deadline does not alter production settings. The completed check used a600second test budget and passed. The helper selects Hermes' committed PM runtime automatically, avoiding mismatched Python/site-packages; it does not install dependencies:
 
@@ -382,7 +384,7 @@ The auxiliary-service catalog now lists `qwen38-native` on1236 and `qwen38-admis
 
 Spark Dash currently monitors vLLM on port8000; its existing model statistics are not evidence of this new service's request count. Use Qwen's health endpoint for active/queued/reserved-token counts and its journal for errors. Both inference services share Spark GPU compute and bandwidth, so overlapping work can slow them down even when memory fits.
 
-This pair is the normal FirstSpark resident set. Before using an exclusive two-Spark Frontier lane or loading Nemotron again, stop the native Qwen pair and confirm its process exits and memory is released. Existing lane names and a green SparkFast status do not account for this additional native worker automatically. Do not add another large resident model to the measured pair without a new capacity check.
+This pair is the normal FirstSpark resident set. Before using an exclusive two-Spark Frontier lane or loading Nemotron again, stop the native Qwen pair and confirm its process exits and memory is released. Existing lane names and a green Qwen 3.6 35B-A3B status do not account for this additional native worker automatically. Do not add another large resident model to the measured pair without a new capacity check.
 
 A service restart should be verified after installation. A full reboot should happen in your chosen maintenance window; enabling units is not proof that a reboot test passed. No unattended reboot is part of this setup.
 
@@ -394,7 +396,7 @@ Stop the Qwen pair deliberately:
 systemctl --user disable --now qwen38-admission.service qwen38-native.service
 ```
 
-This does not stop `spark-fast`. To restore Nemotron later, first confirm Qwen's worker has exited and memory is released, then:
+This does not stop Qwen 3.6 35B-A3B. To restore Nemotron later, first confirm Qwen's worker has exited and memory is released, then:
 
 ```bash
 systemctl --user enable --now lmstudio.service

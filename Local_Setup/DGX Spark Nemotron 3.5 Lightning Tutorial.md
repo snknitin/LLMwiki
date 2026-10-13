@@ -1,5 +1,7 @@
 # DGX Spark Nemotron 3.5 Lightning Tutorial
 
+Names: `spark-fast` was renamed on 13 Oct 2026; see [[Model And Provider Names]].
+
 This guide installs the current official one-DGX-Spark vLLM recipe for Nemotron 3.5 Lightning and its DSpark speculative-decoding assistant.
 
 | Item                | Value                                                       |
@@ -333,7 +335,7 @@ docker compose --env-file .env down
 cd "$HOME/ai/services/qwen35"
 docker compose --env-file .env up -d
 
-hermes config set model.default spark-fast
+hermes config set model.default qwen3.6-35b-a3b
 hermes config set model.context_length 131072
 hermes config check
 systemctl --user restart hermes-serve.service

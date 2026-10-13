@@ -6,6 +6,8 @@ scope: secondspark, tensorfold, qwen3.8-flash-next, firstspark, litellm, hermes
 
 # DGX Spark Single-Node Qwen 3.8 Flash Next TensorFold Replacement Tutorial
 
+Names: `spark-fast` was renamed on 13 Oct 2026; see [[Model And Provider Names]].
+
 > [!summary] Outcome
 > Serve TensorFold on SecondSpark as `qwen38-tensorfold-second`, add it alongside the retained `qwen38-tp1-second` LiteLLM and Hermes alias, and qualify it before any old-model cleanup. The old server and files remain available for rollback, but only one server can own port 8888. Builder and orchestrator can move to TensorFold after its route passes; FirstSpark `spark-fast`, dual-Spark frontier aliases, and other Hermes defaults stay in place.
 
@@ -70,7 +72,7 @@ paths = [root/'.hermes/config.yaml', *sorted((root/'.hermes/profiles').glob('*/c
 assert len(paths) == 6, paths
 for path in paths:
     data = yaml.safe_load(path.read_text())
-    providers = [p for p in data['custom_providers'] if p.get('name') == 'spark-fast']
+    providers = [p for p in data['custom_providers'] if p.get('name') == 'local-models']
     assert len(providers) == 1 and 'qwen38-tp1-second' in providers[0]['models'], path
     print(path, 'default=', data['model']['default'])
 PY
@@ -260,7 +262,7 @@ echo "BACKUP_OK $backup"
 
 ## 7. Add the TensorFold LiteLLM alias and park the old backend
 
-Run on **FirstSpark**. The old alias must remain registered, but it cannot keep pointing to port 8888 while TensorFold owns that port: a raw request using the old served model ID returned HTTP 200 from TensorFold. Park its backend at the closed container-loopback port `127.0.0.1:1` so an old-alias request fails rather than silently reaching TensorFold. The old model ID, backend key, checkpoint, and Hermes picker entry remain for rollback. The new backend is unauthenticated on the private CX-7 link; `api_key: not-needed` is the same dummy backend value used by local `spark-fast`. Client requests to LiteLLM still require its master key.
+Run on **FirstSpark**. The old alias must remain registered, but it cannot keep pointing to port 8888 while TensorFold owns that port: a raw request using the old served model ID returned HTTP 200 from TensorFold. Park its backend at the closed container-loopback port `127.0.0.1:1` so an old-alias request fails rather than silently reaching TensorFold. The old model ID, backend key, checkpoint, and Hermes picker entry remain for rollback. The new backend is unauthenticated on the private CX-7 link; `api_key: not-needed` is the same dummy backend value used by the local `qwen3.6-35b-a3b` entry. Client requests to LiteLLM still require its master key.
 
 ```bash
 set -euo pipefail
@@ -383,7 +385,7 @@ old, new = 'qwen38-tp1-second', 'qwen38-tensorfold-second'
 for p in paths:
     text = p.read_text()
     before = yaml.safe_load(text)
-    provider = [x for x in before['custom_providers'] if x.get('name') == 'spark-fast']
+    provider = [x for x in before['custom_providers'] if x.get('name') == 'local-models']
     assert len(provider) == 1 and old in provider[0]['models'] and new not in provider[0]['models'], p
     assert old in text, p
     updated = text.replace(old, new)
@@ -395,7 +397,7 @@ for p in paths:
     updated = updated[:m.start()] + keep_old + updated[m.start():]
     after = yaml.safe_load(updated)
     assert after['model']['default'] == (new if before['model']['default'] == old else before['model']['default']), p
-    target = [x for x in after['custom_providers'] if x.get('name') == 'spark-fast'][0]
+    target = [x for x in after['custom_providers'] if x.get('name') == 'local-models'][0]
     assert new in target['models'] and old in target['models'], p
     assert target['models'][new]['context_length'] == 262144, p
     assert target['models'][old] == provider[0]['models'][old], p
@@ -423,7 +425,7 @@ Run on **FirstSpark**. This selects the new route explicitly for every profile w
 set -euo pipefail
 test "$(hostname)" = spark-07a8 || exit 1
 for cli in hermes builder creator orchestrator researcher reviewer; do
-  output=$("$HOME/.local/bin/$cli" --provider custom:spark-fast --model qwen38-tensorfold-second --reasoning minimal \
+  output=$("$HOME/.local/bin/$cli" --provider custom:local-models --model qwen38-tensorfold-second --reasoning minimal \
     -z "Reply with exactly ${cli^^}_TENSORFOLD_OK")
   test "$output" = "${cli^^}_TENSORFOLD_OK" || { echo "STOP: $cli returned $output"; exit 1; }
   echo "PASS $cli"
@@ -436,10 +438,10 @@ done
 set -euo pipefail
 test "$(hostname)" = spark-07a8 || exit 1
 test_dir=$(mktemp -d /tmp/qwen38-tensorfold-hermes.XXXXXX)
-"$HOME/.local/bin/hermes" --provider custom:spark-fast --model qwen38-tensorfold-second --reasoning minimal \
+"$HOME/.local/bin/hermes" --provider custom:local-models --model qwen38-tensorfold-second --reasoning minimal \
   -z 'Reply with exactly HERMES_SESSION_A_OK' >"$test_dir/session-a.txt" &
 pid_a=$!
-"$HOME/.local/bin/hermes" --provider custom:spark-fast --model qwen38-tensorfold-second --reasoning minimal \
+"$HOME/.local/bin/hermes" --provider custom:local-models --model qwen38-tensorfold-second --reasoning minimal \
   -z 'Reply with exactly HERMES_SESSION_B_OK' >"$test_dir/session-b.txt" &
 pid_b=$!
 wait "$pid_a"
@@ -447,7 +449,7 @@ wait "$pid_b"
 grep -Fxq HERMES_SESSION_A_OK "$test_dir/session-a.txt" || { echo "STOP: session A; evidence=$test_dir"; exit 1; }
 grep -Fxq HERMES_SESSION_B_OK "$test_dir/session-b.txt" || { echo "STOP: session B; evidence=$test_dir"; exit 1; }
 checkpoint_file="$test_dir/tool-checkpoints.txt"
-"$HOME/.local/bin/hermes" --provider custom:spark-fast --model qwen38-tensorfold-second --reasoning low \
+"$HOME/.local/bin/hermes" --provider custom:local-models --model qwen38-tensorfold-second --reasoning low \
   -z "Use the terminal tool sequentially to append the numbers 01 through 12, one number per line and in order, to $checkpoint_file. Verify the file yourself. After every tool operation succeeds, reply with exactly HERMES_TOOL_CHAIN_OK and nothing else." \
   > "$test_dir/tool-answer.txt"
 grep -Fxq HERMES_TOOL_CHAIN_OK "$test_dir/tool-answer.txt" || { echo "STOP: final answer; evidence=$test_dir"; exit 1; }
@@ -597,7 +599,7 @@ for p in paths:
     updated, count = re.subn(pattern, '', text)
     assert count == 1 and 'qwen38-tp1-second' not in updated, p
     after = yaml.safe_load(updated)
-    provider = [x for x in after['custom_providers'] if x.get('name') == 'spark-fast']
+    provider = [x for x in after['custom_providers'] if x.get('name') == 'local-models']
     assert len(provider) == 1 and 'qwen38-tensorfold-second' in provider[0]['models'], p
     tmp = p.with_name(p.name+'.tmp-retire-v030')
     tmp.write_text(updated)

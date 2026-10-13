@@ -360,10 +360,10 @@
     "semantic_hash": "f337f715657f96ccaff3f9a3baaf78b8"
   },
   "DGX Spark Additional Services Controller.md": {
-    "mtime": 1791893787.8168895,
-    "seen": 1791894861.94415,
-    "ast_hash": "83b568d273dac55183c2c384e5290b9e",
-    "semantic_hash": "83b568d273dac55183c2c384e5290b9e"
+    "mtime": 1791913984.912227,
+    "seen": 1791914613.226629,
+    "ast_hash": "2fa7ca160f72662287912940837a5c77",
+    "semantic_hash": "2fa7ca160f72662287912940837a5c77"
   },
   "DGX Spark And RTX 5000 Workstation Model Placement Research.md": {
     "mtime": 1786733180.0441616,
@@ -426,10 +426,10 @@
     "semantic_hash": "11a63f25f844ecf9f7d1d4c3cecaab7d"
   },
   "DGX Spark Frontier Model Hot-Swap And Routing Guide.md": {
-    "mtime": 1790321885.0140169,
-    "seen": 1791891178.0930667,
-    "ast_hash": "0a2071a8762a898f48106fcd5fa518f6",
-    "semantic_hash": "0a2071a8762a898f48106fcd5fa518f6"
+    "mtime": 1791914236.8158488,
+    "seen": 1791914613.226629,
+    "ast_hash": "afedf93cf0d0764c53c2628742ad1163",
+    "semantic_hash": "afedf93cf0d0764c53c2628742ad1163"
   },
   "DGX Spark Frontier Model Qualification Results.md": {
     "mtime": 1790757373.2058742,
@@ -438,10 +438,10 @@
     "semantic_hash": "cb4788d91e7aa1ee307be1e8782b5f17"
   },
   "DGX Spark Gemma 4 Models Tutorial.md": {
-    "mtime": 1786722031.2259133,
-    "seen": 1791891178.0930667,
-    "ast_hash": "64526f7c75708a96ef4793af3162124c",
-    "semantic_hash": "64526f7c75708a96ef4793af3162124c"
+    "mtime": 1791914236.8158488,
+    "seen": 1791914613.226629,
+    "ast_hash": "2e4d8726774c0abdd1b3b71c587b1daf",
+    "semantic_hash": "2e4d8726774c0abdd1b3b71c587b1daf"
   },
   "DGX Spark LM Studio And LM Link Tutorial.md": {
     "mtime": 1791795932.0172737,
@@ -450,10 +450,10 @@
     "semantic_hash": "78e6173dadcfba9a6edcecd17cf2549c"
   },
   "DGX Spark Model Installation And Switching Guide.md": {
-    "mtime": 1786782991.3021593,
-    "seen": 1791891178.0930667,
-    "ast_hash": "1c95d75e32de679c0f6ab83eebce3d91",
-    "semantic_hash": "1c95d75e32de679c0f6ab83eebce3d91"
+    "mtime": 1791914000.046464,
+    "seen": 1791914613.226629,
+    "ast_hash": "c34458cec60c48dd722316cb2f4061a6",
+    "semantic_hash": "c34458cec60c48dd722316cb2f4061a6"
   },
   "DGX Spark Multi-Model Runtime Research.md": {
     "mtime": 1786782991.3009746,
@@ -462,22 +462,22 @@
     "semantic_hash": "1d2f84719a1fd562a82ff42c041b6d15"
   },
   "DGX Spark Muse Glimmer 30B Readiness Tutorial.md": {
-    "mtime": 1786702539.4070325,
-    "seen": 1791891178.0930667,
-    "ast_hash": "6f6e741246b1a7d3447cf5bbaf5311dc",
-    "semantic_hash": "6f6e741246b1a7d3447cf5bbaf5311dc"
+    "mtime": 1791914236.8158488,
+    "seen": 1791914613.226629,
+    "ast_hash": "2c8f101d04a66217475d322d42634ec3",
+    "semantic_hash": "2c8f101d04a66217475d322d42634ec3"
   },
   "DGX Spark Nemotron 3 Nano Omni Tutorial.md": {
-    "mtime": 1786782991.3009746,
-    "seen": 1791891178.0930667,
-    "ast_hash": "9991101eaab74bb37bc24c5f6e9f7e60",
-    "semantic_hash": "9991101eaab74bb37bc24c5f6e9f7e60"
+    "mtime": 1791914236.8158488,
+    "seen": 1791914613.226629,
+    "ast_hash": "ac0b5630b63b5c89a0573599df629620",
+    "semantic_hash": "ac0b5630b63b5c89a0573599df629620"
   },
   "DGX Spark Nemotron 3.5 Lightning Tutorial.md": {
-    "mtime": 1786722079.9782338,
-    "seen": 1791891178.0930667,
-    "ast_hash": "3e2d95991a31f45123a52a1c30a65b50",
-    "semantic_hash": "3e2d95991a31f45123a52a1c30a65b50"
+    "mtime": 1791914236.8158488,
+    "seen": 1791914613.226629,
+    "ast_hash": "271e62bd3d1115d068dfe446f77631ee",
+    "semantic_hash": "271e62bd3d1115d068dfe446f77631ee"
   },
   "DGX Spark Nemotron 3.5 Lightning Via LM Studio Research.md": {
     "mtime": 1786768584.0861752,
@@ -498,10 +498,10 @@
     "semantic_hash": "41431acc756f427326c1a40353930dc5"
   },
   "DGX Spark Operations Setup Guide.md": {
-    "mtime": 1786776856.7005098,
-    "seen": 1791891178.0930667,
-    "ast_hash": "b96d96e5274f5ac45b9ed0eba2912ff4",
-    "semantic_hash": "b96d96e5274f5ac45b9ed0eba2912ff4"
+    "mtime": 1791914027.238065,
+    "seen": 1791914613.226629,
+    "ast_hash": "f423453c22e6e4631f357498d546d50f",
+    "semantic_hash": "f423453c22e6e4631f357498d546d50f"
   },
   "DGX Spark Pre-Shutdown And Automatic Recovery Snapshot 2026-08-20.md": {
     "mtime": 1787230284.4327433,
@@ -522,10 +522,10 @@
     "semantic_hash": "1ba2de34b154e3fbee0c7b3b1ee66407"
   },
   "DGX Spark Single-Node Qwen 3.8 Flash Next TensorFold Replacement Tutorial.md": {
-    "mtime": 1790748358.6105044,
-    "seen": 1791891178.0930667,
-    "ast_hash": "331ef193a74a703b853bb772af7df4ed",
-    "semantic_hash": "331ef193a74a703b853bb772af7df4ed"
+    "mtime": 1791914626.8474987,
+    "seen": 1791914632.6976044,
+    "ast_hash": "17d8cbddff47114e9069da76b30cf7a7",
+    "semantic_hash": "17d8cbddff47114e9069da76b30cf7a7"
   },
   "DGX Spark Single-Node Qwen 3.8 Flash Next v0.30 Tutorial.md": {
     "mtime": 1790748005.122479,
@@ -540,10 +540,10 @@
     "semantic_hash": "e7c920716539198df8ce0c76cd9a3400"
   },
   "FirstSpark Standalone LiteLLM Operations.md": {
-    "mtime": 1790068702.2225583,
-    "seen": 1791891178.0930667,
-    "ast_hash": "89f4dc1549e9b02a2f5c32ff32244a5f",
-    "semantic_hash": "89f4dc1549e9b02a2f5c32ff32244a5f"
+    "mtime": 1791913969.3888183,
+    "seen": 1791914613.226629,
+    "ast_hash": "a88c4012f235a7029564a054a5a0a089",
+    "semantic_hash": "a88c4012f235a7029564a054a5a0a089"
   },
   "Fresh Brief Spark Qwen Migration Requirements.md": {
     "mtime": 1791797481.379059,
@@ -558,10 +558,10 @@
     "semantic_hash": "248714e5ff337dc37863df7a1b2e926c"
   },
   "Local Setup Index.md": {
-    "mtime": 1791909006.7853558,
-    "seen": 1791913001.6218152,
-    "ast_hash": "a5177e151b531669ecbb1f3179c5c67a",
-    "semantic_hash": "a5177e151b531669ecbb1f3179c5c67a"
+    "mtime": 1791913943.7102358,
+    "seen": 1791914613.226629,
+    "ast_hash": "b31816e12e8873b7fe03e11cb462d612",
+    "semantic_hash": "b31816e12e8873b7fe03e11cb462d612"
   },
   "LongCat Video Avatar 1.5 Workstation Feasibility Tutorial.md": {
     "mtime": 1790577065.5830407,
@@ -606,10 +606,10 @@
     "semantic_hash": "95518af416631d222291376a4047da51"
   },
   "Qwen 3.8 27B Native Spark Setup Tutorial.md": {
-    "mtime": 1791893787.8188906,
-    "seen": 1791894861.94415,
-    "ast_hash": "9ba441b181b9c328e7796498a5548777",
-    "semantic_hash": "9ba441b181b9c328e7796498a5548777"
+    "mtime": 1791914120.5689256,
+    "seen": 1791914613.226629,
+    "ast_hash": "fc4fa9ceac210424778db6b9d3f92e62",
+    "semantic_hash": "fc4fa9ceac210424778db6b9d3f92e62"
   },
   "Qwen 3.8 27B Ollama Remote Access Research.md": {
     "mtime": 1787239431.1581137,
@@ -738,22 +738,22 @@
     "semantic_hash": "d31c95120c0bd4a577a6a93691b4861a"
   },
   "Spark Hermes Setup Runbook.md": {
-    "mtime": 1785934304.8177679,
-    "seen": 1791891178.0930667,
-    "ast_hash": "ae66d93f0d34620f84f899f6caf37b5a",
-    "semantic_hash": "ae66d93f0d34620f84f899f6caf37b5a"
+    "mtime": 1791913955.3405898,
+    "seen": 1791914613.226629,
+    "ast_hash": "b72f857d373e1058f7a852575e83b02c",
+    "semantic_hash": "b72f857d373e1058f7a852575e83b02c"
   },
   "SparkFast And Qwen 27B Capacity Comparison.md": {
-    "mtime": 1791893787.8273928,
-    "seen": 1791894861.94415,
-    "ast_hash": "cbb2b53ca51ae06cd0a963d76fe856c2",
-    "semantic_hash": "cbb2b53ca51ae06cd0a963d76fe856c2"
+    "mtime": 1791914145.1977432,
+    "seen": 1791914613.226629,
+    "ast_hash": "cb8a72cc817053a30398426c733743b8",
+    "semantic_hash": "cb8a72cc817053a30398426c733743b8"
   },
   "Task Checklist.md": {
-    "mtime": 1791893787.8283978,
-    "seen": 1791894861.94415,
-    "ast_hash": "d8e46b8769ab6a410e8aa9518673c5c9",
-    "semantic_hash": "d8e46b8769ab6a410e8aa9518673c5c9"
+    "mtime": 1791914236.8158488,
+    "seen": 1791914613.226629,
+    "ast_hash": "73e6d694a463c85268b8f34f2b694ae2",
+    "semantic_hash": "73e6d694a463c85268b8f34f2b694ae2"
   },
   "VoiceStudio Risk Audit.md": {
     "mtime": 1787248356.210991,
@@ -874,5 +874,11 @@
     "seen": 1791912974.9275506,
     "ast_hash": "beee9bf1d183dde3e0de8d44cb8741af",
     "semantic_hash": "beee9bf1d183dde3e0de8d44cb8741af"
+  },
+  "Model And Provider Names.md": {
+    "mtime": 1791915065.1896079,
+    "seen": 1791915116.0389533,
+    "ast_hash": "eaf96906dbb8f942dc3ebdfca49a8a1f",
+    "semantic_hash": "eaf96906dbb8f942dc3ebdfca49a8a1f"
   }
 }

@@ -1,5 +1,7 @@
 # DGX Spark Model Installation And Switching Guide
 
+Names: `spark-fast` was renamed on 13 Oct 2026; see [[Model And Provider Names]].
+
 This is the beginner-focused continuation of [[DGX Spark Operations Setup Guide]]. It starts at Step 16 so the numbering continues from that guide.
 
 > [!important] Your current position
@@ -591,7 +593,7 @@ docker compose \
 cd "$HOME/ai/services/qwen35"
 docker compose --env-file .env up -d
 
-hermes config set model.default spark-fast
+hermes config set model.default qwen3.6-35b-a3b
 hermes config set model.context_length 131072
 hermes config check
 

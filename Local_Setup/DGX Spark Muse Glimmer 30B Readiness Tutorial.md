@@ -1,5 +1,7 @@
 # DGX Spark Muse Glimmer 30B Readiness Tutorial
 
+Names: `spark-fast` was renamed on 13 Oct 2026; see [[Model And Provider Names]].
+
 Muse Glimmer 30B is locally runnable on one DGX Spark; it is not restricted to NVIDIA NIM. The current local vLLM path is still **advanced/pre-release**, however, because the maintained recipe uses the special image tag `vllm/vllm-openai:muse-glimmer` and describes that runtime support as forthcoming.
 
 This guide gives you a safe go/no-go sequence. It will not substitute a random nightly image if the official Muse image is unavailable.
@@ -303,7 +305,7 @@ docker compose --env-file .env down
 cd "$HOME/ai/services/qwen35"
 docker compose --env-file .env up -d
 
-hermes config set model.default spark-fast
+hermes config set model.default qwen3.6-35b-a3b
 hermes config set model.context_length 131072
 hermes config check
 systemctl --user restart hermes-serve.service

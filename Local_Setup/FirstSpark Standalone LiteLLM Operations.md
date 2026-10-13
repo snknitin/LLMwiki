@@ -6,6 +6,8 @@ scope: firstspark, litellm, hermes, model-routing
 
 # FirstSpark Standalone LiteLLM Operations
 
+Names: `spark-fast` was renamed on 13 Oct 2026; see [[Model And Provider Names]].
+
 FirstSpark ODS was retired on 2026-09-22. This note describes the independent LiteLLM installation on **FirstSpark**. The separate Windows workstation ODS installation was not changed.
 
 ## Current service
@@ -17,10 +19,10 @@ FirstSpark ODS was retired on 2026-09-22. This note describes the independent Li
 | Image | `ghcr.io/berriai/litellm@sha256:3d80908e35230a0dfb58051ae4e2847371b2a327b44e105e79b8c4f67a65596c` (the prior ODS v1.81.3 image) |
 | API | `http://127.0.0.1:4000/v1` |
 | Shared Docker network | `spark-model-net` |
-| Permanent LiteLLM aliases | `spark-fast`, `qwen27-dflash`, `nemotron3-omni` |
+| Permanent LiteLLM aliases | `qwen3.6-35b-a3b` (hidden old alias `spark-fast` still accepted), `qwen27-dflash`, `nemotron3-omni` |
 | Private files | `config.yaml`, `compose.yaml`, and `runtime.env` are mode `600`; the service directory is mode `700` |
 
-Hermes kept its `custom:spark-fast` provider, base URL, and API key. The old ODS `default` and `*` aliases pointed to its stopped `llama-server` and were retired. The old Langfuse callback was disabled because the ODS Langfuse service was not running and was removed. The frontier key is present in `runtime.env`, but no unqualified frontier alias was added.
+Hermes kept its `custom:spark-fast` provider (now `custom:local-models`), base URL, and API key. The old ODS `default` and `*` aliases pointed to its stopped `llama-server` and were retired. The old Langfuse callback was disabled because the ODS Langfuse service was not running and was removed. The frontier key is present in `runtime.env`, but no unqualified frontier alias was added.
 
 ## Normal commands on FirstSpark
 

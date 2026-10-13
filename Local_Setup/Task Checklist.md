@@ -15,6 +15,8 @@ tags:
 
 # Task Checklist
 
+Names: `spark-fast` was renamed on 13 Oct 2026; see [[Model And Provider Names]].
+
 > [!important] Canonical work tracker
 > Use this note for all remaining setup and exploration. [[Local Setup Index]] is still the source of truth for the current architecture and completed work. If an older tutorial conflicts with the index, follow the index and this checklist.
 
@@ -108,13 +110,13 @@ The immediate goal remains the **operational setup**, not every future model, fr
 - [x] Spark LM Studio, LM Link, Nemotron 3.5 Lightning `Q4_K_M`, named Hermes providers, and dynamic provider discovery are complete. See [[Hermes LM Link And Workstation Model Routing Research]].
 - [x] Nemotron 3 Nano Omni text, tool, long-context, image, audio-path, and video serving tests are complete. See [[DGX Spark Nemotron 3 Nano Omni Tutorial]].
 - [x] Qwen 35, Qwen 27, and Omni KV allocations are optimized and verified. See [[DGX Spark Qwen NVFP4 Memory And Startup Optimization Research]] and [[DGX Spark Multi-Model Runtime Research]].
-- [x] `qwen3.8:27b` is installed once in workstation Ollama, verified through ODS, private Tailscale Serve, and Spark Hermes, and left unloaded while `spark-fast` remains default. See [[Qwen 3.8 27B Ollama Remote Access Research]].
+- [x] `qwen3.8:27b` is installed once in workstation Ollama, verified through ODS, private Tailscale Serve, and Spark Hermes, and left unloaded while `qwen3.6-35b-a3b` remains default. See [[Qwen 3.8 27B Ollama Remote Access Research]].
 - [x] The laptop is a tested Spark Remote Gateway thin client with no second authoritative Hermes profile and no duplicate workstation-model downloads.
 - [x] The first Spark completed a physical power cycle and recovered its stack; the exposed Qwen/Lightning boot-order race was corrected and documented. A later controlled reboot of the corrected order remains in Sequence 1. See [[DGX Spark Pre-Shutdown And Automatic Recovery Snapshot 2026-08-20]].
 - [x] The second Spark is reachable as `SecondSpark` in NVIDIA Sync, passed the initial idle thermal/no-throttling comparison, and is now connected through the approved QSFP112 DAC with persistent manual Netplan and a passing full NCCL test. See [[DGX Spark Dual-Node Configuration And Operations Reference]].
 - [x] `LLMWiki` and the local `Sync Remote` vault connected to remote `Personal-Sync` now have separate official headless replicas on `FirstSpark`; both continuous user services are enabled and active, and desktop-to-Spark plus Spark-to-desktop hash checks passed.
 - [x] VoiceStudio v0.5.0 is installed portably at `D:\Apps\VoiceStudio`; CUDA diagnostics, generation, Whisper transcription, Parakeet dictation, and the blank `Capture` overlay recovery passed. See [[VoiceStudio Windows Portable Usage]] and [[VoiceStudio Risk Audit]].
-- [x] The dual-DGX-Spark Frontier runbook, sparkDash, Qwen NVFP4/FP8, GLM, DeepSeek, and the fail-closed `spark-frontier` hot-swap routine are complete as of 2026-09-24. All four permanent aliases passed their tutorial and routed-switch gates, and `spark-fast` remains the verified rollback. See [[DGX Spark Dual-Node Community Frontier Models Runbook]], [[DGX Spark Frontier Model Qualification Results]], and [[DGX Spark Frontier Model Hot-Swap And Routing Guide]].
+- [x] The dual-DGX-Spark Frontier runbook, sparkDash, Qwen NVFP4/FP8, GLM, DeepSeek, and the fail-closed `spark-frontier` hot-swap routine are complete as of 2026-09-24. All four permanent aliases passed their tutorial and routed-switch gates, and `qwen3.6-35b-a3b` remains the verified rollback. See [[DGX Spark Dual-Node Community Frontier Models Runbook]], [[DGX Spark Frontier Model Qualification Results]], and [[DGX Spark Frontier Model Hot-Swap And Routing Guide]].
 - [x] `aux-services stop|start|list|status|add|remove|edit` is installed on FirstSpark as the state-aware service/port catalog. Managed dashboards and sync services participate in bulk drain/restore; Hermes Gateway, Hermes Serve, LiteLLM, and the reasoning shim are protected named-control entries; Tailscale Serve, SSH, and the Frontier API are locked inventory entries. Hermes schedules remain Hermes-owned and excluded. See [[DGX Spark Additional Services Controller]].
 - [x] Dashboard Command Center Spark Dash **Refresh** is an explicit recovery action: healthy endpoints reload without a process; unavailable endpoints start FirstSpark Spark Dash, repair the loopback SSH tunnel (including false-running task state), wait with bounded timeouts, and reload only after health passes. It has no unattended remote-service restart loop. The 2026-09-25 live gates passed both remote-service-down (8.638 seconds) and tunnel-stopped/disabled (9.538 seconds) recovery, with final remote/local health, loopback listener, task, and UI proof. See [[DGX Spark Additional Services Controller]] and [[DGX Spark sparkDash Monitoring Tutorial]].
 
@@ -175,7 +177,7 @@ The immediate goal remains the **operational setup**, not every future model, fr
 - [x] Complete one physical FirstSpark power-cycle recovery and verify Docker/ODS, Qwen `spark-fast`, LiteLLM, Hermes services, LM Studio/LM Link, Tailscale, SSH, and OpenCode return; correct the discovered Qwen-before-Lightning boot-order race. Evidence: [[DGX Spark Pre-Shutdown And Automatic Recovery Snapshot 2026-08-20#Controlled reboot test]].
 - [ ] Run one later controlled reboot and prove the corrected Qwen-before-Lightning order, bot connections, and model picker all return without manual repair.
 - [ ] Stop the Qwen backend intentionally and verify a request fails over or alerts according to the documented policy rather than hanging or choosing an unrelated model.
-- [ ] Put the workstation to sleep or stop workstation Ollama and verify `desktop-ollama` becomes unavailable while `spark-fast` remains usable.
+- [ ] Put the workstation to sleep or stop workstation Ollama and verify `desktop-ollama` becomes unavailable while `qwen3.6-35b-a3b` remains usable.
 - [ ] Resume the workstation and verify dynamic model discovery recovers without creating duplicate providers.
 - [ ] Verify an active session can resume after the restart without copying `state.db` between devices.
 
@@ -335,11 +337,11 @@ The immediate goal remains the **operational setup**, not every future model, fr
 
 - [ ] Choose one coding client path first: Codex/Hermes, Continue, Cline, or Cursor; do not configure every client simultaneously.
 - [ ] Point the chosen client at a stable logical alias, not raw model port `8000`, `11434`, or `1234`.
-- [ ] Run one small real repository task from the workstation through `spark-fast`.
+- [ ] Run one small real repository task from the workstation through `qwen3.6-35b-a3b`.
 - [ ] Run the same task class from the laptop through the Spark Remote Gateway.
 - [ ] Test completion, streamed output, structured JSON, one tool call, a multi-file edit, cancellation, and a deliberately invalid tool call.
 - [ ] Compare the same fixed task with the cloud/Codex path; record accuracy, corrections, latency, and privacy/cost tradeoff.
-- [ ] If a workstation `code` route is created, configure explicit fallback to `spark-fast` when the workstation sleeps.
+- [ ] If a workstation `code` route is created, configure explicit fallback to `qwen3.6-35b-a3b` when the workstation sleeps.
 - [ ] Keep subscriptions unchanged for two weeks while recording which tasks local models handle fully.
 
 ### Completion gate
@@ -364,7 +366,7 @@ The immediate goal remains the **operational setup**, not every future model, fr
 ### Checklist
 
 - [ ] Create one morning-brief Hermes cron job on Spark using a pinned route, timeout, budget, and delivery target.
-- [ ] Use a cheap/small route for routine extraction if the small route is actually healthy; otherwise use `spark-fast` explicitly rather than an unverified alias.
+- [ ] Use a cheap/small route for routine extraction if the small route is actually healthy; otherwise use `qwen3.6-35b-a3b` explicitly rather than an unverified alias.
 - [ ] If n8n is needed, enable the existing ODS n8n extension on Spark and keep workstation n8n development-only.
 - [ ] Give every job one production owner and disable any duplicate schedule elsewhere.
 - [ ] Add idempotency keys/durable locks to anything with side effects.
@@ -536,7 +538,7 @@ The immediate goal remains the **operational setup**, not every future model, fr
 - [ ] A/B vLLM versus SGLang with the same checkpoint, quantization, prompts, context, and concurrency.
 - [ ] Add Langfuse/Token Spy or Sentry only when it has a clear owner, retention policy, and acceptance test.
 - [ ] Run an eight-hour soak only for a candidate being considered for 24×7 promotion.
-- [ ] Keep `spark-fast` as rollback until the challenger passes every required gate.
+- [ ] Keep `qwen3.6-35b-a3b` as rollback until the challenger passes every required gate.
 
 ### Completion gate
 
@@ -570,7 +572,7 @@ The immediate goal remains the **operational setup**, not every future model, fr
 
 ### Existing baseline tally
 
-- [x] Qwen 3.6 35B-A3B — Spark `spark-fast` baseline.
+- [x] Qwen 3.6 35B-A3B — Spark `qwen3.6-35b-a3b` baseline.
 - [x] Qwen 3.6 27B lane — Spark comparison lane.
 - [x] Nemotron 3 Nano Omni — Spark multimodal specialist.
 - [x] Nemotron 3.5 Lightning `Q4_K_M` — Spark LM Studio shelf.
@@ -587,9 +589,9 @@ The immediate goal remains the **operational setup**, not every future model, fr
 - [ ] Pull only `qwen3-coder:30b` into `D:\LocalLLama\models\ollama`.
 - [ ] Verify the exact size, context, `tools` capability, GPU residency, and one-model eviction.
 - [ ] Test repository navigation, multi-file edit, failing-test repair, structured tool use, and recovery from one tool error.
-- [ ] Compare identical tasks against Gemma 4 31B and `spark-fast`.
+- [ ] Compare identical tasks against Gemma 4 31B and `qwen3.6-35b-a3b`.
 - [ ] Unload it after testing and keep it only if it wins a real coding role.
-- [ ] **Done:** a fixed coding report identifies which tasks route to `qwen3-coder`, Gemma, or `spark-fast`.
+- [ ] **Done:** a fixed coding report identifies which tasks route to `qwen3-coder`, Gemma, or `qwen3.6-35b-a3b`.
 
 ### 8B — Independent reasoning/tool baseline: gpt-oss 20B
 
@@ -599,7 +601,7 @@ The immediate goal remains the **operational setup**, not every future model, fr
 
 - [ ] Pull `gpt-oss:20b` only after Sequence 8A is complete.
 - [ ] Verify exact size, 128K runtime context, tools, structured outputs, and GPU residency.
-- [ ] Compare reasoning, agent tool calls, coding repair, and latency with Qwen3-Coder and `spark-fast`.
+- [ ] Compare reasoning, agent tool calls, coding repair, and latency with Qwen3-Coder and `qwen3.6-35b-a3b`.
 - [ ] Test low/medium/high reasoning controls if exposed by the chosen client.
 - [ ] Unload after testing; retain only if it wins a distinct role.
 - [ ] **Done:** keep/remove decision and route role are recorded.
@@ -672,8 +674,8 @@ The immediate goal remains the **operational setup**, not every future model, fr
 - [x] Finish and verify the workstation Ollama download without deleting or duplicating any current model.
 - [x] Verify local chat, structured tools, vision path, effective 256K context, ODS Open WebUI, Tailscale Serve, and Spark Hermes discovery.
 - [ ] Compare chat, coding, vision, reasoning, tools, long context, and latency with Qwen 3.6.
-- [x] Keep Spark as capacity/reference path; leave `spark-fast` as the current default.
-- [ ] Change `spark-fast` only after the full regression suite and rollback test pass.
+- [x] Keep Spark as capacity/reference path; leave `qwen3.6-35b-a3b` as the current default.
+- [ ] Change `qwen3.6-35b-a3b` only after the full regression suite and rollback test pass.
 - [ ] **Done:** promotion or rejection decision is evidence-backed; release-day novelty is not the reason.
 
 ### 8I — Dual-Spark community frontier lane, in order
@@ -681,7 +683,7 @@ The immediate goal remains the **operational setup**, not every future model, fr
 > [!success] Completed 2026-09-24
 > The full runbook, tutorial sequence, routed service checks, hot swaps, cold-route rejection, rank cleanup, and `spark-fast` restoration passed. The checked items below remain the execution record.
 
-**Rule:** Qwen 3.8 Flash Next, GLM 5.3 Flash, and DeepSeek V4.1 are mutually exclusive hot-swap appliances. Every recipe claims one GB10 rank on each Spark, so none runs beside `spark-fast`, Spark LM Studio, or another frontier recipe. Downloaded weights may remain on disk; only one model lane may be resident.
+**Rule:** Qwen 3.8 Flash Next, GLM 5.3 Flash, and DeepSeek V4.1 are mutually exclusive hot-swap appliances. Every recipe claims one GB10 rank on each Spark, so none runs beside Qwen 3.6 35B-A3B, Spark LM Studio, or another frontier recipe. Downloaded weights may remain on disk; only one model lane may be resident.
 
 **Read, in order:**
 
@@ -699,8 +701,8 @@ The immediate goal remains the **operational setup**, not every future model, fr
 
 | Lane | Published or observed per-node pressure | Checklist decision |
 |---|---|---|
-| Current `spark-fast` | About 48.2 GiB by `nvidia-smi` with the restored 18 GiB KV/five-sequence profile; the 2026-09-26 co-resident Qwen/Nemotron state retained about 35 GiB `MemAvailable` | May leave SecondSpark free for a separately designed single-node lane and may coexist with FirstSpark LM Studio Nemotron when Qwen starts first, but must stop before any two-node recipe. |
-| Optional Qwen 3.8 NVFP4 TP1 on SecondSpark | 71.75 GiB GPU weights, about 5.6 GiB non-weight overhead, a configurable 7–15 GiB KV cache, and a 26.82 GiB memory-mapped PLE in the community measurements | May coexist with `spark-fast` as an explicitly separate SecondSpark-only lane after its own load test. Stop it before starting any dual-node recipe. See the optional TP1 section in [[DGX Spark Dual-Node Qwen 3.8 Flash Next Tutorial]]. |
+| Current Qwen 3.6 35B-A3B (`qwen3.6-35b-a3b`) | About 48.2 GiB by `nvidia-smi` with the restored 18 GiB KV/five-sequence profile; the 2026-09-26 co-resident Qwen/Nemotron state retained about 35 GiB `MemAvailable` | May leave SecondSpark free for a separately designed single-node lane and may coexist with FirstSpark LM Studio Nemotron when Qwen starts first, but must stop before any two-node recipe. |
+| Optional Qwen 3.8 NVFP4 TP1 on SecondSpark | 71.75 GiB GPU weights, about 5.6 GiB non-weight overhead, a configurable 7–15 GiB KV cache, and a 26.82 GiB memory-mapped PLE in the community measurements | May coexist with Qwen 3.6 35B-A3B as an explicitly separate SecondSpark-only lane after its own load test. Stop it before starting any dual-node recipe. See the optional TP1 section in [[DGX Spark Dual-Node Qwen 3.8 Flash Next Tutorial]]. |
 | Qwen NVFP4 | 101.61 GiB vLLM budget, 32.02 GiB KV, and only about 2.33–2.38 GiB published host-memory low-water | Exclusive; qualify with all nonessential services stopped. |
 | Qwen official FP8 | Same two-node 0.835 budget, larger weights, and roughly 500K cache tokens; no complete published memory breakdown | Exclusive; measure independently rather than inheriting NVFP4 assumptions. |
 | GLM EXL3 | About 103.44 GiB vLLM budget at GMU 0.85; published host headroom is narrow and long prefill is critical | Exclusive; experimental soak required. |
@@ -763,7 +765,7 @@ The immediate goal remains the **operational setup**, not every future model, fr
 - [x] Start only LiteLLM and Hermes with the active validated profile, then repeat the same loaded-context test while recording both nodes' low-water.
 - [x] Start sparkDash last and repeat the matched test. Keep it stopped if headroom or stability materially worsens.
 - [x] Do not restore the rest of ODS beside an active frontier lane unless an additional matched test proves safe headroom. Coexistence is measured, not assumed.
-- [x] Never rename or overwrite `spark-fast`; it remains the production rollback until repeated restart and regression evidence justifies a separate promotion decision.
+- [x] Never overwrite `spark-fast` (now `qwen3.6-35b-a3b`); it remains the production rollback until repeated restart and regression evidence justifies a separate promotion decision.
 - [x] Install the separate `spark-frontier` manager only after manual repository start, stop, cleanup, and rollback are stable; never run it concurrently with `spark-model`.
 - [x] **Done:** one acceptance record per tried profile names the exact artifacts, deviations, memory low-water, tests, stop result, rollback result, and decision: promote, adapt-and-retest, or reject.
 
@@ -829,7 +831,7 @@ These remain historical backlog and do not precede the community sequence above:
 - [ ] Export a separate serving artifact; never overwrite the base model.
 - [ ] Quantize only the accepted artifact.
 - [ ] Register it under a new LiteLLM alias and run the full regression suite.
-- [ ] Keep normal Hermes work on `spark-fast` while the workstation GPU is leased to training.
+- [ ] Keep normal Hermes work on `qwen3.6-35b-a3b` while the workstation GPU is leased to training.
 
 ### Completion gate
 

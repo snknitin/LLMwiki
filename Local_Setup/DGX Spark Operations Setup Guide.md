@@ -12,6 +12,8 @@ tags:
 
 # DGX Spark Operations Setup Guide
 
+Names: `spark-fast` was renamed on 13 Oct 2026; see [[Model And Provider Names]].
+
 > [!important] Scope
 > This is the environment, storage, and service-layout foundation for the executable setup guide. It was checked against the live [NVIDIA DGX Spark catalog](https://build.nvidia.com/spark) and the official [`NVIDIA/dgx-spark-playbooks`](https://github.com/NVIDIA/dgx-spark-playbooks) repository on 2026-08-07. NVIDIA's examples are playbook-local recipes, not a single prescribed host layout; the proposed layout below is a synthesis for this Spark and its existing ODS installation.
 
@@ -871,7 +873,7 @@ model_list:
 Under it, add the following item at the same indentation level as the existing `- model_name:` items:
 
 ```yaml
-  - model_name: spark-fast
+  - model_name: qwen3.6-35b-a3b
     litellm_params:
       model: openai/spark-fast
       api_base: http://spark-fast:8000/v1
@@ -916,14 +918,14 @@ curl -fsS http://127.0.0.1:4000/v1/chat/completions \
   -H "Authorization: Bearer $LITELLM_KEY" \
   -H 'Content-Type: application/json' \
   -d '{
-    "model": "spark-fast",
+    "model": "qwen3.6-35b-a3b",
     "messages": [{"role": "user", "content": "Reply with exactly LITELLM_OK"}],
     "max_tokens": 40,
     "temperature": 0
   }'
 ```
 
-**Success looks like:** the model list contains `spark-fast`, and the chat response contains `LITELLM_OK`.
+**Success looks like:** the model list contains `qwen3.6-35b-a3b`, and the chat response contains `LITELLM_OK`.
 
 ### 10.4 Run a large-tool smoke test
 
@@ -965,7 +967,7 @@ for number in range(50):
     })
 
 body = {
-    "model": "spark-fast",
+    "model": "qwen3.6-35b-a3b",
     "messages": [{
         "role": "user",
         "content": "Call tool_49 exactly once with value 49. Do not answer in prose.",
@@ -1073,7 +1075,7 @@ The wording can change slightly between Hermes releases. During setup choose:
 3. Select **Custom endpoint (self-hosted / vLLM / etc.)**.
 4. Base URL: `http://127.0.0.1:4000/v1`
 5. API key: paste the value of `LITELLM_KEY` from `~/ods/.env` when prompted. Do not paste it into this guide.
-6. Model name: `spark-fast`
+6. Model name: `qwen3.6-35b-a3b`
 7. Context length: `131072`
 8. API/transport mode: **OpenAI Chat Completions**.
 9. Terminal backend: **local**.
@@ -1101,7 +1103,7 @@ set +a
 hermes config set OPENAI_API_KEY "$LITELLM_KEY"
 hermes config set model.provider custom
 hermes config set model.base_url http://127.0.0.1:4000/v1
-hermes config set model.default spark-fast
+hermes config set model.default qwen3.6-35b-a3b
 hermes config set model.context_length 131072
 hermes config set terminal.backend local
 chmod 600 "$HOME/.hermes/.env"

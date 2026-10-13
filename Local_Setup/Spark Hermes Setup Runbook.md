@@ -12,6 +12,8 @@ tags:
 
 # Spark Hermes Setup Runbook
 
+Names: `spark-fast` was renamed on 13 Oct 2026; see [[Model And Provider Names]].
+
 The single ordered do-list from today's state (ODS on Spark + workstation, vLLM playbook tried once and container deleted, NVIDIA Sync working) to the target: one 24×7 Hermes on Spark serving the workstation and laptop, local-model coding in VS Code/Cursor, scheduled automations, and apps that fall back to Spark models. Rationale lives in the linked research notes; this file is only what to do, in order. Work top to bottom; each phase has a "done when" gate — do not start the next phase before passing it.
 
 Related: [[Local Setup Index]] | [[Always-On Hermes on DGX Spark]] | [[DGX Spark ODS Playbook and Model Roadmap]] | [[personal-hermes-obsidian-multinode-design|Personal Hermes Multi-Node Design]]
@@ -26,7 +28,7 @@ Related: [[Local Setup Index]] | [[Always-On Hermes on DGX Spark]] | [[DGX Spark
 
 **What runs 24×7 on Spark — and nothing else does:**
 
-1. vLLM serving `nvidia/Qwen3.6-35B-A3B-NVFP4` → alias `spark-fast`
+1. vLLM serving `nvidia/Qwen3.6-35B-A3B-NVFP4` → alias `qwen3.6-35b-a3b`
 2. ODS llama.cpp with Qwen3.5-4B Q4 → alias `spark-small`, behind the ODS LiteLLM gateway
 3. `hermes serve` + `hermes gateway` (one profile, two systemd services)
 4. Hermes cron + n8n — the only production schedulers anywhere
@@ -56,7 +58,7 @@ Goal: Spark is safely reachable and inventoried before anything new is installed
 
 ## Phase 1 — Serving core online (half a day; downloads run unattended)
 
-Goal: `spark-fast` and `spark-small` answering through one gateway with stable aliases.
+Goal: `qwen3.6-35b-a3b` and `spark-small` answering through one gateway with stable aliases.
 **Done when:** an OpenAI client on the workstation gets completions from `http://spark:4000/v1` for both aliases, and both containers auto-restart after `sudo reboot`.
 
 1. Download weights into the canonical root (start these first; they run while you do step 2):
@@ -81,7 +83,7 @@ Goal: `spark-fast` and `spark-small` answering through one gateway with stable a
    Record image digest + flags in the ops note. Because weights live on the host, deleting the container never re-downloads the model.
 3. Smoke test: one completion, one tool-call, one streamed response, then 4 parallel requests. Check `nvidia-smi` memory and that answers stay coherent.
 4. Point the existing ODS llama.cpp service at the Qwen3.5-4B Q4 GGUF with 32K context. Verify port 8080 answers. Do not install a second llama.cpp server.
-5. Enable the ODS LiteLLM extension (port 4000) and add aliases: `spark-fast` → `localhost:8000/v1`, `spark-small` → `localhost:8080/v1`. Create two virtual keys: `personal` and `apps`. Test both aliases from the workstation over the tailnet. From now on, **nothing ever talks to :8000 or :8080 directly** — aliases only ([[Always-On Hermes on DGX Spark#Model routing]]).
+5. Enable the ODS LiteLLM extension (port 4000) and add aliases: `qwen3.6-35b-a3b` → `localhost:8000/v1`, `spark-small` → `localhost:8080/v1`. Create two virtual keys: `personal` and `apps`. Test both aliases from the workstation over the tailnet. From now on, **nothing ever talks to :8000 or :8080 directly** — aliases only ([[Always-On Hermes on DGX Spark#Model routing]]).
 
 ## Phase 2 — Hermes 24×7 (half a day)
 
@@ -89,7 +91,7 @@ Goal: one authoritative Hermes on Spark; workstation + laptop + phone are client
 **Done when:** after `sudo reboot` with no manual action, Hermes Desktop on both machines reconnects, Discord answers, and a skill added from the workstation is visible from the laptop.
 
 1. On Spark: create a dedicated unprivileged `hermes` user, install the **current standalone Hermes release** (not the ODS-bundled v0.14 image), set one explicit `HERMES_HOME`, profile `personal`.
-2. Configure its provider as OpenAI-compatible → `http://localhost:4000/v1`, default model `spark-fast`, auxiliary/background model `spark-small`, using the `personal` LiteLLM key. Hermes never sees ports 8000/8080 or checkpoint names.
+2. Configure its provider as OpenAI-compatible → `http://localhost:4000/v1`, default model `qwen3.6-35b-a3b`, auxiliary/background model `spark-small`, using the `personal` LiteLLM key. Hermes never sees ports 8000/8080 or checkpoint names.
 3. Create two systemd services — `hermes-serve` (bind to the Spark Tailscale IP, port 9119) and `hermes-gateway` — absolute paths, `After=network-online.target`, `Restart=on-failure` ([[Always-On Hermes on DGX Spark#24×7 service shape]]). Restrict 9119 with Tailscale ACLs to your workstation + laptop identities. Reboot and verify both come back.
 4. Disable or clearly rename the ODS-bundled Hermes so there is exactly one personal agent ([[Always-On Hermes on DGX Spark#ODS Hermes auth proxy]] — do not point Desktop at :9120).
 5. Install Hermes Desktop on workstation and laptop → remote connection to Spark. Then run `hermes gateway setup` for Discord using the channel scheme in [[Always-On Hermes on DGX Spark#Daily phone interface]] (`#inbox` free-response, rest mention-gated, failures → `#automation-alerts`), Telegram as fallback. Allowlist only your own Discord identity. Back up the profile with `hermes backup` and test a restore.
@@ -97,12 +99,12 @@ Goal: one authoritative Hermes on Spark; workstation + laptop + phone are client
 ## Phase 3 — Coding on local models (2–3 h)
 
 Goal: VS Code and Cursor use Spark models daily; subscription decision comes from data, not vibes.
-**Done when:** one real coding task per day runs through `spark-fast` for two weeks.
+**Done when:** one real coding task per day runs through `qwen3.6-35b-a3b` for two weeks.
 
-1. VS Code (workstation + laptop): install Continue (or Cline), add an OpenAI-compatible provider `http://spark:4000/v1` with the `personal` key — chat/edit → `spark-fast`, autocomplete → `spark-small`. NVIDIA's [Vibe Coding](https://build.nvidia.com/spark/vibe-coding) / [CLI Coding Agent](https://build.nvidia.com/spark/cli-coding-agent) playbooks are the reference — reuse your endpoint, don't let them install another model stack.
-2. Cursor: Settings → Models → override OpenAI base URL → `http://spark:4000/v1` + key, add custom model `spark-fast`. Known limit: Cursor Tab autocomplete still runs on Cursor's cloud; chat/composer requests go local.
-3. Claude Code against local (experiment): `ANTHROPIC_BASE_URL=http://spark:4000` via LiteLLM's Anthropic-format passthrough mapped to `spark-fast`. Test tool-calls, streaming, and long context hard before trusting it ([[local-ai-architecture-research]] gateway caution).
-4. Optional low-latency `code` route: on the RTX 5000, serve a coder GGUF (Qwen3.6-27B or Gemma 4 31B QAT — [[dgx-spark-current-models-report]] workstation-first picks) with llama-server or LM Studio; register it in Spark LiteLLM as `code` with fallback → `spark-fast`, so coding survives workstation sleep.
+1. VS Code (workstation + laptop): install Continue (or Cline), add an OpenAI-compatible provider `http://spark:4000/v1` with the `personal` key — chat/edit → `qwen3.6-35b-a3b`, autocomplete → `spark-small`. NVIDIA's [Vibe Coding](https://build.nvidia.com/spark/vibe-coding) / [CLI Coding Agent](https://build.nvidia.com/spark/cli-coding-agent) playbooks are the reference — reuse your endpoint, don't let them install another model stack.
+2. Cursor: Settings → Models → override OpenAI base URL → `http://spark:4000/v1` + key, add custom model `qwen3.6-35b-a3b`. Known limit: Cursor Tab autocomplete still runs on Cursor's cloud; chat/composer requests go local.
+3. Claude Code against local (experiment): `ANTHROPIC_BASE_URL=http://spark:4000` via LiteLLM's Anthropic-format passthrough mapped to `qwen3.6-35b-a3b`. Test tool-calls, streaming, and long context hard before trusting it ([[local-ai-architecture-research]] gateway caution).
+4. Optional low-latency `code` route: on the RTX 5000, serve a coder GGUF (Qwen3.6-27B or Gemma 4 31B QAT — [[dgx-spark-current-models-report]] workstation-first picks) with llama-server or LM Studio; register it in Spark LiteLLM as `code` with fallback → `qwen3.6-35b-a3b`, so coding survives workstation sleep.
 5. Keep all subscriptions for two weeks; note which tasks local handled fully. Then cut, remembering consumer subscriptions are not API keys for unattended services ([[Local Setup Index]] decision 9).
 
 ## Phase 4 — Automation (half a day, then grows)
@@ -112,7 +114,7 @@ Goal: scheduled jobs run on Spark, pinned to aliases, reporting to Discord.
 
 1. First Hermes cron job: a morning brief pinned to `spark-small`, with timeout, budget, and delivery to `#daily-brief`. Pin model + route on **every** job — Hermes intentionally fails closed on unpinned jobs after provider changes.
 2. `ods enable n8n` on **Spark** for deterministic multi-step workflows; every LLM node calls a LiteLLM alias. Workstation n8n stays development-only — one production owner per job ([[personal-hermes-obsidian-multinode-design|design note]] failure rules).
-3. Routing discipline for jobs: hourly/routine → `spark-small`; only genuinely hard steps → `spark-fast`. Don't wake the big lane on a schedule.
+3. Routing discipline for jobs: hourly/routine → `spark-small`; only genuinely hard steps → `qwen3.6-35b-a3b`. Don't wake the big lane on a schedule.
 4. Failures → `#automation-alerts`; anything consequential (sends, publishes, deletes) waits in `#approvals`. Add an idempotency key to any job with side effects.
 5. Run the chaos test above and fix what breaks before adding more jobs.
 

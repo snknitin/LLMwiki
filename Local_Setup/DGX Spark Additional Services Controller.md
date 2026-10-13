@@ -7,6 +7,8 @@ scope: dgx-spark, frontier, services, schedules, sparkdash, docker, systemd
 
 # DGX Spark Additional Services Controller
 
+Names: `spark-fast` was renamed on 13 Oct 2026; see [[Model And Provider Names]].
+
 > [!summary] Outcome
 > `aux-services` is the single catalog and lifecycle controller for FirstSpark services around a large-model session. Its list includes ports, live state, underlying resource, and safety policy. Managed services participate in the bulk drain; protected control-plane services are named-control only; locked transport, Frontier and native Qwen entries are inventory-only. Hermes schedules remain owned entirely by Hermes and are not included.
 
@@ -85,9 +87,9 @@ The Local Setup dashboard is Windows-local on port `8767`, so it is not a FirstS
 | `qwen38-native` | `qwen38-native.service` | `127.0.0.1:1236` | `locked`, inventory only |
 | `qwen38-admission` | `qwen38-admission.service` | `127.0.0.1:1235` | `locked`, inventory only |
 
-Both rows are excluded from bulk drain/restore and named `aux-services` start/stop. Therefore `aux-services stop` alone does not prepare memory for an exclusive Frontier lane: drain and stop the native Qwen pair separately before invoking `spark-frontier use`. Restore the pair only after SparkFast is restored and its startup memory/readiness checks pass. The dedicated Qwen systemd units and guarded launcher own model residency; follow [[Qwen 3.8 27B Native Spark Setup Tutorial]] for their lifecycle. Port 1235 is the client route; port 1236 is the internal worker. A listed `active` unit is process-state evidence, not proof of model readiness or completed qualification.
+Both rows are excluded from bulk drain/restore and named `aux-services` start/stop. Therefore `aux-services stop` alone does not prepare memory for an exclusive Frontier lane: drain and stop the native Qwen pair separately before invoking `spark-frontier use`. Restore the pair only after Qwen 3.6 35B-A3B is restored and its startup memory/readiness checks pass. The dedicated Qwen systemd units and guarded launcher own model residency; follow [[Qwen 3.8 27B Native Spark Setup Tutorial]] for their lifecycle. Port 1235 is the client route; port 1236 is the internal worker. A listed `active` unit is process-state evidence, not proof of model readiness or completed qualification.
 
-The live catalog previously contained neither SparkFast nor LM Studio. Those existing ownership boundaries are unchanged. LM Studio remains stopped and disabled with its assets retained for rollback; this inventory update does not enable it or add model services to the optional-service drain.
+The live catalog previously contained neither Qwen 3.6 35B-A3B nor LM Studio. Those existing ownership boundaries are unchanged. LM Studio remains stopped and disabled with its assets retained for rollback; this inventory update does not enable it or add model services to the optional-service drain.
 
 Only these two rows were added to the live config, preserving all 18 prior entries, their order, the controller script and the saved restore snapshot. The config remains mode 0600. Backup: `/home/snknitin/.config/aux-services/services.conf.before-qwen38-inventory-20261012T182138Z`. Validation used Bash syntax/entry checks and `aux-services list`/`status`; no service was started or stopped for this update.
 

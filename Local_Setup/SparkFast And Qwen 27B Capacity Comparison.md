@@ -5,9 +5,11 @@ status: qwen27b-operational-qualified
 
 # SparkFast and Qwen 27B capacity comparison
 
-Native Qwen27B was qualified and published in the FirstSpark Hermes catalog at 00:06 IST on 13 October 2026. Four isolated real Hermes research/coding sessions, the reviewed pressure observation and post-restart API checks passed. SparkFast remains unchanged and remains the default. The earlier 240K test's strict zero-global-swap failure is retained; publication followed a documented review and a separate monitored qualification. The real main-profile native request also passed:262K context,7200second request/stream settings, no fallback or output-token cap. Authenticated Windows UI observation, controlled reboot and extended soak remain separate checks.
+Names: `spark-fast` was renamed on 13 Oct 2026; see [[Model And Provider Names]].
 
-| Property | SparkFast now | Earlier Qwen27B Q8 proposal | Selected Qwen27B Q4 target |
+Native Qwen27B was qualified and published in the FirstSpark Hermes catalog at 00:06 IST on 13 October 2026. Four isolated real Hermes research/coding sessions, the reviewed pressure observation and post-restart API checks passed. Qwen 3.6 35B-A3B (`qwen3.6-35b-a3b`) remains unchanged and remains the default. The earlier 240K test's strict zero-global-swap failure is retained; publication followed a documented review and a separate monitored qualification. The real main-profile native request also passed:262K context,7200second request/stream settings, no fallback or output-token cap. Authenticated Windows UI observation, controlled reboot and extended soak remain separate checks.
+
+| Property | Qwen 3.6 35B-A3B now | Earlier Qwen27B Q8 proposal | Selected Qwen27B Q4 target |
 |---|---|---|---|
 | Model | Unsloth Qwen3.6-35B-A3B-NVFP4, MoE | Unsloth Qwen3.8-27B UD-Q5_K_XL, dense | Same Q5 weights |
 | Runtime | vLLM | Native llama.cpp | Native llama.cpp |
@@ -30,11 +32,11 @@ Main full-attention cache size is approximately tokens x full-attention layers x
 
 | Main attention cache only | Bytes per token | One262K context | Four 262K contexts |
 |---|---:|---:|---:|
-| SparkFast FP8 | About10 KiB | About2.5 GiB | About10 GiB |
+| Qwen 3.6 35B-A3B FP8 | About10 KiB | About2.5 GiB | About10 GiB |
 | Qwen27B Q8_0 | About34 KiB | About8.5 GiB | About34 GiB |
 | Qwen27B Q4_0 | About18 KiB | About4.5 GiB | About18 GiB |
 
-These are explanatory main-attention estimates, not total process allocations. MTP, recurrent states, checkpoints, alignment and runtime buffers are additional. The native Q8_0 format stores34bytes per32values and Q4_0 stores18bytes per32values, including scales. SparkFast's measured engine capacity remains the stronger number: 1,588,632 tokens in its configured18GiB pool, approximately6.06 full contexts.
+These are explanatory main-attention estimates, not total process allocations. MTP, recurrent states, checkpoints, alignment and runtime buffers are additional. The native Q8_0 format stores34bytes per32values and Q4_0 stores18bytes per32values, including scales. Qwen 3.6 35B-A3B's measured engine capacity remains the stronger number: 1,588,632 tokens in its configured18GiB pool, approximately6.06 full contexts.
 
 ### Can Qwen also share its cache?
 
@@ -66,7 +68,7 @@ The 767.3-second pressure observation included the Hermes workload and a final 6
 
 The worker was then restarted and passed plain response, tool round-trip and four overlapping stream checks; that short post-restart test retained at least 16.43 GiB available. Both Qwen units are enabled and active, and admission health returned `accepting:true`. Six Hermes configs received the provider with defaults preserved. The recorded stage is `qualified_and_published`; the real main-profile native request subsequently passed (`production-route-v2.json`). Authenticated Windows UI observation, controlled reboot and extended real-use soak remain pending. Evidence: `/home/snknitin/runs/qwen38-native/qualification-20261012T182033.027090Z/`, including `q5xl-four-986efb09a85c/receipt.json`, `reviewed-pressure-qualification.json`, `short-after-restart.json` and `hermes-catalog-apply.log`.
 
-## Latest SparkFast settings (verified values)
+## Latest Qwen 3.6 35B-A3B settings (verified values)
 
 Effective container command, current Compose and latest boot log agree:
 
@@ -106,4 +108,4 @@ DGX Spark uses unified CPU/GPU memory. GPU-process allocation, total GPU-attribu
 
 Remote authority: `/home/snknitin/ai/services/qwen35/compose.yaml`; saved audit: `/home/snknitin/ai/services/qwen35/audit/`, including `capacity-live-8-2026-10-01.md`, `capacity-final-2026-10-01.md`, `benchmark-comparison.csv`, raw JSON runs and before/after Compose snapshots. Live evidence: container effective command, current startup logs, nvidia-smi and vLLM metrics. No inference load or restart was introduced for this check.
 
-Keep SparkFast as the default shared-service route; select `spark-qwen38` explicitly for the qualified dense Qwen service. Expect shared-device contention when both generate heavily. Eight SparkFast scheduler positions plus four Qwen positions are not twelve guaranteed full-context, full-speed sessions. Follow [[Qwen 3.8 27B Native Spark Setup Tutorial]] for use, remaining verification and recovery.
+Keep Qwen 3.6 35B-A3B (`qwen3.6-35b-a3b`) as the default shared-service route; select `spark-qwen38` explicitly for the qualified dense Qwen service. Expect shared-device contention when both generate heavily. Eight Qwen 3.6 35B-A3B scheduler positions plus four Qwen positions are not twelve guaranteed full-context, full-speed sessions. Follow [[Qwen 3.8 27B Native Spark Setup Tutorial]] for use, remaining verification and recovery.
