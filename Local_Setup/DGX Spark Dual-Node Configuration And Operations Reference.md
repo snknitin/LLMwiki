@@ -178,6 +178,9 @@ The reverse trust issue was subsequently repaired and rechecked during the compl
 
 The earlier missing `~/.ssh/id_rsa.pub` error was not evidence that SSH was unconfigured. The environment uses Ed25519 material, and FirstSpark-to-SecondSpark passwordless SSH is already functional.
 
+> [!warning] Reboot after any cable change (found 15 Oct 2026)
+> If a QSFP cable is plugged in after boot, or unplugged and replugged, the ConnectX-7 re-initialises and NCCL drops to ~3 GB/s busbw while link speed and raw RDMA still look normal. Reboot the Spark with the cable connected, then rerun NCCL. Details: [[Three Spark Frontier Pair Handoff]].
+
 ## NCCL Installation And Helper Scripts
 
 On both nodes:

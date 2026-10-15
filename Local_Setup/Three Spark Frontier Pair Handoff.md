@@ -71,6 +71,16 @@ The two DeepSeek paths on FirstSpark are the same files (hard links, link count 
 - Likely cause: SecondSpark's resident TensorFold Qwen leaves ~1 GiB truly free (17 GiB available), slowing NCCL's host staging. The original 21.76 GB/s ran on an empty SecondSpark. **Rerun NCCL with TensorFold stopped before installing GLM**; if it is still low, compare ThirdSpark's newer OTA 7.6.0 / kernel 7.0 against the others' 7.5.0 / 6.17.
 - Test command used (from SecondSpark): `mpirun -np 2 -H 192.168.102.11:1,192.168.102.12:1 -x LD_LIBRARY_PATH -x NCCL_SOCKET_IFNAME=enp1s0f0np0 -x OMPI_MCA_btl_tcp_if_include=enp1s0f0np0 -x NCCL_IB_HCA=rocep1s0f0,roceP2p1s0f0 ~/nccl-tests/build/all_gather_perf -b 256M -e 2G -f 2`, with `LD_LIBRARY_PATH=$HOME/nccl/build/lib:/usr/local/cuda/lib64`.
 
+> [!important] Resolved 15 Oct: reboot with the QSFP cable connected
+> A ConnectX-7 that initialises while the Spark is already running (cable plugged in after boot, or a cable unplugged and replugged, which removes and re-adds the card) gives **~3.0 GB/s NCCL** even though `ethtool` says 200000, raw `ib_write_bw` is ~112 Gb/s per rail and PCIe is Gen5 x4. **Rebooting that Spark with the cable already connected restores full speed.**
+>
+> - ThirdSpark booted without a cable, had its cable hot-plugged at 11:48, and measured 3.0 GB/s. After `sudo reboot`, SecondSpark ↔ ThirdSpark measured **19.47 GB/s avg, 21.0–22.5 GB/s at 1–2 GiB**.
+> - Cable-swap test: First ↔ Second was 18.7–21.7 GB/s before the swap. FirstSpark's card was removed and re-added (`E-Switch: cleanup` at 19:49, re-probe at 20:05) and it then measured 3.0 GB/s. **FirstSpark needs a reboot with its cable connected to get its link back.**
+> - "Detected insufficient power on the PCIe slot (27W)" appears at every boot on all three, including when fast, so it is not the cause.
+> - Rule for the future: after plugging, unplugging or moving any QSFP cable, reboot the affected Spark(s) with the cable in place, then rerun NCCL.
+>
+> The diagnosis below is kept as a record. Its suspects (memory pressure, ThirdSpark's newer OTA 7.6.0 / kernel 7.0) were ruled out.
+
 **NCCL diagnosis (15 Oct, SecondSpark TensorFold stopped, 117 GiB available on both):**
 
 | Test | Result |
