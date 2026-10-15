@@ -71,6 +71,22 @@ The two DeepSeek paths on FirstSpark are the same files (hard links, link count 
 - Likely cause: SecondSpark's resident TensorFold Qwen leaves ~1 GiB truly free (17 GiB available), slowing NCCL's host staging. The original 21.76 GB/s ran on an empty SecondSpark. **Rerun NCCL with TensorFold stopped before installing GLM**; if it is still low, compare ThirdSpark's newer OTA 7.6.0 / kernel 7.0 against the others' 7.5.0 / 6.17.
 - Test command used (from SecondSpark): `mpirun -np 2 -H 192.168.102.11:1,192.168.102.12:1 -x LD_LIBRARY_PATH -x NCCL_SOCKET_IFNAME=enp1s0f0np0 -x OMPI_MCA_btl_tcp_if_include=enp1s0f0np0 -x NCCL_IB_HCA=rocep1s0f0,roceP2p1s0f0 ~/nccl-tests/build/all_gather_perf -b 256M -e 2G -f 2`, with `LD_LIBRARY_PATH=$HOME/nccl/build/lib:/usr/local/cuda/lib64`.
 
+**NCCL diagnosis (15 Oct, SecondSpark TensorFold stopped, 117 GiB available on both):**
+
+| Test | Result |
+|---|---|
+| NCCL Second ↔ Third, 256M–2G and 1G, every variation (`NCCL_CUMEM_ENABLE=0`, `NCCL_CUMEM_HOST_ENABLE=0`, `NCCL_MAX_NCHANNELS=8`, `NCCL_PROTO=Simple`, HCA exclude instead of include) | **~3.0 GB/s busbw**, transport `NET/IB` on both rails, 64 channels |
+| NCCL First ↔ Second, same settings, 256M–1G, while FirstSpark served models | **18.7 GB/s avg, 21.7 at 1G** |
+| Raw RDMA Second → Third, both rails at once | 92.4 + 92.4 Gb/s (~23 GB/s) |
+| Raw RDMA per rail, bidirectional | ~121 Gb/s |
+| Pinned host↔device copy (1 GiB, custom CUDA test) | Second 57/59 GB/s, Third 58.5/58.9 GB/s |
+| ConnectX-7 firmware | 28.45.4028 on all three |
+| IOMMU | `iommu.passthrough=0` on both |
+
+Conclusion: the link and GPU copies are healthy, and the bottleneck is NCCL on the Second ↔ Third pair. The remaining difference is ThirdSpark's software: OTA 7.6.0, kernel `7.0.0-1019-nvidia`, driver `580.178.04`, versus OTA 7.5.0, kernel `6.17.0-1029-nvidia`, driver `580.173.02` on the others. NVIDIA's DGX OS 7.6.0 release notes list Spark driver 580.173.02, so ThirdSpark's 580.178.04 likely came from a later apt upgrade. ThirdSpark's other installed kernel (6.11) has no NVIDIA module, so it can't be used for the test. Next experiment: install `linux-image-6.17.0-1029-nvidia`, `linux-modules-6.17.0-1029-nvidia`, `linux-modules-nvidia-580-open-6.17.0-1029-nvidia` and driver `580.173.02` on ThirdSpark, boot 6.17, and rerun NCCL. The 7.0 kernel stays installed for rollback.
+
+SecondSpark's `qwen38-flash-next-tf` container was stopped for this test (restart policy `no`). Restart it with `docker start qwen38-flash-next-tf` if the pair isn't set up yet; `qwen38-tensorfold-second` in Hermes fails while it's stopped.
+
 **Security note.** All three Sparks share one SSH host key (`SHA256:YT7DxbMu…`, created 23 Oct 2025, the factory image date). Regenerating per machine needs sudo and then re-trusting each host on every client.
 
 **Hermes timezone.** `timezone: Asia/Kolkata` added to all six Hermes configs (previously server-local; backups in `~/.hermes/backups/timezone-20261015/`). Long-running Hermes services pick it up after their next idle restart.
