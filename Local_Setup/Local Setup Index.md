@@ -14,6 +14,9 @@ This is the canonical progress and navigation page. If an older note suggests a 
 
 ## Current confirmed state
 
+> [!todo] Third Spark — plan ready, cable pending (15 October 2026)
+> ThirdSpark (`spark-6ce7`) joins SecondSpark as a dedicated pair for the big coding models; FirstSpark keeps files and the always-on models under 50B and is no longer drained. Cabling, network, recipe choice, weight transfer without re-downloads, routing and the ~1 TB FirstSpark clean-up list: [[Three Spark Frontier Pair Handoff]].
+
 > [!important] Desktop Qwen — 13 October 2026 evening
 > Fast Qwen 3.8 27B now runs on the workstation RTX through Ollama's bundled `llama-server`: 2 sessions × 262K, ~96 tok/s single / ~82 each with two, shared by Hermes (`desktop-qwen`) and Fresh Brief. Monitors moved to the Intel iGPU, which removed the desktop lag. Operations, ComfyUI on/off, model upgrades and rollback: [[Desktop Qwen Runbook]]. Root causes: [[Qwen 27B Windows Lag And Spark Download Fix 2026-10-13]]. The "Fresh Brief and Windows Ollama remain unchanged" line below is superseded.
 
