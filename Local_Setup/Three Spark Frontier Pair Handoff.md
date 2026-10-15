@@ -77,6 +77,7 @@ The two DeepSeek paths on FirstSpark are the same files (hard links, link count 
 > - ThirdSpark booted without a cable, had its cable hot-plugged at 11:48, and measured 3.0 GB/s. After `sudo reboot`, SecondSpark ↔ ThirdSpark measured **19.47 GB/s avg, 21.0–22.5 GB/s at 1–2 GiB**.
 > - Cable-swap test: First ↔ Second was 18.7–21.7 GB/s before the swap. FirstSpark's card was removed and re-added (`E-Switch: cleanup` at 19:49, re-probe at 20:05) and it then measured 3.0 GB/s. **FirstSpark needs a reboot with its cable connected to get its link back.**
 > - "Detected insufficient power on the PCIe slot (27W)" appears at every boot on all three, including when fast, so it is not the cause.
+> - FirstSpark was rebooted later on 15 Oct with the Cheetah cable connected. First ↔ Second came back to **18.4 GB/s avg, 21.5 at 1 GiB**. Hermes serve/gateway/dashboard, both native Qwen 27B units, vLLM Qwen 3.6 35B-A3B, LiteLLM and every aux service came back; LiteLLM and a Hermes `local-models` request answered end to end.
 > - Rule for the future: after plugging, unplugging or moving any QSFP cable, reboot the affected Spark(s) with the cable in place, then rerun NCCL.
 >
 > The diagnosis below is kept as a record. Its suspects (memory pressure, ThirdSpark's newer OTA 7.6.0 / kernel 7.0) were ruled out.
