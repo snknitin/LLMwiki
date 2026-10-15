@@ -58,6 +58,8 @@ The two DeepSeek paths on FirstSpark are the same files (hard links, link count 
 
 **Do not run NVIDIA's three-Spark ring setup** (`spark_cluster_setup` / `connect-three-sparks`). Its ring cables Port0↔Port1 and renumbers every link to 192.168.0–5.x, which would break today's 192.168.100/101 routes used by LiteLLM and SecondSpark. Configure the new link by hand instead.
 
+**15 Oct: cable connected** SecondSpark Port0 ↔ ThirdSpark Port0. Without a reboot, `ibdev2netdev` showed `enp1s0f0np0` and `enP2p1s0f0np0` **Up at 200000 Mb/s on both**, `mlx5_core` was loaded on ThirdSpark, and the FirstSpark ↔ SecondSpark f1 link was unchanged. Addresses still need assigning (section 4, needs the user's sudo).
+
 ## 4. New link configuration (after the cable is in)
 
 Planned addresses (two rails, like the existing link):
@@ -101,7 +103,24 @@ MTU stays 1500 (what the existing link uses and what NVIDIA's pages show). One i
 
 All numbers are self-reported by recipe authors on Spark hardware and weren't verified here. Prose usually runs about half of code speed; forum users average ~33 tok/s for GLM on these stacks. Faster DeepSeek recipes (52–76 tok/s, e.g. christopher_owen `spark-ds41f`, eugr `3x-spark-cluster`) need **3+ Sparks**, which would take FirstSpark. A 1-Spark GLM "60 tok/s" claim uses a 2.05bpw quant with reported loops and poor quality. DeepSeek EXL3 users report reasoning loops at max effort. Sources: the NVIDIA forum threads [GLM 4.7M KV](https://forums.developer.nvidia.com/t/glm-5-3-flash-on-2x-dgx-spark-4-7m-token-kv-cache-with-fast-exl3-serving/382486), [GLM MTP-5](https://forums.developer.nvidia.com/t/glm-5-3-flash-running-on-2x-dgx-spark-sm-121-day-0-24-7-30-3-tok-s-with-mtp-5-two-silent-gb10-gotchas-worth-knowing/381433), [DeepSeek 2.9bpw](https://forums.developer.nvidia.com/t/deepseek-v4-1-flash-exl3-2-9-bpw-for-2x-dgx-sparks/383242), [DeepSeek 3+ node recipe](https://forums.developer.nvidia.com/t/new-deepseek-4-1-flash-recipe/384438).
 
-**Decision proposed:** GLM 5.3 Flash on the current MiaAI TensorFold build is the pair's resident coding model; DeepSeek V4.1 Flash is a swap-in lane on the same pair. Expected gain over today's GLM: about 2–3× if the author's numbers hold.
+**Decision proposed:** GLM 5.3 Flash on the current MiaAI TensorFold build is the pair's resident coding model. Expected gain over today's GLM: about 2–3× if the author's numbers hold.
+
+### Quality-first review (15 Oct)
+
+Criteria from the user: quality first, no aggressive quants (treat <3.5 bpw as suspect), at least ~30 tok/s single request, TensorFold where it helps.
+
+| Rank | Model + recipe | Quant | Quality evidence | Single-stream tok/s (author) | Main risks |
+|---|---|---|---|---|---|
+| **1** | **GLM 5.3 Flash** (320B/18B), [MiaAI TensorFold v1.10](https://github.com/MiaAI-Lab/GLM-5.3-Flash-EXL3-2x-DGX-Sparks-TensorFold) | EXL3 4bpw experts, FP8 KV | Best independent scores that fit: [Artificial Analysis](https://artificialanalysis.ai/models/glm-5-3-flash) 42 (#4); [Vals](https://www.vals.ai/models/zai_glm-5.3-flash) SWE-bench 92%, Terminal-Bench 4.0 37.4%, LiveCodeBench 80.5%. Author KL to FP8: 0.090 (wikitext) | 60.4 prose / 114.7 structured; a vLLM port of the same weights measured 46.6 / 62.6 | Default `DENSE=q4` re-quantizes attention/dense weights to 4-bit and can drop the end-of-turn token (issue #18). **Run `DENSE=fp8` first** and measure its speed (not published). DFlash2 drafter is non-commercial; the `DRAFTER=mtp` fallback is single-request. Needs `--thinking-budget` against paraphrase loops |
+| 2 | **Qwen 3.8 Flash Next** (125B/6B), [MiaAI dual TensorFold](https://github.com/MiaAI-Lab/Qwen3.8-Flash-Dual-DGX-Sparks-TensorFold) | NVIDIA NVFP4 routed experts, BF16 rest | [NVIDIA card](https://huggingface.co/nvidia/Qwen3.8-Flash-Next-NVFP4): NVFP4 within ~2.5 pts of FP8 on 9 benchmarks (GPQA 91.5 vs 92.0, Terminal-Bench 2.1 82.9 vs 83.3); AA 40 (#6) | 67.4 prose; 8 requests 231 total | Recipe 1 week old; `response_format` and `logprobs` return HTTP 400; avoid its INT4-AR mode (~10% lower capability). Weaker than GLM on agentic coding |
+| 3 | MiMo-V2.6-Flash (309B/15B), [MiaAI SGLang](https://github.com/MiaAI-Lab/MiMo-V2.6-Flash-2x-DGX-Sparks) | Native MXFP4 (official, no extra quant) | Vendor DeepSWE 67.9, Terminal-Bench 2.1 87.6; AA 38; no independent coding evals | 35 prose / 46 code with MTP | Fragile bring-up; DFlash mode drops prose to 25.8 |
+| Avoid | DeepSeek V4.1 Flash on 2 Sparks | EXL3 2.77–2.9 bpw | Under the bpw threshold. The model loops in its reasoning channel even at native precision ([deepseek-recipe #24](https://github.com/deepseek-ai/deepseek-recipe/issues/24)). [Vals](https://www.vals.ai/models/deepseek_deepseek-v4.1-flash) Terminal-Bench 2.1 74.5 vs 90.6 claimed | ~31.6 prose / ~40 code | Needs 3+ Sparks for a sane precision |
+| Avoid | GLM 5.3 Flash NVFP4 on vLLM | NVFP4 | Quant is fine (within ~1 pt of BF16) | 20–30 | Misses the speed floor; corrupted ModelOpt checkpoints reported |
+| Avoid | GLM 5.3 full (753B), MiniMax M3, Kimi K3, abliterated/"uncensored" variants | — | — | — | Don't fit at good precision, or aren't the official weights |
+
+All tok/s are author-reported on Spark hardware; none were independently verified. No independent tool-use/agent eval of these quants on Sparks was found.
+
+**Revised plan:** GLM 5.3 Flash (MiaAI TensorFold, `DENSE=fp8` tested first) is the pair's main model; Qwen 3.8 Flash Next NVFP4 dual TensorFold is the fast second lane. **Drop DeepSeek V4.1 Flash as a pair lane** unless a 3-Spark setup is ever acceptable; its 387 GB on FirstSpark then simply becomes clean-up (section 8) instead of a copy (section 6).
 
 ## 6. Moving weights and images (no re-downloads)
 
