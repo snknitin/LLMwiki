@@ -162,6 +162,15 @@ Criteria from the user: quality first, no aggressive quants (treat <3.5 bpw as s
 
 All tok/s are author-reported on Spark hardware; none were independently verified. No independent tool-use/agent eval of these quants on Sparks was found.
 
+**Two more recipes reviewed (15 Oct), both rejected:**
+
+| Recipe | What it is | Speed (author) | Verdict |
+|---|---|---|---|
+| [justincasey/RED-SNOW-5.3-Flash-2x-DGX-Spark](https://github.com/justincasey/RED-SNOW-5.3-Flash-2x-DGX-Spark) | Not official GLM. A Blackfrost-AI **offensive-security fine-tune** (LoRA merged into GLM 5.3 Flash BF16, 17K mostly offensive-security single-turn examples). Its chat template injects a "RED-SNOW operating prompt"; refusal, coding and agent evals are "Pending". Served as vcruz305 SAGE EXL3 4.91 bpw on a TensorFold 0.6.5 fork, TP2, ~102.6 GiB per rank at 128K | 31.9 prose / 39.7 code with DFlash2; 24.6 without; one request at a time | **Avoid** for general coding: about half MiaAI's speed and an unmeasured fine-tune. Four days old, 2 stars. Worth noting: a 4.91 bpw SAGE pack of **base** GLM would be an interesting A/B, if one exists |
+| [vcruz305 DeepSeek-V4.1-Flash EXL3, two-spark-tp2](https://github.com/vcruz305/DeepSeek-V4.1-Flash-EXL3-DGX-Spark-recipe/blob/main/two-spark-tp2/README.md) | `vcruz305/DSV4.1-Flash-SAGE-EXL3-3.30bpw`: experts average 3.30 bpw, pack 446 GB, which needs disk-backed Engram on 256 GB | "Loader ready; not benchmarked". An older NVMe-streaming run gave 4.4–5.7 tok/s | **Avoid**: doesn't fit in memory, no speed or quality numbers, below the bpw bar, and DeepSeek's reasoning loops are unaddressed |
+
+Decision unchanged: **MiaAI GLM 5.3 Flash TensorFold with `DENSE=fp8`** is the pair's main model.
+
 **Revised plan:** GLM 5.3 Flash (MiaAI TensorFold, `DENSE=fp8` tested first) is the pair's main model; Qwen 3.8 Flash Next NVFP4 dual TensorFold is the fast second lane. **Drop DeepSeek V4.1 Flash as a pair lane** unless a 3-Spark setup is ever acceptable; its 387 GB on FirstSpark then simply becomes clean-up (section 8) instead of a copy (section 6).
 
 ## 6. Moving weights and images (no re-downloads)
