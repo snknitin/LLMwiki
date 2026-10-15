@@ -60,6 +60,21 @@ The two DeepSeek paths on FirstSpark are the same files (hard links, link count 
 
 **15 Oct: cable connected** SecondSpark Port0 ↔ ThirdSpark Port0. Without a reboot, `ibdev2netdev` showed `enp1s0f0np0` and `enP2p1s0f0np0` **Up at 200000 Mb/s on both**, `mlx5_core` was loaded on ThirdSpark, and the FirstSpark ↔ SecondSpark f1 link was unchanged. Addresses still need assigning (section 4, needs the user's sudo).
 
+**15 Oct: link configured and tested.**
+
+- `/etc/netplan/41-cx7-pair.yaml` applied on both; addresses as planned below.
+- Pings both rails both ways, 0% loss (~1 ms).
+- SSH over 192.168.102.x works both ways. Host keys were verified against the LAN-known keys before being trusted.
+- ThirdSpark: OpenMPI installed, timezone set to Asia/Kolkata. NCCL `v2.30.7-1` and `nccl-tests` copied from SecondSpark (same paths, libraries resolve).
+- **Raw RDMA (`ib_write_bw -R -s 1M -q 4`): 111.85 Gb/s on each rail**, so the link is healthy (~112 Gb/s per-rail ceiling, ~224 Gb/s per port).
+- **NCCL `all_gather_perf` (256M–2G, Port0 HCAs only, `NET/IB` both rails): only 2.99 GB/s busbw**, versus 21.76 GB/s on the original pair. GPU Direct RDMA is disabled on all three Sparks (`mlx5dv_reg_dmabuf_mr` missing in rdma-core 50.0), so that isn't the difference.
+- Likely cause: SecondSpark's resident TensorFold Qwen leaves ~1 GiB truly free (17 GiB available), slowing NCCL's host staging. The original 21.76 GB/s ran on an empty SecondSpark. **Rerun NCCL with TensorFold stopped before installing GLM**; if it is still low, compare ThirdSpark's newer OTA 7.6.0 / kernel 7.0 against the others' 7.5.0 / 6.17.
+- Test command used (from SecondSpark): `mpirun -np 2 -H 192.168.102.11:1,192.168.102.12:1 -x LD_LIBRARY_PATH -x NCCL_SOCKET_IFNAME=enp1s0f0np0 -x OMPI_MCA_btl_tcp_if_include=enp1s0f0np0 -x NCCL_IB_HCA=rocep1s0f0,roceP2p1s0f0 ~/nccl-tests/build/all_gather_perf -b 256M -e 2G -f 2`, with `LD_LIBRARY_PATH=$HOME/nccl/build/lib:/usr/local/cuda/lib64`.
+
+**Security note.** All three Sparks share one SSH host key (`SHA256:YT7DxbMu…`, created 23 Oct 2025, the factory image date). Regenerating per machine needs sudo and then re-trusting each host on every client.
+
+**Hermes timezone.** `timezone: Asia/Kolkata` added to all six Hermes configs (previously server-local; backups in `~/.hermes/backups/timezone-20261015/`). Long-running Hermes services pick it up after their next idle restart.
+
 ## 4. New link configuration (after the cable is in)
 
 Planned addresses (two rails, like the existing link):
