@@ -332,12 +332,16 @@ def cmd_context(args: argparse.Namespace) -> None:
     print("CONTEXT_LADDER_OK")
 
 
-def one_concurrency_request(endpoint: str, key: str, model: str, max_tokens: int, timeout: int) -> dict:
-    prompt = (
-        "Write a detailed implementation plan for an offline-first job queue. Cover persistence, "
-        "idempotency, retries, backpressure, observability, recovery, and testing. Use clear "
-        "headings and concrete technical details. Continue until every section is complete."
-    )
+CONCURRENCY_PROMPT = (
+    "Write a detailed implementation plan for an offline-first job queue. Cover persistence, "
+    "idempotency, retries, backpressure, observability, recovery, and testing. Use clear "
+    "headings and concrete technical details. Continue until every section is complete."
+)
+
+
+def one_concurrency_request(
+    endpoint: str, key: str, model: str, max_tokens: int, timeout: int, prompt: str = CONCURRENCY_PROMPT
+) -> dict:
     response, elapsed = json_request(
         f"{endpoint.rstrip('/')}/v1/chat/completions",
         key,
@@ -373,6 +377,7 @@ def cmd_concurrency(args: argparse.Namespace) -> None:
                     metadata["model"],
                     args.max_tokens,
                     args.timeout,
+                    args.prompt or CONCURRENCY_PROMPT,
                 )
                 for _ in range(level)
             ]
@@ -542,6 +547,7 @@ def parser() -> argparse.ArgumentParser:
     concurrency.add_argument("--max-tokens", type=int, default=512)
     concurrency.add_argument("--minimum-tokens", type=int, default=128)
     concurrency.add_argument("--label", default="raw")
+    concurrency.add_argument("--prompt", help="replace the standard prose prompt (e.g. a code prompt; use with --label)")
     concurrency.set_defaults(func=cmd_concurrency)
 
     compare = commands.add_parser("compare")
