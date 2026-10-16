@@ -16,7 +16,7 @@ What each local model and provider is called now, and which old names still work
 | Qwen 3.6 35B-A3B NVFP4 (the fast always-on Spark model) via LiteLLM | `spark-fast` | **`qwen3.6-35b-a3b`** | LiteLLM `~/ai/services/litellm/config.yaml` |
 | Desktop Qwen 3.8 27B (Windows RTX) in Hermes | `qwen3.8:27b-q4_k_m` | **`qwen3.8-27b-desktop`** (provider `desktop-qwen`) | Hermes configs + `scripts/desktop-qwen-apply.ps1` alias |
 
-The `local-models` provider now carries only `qwen3.6-35b-a3b` and `glm53-flash` (see the 16 October removal below).
+The `local-models` provider now carries `qwen3.6-35b-a3b`, `glm53-flash` and the swap-lane `qwen38-flash-pair` (see the 16 October notes below).
 
 ## Old names that still work, on purpose
 
@@ -65,6 +65,8 @@ After the three-Spark clean-up, LiteLLM lists only **`qwen3.6-35b-a3b`** (FirstS
 | the removed names in every profile's `local-models` model list | listed | dropped |
 
 The FirstSpark Qwen 3.8 27B (`qwen38-27b-spark`) never went through LiteLLM; it was retired later the same day (next section). Backups: `~/ai/services/litellm/config.yaml.bak-20261016-pre-dead-aliases`, `~/.hermes/backups/dead-aliases-20261016/`. The Hermes files were rewritten with ruamel, which reflowed line wrapping and indentation; a parsed comparison showed only the changes above. Verified: LiteLLM `/v1/models`, a removed name refused, hidden `spark-fast`, the orchestrator profile answering, and Hermes → `glm53-flash`. A future Qwen dual lane gets a new alias rather than reviving an old name.
+
+Later on 16 October the Qwen dual lane got that new alias: **`qwen38-flash-pair`** → `http://192.168.100.11:8889/v1` (Qwen 3.8 Flash Next NVFP4 on the SecondSpark + ThirdSpark pair, model id `Qwen3.8-Flash-Next`, context 1,048,576 in the Hermes `local-models` list of main and creator). It is a swap lane: it answers only after `pair-swap.sh qwen` on SecondSpark, and `glm53-flash` is down while it does. It has its own port so it can never be answered by GLM. Details: [[Three Spark Frontier Pair Handoff]] section 6c.
 
 ## Retired 16 October 2026: the FirstSpark Qwen 3.8 27B
 
