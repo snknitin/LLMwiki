@@ -64,7 +64,7 @@ validate_lane_cache() {
   esac
 
   if [[ -n "$repo" ]]; then
-    if ! resolved="$(HF_HOME="$HOME/.cache/huggingface" python3 - "$repo" <<'PY'
+    if ! resolved="$(HF_HOME="$HOME/.cache/huggingface" /usr/bin/python3 - "$repo" <<'PY'
 import json
 import sys
 from pathlib import Path
@@ -316,7 +316,7 @@ ensure_glm_reasoning_bridge() {
 }
 
 select_hermes() {
-  "$HERMES" config set model.provider custom:spark-fast
+  "$HERMES" config set model.provider custom:local-models
   "$HERMES" config set model.base_url http://127.0.0.1:4000/v1
   "$HERMES" config set model.default "$HERMES_ALIAS"
   "$HERMES" config set model.context_length "$CONTEXT"
@@ -340,9 +340,9 @@ probe_litellm() {
 activate_spark_fast() {
   "$SPARK_MODEL" use qwen35
   start_control_plane
-  "$HERMES" config set model.provider custom:spark-fast
+  "$HERMES" config set model.provider custom:local-models
   "$HERMES" config set model.base_url http://127.0.0.1:4000/v1
-  "$HERMES" config set model.default spark-fast
+  "$HERMES" config set model.default qwen3.6-35b-a3b
   "$HERMES" config set model.context_length 262144
   "$HERMES" config check
   systemctl --user start hermes-dashboard.service hermes-gateway.service hermes-serve.service
@@ -468,10 +468,7 @@ status() {
 usage() {
   cat <<'EOF'
 Usage:
-  spark-frontier use qwen38-nvfp4
-  spark-frontier use qwen38-fp8
-  spark-frontier use glm53-flash
-  spark-frontier use deepseek41-flash
+  spark-frontier use ...   (retired 16 Oct 2026; GLM runs on the SecondSpark+ThirdSpark pair)
   spark-frontier status
   spark-frontier emergency-stop-all
   spark-frontier restore-spark-fast
@@ -481,7 +478,15 @@ EOF
 }
 
 case "${1:-status}" in
-  use) [[ $# -eq 2 ]] || { usage >&2; exit 2; }; use_lane "$2" ;;
+  use)
+    # Retired 16 Oct 2026: every lane drained FirstSpark. GLM 5.3 Flash now runs always-on on the
+    # SecondSpark+ThirdSpark pair (LiteLLM glm53-flash -> 192.168.100.11:8888); FirstSpark is never drained.
+    cat >&2 <<'MSG'
+spark-frontier use is retired: it stopped FirstSpark's models to run a frontier lane.
+GLM 5.3 Flash runs on the SecondSpark+ThirdSpark pair; LiteLLM alias glm53-flash already points at it.
+Manage it on SecondSpark: cd ~/src/frontier/glm53-tf && ./start.sh --thinking-budget 16384  (or ./stop.sh)
+MSG
+    exit 2 ;;
   emergency-stop-all)
     exec 9>"$LOCK_FILE"; flock -n 9 || exit 1
     systemctl --user stop hermes-dashboard.service hermes-gateway.service hermes-serve.service || true
