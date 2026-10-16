@@ -66,6 +66,7 @@ Use [[Qwen 3.8 27B Native Spark Setup Tutorial]]. The user selected native llama
 - [ ] Verify a controlled reboot in a separate maintenance window.
 - [ ] Verify Windows private API/client access to Spark; use LM Link only if the LM Studio alternative is selected.
 - [x] Preserve Fresh Brief's Windows Ollama model, 8 AM/8 PM IST schedule and cached editions; revert the unneeded adapter changes. Its GPU load remains outside this Hermes migration.
+- [x] 16 Oct 2026: moved FreshRSS and Fresh Brief to FirstSpark (tailnet ports 8091/8787), editor `spark-fast`, EmbeddingGemma 2 topic grouping, three editions a day. Desktop GPU no longer used by Fresh Brief.
 - [ ] Complete representative 24-hour soak before retiring any rollback assets.
 
 The immediate goal remains the **operational setup**, not every future model, framework, and portfolio lab.

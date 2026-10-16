@@ -22,7 +22,8 @@ The `local-models` provider also carries the other LiteLLM aliases (`qwen27-dfla
 
 - **LiteLLM `spark-fast`**: a hidden alias (`router_settings.model_group_alias`, `hidden: true`) for `qwen3.6-35b-a3b`. Not listed in `/v1/models`, still accepted, so older scripts don't break. Remove it once nothing calls it (check `docker logs spark-litellm | grep spark-fast`).
 - **Hermes credential**: `~/.hermes/auth.json` has the LiteLLM credential under both `custom:local-models` and `custom:spark-fast`.
-- **Desktop server**: answers any model name, so `qwen3.8:27b-q4_k_m` still works. Fresh Brief keeps sending it because its article-note cache is keyed by model name.
+- **Desktop server**: answers any model name, so `qwen3.8:27b-q4_k_m` still works.
+- **Fresh Brief** (FirstSpark, since 16 October 2026) calls the vLLM container **directly** at `127.0.0.1:8000` with the served model name `spark-fast`, not through LiteLLM. If the vLLM served name changes, update `LLM_MODEL` in `fresh-brief/compose.yaml` and redeploy.
 
 ## When renaming a LiteLLM alias again
 
