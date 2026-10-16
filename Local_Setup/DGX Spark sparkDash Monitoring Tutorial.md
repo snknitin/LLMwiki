@@ -262,7 +262,7 @@ Record cold prefill, warm prefill, TTFT, one-stream decode, and supported concur
 
 ## Daily commands
 
-Since 2026-10-16 the Windows SSH tunnel is owned by **Dashboard Command Center**, not Task Scheduler. The `DGX Spark sparkDash Tunnel` scheduled task was removed because it flashed console windows. Opening Spark Dash in Command Center starts a hidden `ssh.exe -N -L 127.0.0.1:5555:127.0.0.1:5555 FirstSpark` child (`windowsHide`) if nothing is listening on 5555, and quitting the app stops it. Outside Command Center, use the Step 6 command. The tunnel never starts sparkDash on FirstSpark, so it cannot fight an intentional model-memory drain. Normally, control the remote application only:
+Since 2026-10-16 the Windows SSH tunnel is owned by **Dashboard Command Center**, not Task Scheduler. The `DGX Spark sparkDash Tunnel` scheduled task was removed because it flashed console windows. Opening Spark Dash in Command Center starts a hidden `ssh.exe -N -L 127.0.0.1:5555:127.0.0.1:5555 FirstSpark` child (`windowsHide`) if nothing is listening on 5555, and quitting the app stops it. Outside Command Center, use the Step 6 command. Ship Command Center changes with `npm run make` and run `out\make\squirrel.windowsd\DashboardCommandCenterSetup.exe`, which installs to `%LOCALAPPDATA%\dashboard_command_center`. A stale Sept 25 copy that Codex installed under `%LOCALAPPDATA%\Packages\OpenAI.Codex_…\LocalCache\` still expects the old scheduled task. If it gets launched, sparkDash shows `ERR_CONNECTION_REFUSED`. The tunnel never starts sparkDash on FirstSpark, so it cannot fight an intentional model-memory drain. Normally, control the remote application only:
 
 ```bash
 aux-services start sparkdash
