@@ -256,7 +256,7 @@ What is left:
 | SecondSpark | GLM TensorFold checkpoint + DFlash2 `bf582e4e`, **Qwen 3.8 Flash Next NVFP4 `fc694b54`** (exactly the revision the Qwen dual TensorFold recipe pins, for the planned second lane) | `tensorfold-glm53:v0.6.0` |
 | ThirdSpark | GLM TensorFold checkpoint + DFlash2 (copied by `prepare.sh`) | `tensorfold-glm53:v0.6.0` |
 
-Still to do: `~/backups/ods-to-standalone-litellm` holds 1.9 GB of root-owned files (needs sudo). The LiteLLM aliases `qwen27-dflash`, `nemotron3-omni`, `qwen38-nvfp4`, `qwen38-fp8`, `deepseek41-flash` and `qwen38-tensorfold-second` now have no backend and fail if called; they are still listed in `/v1/models`.
+Still to do: `~/backups/ods-to-standalone-litellm` holds 1.9 GB of root-owned files (needs sudo). The dead LiteLLM aliases were removed the same day; LiteLLM now lists `qwen3.6-35b-a3b` and `glm53-flash` ([[Model And Provider Names]]).
 
 ## 9. Order of work (steps 1–3 done 16 Oct; DeepSeek dropped in section 5)
 
