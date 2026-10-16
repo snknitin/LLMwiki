@@ -1,12 +1,15 @@
 ---
 created: 2026-10-15
-status: plan-ready-cable-pending
+status: glm-live-on-pair
 tags: [dgx-spark, third-spark, connectx-7, glm, deepseek, handoff, storage]
 ---
 
 # Three Spark frontier pair handoff
 
-Plan and handoff for adding the third DGX Spark: cable it, run the big coding models on Spark 2 + Spark 3, move existing weights instead of re-downloading, then free space on Spark 1. Nothing in sections 3–6 has been executed yet. Names follow [[Model And Provider Names]].
+Plan and handoff for adding the third DGX Spark: cable it, run the big coding models on Spark 2 + Spark 3, move existing weights instead of re-downloading, then free space on Spark 1. Names follow [[Model And Provider Names]].
+
+> [!success] 16 Oct 2026: GLM 5.3 Flash is live on SecondSpark + ThirdSpark
+> MiaAI TensorFold recipe, `DENSE=fp8`, FP8 KV, 1M context, 4 requests, `--thinking-budget 16384`, loop guard on. Single request **43.0 tok/s prose / 57.4 code** (old GLM 23.8), C4 107.6 / 145.3; retrieval passes at 790K tokens; loop check and tool calls pass. LiteLLM `glm53-flash` points at `http://192.168.100.11:8888/v1` and a real Hermes request passed. FirstSpark was not drained and `spark-frontier use` is retired. Full numbers: [[DGX Spark Frontier Model Qualification Results]]. Remaining: section 8 clean-up (you), and an auto-start after reboot (not set up).
 
 ## 1. Goal
 
@@ -216,7 +219,19 @@ Download speed: the line is 300 Mb/s (≈37.5 MB/s); the pinned download measure
 
 So the recipe needs a fresh ~178 GB download (checkpoint + drafter) on the head; `prepare.sh` then rsyncs it to the worker over the link. ThirdSpark's user is **not in the `docker` group** yet (needs sudo). Its `hf` token is in place.
 
+## 6b. GLM install on the pair (done 16 Oct)
+
+- Checkpoint `Mia-AiLab/GLM-5.3-Flash-EXL3-4bpw-TensorFold@078455ff` and DFlash2 `@bf582e4e` downloaded on SecondSpark at line rate (36–45 MB/s, ~75 min), merged into `~/.cache/huggingface/hub`; `prepare.sh` copied both to ThirdSpark over the link at ~500 MB/s.
+- Recipe: `~/src/frontier/glm53-tf` on SecondSpark (commit `3fd60dfc`). `scripts/local.sh`: `WORKER=snknitin@192.168.102.12`, `FABRIC_PEER=192.168.102.12`, `DENSE=${DENSE:-fp8}`, `export TF_GLM_LOOP_GUARD=1`. Both rails used; startup estimate 90.7 GiB/rank, pool 2,271,232 tokens; idle `MemAvailable` ~9 GiB head / ~11 GiB worker; loads in ~90 s after the first start.
+- Start / restart / stop (on SecondSpark): `cd ~/src/frontier/glm53-tf && ./start.sh --thinking-budget 16384` · `./start.sh restart --thinking-budget 16384` · `./stop.sh`. Logs in `~/src/frontier/glm53-tf-logs/`.
+- **Not auto-started**: the containers use restart policy `no`; after a reboot of either Spark, run the start command. The README's `FOREGROUND=1 ./start.sh` is meant for a systemd unit.
+- DFlash2 is CC BY-NC-ND (non-commercial). For commercial use set `DRAFTER=mtp` (one request at a time, ~5–10% slower); not needed for personal use.
+- Qualification: `scripts/glm53-pair-qualify.sh` on FirstSpark. `DENSE=q4` was measured (56.0 / 64.4 tok/s) but failed the recipe's end-of-turn test more often (4/48 vs 1/48), so fp8 stays.
+
 ## 7. Routing after the move
+
+**Done 16 Oct:** `glm53-flash` → `http://192.168.100.11:8888/v1` (backup `~/ai/services/litellm/config.yaml.bak-20261016-pre-glm-pair`), `docker restart spark-litellm`, healthy; the reasoning shim is no longer in the path. `custom:http://127.0.0.1:4000/v1#…` cleared from the main and orchestrator Hermes caches (backups `~/.hermes/backups/glm-pair-20261016/`). Hermes one-shot via `custom:local-models` / `glm53-flash` passed. `spark-frontier use …` now refuses with a pointer to the pair (backup `~/.local/bin/spark-frontier.before-glm-pair-20261016`); `status` and `restore-spark-fast` unchanged. `deepseek41-flash` still points at the old FirstSpark-head address and will fail if called.
+
 
 - LiteLLM on FirstSpark: point `glm53-flash` (and `deepseek41-flash` when swapped in) at the pair's head on SecondSpark, e.g. `http://192.168.100.11:8100/v1`, instead of `192.168.0.101:8100`. Restart `spark-litellm` with `docker restart spark-litellm` (`docker compose restart` failed silently on 13 Oct).
 - Hermes: the `local-models` provider already lists `glm53-flash` and `deepseek41-flash`; no provider change needed. Clear the `custom:http://127.0.0.1:4000/v1#…` entries in `~/.hermes/provider_models_cache.json` (and `profiles/*/`) if the list changes.
@@ -231,7 +246,8 @@ So the recipe needs a fresh ~178 GB download (checkpoint + drafter) on the head;
 |---|---|---|
 | `~/.cache/huggingface/dsv41-exl3` + `dsv41-engram` and the hard-linked `~/src/frontier/deepseek41-dual/{model,engram-src}` | 387 GB | moved to the pair |
 | `~/.cache/huggingface/hub/models--Qwen--Qwen3.8-Flash-Next-FP8` | 173 GB | slowest variant (41 tok/s), no other copy needed |
-| `~/.cache/huggingface/hub/models--Mia-AiLab--GLM-5.3-Flash-EXL3-TR3-4bpw` | 164 GB | Second and Third have copies |
+| `~/.cache/huggingface/hub/models--Mia-AiLab--GLM-5.3-Flash-EXL3-TR3-4bpw` | 164 GB | the pair runs a different checkpoint; no lane uses TR3 now |
+| `~/.cache/huggingface/hub/models--incoai--GLM-5.3-Flash-DFlash2` | 2.2 GB | old drafter revision; the pair has its own |
 | `~/.cache/huggingface/hub/models--nvidia--Qwen3.8-Flash-Next-NVFP4` | 124 GB | SecondSpark has it |
 | `~/.cache/huggingface/hub/models--brandonmusic--GLM-5.3-Flash-tr3-4bpw` | 35 GB | no lane uses it |
 | `~/.cache/huggingface/hub/models--nvidia--Qwen3.6-35B-A3B-NVFP4` | 22 GB | the 35B runs `unsloth/Qwen3.6-35B-A3B-NVFP4` |
@@ -242,7 +258,11 @@ So the recipe needs a fresh ~178 GB download (checkpoint + drafter) on the head;
 
 Keep: `models--unsloth--Qwen3.6-35B-A3B-NVFP4` (live 35B), `~/ai/stores/models/ggml-org-Qwen3.8-27B-*` (live 27B + drafter). Decide separately: `models--nvidia--Qwen3.6-27B-NVFP4` + `models--z-lab--Qwen3.6-27B-DFlash` (24 GB, `qwen27-dflash` lane) and `models--nvidia--Nemotron-3-Nano-Omni-30B-A3B-Reasoning-NVFP4` (21 GB, `nemotron3-omni` lane). Both lanes are listed in LiteLLM but their containers aren't running.
 
-SecondSpark, ~60 GB: `models--Vontra--Qwen3.8-Flash-Next-MLX-4bit-MTP` (11 GB, MLX doesn't run on these machines), `~/ai/staging/qwen38-q4-k-m` (25 GB staging copy of FirstSpark's 27B files), ~25 GB unused Docker images.
+SecondSpark, ~250 GB: `models--Mia-AiLab--GLM-5.3-Flash-EXL3-TR3-4bpw` (164 GB, replaced by the TensorFold checkpoint), the old DFlash2 revision `snapshots/dc77ff1c…` and its blobs inside `models--incoai--GLM-5.3-Flash-DFlash2` (2.2 GB; keep the `bf582e4e…` snapshot), `models--Vontra--Qwen3.8-Flash-Next-MLX-4bit-MTP` (11 GB, MLX doesn't run on these machines), `~/ai/staging/qwen38-q4-k-m` (25 GB staging copy of FirstSpark's 27B files), `~/hf-staging` (empty leftovers of the download), Docker images `ghcr.io/miaai-lab/glm-5.3-flash-2x-dgx-sparks:exl3-instanttensor` (20.9 GB, old GLM) and `ghcr.io/miaai-lab/deepseek-v4.1-flash-exl3-2x-dgx-sparks:2.9bpw` (22.5 GB). Keep `models--nvidia--Qwen3.8-Flash-Next-NVFP4` and the `tensorfold-qwen38` image if you want the single-node Qwen lane back.
+
+ThirdSpark: `~/hf-test` (0.6 GB partial test shard).
+
+FirstSpark services no longer needed by GLM (stop/disable only if you want; they are aux services, left untouched): `glm-reasoning-shim.service` (port 8101), and the `vllm-fn-nfs` container (old NFS exporter, up 16 h).
 
 Example removal, FirstSpark, after verification:
 
@@ -253,7 +273,7 @@ rm -rf ~/.cache/huggingface/hub/models--Qwen--Qwen3.8-Flash-Next-FP8
 
 For DeepSeek, remove both hard-linked paths, or the space isn't freed.
 
-## 9. Order of work
+## 9. Order of work (steps 1–3 done 16 Oct; DeepSeek dropped in section 5)
 
 1. **You:** plug one QSFP112 DAC into SecondSpark Port0 ↔ ThirdSpark Port0; run `hf auth login` on ThirdSpark; NGC `docker login nvcr.io` if the recipe pulls NGC images.
 2. Configure and test the new link (section 4), including NCCL.

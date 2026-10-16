@@ -14,8 +14,32 @@ Snapshot: 2026-09-30, adding the saved SecondSpark TensorFold qualification whil
 | `glm53-flash-dflash-500k` | 500,000 | 21.484 | 24.098 | 32.260 | 49.242 | 490,022 | Pass / pass / pass | `20260922-092858` | — |
 | `deepseek41-bringup-131k` | 131,072 | 29.564 | 34.153 | 34.875 | 34.803 | 120,019 | Pass / pass / pass | `20260922-174513` | — |
 | `deepseek41-flash` (DSpark/600K) | 600,000 | 29.989 | 34.477 | 50.746 | 47.014 | 580,019 | Pass / pass / pass | `20260922-104802` | — |
+| **`glm53-flash-tf-fp8`** (Second+Third pair, TensorFold, **live**) | 1,048,576 | 40.585 | **42.986** | 62.623 | 107.586 | 790,022 | Pass / pass / pass | `20261016-115541` | — |
+| `glm53-flash-tf-q4` (same, `DENSE=q4`, not kept) | 1,048,576 | 47.892 | 55.977 | 79.932 | 145.095 | 790,022 | Pass / pass / pass | `20261016-121319` | — |
 
 All listed chat, tool, vision, context, and concurrency results passed in their saved runs. TensorFold's direct SecondSpark run and separate routed Hermes workflow receipt are detailed below. The earlier Qwen NVFP4/FP8 headline rows and both single-node v0.30 attempts remain unchanged. The updated GLM row also has a passing `identity.json` receipt and retained `ORANGE-427` through a 790,022-token prompt in 250.867 seconds. Its matched five-run recipe benchmarks are stored beside the probe results: structured decode **24.169 tok/s** median and hash-map prose **19.572 tok/s** median, versus **18.966** and **19.261** immediately before the source refresh. The structured improvement is +27.4%; prose is +1.6%.
+
+### GLM 5.3 Flash on the SecondSpark + ThirdSpark pair — 2026-10-16
+
+[MiaAI-Lab TensorFold recipe](https://github.com/MiaAI-Lab/GLM-5.3-Flash-EXL3-2x-DGX-Sparks-TensorFold) at `3fd60dfc` (image `v0.6.0-e66c657a433d`), checkpoint `Mia-AiLab/GLM-5.3-Flash-EXL3-4bpw-TensorFold@078455ff`, DFlash2 `@bf582e4e`, FP8 KV, 1,048,576 window, 4 requests, `--thinking-budget 16384`, `TF_GLM_LOOP_GUARD=1`. Head SecondSpark, worker ThirdSpark over Port0 (both rails). Probe run from FirstSpark against `http://192.168.100.11:8888` with `scripts/glm53-pair-qualify.sh` (the standard probe: thinking off, temperature 0, 512-token cap; every C request hit the cap). Raw receipts: `~/frontier-results/glm53-flash-tf-{fp8,q4}/` on FirstSpark.
+
+| | `DENSE=fp8` (kept) | `DENSE=q4` | Old GLM (`glm53-flash`, 21 Sep) |
+|---|---:|---:|---:|
+| Prose C1 / C2 / C4 tok/s | **42.986** / 62.623 / 107.586 | 55.977 / 79.932 / 145.095 | 23.826 / 34.136 / 47.510 |
+| Code C1 / C2 / C4 tok/s (LRU-cache + pytest prompt) | **57.415** / 77.117 / 145.332 | 64.353 / 89.251 / 216.652 | not measured |
+| Quality response | 420 tokens, 40.585 tok/s, pass | 463 tokens, 47.892 tok/s, pass | 18.685 tok/s |
+| Retrieval (`ORANGE-427`) at 30,022 / 195,022 / 790,022 tokens | pass in 17.6 / 109.0 / 423.3 s | pass in 13.6 / 93.3 / 367.6 s | 790,022 in 250.9 s |
+| Loop check (3 prompts, thinking on, `reasoning_effort: max`) | all stop on their own; 78.5 / 53.3 / 53.1 tok/s; answers correct | all stop; 79.3 / 63.9 / 61.2 tok/s; correct | — |
+| Recipe `tools/end_of_turn.py` (8 short French coding prompts × 6) | **1/48** cut by `max_tokens`; P(end of turn) mean 0.82 | **4/48** cut; mean 0.68 | — |
+| Lowest `MemAvailable` head / worker | 7.3 / 9.9 GiB | 8.1 / 10.8 GiB | — |
+| Kernel memory / Xid errors | none | none | — |
+| Shared KV pool | 2,271,232 tokens | 2,582,528 tokens | — |
+
+Decision: **keep `DENSE=fp8`**. q4 is 15–30% faster but measurably worse on the recipe's own end-of-turn test (issue #18), so it is not "clearly better without quality loss". fp8 single-request is 1.8× the old GLM on prose and clears the 30 tok/s bar on both prose and code.
+
+Not measured: TTFT and isolated prefill/decode (sparkDash), long multi-turn agent soak, 4 simultaneous near-1M prompts, behaviour after a reboot (the containers use restart policy `no`). The 790K prefill is ~1.7× slower than the old build (423 s vs 251 s).
+
+Routed: LiteLLM `glm53-flash` → `http://192.168.100.11:8888/v1` (no reasoning shim; streamed `reasoning_content` arrives intact). A Hermes `custom:local-models` / `glm53-flash` one-shot made 2 tool calls, wrote both files and returned correct SHA-256 hashes plus `HERMES_GLM_PAIR_OK` in 22 s (fp8) and 32 s (q4).
 
 ### SecondSpark Qwen TensorFold qualification — 2026-09-30
 
