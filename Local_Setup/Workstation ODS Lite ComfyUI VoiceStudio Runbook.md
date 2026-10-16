@@ -27,6 +27,27 @@ How the occasional-use creative/search tools on the Windows workstation are set 
 - **Don't** run `ods start` / `ods.ps1 start` or the ODS dashboard's start: they bring up the full 20-container stack again. If that happens, `scripts/ods-lite.ps1 on` returns it to the slim set. `ods-lite.ps1 off` also quits Docker and runs `wsl --shutdown` to free RAM.
 - The desktop **ODS** icon is a Vivaldi app for the ODS dashboard, which no longer runs.
 
+## ComfyUI: how to use it
+
+1. Double-click **ComfyUI** on the desktop (it turns Qwen off first). Wait for `To see the GUI go to: http://127.0.0.1:8188`, then open that URL.
+2. Left sidebar → **Templates** (or Workflow → Browse Templates). Pick one from the table, then press **Run** (Ctrl+Enter). The first run loads the models from disk and is slow; later runs are fast.
+3. Outputs go to `D:\Apps\ComfyUI\ComfyUI\output`. Inputs you upload go to `...\ComfyUI\input`.
+4. When you're done, close the ComfyUI console window and double-click **Qwen ON**.
+
+| Want | Template | Models already installed |
+|---|---|---|
+| Picture from text | Image → **Qwen Image 2.1: Text to Image** | `qwen_image_2.1_int8_convrot`, `qwen3vl_8b_int8_convrot`, `qwen_image_2.1_vae_bf16`, prompt enhancer `..._pe_t2i` |
+| Edit a picture | Image → **Qwen Image 2.1: Image Edit** | same, plus enhancer `..._pe_i2i`. First image = the one to edit; others are references (`<image1>`, `<image2>`) |
+| Body / head swap, relighting | Edit template + a **LoraLoaderModelOnly** between the model loader and the sampler | `loras/bfs_body_swap_v1.0_qwen_2.1`, `bfs_head_v1.1_qwen_2.1`, `Qwenimag21_c2-st2000` (lighting: start the prompt with `pengyu`) |
+| Video with sound from text or a first frame | Video → **MiniMax H3: Text to Video** / **MiniMax H3: Image to Video** | `minimax_h3_fl2va_pruned_int8_convrot`, `qwen3vl_32b_minimax_h3_nvfp4_awq`, video VAE int8, audio VAE, turbo LoRAs 4-step/8-step |
+| Video from reference images / character swap | Video → **MiniMax H3: Reference to Video** | `minimax_h3_ref2va_pruned_int8_convrot`, `ref2v_turbo_4step` LoRA, `h3_character_swap_v1.5` |
+| Video looks | Add a LoRA loader to an H3 template | `handheld_h3_100` (shaky cam; don't write "camera" in the prompt), `h3-realism-people-t2v-i2v-r2v` (trigger `r34l1sm`, strength 0.6–1.0), drbaph `minimax_h3_turbo_v4_step600_ema_pruned_comfyui` |
+| Style ideas | Add node **Clio Style** (custom node `clio-style-preview`, 400+ styles); feed its text output into the prompt | — |
+
+Tips: skip templates marked **API** (and all "H3 Max" ones): they run on paid cloud services, not this GPU. Keep Qwen images at 1024×1024 until it works, then go up (multiples of 32). H3: 1344×768 is full 16:9 quality, and short 4–5 s clips first. For faster H3 video, start ComfyUI with `D:\Apps\ComfyUI\run_nvidia_gpu_fast_fp16_accumulation.bat` instead (run **Qwen OFF** first); it switches VAEs to fp16, so keep the normal icon for image work. If a template shows a red "missing model" box, the file it names isn't installed. Pick the installed one in that loader's dropdown, or bypass the node (Ctrl+B).
+
+Not installed on purpose: LTX 2.5 video restoration (gated licence you must accept on Hugging Face, plus ~45 GB more and the ComfyUI-LTXVideo node pack), Mitsuba VLM (repo no longer public), Qwen pixel-drift nodes (repo not confirmed). Per-model details: the tutorials linked from [[Social Capture Local AI Model Exploration Guide]].
+
 ## Rollback
 
 Copy `D:\LocalLLama\ods-backup-20261016` back over `D:\LocalLLama\ods`, put `startup\ods-host-agent.vbs` back in the Startup folder, then `docker compose $(cat .compose-flags) up -d`.
