@@ -180,6 +180,8 @@ Open `http://127.0.0.1:5555`.
 
 **Update 2026-10-16:** FirstSpark runs upstream `main` (2.50.0, `3e6d4ef`), no longer the pinned `e448d6b`. Update with `git pull --ff-only` then `docker compose -f docker-compose.yml -f docker-compose.local.yml up -d --build` in `~/src/frontier/sparkDash`. An untracked `Dockerfile.dockerignore` (listed in `.git/info/exclude`) adds `config/backup-*` because a root-owned backup folder there otherwise fails the build context with `permission denied`.
 
+**Units added 2026-10-16:** `thirdspark` (LAN `192.168.0.182`, CX-7 `192.168.102.12`, shared key, LLM monitoring off) and `workstation` (Windows, `100.91.148.63` over Tailscale because LAN port 22 is firewalled). sparkDash rejects SSH user names with spaces, so the workstation uses a dedicated `sparkdash` account created by `scripts/sparkdash-windows-unit.ps1` (run as admin, with Command Center open). Any non-admin SSH login, key or password, is denied `Win32_Processor`/`Win32_OperatingSystem`, which zeroes CPU and RAM. So `sparkdash` is an Administrator that logs in by password. Each script run sets a new random password and PATCHes it straight into sparkDash's encrypted secrets.
+
 ## Step 7 — Add the two Sparks
 
 Add FirstSpark:

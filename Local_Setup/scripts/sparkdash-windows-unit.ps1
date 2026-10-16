@@ -29,8 +29,9 @@ Invoke-RestMethod -Method Patch -Uri $UnitUrl -ContentType 'application/json' -B
 Remove-Variable plainPassword, body
 
 # SSH logons count as remote to WMI, so CIM queries need Remote Management Users;
-# Performance Monitor Users covers the GPU engine counters.
-foreach ($group in 'Users', 'Remote Management Users', 'Performance Monitor Users') {
+# Performance Monitor Users covers the GPU engine counters. Win32_Processor and
+# Win32_OperatingSystem (CPU, RAM) stay denied to any non-admin SSH login, hence Administrators.
+foreach ($group in 'Users', 'Remote Management Users', 'Performance Monitor Users', 'Administrators') {
     try { Add-LocalGroupMember -Group $group -Member $User }
     catch [Microsoft.PowerShell.Commands.MemberExistsException] { }
 }
