@@ -228,6 +228,18 @@ So the recipe needs a fresh ~178 GB download (checkpoint + drafter) on the head;
 - DFlash2 is CC BY-NC-ND (non-commercial). For commercial use set `DRAFTER=mtp` (one request at a time, ~5–10% slower); not needed for personal use.
 - Qualification: `scripts/glm53-pair-qualify.sh` on FirstSpark. `DENSE=q4` was measured (56.0 / 64.4 tok/s) but failed the recipe's end-of-turn test more often (4/48 vs 1/48), so fp8 stays.
 
+## 6c. Qwen 3.8 Flash Next swap lane (done 16 Oct)
+
+- Recipe `~/src/frontier/qwen38-dual-tf` on SecondSpark (MiaAI-Lab/Qwen3.8-Flash-Dual-DGX-Sparks-TensorFold `6730319`). `scripts/local.sh`: `WORKER=snknitin@192.168.102.12`, `FABRIC_PEER=192.168.102.12`, `WORKER_WEIGHTS=copy`, `QUANT=nvfp4`, **`PORT=8889`** (GLM keeps 8888; TensorFold ignores the request's model name, so on a shared port the Qwen alias was silently answered by GLM).
+- Checkpoint `nvidia/Qwen3.8-Flash-Next-NVFP4@fc694b54` reused from SecondSpark; `prepare.sh` copied it to ThirdSpark over Port0. Image `tensorfold-qwen38fn:zig-db28187` was **built locally** (the repo's patch hash `9bebcc76fe01` no longer matches the pinned ghcr image `f3e1300f4f62`, so the pull failed with `manifest unknown`) and streamed to ThirdSpark. Recipe defaults otherwise: FP8 KV, 1M window, 16 requests, MTP drafts, thinking on, vision on.
+- **Swap** (on SecondSpark, GLM is the resident default; each direction ~100–115 s):
+  - `~/src/frontier/pair-swap.sh qwen` stops GLM and starts Qwen; if Qwen fails to start it stops it and brings GLM back.
+  - `~/src/frontier/pair-swap.sh glm` stops Qwen and starts GLM (`./start.sh --thinking-budget 16384`).
+  - `~/src/frontier/pair-swap.sh status` shows which lane answers. Source: `scripts/pair-swap.sh` in this vault.
+- Qualified 16 Oct ([[DGX Spark Frontier Model Qualification Results]]): prose C1 **66.2 tok/s** (author 67.4), code C1 75.7, C4 197 prose; 790K retrieval in 379 s; loop check, tool, vision pass; lowest `MemAvailable` 28 / 39 GiB. Re-run: `MODEL=Qwen3.8-Flash-Next CONTAINER=qwen38-fn-tf ENDPOINT=http://192.168.100.11:8889 ~/ai/tools/glm53-pair-qualify.sh <profile>` on FirstSpark.
+- Routed: LiteLLM `qwen38-flash-pair` → `http://192.168.100.11:8889/v1` (backup `~/ai/services/litellm/config.yaml.bak-20261016-pre-qwen38-pair`); `qwen38-flash-pair` added to the `local-models` model list in `~/.hermes/config.yaml` and `profiles/creator/config.yaml`; the `custom:http://127.0.0.1:4000/v1#…` cache entry cleared (backups `~/.hermes/backups/qwen38-pair-20261016/`). Hermes one-shot via `custom:local-models` / `qwen38-flash-pair` passed. While GLM is resident the alias returns a connection error, and vice versa.
+- Limits: `response_format` and `logprobs` return HTTP 400; don't use `QUANT=int4ar`. Not auto-started (restart policy `no`), same as GLM.
+
 ## 7. Routing after the move
 
 **Done 16 Oct:** `glm53-flash` → `http://192.168.100.11:8888/v1` (backup `~/ai/services/litellm/config.yaml.bak-20261016-pre-glm-pair`), `docker restart spark-litellm`, healthy; the reasoning shim is no longer in the path. `custom:http://127.0.0.1:4000/v1#…` cleared from the main and orchestrator Hermes caches (backups `~/.hermes/backups/glm-pair-20261016/`). Hermes one-shot via `custom:local-models` / `glm53-flash` passed. `spark-frontier use …` now refuses with a pointer to the pair (backup `~/.local/bin/spark-frontier.before-glm-pair-20261016`); `status` and `restore-spark-fast` unchanged. `deepseek41-flash` still points at the old FirstSpark-head address and will fail if called.
@@ -253,8 +265,8 @@ What is left:
 | Spark | Models | Images |
 |---|---|---|
 | FirstSpark | `unsloth/Qwen3.6-35B-A3B-NVFP4` (live 35B), `~/ai/stores/models` (live 27B + DFlash2 drafter), `Systran/faster-whisper-base` | those of the running services |
-| SecondSpark | GLM TensorFold checkpoint + DFlash2 `bf582e4e`, **Qwen 3.8 Flash Next NVFP4 `fc694b54`** (exactly the revision the Qwen dual TensorFold recipe pins, for the planned second lane) | `tensorfold-glm53:v0.6.0` |
-| ThirdSpark | GLM TensorFold checkpoint + DFlash2 (copied by `prepare.sh`) | `tensorfold-glm53:v0.6.0` |
+| SecondSpark | GLM TensorFold checkpoint + DFlash2 `bf582e4e`, Qwen 3.8 Flash Next NVFP4 `fc694b54` (swap lane, section 6c) | `tensorfold-glm53:v0.6.0`, `tensorfold-qwen38fn:zig-db28187`, and its build base `nvcr.io/nvidia/pytorch:26.07-py3` (24 GB, removable once the Qwen image is settled) |
+| ThirdSpark | GLM TensorFold checkpoint + DFlash2, Qwen 3.8 Flash Next NVFP4 (both copied by `prepare.sh`) | `tensorfold-glm53:v0.6.0`, `tensorfold-qwen38fn:zig-db28187` |
 
 Still to do: `~/backups/ods-to-standalone-litellm` holds 1.9 GB of root-owned files (needs sudo). The dead LiteLLM aliases were removed the same day; LiteLLM now lists `qwen3.6-35b-a3b` and `glm53-flash` ([[Model And Provider Names]]).
 
@@ -268,6 +280,6 @@ Still to do: `~/backups/ods-to-standalone-litellm` holds 1.9 GB of root-owned fi
 
 ## 10. Paste-ready continuation brief
 
-> Read `Three Spark Frontier Pair Handoff.md` in F:\Vaults\LLMWiki\Local_Setup. Goal: FirstSpark keeps files and the always-on <50B models and is never drained; SecondSpark + ThirdSpark (spark-6ce7, 192.168.0.182) run GLM 5.3 Flash (MiaAI TensorFold v0.6.0) as the resident coding model, with DeepSeek V4.1 Flash as a swap lane. First check whether the SecondSpark Port0 ↔ ThirdSpark Port0 cable is in (`ibdev2netdev`, `ethtool enp1s0f0np0`). Configure it by hand as 192.168.102.x / 192.168.103.x, without NVIDIA's ring script, and run NCCL. Copy weights over CX-7 with `rsync -aH`; don't re-download. Don't touch the existing 192.168.100/101 link or FirstSpark's services. Clean-up (section 8) is done; the Qwen 3.8 Flash Next dual TensorFold lane is the next candidate for the pair.
+> Read `Three Spark Frontier Pair Handoff.md` in F:\Vaults\LLMWiki\Local_Setup. Goal: FirstSpark keeps files and the always-on <50B models and is never drained; SecondSpark + ThirdSpark (spark-6ce7, 192.168.0.182) run GLM 5.3 Flash (MiaAI TensorFold v0.6.0) as the resident coding model, with DeepSeek V4.1 Flash as a swap lane. First check whether the SecondSpark Port0 ↔ ThirdSpark Port0 cable is in (`ibdev2netdev`, `ethtool enp1s0f0np0`). Configure it by hand as 192.168.102.x / 192.168.103.x, without NVIDIA's ring script, and run NCCL. Copy weights over CX-7 with `rsync -aH`; don't re-download. Don't touch the existing 192.168.100/101 link or FirstSpark's services. Clean-up (section 8) is done; the Qwen 3.8 Flash Next NVFP4 swap lane is installed and qualified (section 6c, `pair-swap.sh qwen|glm|status` on SecondSpark, LiteLLM `qwen38-flash-pair` on :8889). GLM stays resident by default.
 
 Related: [[DGX Spark Dual-Node Configuration And Operations Reference]], [[DGX Spark Dual-Node GLM 5.3 Flash EXL3 Tutorial]], [[DGX Spark Dual-Node DeepSeek V4.1 Flash EXL3 Tutorial]], [[DGX Spark Frontier Model Hot-Swap And Routing Guide]], [[DGX Spark Frontier Model Qualification Results]], [[Model And Provider Names]].
