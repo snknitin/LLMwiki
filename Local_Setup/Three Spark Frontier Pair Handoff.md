@@ -238,40 +238,25 @@ So the recipe needs a fresh ~178 GB download (checkpoint + drafter) on the head;
 - `~/.local/bin/spark-frontier` (drains FirstSpark, starts its lanes, sets Hermes to `custom:local-models`) should no longer be used for GLM/DeepSeek. Retire or rewrite it for the SecondSpark/ThirdSpark pair; its `restore-spark-fast` path stays useful for FirstSpark's own 35B.
 - The current `qwen38-tensorfold-second` alias (SecondSpark single node) stops working while the pair runs.
 
-## 8. Freeing space on FirstSpark
+## 8. Freeing space (done 16 Oct 2026)
 
-**Only after the pair is running and tested**, and only by you; nothing here has been deleted. Re-check each path with `du -sh` before removing.
+Done with the user's approval after the pair passed. Each path was checked first: no running container mounted it, nothing had it open, and the live GLM checkpoint and drafter resolve with no broken links afterwards. All services were checked afterwards: `glm53-flash`, `qwen3.6-35b-a3b` and the 27B answer; Hermes, LiteLLM, sparkDash, Fresh Brief, FreshRSS and SearXNG are up.
 
-| Item on FirstSpark | Size | Why it can go |
+| Spark | Before | After | Removed |
+|---|---:|---:|---|
+| FirstSpark | 1.4 TB used | **375 GB used** (3.2 TB free) | DeepSeek EXL3 + Engram and the hard-linked `~/src/frontier/deepseek41-dual` (387 GB); Qwen 3.8 FP8 (173 GB) and NVFP4 (124 GB); GLM TR3 (164 GB) and its old DFlash2; brandonmusic GLM (35 GB); unused nvidia Qwen 3.6 35B NVFP4 (22 GB); the parked `qwen27-dflash` (Qwen 3.6 27B NVFP4 + z-lab DFlash) and `nemotron3-omni` lanes' models and images; `~/.lmstudio` (41 GB); the ODS backup apart from its root-owned files; old images (old GLM/DeepSeek, vLLM nightly/latest/qwen38/NGC 26.07/v0.20.0, Nemotron vLLM, SGLang, LiteLLM v1.81.3, hermes-agent, the NFS exporters) and 12 GB of build cache. `vllm-fn-nfs` removed and `glm-reasoning-shim.service` disabled |
+| SecondSpark | 795 GB used | **401 GB used** (3.1 TB free) | GLM TR3 (164 GB); MLX Qwen (113 GB in the shared `hub/blobs`, removed blob by blob after checking none were shared); the old DFlash2 revision; `~/ai/staging`; `~/hf-staging`; the stopped single-node Qwen container and image; vLLM v0.30/qwen38, old GLM/DeepSeek and CUDA-devel images; the three NFS volume definitions |
+| ThirdSpark | — | 229 GB used | `~/hf-test` |
+
+What is left:
+
+| Spark | Models | Images |
 |---|---|---|
-| `~/.cache/huggingface/dsv41-exl3` + `dsv41-engram` and the hard-linked `~/src/frontier/deepseek41-dual/{model,engram-src}` | 387 GB | moved to the pair |
-| `~/.cache/huggingface/hub/models--Qwen--Qwen3.8-Flash-Next-FP8` | 173 GB | slowest variant (41 tok/s), no other copy needed |
-| `~/.cache/huggingface/hub/models--Mia-AiLab--GLM-5.3-Flash-EXL3-TR3-4bpw` | 164 GB | the pair runs a different checkpoint; no lane uses TR3 now |
-| `~/.cache/huggingface/hub/models--incoai--GLM-5.3-Flash-DFlash2` | 2.2 GB | old drafter revision; the pair has its own |
-| `~/.cache/huggingface/hub/models--nvidia--Qwen3.8-Flash-Next-NVFP4` | 124 GB | SecondSpark has it |
-| `~/.cache/huggingface/hub/models--brandonmusic--GLM-5.3-Flash-tr3-4bpw` | 35 GB | no lane uses it |
-| `~/.cache/huggingface/hub/models--nvidia--Qwen3.6-35B-A3B-NVFP4` | 22 GB | the 35B runs `unsloth/Qwen3.6-35B-A3B-NVFP4` |
-| `~/.lmstudio` (Nemotron 3.5 Lightning GGUF) | 41 GB | LM Studio is disabled |
-| `~/backups/ods-to-standalone-litellm` | 32 GB | 22 Sept migration backup |
-| Unused Docker images + build cache | ~56 GB | `docker image prune -a` / `docker builder prune` after copying any lane images you keep |
-| **Total** | **≈1 TB** | FirstSpark from ~1.4 TB to ~0.4 TB used |
+| FirstSpark | `unsloth/Qwen3.6-35B-A3B-NVFP4` (live 35B), `~/ai/stores/models` (live 27B + DFlash2 drafter), `Systran/faster-whisper-base` | those of the running services |
+| SecondSpark | GLM TensorFold checkpoint + DFlash2 `bf582e4e`, **Qwen 3.8 Flash Next NVFP4 `fc694b54`** (exactly the revision the Qwen dual TensorFold recipe pins, for the planned second lane) | `tensorfold-glm53:v0.6.0` |
+| ThirdSpark | GLM TensorFold checkpoint + DFlash2 (copied by `prepare.sh`) | `tensorfold-glm53:v0.6.0` |
 
-Keep: `models--unsloth--Qwen3.6-35B-A3B-NVFP4` (live 35B), `~/ai/stores/models/ggml-org-Qwen3.8-27B-*` (live 27B + drafter). Decide separately: `models--nvidia--Qwen3.6-27B-NVFP4` + `models--z-lab--Qwen3.6-27B-DFlash` (24 GB, `qwen27-dflash` lane) and `models--nvidia--Nemotron-3-Nano-Omni-30B-A3B-Reasoning-NVFP4` (21 GB, `nemotron3-omni` lane). Both lanes are listed in LiteLLM but their containers aren't running.
-
-SecondSpark, ~250 GB: `models--Mia-AiLab--GLM-5.3-Flash-EXL3-TR3-4bpw` (164 GB, replaced by the TensorFold checkpoint), the old DFlash2 revision `snapshots/dc77ff1c…` and its blobs inside `models--incoai--GLM-5.3-Flash-DFlash2` (2.2 GB; keep the `bf582e4e…` snapshot), `models--Vontra--Qwen3.8-Flash-Next-MLX-4bit-MTP` (11 GB, MLX doesn't run on these machines), `~/ai/staging/qwen38-q4-k-m` (25 GB staging copy of FirstSpark's 27B files), `~/hf-staging` (empty leftovers of the download), Docker images `ghcr.io/miaai-lab/glm-5.3-flash-2x-dgx-sparks:exl3-instanttensor` (20.9 GB, old GLM) and `ghcr.io/miaai-lab/deepseek-v4.1-flash-exl3-2x-dgx-sparks:2.9bpw` (22.5 GB). Keep `models--nvidia--Qwen3.8-Flash-Next-NVFP4` and the `tensorfold-qwen38` image if you want the single-node Qwen lane back.
-
-ThirdSpark: `~/hf-test` (0.6 GB partial test shard).
-
-FirstSpark services no longer needed by GLM (stop/disable only if you want; they are aux services, left untouched): `glm-reasoning-shim.service` (port 8101), and the `vllm-fn-nfs` container (old NFS exporter, up 16 h).
-
-Example removal, FirstSpark, after verification:
-
-```bash
-du -sh ~/.cache/huggingface/hub/models--Qwen--Qwen3.8-Flash-Next-FP8
-rm -rf ~/.cache/huggingface/hub/models--Qwen--Qwen3.8-Flash-Next-FP8
-```
-
-For DeepSeek, remove both hard-linked paths, or the space isn't freed.
+Still to do: `~/backups/ods-to-standalone-litellm` holds 1.9 GB of root-owned files (needs sudo). The LiteLLM aliases `qwen27-dflash`, `nemotron3-omni`, `qwen38-nvfp4`, `qwen38-fp8`, `deepseek41-flash` and `qwen38-tensorfold-second` now have no backend and fail if called; they are still listed in `/v1/models`.
 
 ## 9. Order of work (steps 1–3 done 16 Oct; DeepSeek dropped in section 5)
 
@@ -283,6 +268,6 @@ For DeepSeek, remove both hard-linked paths, or the space isn't freed.
 
 ## 10. Paste-ready continuation brief
 
-> Read `Three Spark Frontier Pair Handoff.md` in F:\Vaults\LLMWiki\Local_Setup. Goal: FirstSpark keeps files and the always-on <50B models and is never drained; SecondSpark + ThirdSpark (spark-6ce7, 192.168.0.182) run GLM 5.3 Flash (MiaAI TensorFold v0.6.0) as the resident coding model, with DeepSeek V4.1 Flash as a swap lane. First check whether the SecondSpark Port0 ↔ ThirdSpark Port0 cable is in (`ibdev2netdev`, `ethtool enp1s0f0np0`). Configure it by hand as 192.168.102.x / 192.168.103.x, without NVIDIA's ring script, and run NCCL. Copy weights over CX-7 with `rsync -aH`; don't re-download. Don't touch the existing 192.168.100/101 link or FirstSpark's services. The user deletes files themselves.
+> Read `Three Spark Frontier Pair Handoff.md` in F:\Vaults\LLMWiki\Local_Setup. Goal: FirstSpark keeps files and the always-on <50B models and is never drained; SecondSpark + ThirdSpark (spark-6ce7, 192.168.0.182) run GLM 5.3 Flash (MiaAI TensorFold v0.6.0) as the resident coding model, with DeepSeek V4.1 Flash as a swap lane. First check whether the SecondSpark Port0 ↔ ThirdSpark Port0 cable is in (`ibdev2netdev`, `ethtool enp1s0f0np0`). Configure it by hand as 192.168.102.x / 192.168.103.x, without NVIDIA's ring script, and run NCCL. Copy weights over CX-7 with `rsync -aH`; don't re-download. Don't touch the existing 192.168.100/101 link or FirstSpark's services. Clean-up (section 8) is done; the Qwen 3.8 Flash Next dual TensorFold lane is the next candidate for the pair.
 
 Related: [[DGX Spark Dual-Node Configuration And Operations Reference]], [[DGX Spark Dual-Node GLM 5.3 Flash EXL3 Tutorial]], [[DGX Spark Dual-Node DeepSeek V4.1 Flash EXL3 Tutorial]], [[DGX Spark Frontier Model Hot-Swap And Routing Guide]], [[DGX Spark Frontier Model Qualification Results]], [[Model And Provider Names]].
