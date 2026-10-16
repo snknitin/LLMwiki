@@ -42,6 +42,22 @@ foreach ($namespace in 'root/cimv2', 'root/StandardCimv2') {
     if ($result.ReturnValue -ne 0) { throw "Setting WMI access on $namespace failed: $($result.ReturnValue)" }
 }
 
+# sparkDash's Shutdown buttons run shutdown.exe as this account. Windows has no per-user
+# "deny shutdown" right, so take the right from the Users group; Administrators keep it.
+$rights = Join-Path $env:TEMP 'sparkdash-rights'
+secedit.exe /export /cfg "$rights.inf" /areas USER_RIGHTS /quiet | Out-Null
+$line = (Select-String -LiteralPath "$rights.inf" -Pattern '^SeShutdownPrivilege\s*=').Line
+$holders = @(($line -split '=', 2)[1].Split(',') | ForEach-Object { $_.Trim() } | Where-Object { $_ })
+if ($holders -contains '*S-1-5-32-545') {
+    $kept = @($holders | Where-Object { $_ -ne '*S-1-5-32-545' })
+    if ($kept -notcontains '*S-1-5-32-544') { $kept += '*S-1-5-32-544' }
+    $template = "[Unicode]`r`nUnicode=yes`r`n[Version]`r`nsignature=`"`$CHICAGO`$`"`r`nRevision=1`r`n[Privilege Rights]`r`nSeShutdownPrivilege = $($kept -join ',')`r`n"
+    Set-Content -LiteralPath "$rights.inf" -Value $template -Encoding Unicode
+    secedit.exe /configure /db "$rights.sdb" /cfg "$rights.inf" /areas USER_RIGHTS /quiet | Out-Null
+    if ($LASTEXITCODE -ne 0) { throw "secedit could not update the shutdown right (exit $LASTEXITCODE)." }
+}
+Remove-Item -LiteralPath "$rights.inf", "$rights.sdb", "$rights.jfm" -ErrorAction SilentlyContinue
+
 # A ProgramData key file works before the account ever has a profile folder.
 # sshd keeps the file open while sparkDash is connected, so only rewrite it when it changed.
 if (-not (Test-Path -LiteralPath $KeyFile) -or (Get-Content -LiteralPath $KeyFile -Raw).Trim() -ne $PublicKey) {
