@@ -64,4 +64,16 @@ After the three-Spark clean-up, LiteLLM lists only **`qwen3.6-35b-a3b`** (FirstS
 | `glm53-flash` `context_length` (main, creator) | 850,000 | 1,048,576 |
 | the removed names in every profile's `local-models` model list | listed | dropped |
 
-The Qwen 3.8 27B (`qwen38-27b-spark`) never went through LiteLLM: Hermes calls its admission proxy on `127.0.0.1:1235` directly. Backups: `~/ai/services/litellm/config.yaml.bak-20261016-pre-dead-aliases`, `~/.hermes/backups/dead-aliases-20261016/`. The Hermes files were rewritten with ruamel, which reflowed line wrapping and indentation; a parsed comparison showed only the changes above. Verified: LiteLLM `/v1/models`, a removed name refused, hidden `spark-fast`, the orchestrator profile answering, and Hermes → `glm53-flash`. A future Qwen dual lane gets a new alias rather than reviving an old name.
+The FirstSpark Qwen 3.8 27B (`qwen38-27b-spark`) never went through LiteLLM; it was retired later the same day (next section). Backups: `~/ai/services/litellm/config.yaml.bak-20261016-pre-dead-aliases`, `~/.hermes/backups/dead-aliases-20261016/`. The Hermes files were rewritten with ruamel, which reflowed line wrapping and indentation; a parsed comparison showed only the changes above. Verified: LiteLLM `/v1/models`, a removed name refused, hidden `spark-fast`, the orchestrator profile answering, and Hermes → `glm53-flash`. A future Qwen dual lane gets a new alias rather than reviving an old name.
+
+## Retired 16 October 2026: the FirstSpark Qwen 3.8 27B
+
+The 27B now runs only on the Windows workstation, as Hermes provider **`desktop-qwen`** / **`qwen3.8-27b-desktop`** (`https://nike-workstation.tail4a1242.ts.net:8444/v1`, verified from FirstSpark Hermes in 17 s). On FirstSpark:
+
+- Hermes providers **`spark-qwen38`** (`qwen38-27b-spark`, `127.0.0.1:1235`) and the already-disabled **`spark-lmstudio`** (Nemotron via LM Studio, `127.0.0.1:1234`) removed from the main config and all five profiles.
+- Fallbacks: each `spark-qwen38` entry became `desktop-qwen` in the same position (builder: 35B → desktop; creator: desktop → 35B; orchestrator, researcher, reviewer: desktop). The main config's `desktop-qwen` fallback lost a stray `base_url: http://127.0.0.1:4000/v1` (LiteLLM has no desktop alias, so that fallback could never have worked).
+- `auxiliary.compression` → `custom:local-models` / `qwen3.6-35b-a3b`.
+- `qwen38-native.service` and `qwen38-admission.service` stopped and disabled (unit files kept); `~/ai/stores/models` (27B Q4_K_M, UD-Q5_K_XL, DFlash2 drafter, 27 GB) and `~/.local/opt/llama.cpp-b11429` deleted. FirstSpark `MemAvailable` went from 28 to 61 GiB; the 35B is now its only resident model.
+- Backups: `~/.hermes/backups/drop-spark-27b-20261016/`. Verified afterwards: Hermes default (desktop-qwen), orchestrator and builder profiles each returned an exact reply; the 35B answered through LiteLLM.
+
+To bring a FirstSpark 27B back you would need to copy the GGUFs back, rebuild llama.cpp, re-enable both units and re-add the provider.

@@ -15,7 +15,7 @@ Plan and handoff for adding the third DGX Spark: cable it, run the big coding mo
 
 | Machine | Role |
 |---|---|
-| **FirstSpark** (`spark-07a8`, LAN 192.168.0.101) | Files, plus always-on models under ~50B: Qwen 3.6 35B-A3B (vLLM, `qwen3.6-35b-a3b`) and Qwen 3.8 27B (llama.cpp, `qwen38-27b-spark`), multi-session, scheduled and autonomous jobs. Keeps LiteLLM and Hermes. **Never drained** for a frontier model. |
+| **FirstSpark** (`spark-07a8`, LAN 192.168.0.101) | Files, plus the always-on Qwen 3.6 35B-A3B (vLLM, `qwen3.6-35b-a3b`) for multi-session, scheduled and autonomous jobs. Keeps LiteLLM and Hermes. **Never drained** for a frontier model. (Its Qwen 3.8 27B was retired 16 Oct; the 27B now runs only on the Windows desktop as `desktop-qwen`, see [[Model And Provider Names]].) |
 | **SecondSpark** (`spark-7047`) + **ThirdSpark** (`spark-6ce7`, LAN 192.168.0.182) | Dedicated pair for the big coding models (GLM 5.3 Flash / DeepSeek V4.1 Flash), running at the same time as FirstSpark. |
 
 Today the dual-node lanes use FirstSpark as head (LiteLLM `api_base http://192.168.0.101:8100`) and `spark-frontier` stops FirstSpark's services to run them. FirstSpark is already near its memory limit with its two always-on models (~24 GiB available), so frontier work has to leave it completely.
