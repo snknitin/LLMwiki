@@ -1,21 +1,33 @@
 #Requires -RunAsAdministrator
 # One-time setup so FirstSpark's sparkDash can monitor this workstation over OpenSSH.
-# sparkDash rejects SSH user names with spaces, so it gets its own non-admin account
-# that accepts only the cluster's shared key (no usable password).
+# sparkDash rejects SSH user names with spaces, so it gets its own non-admin account.
+# Key logins (S4U tokens) are denied Win32_Processor / Win32_OperatingSystem, so sparkDash
+# logs in with a random password that this script hands straight to sparkDash's encrypted store.
+# Needs Dashboard Command Center open on Spark Dash (the 127.0.0.1:5555 tunnel).
 $ErrorActionPreference = 'Stop'
 
 $User = 'sparkdash'
+$UnitUrl = 'http://127.0.0.1:5555/api/sparks/workstation'
 $PublicKey = 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPAHkGneZAUg86UmTxstaM2UUVt2a/p0zB4l1aDOf/bd shared-cluster-key'
 $KeyFile = "$env:ProgramData\ssh\sparkdash_authorized_keys"
 $SshdConfig = "$env:ProgramData\ssh\sshd_config"
 
-if (-not (Get-LocalUser -Name $User -ErrorAction SilentlyContinue)) {
-    # Random password nobody keeps: Windows blocks network logon for blank passwords.
-    $bytes = New-Object byte[] 48
-    [System.Security.Cryptography.RandomNumberGenerator]::Create().GetBytes($bytes)
-    $password = ConvertTo-SecureString ([Convert]::ToBase64String($bytes)) -AsPlainText -Force
-    New-LocalUser -Name $User -Password $password -PasswordNeverExpires -UserMayNotChangePassword -Description 'sparkDash monitoring over SSH (key only)' | Out-Null
+Invoke-RestMethod -Uri $UnitUrl.Replace('/api/sparks/workstation', '/api/health') -TimeoutSec 5 | Out-Null
+
+$bytes = New-Object byte[] 32
+[System.Security.Cryptography.RandomNumberGenerator]::Create().GetBytes($bytes)
+$plainPassword = [Convert]::ToBase64String($bytes)
+$password = ConvertTo-SecureString $plainPassword -AsPlainText -Force
+if (Get-LocalUser -Name $User -ErrorAction SilentlyContinue) {
+    Set-LocalUser -Name $User -Password $password -PasswordNeverExpires $true -Description 'sparkDash monitoring over SSH'
 }
+else {
+    New-LocalUser -Name $User -Password $password -PasswordNeverExpires -UserMayNotChangePassword -Description 'sparkDash monitoring over SSH' | Out-Null
+}
+$body = @{ ssh = @{ auth = 'pass'; password = $plainPassword } } | ConvertTo-Json -Compress
+Invoke-RestMethod -Method Patch -Uri $UnitUrl -ContentType 'application/json' -Body $body -TimeoutSec 15 | Out-Null
+Remove-Variable plainPassword, body
+
 # SSH logons count as remote to WMI, so CIM queries need Remote Management Users;
 # Performance Monitor Users covers the GPU engine counters.
 foreach ($group in 'Users', 'Remote Management Users', 'Performance Monitor Users') {
@@ -48,4 +60,4 @@ if (-not (Select-String -LiteralPath $SshdConfig -Pattern '^\s*Match User sparkd
 if ($LASTEXITCODE -ne 0) { throw 'sshd_config failed validation; sshd was not restarted.' }
 Restart-Service sshd
 
-Write-Output "Done. sparkDash can now log in as '$User' with the shared cluster key."
+Write-Output "Done. sparkDash can now log in as '$User' with its password (and the shared cluster key)."
