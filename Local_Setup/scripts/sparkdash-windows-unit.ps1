@@ -16,8 +16,25 @@ if (-not (Get-LocalUser -Name $User -ErrorAction SilentlyContinue)) {
     $password = ConvertTo-SecureString ([Convert]::ToBase64String($bytes)) -AsPlainText -Force
     New-LocalUser -Name $User -Password $password -PasswordNeverExpires -UserMayNotChangePassword -Description 'sparkDash monitoring over SSH (key only)' | Out-Null
 }
-if (-not (Get-LocalGroupMember -Group 'Users' -Member $User -ErrorAction SilentlyContinue)) {
-    Add-LocalGroupMember -Group 'Users' -Member $User
+# SSH logons count as remote to WMI, so CIM queries need Remote Management Users;
+# Performance Monitor Users covers the GPU engine counters.
+foreach ($group in 'Users', 'Remote Management Users', 'Performance Monitor Users') {
+    try { Add-LocalGroupMember -Group $group -Member $User }
+    catch [Microsoft.PowerShell.Commands.MemberExistsException] { }
+}
+
+# Windows 11 still denies those groups over SSH, so grant the account itself
+# Enable Account + Remote Enable (read-only; no method execution or writes).
+$sid = (Get-LocalUser -Name $User).SID.Value
+foreach ($namespace in 'root/cimv2', 'root/StandardCimv2') {
+    $security = Get-CimInstance -Namespace $namespace -ClassName __SystemSecurity
+    $descriptor = (Invoke-CimMethod -InputObject $security -MethodName GetSecurityDescriptor).Descriptor
+    if ($descriptor.DACL | Where-Object { $_.Trustee.SIDString -eq $sid }) { continue }
+    $trustee = New-CimInstance -ClassName Win32_Trustee -ClientOnly -Property @{ SIDString = $sid }
+    $ace = New-CimInstance -ClassName Win32_ACE -ClientOnly -Property @{ AccessMask = [uint32]0x21; AceFlags = [uint32]0; AceType = [uint32]0; Trustee = $trustee }
+    $descriptor.DACL = @($descriptor.DACL) + $ace
+    $result = Invoke-CimMethod -InputObject $security -MethodName SetSecurityDescriptor -Arguments @{ Descriptor = $descriptor }
+    if ($result.ReturnValue -ne 0) { throw "Setting WMI access on $namespace failed: $($result.ReturnValue)" }
 }
 
 # A ProgramData key file works before the account ever has a profile folder.
