@@ -196,6 +196,24 @@ Before copying GLM, check the MiaAI TensorFold v0.6.0 README: confirm it accepts
 | Image | none of the TensorFold GLM image | `ghcr.io/miaai-lab/glm-5.3-flash-exl3-2x-dgx-sparks-tensorfold@sha256:14b5072e…` (~25 GB, public GHCR; no NGC login unless it has to build from `nvcr.io/nvidia/pytorch:26.07-py3`) |
 | Disk per Spark | — | ~205 GB under `~/.cache/huggingface` + 35 GB free under Docker's root. SecondSpark has 2.9 TB free, ThirdSpark 3.5 TB |
 
+**16 Oct: ThirdSpark first-boot audit against SecondSpark.**
+
+| Item | SecondSpark | ThirdSpark | Status |
+|---|---|---|---|
+| OTA / kernel / driver | 7.5.0 / 6.17.0-1029 / 580.173.02 | 7.6.0 / 7.0.0-1019 / 580.178.04 | Differs, but NCCL measured 19.5–22.5 GB/s after the reboot, and the model runs in the same container on both. **Don't `apt upgrade` either one mid-project**: SecondSpark has 426 pending upgrades, including a new kernel and driver |
+| Docker group, GPU in a container | yes / yes | yes (added 16 Oct) / yes (`nvidia-smi -L` in the recipe image) | OK |
+| Recipe image | pulled from GHCR | copied from SecondSpark over the CX-7 link (`docker save \| docker load`, 292 s) | OK |
+| HF login / NGC login | yes / no | yes / no | OK (no NGC image needed) |
+| Timezone, NTP, swap, nvidia-persistenced | Asia/Kolkata, synced, 16G, active | same | OK |
+| CX-7 firmware, RoCE | 28.45.4028, Port0 + Port1 up | 28.45.4028, Port0 up (Port1 has no cable) | OK |
+| NCCL v2.30.7 + nccl-tests, OpenMPI 4.1.6 | yes | yes | OK |
+| Free memory at idle | 118.7 GiB | 122.9 GiB | Above the recipe's 110 GiB |
+| Desktop (gdm, graphical.target) | on, no monitor | on, no monitor (~0.5 GB) | Optional to turn off |
+| LAN address | DHCP 192.168.0.100 | DHCP 192.168.0.182 | Reserve both in the router so the LAN SSH names don't move |
+| Unattended upgrades | not installed | not installed | OK |
+
+Download speed: the line is 300 Mb/s (≈37.5 MB/s); the pinned download measured **36–40 MB/s over 2 minutes**, i.e. line rate, so ~80 min for 178 GB. Downloading on ThirdSpark in parallel would only split the same line; the worker copy goes over the 200G link instead.
+
 So the recipe needs a fresh ~178 GB download (checkpoint + drafter) on the head; `prepare.sh` then rsyncs it to the worker over the link. ThirdSpark's user is **not in the `docker` group** yet (needs sudo). Its `hf` token is in place.
 
 ## 7. Routing after the move
