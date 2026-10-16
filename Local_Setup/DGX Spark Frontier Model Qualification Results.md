@@ -61,6 +61,21 @@ Against the author's sparkDash figure (67.4 tok/s prose, one request) our end-to
 
 Known limits (recipe): `response_format` and `logprobs` return HTTP 400; INT4-AR mode not used. Not measured: the recipe's own `tools/` harnesses, 8/16-way concurrency, TTFT under sparkDash, multi-turn agent soak.
 
+### GLM pair: model-serving-minefield checks — 2026-10-16
+
+[model-serving-minefield](https://github.com/Blackwellboy/model-serving-minefield) 0.2.2 (installed into Hermes on FirstSpark by a Hermes session at 12:41; runs and reports in `~/Workspace/minefield-runs/` on FirstSpark). `minefield quick` with `--hf-repo Mia-AiLab/GLM-5.3-Flash-EXL3-4bpw-TensorFold --hf-revision 078455ff…`, run once directly against TensorFold (`192.168.100.11:8888`) and once through LiteLLM (`glm53-flash`): **identical results**, so LiteLLM adds no finding. 33 requests each; 15 checks executed on this stack, 13 clean, 3 flagged, the rest need a render path the tool does not have for TensorFold.
+
+| Result | Trap | Meaning here |
+|---|---|---|
+| Clean | 01, 02, 03, 19, 21, 23, 26, 29, 73, 72, 78, 149, multimodal | reasoning arrives in `reasoning_content`; `enable_thinking: false` really turns thinking off (and thinking is on when the switch is absent); structured `tool_calls`, `tool_choice: none` honoured; JSON schema valid with thinking on and off; streaming answer in `content`; image input; bad media path = 400; `generation_config.json` present |
+| Flagged | 77 | the TensorFold server itself accepts unknown request fields with HTTP 200 (also documented: `logit_bias` and penalties are accepted and ignored). Not fixable by config; check responses, not status codes, when testing settings |
+| Flagged | 12 | at `max_tokens=512` a hard prompt spends the whole budget thinking and returns empty `content`. A test-budget artefact; Hermes requests are not capped at 512 (server default 32,768) |
+| Flagged | 15 | no `logprobs` / echo (HTTP 400, an engine limit), so lm-eval loglikelihood multiple-choice tasks cannot run against this lane; use generative evals |
+
+Template checks via the server's own `/tokenize` + `/detokenize` (the prompt exactly as the chat route builds it): earlier-turn reasoning is **kept** (trap 04 does not apply); tool-call arguments sent as a JSON string render correctly (trap 43 does not apply); adjacent text parts in one message are joined with no separator (trap 68, real but minor); assistant turns without reasoning render `<think></think>` (trap 25). Trap 25's cost was measured with a real 3-turn Hermes session (`20261016_135336_c09930`, 6 model requests with tool calls): Hermes stores and resends `reasoning_content`, and **109,798 prompt tokens were read from cache against 21,699 processed**, so prefix reuse works.
+
+Not covered: audio/video, the 41 registry checks the tool cannot run on an "openai-compatible" stack, and the full `doctor` budget beyond `quick`.
+
 ### SecondSpark Qwen TensorFold qualification — 2026-09-30
 
 The pinned raw receipt is `/home/snknitin/frontier-results/qwen38-tensorfold-second/20260930-133213/` on FirstSpark. Its `metadata.json` records model ID `Qwen3.8-Flash-Next`, direct endpoint `http://192.168.100.11:8888`, and configured context 262,144. `identity.json`, `chat-quality.json`, `tool-call.json`, and `vision.json` all report `passed: true`. The quality response produced 306 completion tokens and 243 words in 5.412 seconds; its **56.545 tok/s** is the separate headline Quality value.
