@@ -187,6 +187,17 @@ Copy over the 200 Gb/s CX-7 links (FirstSpark → SecondSpark on 192.168.100.11;
 
 Before copying GLM, check the MiaAI TensorFold v0.6.0 README: confirm it accepts the existing `GLM-5.3-Flash-EXL3-TR3-4bpw` files or needs its own conversion. Each copy should finish in minutes; check sizes with `du -sh` on both ends afterwards.
 
+**16 Oct: README checked (recipe commit `3fd60dfc`, 12 Oct; image `v0.6.0-e66c657a433d`, 107 patches). The existing GLM files don't match it.**
+
+| | What we have (First + Second) | What the recipe pins |
+|---|---|---|
+| Checkpoint | `Mia-AiLab/GLM-5.3-Flash-EXL3-TR3-4bpw` rev `25a44fdb`, 120 shards, 164 GiB. Its `MIRROR.json` says it is a byte-identical mirror of `brandonmusic/GLM-5.3-Flash-tr3-4bpw` (ShapleyMCG codec, `serving_reader_qualified: false`), made for the older `GLM-5.3-Flash-EXL3-2x-DGX-Sparks` recipe. The repo no longer resolves on Hugging Face | `Mia-AiLab/GLM-5.3-Flash-EXL3-4bpw-TensorFold` rev `078455ff`, 83 shards, 175.7 GB (Mia's own quant, "calibrated for how TensorFold serves it"; Apache 2.0). **0 of 89 large files share a hash with ours** |
+| DFlash2 drafter | `incoai/GLM-5.3-Flash-DFlash2` rev `dc77ff1c`, 2.2 GB | rev `bf582e4e`, 2.34 GB; the weights file differs |
+| Image | none of the TensorFold GLM image | `ghcr.io/miaai-lab/glm-5.3-flash-exl3-2x-dgx-sparks-tensorfold@sha256:14b5072e…` (~25 GB, public GHCR; no NGC login unless it has to build from `nvcr.io/nvidia/pytorch:26.07-py3`) |
+| Disk per Spark | — | ~205 GB under `~/.cache/huggingface` + 35 GB free under Docker's root. SecondSpark has 2.9 TB free, ThirdSpark 3.5 TB |
+
+So the recipe needs a fresh ~178 GB download (checkpoint + drafter) on the head; `prepare.sh` then rsyncs it to the worker over the link. ThirdSpark's user is **not in the `docker` group** yet (needs sudo). Its `hf` token is in place.
+
 ## 7. Routing after the move
 
 - LiteLLM on FirstSpark: point `glm53-flash` (and `deepseek41-flash` when swapped in) at the pair's head on SecondSpark, e.g. `http://192.168.100.11:8100/v1`, instead of `192.168.0.101:8100`. Restart `spark-litellm` with `docker restart spark-litellm` (`docker compose restart` failed silently on 13 Oct).
