@@ -16,7 +16,7 @@ How the occasional-use creative/search tools on the Windows workstation are set 
 | Perplexica | ODS container `ods-perplexica`, http://127.0.0.1:3004 | same **ods** group | chat `ods/current` → `:11435`; embeddings: local Transformers `all-MiniLM-L6-v2` |
 | SearXNG | ODS container `ods-searxng`, :8888 | same **ods** group | backend for both |
 | ComfyUI 0.41.0 | Native portable, `D:\Apps\ComfyUI` (not Docker), http://127.0.0.1:8188 | Desktop **ComfyUI** icon: runs `qwen-off.ps1`, then `run_nvidia_gpu.bat` | Whole RTX. Qwen holds ~45 of 48 GB, so it must be off. Run **Qwen ON** when finished |
-| VoiceStudio 0.5.6 | Electron, `%LOCALAPPDATA%\Programs\VoiceStudio` | Desktop **VoiceStudio** icon | Fresh install: data `D:\Apps\VoiceStudio\data` (`OMNIVOICE_DATA_DIR` user env var), runtime `D:\Apps\VoiceStudio\runtime`. The old 0.5.0 portable and its data were deleted 2026-10-16 |
+| VoiceStudio 0.5.6 | Electron app in `D:\Apps\VoiceStudio`; backend http://127.0.0.1:3900 | Desktop **VoiceStudio** icon | Clean install 2026-10-16 ("Max" model strategy). Data `%APPDATA%\OmniVoice`, runtime `%APPDATA%\VoiceStudio\runtime` (~18 GB, on C:). Old 0.5.0 and its data deleted; its stale "VoiceStudio 0.5.0" entry in Windows Apps is harmless |
 
 ## ODS: what changed
 
