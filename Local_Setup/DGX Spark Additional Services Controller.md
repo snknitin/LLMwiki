@@ -77,6 +77,7 @@ The optional name is case-insensitive and may omit `.service` or `.timer`. A nam
 | Kaggle Learning Lab | `kaggle-learning-center` | `kaggle-learning-center.service` | Tailscale Serve `:8772` → loopback `:8772` |
 | Dunbar Dossier | `dunbar-dossier` | `dunbar-dossier.service` | Tailscale Serve `:10000` to loopback `:8766` |
 | sparkDash | `sparkdash` | Docker Compose `sparkDash` | Windows SSH tunnel `127.0.0.1:5555` |
+| God's Eye View | `gods-eye-view` | Docker Compose `gods-eye-view` | Tailscale Serve `:4173` → loopback `:4173` ([[God's Eye View on FirstSpark]]) |
 
 The Local Setup dashboard is Windows-local on port `8767`, so it is not a FirstSpark item. Hermes Gateway, Hermes Serve, LiteLLM, and the reasoning shim appear as `protected`: bulk stop/start leaves them alone, but an explicit named command can control them. Tailscale Serve, SSH, the Frontier API and native Qwen pair appear as `locked`: they can be listed or removed from the catalog, but this command will not start or stop them.
 
