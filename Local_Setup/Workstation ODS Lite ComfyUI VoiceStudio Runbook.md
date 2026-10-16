@@ -15,7 +15,7 @@ How the occasional-use creative/search tools on the Windows workstation are set 
 | Open WebUI | ODS container `ods-webui`, http://127.0.0.1:3000 | Docker Desktop → Containers → **ods** ▶ (or `scripts/ods-lite.ps1 on`) | Desktop Qwen `:11435` (and Ollama `:11434` if the tray app is up); web search via SearXNG |
 | Perplexica | ODS container `ods-perplexica`, http://127.0.0.1:3004 | same **ods** group | chat `ods/current` → `:11435`; embeddings: local Transformers `all-MiniLM-L6-v2` |
 | SearXNG | ODS container `ods-searxng`, :8888 | same **ods** group | backend for both |
-| ComfyUI 0.41.0 | Native portable, `D:\Apps\ComfyUI` (not Docker), http://127.0.0.1:8188 | Desktop **ComfyUI** icon: runs `qwen-off.ps1`, then `run_nvidia_gpu.bat` | Whole RTX. Qwen holds ~45 of 48 GB, so it must be off. Run **Qwen ON** when finished |
+| ComfyUI 0.41.0 | Native portable, `D:\Apps\ComfyUI` (not Docker), http://127.0.0.1:8188 | **Command Center → Operations → ComfyUI** (starts it hidden, log `D:\Apps\ComfyUI\comfyui-dashboard.log`), or the desktop **ComfyUI** icon (console window) | Whole RTX. Qwen holds ~45 of 48 GB, so starting ComfyUI stops Qwen. **Qwen ON** stops ComfyUI and starts Qwen; quitting Command Center does the same for a ComfyUI it started |
 | VoiceStudio 0.5.6 | Electron app in `D:\Apps\VoiceStudio`; backend http://127.0.0.1:3900 | Desktop **VoiceStudio** icon | Clean install 2026-10-16 ("Max" model strategy). Data `%APPDATA%\OmniVoice`, runtime `%APPDATA%\VoiceStudio\runtime` (~18 GB, on C:). Old 0.5.0 and its data deleted; its stale "VoiceStudio 0.5.0" entry in Windows Apps is harmless |
 
 ## ODS: what changed
@@ -29,10 +29,10 @@ How the occasional-use creative/search tools on the Windows workstation are set 
 
 ## ComfyUI: how to use it
 
-1. Double-click **ComfyUI** on the desktop (it turns Qwen off first). Wait for `To see the GUI go to: http://127.0.0.1:8188`, then open that URL.
+1. Open **Command Center → Operations → ComfyUI**. If ComfyUI isn't running, the app stops Desktop Qwen, starts ComfyUI in the background and shows it (~15 s). Refresh restarts it only if it died. (Or: desktop **ComfyUI** icon, then open http://127.0.0.1:8188.)
 2. Left sidebar → **Templates** (or Workflow → Browse Templates). Pick one from the table, replace the example text in the **prompt** box of the big node (e.g. "Text to Image (Qwen Image 2.1)"), then press **Run** (Ctrl+Enter). Size, steps and seed are on the same node; `switch` turns on the prompt enhancer. The first run loads the models from disk and is slow; later runs are fast.
 3. Outputs go to `D:\Apps\ComfyUI\ComfyUI\output`. Inputs you upload go to `...\ComfyUI\input`.
-4. When you're done, close the ComfyUI console window and double-click **Qwen ON**.
+4. When you're done, double-click **Qwen ON** (it stops ComfyUI first), or quit Command Center.
 
 | Want | Template | Models already installed |
 |---|---|---|
