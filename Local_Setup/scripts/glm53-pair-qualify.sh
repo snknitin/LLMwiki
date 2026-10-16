@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Standardized qualification of the SecondSpark+ThirdSpark GLM 5.3 Flash TensorFold pair. Run on FirstSpark:
 #   glm53-pair-qualify.sh <profile>      e.g. glm53-flash-tf-fp8
-#   MODEL=Qwen3.8-Flash-Next CONTAINER=qwen38-fn-tf glm53-pair-qualify.sh qwen38-flash-tf-pair   (the Qwen swap lane)
+#   MODEL=Qwen3.8-Flash-Next CONTAINER=qwen38-fn-tf ENDPOINT=http://192.168.100.11:8889 glm53-pair-qualify.sh qwen38-flash-tf-pair   (the Qwen swap lane)
 # Same probe as DGX Spark Frontier Model Qualification Results, plus a code-prompt ladder and a thinking loop check.
 set -euo pipefail
 profile=${1:?profile}
@@ -9,7 +9,7 @@ test "$(hostname)" = spark-07a8 || { echo 'STOP: run on FirstSpark'; exit 1; }
 probe="$HOME/ai/tools/frontier-model-probe.py"
 model=${MODEL:-GLM-5.3-Flash-EXL3}
 container=${CONTAINER:-glm53-flash-tf}
-endpoint=http://192.168.100.11:8888
+endpoint=${ENDPOINT:-http://192.168.100.11:8888}
 floor_kib=$((4 * 1024 * 1024))   # recipe's documented low-water is ~5 GiB under a 1M prompt; stop below 4
 code_prompt='Write a complete Python module implementing a thread-safe LRU cache with per-entry TTL expiry, type hints and docstrings, followed by pytest unit tests covering eviction order, expiry and concurrent access. Output only code.'
 
