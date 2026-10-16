@@ -1,16 +1,19 @@
 #!/usr/bin/env bash
 # Standardized qualification of the SecondSpark+ThirdSpark GLM 5.3 Flash TensorFold pair. Run on FirstSpark:
 #   glm53-pair-qualify.sh <profile>      e.g. glm53-flash-tf-fp8
+#   MODEL=Qwen3.8-Flash-Next CONTAINER=qwen38-fn-tf glm53-pair-qualify.sh qwen38-flash-tf-pair   (the Qwen swap lane)
 # Same probe as DGX Spark Frontier Model Qualification Results, plus a code-prompt ladder and a thinking loop check.
 set -euo pipefail
 profile=${1:?profile}
 test "$(hostname)" = spark-07a8 || { echo 'STOP: run on FirstSpark'; exit 1; }
 probe="$HOME/ai/tools/frontier-model-probe.py"
+model=${MODEL:-GLM-5.3-Flash-EXL3}
+container=${CONTAINER:-glm53-flash-tf}
 endpoint=http://192.168.100.11:8888
 floor_kib=$((4 * 1024 * 1024))   # recipe's documented low-water is ~5 GiB under a 1M prompt; stop below 4
 code_prompt='Write a complete Python module implementing a thread-safe LRU cache with per-entry TTL expiry, type hints and docstrings, followed by pytest unit tests covering eviction order, expiry and concurrent access. Output only code.'
 
-python3 "$probe" init --profile "$profile" --model GLM-5.3-Flash-EXL3 --endpoint "$endpoint" --max-context 1048576
+python3 "$probe" init --profile "$profile" --model "$model" --endpoint "$endpoint" --max-context 1048576
 run="$(readlink -f "$HOME/frontier-results/$profile/latest")"
 started="$(date -Is)"
 for h in head:192.168.100.11 worker:ThirdSpark; do
@@ -26,7 +29,7 @@ check_safety() {
     test "$min" -ge "$floor_kib" || { echo "STOP: ${side%%:*} below 4 GiB MemAvailable"; exit 1; }
     ssh -o BatchMode=yes "${side#*:}" "journalctl -k --since '$started' --no-pager" > "$run/${side%%:*}-kernel.txt"
     ! grep -Eiq 'NV_ERR_NO_MEMORY|NVRM.*Xid|Out of memory|oom-killer' "$run/${side%%:*}-kernel.txt" || { echo "STOP: kernel error on ${side%%:*}"; exit 1; }
-    ssh -o BatchMode=yes "${side#*:}" 'test "$(docker inspect -f "{{.State.Running}}" glm53-flash-tf)" = true' || { echo "STOP: rank stopped on ${side%%:*}"; exit 1; }
+    ssh -o BatchMode=yes "${side#*:}" "test \"\$(docker inspect -f '{{.State.Running}}' $container)\" = true" || { echo "STOP: rank stopped on ${side%%:*}"; exit 1; }
   done
 }
 
@@ -41,9 +44,9 @@ python3 "$probe" concurrency --profile "$profile" --levels 1,2,4 --max-tokens 51
 check_safety
 
 # Loop check: thinking on at max effort, the server's own sampling; each must stop on its own inside the budget.
-python3 - "$endpoint" "$run/loop-check.json" <<'PY'
+python3 - "$endpoint" "$run/loop-check.json" "$model" <<'PY'
 import json, sys, time, urllib.request
-endpoint, out = sys.argv[1], sys.argv[2]
+endpoint, out, model = sys.argv[1:4]
 prompts = [
     "How many times does the letter r appear in 'strawberry raspberry cranberry'? Answer with the number.",
     "A bat and a ball cost $1.10 in total. The bat costs $1.00 more than the ball. How much is the ball? Then list three similar trick questions with answers.",
@@ -51,7 +54,7 @@ prompts = [
 ]
 rows = []
 for p in prompts:
-    body = {"model": "GLM-5.3-Flash-EXL3", "messages": [{"role": "user", "content": p}], "max_tokens": 32768, "reasoning_effort": "max"}
+    body = {"model": model, "messages": [{"role": "user", "content": p}], "max_tokens": 32768, "reasoning_effort": "max"}
     req = urllib.request.Request(f"{endpoint}/v1/chat/completions", json.dumps(body).encode(), {"Content-Type": "application/json"})
     t = time.perf_counter(); r = json.load(urllib.request.urlopen(req, timeout=3600)); e = time.perf_counter() - t
     c = r["choices"][0]; u = r.get("usage", {})
