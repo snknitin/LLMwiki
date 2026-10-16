@@ -16,6 +16,7 @@ Snapshot: 2026-09-30, adding the saved SecondSpark TensorFold qualification whil
 | `deepseek41-flash` (DSpark/600K) | 600,000 | 29.989 | 34.477 | 50.746 | 47.014 | 580,019 | Pass / pass / pass | `20260922-104802` | — |
 | **`glm53-flash-tf-fp8`** (Second+Third pair, TensorFold, **live**) | 1,048,576 | 40.585 | **42.986** | 62.623 | 107.586 | 790,022 | Pass / pass / pass | `20261016-115541` | — |
 | `glm53-flash-tf-q4` (same, `DENSE=q4`, not kept) | 1,048,576 | 47.892 | 55.977 | 79.932 | 145.095 | 790,022 | Pass / pass / pass | `20261016-121319` | — |
+| **`qwen38-flash-tf-pair`** (Second+Third pair, TensorFold NVFP4, **swap lane**) | 1,048,576 | 53.281 | **66.216** | 102.872 | 196.635 | 790,029 | Pass / pass / pass | `20261016-133342` | — |
 
 All listed chat, tool, vision, context, and concurrency results passed in their saved runs. TensorFold's direct SecondSpark run and separate routed Hermes workflow receipt are detailed below. The earlier Qwen NVFP4/FP8 headline rows and both single-node v0.30 attempts remain unchanged. The updated GLM row also has a passing `identity.json` receipt and retained `ORANGE-427` through a 790,022-token prompt in 250.867 seconds. Its matched five-run recipe benchmarks are stored beside the probe results: structured decode **24.169 tok/s** median and hash-map prose **19.572 tok/s** median, versus **18.966** and **19.261** immediately before the source refresh. The structured improvement is +27.4%; prose is +1.6%.
 
@@ -40,6 +41,25 @@ Decision: **keep `DENSE=fp8`**. q4 is 15–30% faster but measurably worse on th
 Not measured: TTFT and isolated prefill/decode (sparkDash), long multi-turn agent soak, 4 simultaneous near-1M prompts, behaviour after a reboot (the containers use restart policy `no`). The 790K prefill is ~1.7× slower than the old build (423 s vs 251 s).
 
 Routed: LiteLLM `glm53-flash` → `http://192.168.100.11:8888/v1` (no reasoning shim; streamed `reasoning_content` arrives intact). A Hermes `custom:local-models` / `glm53-flash` one-shot made 2 tool calls, wrote both files and returned correct SHA-256 hashes plus `HERMES_GLM_PAIR_OK` in 22 s (fp8) and 32 s (q4).
+
+### Qwen 3.8 Flash Next NVFP4 on the SecondSpark + ThirdSpark pair — 2026-10-16
+
+[MiaAI-Lab dual TensorFold recipe](https://github.com/MiaAI-Lab/Qwen3.8-Flash-Dual-DGX-Sparks-TensorFold) at `6730319`, `QUANT=nvfp4`, checkpoint `nvidia/Qwen3.8-Flash-Next-NVFP4@fc694b54` (reused from SecondSpark's cache; `prepare.sh` copied it to ThirdSpark over Port0), recipe defaults: FP8 KV, 1,048,576 window (YaRN ×4), 16 requests, MTP + copy drafts, thinking on, vision on. Image `tensorfold-qwen38fn:zig-db28187` **built locally**: the repo's patches hash to `9bebcc76fe01` but `config.sh` still pins the published `f3e1300f4f62` (the PR #2 revert changed the patches), so the ghcr pull returned `manifest unknown` and `prepare.sh` fell back to its documented build. Served on **port 8889** (GLM keeps 8888), head SecondSpark, worker ThirdSpark, both rails. Probe from FirstSpark: `MODEL=Qwen3.8-Flash-Next CONTAINER=qwen38-fn-tf ENDPOINT=http://192.168.100.11:8889 scripts/glm53-pair-qualify.sh qwen38-flash-tf-pair` (the run itself used 8888, before the port move). Receipts: `~/frontier-results/qwen38-flash-tf-pair/20261016-133342/` on FirstSpark.
+
+| | Qwen 3.8 Flash pair (NVFP4) | GLM 5.3 Flash pair (`DENSE=fp8`) | Qwen single-node (`qwen38-tensorfold-second`, 30 Sep) |
+|---|---:|---:|---:|
+| Prose C1 / C2 / C4 tok/s | **66.216** / 102.872 / 196.635 | 42.986 / 62.623 / 107.586 | 62.307 / 110.216 / 146.384 |
+| Code C1 / C2 / C4 tok/s | **75.674** / 144.571 / 175.660 | 57.415 / 77.117 / 145.332 | not measured |
+| Quality response | 283 tokens, 53.281 tok/s, pass | 420 tokens, 40.585 tok/s, pass | 56.545 tok/s |
+| Retrieval (`ORANGE-427`) at 30,029 / 195,029 / 790,029 tokens | pass in 9.0 / 65.2 / 378.9 s | pass in 17.6 / 109.0 / 423.3 s | 235,029 max (262K window) |
+| Loop check (thinking on, `reasoning_effort: max`) | all stop on their own; 62.1 / 67.4 / 65.6 tok/s; answers correct (9, $0.05, the `- 1` bug) | all stop; 78.5 / 53.3 / 53.1 tok/s | — |
+| Lowest `MemAvailable` head / worker | 28.0 / 39.4 GiB (during the 790K prefill) | 7.3 / 9.9 GiB | — |
+| Kernel memory / Xid errors | none | none | — |
+| Load time | 86 s (99 s with the swap) | ~90 s (113–116 s with the swap) | — |
+
+Against the author's sparkDash figure (67.4 tok/s prose, one request) our end-to-end C1 is **66.2 tok/s**, within 2%. Draft acceptance on the code prompt ~58% (~4 tokens a round). Routed: LiteLLM `qwen38-flash-pair` → `http://192.168.100.11:8889/v1`; a Hermes `custom:local-models` / `qwen38-flash-pair` one-shot ran `sha256sum` through its tools, wrote `hashes.txt` and returned both correct hashes plus `HERMES_QWEN_PAIR_OK` in 14 s.
+
+Known limits (recipe): `response_format` and `logprobs` return HTTP 400; INT4-AR mode not used. Not measured: the recipe's own `tools/` harnesses, 8/16-way concurrency, TTFT under sparkDash, multi-turn agent soak.
 
 ### SecondSpark Qwen TensorFold qualification — 2026-09-30
 
