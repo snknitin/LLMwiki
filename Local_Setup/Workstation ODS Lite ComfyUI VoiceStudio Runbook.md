@@ -30,7 +30,7 @@ How the occasional-use creative/search tools on the Windows workstation are set 
 ## ComfyUI: how to use it
 
 1. Double-click **ComfyUI** on the desktop (it turns Qwen off first). Wait for `To see the GUI go to: http://127.0.0.1:8188`, then open that URL.
-2. Left sidebar → **Templates** (or Workflow → Browse Templates). Pick one from the table, then press **Run** (Ctrl+Enter). The first run loads the models from disk and is slow; later runs are fast.
+2. Left sidebar → **Templates** (or Workflow → Browse Templates). Pick one from the table, replace the example text in the **prompt** box of the big node (e.g. "Text to Image (Qwen Image 2.1)"), then press **Run** (Ctrl+Enter). Size, steps and seed are on the same node; `switch` turns on the prompt enhancer. The first run loads the models from disk and is slow; later runs are fast.
 3. Outputs go to `D:\Apps\ComfyUI\ComfyUI\output`. Inputs you upload go to `...\ComfyUI\input`.
 4. When you're done, close the ComfyUI console window and double-click **Qwen ON**.
 
