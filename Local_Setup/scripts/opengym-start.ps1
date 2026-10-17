@@ -1,4 +1,4 @@
-# Logon task "openGym Local": starts Docker Desktop if needed, then the openGym compose stack (127.0.0.1:8095).
+# Run by the Command Center when the openGym tab opens: starts Docker Desktop if needed, then the openGym compose stack (127.0.0.1:8095).
 $ErrorActionPreference = 'Stop'
 $dir = 'E:\GIT_ROOT\External\openGym'
 docker info *> $null
