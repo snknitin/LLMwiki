@@ -1,4 +1,4 @@
-# Start desktop Qwen again (2 x 262K sessions on port 11435) and wait until it answers.
+# Start desktop Qwen again (2 x 192K sessions on port 11435) and wait until it answers.
 # ComfyUI needs the same GPU, so stop it first (whether the desktop icon or Command Center started it).
 Get-CimInstance Win32_Process -Filter "Name='python.exe'" | Where-Object { $_.CommandLine -like '*ComfyUI*main.py*' } | ForEach-Object { Stop-Process -Id $_.ProcessId -Force; Write-Host 'Stopped ComfyUI.' }
 Start-ScheduledTask -TaskName 'Desktop Qwen - llama-server'

@@ -10,7 +10,7 @@ $model = "$root\models\Qwen3.8-27B-UD-Q5_K_XL.gguf"
 $serverArgs = @(
     '--model', $model, '--mmproj', "$root\models\Qwen3.8-27B-mmproj.gguf",
     '--alias', 'qwen3.8-27b-desktop', '--host', '127.0.0.1', '--port', '11435',
-    '--ctx-size', '524288', '--parallel', '2', '--no-kv-unified',
+    '--ctx-size', '393216', '--parallel', '2', '--no-kv-unified',
     '--cache-type-k', 'q8_0', '--cache-type-v', 'q8_0', '--flash-attn', 'on', '--gpu-layers', 'all',
     '--jinja', '--reasoning-format', 'deepseek',
     '--temp', '1.0', '--top-p', '0.95', '--top-k', '20', '--min-p', '0',
@@ -30,7 +30,7 @@ $principal = New-ScheduledTaskPrincipal -UserId $User -LogonType S4U -RunLevel L
 $settings  = New-ScheduledTaskSettingsSet -ExecutionTimeLimit ([TimeSpan]::Zero) -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries `
              -RestartCount 3 -RestartInterval (New-TimeSpan -Minutes 1) -MultipleInstances IgnoreNew
 Register-ScheduledTask -TaskName $t -Action $action -Principal $principal -Trigger (New-ScheduledTaskTrigger -AtStartup) -Settings $settings `
-    -Description 'Desktop Qwen 3.8 27B, 2 x 262K on port 11435. Settings: Local_Setup\scripts\desktop-qwen-apply.ps1' -Force | Out-Null
+    -Description 'Desktop Qwen 3.8 27B, 2 x 192K on port 11435. Settings: Local_Setup\scripts\desktop-qwen-apply.ps1' -Force | Out-Null
 
 Start-ScheduledTask -TaskName $t
 $ok = $false
