@@ -6,7 +6,7 @@ scope: workstation, docker, dashboard-command-center, personal, fitness
 
 # openGym on Windows Workstation
 
-[openGym](https://github.com/DuarteSantos8/openGym) (AGPL-3.0) is a self-hosted gym and body-weight tracker. It runs on demand on this Windows PC in Docker, loopback only, and is the **openGym** tab in the Dashboard Command Center **Personal** group.
+[openGym](https://github.com/DuarteSantos8/openGym) (AGPL-3.0) is a self-hosted gym and body-weight tracker. It runs on demand on this Windows PC in Docker, loopback only, and is the **openGym** tab in the Dashboard Command Center **Personal** group. Day-to-day use: [[openGym How to Use]].
 
 | Item | Value |
 |---|---|
