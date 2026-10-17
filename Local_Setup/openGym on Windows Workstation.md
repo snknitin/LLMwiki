@@ -1,6 +1,6 @@
 ---
 updated: 2026-10-17
-status: in-progress
+status: completed
 scope: workstation, docker, dashboard-command-center, personal, fitness
 ---
 
@@ -21,6 +21,7 @@ scope: workstation, docker, dashboard-command-center, personal, fitness
 
 - `docker ps`: `opengym-web-1` on `127.0.0.1:8095->80`, `opengym-api-1` internal only.
 - `/` returned 200; `/api/health` returned `{"ok":true,"users":0,"writable":true}`.
+- Logon task `openGym Local` registered (Ready). Command Center rehashed the registry (seq 4301), opened the openGym tab and did not quarantine it.
 
 ## Notes
 
