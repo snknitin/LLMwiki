@@ -1,5 +1,5 @@
 # Run by the Command Center when the openGym tab opens: starts Docker Desktop if needed, then the openGym compose stack (127.0.0.1:8095).
-$ErrorActionPreference = 'Stop'
+# No ErrorActionPreference=Stop: Windows PowerShell turns docker's stderr into a terminating error, so the engine probe would abort the script.
 $dir = 'E:\GIT_ROOT\External\openGym'
 docker info *> $null
 if ($LASTEXITCODE -ne 0) {
@@ -9,3 +9,4 @@ if ($LASTEXITCODE -ne 0) {
   if ($LASTEXITCODE -ne 0) { throw 'Docker engine did not start within 5 minutes' }
 }
 docker compose --project-directory $dir up -d
+exit $LASTEXITCODE
