@@ -10,6 +10,8 @@ Names: `spark-fast` was renamed on 13 Oct 2026; see [[Model And Provider Names]]
 > [!summary] Active architecture
 > **DGX Spark** owns standalone Hermes Gateway, Hermes Serve, the authoritative Hermes state, LiteLLM, and the working Qwen services. **The RTX PRO 5000 Blackwell workstation** owns ODS Open WebUI, SearXNG, native Ollama, project models, evaluation, and fine-tuning. ODS does not own another Hermes installation.
 
+Working with agents: [[AI Coding Playbook]] (daily rhythm, overnight runner, shared rules) · [[Project Priorities]] · [[FirstSpark Port Registry]].
+
 This is the canonical progress and navigation page. If an older note suggests a different machine placement or execution order, follow this page.
 
 ## Current confirmed state

@@ -18,3 +18,6 @@ Local_Setup/graphify-out/cache/last_query_stamp
 
 # Dunbar Dossier live data (private contacts) - never commit to this public repo
 Agent Inbox/Dunbar Dossier/
+
+# Regenerated nightly by Local_Setup/scripts/overnight-run.ps1
+Ideas/Overnight Report.md
