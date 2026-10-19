@@ -8,7 +8,7 @@ The one list that decides what agents work on. Edit freely: reorder lines, move 
 
 **Line format:** `- <folder-name> @<harness> — <note>`
 - `<folder-name>` is the folder under `E:\GIT_ROOT\Projects` (don't rename it here).
-- `@claude` (default if omitted), `@claude:sonnet`, `@codex`, or `@hermes`. The overnight runner runs `@claude` and `@codex` lines on the desktop and skips `@hermes` (those run through Hermes cron on FirstSpark; see [[AI Coding Playbook]]).
+- `@claude` (default if omitted), `@claude:sonnet`, `@codex`, `@hermes`, or `@hermes:<model>` (for example `@hermes:glm53-flash`). `@claude` and `@codex` run on the desktop; `@hermes` runs on FirstSpark with local models (free, no usage limit). Up to 3 run at once. See [[AI Coding Playbook]].
 - The note is for you; the runner ignores it.
 
 **Tonight** is the overnight queue: the runner works through it top to bottom at 23:00 and writes [[Overnight Report]]. A project stays in Tonight until you move it out, and each night it continues from its `PROGRESS.md`. A project can only go in Tonight once it has `scripts/verify.ps1` (ask Claude: "Make <folder-name> overnight-ready").

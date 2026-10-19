@@ -17,7 +17,7 @@ How to run Claude Code, Codex and Hermes across many projects: design during the
 | FirstSpark port registry | ✅ Done | [[FirstSpark Port Registry]] | Agents read it before binding a port; two ports are still marked unknown |
 | Builder + reviewer subagents | ✅ Done | `~/.claude/agents/builder.md` (Sonnet), `reviewer.md` (Opus) | Say "use the builder for each milestone and the reviewer after" |
 | Overnight-ready projects (CLAUDE.md, `scripts/verify.ps1`, Stop-hook gate, PROGRESS.md) | ✅ 5 projects | gauntlet, vocabulary, resume, batman, motto | Ask Claude "Make <folder> overnight-ready" for more |
-| Overnight runner | ⚠️ Written and dry-run tested, **not committed, not scheduled** | `Local_Setup/scripts/overnight-run.ps1` + `agent-rules/overnight-prompt.md` | Claude's safety check won't let an agent launch unattended agents; you do the 3 one-time steps in section 6 |
+| Overnight runner | ⚠️ Written and dry-run tested, **not committed, not scheduled** | `Local_Setup/scripts/overnight-run.ps1` + `agent-rules/overnight-prompt.md` | Runs up to 3 projects at once (`-Parallel`): `@claude`/`@codex` on the desktop, `@hermes` on FirstSpark over SSH. Claude's safety check won't let an agent launch unattended agents, so you do the 3 one-time steps in section 6 |
 | Morning report | ✅ Done (written by the runner) | [[Overnight Report]] | One table: verify PASS/FAIL, git state, commits, log path |
 | Hermes nightly loops | ✅ Already existed | Hermes cron on FirstSpark | [[Hermes Nightly Runs — Loop Engineering How-to]] |
 | Codex/Claude using local Spark models | ❌ Not done | LiteLLM `127.0.0.1:4000` on FirstSpark isn't reachable from the desktop | Optional: publish LiteLLM on the tailnet, then add a Codex profile pointing at it |
@@ -57,7 +57,7 @@ How to run Claude Code, Codex and Hermes across many projects: design during the
 | Long grinding loops, private data, Spark-deployed services | **Hermes on FirstSpark** with `spark-fast` (Qwen3.6-35B-A3B) or `glm53-flash` (Second+Third Spark) | Free and unlimited; data stays local |
 | Kaggle Learning Center's own in-app model calls | **Claude API credits ($250)** | Set `ANTHROPIC_API_KEY` only in that app's service env, never globally (otherwise Claude Code bills the API instead of Max). Use prompt caching and the Batch API for bulk work. |
 
-Max (5x) has a 5-hour window and a weekly limit. If a night hits the 5-hour wall, the runner marks the rest of the queue "usage limit" and they continue the next night from PROGRESS.md.
+Max (5x) has a 5-hour window and a weekly limit. Three Claude projects in parallel use the window about three times as fast, so mix in `@hermes` and `@codex` lines to spread the load. If a night hits the 5-hour wall, the runner marks the rest of the queue "usage limit" and they continue the next night from PROGRESS.md.
 
 ## 5. What carries across Claude, Codex and Hermes
 
@@ -66,7 +66,7 @@ Max (5x) has a 5-hour window and a weekly limit. If a night hits the 5-hour wall
 | Shared rules file | ✅ `~/.claude/CLAUDE.md` block | ✅ `~/.codex/AGENTS.md` block | ✅ `~/.hermes/SOUL.md` block (FirstSpark) |
 | Project rules | CLAUDE.md | AGENTS.md | AGENTS.md / CLAUDE.md / .hermes.md |
 | Verify script as "done" | ✅ plus a Stop hook that blocks stopping | ✅ the runner re-runs verify after Codex finishes (no Stop hook) | ✅ the loop gate in its prompt files |
-| Unattended runs | runner (`@claude`), `/goal`, `/loop`, routines | runner (`@codex`, via `codex exec`) | Hermes cron + background runs |
+| Unattended runs | runner (`@claude`), `/goal`, `/loop`, routines | runner (`@codex`, via `codex exec`) | runner (`@hermes`, via `hermes chat --query-file - -Q --yolo` over SSH), Hermes cron, background runs |
 | Subagents | ✅ builder / reviewer | not set up | Hermes background review |
 | PROGRESS.md / REPORT.md / DECISIONS.md | ✅ | ✅ | ✅ (its handoff file plays REPORT's role) |
 
@@ -76,9 +76,10 @@ Tip: keep project rules in **AGENTS.md** with a one-line **CLAUDE.md** containin
 
 1. **Review and commit the runner** (from `F:\Vaults\LLMWiki`):
    `git add Local_Setup/scripts/overnight-run.ps1 Local_Setup/agent-rules/overnight-prompt.md; git commit -m "Add overnight queue runner"; git push`
-2. **First run while you watch** (catches auth or path problems):
+2. **First run while you watch** (catches auth or path problems). For a mixed test, put one project in Tonight as `@hermes` and leave the others as `@claude`:
    `powershell -NoProfile -ExecutionPolicy Bypass -File F:\Vaults\LLMWiki\Local_Setup\scripts\overnight-run.ps1 -HoursPerProject 0.5`
-   Then open [[Overnight Report]] and the log it names.
+   Then open [[Overnight Report]] and the logs it names. Add `-Parallel 1` to go back to one project at a time.
+   How `@hermes` works: the runner SSHes to FirstSpark, pulls the project, runs Hermes headless with the same prompt and a time budget, then pulls Hermes's pushed commits onto the desktop and runs `verify.ps1` here (FirstSpark has no PowerShell).
 3. **Schedule it nightly at 23:00** (PowerShell):
    ```powershell
    $a = New-ScheduledTaskAction -Execute 'powershell.exe' -Argument '-NoProfile -ExecutionPolicy Bypass -File "F:\Vaults\LLMWiki\Local_Setup\scripts\overnight-run.ps1"'
