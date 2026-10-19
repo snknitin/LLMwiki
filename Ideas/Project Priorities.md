@@ -21,16 +21,20 @@ The one list that decides what agents work on. Edit freely: reorder lines, move 
 ### Claude
 - mock-interview-gauntlet — first slice
 - vocabulary-diction-studio — first slice
+- bionic-reading-trainer — T1–T2: SvelteKit reader, emphasis + scroll/RSVP/chunk modes, screenshots
 
 ### Codex
 - resume-blueprint-studio — first slice (its branch is codex/specification)
+- epub-highlights-bridge — T1–T3: KOReader import, SQLite identity store, commentary preservation
+- latte-into-lambo — Slice 0 (T1–T2): pure Decimal kernel + golden fixtures
 
 ### Hermes
 - batman-prep-time-skill — first slice (a Codex/Hermes skill)
 - motto-agent-council — first slice (local small-agent council)
+- leetcode-pattern-curriculum — T1 + T3: lcpc predict/attempt/hint loop, two-pointers module (verify.sh on Linux)
 
 ## Ready next (overnight-ready, not queued)
-- (none yet: 5 of 9 slots are filled; make more projects overnight-ready to fill the rest)
+- (none yet: all 9 slots are filled)
 
 ## Active (built; daytime feedback and iteration)
 - agent-reach — 375 commits — Agent Reach is a Python CLI + capability layer that gives any shell-capable AI agent (Claude Co
@@ -55,7 +59,6 @@ The one list that decides what agents work on. Edit freely: reorder lines, move 
 - audio-watermark-and-perception-lab — A transparent local laboratory
 - auto-gtm-engine — A reusable release-to-market pipeline
 - b2b-competitor-battlecard — A local-first research desk that produces a one-page, call-ready competitor battlecard where ev
-- bionic-reading-trainer — An on-device PWA reading surface
 - brain-blast-skill — A Markdown skill package that turns one everyday irritation into one cheap, reversible experime
 - brainrot-rehab — A private Telegram-bot check-in
 - build-in-public-autoposter — A local CLI + review page that turns one repository's last 24 hours of git activity plus a two-
@@ -74,7 +77,6 @@ The one list that decides what agents work on. Edit freely: reorder lines, move 
 - dies-at-user-50 — An authorized synthetic-user gauntlet
 - drone-mission-mapper — Simulation-first mission planner
 - edge-desk — A read-only prediction-market research desk
-- epub-highlights-bridge — A local-first pipeline that imports highlight/note exports from KOReader (and later Calibre) in
 - event-market-research-terminal — A research-only terminal for event markets and crypto narratives
 - event-networking-copilot — A phone-first event companion
 - event-ops-agency — A local Next.js app that turns an event brief plus working spreadsheets (CSV) into a deadline-a
@@ -96,8 +98,6 @@ The one list that decides what agents work on. Edit freely: reorder lines, move 
 - knowledge-base-agency — A local pipeline + web app that turns a client's supplied documents into a citation-first knowl
 - landing-page-conversion-agency — A local CRO workbench that audits a user-OWNED landing page
 - language-learning-lab — A local-first language workbench built on three loops
-- latte-into-lambo — A private, local-only counterfactual calculator
-- leetcode-pattern-curriculum — A local, Python-only algorithms curriculum
 - linkedin-lead-list-plus-first-lines — A local research workbench
 - live-chess-tutor — A local desktop chess board for guided practice
 - local-video-generation-evaluation-lab — A reproducible CLI benchmark harness answering one question
