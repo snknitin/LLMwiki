@@ -11,19 +11,19 @@ How to run Claude Code, Codex and Hermes across many projects: design during the
 
 | Piece | Status | Where | How you use it |
 |---|---|---|---|
-| Shared agent rules (git, verify, decide-don't-ask, loops, ports, priorities) | ✅ Done | `Local_Setup/agent-rules/AGENTS.md`, synced into `~/.claude/CLAUDE.md` + `~/.codex/AGENTS.md` (desktop) and `~/.claude/CLAUDE.md` + `~/.codex/AGENTS.md` + `~/.hermes/SOUL.md` (FirstSpark) | Edit the one file, then run the sync (section 7). Never edit the copies. |
+| Shared agent rules (git, verify, decide-don't-ask, loops, ports, priorities) | ✅ Done | `Nightly Runs/agent-rules/AGENTS.md`, synced into `~/.claude/CLAUDE.md` + `~/.codex/AGENTS.md` (desktop) and `~/.claude/CLAUDE.md` + `~/.codex/AGENTS.md` + `~/.hermes/SOUL.md` (FirstSpark) | Edit the one file, then run the sync (section 7). Never edit the copies. |
 | Commit and push after each unit; agent picks branch / worktree / PR | ✅ Done (in shared rules) | all three harnesses | Nothing to do; agents say which branch they chose in their first message |
 | Project priorities | ✅ Done (markdown) | [[Project Priorities]] | Reorder lines; move a line between the Claude / Codex / Hermes lanes under **Tonight** to reassign it |
 | Agents board in Dashboard Command Center (drag-and-drop lanes, status of all three tools) | ✅ Done | Own repo [agents-board](https://github.com/snknitin/agents-board), shown in Command Center → **Nightly** → **Agents board** (`http://127.0.0.1:8768/`), see [[Agents Board in Dashboard Command Center]] | Drag cards between lanes; every move is written to [[Project Priorities]], which stays the file the runner reads |
 | Hermes main model = `glm53-flash` | ✅ Done 2026-10-19 | `~/.hermes/config.yaml` on FirstSpark (backup `config.yaml.bak-*-before-glm53-default`) | Used by `@hermes` runs and new Hermes chats; restart the gateway for Discord/etc. to pick it up |
 | FirstSpark port registry | ✅ Done | [[FirstSpark Port Registry]] | Agents read it before binding a port; two ports are still marked unknown |
 | Preflight (what needs you before a night) | ✅ Done 2026-10-19 | `overnight-run.ps1 -Preflight` → [[Preflight]] | Every run checks first and skips BLOCKED projects; run it yourself in the evening, or ask any tool to "plan tonight" |
-| Shared skills: make-overnight-ready, advance-slice, feedback-batch, design-variants, plan-tonight, morning-triage | ✅ Done 2026-10-19 | `Local_Setup/agent-rules/skills/`, copied to Claude and Codex (desktop + FirstSpark) and every Hermes profile by `sync_agent_rules.py` | Ask by name, for example "use the morning-triage skill" |
+| Shared skills: make-overnight-ready, advance-slice, feedback-batch, design-variants, plan-tonight, morning-triage | ✅ Done 2026-10-19 | `Nightly Runs/agent-rules/skills/`, copied to Claude and Codex (desktop + FirstSpark) and every Hermes profile by `sync_agent_rules.py` | Ask by name, for example "use the morning-triage skill" |
 | Shared rules in every Hermes profile (builder, creator, orchestrator, researcher, reviewer) | ✅ Done 2026-10-19 | `~/.hermes/profiles/*/SOUL.md` (backups `*.bak-*-pre-shared-rules`) | Nothing to do |
 | Remote Control for all new Claude sessions | ✅ Done 2026-10-19 | app setting "Connect new sessions to Remote Control" | Open any new session from claude.ai/code or your phone |
 | Builder + reviewer subagents | ✅ Done | `~/.claude/agents/builder.md` (Sonnet), `reviewer.md` (Opus) | Say "use the builder for each milestone and the reviewer after" |
 | Overnight-ready projects (CLAUDE.md, `scripts/verify.ps1`, Stop-hook gate, PROGRESS.md) | ✅ 5 projects | gauntlet, vocabulary, resume, batman, motto | Ask Claude "Make <folder> overnight-ready" for more |
-| Overnight runner | ⚠️ Written and dry-run tested, **not committed, not scheduled** | `Local_Setup/scripts/overnight-run.ps1` + `agent-rules/overnight-prompt.md` | Three lanes in [[Project Priorities]] (Claude, Codex, Hermes), up to 3 projects per lane at once, so 9 in parallel (`-PerHarness`). Claude and Codex run on the desktop; Hermes runs on FirstSpark over SSH with `glm53-flash`. Claude's safety check won't let an agent launch unattended agents, so you do the 3 one-time steps in section 6 |
+| Overnight runner | ⚠️ Committed with preflight, **no real run yet, not scheduled** | `Nightly Runs/scripts/overnight-run.ps1` + `agent-rules/overnight-prompt.md` | Three lanes in [[Project Priorities]] (Claude, Codex, Hermes), up to 3 projects per lane at once, so 9 in parallel (`-PerHarness`). Claude and Codex run on the desktop; Hermes runs on FirstSpark over SSH with `glm53-flash`. Claude's safety check won't let an agent launch unattended agents, so you do the 3 one-time steps in section 6 |
 | Morning report | ✅ Done (written by the runner) | [[Overnight Report]] | One table: verify PASS/FAIL, git state, commits, log path |
 | Hermes nightly loops | ✅ Already existed | Hermes cron on FirstSpark | [[Hermes Nightly Runs — Loop Engineering How-to]] |
 | Codex/Claude using local Spark models | ❌ Not done | LiteLLM `127.0.0.1:4000` on FirstSpark isn't reachable from the desktop | Optional: publish LiteLLM on the tailnet, then add a Codex profile pointing at it |
@@ -78,23 +78,22 @@ Max (5x) has a 5-hour window and a weekly limit. Three Claude projects in parall
 
 Tip: keep project rules in **AGENTS.md** with a one-line **CLAUDE.md** containing `@AGENTS.md`. Then all three harnesses read the same file.
 
-## 6. One-time steps for you (not done; blocked for agents)
+## 6. One-time steps for you (steps 2 and 3 not done yet; agents cannot start unattended agents)
 
-1. **Review and commit the runner** (from `F:\Vaults\LLMWiki`):
-   `git add Local_Setup/scripts/overnight-run.ps1 Local_Setup/agent-rules/overnight-prompt.md; git commit -m "Add overnight queue runner"; git push`
+1. ~~Review and commit the runner~~ Done: the runner and prompt are committed in `Nightly Runs/scripts/` and `Nightly Runs/agent-rules/`.
 2. **First run while you watch** (catches auth or path problems). For a mixed test, put one project in Tonight as `@hermes` and leave the others as `@claude`:
-   `powershell -NoProfile -ExecutionPolicy Bypass -File F:\Vaults\LLMWiki\Local_Setup\scripts\overnight-run.ps1 -HoursPerProject 0.5`
+   `powershell -NoProfile -ExecutionPolicy Bypass -File "F:\Vaults\LLMWiki\Nightly Runs\scripts\overnight-run.ps1" -HoursPerProject 0.5`
    Then open [[Overnight Report]] and the logs it names. Add `-PerHarness 1` to run one project per tool at a time.
    How `@hermes` works: the runner SSHes to FirstSpark, pulls the project, runs Hermes headless with the same prompt and a time budget, then pulls Hermes's pushed commits onto the desktop and runs `verify.ps1` here (FirstSpark has no PowerShell).
 3. **Schedule it nightly at 23:00** (PowerShell):
    ```powershell
-   $a = New-ScheduledTaskAction -Execute 'powershell.exe' -Argument '-NoProfile -ExecutionPolicy Bypass -File "F:\Vaults\LLMWiki\Local_Setup\scripts\overnight-run.ps1"'
+   $a = New-ScheduledTaskAction -Execute 'powershell.exe' -Argument '-NoProfile -ExecutionPolicy Bypass -File "F:\Vaults\LLMWiki\Nightly Runs\scripts\overnight-run.ps1"'
    Register-ScheduledTask -TaskName 'Overnight Agents' -Action $a -Trigger (New-ScheduledTaskTrigger -Daily -At 11pm) -Settings (New-ScheduledTaskSettingsSet -ExecutionTimeLimit (New-TimeSpan -Hours 9) -StartWhenAvailable)
    ```
    It runs only while you're logged in, which suits an always-on workstation. Remove it with `Unregister-ScheduledTask 'Overnight Agents'`.
 
 ## 7. Keeping it current
 
-- **Change the shared rules:** edit `Local_Setup/agent-rules/AGENTS.md`, then run `python F:\Vaults\LLMWiki\Local_Setup\scripts\sync_agent_rules.py` on the desktop and `ssh FirstSpark python3 ~/vaults/LLMWiki/Local_Setup/scripts/sync_agent_rules.py` (copy the two files over first if Obsidian Sync hasn't). Start a new Hermes session to pick up SOUL.md.
+- **Change the shared rules:** edit `Nightly Runs/agent-rules/AGENTS.md`, then run `python "F:\Vaults\LLMWiki\Nightly Runs\scripts\sync_agent_rules.py"` on the desktop and `ssh FirstSpark 'python3 ~/vaults/LLMWiki/"Nightly Runs"/scripts/sync_agent_rules.py'` (copy the two files over first if Obsidian Sync hasn't). Start a new Hermes session to pick up SOUL.md.
 - **New service on FirstSpark:** take a port from the free list in [[FirstSpark Port Registry]] and add its row.
 - **Claude features worth knowing:** `/goal` (keep going until the check passes), `/loop` (repeat on an interval), "use a workflow" (scripted multi-agent fan-out), `/schedule` (cloud routines that run while the PC sleeps), side sessions and worktrees for parallel writers, `/code-review` before merging, `/fewer-permission-prompts`, Remote Control (answer blockers from your phone).

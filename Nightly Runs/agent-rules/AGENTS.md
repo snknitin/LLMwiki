@@ -1,7 +1,7 @@
 # Shared agent rules (Claude Code, Codex, Hermes)
 
-Canonical copy: `LLMWiki/Local_Setup/agent-rules/AGENTS.md`. Edit only this file, then run
-`python Local_Setup/scripts/sync_agent_rules.py` on each machine (see [[AI Coding Playbook]]).
+Canonical copy: `LLMWiki/Nightly Runs/agent-rules/AGENTS.md`. Edit only this file, then run
+`python "Nightly Runs/scripts/sync_agent_rules.py"` on each machine (see [[AI Coding Playbook]]).
 
 ## Git: commit early, commit often
 Standing authorization in every git repo; no need to ask.

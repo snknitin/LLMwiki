@@ -1,7 +1,7 @@
 """Copy the shared agent rules and shared skills into each harness on this machine.
 
 Usage:  python sync_agent_rules.py          (desktop)
-        python3 ~/vaults/LLMWiki/Local_Setup/scripts/sync_agent_rules.py   (Spark)
+        python3 ~/vaults/LLMWiki/"Nightly Runs"/scripts/sync_agent_rules.py   (Spark)
 Rules go between markers, so the rest of each file is left alone and re-runs are safe.
 Skills in agent-rules/skills/<name>/ are copied whole into each harness's skills folder.
 """
