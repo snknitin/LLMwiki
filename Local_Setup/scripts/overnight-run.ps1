@@ -2,8 +2,10 @@
 # (default 3 Claude + 3 Codex + 3 Hermes = 9 in parallel).
 # @claude and @codex run here on the desktop; @hermes runs on FirstSpark over SSH. After each agent finishes,
 # the runner re-runs that project's scripts/verify.ps1 itself and writes Nightly Runs/Overnight Report.md (plus a dated copy in Nightly Runs/Logs).
-# Usage: powershell -NoProfile -ExecutionPolicy Bypass -File overnight-run.ps1 [-DryRun] [-PerHarness 3] [-HoursPerProject 3]
-param([switch]$DryRun, [int]$PerHarness = 3, [double]$HoursPerProject = 3)
+# Every run starts with a preflight: projects with blockers are skipped, and Nightly Runs/Preflight.md lists what needs you.
+# Usage: powershell -NoProfile -ExecutionPolicy Bypass -File overnight-run.ps1 [-Preflight | -DryRun] [-PerHarness 3] [-HoursPerProject 3]
+#   -Preflight  only check (run it in the evening, fix what it lists, then let 23:00 run); exit code = number of blocked projects
+param([switch]$Preflight, [switch]$DryRun, [int]$PerHarness = 3, [double]$HoursPerProject = 3)
 $ErrorActionPreference = 'Continue'
 $vault         = 'F:\Vaults\LLMWiki'
 $projects      = 'E:\GIT_ROOT\Projects'
@@ -11,6 +13,7 @@ $sparkProjects = '/home/snknitin/Workspace/GIT_ROOT/Projects'
 $ssh           = "$env:WINDIR\System32\OpenSSH\ssh.exe"
 $prioFile      = Join-Path $vault 'Nightly Runs\Project Priorities.md'
 $reportMd      = Join-Path $vault 'Nightly Runs\Overnight Report.md'
+$preflightMd   = Join-Path $vault 'Nightly Runs\Preflight.md'
 $runLogDir     = Join-Path $vault 'Nightly Runs\Logs'   # dated copy of each real run's report, kept for history
 $prompt        = Get-Content (Join-Path $vault 'Local_Setup\agent-rules\overnight-prompt.md') -Raw -Encoding UTF8
 $started       = Get-Date
@@ -29,6 +32,66 @@ foreach ($line in Get-Content $prioFile -Encoding UTF8) {
         $queue += [pscustomobject]@{ Name = $Matches[1]; Harness = $(if ($Matches[2]) { $Matches[2].ToLower() } else { $lane }); Model = $Matches[3] }
     }
 }
+
+# ---- Preflight: find everything that needs the owner before an unattended night ----
+# Blockers keep a project from running tonight; "needs input" items let it run on its recommended defaults.
+function Get-OpenItems($file) {
+    # Bullets under any heading that mentions open questions/decisions, skipping "none" placeholders.
+    if (-not (Test-Path $file)) { return @() }
+    $items = @(); $inOpen = $false
+    foreach ($l in Get-Content $file -Encoding UTF8) {
+        if ($l -match '^#{1,6}\s') { $inOpen = $l -match '(?i)open (questions?|decisions?)'; continue }
+        if ($inOpen -and $l -match '^\s*[-*]\s+(\S.*)$' -and $Matches[1] -notmatch '^(?i)\(?none') { $items += $Matches[1].Trim() }
+    }
+    return $items
+}
+$sparkState = @{}
+$hermesNames = @($queue | Where-Object { $_.Harness -eq 'hermes' } | ForEach-Object { $_.Name })
+if ($hermesNames) {
+    $check = ($hermesNames | ForEach-Object { "p=$sparkProjects/$_; if [ -d `$p/.git ]; then echo $_ ok `$(git -C `$p status --porcelain | wc -l); else echo $_ missing; fi" }) -join '; '
+    $out = @(& $ssh -o BatchMode=yes -o ConnectTimeout=10 FirstSpark $check 2>$null)
+    if (-not $out) { $hermesNames | ForEach-Object { $sparkState[$_] = 'unreachable' } }
+    foreach ($l in $out) { $f = -split $l; $sparkState[$f[0]] = $(if ($f[1] -eq 'ok') { "dirty=$($f[2])" } else { 'missing' }) }
+}
+$cliOk = @{ claude = [bool](Get-Command claude -ErrorAction SilentlyContinue); codex = [bool](Get-Command codex -ErrorAction SilentlyContinue); hermes = $true }
+$checks = @{}
+foreach ($q in $queue) {
+    $dir = Join-Path $projects $q.Name; $b = @(); $w = @()
+    if (-not (Test-Path $dir)) { $b += "folder $dir not found" }
+    else {
+        if (-not (Test-Path "$dir\scripts\verify.ps1")) { $b += 'no scripts/verify.ps1 (ask: "Make it overnight-ready")' }
+        if ($q.Harness -notin 'claude', 'codex', 'hermes') { $b += "unknown tool @$($q.Harness)" }
+        elseif (-not $cliOk[$q.Harness]) { $b += "$($q.Harness) CLI not found on this PC" }
+        git -C $dir rev-parse '@{u}' *> $null
+        if ($LASTEXITCODE -ne 0) { $b += 'no upstream branch, so commits cannot be pushed (add a GitHub remote)' }
+        if (git -C $dir status --porcelain 2>$null) { $b += 'uncommitted changes on the desktop: commit or stash them first' }
+        if ($q.Harness -eq 'hermes') {
+            $st = "$($sparkState[$q.Name])"
+            if ($st -eq 'unreachable') { $b += 'FirstSpark unreachable over SSH' }
+            elseif ($st -eq 'missing') { $b += "not cloned on FirstSpark ($sparkProjects/$($q.Name))" }
+            elseif ($st -match '^dirty=([1-9]\d*)$') { $b += "$($Matches[1]) uncommitted change(s) on FirstSpark" }
+        }
+        if (-not (Test-Path "$dir\BUILD_SPEC.md")) { $w += 'no BUILD_SPEC.md' }
+        if ($q.Harness -ne 'claude' -and -not (Test-Path "$dir\AGENTS.md")) { $w += "no AGENTS.md for @$($q.Harness) (it will fall back to CLAUDE.md if it reads it)" }
+        if (Test-Path "$dir\.claude\stop-retries") { $w += 'last run hit the stop-gate retry cap' }
+        foreach ($f in 'REPORT.md', 'PROGRESS.md') {
+            $open = @(Get-OpenItems "$dir\$f")
+            if ($open) { $w += "$($open.Count) open question(s) in $($f): " + (($open | Select-Object -First 3) -join ' / ') }
+        }
+    }
+    $checks[$q.Name] = @{ Blockers = $b; Warnings = $w }
+}
+$pf = @("# Preflight", "",
+        "Checked $((Get-Date).ToString('yyyy-MM-dd HH:mm')) for tonight's lanes. **BLOCKED** projects are skipped tonight. **NEEDS INPUT** projects still run, on their recommended defaults, unless you answer first (in the project's REPORT.md or PROGRESS.md).", "",
+        "| Project | Lane | Status | What's needed |", "|---|---|---|---|")
+foreach ($q in $queue) {
+    $c = $checks[$q.Name]
+    $status = $(if ($c.Blockers) { 'BLOCKED' } elseif ($c.Warnings) { 'NEEDS INPUT' } else { 'READY' })
+    $pf += "| $($q.Name) | $($q.Harness) | $status | $((@($c.Blockers) + @($c.Warnings)) -join '<br>') |"
+}
+if (-not $queue) { $pf += '| (Tonight list is empty) | | | |' }
+Set-Content -Path $preflightMd -Value $pf -Encoding UTF8
+if ($Preflight) { Write-Output ($pf -join "`n"); exit @($checks.Values | Where-Object { $_.Blockers }).Count }
 
 # One agent run, inside a background job. Output goes to $log.
 $worker = {
@@ -58,8 +121,7 @@ $rows = @{}; $pending = New-Object System.Collections.ArrayList
 foreach ($q in $queue) {
     $dir = Join-Path $projects $q.Name
     $rows[$q.Name] = [ordered]@{ Project = $q.Name; Harness = "$($q.Harness)$(if ($q.Model) { ':' + $q.Model })"; Verify = '-'; Git = '-'; Commits = 0; Note = '' }
-    if (-not (Test-Path "$dir\scripts\verify.ps1"))  { $rows[$q.Name].Note = 'skipped: no scripts/verify.ps1 (not overnight-ready)' }
-    elseif ($q.Harness -notin 'claude', 'codex', 'hermes') { $rows[$q.Name].Note = "skipped: unknown harness @$($q.Harness)" }
+    if ($checks[$q.Name].Blockers) { $rows[$q.Name].Note = 'skipped by preflight: ' + ($checks[$q.Name].Blockers -join '; ') }
     elseif ($DryRun) { $rows[$q.Name].Note = 'dry run: would run now' }
     else { [void]$pending.Add($q) }
 }
