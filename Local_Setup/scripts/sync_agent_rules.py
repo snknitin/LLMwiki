@@ -1,20 +1,28 @@
-"""Copy the shared agent rules into each harness's global instruction file on this machine.
+"""Copy the shared agent rules and shared skills into each harness on this machine.
 
 Usage:  python sync_agent_rules.py          (desktop)
         python3 ~/vaults/LLMWiki/Local_Setup/scripts/sync_agent_rules.py   (Spark)
-The rules go between markers, so the rest of each file is left alone and re-runs are safe.
+Rules go between markers, so the rest of each file is left alone and re-runs are safe.
+Skills in agent-rules/skills/<name>/ are copied whole into each harness's skills folder.
 """
 import pathlib
+import shutil
 import sys
 
 START, END = "<!-- shared-agent-rules:start -->", "<!-- shared-agent-rules:end -->"
-RULES = pathlib.Path(__file__).resolve().parent.parent / "agent-rules" / "AGENTS.md"
+SHARED = pathlib.Path(__file__).resolve().parent.parent / "agent-rules"
+RULES = SHARED / "AGENTS.md"
 HOME = pathlib.Path.home()
-TARGETS = [  # (file, only if this directory exists)
+TARGETS = [  # (file, only if this path exists)
     (HOME / ".claude" / "CLAUDE.md", HOME / ".claude"),
     (HOME / ".codex" / "AGENTS.md", HOME / ".codex"),
     (HOME / ".hermes" / "SOUL.md", HOME / ".hermes" / "SOUL.md"),
-]
+] + [(soul, soul) for soul in sorted((HOME / ".hermes" / "profiles").glob("*/SOUL.md"))]
+SKILL_DIRS = [  # (destination, only if this path exists)
+    (HOME / ".claude" / "skills", HOME / ".claude"),
+    (HOME / ".codex" / "skills", HOME / ".codex"),
+    (HOME / ".hermes" / "skills" / "shared", HOME / ".hermes" / "skills"),
+] + [(d / "shared", d) for d in sorted((HOME / ".hermes" / "profiles").glob("*/skills"))]  # each profile has its own
 
 
 def upsert(text: str, rules: str) -> str:
@@ -47,6 +55,15 @@ def main() -> None:
             path.with_suffix(path.suffix + ".pre-shared-rules.bak").write_text(old, encoding="utf-8")
         path.write_text(new, encoding="utf-8", newline="\n")
         print(f"update {path}")
+
+    skills = [d for d in sorted((SHARED / "skills").glob("*")) if (d / "SKILL.md").exists()]
+    for dest, needs in SKILL_DIRS:
+        if not needs.exists():
+            print(f"skip   {dest} (not installed here)")
+            continue
+        for skill in skills:
+            shutil.copytree(skill, dest / skill.name, dirs_exist_ok=True)
+        print(f"skills {dest}: {', '.join(s.name for s in skills) or 'none'}")
 
 
 if __name__ == "__main__":
