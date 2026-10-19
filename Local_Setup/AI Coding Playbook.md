@@ -45,7 +45,7 @@ How to run Claude Code, Codex and Hermes across many projects: design during the
 | Repeated taste corrections | "Add this to the project's CLAUDE.md design rules so I never repeat it: <rule>." |
 | Long goal in one session | `/goal <outcome> — verify: <command> passes` (Claude keeps going until the check is met) |
 | Parallel independent work | "Split this into separate sessions" (each gets its own card and row) or "use a workflow" for a scripted fan-out |
-| Morning triage, any harness | "Read Ideas/Overnight Report.md and each project's REPORT.md. Summarize what passed, what failed and why, and list every open question with its recommended default." |
+| Morning triage, any harness | "Read Nightly Runs/Overnight Report.md and each project's REPORT.md. Summarize what passed, what failed and why, and list every open question with its recommended default." |
 
 ## 4. Which tool and model for what
 

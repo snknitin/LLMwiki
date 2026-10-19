@@ -29,4 +29,4 @@ Standing authorization in every git repo; no need to ask.
 
 ## Shared machine resources
 - FirstSpark ports: read `LLMWiki/Local_Setup/FirstSpark Port Registry.md` before binding any port on FirstSpark. Pick a free port from it and register the new one there in the same change.
-- Project priorities live in `LLMWiki/Ideas/Project Priorities.md`. When choosing what to work on next without instructions, follow it top to bottom.
+- Project priorities live in `LLMWiki/Nightly Runs/Project Priorities.md`. When choosing what to work on next without instructions, follow it top to bottom.

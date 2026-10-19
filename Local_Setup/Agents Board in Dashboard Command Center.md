@@ -10,7 +10,7 @@ One screen to plan and check overnight agent work across Claude Code, Codex and 
 
 ## Use it
 
-- **Plan the night:** drag a project card between the Claude, Codex and Hermes lanes, or into Ready next, Active or Backlog. Dragging within a lane reorders it. Each card also has a **Move to…** menu (keyboard friendly). Every move is saved straight to `Ideas/Project Priorities.md`.
+- **Plan the night:** drag a project card between the Claude, Codex and Hermes lanes, or into Ready next, Active or Backlog. Dragging within a lane reorders it. Each card also has a **Move to…** menu (keyboard friendly). Every move is saved straight to `Nightly Runs/Project Priorities.md`.
 - **Not overnight-ready** cards (no `scripts/verify.ps1` in `E:\GIT_ROOT\Projects\<folder>`) can't be dropped into a Tonight lane.
 - **Morning check:** each card shows last night's verify PASS/FAIL, git state, commits and log path from [[Overnight Report]], the last line of its `PROGRESS.md`, and a **REPORT.md** button (amber **REPORT: open questions** when its questions section has items). The button opens the report in the board.
 - **Recent activity** under each lane: Claude Code sessions (newest `~/.claude/projects/*/*.jsonl` per project), Codex threads (`~/.codex/session_index.jsonl`), and Hermes sessions on FirstSpark (a read-only query of `~/.hermes/state.db` over `ssh FirstSpark`), with a link to the Hermes dashboard (`http://100.94.199.98:9120`). Activity is cached for 30 s (Hermes 60 s); **Refresh** reloads the board.
