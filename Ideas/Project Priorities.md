@@ -6,21 +6,31 @@ updated: 2026-10-19
 
 The one list that decides what agents work on. Edit freely: reorder lines, move them between sections, delete them.
 
-**Line format:** `- <folder-name> @<harness> — <note>`
-- `<folder-name>` is the folder under `E:\GIT_ROOT\Projects` (don't rename it here).
-- `@claude` (default if omitted), `@claude:sonnet`, `@codex`, `@hermes`, or `@hermes:<model>` (for example `@hermes:glm53-flash`). `@claude` and `@codex` run on the desktop; `@hermes` runs on FirstSpark with local models (free, no usage limit). Up to 3 run at once. See [[AI Coding Playbook]].
-- The note is for you; the runner ignores it.
+**How it works:** **Tonight** has three lanes, one per tool. The runner starts at 23:00 and runs up to **3 projects per lane at the same time** (9 in total), then writes [[Overnight Report]]. To move a project to another tool, move its line to another lane. To pause it, move it out of Tonight. A project stays in its lane until you move it, and each night it continues from its `PROGRESS.md`.
 
-**Tonight** is the overnight queue: the runner works through it top to bottom at 23:00 and writes [[Overnight Report]]. A project stays in Tonight until you move it out, and each night it continues from its `PROGRESS.md`. A project can only go in Tonight once it has `scripts/verify.ps1` (ask Claude: "Make <folder-name> overnight-ready").
+**Line format:** `- <folder-name> — <note>`
+- `<folder-name>` is the folder under `E:\GIT_ROOT\Projects` (don't rename it here). The note is for you; the runner ignores it.
+- Optional model override after the name: `@claude:sonnet`, `@codex:<model>`, `@hermes:qwen3.6-35b-a3b`. An `@tool` tag also overrides the lane.
+- Defaults: **Claude** = Opus coordinating Sonnet builders (desktop, Max plan) · **Codex** = your Codex config model (desktop, ChatGPT plan) · **Hermes** = `glm53-flash` on SecondSpark + ThirdSpark, run from FirstSpark (local, free, no usage limit).
+- Only projects with `scripts/verify.ps1` can run (ask Claude: "Make <folder-name> overnight-ready"). Lines without it are skipped and the report says so.
+
+**Which lane:** Claude for UI, product feel and tricky design. Codex for well-specified backend or CLI slices, or a second opinion on a Claude project. Hermes for private-data work, Spark-hosted services, and long grinding slices where a free local model is good enough.
 
 ## Tonight
-- mock-interview-gauntlet @claude — first slice
-- vocabulary-diction-studio @claude — first slice
-- resume-blueprint-studio @claude — first slice (branch codex/specification)
+
+### Claude
+- mock-interview-gauntlet — first slice
+- vocabulary-diction-studio — first slice
+
+### Codex
+- resume-blueprint-studio — first slice (its branch is codex/specification)
+
+### Hermes
+- batman-prep-time-skill — first slice (a Codex/Hermes skill)
+- motto-agent-council — first slice (local small-agent council)
 
 ## Ready next (overnight-ready, not queued)
-- batman-prep-time-skill @claude
-- motto-agent-council @claude
+- (none yet: 5 of 9 slots are filled; make more projects overnight-ready to fill the rest)
 
 ## Active (built; daytime feedback and iteration)
 - agent-reach — 375 commits — Agent Reach is a Python CLI + capability layer that gives any shell-capable AI agent (Claude Co
