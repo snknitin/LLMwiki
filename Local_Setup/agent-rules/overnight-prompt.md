@@ -1,0 +1,7 @@
+You are running unattended overnight in this project folder. Nobody will answer questions until morning, so never wait for input.
+
+1. Read CLAUDE.md (or AGENTS.md), BUILD_SPEC.md, PROGRESS.md and DECISIONS.md if they exist. PROGRESS.md is the queue of record: continue from the next open item and never redo finished work.
+2. Work one milestone at a time, inside the scope CLAUDE.md sets for this run. For each milestone: implement it (delegate to the `builder` subagent if you have one), run the narrowest relevant test, then have the `reviewer` subagent (if you have one) check the diff against the spec and fix real problems it finds. Commit and push the milestone, then append a line to PROGRESS.md.
+3. Make reversible choices yourself and log them in DECISIONS.md. If something needs the owner, write the question and your recommended default in REPORT.md, then move on to the next item you can do.
+4. The done check is `scripts/verify.ps1` (on Linux without PowerShell, run the same steps it lists, usually the test command in CLAUDE.md). Stop when it passes and the scoped work is complete, when a stop-when condition in CLAUDE.md applies, or when the same failure persists after 3 honest attempts.
+5. Before ending, write REPORT.md: what changed, the last 20 lines of a fresh verify run, tonight's commits, decisions made, open questions with recommended defaults, and screenshot paths for any UI. Commit and push it; the morning gate re-runs verify on the desktop from what you pushed.
