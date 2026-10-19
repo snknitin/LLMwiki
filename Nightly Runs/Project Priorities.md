@@ -33,6 +33,34 @@ The one list that decides what agents work on. Edit freely: reorder lines, move 
 - motto-agent-council — first slice (local small-agent council)
 - leetcode-pattern-curriculum — T1 + T3: lcpc predict/attempt/hint loop, two-pointers module (verify.sh on Linux)
 
+## Priority order (top 10 = daily focus)
+1. vocabulary-diction-studio
+2. finance-signals-dashboard
+3. net-worth-command-center
+4. paisa-vasool-subscriptions
+5. mock-interview-gauntlet
+6. resume-blueprint-studio
+7. personal-study-curriculum
+8. expert-lens-skill
+9. batman-prep-time-skill
+10. jobs-search-and-apply-tool
+11. npc-mode-personal-coach
+12. goal-to-calendar-planner
+13. shortform-signal-digest
+14. social-subscription-curator
+15. personal-finance-cockpit
+16. latte-into-lambo
+17. side-hustle-radar
+18. market-mood-cards
+19. meet-in-the-middle-city-explorer
+20. paper-logbook
+21. event-networking-copilot
+22. parallel-presence-companions
+23. motto-agent-council
+24. ai-implementation-agency
+25. language-learning-lab
+26. marionettist-utopia
+
 ## Ready next (overnight-ready, not queued)
 - (none yet: all 9 slots are filled)
 
