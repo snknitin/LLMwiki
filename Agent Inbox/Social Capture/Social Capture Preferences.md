@@ -20,4 +20,19 @@
 - Delegate / automate means Claude Opus can do it end to end: model runs, benchmarks, local AI exploration and research. Work that needs me (decisions, accounts, physical hardware, interviews, personal writing, networking) stays in Schedule. Goals 2 (senior role) and 4 (posting my learnings) are always my own work and are never delegated.
 - A task in Do that has not been touched for over 30 days moves out of Do automatically, even when pinned: to Delegate if Claude Opus can do it, otherwise to Schedule.
 
+## Themes
+
+Every task's Topic is exactly one of these names. Edit, add or rename themes here; the next Tighten re-themes tasks whose Topic is not on this list.
+
+- Local models & inference: running, serving and benchmarking models on the Sparks and RTX workstation (llama.cpp, SGLang, vLLM, TensorFold, OCR and retrieval models).
+- Hermes & agent tooling: setting up and configuring Hermes, agent harnesses, plugins, MCP servers, skills and agent automations.
+- Agent research & evals: reading about or benchmarking agent architectures, RAG, RL training and evaluation methods.
+- Jev & decision models: Jev, Laya, Clef and other decision/routing classifier models.
+- AI image & video: image, video and audio generation or editing (ComfyUI, Qwen Image, MiniMax H3, LTX, voice tools).
+- Home & device hacks: TVs, Kindle, phones, home automation, self-hosted personal apps and hardware tinkering.
+- Frontend & product building: UI components, dashboards, design references and product/SaaS practices for my own apps.
+- Career & job search: interview prep, applications, hiring portfolios and career strategy.
+- Content & personal brand: posts, videos, writing, marketing and growing my audience or products' reach, including every `post`-intent capture (a post to reply to, comment on with proof, engage with, or replicate as my own).
+- Learning & references: courses, books, reading lists, bookmarks and general explainers.
+
 ## Learned sorting rules
