@@ -335,6 +335,7 @@ function Complete-Run($q, $row) {
     $log = Join-Path $logDir "$($q.Name).log"
     $text = $(if (Test-Path $log) { Get-Content $log -Raw -Encoding UTF8 } else { '' })
     $text = ($text -split '(?m)^=== session \d+ ')[-1]   # only this session's output; earlier sessions were already read
+    $text = $text -replace "`0", ''   # *>> appends UTF-16 to a UTF-8 file: drop the NULs so the checks below can match
     if ($q.Harness -ne 'hermes' -and $text -match 'usage limit|limit reached|rate.limit|hit your limit') {
         $script:limited[$q.Harness] = $true; $row.Note += 'usage limit hit. '; $row.UsageLimit = $true
     }
