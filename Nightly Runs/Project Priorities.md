@@ -24,9 +24,9 @@ The one list that decides what agents work on. Edit freely: reorder lines, move 
 - paisa-vasool-subscriptions — A private, local-first subscription-utilization tracker for one user · includes merged: 27-clicks-to-cancel, renewal-guard
 
 ### Codex
-- resume-blueprint-studio @codex:sol-6-1 — first slice (its branch is codex/specification)
-- mock-interview-gauntlet @codex:sol-5-6 — first slice
-- finance-signals-dashboard @codex:sol-6-1 — A read-only, local-first personal dashboard that ranks a ten-instrument India/US watchlist by " · includes merged: market-mood-cards (Morning tab)
+- resume-blueprint-studio @codex:sol-6-1-high — first slice (its branch is codex/specification)
+- mock-interview-gauntlet @codex:sol-6 — first slice
+- finance-signals-dashboard @codex:sol-6-high — A read-only, local-first personal dashboard that ranks a ten-instrument India/US watchlist by " · includes merged: market-mood-cards (Morning tab)
 
 ### Hermes
 - expert-lens-skill — A FirstSpark dashboard for topic Markdown + GLM chat: Expert Lens, Batman Prep (with goal planner), Rabbit Hole, Research (Claim Check), Experiments (Brain Blast) · includes merged: batman-prep-time-skill, goal-to-calendar-planner, rabbit-hole-speedrun, physics-claim-debunker-skill, brain-blast-skill
@@ -126,10 +126,6 @@ Tiers P0–P5, highest first; ranks count straight through. In the Agents board,
 77. yugioh-rl-lab
 
 ## Ready next (overnight-ready, not queued)
-- bionic-reading-trainer — T1–T2: SvelteKit reader, emphasis + scroll/RSVP/chunk modes, screenshots
-- epub-highlights-bridge — T1–T3: KOReader import, SQLite identity store, commentary preservation
-- motto-agent-council — first slice (local small-agent council)
-- leetcode-pattern-curriculum — T1 + T3: lcpc predict/attempt/hint loop, two-pointers module (verify.sh on Linux)
 - creator-content-engine — Human-led content OS for one creator · includes merged: build-in-public-autoposter, my-agent-posts-about-me, x-profile-autopsy, personal-voice-ghostwriter-and-dm-desk, social-subscription-curator, longform-to-shorts-studio
 
 ## Active (built; daytime feedback and iteration)
@@ -144,6 +140,10 @@ Tiers P0–P5, highest first; ranks count straight through. In the Agents board,
 
 ## Backlog (BUILD_SPEC written, not set up for overnight yet)
 - adaptive-vision-glasses — A phone-based electronic magnifier for specific near/far tasks (reading labels, whiteboards, me
+- leetcode-pattern-curriculum — T1 + T3: lcpc predict/attempt/hint loop, two-pointers module (verify.sh on Linux)
+- motto-agent-council — first slice (local small-agent council)
+- epub-highlights-bridge — T1–T3: KOReader import, SQLite identity store, commentary preservation
+- bionic-reading-trainer — T1–T2: SvelteKit reader, emphasis + scroll/RSVP/chunk modes, screenshots
 - ambient-tv — A lean-back channel guide for the owner's own Jellyfin library
 - any-app-widget-maker — A user-configured widget builder
 - ar-scale-lens — An Android ARCore camera tool that makes an abstract measurement feel physical
