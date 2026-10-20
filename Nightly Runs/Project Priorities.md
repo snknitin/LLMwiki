@@ -66,64 +66,61 @@ Tiers P0–P5, highest first; ranks count straight through. In the Agents board,
 26. leetcode-pattern-curriculum
 27. meta-ad-creative-studio
 28. ambient-tv
-29. brain-blast-skill
-30. field-pokedex
-31. giftshelf
-32. moving-out-marketplace
-33. handwriting-to-latex
-34. local-video-generation-evaluation-lab
+29. field-pokedex
+30. giftshelf
+31. moving-out-marketplace
+32. handwriting-to-latex
+33. local-video-generation-evaluation-lab
 
 ### P3 · Later
-35. neural-fractal-visualizer
-36. news-depth-telegram-skill
-37. personal-library-website
-38. physics-claim-debunker-skill
-39. reflective-eliza-companion
-40. taxonomy-cluster-explorer
-41. visual-recipe-book
-42. maintainer-desk
-43. sales-development-agency
-44. event-ops-agency
-45. finance-ops-agency
-46. landing-page-conversion-agency
-47. community-ops-agency
-48. commute-copilot
-49. daily-parent-check-in
-50. deal-desk-agency
-51. dies-at-user-50
-52. flex-card-forge
-53. inbox-zero-mercenary
-54. knowledge-base-agency
-55. microsite-factory
-56. murder-mystery-game-master
+34. neural-fractal-visualizer
+35. news-depth-telegram-skill
+36. personal-library-website
+37. taxonomy-cluster-explorer
+38. visual-recipe-book
+39. maintainer-desk
+40. sales-development-agency
+41. event-ops-agency
+42. finance-ops-agency
+43. landing-page-conversion-agency
+44. community-ops-agency
+45. commute-copilot
+46. daily-parent-check-in
+47. deal-desk-agency
+48. dies-at-user-50
+49. flex-card-forge
+50. inbox-zero-mercenary
+51. knowledge-base-agency
+52. microsite-factory
+53. murder-mystery-game-master
 
 ### P4 · Someday
-57. on-call-autopilot
-58. recruiting-agency
-59. red-tape-navigator
-60. scam-radar
-61. seo-agency-crew
-62. shopify-product-page-optimizer
-63. user-research-agency
-64. wedding-gallery-concierge
-65. any-app-widget-maker
-66. ar-scale-lens
-67. audio-watermark-and-perception-lab
-68. feedback-mirror
-69. live-chess-tutor
+54. on-call-autopilot
+55. recruiting-agency
+56. red-tape-navigator
+57. scam-radar
+58. seo-agency-crew
+59. shopify-product-page-optimizer
+60. user-research-agency
+61. wedding-gallery-concierge
+62. any-app-widget-maker
+63. ar-scale-lens
+64. audio-watermark-and-perception-lab
+65. feedback-mirror
+66. live-chess-tutor
 
 ### P5 · Parked ideas
-70. phonescan-pdf
-71. physio-atlas
-72. playo-elo-sports-network
-73. tiny-model-game-lab
-74. visual-token-compiler
-75. event-market-research-terminal
-76. adaptive-vision-glasses
-77. drone-mission-mapper
-78. manga-to-animatic-studio
-79. song-phrase-mosaic
-80. yugioh-rl-lab
+67. phonescan-pdf
+68. physio-atlas
+69. playo-elo-sports-network
+70. tiny-model-game-lab
+71. visual-token-compiler
+72. event-market-research-terminal
+73. adaptive-vision-glasses
+74. drone-mission-mapper
+75. manga-to-animatic-studio
+76. song-phrase-mosaic
+77. yugioh-rl-lab
 
 ## Ready next (overnight-ready, not queued)
 - (none yet: all 9 slots are filled)
@@ -145,7 +142,6 @@ Tiers P0–P5, highest first; ranks count straight through. In the Agents board,
 - ar-scale-lens — An Android ARCore camera tool that makes an abstract measurement feel physical
 - audio-watermark-and-perception-lab — A transparent local laboratory
 - auto-gtm-engine — A reusable release-to-market pipeline
-- brain-blast-skill — A Markdown skill package that turns one everyday irritation into one cheap, reversible experime
 - community-ops-agency — A human-supervised operations desk for one community
 - commute-copilot — A local route-specific departure checker for one saved commute
 - competitive-intelligence-agency — A recurring, local-first monitoring pipeline · includes merged: b2b-competitor-battlecard
@@ -159,7 +155,7 @@ Tiers P0–P5, highest first; ranks count straight through. In the Agents board,
 - event-market-research-terminal — A research-only terminal for event markets and crypto narratives · includes merged: edge-desk
 - event-networking-copilot — A phone-first event companion
 - event-ops-agency — A local Next.js app that turns an event brief plus working spreadsheets (CSV) into a deadline-a · includes merged: ai-event-matchmaker
-- expert-lens-skill — A FirstSpark dashboard for topic Markdown + GLM chat: Expert Lens, Batman Prep (with goal planner), Rabbit Hole · includes merged: batman-prep-time-skill, goal-to-calendar-planner, rabbit-hole-speedrun
+- expert-lens-skill — A FirstSpark dashboard for topic Markdown + GLM chat: Expert Lens, Batman Prep (with goal planner), Rabbit Hole, Research (Claim Check), Experiments (Brain Blast) · includes merged: batman-prep-time-skill, goal-to-calendar-planner, rabbit-hole-speedrun, physics-claim-debunker-skill, brain-blast-skill
 - feedback-mirror — A privacy-first, on-device daily appearance journal
 - field-pokedex — An Expo mobile app that identifies likely plant species from a photo via a hosted identificatio
 - finance-ops-agency — A local finance-operations desk for a freelancer · includes merged: invoice-chaser-agent, tax-packet-autopilot
@@ -193,13 +189,11 @@ Tiers P0–P5, highest first; ranks count straight through. In the Agents board,
 - personal-study-curriculum — A local-first tool that turns one learning goal, weekly hours, and manually imported resources  · includes merged: course-notes-to-quiz-product
 - personalized-adhd-skill-upgrade — Upgrade the existing `i-have-adhd` skill from generic productivity advice to a small, evidence-
 - phonescan-pdf — A local-first document scanner
-- physics-claim-debunker-skill — A local research skill that turns an extraordinary claim into measurable subclaims, steelmans i
 - physio-atlas — A local-first mobile app that organizes already-prescribed or self-selected physio exercises
 - playo-elo-sports-network — A local sports matchmaker for one invite-only group
 - quiz-master — A local quiz-authoring studio that learns structural patterns from the owner's private K-Circle · includes merged: quiz-poker
 - recruiting-agency — A local hiring-design desk
 - red-tape-navigator — A local checklist compiler for Indian government procedures
-- reflective-eliza-companion — A private, local-first reflective conversation companion
 - sales-development-agency — A local research-and-drafting desk · includes merged: cold-email-rewrite-desk, linkedin-lead-list-plus-first-lines
 - scam-radar — A local evidence dashboard that analyzes a pasted gig/job post, URL, email header set, or redac
 - seo-agency-crew — A local, evidence-led editorial workbench for an owned site
@@ -271,3 +265,10 @@ Tiers P0–P5, highest first; ranks count straight through. In the Agents board,
 - jarvis-and-alfred — merged into motto-agent-council (features/jarvis-and-alfred, Jarvis and Alfred council voices)
 - parallel-presence-companions — merged into motto-agent-council (features/parallel-presence-companions, desktop pets / body doubling)
 - market-mood-cards — merged into finance-signals-dashboard (features/market-mood-cards, Morning mood tab)
+
+
+2026-10-20 merge wave 3 (originals preserved under <host>/features/<name>/):
+
+- reflective-eliza-companion — merged into motto-agent-council (features/reflective-eliza-companion, Eliza listening character + shared reflective memory)
+- physics-claim-debunker-skill — merged into expert-lens-skill (features/physics-claim-debunker-skill, Research tab: Claim Check)
+- brain-blast-skill — merged into expert-lens-skill (features/brain-blast-skill, Experiments tab: Brain Blast)

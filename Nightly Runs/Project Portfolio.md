@@ -6,9 +6,9 @@ generated: by scripts/portfolio/build_portfolio.py — edit scripts/portfolio/po
 
 Every project under `E:\GIT_ROOT\Projects`, with its status, best use, Dashboard Command Center group, fit as a product, and how many pre-build questions wait in its `REPORT.md` (also shown in the Agents board's Needs input panel). The same data with filters and live counts is in [[Project Portfolio.xlsx]].
 
-**138 projects** · 60 Greenfield · 39 Merged → feature · 23 Greenfield · host · 8 Brownfield (live) · 3 Parked (archived) · 2 Built elsewhere · 1 Retired (archived) · 1 Kept (ideas ported) · 1 Third-party
+**138 projects** · 57 Greenfield · 42 Merged → feature · 23 Greenfield · host · 8 Brownfield (live) · 3 Parked (archived) · 2 Built elsewhere · 1 Retired (archived) · 1 Kept (ideas ported) · 1 Third-party
 
-**Best use:** 39 Feature of host · 38 DCC tab · 13 Standalone web · 10 Phone app · 5 Standalone desktop · 5 Lab harness · 4 Skill · 4 Archived · 3 CLI · 3 Hosted product · 2 Browser extension · 2 Hosted web · 1 DCC group · 1 Party / LAN app · 1 The hub itself · 1 CLI + Obsidian · 1 Low priority · 1 CLI + hosted previews · 1 Standalone / DCC tab · 1 Public personal site · 1 Telegram bot · 1 Excluded
+**Best use:** 42 Feature of host · 38 DCC tab · 13 Standalone web · 10 Phone app · 5 Lab harness · 4 Standalone desktop · 4 Archived · 3 CLI · 3 Hosted product · 2 Skill · 2 Browser extension · 2 Hosted web · 1 DCC group · 1 Party / LAN app · 1 The hub itself · 1 CLI + Obsidian · 1 Low priority · 1 CLI + hosted previews · 1 Standalone / DCC tab · 1 Public personal site · 1 Telegram bot · 1 Excluded
 
 ## Active projects
 
@@ -47,14 +47,13 @@ Every project under `E:\GIT_ROOT\Projects`, with its status, best use, Dashboard
 | tiny-model-game-lab | Greenfield | Lab harness | Labs | Open-source | High | Low | 2 blocking · 1 questions · 0 proposals | A reproducible local research lab that measures where capability comes from when a 135M–270M model plays Wordle: prompting vs constraints v… |
 | visual-token-compiler | Greenfield | Lab harness | Labs | Open-source | High | Low | 0 blocking · 0 questions · 0 proposals | A local benchmark-driven compiler: take structured source content and a task, compile it into several encodings (compact text/JSON, SVG car… |
 | yugioh-rl-lab | Greenfield | Lab harness | Labs | Open-source | High | Low | 1 blocking · 0 questions · 0 proposals | A reproducible card-battler RL laboratory built on an original small rules engine (40–100 cards, hidden information), with Gymnasium interf… |
-| expert-lens-skill | Greenfield · host | Skill | Learning | Personal → Open-source | High | Medium | 1 blocking · 9 questions · 1 proposals | **Expert Lens** (repo `expert-lens-skill`) is one private FirstSpark dashboard service. It turns "domain + situation + counterpart + outcom… |
+| expert-lens-skill | Greenfield · host | Skill | Learning | Personal → Open-source | High | Medium | 1 blocking · 15 questions · 2 proposals | **Expert Lens** (repo `expert-lens-skill`) is one private FirstSpark dashboard service. It turns "domain + situation + counterpart + outcom… |
 | half-blood-pdf | Built elsewhere | Hosted product | — | Commercial (live) | Low | High | — | A local pipeline that enriches a text-based PDF with reviewed marginal annotations (clarifications, corrections, prerequisites, questions,… |
 | handwriting-to-latex | Greenfield | Standalone desktop | — | Open-source | High | Medium | 0 blocking · 2 questions · 0 proposals | A local desktop hotkey utility: drag around one isolated handwritten/printed equation, get LaTeX from a local pix2tex model, see it rendere… |
 | kaggle-learning-center | Brownfield (live) | DCC tab | Learning | Personal | Low | Low | — | A Kaggle learning studio: radar of what's new, solved-competition case studies, and an interview drill. |
 | language-learning-lab | Greenfield · host | Phone app | Learning | Personal → Commercial | Medium | Medium | 5 blocking · 2 questions · 0 proposals | A local-first language workbench organised by **language tracks** over one shared core: lexeme/sense/card store, one FSRS scheduler, idempo… |
 | leetcode-pattern-curriculum | Greenfield | CLI + Obsidian | Learning | Open-source | High | Low | 1 blocking · 1 questions · 0 proposals | A local, Python-only algorithms curriculum: user-authored pattern modules (Markdown/YAML) that teach recognition → invariant → implementati… |
 | personal-study-curriculum | Greenfield · host | DCC tab | Learning | Personal → Open-source | High | Medium | 2 blocking · 3 questions · 1 proposals | A local-first tool that turns one learning goal, weekly hours, and manually imported resources into a dependency-aware two-week sprint with… |
-| physics-claim-debunker-skill | Greenfield | Skill | — | Open-source | Medium | Low | 0 blocking · 1 questions · 0 proposals | A local research skill that turns an extraordinary claim into measurable subclaims, steelmans it, tests it with conservation laws, dimensio… |
 | taxonomy-cluster-explorer | Greenfield | Standalone web | Learning | Open-source | Medium | Low | 0 blocking · 2 questions · 0 proposals | A local-first dual-view explorer: the authoritative biological taxonomy (versioned snapshot) on one side, an experimental hierarchical-aggl… |
 | tiktok-learning-center | Brownfield (live) | DCC tab | Learning | Personal | Low | Low | — | Turns a private TikTok collection into one cited Markdown learning package. |
 | understand-this-paper | Built elsewhere | Browser extension | — | Open-source (owner plan) | High | Low | — | An interactive research-paper tutor for ML arXiv papers: import an arXiv ID or PDF, get an orientation summary, a symbol table, color-coded… |
@@ -62,17 +61,15 @@ Every project under `E:\GIT_ROOT\Projects`, with its status, best use, Dashboard
 | quiz-master | Greenfield · host | DCC tab | Learning | Personal | Medium | Low | 1 blocking · 3 questions · 0 proposals | A local quiz-authoring studio that learns structural patterns from the owner's private K-Circle yearbook corpus, turns a topic/entity into… |
 | ambient-tv | Greenfield | Standalone web | — | Open-source | High | Low | 0 blocking · 2 questions · 0 proposals | A lean-back channel guide for the owner's own Jellyfin library: deterministic playlists mapped to wall-clock time become "channels", so tun… |
 | angel-and-demon-companion | Kept (ideas ported) | Low priority | — | Personal | Low | Low | — | Two virtual pets argue a choice from your values (half-day hackathon site). |
-| brain-blast-skill | Greenfield | Skill | — | Open-source | Medium | Low | 0 blocking · 3 questions · 0 proposals | A Markdown skill package that turns one everyday irritation into one cheap, reversible experiment: reframe the problem, apply a determinist… |
 | daily-parent-check-in | Greenfield | DCC tab | Personal | Personal → Commercial | Low | Medium | 1 blocking · 2 questions · 0 proposals | Consent-first local app that sends one daily check-in prompt to a parent (via a simulated inbox for V0), accepts text or voice replies, tra… |
 | dunbar-dossier | Brownfield (live) | DCC tab | Personal | Personal | Low | Low | — | A private biographic archive (Dunbar 150) with evidence-backed dossiers and meeting briefs. |
 | feedback-mirror | Greenfield | Standalone web | — | Personal | Low | Low | 1 blocking · 2 questions · 0 proposals | A privacy-first, on-device daily appearance journal: guided webcam capture under standardized pose/lighting, self-reported sleep/routine no… |
 | inbox-zero-mercenary | Greenfield | DCC tab | Personal | Personal → Commercial | Medium | High | 1 blocking · 1 questions · 0 proposals | A reversible email triage desk: it buckets a Gmail inbox (urgent reply, waiting, reference, newsletter, receipt, stale, uncertain), explain… |
-| motto-agent-council | Greenfield · host | DCC tab | Personal | Personal → Open-source | High | Medium | 3 blocking · 8 questions · 4 proposals | A local council of small, explicit perspective agents — each a user-authored charter (builder, skeptic, health protector…) — that critique… |
+| motto-agent-council | Greenfield · host | DCC tab | Personal | Personal → Open-source | High | Medium | 4 blocking · 15 questions · 6 proposals | A local council of small, explicit perspective agents — each a user-authored charter (builder, skeptic, health protector…) — that critique… |
 | paper-logbook | Greenfield · host | Phone app | Personal | Commercial | Medium | High | 2 blocking · 13 questions · 0 proposals | An offline-first, paper-like daily/monthly notebook: design a page once (checkboxes, counters, ratings, text, later ink), then live inside… |
 | personal-color-relighting-studio | Greenfield | Standalone web | — | Personal → Commercial | Medium | Medium | 0 blocking · 2 questions · 0 proposals | A local-first, mobile-first web studio that turns a calibrated selfie into a private digital draping room: unchanged-face A/B fabric-drape… |
 | personalized-adhd-skill-upgrade | Greenfield | Skill | — | Personal → Open-source | Medium | Low | 0 blocking · 2 questions · 1 proposals | Upgrade the existing `i-have-adhd` skill from generic productivity advice to a small, evidence-tracked repertoire: it recognizes the curren… |
 | physio-atlas | Greenfield | Phone app | — | Personal → Commercial | Medium | Medium | 0 blocking · 1 questions · 0 proposals | A local-first mobile app that organizes already-prescribed or self-selected physio exercises: tap a body region, see reviewed exercise card… |
-| reflective-eliza-companion | Greenfield | Standalone desktop | — | Personal | Medium | Low | 1 blocking · 3 questions · 0 proposals | A private, local-first reflective conversation companion: ELIZA-style listening backed by durable, user-auditable memory (facts, preference… |
 | visual-recipe-book | Greenfield | Standalone web | — | Personal → Open-source | High | Medium | 0 blocking · 1 questions · 0 proposals | A local-first PWA + Python service that captures recipes (URL, paste, image), compiles them into a reviewed ingredient-operation dependency… |
 | auto-gtm-engine | Greenfield | CLI | — | Open-source | High | Medium | 0 blocking · 2 questions · 0 proposals | A reusable release-to-market pipeline: a versioned `go-to-market.yaml` lives beside each project's code; on an explicit local tag/command t… |
 | creator-content-engine | Greenfield · host | DCC tab | Publishing | Personal → Commercial | Medium | High | 3 blocking · 14 questions · 1 proposals | Human-led content OS for one creator: an idea inbox scored against a private evidence library, a draft generator that turns one approved id… |
@@ -129,9 +126,11 @@ Every project under `E:\GIT_ROOT\Projects`, with its status, best use, Dashboard
 | rabbit-hole-speedrun | Merged → feature | expert-lens-skill | Speedrun tab of Expert Lens. |
 | course-notes-to-quiz-product | Merged → feature | personal-study-curriculum | Notes → cards importer inside the curriculum. |
 | longvid-learning-studio | Retired (archived) | youtube-learning-center | Older version of YouTube Learning Center. |
+| physics-claim-debunker-skill | Merged → feature | expert-lens-skill | Research tab (Claim Check) of Expert Lens. |
 | vocabulary-diction-studio | Merged → feature | language-learning-lab | English track of the Language Learning Lab. |
 | quiz-poker | Merged → feature | quiz-master | Game tab inside Quiz Master. |
 | batman-prep-time-skill | Merged → feature | expert-lens-skill | Batman Prep tab of Expert Lens. |
+| brain-blast-skill | Merged → feature | expert-lens-skill | Experiments tab (Brain Blast) of Expert Lens; owns experiment.v1. |
 | brainrot-rehab | Merged → feature | paper-logbook | Screen-time experiment pack inside Paper Logbook. |
 | goal-to-calendar-planner | Merged → feature | expert-lens-skill | Plan step inside the Batman Prep tab; g2c.tasks.v1 now served by Expert Lens. |
 | jarvis-and-alfred | Merged → feature | motto-agent-council | Jarvis and Alfred become council voices / desktop pets. |
@@ -139,6 +138,7 @@ Every project under `E:\GIT_ROOT\Projects`, with its status, best use, Dashboard
 | npc-mode-personal-coach | Merged → feature | paper-logbook | NPC Mode interstitial-journaling tab of Paper Logbook. |
 | parallel-presence-companions | Merged → feature | motto-agent-council | Body doubling via the always-on desktop pets. |
 | pocket-crm | Parked (archived) | dunbar-dossier (idea note) | Future Telegram capture front-end for dunbar-dossier. |
+| reflective-eliza-companion | Merged → feature | motto-agent-council | Eliza listening character inside Motto; memory merged into the shared store. |
 | build-in-public-autoposter | Merged → feature | creator-content-engine | Git-activity idea source. |
 | my-agent-posts-about-me | Merged → feature | creator-content-engine | Daily-log idea source. |
 | personal-voice-ghostwriter-and-dm-desk | Merged → feature | creator-content-engine | Voice + DM desk of Creator Content Engine. |
