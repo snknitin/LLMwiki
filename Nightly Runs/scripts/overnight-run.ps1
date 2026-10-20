@@ -214,7 +214,10 @@ $worker = {
         }
         default {
             if (-not $model) { $model = 'opus' }   # coordinator; the builder subagent runs on sonnet
-            $prompt | & claude -p --model $model --permission-mode bypassPermissions *> $log
+            # @claude:<model>[-<effort>], e.g. opus-xhigh or fable-high; effort defaults to high for unattended runs.
+            $effort = 'high'
+            if ($model -match '^(.+)-(low|medium|high|xhigh|max)$') { $model = $Matches[1]; $effort = $Matches[2] }
+            $prompt | & claude -p --model $model --effort $effort --permission-mode bypassPermissions *> $log
         }
     }
 }
