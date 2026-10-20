@@ -7,6 +7,9 @@
 #   -Preflight  only check (run it in the evening, fix what it lists, then let 23:00 run); exit code = number of blocked projects
 param([switch]$Preflight, [switch]$DryRun, [int]$PerHarness = 3, [double]$HoursPerProject = 3)
 $ErrorActionPreference = 'Continue'
+# One run at a time, however it was started (board button, scheduled "Agents Run HHMM" task, by hand): a second one exits.
+$others = @(Get-CimInstance Win32_Process -Filter "Name='powershell.exe' OR Name='pwsh.exe'" | Where-Object { $_.ProcessId -ne $PID -and $_.CommandLine -like '*-File*overnight-run.ps1*' -and $_.CommandLine -notlike '*-Preflight*' })
+if (-not $Preflight -and $others) { Write-Output "Another run is going (pid $($others.ProcessId -join ', ')); not starting a second one."; exit 0 }
 $vault         = 'F:\Vaults\LLMWiki'
 $projects      = 'E:\GIT_ROOT\Projects'
 $sparkProjects = '/home/snknitin/Workspace/GIT_ROOT/Projects'
