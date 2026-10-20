@@ -45,13 +45,28 @@ foreach ($line in Get-Content $prioFile -Encoding UTF8) {
 # ---- Preflight: find everything that needs the owner before an unattended night ----
 # Blockers keep a project from running tonight; "needs input" items let it run on its recommended defaults.
 function Get-OpenItems($file) {
-    # Bullets under any heading that mentions open questions/decisions, skipping "none" placeholders.
+    # Unanswered questions under any heading that mentions open questions/decisions (same rules as the Agents board):
+    #   "### Q1: ..." blocks with "- [ ]" options (answered once any option is "- [x]"), or plain bullets
+    #   (answered once they contain "- answered" or an em-dash "answered"), skipping "none" placeholders.
+    #   "(multi)" and "(text)" after Q<n> only change how the board asks; any "- [x]" line means answered.
     if (-not (Test-Path $file)) { return @() }
-    $items = @(); $inOpen = $false
+    $answeredMark = '(?i)(' + [char]0x2014 + '|-{1,2})\s*answered\b'   # built from a char code: this file must stay ASCII for PowerShell 5.1
+    $items = @(); $openLevel = 0; $q = $null; $qAnswered = $false
     foreach ($l in Get-Content $file -Encoding UTF8) {
-        if ($l -match '^#{1,6}\s') { $inOpen = $l -match '(?i)open (questions?|decisions?)'; continue }
-        if ($inOpen -and $l -match '^\s*[-*]\s+(\S.*)$' -and $Matches[1] -notmatch '^(?i)\(?none') { $items += $Matches[1].Trim() }
+        if ($l -match '^(#{1,6})\s+(.*)$') {
+            $level = $Matches[1].Length; $title = $Matches[2].Trim()
+            if ($q -and -not $qAnswered) { $items += $q }; $q = $null
+            if ($openLevel -and $level -gt $openLevel) { $q = $title; $qAnswered = $false; continue }   # a Q block inside the section
+            $openLevel = $(if ($title -match '(?i)open (questions?|decisions?)') { $level } else { 0 })
+            continue
+        }
+        if (-not $openLevel) { continue }
+        if ($l -match '^\s*[-*]\s+\[([ xX])\]') { if ($q -and $Matches[1] -ne ' ') { $qAnswered = $true }; continue }   # an option line
+        if (-not $q -and $l -match '^\s*[-*]\s+(\S.*)$' -and $Matches[1] -notmatch '^(?i)\(?none' -and $Matches[1] -notmatch $answeredMark) {
+            $items += $Matches[1].Trim()
+        }
     }
+    if ($q -and -not $qAnswered) { $items += $q }
     return $items
 }
 $sparkState = @{}

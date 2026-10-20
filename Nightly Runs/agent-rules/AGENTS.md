@@ -20,7 +20,27 @@ Standing authorization in every git repo; no need to ask.
 
 ## Decide, don't ask (for reversible choices)
 - Reversible choices (names, layout, which installed library, ordering): pick the simplest option, log it in `DECISIONS.md` (date, choice, why, how to undo), and keep going.
-- Stop only for: missing credentials or access, destructive or irreversible actions, external side effects (sending, posting, paying), or a spec contradiction. Write the question with a recommended default into `REPORT.md` (or the handoff file), then continue with other work.
+- Stop only for: missing credentials or access, destructive or irreversible actions, external side effects (sending, posting, paying), or a spec contradiction. Write the question into `REPORT.md` in the format below, then continue with other work.
+- Before asking, read `DECISIONS.md` under `## Owner answers (from the Agents board)`: the owner may already have answered it.
+
+## How to ask the owner (multiple choice)
+Questions go in `REPORT.md` under `## Open questions`, one block each, so the Agents board can show them as choices:
+
+```
+### Q1: Which storage should the app use?
+One line on why it matters, and what you'll do if nobody answers.
+- [ ] SQLite in the data folder (recommended)
+- [ ] JSON files
+```
+
+Three kinds, marked in the heading:
+- **Single choice** `### Q1: …`: 2–4 options, exactly one ending in `(recommended)`, which is what you proceed with.
+- **Multi-select** `### Q2 (multi): …`: 2–6 options; mark every option you'd pick with `(recommended)` (at least one).
+- **Text** `### Q3 (text): …`: for paths, names, URLs or other context. Put `Default: <value>` on its own line (or `Default: none, blocked until answered`), with no option lines.
+
+Rules for all three:
+- Number questions Q1, Q2, … per report, most important first. Never tick (`[x]`) an option yourself; a ticked line marks a question answered.
+- The owner's answers are written to `DECISIONS.md` under `## Owner answers (from the Agents board)`. Follow them on your next run, and don't ask again.
 
 ## Unattended work is a loop
 - Gate (one re-runnable command + pass condition), body (one bounded unit), max (attempts and minutes), no-progress exit (write the handoff with last gate output, recommended default, last commit hash, then end), queue of record on disk (`PROGRESS.md` or a JSON queue).
