@@ -9,10 +9,19 @@
 #   -Kind       where results go (above); the scheduled task passes nightly. Default: morning if started 05:00-16:59, else nightly
 #   -Preflight  only check (run it in the evening, fix what it lists, then let 23:00 run); exit code = number of blocked projects
 #   -NoPrep     skip the top-10 upkeep prep agent (see Get-Upkeep); -PrepMinutes caps it (default 90)
-param([ValidateSet('nightly', 'morning')][string]$Kind, [switch]$Preflight, [switch]$DryRun, [int]$PerHarness = 3, [double]$HoursPerProject = 3, [switch]$NoPrep, [int]$PrepMinutes = 90)
+#   -PrepOnly   run only the prep agent (make-overnight-ready, build-tree, structure, queue, advance), then refresh Preflight.md
+#               and exit. The Agents board runs it when a project enters the top 10 or a Tonight lane, so it's ready before 23:00.
+param([ValidateSet('nightly', 'morning')][string]$Kind, [switch]$Preflight, [switch]$DryRun, [int]$PerHarness = 3, [double]$HoursPerProject = 3, [switch]$NoPrep, [int]$PrepMinutes = 90, [switch]$PrepOnly)
 $ErrorActionPreference = 'Continue'
 # One run at a time, however it was started (board button, scheduled "Agents Run HHMM" task, by hand): a second one exits.
-$others = @(Get-CimInstance Win32_Process -Filter "Name='powershell.exe' OR Name='pwsh.exe'" | Where-Object { $_.ProcessId -ne $PID -and $_.CommandLine -like '*-File*overnight-run.ps1*' -and $_.CommandLine -notlike '*-Preflight*' })
+# A real run that finds only a -PrepOnly going waits for it (prep is short), so a late prep never costs the night.
+function Get-OtherRuns { @(Get-CimInstance Win32_Process -Filter "Name='powershell.exe' OR Name='pwsh.exe'" | Where-Object { $_.ProcessId -ne $PID -and $_.CommandLine -like '*-File*overnight-run.ps1*' -and $_.CommandLine -notlike '*-Preflight*' }) }
+$others = Get-OtherRuns
+if (-not $Preflight -and -not $PrepOnly -and $others -and -not @($others | Where-Object { $_.CommandLine -notlike '*-PrepOnly*' })) {
+    $until = (Get-Date).AddMinutes($PrepMinutes + 5)
+    while ((Get-OtherRuns) -and (Get-Date) -lt $until) { Start-Sleep -Seconds 30 }
+    $others = Get-OtherRuns
+}
 if (-not $Preflight -and $others) { Write-Output "Another run is going (pid $($others.ProcessId -join ', ')); not starting a second one."; exit 0 }
 $vault         = 'F:\Vaults\LLMWiki'
 $projects      = 'E:\GIT_ROOT\Projects'
@@ -53,6 +62,25 @@ $queue = Read-Queue
 # the order takes its place. A tonight project whose verify already passes must advance a slice first, or its run would
 # stop at once. Preflight lists this work; a real run hands it to one Claude prep agent (agent-rules/prep-prompt.md)
 # before the lanes start, then re-reads the lanes.
+# The standard overnight repo structure (the make-overnight-ready skill's checklist). A project that already has verify.ps1
+# but lacks any of this gets a "structure" item, so the prep agent fills in only what is missing.
+function Get-MissingStructure($dir) {
+    $m = @()
+    foreach ($f in 'AGENTS.md', 'CLAUDE.md', 'scripts\verify.sh', 'scripts\stop-gate.ps1', 'PROGRESS.md', 'FEEDBACK.md', 'DECISIONS.md') {
+        if (-not (Test-Path (Join-Path $dir $f))) { $m += ($f -replace '\\', '/') }
+    }
+    $settings = Join-Path $dir '.claude\settings.json'
+    if (-not ((Test-Path $settings) -and (Select-String -Path $settings -Pattern '"Stop"' -Quiet))) { $m += 'Stop hook in .claude/settings.json' }
+    # A project with a UI already in the repo also needs DESIGN.md and screenshots in verify. Projects whose UI isn't
+    # built yet get these from the skill once their first page exists, so this check stays quiet until then.
+    $tracked = @(git -C $dir ls-files 2>$null)
+    $hasUi = [bool]($tracked | Where-Object { $_ -match '\.(html|jinja2?|svelte|vue|[jt]sx)$' -and $_ -notmatch '(^|/)(\.hermes|docs|node_modules)/' } | Select-Object -First 1)
+    if ($hasUi) {
+        if (-not (Test-Path (Join-Path $dir 'DESIGN.md'))) { $m += 'DESIGN.md' }
+        if (-not (Select-String -Path (Join-Path $dir 'scripts\verify.ps1') -Pattern 'screenshot|playwright' -Quiet)) { $m += 'screenshots in verify' }
+    }
+    return $m
+}
 function Get-Upkeep($queue, [switch]$CheckVerify) {
     $order = @(); $section = ''; $parked = @{}
     foreach ($line in Get-Content $prioFile -Encoding UTF8) {
@@ -69,7 +97,11 @@ function Get-Upkeep($queue, [switch]$CheckVerify) {
         if (-not (Test-Path "$dir\BUILD_SPEC.md")) { $items += [pscustomobject]@{ Project = $name; Action = 'owner'; Why = 'no BUILD_SPEC.md yet, so it cannot be made overnight-ready' }; continue }
         $todo = @(); $why = @()
         if (-not (Test-Path "$dir\scripts\verify.ps1")) { $todo += 'make-overnight-ready'; $why += 'no scripts/verify.ps1' }
-        elseif (-not (Test-Path "$dir\.hermes\live-build-tree\model.json")) { $todo += 'build-tree'; $why += 'no live build tree' }
+        else {
+            if (-not (Test-Path "$dir\.hermes\live-build-tree\model.json")) { $todo += 'build-tree'; $why += 'no live build tree' }
+            $missing = @(Get-MissingStructure $dir)
+            if ($missing) { $todo += 'structure'; $why += 'missing: ' + ($missing -join ', ') }
+        }
         if (-not $queued[$name]) { $todo += 'queue'; $why += 'in the top 10 but not in a Tonight lane'; $waiting++ }
         if ($todo) { $items += [pscustomobject]@{ Project = $name; Action = $todo -join ' + '; Why = $why -join '; ' } }
     }
@@ -106,6 +138,7 @@ if ($prepWork -and -not $Preflight -and -not $DryRun -and -not $NoPrep) {
     Remove-Job $prepJob -Force
     Write-Output "prep: done for $($prepWork.Count) item(s), log: $prepLog"
     $queue = Read-Queue   # the prep agent may have moved projects into lanes
+    $upkeep = @(Get-Upkeep $queue)   # so Preflight.md shows what is still left after prep
 }
 
 # ---- Preflight: find everything that needs the owner before an unattended night ----
@@ -181,12 +214,12 @@ foreach ($q in $queue) {
 }
 if (-not $queue) { $pf += '| (Tonight list is empty) | | | |' }
 if ($upkeep) {
-    $pf += '', '## Top 10 upkeep', '', "Before the lanes start, the next real run's prep agent does the PREP items (make-overnight-ready, build-tree, queue, advance). OWNER items need you. Advance is checked at run time.", '',
+    $pf += '', '## Top 10 upkeep', '', "Before the lanes start, the prep agent does the PREP items (make-overnight-ready, build-tree, structure, queue, advance): at the next real run, or right away when the Agents board runs -PrepOnly. OWNER items need you. Advance is checked at run time.", '',
         '| Project | Action | Who | Why |', '|---|---|---|---|'
     $pf += $upkeep | ForEach-Object { "| $($_.Project) | $($_.Action) | $(if ($_.Action -eq 'owner') { 'OWNER' } else { 'PREP' }) | $($_.Why) |" }
 }
 Set-Content -Path $preflightMd -Value $pf -Encoding UTF8
-if ($Preflight) { Write-Output ($pf -join "`n"); exit @($checks.Values | Where-Object { $_.Blockers }).Count }
+if ($Preflight -or $PrepOnly) { Write-Output ($pf -join "`n"); exit @($checks.Values | Where-Object { $_.Blockers }).Count }
 
 # Every repo in tonight's queue gets a Hermes project (if it has none yet) so its sessions group under it.
 # A failure here (FirstSpark down) never stops the run.

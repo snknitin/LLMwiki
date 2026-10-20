@@ -6,6 +6,14 @@ The runner worked out the list below. Do each item:
 
 - **make-overnight-ready**: follow the `make-overnight-ready` skill completely: contract, multi-slice target, verify.ps1 + verify.sh, stop gate, PROGRESS/FEEDBACK/DECISIONS, live build tree, FirstSpark clone. It ends by choosing a lane.
 - **build-tree**: the project is overnight-ready but has no `.hermes/live-build-tree/model.json`. Build it as the `make-overnight-ready` skill's build-tree step describes (`live-build-tree` skill conventions), commit and push.
+- **structure**: the project is overnight-ready but parts of the standard structure are missing (the item lists them). Add only those parts, following the matching steps of the `make-overnight-ready` skill, and never rewrite files that already exist:
+  - AGENTS.md / CLAUDE.md: step 3 (the pointer pattern from the reference).
+  - `scripts/verify.sh`: step 4. It must run the same checks as `verify.ps1` and fail cleanly now.
+  - stop gate or Stop hook: step 5.
+  - PROGRESS.md / FEEDBACK.md / DECISIONS.md: step 6.
+  - DESIGN.md: step 6's DESIGN.md bullet.
+  - screenshots in verify: step 4's screenshot bullet. Add the step to both verify scripts. It must not make an already-passing slice fail just because a browser is missing; install Playwright's Chromium for the project if needed.
+  Run both verify scripts afterwards. Their pass or fail result must be the same as before your change.
 - **advance**: the project's verify already passes, so tonight's run would stop at once. Follow the `advance-slice` skill so tonight has new work.
 - **queue**: the project is ready but not in a Tonight lane. Pick its lane with the skill's "Pick a lane" rules. If that lane has a free slot (at most 3 per lane), move it there. If it's full but the item list names a **dequeue** candidate in that lane, move that one to "Ready next" first. Otherwise use the next-best lane with a free slot, and say why in the Prep Report. Only if every lane is full does it go to "Ready next".
 - **dequeue**: only use it to make room for a **queue** item, as above.

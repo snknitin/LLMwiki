@@ -5,7 +5,7 @@ description: Use when a project under E:\GIT_ROOT\Projects (or ~/Workspace/GIT_R
 
 # Make a project overnight-ready
 
-**When:** a project enters the top 10 of `## Priority order` in `F:\Vaults\LLMWiki\Nightly Runs\Project Priorities.md` (skipping Active and Archived). That happens when the owner ranks it up, or when a project above it moves to Active or Archived. The runner's preflight lists it under "Top 10 upkeep", and the 23:00 prep agent runs this skill for it. The owner can also ask directly.
+**When:** a project enters the top 10 of `## Priority order` in `F:\Vaults\LLMWiki\Nightly Runs\Project Priorities.md` (skipping Active and Archived). That happens when the owner ranks it up, or when a project above it moves to Active or Archived. The runner's preflight lists it under "Top 10 upkeep". The prep agent runs this skill for it: when the Agents board runs `overnight-run.ps1 -PrepOnly` (straight after a project moves into the top 10 or a Tonight lane), and again before every 23:00 run. A project that is overnight-ready but missing parts of this structure gets a "structure" item, and prep adds only the missing parts. The owner can also ask directly.
 
 **Reference projects** (copy their patterns, don't invent new ones): `mock-interview-gauntlet` (contract, verify, stop gate, settings) and `net-worth-command-center` (multi-slice verify, `verify.sh`, live build tree).
 
@@ -33,6 +33,8 @@ description: Use when a project under E:\GIT_ROOT\Projects (or ~/Workspace/GIT_R
    - smoke runs of the CLI/app in a temp data root;
    - reject fixtures that must exit non-zero.
 
+   - **Screenshots, for any project with a UI** (pages, templates or components): once the app has a page, verify starts it on a temp port and takes Playwright screenshots at desktop (1440px) and phone (390px) width into `screenshots/latest/` (git-ignored), then checks the files exist. These are the morning's before/after images. Until the first page exists, put this check in the slice that builds it.
+
    Draw them from the spec's acceptance evidence. In `verify.sh`, add `command -v uv >/dev/null || PATH="$HOME/.local/bin:$PATH"` near the top (the same for node/npm if needed), because Hermes runs it over a non-login SSH shell. Keep it LF (add `*.sh text eol=lf` to `.gitattributes` if needed). Run both now: each must exit 1 with `VERIFY FAIL` and no script errors. Read the exit code straight after the command (`cmd; c=$?`), never after another command.
 
 5. **Copy** `scripts/stop-gate.ps1` and `.claude/settings.json` from the reference. Adjust only the allow list for the toolchain, and deny edits to both verify scripts, the stop gate and the settings. **Never deny git commit or push.**
@@ -40,8 +42,9 @@ description: Use when a project under E:\GIT_ROOT\Projects (or ~/Workspace/GIT_R
 6. **Write the progress files:**
    - `PROGRESS.md`: the checklist of tonight's tasks, an empty "Open decisions" section, and a log whose entries are `## YYYY-MM-DD HH:MM — <node ID> — <one line>`, saying "done"/"verify PASS" only when that node's check passed.
    - `FEEDBACK.md`: an empty list with a one-line explanation.
+   - `DESIGN.md`, for any project with a UI: the look-and-feel rules every change must keep. Cover layout density, type scale, colour tokens, components, light/dark, and phone behaviour. Draw them from the spec and the UI that exists. Start with a "Rules" list and an empty "Owner taste rules" section, which the `feedback-batch` skill fills from FEEDBACK.md.
    - `DECISIONS.md`: log your scope choice and every invented contract detail (command names, env vars, fixture names).
-   - `.gitignore`: data roots, venvs, node_modules, build output, `.claude/stop-retries`.
+   - `.gitignore`: data roots, venvs, node_modules, build output, `screenshots/latest/`, `.claude/stop-retries`.
 
 7. **Build the live build tree** at `.hermes/live-build-tree/model.json` (follow the `live-build-tree` skill), then render `index.html` with its renderer. Conventions the Agents board relies on:
    - Every spec task and every merged-feature task appears once, with its ID kept literally. `phase` is the slice or feature, in build order.
