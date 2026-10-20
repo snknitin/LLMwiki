@@ -117,6 +117,11 @@ if (-not $queue) { $pf += '| (Tonight list is empty) | | | |' }
 Set-Content -Path $preflightMd -Value $pf -Encoding UTF8
 if ($Preflight) { Write-Output ($pf -join "`n"); exit @($checks.Values | Where-Object { $_.Blockers }).Count }
 
+# Every repo in tonight's queue gets a Hermes project (if it has none yet) so its sessions group under it.
+# A failure here (FirstSpark down) never stops the run.
+try { & (Join-Path $PSScriptRoot 'ensure-projects.ps1') -Projects @($queue | ForEach-Object { $_.Name }) -DryRun:$DryRun | ForEach-Object { Write-Output "projects: $_" } }
+catch { Write-Output "projects: skipped ($($_.Exception.Message))" }
+
 # One agent run, inside a background job. Output goes to $log.
 $worker = {
     param($dir, $harness, $model, $prompt, $log, $budget, $ssh, $sparkDir)
