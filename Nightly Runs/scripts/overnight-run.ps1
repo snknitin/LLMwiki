@@ -193,6 +193,39 @@ if ($Preflight) { Write-Output ($pf -join "`n"); exit @($checks.Values | Where-O
 try { & (Join-Path $PSScriptRoot 'ensure-projects.ps1') -Projects @($queue | ForEach-Object { $_.Name }) -DryRun:$DryRun | ForEach-Object { Write-Output "projects: $_" } }
 catch { Write-Output "projects: skipped ($($_.Exception.Message))" }
 
+# ---- Tamper check: the files that judge the work must not change overnight, and the test suite must not shrink ----
+# Claude is blocked from editing these by deny rules, but Codex (no sandbox) and Hermes (--yolo) are not, so the runner checks
+# every project the same way: a baseline right before the lanes start (after prep, which may legitimately advance a slice)
+# and a comparison after the run. Any difference turns the result into SUSPECT.
+$guarded = 'scripts/verify.ps1', 'scripts/verify.sh', 'scripts/stop-gate.ps1', '.claude/settings.json'
+function Get-Integrity($dir) {
+    $h = @{}
+    foreach ($g in $guarded) { $p = Join-Path $dir $g; if (Test-Path $p) { $h[$g] = (Get-FileHash $p -Algorithm SHA256).Hash } }
+    $tests = 0; $skips = 0
+    # shortcut: counts tests by regex (pytest "def test_", JS "it(" / "test("), not by running a collector; upgrade to
+    # "pytest --collect-only -q" / "vitest list" if a project's count turns out noisy.
+    $files = @(git -C $dir ls-files --cached --others --exclude-standard 2>$null | Where-Object { $_ -match '(^|/)(test_[^/]*\.py|[^/]*_test\.py|[^/]*\.(test|spec)\.[jt]sx?)$' })
+    foreach ($f in $files) {
+        $p = Join-Path $dir $f
+        if (-not (Test-Path $p)) { continue }
+        $t = Get-Content $p -Raw -Encoding UTF8 -ErrorAction SilentlyContinue
+        if (-not $t) { continue }
+        $tests += ([regex]::Matches($t, '(?m)^\s*(async\s+)?def\s+test_|\b(it|test)\s*\(')).Count
+        $skips += ([regex]::Matches($t, 'pytest\.mark\.(skip|xfail)|unittest\.skip|\b(it|test|describe)\.skip\s*\(|\bx(it|describe)\s*\(')).Count
+    }
+    return @{ Hashes = $h; Tests = $tests; Skips = $skips }
+}
+function Compare-Integrity($before, $after) {
+    $issues = @()
+    foreach ($g in $guarded) {
+        $b = $before.Hashes[$g]; $a = $after.Hashes[$g]
+        if ($b -and -not $a) { $issues += "$g deleted" } elseif ($b -and $a -ne $b) { $issues += "$g changed" }
+    }
+    if ($after.Tests -lt $before.Tests) { $issues += "tests $($before.Tests) -> $($after.Tests)" }
+    if ($after.Skips -gt $before.Skips) { $issues += "skipped tests $($before.Skips) -> $($after.Skips)" }
+    return $issues
+}
+
 # One agent run, inside a background job. Output goes to $log.
 $worker = {
     param($dir, $harness, $model, $prompt, $log, $budget, $ssh, $sparkDir)
@@ -225,18 +258,21 @@ $worker = {
 $rows = @{}; $pending = New-Object System.Collections.ArrayList
 foreach ($q in $queue) {
     $dir = Join-Path $projects $q.Name
-    $rows[$q.Name] = [ordered]@{ Project = $q.Name; Harness = "$($q.Harness)$(if ($q.Model) { ':' + $q.Model })"; Verify = '-'; Git = '-'; Commits = 0; Note = '' }
+    $rows[$q.Name] = [ordered]@{ Project = $q.Name; Harness = "$($q.Harness)$(if ($q.Model) { ':' + $q.Model })"; Verify = '-'; Git = '-'; Commits = 0; Note = '';
+        Minutes = 0; TestsBefore = ''; TestsAfter = ''; TimedOut = $false; UsageLimit = $false }
     if ($checks[$q.Name].Blockers) { $rows[$q.Name].Note = 'skipped by preflight: ' + ($checks[$q.Name].Blockers -join '; ') }
     elseif ($DryRun) { $rows[$q.Name].Note = 'dry run: would run now' }
     else { [void]$pending.Add($q) }
 }
+$integrity = @{}   # tamper baseline, taken just before the lanes start
+foreach ($q in $pending) { $integrity[$q.Name] = Get-Integrity (Join-Path $projects $q.Name); $rows[$q.Name].TestsBefore = $integrity[$q.Name].Tests }
 
 function Complete-Run($q, $row) {
     $dir = Join-Path $projects $q.Name
     $log = Join-Path $logDir "$($q.Name).log"
     $text = $(if (Test-Path $log) { Get-Content $log -Raw -Encoding UTF8 } else { '' })
     if ($q.Harness -ne 'hermes' -and $text -match 'usage limit|limit reached|rate.limit|hit your limit') {
-        $script:limited[$q.Harness] = $true; $row.Note += 'usage limit hit. '
+        $script:limited[$q.Harness] = $true; $row.Note += 'usage limit hit. '; $row.UsageLimit = $true
     }
     if ($q.Harness -eq 'hermes') {
         if ($text -match 'SPARK_MISSING') { $row.Note += "not cloned on FirstSpark at $sparkProjects. " }
@@ -263,10 +299,11 @@ while ($pending.Count -or $running.Count) {
         $r = $running[$id]
         if ($r.Job.State -eq 'Running' -and ((Get-Date) - $r.Start).TotalSeconds -ge $budget + 300) {
             # shortcut: Stop-Job ends the job host, but a child claude/codex/ssh process can outlive it; kill it by hand if a timeout is reported.
-            Stop-Job $r.Job; $rows[$r.Q.Name].Note += "timed out after $HoursPerProject h. "
+            Stop-Job $r.Job; $rows[$r.Q.Name].Note += "timed out after $HoursPerProject h. "; $rows[$r.Q.Name].TimedOut = $true
         }
         if ($r.Job.State -ne 'Running') {
             Remove-Job $r.Job -Force; $running.Remove($id)
+            $rows[$r.Q.Name].Minutes = [int]((Get-Date) - $r.Start).TotalMinutes
             Complete-Run $r.Q $rows[$r.Q.Name]
         }
     }
@@ -278,6 +315,11 @@ foreach ($q in $queue) {
     if (-not (Test-Path "$dir\scripts\verify.ps1")) { continue }
     & powershell -NoProfile -ExecutionPolicy Bypass -File "$dir\scripts\verify.ps1" *> (Join-Path $logDir "$($q.Name).verify.txt")
     $row.Verify = $(if ($LASTEXITCODE -eq 0) { 'PASS' } else { 'FAIL' })
+    if ($integrity[$q.Name]) {
+        $after = Get-Integrity $dir; $row.TestsAfter = $after.Tests
+        $issues = @(Compare-Integrity $integrity[$q.Name] $after)
+        if ($issues) { $row.Verify = "SUSPECT ($($row.Verify))"; $row.Note = "SUSPECT: $($issues -join '; '). Check the diff before trusting this result. " + $row.Note }
+    }
     $dirty = git -C $dir status --porcelain 2>$null
     $ahead = git -C $dir rev-list --count '@{u}..HEAD' 2>$null
     $row.Git = $(if ($dirty) { 'uncommitted changes' } elseif ([int]$ahead -gt 0) { "$ahead unpushed" } else { 'clean, pushed' })
@@ -294,4 +336,42 @@ if (-not $queue) { $md += '| (Tonight list is empty) | | | | | |' }
 New-Item -ItemType Directory -Force $runLogDir | Out-Null   # Morning Runs/Logs on the first morning run
 Set-Content -Path $reportMd -Value $md -Encoding UTF8
 if (-not $DryRun) { Set-Content -Path (Join-Path $runLogDir "$stamp.md") -Value $md -Encoding UTF8 }
+
+# ---- Scorecard: one row per project per real run, plus a summary by tool, so harnesses and models can be compared ----
+$scoreCsv = Join-Path $vault 'Nightly Runs\Scorecard.csv'
+$scoreMd  = Join-Path $vault 'Nightly Runs\Scorecard.md'
+if (-not $DryRun -and $queue) {
+    $queue | ForEach-Object {
+        $r = $rows[$_.Name]
+        $result = $(if ($r.Verify -like 'SUSPECT*') { 'SUSPECT' } elseif ($r.Note -like 'skipped by preflight*') { 'SKIPPED' }
+                    elseif ($r.Note -like 'not run*') { 'NOT RUN' } elseif ($r.Verify -in 'PASS', 'FAIL') { $r.Verify } else { 'UNKNOWN' })
+        [pscustomobject]@{
+            Run = $stamp; Kind = $Kind; Project = $_.Name; Harness = $_.Harness; Model = $(if ($_.Model) { $_.Model } else { 'default' })
+            Result = $result; Minutes = $r.Minutes; Commits = $r.Commits; TestsBefore = $r.TestsBefore; TestsAfter = $r.TestsAfter
+            OpenQuestions = @(Get-OpenItems (Join-Path $projects "$($_.Name)\REPORT.md")).Count; TimedOut = $r.TimedOut; UsageLimit = $r.UsageLimit
+        }
+    } | Export-Csv -Path $scoreCsv -Append -NoTypeInformation -Encoding UTF8
+}
+if (Test-Path $scoreCsv) {
+    $all = @(Import-Csv $scoreCsv)
+    $cut = (Get-Date).AddDays(-7).ToString('yyyy-MM-dd')
+    function Get-ScoreRows($set) {
+        $set | Group-Object Harness | Sort-Object Name | ForEach-Object {
+            $ran = @($_.Group | Where-Object { $_.Result -in 'PASS', 'FAIL', 'SUSPECT' })
+            $pass = @($ran | Where-Object Result -eq 'PASS').Count
+            $rate = $(if ($ran.Count) { [int](100 * $pass / $ran.Count) } else { 0 })
+            $mins = $(if ($ran.Count) { [int](($ran | Measure-Object Minutes -Average).Average) } else { 0 })
+            "| $($_.Name) | $($ran.Count) | $pass | $(@($ran | Where-Object Result -eq 'FAIL').Count) | $(@($ran | Where-Object Result -eq 'SUSPECT').Count) | $rate% | $mins | $(($_.Group | Measure-Object Commits -Sum).Sum) | $(@($_.Group | Where-Object { $_.Result -in 'SKIPPED', 'NOT RUN' }).Count) |"
+        }
+    }
+    $head = '| Tool | Runs | PASS | FAIL | SUSPECT | Pass rate | Avg minutes | Commits | Skipped / not run |', '|---|---|---|---|---|---|---|---|---|'
+    $sm = @('# Scorecard', '', "Rebuilt $((Get-Date).ToString('yyyy-MM-dd HH:mm')) from ``Scorecard.csv`` (one row per project per real run). SUSPECT = verify passed or failed, but a guarded file changed or tests shrank overnight, so check the diff.", '',
+            '## Last 7 days', '') + $head + @(Get-ScoreRows @($all | Where-Object { $_.Run -ge $cut })) + @('', '## All time', '') + $head + @(Get-ScoreRows $all) +
+          @('', '## Last 5 results per project (newest first)', '', '| Project | Tool | Results |', '|---|---|---|')
+    $sm += $all | Group-Object Project | Sort-Object Name | ForEach-Object {
+        $last = @($_.Group | Sort-Object Run -Descending | Select-Object -First 5)
+        "| $($_.Name) | $($last[0].Harness) | $(($last | ForEach-Object { "$($_.Result) ($($_.Run.Substring(0, 10)))" }) -join ', ') |"
+    }
+    Set-Content -Path $scoreMd -Value $sm -Encoding UTF8
+}
 Write-Output ($md -join "`n")
