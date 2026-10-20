@@ -141,3 +141,79 @@
 - 2026-10-16T23:46:41+05:30 · revert · `sc_4348b5fff10f6ef9` · Run a tracked, value-first YouTube comment acquisition test for HalfBlood Professor · Schedule → Delegate / automate
 - 2026-10-16T23:46:41+05:30 · revert · `sc_f6f87d8954c6b762` · Benchmark a bounded critic–revision loop against a one-pass agent · Delegate / automate → Schedule
 - 2026-10-16T23:46:41+05:30 · revert · undid both sorter applies of 16 Oct; Do tasks pinned at Nitin's request
+- 2026-10-19T11:33:28+05:30 · theme · `sc_3c232f8d7e1624b1` · Benchmark Qwen3.8-27B BF16 lm_head update on DGX Spark · Local model optimization → Local models & inference
+- 2026-10-19T11:33:28+05:30 · theme · `sc_8f4b2a47e7cd6573` · Benchmark multimodal and LLM inference performance · LLM Inference → Local models & inference
+- 2026-10-19T11:33:28+05:30 · theme · `sc_08ee7b62d73785b8` · DeepSeek V4 Flash on 2x DGX Spark · AI Inference Infrastructure → Local models & inference
+- 2026-10-19T11:33:28+05:30 · theme · `sc_68e3218fa4b41a74` · EVIE-Preview-4.5B: Local Visual Document Retrieval · Local AI / RAG → Local models & inference
+- 2026-10-19T11:33:28+05:30 · theme · `sc_6cee8d7e6900cc8d` · Test local models and CLI flags via llama.cpp · Local AI Inference → Local models & inference
+- 2026-10-19T11:33:28+05:30 · theme · `sc_ee69fd366ff17240` · Test SGLang Decision API and speculative decoding optimization · LLM Inference Optimization → Local models & inference
+- 2026-10-19T11:33:28+05:30 · theme · `sc_c6abf5fb499a0926` · LLM Inference Engine Mini-Project Plan · LLM Inference Optimization → Local models & inference
+- 2026-10-19T11:33:28+05:30 · theme · `sc_d8fe05dc95789424` · Test Unlimited-OCR on Apple Silicon · OCR → Local models & inference
+- 2026-10-19T11:33:28+05:30 · theme · `sc_33dfa21cba75dbe0` · Set up local Linux and AI inference environments · Local Infrastructure → Local models & inference
+- 2026-10-19T11:33:28+05:30 · theme · `sc_75068872d0cae7d8` · Review Hermes configuration, connectors and new defaults in one session · Hermes Agent Configuration → Hermes & agent tooling
+- 2026-10-19T11:33:28+05:30 · theme · `sc_465e0a9675992467` · Evaluate oh-my-hermes packaged memory and coding harness setup · Hermes community projects → Hermes & agent tooling
+- 2026-10-19T11:33:28+05:30 · theme · `sc_0a64f2c03f3a489a` · Hermes Desktop Plugin SDK for Custom Workflows · Software Development → Hermes & agent tooling
+- 2026-10-19T11:33:28+05:30 · theme · `sc_d2d958e950fb02f6` · Install REA Plugin for Hermes Agent · reverse-engineering → Hermes & agent tooling
+- 2026-10-19T11:33:28+05:30 · theme · `sc_be80ae1bec07939f` · Set up and test local agent infrastructure on DGX Spark · Agent Infrastructure → Hermes & agent tooling
+- 2026-10-19T11:33:28+05:30 · theme · `sc_15233c529d70f730` · Superpowers: Agent Dev Methodology · AI Agent Skills → Hermes & agent tooling
+- 2026-10-19T11:33:28+05:30 · theme · `sc_036930e3e7d9f16f` · Automate RSS Feeds from APIs using AI Agents · AI Agents, RSS Feeds, API Integration → Hermes & agent tooling
+- 2026-10-19T11:33:28+05:30 · theme · `sc_bbe35c33039405d0` · Document HAR/fetch-to-MCP-server technique for creating custom MCP servers · MCP server creation → Hermes & agent tooling
+- 2026-10-19T11:33:28+05:30 · theme · `sc_801a7e39073fb1ed` · Wire pre-commit and commit-msg hooks to block agent-generated git attribution trailers · Git provenance → Hermes & agent tooling
+- 2026-10-19T11:33:28+05:30 · theme · `sc_490a08dd1f72970f` · Build a centralized AI knowledge and skill governance system · AI Knowledge Management → Hermes & agent tooling
+- 2026-10-19T11:33:28+05:30 · theme · `sc_d431a02d7a4e3e98` · Benchmark Perplexity Portable Computer against Hermes on one local-agent workflow · Local AI agents → Agent research & evals
+- 2026-10-19T11:33:28+05:30 · theme · `sc_f6f87d8954c6b762` · Benchmark a bounded critic–revision loop against a one-pass agent · Agent evaluation → Agent research & evals
+- 2026-10-19T11:33:28+05:30 · theme · `sc_d2fc479804301a66` · Evaluate RAG and research agent architectures · AI Agent Integration → Agent research & evals
+- 2026-10-19T11:33:28+05:30 · theme · `sc_1e5f000a88a6459d` · Review AI agent training and RL environment resources · AI Agent Training → Agent research & evals
+- 2026-10-19T11:33:28+05:30 · theme · `sc_b0c182ea6ac60b1a` · OpenAI WebMCP and Collaborative Notebooks · AI Infrastructure → Agent research & evals
+- 2026-10-19T11:33:28+05:30 · theme · `sc_0f503a8acddf75f0` · Evaluate Jev routing, inference, evals and agent trace capabilities · Jev Evaluation → Jev & decision models
+- 2026-10-19T11:33:28+05:30 · theme · `sc_79e697fa7ff15714` · Evaluate Jev-based agent decision and routing architectures · Jev Agent Integration → Jev & decision models
+- 2026-10-19T11:33:28+05:30 · theme · `sc_d95ff364860b0af0` · Install and test Jev automation capabilities · Jev Automation → Jev & decision models
+- 2026-10-19T11:33:28+05:30 · theme · `sc_6ed4ac380c722096` · Jev-Powered Monad Trading Bots · AI Trading Infrastructure → Jev & decision models
+- 2026-10-19T11:33:28+05:30 · theme · `sc_014ceec41d32275c` · Cloudflare Clef Decision Models · AI Models → Jev & decision models
+- 2026-10-19T11:33:28+05:30 · theme · `sc_2ab42ca49ac53673` · Test Qwen Image LoRA and local video setup · AI Image Editing → AI image & video
+- 2026-10-19T11:33:28+05:30 · theme · `sc_24747b719124dc16` · Test local AI video generation and chat clients · Local AI Video → AI image & video
+- 2026-10-19T11:33:28+05:30 · theme · `sc_7404d8df543cd991` · Test AI video restoration and review cinematic techniques · AI Video → AI image & video
+- 2026-10-19T11:33:28+05:30 · theme · `sc_1e85b5bd109c8475` · Run a LongCat-Video-Avatar 1.5 feasibility spike on one DGX Spark · Local AI video → AI image & video
+- 2026-10-19T11:33:28+05:30 · theme · `sc_2674a104ad7790d2` · Test Minimax H3 Max on RTX 5000 · AI Model Testing → AI image & video
+- 2026-10-19T11:33:28+05:30 · theme · `sc_88ed46a4843568a7` · Build AI Video Overlay Workflow · AI Video Automation → AI image & video
+- 2026-10-19T11:33:28+05:30 · theme · `sc_d008c9d3fd8827e8` · Try three local video automation tools on one test video · AI video clipping → AI image & video
+- 2026-10-19T11:33:28+05:30 · theme · `sc_6fbfc3428648da99` · Nano Banana Audio Tool · AI Audio Tools → AI image & video
+- 2026-10-19T11:33:28+05:30 · theme · `sc_39c65ff329760362` · Evaluate low-cost hardware automation prototypes · Hardware Integration → Home & device hacks
+- 2026-10-19T11:33:28+05:30 · theme · `sc_6801434eab054cde` · Debloat Android TV with tv-vibehack · Android TV Optimization → Home & device hacks
+- 2026-10-19T11:33:28+05:30 · theme · `sc_f9e11d74b4bdbaed` · Debloat Fire TV with ADB Launcher · Fire TV Optimization → Home & device hacks
+- 2026-10-19T11:33:28+05:30 · theme · `sc_a3e97204dd5b3fa1` · Install dumbtv on Fire TV · Privacy Tooling → Home & device hacks
+- 2026-10-19T11:33:28+05:30 · theme · `sc_3d0cdb5d306aca8b` · Kindle Jailbreak with KOReader and Tailscale · Kindle Jailbreak → Home & device hacks
+- 2026-10-19T11:33:28+05:30 · theme · `sc_964432920a894eb9` · TV Decision Model via ADB · Home Automation → Home & device hacks
+- 2026-10-19T11:33:28+05:30 · theme · `sc_43f5341f90fe797c` · Self-host Laya for free desktop file sorting · self-hosting → Home & device hacks
+- 2026-10-19T11:33:28+05:30 · theme · `sc_4cea548f48144c0e` · Build the agent-ready frontend component library from MetalForge, Amicro and ThreeUI · Frontend design systems → Frontend & product building
+- 2026-10-19T11:33:28+05:30 · theme · `sc_1b9faaef9bc74916` · Collect dashboard UI resources for agent-built frontends · Data Visualization Tool → Frontend & product building
+- 2026-10-19T11:33:28+05:30 · theme · `sc_e24295fc2920d36a` · Add five concrete design-reference sites to the Kole Jain UI/UX skill · UI/UX design → Frontend & product building
+- 2026-10-19T11:33:28+05:30 · theme · `sc_8141580b6da6d7f7` · Encode applicable SaaS operating guidelines into project guidance · SaaS operating guidelines → Frontend & product building
+- 2026-10-19T11:33:28+05:30 · theme · `sc_31fe3695426fce1b` · 12 FDE Projects for Hiring · Career Development → Career & job search
+- 2026-10-19T11:33:28+05:30 · theme · `sc_81de50ddaaaccff4` · Evaluate OpenAI Applied AI Architect and Engineer roles for fit · Career — frontier labs → Career & job search
+- 2026-10-19T11:33:28+05:30 · theme · `sc_b9cabd2eedaaca56` · Run a Google L6 readiness diagnostic before collecting more prep material · Google L6 preparation → Career & job search
+- 2026-10-19T11:33:28+05:30 · theme · `sc_fe86ee294179a282` · Turn two senior AI interview guides into one prep checklist · Career Preparation → Career & job search
+- 2026-10-19T11:33:28+05:30 · theme · `sc_08365b2eb7f188ab` · Test an AI-assisted job search using Hermes on your own profile · Career Strategy → Career & job search
+- 2026-10-19T11:33:28+05:30 · theme · `sc_2a44ee5495ea0eb9` · Recruiting: Relevance Over Volume · Recruitment Strategy → Career & job search
+- 2026-10-19T11:33:28+05:30 · theme · `sc_12e12f2e2718a278` · Dan Koe: Multi-Interest Strategy Summary · Career Strategy → Career & job search
+- 2026-10-19T11:33:28+05:30 · theme · `sc_19529a865b85742d` · Outline a four-post dual-DGX-Spark build-in-public series · AI personal brand → Content & personal brand
+- 2026-10-19T11:33:28+05:30 · theme · `sc_dabb85ee65b0fc25` · Publish personal-brand pages in an AI-readable format · AI-readable publishing → Content & personal brand
+- 2026-10-19T11:33:28+05:30 · theme · `sc_c7f72e5c134178c7` · Project: 3Blue1Brown Style Research Video Channel · content creation → Content & personal brand
+- 2026-10-19T11:33:28+05:30 · theme · `sc_71eb7af2501ad07a` · Review AI-avatar carousel content format for marketing adaptation · Content marketing → Content & personal brand
+- 2026-10-19T11:33:28+05:30 · theme · `sc_3473c100ecb8927d` · Maxfusion Marketing AGI Playbook · AI Marketing Automation → Content & personal brand
+- 2026-10-19T11:33:28+05:30 · theme · `sc_4348b5fff10f6ef9` · Run a tracked, value-first YouTube comment acquisition test for HalfBlood Professor · AutoGTM → Content & personal brand
+- 2026-10-19T11:33:28+05:30 · theme · `sc_9a42de6cc8ec6564` · Passive Income via Single Long-Form Video · passive income → Content & personal brand
+- 2026-10-19T11:33:28+05:30 · theme · `sc_a3cc9e560c027a7e` · GEOFlow 3.0 Enterprise GEO System · GEO Automation → Content & personal brand
+- 2026-10-19T11:33:28+05:30 · theme · `sc_6672ae296a775f36` · Apply Paul Graham and Orwell writing rules to one current draft · Writing and Communication → Content & personal brand
+- 2026-10-19T11:33:28+05:30 · theme · `sc_c03359e24eacea9c` · Write a source-checked Feynman note connecting probability, insurance, and modern risk · Probability and risk → Content & personal brand
+- 2026-10-19T11:33:28+05:30 · theme · `sc_22bd2c1fb5d483d8` · Use the 440Hz conspiracy as a test case for the Physics Claim Debunker Skill · Physics Claim Debunker Skill → Content & personal brand
+- 2026-10-19T11:33:28+05:30 · theme · `sc_3bc9757af5218ba0` · Build one CS and LLM study plan from five course candidates · Distributed Systems Education → Learning & references
+- 2026-10-19T11:33:28+05:30 · theme · `sc_d398509547fa6780` · Bookmark engineering and ML reference resources · Software Tools → Learning & references
+- 2026-10-19T11:33:28+05:30 · theme · `sc_343fc066b3ce22a9` · Bookmark film technique and motion reference sites · Film Production → Learning & references
+- 2026-10-19T11:33:28+05:30 · theme · `sc_59ab824e2a819f78` · Urban Analytics with Python Course · Urban Analytics, Python, OpenStreetMap → Learning & references
+- 2026-10-19T11:33:28+05:30 · theme · `sc_b2867f910dbc009d` · Study Marble Open Source Taxonomy · Education Technology → Learning & references
+- 2026-10-19T11:33:28+05:30 · theme · `sc_7fb7a8d5c04d14a3` · BreakScale DB Simulation Tool · Database Simulation → Learning & references
+- 2026-10-19T11:33:28+05:30 · theme · `sc_ce44d160835beff9` · Track DHH Coding is Dead POV · AI Impact on Coding → Learning & references
+- 2026-10-19T11:33:28+05:30 · theme · `sc_5880f8ca8d839095` · Market Sense for Young Traders · Trading Education → Learning & references
+- 2026-10-19T11:33:28+05:30 · theme · `sc_8cb5f6bbdc2c819d` · Women's Fitness App Revenue Benchmarks · App Market Research → Learning & references
+- 2026-10-19T13:36:54+05:30 · you · `sc_d2fc479804301a66` · Read up on RAG, research agents and WebMCP notebooks · Schedule → Do
