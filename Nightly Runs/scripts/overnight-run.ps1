@@ -8,7 +8,8 @@
 # Usage: powershell -NoProfile -ExecutionPolicy Bypass -File overnight-run.ps1 [-Kind nightly|morning] [-Preflight | -DryRun] [-PerHarness 3] [-HoursPerProject 3]
 #   -Kind       where results go (above); the scheduled task passes nightly. Default: morning if started 05:00-16:59, else nightly
 #   -Preflight  only check (run it in the evening, fix what it lists, then let 23:00 run); exit code = number of blocked projects
-param([ValidateSet('nightly', 'morning')][string]$Kind, [switch]$Preflight, [switch]$DryRun, [int]$PerHarness = 3, [double]$HoursPerProject = 3)
+#   -NoPrep     skip the top-10 upkeep prep agent (see Get-Upkeep); -PrepMinutes caps it (default 90)
+param([ValidateSet('nightly', 'morning')][string]$Kind, [switch]$Preflight, [switch]$DryRun, [int]$PerHarness = 3, [double]$HoursPerProject = 3, [switch]$NoPrep, [int]$PrepMinutes = 90)
 $ErrorActionPreference = 'Continue'
 # One run at a time, however it was started (board button, scheduled "Agents Run HHMM" task, by hand): a second one exits.
 $others = @(Get-CimInstance Win32_Process -Filter "Name='powershell.exe' OR Name='pwsh.exe'" | Where-Object { $_.ProcessId -ne $PID -and $_.CommandLine -like '*-File*overnight-run.ps1*' -and $_.CommandLine -notlike '*-Preflight*' })
@@ -32,14 +33,79 @@ New-Item -ItemType Directory -Force $logDir | Out-Null
 
 # Parse "- <folder> [@<harness>[:<model>]] - note" lines under "## Tonight". The "### Claude/Codex/Hermes" lane a line
 # sits in picks its harness; an explicit @tag overrides the lane. First occurrence of a folder wins.
-$queue = @(); $seen = @{}; $inTonight = $false; $lane = 'claude'
-foreach ($line in Get-Content $prioFile -Encoding UTF8) {
-    if ($line -match '^##\s') { $inTonight = $line -match '^##\s+Tonight'; $lane = 'claude'; continue }
-    if ($inTonight -and $line -match '^###\s+(\w+)') { $lane = $Matches[1].ToLower(); continue }
-    if ($inTonight -and $line -match '^\s*-\s+([A-Za-z0-9._-]+)(?:\s+@(\w+)(?::([\w./-]+))?)?' -and -not $seen[$Matches[1]]) {
-        $seen[$Matches[1]] = $true
-        $queue += [pscustomobject]@{ Name = $Matches[1]; Harness = $(if ($Matches[2]) { $Matches[2].ToLower() } else { $lane }); Model = $Matches[3] }
+function Read-Queue {
+    $q = @(); $seen = @{}; $inTonight = $false; $lane = 'claude'
+    foreach ($line in Get-Content $prioFile -Encoding UTF8) {
+        if ($line -match '^##\s') { $inTonight = $line -match '^##\s+Tonight'; $lane = 'claude'; continue }
+        if ($inTonight -and $line -match '^###\s+(\w+)') { $lane = $Matches[1].ToLower(); continue }
+        if ($inTonight -and $line -match '^\s*-\s+([A-Za-z0-9._-]+)(?:\s+@(\w+)(?::([\w./-]+))?)?' -and -not $seen[$Matches[1]]) {
+            $seen[$Matches[1]] = $true
+            $q += [pscustomobject]@{ Name = $Matches[1]; Harness = $(if ($Matches[2]) { $Matches[2].ToLower() } else { $lane }); Model = $Matches[3] }
+        }
     }
+    return $q
+}
+$queue = Read-Queue
+
+# ---- Top-10 upkeep: the projects agents work on follow the priority order ----
+# The top 10 of "## Priority order" (skipping Active and Archived) must each be overnight-ready, have a live build tree and
+# sit in a Tonight lane (or Ready next when its lane is full). When a project moves to Active or Archived, the next one in
+# the order takes its place. A tonight project whose verify already passes must advance a slice first, or its run would
+# stop at once. Preflight lists this work; a real run hands it to one Claude prep agent (agent-rules/prep-prompt.md)
+# before the lanes start, then re-reads the lanes.
+function Get-Upkeep($queue, [switch]$CheckVerify) {
+    $order = @(); $section = ''; $parked = @{}
+    foreach ($line in Get-Content $prioFile -Encoding UTF8) {
+        if ($line -match '^##\s+(.*)$') { $section = $Matches[1]; continue }
+        if ($section -match '^Priority order' -and $line -match '^\s*\d+\.\s+([A-Za-z0-9._-]+)') { $order += $Matches[1] }
+        if ($section -match '^(Active|Archived)' -and $line -match '^\s*-\s+([A-Za-z0-9._-]+)') { $parked[$Matches[1]] = $true }
+    }
+    $queued = @{}; foreach ($q in $queue) { $queued[$q.Name] = $q.Harness }
+    $top = @($order | Where-Object { -not $parked[$_] } | Select-Object -Unique -First 10)
+    $inTop = @{}; foreach ($t in $top) { $inTop[$t] = $true }
+    $items = @(); $waiting = 0
+    foreach ($name in $top) {
+        $dir = Join-Path $projects $name
+        if (-not (Test-Path "$dir\BUILD_SPEC.md")) { $items += [pscustomobject]@{ Project = $name; Action = 'owner'; Why = 'no BUILD_SPEC.md yet, so it cannot be made overnight-ready' }; continue }
+        $todo = @(); $why = @()
+        if (-not (Test-Path "$dir\scripts\verify.ps1")) { $todo += 'make-overnight-ready'; $why += 'no scripts/verify.ps1' }
+        elseif (-not (Test-Path "$dir\.hermes\live-build-tree\model.json")) { $todo += 'build-tree'; $why += 'no live build tree' }
+        if (-not $queued[$name]) { $todo += 'queue'; $why += 'in the top 10 but not in a Tonight lane'; $waiting++ }
+        if ($todo) { $items += [pscustomobject]@{ Project = $name; Action = $todo -join ' + '; Why = $why -join '; ' } }
+    }
+    if ($waiting) {
+        $drop = @($queue | Where-Object { -not $inTop[$_.Name] } | ForEach-Object { [pscustomobject]@{ Project = $_.Name; Action = 'dequeue'; Why = "in the $($_.Harness) lane but no longer in the top 10" } })
+        if ($drop -or $queue.Count -lt 3 * $PerHarness) { $items += $drop }
+        else {   # every lane is full of top-10 work: a waiting project stays in Ready next, nothing to prep for it
+            $items = @($items | ForEach-Object { $_.Action = ($_.Action -split ' \+ ' | Where-Object { $_ -ne 'queue' }) -join ' + '; $_.Why = ($_.Why -split '; ' | Where-Object { $_ -notmatch 'not in a Tonight lane' }) -join '; '; $_ } | Where-Object { $_.Action })
+        }
+    }
+    if ($CheckVerify) {
+        foreach ($q in $queue) {
+            $v = Join-Path $projects "$($q.Name)\scripts\verify.ps1"
+            if (-not (Test-Path $v)) { continue }
+            & powershell -NoProfile -ExecutionPolicy Bypass -File $v *> $null
+            if ($LASTEXITCODE -eq 0) { $items += [pscustomobject]@{ Project = $q.Name; Action = 'advance'; Why = 'verify already passes, so tonight needs its next slices' } }
+        }
+    }
+    return $items
+}
+$upkeep = @(Get-Upkeep $queue -CheckVerify:(-not $Preflight))
+$prepWork = @($upkeep | Where-Object { $_.Action -ne 'owner' })
+if ($prepWork -and -not $Preflight -and -not $DryRun -and -not $NoPrep) {
+    $prepLog = Join-Path $logDir '_prep.log'
+    $prepPrompt = (Get-Content (Join-Path $vault 'Nightly Runs\agent-rules\prep-prompt.md') -Raw -Encoding UTF8) + "`n" +
+        (($prepWork | ForEach-Object { "- $($_.Project): $($_.Action) ($($_.Why))" }) -join "`n") + "`n"
+    $prepJob = Start-Job -ScriptBlock {
+        param($dir, $text, $log)
+        $OutputEncoding = New-Object System.Text.UTF8Encoding $false
+        Set-Location $dir   # the Projects root, so no project's .claude deny rules apply to the prep agent
+        $text | & claude -p --model opus --permission-mode bypassPermissions *> $log
+    } -ArgumentList $projects, $prepPrompt, $prepLog
+    if (-not (Wait-Job $prepJob -Timeout ($PrepMinutes * 60))) { Stop-Job $prepJob; Write-Output "prep: stopped after $PrepMinutes min (log: $prepLog)" }
+    Remove-Job $prepJob -Force
+    Write-Output "prep: done for $($prepWork.Count) item(s), log: $prepLog"
+    $queue = Read-Queue   # the prep agent may have moved projects into lanes
 }
 
 # ---- Preflight: find everything that needs the owner before an unattended night ----
@@ -114,6 +180,11 @@ foreach ($q in $queue) {
     $pf += "| $($q.Name) | $($q.Harness) | $status | $((@($c.Blockers) + @($c.Warnings)) -join '<br>') |"
 }
 if (-not $queue) { $pf += '| (Tonight list is empty) | | | |' }
+if ($upkeep) {
+    $pf += '', '## Top 10 upkeep', '', "Before the lanes start, the next real run's prep agent does the PREP items (make-overnight-ready, build-tree, queue, advance). OWNER items need you. Advance is checked at run time.", '',
+        '| Project | Action | Who | Why |', '|---|---|---|---|'
+    $pf += $upkeep | ForEach-Object { "| $($_.Project) | $($_.Action) | $(if ($_.Action -eq 'owner') { 'OWNER' } else { 'PREP' }) | $($_.Why) |" }
+}
 Set-Content -Path $preflightMd -Value $pf -Encoding UTF8
 if ($Preflight) { Write-Output ($pf -join "`n"); exit @($checks.Values | Where-Object { $_.Blockers }).Count }
 
@@ -212,7 +283,8 @@ foreach ($q in $queue) {
 
 $md = @("# $(if ($Kind -eq 'morning') { 'Morning' } else { 'Overnight' }) Report", "",
         "Run started $($started.ToString('yyyy-MM-dd HH:mm')), finished $((Get-Date).ToString('HH:mm'))$(if ($DryRun) { ' (dry run)' }), $Kind run, up to $PerHarness per harness at once. Logs: ``$logDir``", "",
-        "Verify is re-run by the runner on the desktop after each agent finishes (for @hermes, after pulling its pushed commits). Each project's ``REPORT.md`` has details and open questions.", "",
+        ($(if ($prepWork -and -not $DryRun -and -not $NoPrep) { "Prep before the lanes: $($prepWork.Count) top-10 upkeep item(s); see ``Nightly Runs/Prep Report.md`` and ``$logDir\_prep.log``. " } else { '' }) +
+        "Verify is re-run by the runner on the desktop after each agent finishes (for @hermes, after pulling its pushed commits). Each project's ``REPORT.md`` has details and open questions."), "",
         "| Project | Harness | Verify | Git (desktop) | Commits tonight | Note |", "|---|---|---|---|---|---|")
 $md += $queue | ForEach-Object { $r = $rows[$_.Name]; "| $($r.Project) | $($r.Harness) | $($r.Verify) | $($r.Git) | $($r.Commits) | $($r.Note) |" }
 if (-not $queue) { $md += '| (Tonight list is empty) | | | | | |' }
