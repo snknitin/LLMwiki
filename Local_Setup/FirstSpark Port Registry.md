@@ -1,5 +1,5 @@
 ---
-updated: 2026-10-19
+updated: 2026-10-20
 host: FirstSpark (spark-07a8, tailnet spark-07a8.tail4a1242.ts.net)
 ---
 
@@ -23,6 +23,9 @@ ssh FirstSpark 'ss -ltnH; tailscale serve status'
 | 8443 | :8443 | YouTube Learning Center (`ylc`) | process |
 | 8765 | :8765 | Social Capture | `social-capture.service` (user) |
 | 8766 | :10000 | Dunbar Dossier | `dunbar-dossier.service` |
+| 8767 | :8767 | Expert Lens (`expert-lens-skill`; planned, not deployed yet) | `expert-lens.service` (user) |
+| 8769 | :8769 | Paper Logbook sync relay (`paper-logbook`; planned, not deployed yet) | `paper-logbook-sync.service` (user) |
+| 8770 | :8770 | Creator Content Engine daily collector (`creator-content-engine`; planned, not deployed yet) | systemd user unit |
 | 8772 | :8772 | Kaggle Learning Center | `kaggle-learning-center.service` (user) |
 | 8787 | :8787 | Fresh Brief | process `python app.py` |
 | 8788 | :8788 | TikTok Learning Center (`tlc`) | process |
@@ -57,7 +60,7 @@ ssh FirstSpark 'ss -ltnH; tailscale serve status'
 
 Use these in order and move each one into a table above once it's taken.
 
-- **Dashboards / web apps:** 8767, 8768, 8769, 8770, 8771, 8773–8786, 8790–8799
+- **Dashboards / web apps:** 8768, 8771, 8773–8786, 8790–8799
 - **Agent tools and APIs:** 9121–9199
 - **Model servers:** 8001–8009 (8000 is spark-fast)
 - Avoid 8080 (common default, used inside containers), 8888, 3000, 5000, 11434 (Ollama default).
