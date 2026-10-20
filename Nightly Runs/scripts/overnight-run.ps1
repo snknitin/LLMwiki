@@ -1,11 +1,13 @@
 # Overnight runner: works the "## Tonight" list in Nightly Runs/Project Priorities.md, up to -PerHarness projects per harness at once
 # (default 3 Claude + 3 Codex + 3 Hermes = 9 in parallel).
 # @claude and @codex run here on the desktop; @hermes runs on FirstSpark over SSH. After each agent finishes,
-# the runner re-runs that project's scripts/verify.ps1 itself and writes Nightly Runs/Overnight Report.md (plus a dated copy in Nightly Runs/Logs).
+# the runner re-runs that project's scripts/verify.ps1 itself and writes Nightly Runs/Overnight Report.md (nightly) or Morning Report.md (morning),
+# plus a dated copy per run in Nightly Runs/Logs ("2026-10-20 2300 nightly.md"), so no run overwrites another.
 # Every run starts with a preflight: projects with blockers are skipped, and Nightly Runs/Preflight.md lists what needs you.
-# Usage: powershell -NoProfile -ExecutionPolicy Bypass -File overnight-run.ps1 [-Preflight | -DryRun] [-PerHarness 3] [-HoursPerProject 3]
+# Usage: powershell -NoProfile -ExecutionPolicy Bypass -File overnight-run.ps1 [-Kind nightly|morning] [-Preflight | -DryRun] [-PerHarness 3] [-HoursPerProject 3]
+#   -Kind       which report this run writes; scheduled tasks pass it. Default: morning if started 05:00-16:59, else nightly
 #   -Preflight  only check (run it in the evening, fix what it lists, then let 23:00 run); exit code = number of blocked projects
-param([switch]$Preflight, [switch]$DryRun, [int]$PerHarness = 3, [double]$HoursPerProject = 3)
+param([ValidateSet('nightly', 'morning')][string]$Kind, [switch]$Preflight, [switch]$DryRun, [int]$PerHarness = 3, [double]$HoursPerProject = 3)
 $ErrorActionPreference = 'Continue'
 # One run at a time, however it was started (board button, scheduled "Agents Run HHMM" task, by hand): a second one exits.
 $others = @(Get-CimInstance Win32_Process -Filter "Name='powershell.exe' OR Name='pwsh.exe'" | Where-Object { $_.ProcessId -ne $PID -and $_.CommandLine -like '*-File*overnight-run.ps1*' -and $_.CommandLine -notlike '*-Preflight*' })
@@ -15,13 +17,15 @@ $projects      = 'E:\GIT_ROOT\Projects'
 $sparkProjects = '/home/snknitin/Workspace/GIT_ROOT/Projects'
 $ssh           = "$env:WINDIR\System32\OpenSSH\ssh.exe"
 $prioFile      = Join-Path $vault 'Nightly Runs\Project Priorities.md'
-$reportMd      = Join-Path $vault 'Nightly Runs\Overnight Report.md'
 $preflightMd   = Join-Path $vault 'Nightly Runs\Preflight.md'
 $runLogDir     = Join-Path $vault 'Nightly Runs\Logs'   # dated copy of each real run's report, kept for history
 $prompt        = Get-Content (Join-Path $vault 'Nightly Runs\agent-rules\overnight-prompt.md') -Raw -Encoding UTF8
 $started       = Get-Date
+if (-not $Kind) { $Kind = $(if ($started.Hour -ge 5 -and $started.Hour -lt 17) { 'morning' } else { 'nightly' }) }
+$reportMd      = Join-Path $vault $(if ($Kind -eq 'morning') { 'Nightly Runs\Morning Report.md' } else { 'Nightly Runs\Overnight Report.md' })
+$stamp         = "$($started.ToString('yyyy-MM-dd HHmm')) $Kind"   # names this run's dated report and agent-log folder
 $budget        = [int]($HoursPerProject * 3600)
-$logDir        = Join-Path $projects (".overnight-logs\" + $started.ToString('yyyy-MM-dd_HHmm'))
+$logDir        = Join-Path $projects (".overnight-logs\" + $stamp)
 New-Item -ItemType Directory -Force $logDir | Out-Null
 
 # Parse "- <folder> [@<harness>[:<model>]] - note" lines under "## Tonight". The "### Claude/Codex/Hermes" lane a line
@@ -182,12 +186,12 @@ foreach ($q in $queue) {
     $row.Commits = @(git -C $dir log --since=$($started.ToString('s')) --oneline 2>$null).Count
 }
 
-$md = @("# Overnight Report", "",
-        "Run started $($started.ToString('yyyy-MM-dd HH:mm')), finished $((Get-Date).ToString('HH:mm'))$(if ($DryRun) { ' (dry run)' }), up to $PerHarness per harness at once. Logs: ``$logDir``", "",
+$md = @("# $(if ($Kind -eq 'morning') { 'Morning' } else { 'Overnight' }) Report", "",
+        "Run started $($started.ToString('yyyy-MM-dd HH:mm')), finished $((Get-Date).ToString('HH:mm'))$(if ($DryRun) { ' (dry run)' }), $Kind run, up to $PerHarness per harness at once. Logs: ``$logDir``", "",
         "Verify is re-run by the runner on the desktop after each agent finishes (for @hermes, after pulling its pushed commits). Each project's ``REPORT.md`` has details and open questions.", "",
         "| Project | Harness | Verify | Git (desktop) | Commits tonight | Note |", "|---|---|---|---|---|---|")
 $md += $queue | ForEach-Object { $r = $rows[$_.Name]; "| $($r.Project) | $($r.Harness) | $($r.Verify) | $($r.Git) | $($r.Commits) | $($r.Note) |" }
 if (-not $queue) { $md += '| (Tonight list is empty) | | | | | |' }
 Set-Content -Path $reportMd -Value $md -Encoding UTF8
-if (-not $DryRun) { Set-Content -Path (Join-Path $runLogDir "$($started.ToString('yyyy-MM-dd_HHmm')) Overnight Report.md") -Value $md -Encoding UTF8 }
+if (-not $DryRun) { Set-Content -Path (Join-Path $runLogDir "$stamp.md") -Value $md -Encoding UTF8 }
 Write-Output ($md -join "`n")
