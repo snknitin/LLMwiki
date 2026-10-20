@@ -19,16 +19,14 @@ The one list that decides what agents work on. Edit freely: reorder lines, move 
 ## Tonight
 
 ### Claude
-- mock-interview-gauntlet — first slice
-- bionic-reading-trainer — T1–T2: SvelteKit reader, emphasis + scroll/RSVP/chunk modes, screenshots
+- language-learning-lab — A local-first language workbench built on three loops · includes merged: vocabulary-diction-studio (English track)
 
 ### Codex
-- resume-blueprint-studio — first slice (its branch is codex/specification)
-- epub-highlights-bridge — T1–T3: KOReader import, SQLite identity store, commentary preservation
+- resume-blueprint-studio @codex:sol-6-1 — first slice (its branch is codex/specification)
+- mock-interview-gauntlet @codex:sol-5-6 — first slice
 
 ### Hermes
-- motto-agent-council — first slice (local small-agent council)
-- leetcode-pattern-curriculum — T1 + T3: lcpc predict/attempt/hint loop, two-pointers module (verify.sh on Linux)
+- expert-lens-skill — A FirstSpark dashboard for topic Markdown + GLM chat: Expert Lens, Batman Prep (with goal planner), Rabbit Hole, Research (Claim Check), Experiments (Brain Blast) · includes merged: batman-prep-time-skill, goal-to-calendar-planner, rabbit-hole-speedrun, physics-claim-debunker-skill, brain-blast-skill
 
 ## Priority order (top 10 = daily focus)
 Tiers P0–P5, highest first; ranks count straight through. In the Agents board, ⤒ ↑ ↓ ⤓ move a project only within its tier, and its tier menu moves it to the edge of another tier.
@@ -123,7 +121,10 @@ Tiers P0–P5, highest first; ranks count straight through. In the Agents board,
 77. yugioh-rl-lab
 
 ## Ready next (overnight-ready, not queued)
-- (none yet: all 9 slots are filled)
+- bionic-reading-trainer — T1–T2: SvelteKit reader, emphasis + scroll/RSVP/chunk modes, screenshots
+- epub-highlights-bridge — T1–T3: KOReader import, SQLite identity store, commentary preservation
+- motto-agent-council — first slice (local small-agent council)
+- leetcode-pattern-curriculum — T1 + T3: lcpc predict/attempt/hint loop, two-pointers module (verify.sh on Linux)
 
 ## Active (built; daytime feedback and iteration)
 - dashboard-command-center — 48 commits — A Windows-first, browser-chrome-free Electron operations shell for the owner's private dashboar
@@ -155,7 +156,6 @@ Tiers P0–P5, highest first; ranks count straight through. In the Agents board,
 - event-market-research-terminal — A research-only terminal for event markets and crypto narratives · includes merged: edge-desk
 - event-networking-copilot — A phone-first event companion
 - event-ops-agency — A local Next.js app that turns an event brief plus working spreadsheets (CSV) into a deadline-a · includes merged: ai-event-matchmaker
-- expert-lens-skill — A FirstSpark dashboard for topic Markdown + GLM chat: Expert Lens, Batman Prep (with goal planner), Rabbit Hole, Research (Claim Check), Experiments (Brain Blast) · includes merged: batman-prep-time-skill, goal-to-calendar-planner, rabbit-hole-speedrun, physics-claim-debunker-skill, brain-blast-skill
 - feedback-mirror — A privacy-first, on-device daily appearance journal
 - field-pokedex — An Expo mobile app that identifies likely plant species from a photo via a hosted identificatio
 - finance-ops-agency — A local finance-operations desk for a freelancer · includes merged: invoice-chaser-agent, tax-packet-autopilot
@@ -167,7 +167,6 @@ Tiers P0–P5, highest first; ranks count straight through. In the Agents board,
 - jobs-search-and-apply-tool — A private, Windows-localhost career operations console for one job seeker · includes merged: am-i-underpaid
 - knowledge-base-agency — A local pipeline + web app that turns a client's supplied documents into a citation-first knowl
 - landing-page-conversion-agency — A local CRO workbench that audits a user-OWNED landing page · includes merged: roast-my-landing-page
-- language-learning-lab — A local-first language workbench built on three loops · includes merged: vocabulary-diction-studio (English track)
 - live-chess-tutor — A local desktop chess board for guided practice
 - local-video-generation-evaluation-lab — A reproducible CLI benchmark harness answering one question
 - maintainer-desk — A supervised operations desk for one GitHub repository · includes merged: pr-factory
