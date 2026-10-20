@@ -25,3 +25,8 @@ Morning Runs/Morning Report.md
 Local_Setup/graphify-out/*
 Local_Setup/.claude/launch.json
 Nightly Runs/Preflight.md
+
+# Local runtime state written by tools, not notes (2026-10-20)
+Local_Setup/.setup-dashboard/checklist-writes.jsonl
+# A tool resolved HOME as the string "undefined" and wrote its config into the vault
+undefined/
