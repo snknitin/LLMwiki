@@ -13,7 +13,11 @@
 #   -NoPrep     skip the top-10 upkeep prep agent (see Get-Upkeep); -PrepMinutes caps it (default 90)
 #   -PrepOnly   run only the prep agent (make-overnight-ready, build-tree, structure, queue, advance), then refresh Preflight.md
 #               and exit. The Agents board runs it when a project enters the top 10 or a Tonight lane, so it's ready before 23:00.
-param([ValidateSet('nightly', 'morning')][string]$Kind, [switch]$Preflight, [switch]$DryRun, [int]$PerHarness = 3, [double]$HoursPerProject = 3, [string]$Until = '06:30', [switch]$NoPrep, [int]$PrepMinutes = 90, [switch]$PrepOnly)
+#   -Resume     continue a run that was cut off (power cut, crash, reboot) until its original end time; exits at once when
+#               there is none. The "Agents Run resume" task runs it at logon and every 15 minutes.
+# Survives the night: the PC is kept awake while a run is going, and a session that ended on a network error waits for the
+# network (or FirstSpark) to come back, then starts again.
+param([ValidateSet('nightly', 'morning')][string]$Kind, [switch]$Preflight, [switch]$DryRun, [int]$PerHarness = 3, [double]$HoursPerProject = 3, [string]$Until = '06:30', [switch]$NoPrep, [int]$PrepMinutes = 90, [switch]$PrepOnly, [switch]$Resume)
 $ErrorActionPreference = 'Continue'
 $hoursGiven = $PSBoundParameters.ContainsKey('HoursPerProject')   # explicit hours win over a nightly run's -Until
 # One run at a time, however it was started (board button, scheduled "Agents Run HHMM" task, by hand): a second one exits.
@@ -33,6 +37,21 @@ $ssh           = "$env:WINDIR\System32\OpenSSH\ssh.exe"
 $prioFile      = Join-Path $vault 'Nightly Runs\Project Priorities.md'
 $preflightMd   = Join-Path $vault 'Nightly Runs\Preflight.md'
 $prompt        = Get-Content (Join-Path $vault 'Nightly Runs\agent-rules\overnight-prompt.md') -Raw -Encoding UTF8
+# Written when the lanes start, deleted when the run finishes: if it is still here and no run is going, the run was cut off.
+$stateFile     = Join-Path $vault 'Nightly Runs\.run-state.json'
+$resumeEnd     = $null
+if ($Resume) {
+    $state = $null
+    try { $state = Get-Content $stateFile -Raw -ErrorAction Stop | ConvertFrom-Json } catch { exit 0 }   # nothing was cut off
+    $resumeEnd = [datetime]::Parse($state.until)
+    if ((Get-Date).AddMinutes(30) -ge $resumeEnd) { Remove-Item $stateFile -ErrorAction SilentlyContinue; Write-Output "resume: the cut-off run's end time ($($resumeEnd.ToString('HH:mm'))) has passed"; exit 0 }
+    $Kind = $state.kind
+    Write-Output "resume: continuing the $Kind run cut off after $($state.started), until $($resumeEnd.ToString('HH:mm'))"
+}
+if (-not $Preflight) {
+    # Keep the PC awake (not the screen) while this process lives; Windows drops the request when it exits.
+    try { Add-Type -Namespace Win32 -Name Power -MemberDefinition '[DllImport("kernel32.dll")] public static extern uint SetThreadExecutionState(uint esFlags);'; [void][Win32.Power]::SetThreadExecutionState(0x80000001) } catch {}
+}
 $started       = Get-Date
 if (-not $Kind) { $Kind = $(if ($started.Hour -ge 5 -and $started.Hour -lt 17) { 'morning' } else { 'nightly' }) }
 $runsDir       = Join-Path $vault $(if ($Kind -eq 'morning') { 'Morning Runs' } else { 'Nightly Runs' })
@@ -278,7 +297,9 @@ $worker = {
         'hermes' {
             if (-not $model) { $model = 'glm53-flash' }   # best local coding model (SecondSpark + ThirdSpark)
             $m = "-m $model"
-            $remote = 'test -d {0} || {{ echo SPARK_MISSING; exit 3; }}; cd {0} && git pull --rebase -q; ~/.local/bin/hermes chat --query-file - -Q --yolo --in {0} --run-budget {1} {2}; echo SPARK_GIT dirty=$(git status --porcelain | wc -l) unpushed=$(git rev-list --count @{{u}}..HEAD)' -f $sparkDir, $budget, $m
+            # .git/overnight-hermes.pid: a session cut off from this side (dropped SSH) can still be running on FirstSpark;
+            # never start a second one in the same repo (SPARK_BUSY makes the runner wait and try again).
+            $remote = 'test -d {0} || {{ echo SPARK_MISSING; exit 3; }}; cd {0} || exit 3; p=.git/overnight-hermes.pid; if [ -f $p ] && kill -0 $(cat $p) 2>/dev/null; then echo SPARK_BUSY; exit 4; fi; echo $$ > $p; git pull --rebase -q; ~/.local/bin/hermes chat --query-file - -Q --yolo --in {0} --run-budget {1} {2}; rm -f $p; echo SPARK_GIT dirty=$(git status --porcelain | wc -l) unpushed=$(git rev-list --count @{{u}}..HEAD)' -f $sparkDir, $budget, $m
             $prompt | & $ssh -o BatchMode=yes FirstSpark $remote *>> $log
         }
         default {
@@ -317,6 +338,17 @@ function Complete-Run($q, $row) {
         git -C $dir pull --rebase --autostash -q 2>$null   # bring Hermes's pushed commits here for the gate
     }
     if ($row.Note -notlike "*log: $log*") { $row.Note += "log: $log" }
+    return $text
+}
+
+# A session that ended because the connection dropped (API host, or FirstSpark over SSH), or found the last Hermes
+# session for this project still running on FirstSpark, is started again once the other end answers.
+$netError = '(?i)ENOTFOUND|EAI_AGAIN|ECONNRESET|ECONNREFUSED|ETIMEDOUT|fetch failed|Connection error|network error|getaddrinfo|Could not resolve host|Connection timed out|Connection reset|Connection closed by|Broken pipe|client_loop|ssh: connect to host|SPARK_BUSY'
+function Test-Online($harness) {
+    if ($harness -eq 'hermes') { & $ssh -o BatchMode=yes -o ConnectTimeout=8 FirstSpark true *> $null; return $LASTEXITCODE -eq 0 }
+    $hostName = $(if ($harness -eq 'codex') { 'api.openai.com' } else { 'api.anthropic.com' })
+    $client = New-Object System.Net.Sockets.TcpClient
+    try { return $client.ConnectAsync($hostName, 443).Wait(8000) } catch { return $false } finally { $client.Dispose() }
 }
 
 # Real progress since $from: a commit that changes more than the bookkeeping files every session rewrites.
@@ -328,6 +360,7 @@ function Test-Progress($dir, $from) {
 
 # The lanes' end time. Nightly: -Until (next occurrence), so the lanes work all night. Otherwise -HoursPerProject from now.
 function Get-Deadline($now) {
+    if ($resumeEnd) { return $resumeEnd }   # a resumed run keeps the cut-off run's end time
     if ($Kind -eq 'nightly' -and -not $hoursGiven) {
         $d = $now.Date.Add([timespan]::Parse($Until)); if ($d -le $now) { $d = $d.AddDays(1) }; return $d
     }
@@ -337,13 +370,19 @@ $deadline = Get-Deadline (Get-Date)
 $minSession = 1800   # never start a session with less than 30 minutes left
 $maxSessions = 8     # shortcut: a fixed cap per project per run in case an agent keeps committing in circles; raise it if logs show real work cut off
 
-$running = @{}; $limited = @{}; $sessions = @{}
+if ($pending.Count) { @{ kind = $Kind; started = $started.ToString('o'); until = $deadline.ToString('o') } | ConvertTo-Json | Set-Content -Path $stateFile -Encoding UTF8 }
+$running = @{}; $limited = @{}; $sessions = @{}; $waitNet = @{}; $netRetries = @{}; $nextNetCheck = @{}
 while ($pending.Count -or $running.Count) {
     # Start every pending project whose harness has a free slot, in list order (first sessions before relaunches).
     foreach ($q in @($pending)) {
         if ($limited[$q.Harness]) { if (-not $sessions[$q.Name]) { $rows[$q.Name].Note = "not run: $($q.Harness) usage limit hit earlier tonight" }; $pending.Remove($q); continue }
         $left = [int]($deadline - (Get-Date)).TotalSeconds
         if ($left -lt $minSession) { if (-not $sessions[$q.Name]) { $rows[$q.Name].Note = "not run: less than 30 min left before $($deadline.ToString('HH:mm'))" }; $pending.Remove($q); continue }
+        if ($waitNet[$q.Name]) {   # checked at most once a minute per tool
+            if ($nextNetCheck[$q.Harness] -and (Get-Date) -lt $nextNetCheck[$q.Harness]) { continue }
+            if (-not (Test-Online $q.Harness)) { $nextNetCheck[$q.Harness] = (Get-Date).AddMinutes(1); continue }
+            $waitNet.Remove($q.Name)
+        }
         if (@($running.Values | Where-Object { $_.Q.Harness -eq $q.Harness }).Count -ge $PerHarness) { continue }
         $pending.Remove($q)
         $dir = Join-Path $projects $q.Name; $log = Join-Path $logDir "$($q.Name).log"
@@ -352,7 +391,7 @@ while ($pending.Count -or $running.Count) {
         $job = Start-Job -ScriptBlock $worker -ArgumentList $dir, $q.Harness, $q.Model, $prompt, $log, $left, $ssh, "$sparkProjects/$($q.Name)"
         $running[$job.Id] = @{ Job = $job; Q = $q; Start = Get-Date; Head = (git -C $dir rev-parse HEAD 2>$null) }
     }
-    if (-not $running.Count) { break }
+    if (-not $running.Count) { if ($pending.Count) { Start-Sleep -Seconds 30; continue }; break }   # only projects waiting for the network
     Wait-Job -Job @($running.Values | ForEach-Object { $_.Job }) -Any -Timeout 60 | Out-Null
     foreach ($id in @($running.Keys)) {
         $r = $running[$id]; $row = $rows[$r.Q.Name]
@@ -366,9 +405,13 @@ while ($pending.Count -or $running.Count) {
         if ($r.Job.State -ne 'Running') {
             Remove-Job $r.Job -Force; $running.Remove($id)
             $row.Minutes += [int]((Get-Date) - $r.Start).TotalMinutes
-            Complete-Run $r.Q $row
+            $text = Complete-Run $r.Q $row
             # Stopped early with real progress and time left: start it again; it resumes from PROGRESS.md's next open item.
             if (-not $row.TimedOut -and $sessions[$r.Q.Name] -lt $maxSessions -and (Test-Progress (Join-Path $projects $r.Q.Name) $r.Head)) { [void]$pending.Add($r.Q) }
+            elseif (-not $row.TimedOut -and -not $limited[$r.Q.Harness] -and "$text" -match $netError -and [int]$netRetries[$r.Q.Name] -lt 6) {
+                $netRetries[$r.Q.Name] = 1 + [int]$netRetries[$r.Q.Name]; $waitNet[$r.Q.Name] = $true
+                $row.Note += "connection lost at $((Get-Date).ToString('HH:mm')), retried when back. "; [void]$pending.Add($r.Q)
+            }
         }
     }
 }
@@ -401,6 +444,7 @@ if (-not $queue) { $md += '| (Tonight list is empty) | | | | | |' }
 New-Item -ItemType Directory -Force $runLogDir | Out-Null   # Morning Runs/Logs on the first morning run
 Set-Content -Path $reportMd -Value $md -Encoding UTF8
 if (-not $DryRun) { Set-Content -Path (Join-Path $runLogDir "$stamp.md") -Value $md -Encoding UTF8 }
+if (-not $DryRun) { Remove-Item $stateFile -ErrorAction SilentlyContinue }   # finished: nothing for -Resume to continue
 
 # ---- Scorecard: one row per project per real run, plus a summary by tool, so harnesses and models can be compared ----
 $scoreCsv = Join-Path $vault 'Nightly Runs\Scorecard.csv'
