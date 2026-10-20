@@ -9,9 +9,9 @@ description: Use when a project under E:\GIT_ROOT\Projects (or ~/Workspace/GIT_R
 
 **Reference projects** (copy their patterns, don't invent new ones): `mock-interview-gauntlet` (contract, verify, stop gate, settings) and `net-worth-command-center` (multi-slice verify, `verify.sh`, live build tree).
 
-1. **Read everything:** `BUILD_SPEC.md` (task table, slices, merged-feature sections, acceptance, owner decisions), `README.md`, every `features/*/` folder (merged features with their own task tables), and any existing CLAUDE.md/AGENTS.md, PROGRESS.md, DECISIONS.md and REPORT.md.
+1. **Read everything:** the vault's `Nightly Runs/agent-rules/OWNER-CONTEXT.md` first (standing decisions answer most "owner decisions" in specs), then `BUILD_SPEC.md` (task table, slices, merged-feature sections, acceptance, owner decisions), `README.md`, every `features/*/` folder (merged features with their own task tables), and any existing CLAUDE.md/AGENTS.md, PROGRESS.md, DECISIONS.md and REPORT.md.
 
-2. **Pick tonight's scope:** consecutive slices from the first open task, stopping before the first **owner gate**. A gate is anything that needs real or private data, live accounts/OAuth/keys, a model or route choice, Spark hosting, publishing or sending, a download the machine lacks, or a BLOCKING open question in REPORT.md. Size it for a full night:
+2. **Pick tonight's scope:** consecutive slices from the first open task, stopping before the first **owner gate**. A gate is anything that needs real or private data, live accounts/OAuth/keys, publishing or sending, a download the machine lacks, or a BLOCKING open question in REPORT.md. Model, endpoint, port and hosting choices are not gates when OWNER-CONTEXT.md settles them: decide, log in DECISIONS.md, and don't turn the spec's whole "owner decisions" list into REPORT.md questions; write only what OWNER-CONTEXT section 5 calls owner-only. Size it for a full night:
    - Claude lane (Opus coordinating Sonnet builders) or Codex lane: about 6–10 tasks.
    - Hermes lane (local glm53-flash): about 4–6 tasks.
    - Merged-feature tasks that only need fixtures may join if their dependencies are inside the scope.

@@ -23,6 +23,16 @@ Standing authorization in every git repo; no need to ask.
 - Stop only for: missing credentials or access, destructive or irreversible actions, external side effects (sending, posting, paying), or a spec contradiction. Write the question into `REPORT.md` in the format below, then continue with other work.
 - Before asking, read `DECISIONS.md` under `## Owner answers (from the Agents board)`: the owner may already have answered it.
 
+## Owner context (read before asking anything)
+`Nightly Runs/agent-rules/OWNER-CONTEXT.md` in the vault (desktop `F:\Vaults\LLMWiki`, FirstSpark `/home/snknitin/vaults/LLMWiki`) holds the owner's machines, models and endpoints, ports, standing decisions, and the list of what you decide yourself versus what only the owner can answer. Read it once per session before planning work or writing a question. If it answers your question, follow it and cite it in `DECISIONS.md` instead of asking.
+
+## Never stall on the owner
+Nobody answers during a run, so waiting is always wrong.
+- Never wait, poll, sleep or end early because of a question or an approval step. Record it and move to the next unblocked task.
+- Approval steps (owner gates `G<n>`, "ask before slice N", "needs owner approval"): look in `DECISIONS.md` under `## Owner answers (from the Agents board)` for a line `Approve: <gate title>: **Approved…**`. If it is there, the gate is passed: do that work. If not, or the answer is "Not yet", skip only the work behind the gate and keep going with everything else.
+- Ask only what `OWNER-CONTEXT.md` section 5 lists as owner-only (credentials, money, sending, destructive actions, shared services, private data, a real spec conflict). Everything else you decide and log.
+- A question is BLOCKING only for the tasks it actually blocks; name them. Always give a recommended option, and keep building the parts that don't depend on it (fixtures, fakes, tests, docs).
+
 ## How to ask the owner (multiple choice)
 Questions go in `REPORT.md` under `## Open questions`, one block each, so the Agents board can show them as choices:
 
