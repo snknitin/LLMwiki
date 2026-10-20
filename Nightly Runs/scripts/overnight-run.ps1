@@ -264,6 +264,7 @@ function Compare-Integrity($before, $after) {
 # One agent run, inside a background job. Output goes to $log.
 $worker = {
     param($dir, $harness, $model, $prompt, $log, $budget, $ssh, $sparkDir)
+    Set-Content -Path "$log.pid" -Value $PID   # so the runner can end this job's whole process tree at the end time
     $OutputEncoding = New-Object System.Text.UTF8Encoding $false
     Set-Location $dir
     $env:OVERNIGHT_RUN = '1'   # turns on the project's Stop-hook verify gate (Claude)
@@ -356,8 +357,11 @@ while ($pending.Count -or $running.Count) {
     foreach ($id in @($running.Keys)) {
         $r = $running[$id]; $row = $rows[$r.Q.Name]
         if ($r.Job.State -eq 'Running' -and (Get-Date) -ge $deadline.AddSeconds(300)) {
-            # shortcut: Stop-Job ends the job host, but a child claude/codex/ssh process can outlive it; kill it by hand if a timeout is reported.
-            Stop-Job $r.Job; $row.Note += "stopped at the $($deadline.ToString('HH:mm')) end time. "; $row.TimedOut = $true
+            # Stop-Job alone ends only the job host; taskkill /T also ends the claude/codex/ssh process under it and their children.
+            # (A Hermes session on FirstSpark stops itself: it was given the same end time as --run-budget.)
+            $jobPid = Get-Content "$(Join-Path $logDir "$($r.Q.Name).log").pid" -ErrorAction SilentlyContinue | Select-Object -First 1
+            if ($jobPid) { & taskkill.exe /PID $jobPid /T /F *> $null }
+            Stop-Job $r.Job; $row.Note += "stopped at the $($deadline.ToString('HH:mm')) end time, agent processes ended. "; $row.TimedOut = $true
         }
         if ($r.Job.State -ne 'Running') {
             Remove-Job $r.Job -Force; $running.Remove($id)
