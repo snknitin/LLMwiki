@@ -1,11 +1,12 @@
 # Overnight runner: works the "## Tonight" list in Nightly Runs/Project Priorities.md, up to -PerHarness projects per harness at once
 # (default 3 Claude + 3 Codex + 3 Hermes = 9 in parallel).
 # @claude and @codex run here on the desktop; @hermes runs on FirstSpark over SSH. After each agent finishes,
-# the runner re-runs that project's scripts/verify.ps1 itself and writes Nightly Runs/Overnight Report.md (nightly) or Morning Report.md (morning),
-# plus a dated copy per run in Nightly Runs/Logs ("2026-10-20 2300 nightly.md"), so no run overwrites another.
+# the runner re-runs that project's scripts/verify.ps1 itself and writes a report plus a dated copy per real run (never overwritten):
+#   nightly: Nightly Runs/Overnight Report.md, Nightly Runs/Logs/<yyyy-MM-dd_HHmm>.md, agent logs in E:/GIT_ROOT/Projects/.overnight-logs
+#   morning: Morning Runs/Morning Report.md,   Morning Runs/Logs/<yyyy-MM-dd_HHmm>.md, agent logs in E:/GIT_ROOT/Projects/.morning-logs
 # Every run starts with a preflight: projects with blockers are skipped, and Nightly Runs/Preflight.md lists what needs you.
 # Usage: powershell -NoProfile -ExecutionPolicy Bypass -File overnight-run.ps1 [-Kind nightly|morning] [-Preflight | -DryRun] [-PerHarness 3] [-HoursPerProject 3]
-#   -Kind       which report this run writes; scheduled tasks pass it. Default: morning if started 05:00-16:59, else nightly
+#   -Kind       where results go (above); the scheduled task passes nightly. Default: morning if started 05:00-16:59, else nightly
 #   -Preflight  only check (run it in the evening, fix what it lists, then let 23:00 run); exit code = number of blocked projects
 param([ValidateSet('nightly', 'morning')][string]$Kind, [switch]$Preflight, [switch]$DryRun, [int]$PerHarness = 3, [double]$HoursPerProject = 3)
 $ErrorActionPreference = 'Continue'
@@ -18,14 +19,15 @@ $sparkProjects = '/home/snknitin/Workspace/GIT_ROOT/Projects'
 $ssh           = "$env:WINDIR\System32\OpenSSH\ssh.exe"
 $prioFile      = Join-Path $vault 'Nightly Runs\Project Priorities.md'
 $preflightMd   = Join-Path $vault 'Nightly Runs\Preflight.md'
-$runLogDir     = Join-Path $vault 'Nightly Runs\Logs'   # dated copy of each real run's report, kept for history
 $prompt        = Get-Content (Join-Path $vault 'Nightly Runs\agent-rules\overnight-prompt.md') -Raw -Encoding UTF8
 $started       = Get-Date
 if (-not $Kind) { $Kind = $(if ($started.Hour -ge 5 -and $started.Hour -lt 17) { 'morning' } else { 'nightly' }) }
-$reportMd      = Join-Path $vault $(if ($Kind -eq 'morning') { 'Nightly Runs\Morning Report.md' } else { 'Nightly Runs\Overnight Report.md' })
-$stamp         = "$($started.ToString('yyyy-MM-dd HHmm')) $Kind"   # names this run's dated report and agent-log folder
+$runsDir       = Join-Path $vault $(if ($Kind -eq 'morning') { 'Morning Runs' } else { 'Nightly Runs' })
+$reportMd      = Join-Path $runsDir $(if ($Kind -eq 'morning') { 'Morning Report.md' } else { 'Overnight Report.md' })
+$runLogDir     = Join-Path $runsDir 'Logs'   # dated copy of each real run's report, kept for history
+$stamp         = $started.ToString('yyyy-MM-dd_HHmm')   # names this run's dated report and agent-log folder
 $budget        = [int]($HoursPerProject * 3600)
-$logDir        = Join-Path $projects (".overnight-logs\" + $stamp)
+$logDir        = Join-Path $projects ($(if ($Kind -eq 'morning') { '.morning-logs\' } else { '.overnight-logs\' }) + $stamp)
 New-Item -ItemType Directory -Force $logDir | Out-Null
 
 # Parse "- <folder> [@<harness>[:<model>]] - note" lines under "## Tonight". The "### Claude/Codex/Hermes" lane a line
@@ -192,6 +194,7 @@ $md = @("# $(if ($Kind -eq 'morning') { 'Morning' } else { 'Overnight' }) Report
         "| Project | Harness | Verify | Git (desktop) | Commits tonight | Note |", "|---|---|---|---|---|---|")
 $md += $queue | ForEach-Object { $r = $rows[$_.Name]; "| $($r.Project) | $($r.Harness) | $($r.Verify) | $($r.Git) | $($r.Commits) | $($r.Note) |" }
 if (-not $queue) { $md += '| (Tonight list is empty) | | | | | |' }
+New-Item -ItemType Directory -Force $runLogDir | Out-Null   # Morning Runs/Logs on the first morning run
 Set-Content -Path $reportMd -Value $md -Encoding UTF8
 if (-not $DryRun) { Set-Content -Path (Join-Path $runLogDir "$stamp.md") -Value $md -Encoding UTF8 }
 Write-Output ($md -join "`n")

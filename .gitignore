@@ -21,7 +21,7 @@ Agent Inbox/Dunbar Dossier/
 
 # Regenerated nightly by Local_Setup/scripts/overnight-run.ps1
 Nightly Runs/Overnight Report.md
-Nightly Runs/Morning Report.md
+Morning Runs/Morning Report.md
 Local_Setup/graphify-out/*
 Local_Setup/.claude/launch.json
 Nightly Runs/Preflight.md
