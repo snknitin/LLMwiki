@@ -24,6 +24,12 @@ $hoursGiven = $PSBoundParameters.ContainsKey('HoursPerProject')   # explicit hou
 # A real run that finds only a -PrepOnly going waits for it (prep is short), so a late prep never costs the night.
 function Get-OtherRuns { @(Get-CimInstance Win32_Process -Filter "Name='powershell.exe' OR Name='pwsh.exe'" | Where-Object { $_.ProcessId -ne $PID -and $_.CommandLine -like '*-File*overnight-run.ps1*' -and $_.CommandLine -notlike '*-Preflight*' }) }
 $others = Get-OtherRuns
+# A -Resume check with nothing to continue exits within seconds: wait that out, so a 23:00 start never loses to it.
+if (-not $Preflight -and $others -and -not @($others | Where-Object { $_.CommandLine -notlike '*-Resume*' })) {
+    $until = (Get-Date).AddSeconds(60)
+    while (@(Get-OtherRuns | Where-Object { $_.CommandLine -like '*-Resume*' }) -and (Get-Date) -lt $until) { Start-Sleep -Seconds 5 }
+    $others = Get-OtherRuns
+}
 if (-not $Preflight -and -not $PrepOnly -and $others -and -not @($others | Where-Object { $_.CommandLine -notlike '*-PrepOnly*' })) {
     $until = (Get-Date).AddMinutes($PrepMinutes + 5)
     while ((Get-OtherRuns) -and (Get-Date) -lt $until) { Start-Sleep -Seconds 30 }
