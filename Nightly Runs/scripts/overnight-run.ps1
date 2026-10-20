@@ -5,14 +5,17 @@
 #   nightly: Nightly Runs/Overnight Report.md, Nightly Runs/Logs/<yyyy-MM-dd_HHmm>.md, agent logs in E:/GIT_ROOT/Projects/.overnight-logs
 #   morning: Morning Runs/Morning Report.md,   Morning Runs/Logs/<yyyy-MM-dd_HHmm>.md, agent logs in E:/GIT_ROOT/Projects/.morning-logs
 # Every run starts with a preflight: projects with blockers are skipped, and Nightly Runs/Preflight.md lists what needs you.
-# Usage: powershell -NoProfile -ExecutionPolicy Bypass -File overnight-run.ps1 [-Kind nightly|morning] [-Preflight | -DryRun] [-PerHarness 3] [-HoursPerProject 3]
+# Usage: powershell -NoProfile -ExecutionPolicy Bypass -File overnight-run.ps1 [-Kind nightly|morning] [-Preflight | -DryRun] [-PerHarness 3] [-Until 06:30] [-HoursPerProject 3]
 #   -Kind       where results go (above); the scheduled task passes nightly. Default: morning if started 05:00-16:59, else nightly
+#   -Until      a nightly run keeps its lanes working until this time (default 06:30): an agent that stops early with real
+#               progress is started again on its project. A morning run, or any run given -HoursPerProject, works that many hours.
 #   -Preflight  only check (run it in the evening, fix what it lists, then let 23:00 run); exit code = number of blocked projects
 #   -NoPrep     skip the top-10 upkeep prep agent (see Get-Upkeep); -PrepMinutes caps it (default 90)
 #   -PrepOnly   run only the prep agent (make-overnight-ready, build-tree, structure, queue, advance), then refresh Preflight.md
 #               and exit. The Agents board runs it when a project enters the top 10 or a Tonight lane, so it's ready before 23:00.
-param([ValidateSet('nightly', 'morning')][string]$Kind, [switch]$Preflight, [switch]$DryRun, [int]$PerHarness = 3, [double]$HoursPerProject = 3, [switch]$NoPrep, [int]$PrepMinutes = 90, [switch]$PrepOnly)
+param([ValidateSet('nightly', 'morning')][string]$Kind, [switch]$Preflight, [switch]$DryRun, [int]$PerHarness = 3, [double]$HoursPerProject = 3, [string]$Until = '06:30', [switch]$NoPrep, [int]$PrepMinutes = 90, [switch]$PrepOnly)
 $ErrorActionPreference = 'Continue'
+$hoursGiven = $PSBoundParameters.ContainsKey('HoursPerProject')   # explicit hours win over a nightly run's -Until
 # One run at a time, however it was started (board button, scheduled "Agents Run HHMM" task, by hand): a second one exits.
 # A real run that finds only a -PrepOnly going waits for it (prep is short), so a late prep never costs the night.
 function Get-OtherRuns { @(Get-CimInstance Win32_Process -Filter "Name='powershell.exe' OR Name='pwsh.exe'" | Where-Object { $_.ProcessId -ne $PID -and $_.CommandLine -like '*-File*overnight-run.ps1*' -and $_.CommandLine -notlike '*-Preflight*' }) }
@@ -36,7 +39,6 @@ $runsDir       = Join-Path $vault $(if ($Kind -eq 'morning') { 'Morning Runs' } 
 $reportMd      = Join-Path $runsDir $(if ($Kind -eq 'morning') { 'Morning Report.md' } else { 'Overnight Report.md' })
 $runLogDir     = Join-Path $runsDir 'Logs'   # dated copy of each real run's report, kept for history
 $stamp         = $started.ToString('yyyy-MM-dd_HHmm')   # names this run's dated report and agent-log folder
-$budget        = [int]($HoursPerProject * 3600)
 $logDir        = Join-Path $projects ($(if ($Kind -eq 'morning') { '.morning-logs\' } else { '.overnight-logs\' }) + $stamp)
 New-Item -ItemType Directory -Force $logDir | Out-Null
 
@@ -270,20 +272,20 @@ $worker = {
             # @codex:<name> is a profile when ~/.codex/<name>.config.toml exists (model + reasoning effort), else a model id.
             $a = @('exec', '--dangerously-bypass-approvals-and-sandbox')
             if ($model -and (Test-Path (Join-Path $HOME ".codex\$model.config.toml"))) { $a += @('-p', $model) } elseif ($model) { $a += @('-m', $model) }
-            $prompt | & codex @a - *> $log
+            $prompt | & codex @a - *>> $log
         }
         'hermes' {
             if (-not $model) { $model = 'glm53-flash' }   # best local coding model (SecondSpark + ThirdSpark)
             $m = "-m $model"
             $remote = 'test -d {0} || {{ echo SPARK_MISSING; exit 3; }}; cd {0} && git pull --rebase -q; ~/.local/bin/hermes chat --query-file - -Q --yolo --in {0} --run-budget {1} {2}; echo SPARK_GIT dirty=$(git status --porcelain | wc -l) unpushed=$(git rev-list --count @{{u}}..HEAD)' -f $sparkDir, $budget, $m
-            $prompt | & $ssh -o BatchMode=yes FirstSpark $remote *> $log
+            $prompt | & $ssh -o BatchMode=yes FirstSpark $remote *>> $log
         }
         default {
             if (-not $model) { $model = 'opus' }   # coordinator; the builder subagent runs on sonnet
             # @claude:<model>[-<effort>], e.g. opus-xhigh or fable-high; effort defaults to high for unattended runs.
             $effort = 'high'
             if ($model -match '^(.+)-(low|medium|high|xhigh|max)$') { $model = $Matches[1]; $effort = $Matches[2] }
-            $prompt | & claude -p --model $model --effort $effort --permission-mode bypassPermissions *> $log
+            $prompt | & claude -p --model $model --effort $effort --permission-mode bypassPermissions *>> $log
         }
     }
 }
@@ -304,6 +306,7 @@ function Complete-Run($q, $row) {
     $dir = Join-Path $projects $q.Name
     $log = Join-Path $logDir "$($q.Name).log"
     $text = $(if (Test-Path $log) { Get-Content $log -Raw -Encoding UTF8 } else { '' })
+    $text = ($text -split '(?m)^=== session \d+ ')[-1]   # only this session's output; earlier sessions were already read
     if ($q.Harness -ne 'hermes' -and $text -match 'usage limit|limit reached|rate.limit|hit your limit') {
         $script:limited[$q.Harness] = $true; $row.Note += 'usage limit hit. '; $row.UsageLimit = $true
     }
@@ -312,35 +315,60 @@ function Complete-Run($q, $row) {
         if ($text -match 'SPARK_GIT dirty=(\d+) unpushed=(\d+)') { $row.Note += "FirstSpark: $($Matches[1]) uncommitted, $($Matches[2]) unpushed. " }
         git -C $dir pull --rebase --autostash -q 2>$null   # bring Hermes's pushed commits here for the gate
     }
-    $row.Note += "log: $log"
+    if ($row.Note -notlike "*log: $log*") { $row.Note += "log: $log" }
 }
 
-$running = @{}; $limited = @{}
+# Real progress since $from: a commit that changes more than the bookkeeping files every session rewrites.
+function Test-Progress($dir, $from) {
+    $head = git -C $dir rev-parse HEAD 2>$null
+    if (-not $from -or -not $head -or $head -eq $from) { return $false }
+    return [bool](@(git -C $dir diff --name-only $from $head 2>$null) | Where-Object { $_ -notmatch '(^|/)(REPORT|PROGRESS|DECISIONS)\.md$' })
+}
+
+# The lanes' end time. Nightly: -Until (next occurrence), so the lanes work all night. Otherwise -HoursPerProject from now.
+function Get-Deadline($now) {
+    if ($Kind -eq 'nightly' -and -not $hoursGiven) {
+        $d = $now.Date.Add([timespan]::Parse($Until)); if ($d -le $now) { $d = $d.AddDays(1) }; return $d
+    }
+    return $now.AddHours($HoursPerProject)
+}
+$deadline = Get-Deadline (Get-Date)
+$minSession = 1800   # never start a session with less than 30 minutes left
+$maxSessions = 8     # shortcut: a fixed cap per project per run in case an agent keeps committing in circles; raise it if logs show real work cut off
+
+$running = @{}; $limited = @{}; $sessions = @{}
 while ($pending.Count -or $running.Count) {
-    # Start every pending project whose harness has a free slot, in list order.
+    # Start every pending project whose harness has a free slot, in list order (first sessions before relaunches).
     foreach ($q in @($pending)) {
-        if ($limited[$q.Harness]) { $rows[$q.Name].Note = "not run: $($q.Harness) usage limit hit earlier tonight"; $pending.Remove($q); continue }
+        if ($limited[$q.Harness]) { if (-not $sessions[$q.Name]) { $rows[$q.Name].Note = "not run: $($q.Harness) usage limit hit earlier tonight" }; $pending.Remove($q); continue }
+        $left = [int]($deadline - (Get-Date)).TotalSeconds
+        if ($left -lt $minSession) { if (-not $sessions[$q.Name]) { $rows[$q.Name].Note = "not run: less than 30 min left before $($deadline.ToString('HH:mm'))" }; $pending.Remove($q); continue }
         if (@($running.Values | Where-Object { $_.Q.Harness -eq $q.Harness }).Count -ge $PerHarness) { continue }
         $pending.Remove($q)
-        $job = Start-Job -ScriptBlock $worker -ArgumentList (Join-Path $projects $q.Name), $q.Harness, $q.Model, $prompt,
-            (Join-Path $logDir "$($q.Name).log"), $budget, $ssh, "$sparkProjects/$($q.Name)"
-        $running[$job.Id] = @{ Job = $job; Q = $q; Start = Get-Date }
+        $dir = Join-Path $projects $q.Name; $log = Join-Path $logDir "$($q.Name).log"
+        $sessions[$q.Name] = 1 + [int]$sessions[$q.Name]
+        Add-Content -Path $log -Value "=== session $($sessions[$q.Name]) $((Get-Date).ToString('HH:mm')), until $($deadline.ToString('HH:mm')) ===" -Encoding UTF8
+        $job = Start-Job -ScriptBlock $worker -ArgumentList $dir, $q.Harness, $q.Model, $prompt, $log, $left, $ssh, "$sparkProjects/$($q.Name)"
+        $running[$job.Id] = @{ Job = $job; Q = $q; Start = Get-Date; Head = (git -C $dir rev-parse HEAD 2>$null) }
     }
     if (-not $running.Count) { break }
     Wait-Job -Job @($running.Values | ForEach-Object { $_.Job }) -Any -Timeout 60 | Out-Null
     foreach ($id in @($running.Keys)) {
-        $r = $running[$id]
-        if ($r.Job.State -eq 'Running' -and ((Get-Date) - $r.Start).TotalSeconds -ge $budget + 300) {
+        $r = $running[$id]; $row = $rows[$r.Q.Name]
+        if ($r.Job.State -eq 'Running' -and (Get-Date) -ge $deadline.AddSeconds(300)) {
             # shortcut: Stop-Job ends the job host, but a child claude/codex/ssh process can outlive it; kill it by hand if a timeout is reported.
-            Stop-Job $r.Job; $rows[$r.Q.Name].Note += "timed out after $HoursPerProject h. "; $rows[$r.Q.Name].TimedOut = $true
+            Stop-Job $r.Job; $row.Note += "stopped at the $($deadline.ToString('HH:mm')) end time. "; $row.TimedOut = $true
         }
         if ($r.Job.State -ne 'Running') {
             Remove-Job $r.Job -Force; $running.Remove($id)
-            $rows[$r.Q.Name].Minutes = [int]((Get-Date) - $r.Start).TotalMinutes
-            Complete-Run $r.Q $rows[$r.Q.Name]
+            $row.Minutes += [int]((Get-Date) - $r.Start).TotalMinutes
+            Complete-Run $r.Q $row
+            # Stopped early with real progress and time left: start it again; it resumes from PROGRESS.md's next open item.
+            if (-not $row.TimedOut -and $sessions[$r.Q.Name] -lt $maxSessions -and (Test-Progress (Join-Path $projects $r.Q.Name) $r.Head)) { [void]$pending.Add($r.Q) }
         }
     }
 }
+foreach ($name in @($sessions.Keys)) { if ($sessions[$name] -gt 1) { $rows[$name].Note = "$($sessions[$name]) sessions. " + $rows[$name].Note } }
 
 # Independent gate: the runner's own verify and git check, not the agent's claim.
 foreach ($q in $queue) {
