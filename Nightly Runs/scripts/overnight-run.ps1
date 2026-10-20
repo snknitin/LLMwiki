@@ -125,7 +125,9 @@ $worker = {
     $env:OVERNIGHT_RUN = '1'   # turns on the project's Stop-hook verify gate (Claude)
     switch ($harness) {
         'codex' {
-            $a = @('exec', '--dangerously-bypass-approvals-and-sandbox'); if ($model) { $a += @('-m', $model) }
+            # @codex:<name> is a profile when ~/.codex/<name>.config.toml exists (model + reasoning effort), else a model id.
+            $a = @('exec', '--dangerously-bypass-approvals-and-sandbox')
+            if ($model -and (Test-Path (Join-Path $HOME ".codex\$model.config.toml"))) { $a += @('-p', $model) } elseif ($model) { $a += @('-m', $model) }
             $prompt | & codex @a - *> $log
         }
         'hermes' {
