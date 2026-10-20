@@ -20,13 +20,18 @@ The one list that decides what agents work on. Edit freely: reorder lines, move 
 
 ### Claude
 - language-learning-lab — A local-first language workbench built on three loops · includes merged: vocabulary-diction-studio (English track)
+- paper-logbook — An offline-first, paper-like daily/monthly notebook · includes merged: brainrot-rehab, measure-life, npc-mode-personal-coach (NPC Mode tab)
+- paisa-vasool-subscriptions — A private, local-first subscription-utilization tracker for one user · includes merged: 27-clicks-to-cancel, renewal-guard
 
 ### Codex
 - resume-blueprint-studio @codex:sol-6-1 — first slice (its branch is codex/specification)
 - mock-interview-gauntlet @codex:sol-5-6 — first slice
+- finance-signals-dashboard @codex:sol-6-1 — A read-only, local-first personal dashboard that ranks a ten-instrument India/US watchlist by " · includes merged: market-mood-cards (Morning tab)
 
 ### Hermes
 - expert-lens-skill — A FirstSpark dashboard for topic Markdown + GLM chat: Expert Lens, Batman Prep (with goal planner), Rabbit Hole, Research (Claim Check), Experiments (Brain Blast) · includes merged: batman-prep-time-skill, goal-to-calendar-planner, rabbit-hole-speedrun, physics-claim-debunker-skill, brain-blast-skill
+- net-worth-command-center — A private, local-first personal-finance record for one person · includes merged: latte-into-lambo
+- personal-study-curriculum — A local-first tool that turns one learning goal, weekly hours, and manually imported resources  · includes merged: course-notes-to-quiz-product
 
 ## Priority order (top 10 = daily focus)
 Tiers P0–P5, highest first; ranks count straight through. In the Agents board, ⤒ ↑ ↓ ⤓ move a project only within its tier, and its tier menu moves it to the edge of another tier.
@@ -125,6 +130,7 @@ Tiers P0–P5, highest first; ranks count straight through. In the Agents board,
 - epub-highlights-bridge — T1–T3: KOReader import, SQLite identity store, commentary preservation
 - motto-agent-council — first slice (local small-agent council)
 - leetcode-pattern-curriculum — T1 + T3: lcpc predict/attempt/hint loop, two-pointers module (verify.sh on Linux)
+- creator-content-engine — Human-led content OS for one creator · includes merged: build-in-public-autoposter, my-agent-posts-about-me, x-profile-autopsy, personal-voice-ghostwriter-and-dm-desk, social-subscription-curator, longform-to-shorts-studio
 
 ## Active (built; daytime feedback and iteration)
 - dashboard-command-center — 48 commits — A Windows-first, browser-chrome-free Electron operations shell for the owner's private dashboar
@@ -146,7 +152,6 @@ Tiers P0–P5, highest first; ranks count straight through. In the Agents board,
 - community-ops-agency — A human-supervised operations desk for one community
 - commute-copilot — A local route-specific departure checker for one saved commute
 - competitive-intelligence-agency — A recurring, local-first monitoring pipeline · includes merged: b2b-competitor-battlecard
-- creator-content-engine — Human-led content OS for one creator · includes merged: build-in-public-autoposter, my-agent-posts-about-me, x-profile-autopsy, personal-voice-ghostwriter-and-dm-desk, social-subscription-curator, longform-to-shorts-studio
 - customer-support-agency — Local-first analysis app · includes merged: google-review-reply-desk, support-faq-builder
 - daily-parent-check-in — Consent-first local app that sends one daily check-in prompt to a parent (via a simulated inbox
 - deal-desk-agency — Local web app that turns messy sales notes plus a service catalog and rate card into a linked, 
@@ -159,7 +164,6 @@ Tiers P0–P5, highest first; ranks count straight through. In the Agents board,
 - feedback-mirror — A privacy-first, on-device daily appearance journal
 - field-pokedex — An Expo mobile app that identifies likely plant species from a photo via a hosted identificatio
 - finance-ops-agency — A local finance-operations desk for a freelancer · includes merged: invoice-chaser-agent, tax-packet-autopilot
-- finance-signals-dashboard — A read-only, local-first personal dashboard that ranks a ten-instrument India/US watchlist by " · includes merged: market-mood-cards (Morning tab)
 - flex-card-forge — A local Next.js app that turns opt-in GitHub stats plus pasted Strava/Chess.com exports into a 
 - giftshelf — A hosted web app where a shelf owner publishes a transparent wish/recommendation list (books, t
 - handwriting-to-latex — A local desktop hotkey utility
@@ -177,15 +181,11 @@ Tiers P0–P5, highest first; ranks count straight through. In the Agents board,
 - microsite-factory — A schema-driven factory that turns approved, cited account research into consistent static micr
 - moving-out-marketplace — A deadline-first local marketplace where one move-out becomes a temporary storefront · includes merged: price-my-room
 - murder-mystery-game-master — A deterministic party-game engine for 45–90 minute murder mysteries on a local LAN
-- net-worth-command-center — A private, local-first personal-finance record for one person · includes merged: latte-into-lambo
 - neural-fractal-visualizer — A deterministic audio-reactive visualizer
 - news-depth-telegram-skill — A single-user Telegram bot
 - on-call-autopilot — A supervised incident investigator that replays a frozen telemetry bundle from a synthetic brok
-- paisa-vasool-subscriptions — A private, local-first subscription-utilization tracker for one user · includes merged: 27-clicks-to-cancel, renewal-guard
-- paper-logbook — An offline-first, paper-like daily/monthly notebook · includes merged: brainrot-rehab, measure-life, npc-mode-personal-coach (NPC Mode tab)
 - personal-finance-cockpit — The Finance group inside Dashboard Command Center: composes Net Worth, Paisa Vasool, Finance Signals and Event Markets into one group view
 - personal-library-website — A static, book-led personal website
-- personal-study-curriculum — A local-first tool that turns one learning goal, weekly hours, and manually imported resources  · includes merged: course-notes-to-quiz-product
 - personalized-adhd-skill-upgrade — Upgrade the existing `i-have-adhd` skill from generic productivity advice to a small, evidence-
 - phonescan-pdf — A local-first document scanner
 - physio-atlas — A local-first mobile app that organizes already-prescribed or self-selected physio exercises
