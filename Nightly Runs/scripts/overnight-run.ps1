@@ -484,8 +484,13 @@ foreach ($name in @($sessions.Keys)) { if ($sessions[$name] -gt 1) { $rows[$name
 foreach ($q in $queue) {
     $dir = Join-Path $projects $q.Name; $row = $rows[$q.Name]
     if (-not (Test-Path "$dir\scripts\verify.ps1")) { continue }
+    $dirtyBefore = @(git -C $dir status --porcelain 2>$null)
     & powershell -NoProfile -ExecutionPolicy Bypass -File "$dir\scripts\verify.ps1" *> (Join-Path $logDir "$($q.Name).verify.txt")
     $row.Verify = $(if ($LASTEXITCODE -eq 0) { 'PASS' } else { 'FAIL' })
+    # This verify re-takes tracked screenshots (a few pixels differ each time). Put back only what it changed, so the
+    # project starts the next run clean instead of being skipped for "uncommitted changes"; the agent's own work is untouched.
+    $byVerify = @(git -C $dir status --porcelain 2>$null | Where-Object { $_ -notin $dirtyBefore -and $_ -match '^ M ' } | ForEach-Object { $_.Substring(3) })
+    if ($byVerify) { git -C $dir checkout -- $byVerify 2>$null }
     if ($integrity[$q.Name]) {
         $after = Get-Integrity $dir; $row.TestsAfter = $after.Tests
         $issues = @(Compare-Integrity $integrity[$q.Name] $after)
