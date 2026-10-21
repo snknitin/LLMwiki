@@ -16,7 +16,8 @@
 #   -Resume     continue a run that was cut off (power cut, crash, reboot) until its original end time; exits at once when
 #               there is none. The "Agents Run resume" task runs it at logon and every 15 minutes.
 # Survives the night: the PC is kept awake while a run is going, and a session that ended on a network error waits for the
-# network (or FirstSpark) to come back, then starts again. A tool at its usage limit waits for the reset time it prints.
+# network (or FirstSpark) to come back, then starts again. A tool at its usage limit waits for the reset time it prints;
+# meanwhile a Claude project's sessions run on Codex, or on Hermes if Codex is parked too (noted in the report row).
 # A project that finishes tonight's target mid-run is advanced to its next slices (advance-slice) and keeps going.
 param([ValidateSet('nightly', 'morning')][string]$Kind, [switch]$Preflight, [switch]$DryRun, [int]$PerHarness = 3, [double]$HoursPerProject = 3, [string]$Until = '06:30', [switch]$NoPrep, [int]$PrepMinutes = 90, [switch]$PrepOnly, [switch]$Resume)
 $ErrorActionPreference = 'Continue'
@@ -341,6 +342,7 @@ function Complete-Run($q, $row) {
     if ($q.Harness -ne 'hermes' -and $text -match $limitHit) {
         $script:limitUntil[$q.Harness] = Get-LimitReset $text
         $row.Note += "$($q.Harness) usage limit at $((Get-Date).ToString('HH:mm')), resumed after $($script:limitUntil[$q.Harness].ToString('HH:mm')). "; $row.UsageLimit = $true
+        Save-RunState
     }
     if ($q.Harness -eq 'hermes') {
         if ($text -match 'SPARK_MISSING') { $row.Note += "not cloned on FirstSpark at $sparkProjects. " }
@@ -423,29 +425,52 @@ $maxSessions = 8     # shortcut: a fixed cap per project per run in case an agen
 # never has to guess from times (Hermes's commits reach the desktop when its session ends, after the gate's pull).
 $heads = [ordered]@{}
 foreach ($q in $pending) { $h = git -C (Join-Path $projects $q.Name) rev-parse HEAD 2>$null; if ($h) { $heads[$q.Name] = "$h" } }
-if ($pending.Count) { @{ kind = $Kind; started = $started.ToString('o'); until = $deadline.ToString('o'); heads = $heads } | ConvertTo-Json | Set-Content -Path $stateFile -Encoding UTF8 }
-$running = @{}; $limitUntil = @{}; $advances = @{}; $sessions = @{}; $waitNet = @{}; $netRetries = @{}; $nextNetCheck = @{}
+$running = @{}; $limitUntil = @{}; $advances = @{}; $sessions = @{}; $waitNet = @{}; $netRetries = @{}; $nextNetCheck = @{}; $noSpark = @{}
+# A resumed run keeps the usage limits the cut-off run had hit.
+if ($Resume -and $state.limitUntil) { foreach ($p in $state.limitUntil.PSObject.Properties) { $limitUntil[$p.Name] = [datetime]::Parse($p.Value) } }
+# limitUntil (harnesses parked on a usage limit, as ISO strings) is also read by the Agents board's Usage limits panel.
+function Save-RunState {
+    $parked = @{}; foreach ($k in @($limitUntil.Keys)) { $parked[$k] = $limitUntil[$k].ToString('o') }
+    @{ kind = $Kind; started = $started.ToString('o'); until = $deadline.ToString('o'); heads = $heads; limitUntil = $parked } | ConvertTo-Json | Set-Content -Path $stateFile -Encoding UTF8
+}
+function Test-Parked($tool) { return [bool]($limitUntil[$tool] -and (Get-Date) -lt $limitUntil[$tool]) }
+# The harness a project's next session runs on. A Claude project whose harness is parked on its usage limit runs on Codex,
+# or on Hermes (local, no quota) when Codex is parked too, instead of idling until the reset; its next session goes back
+# to Claude once that has reset. Codex and Hermes projects wait for their own reset. Never another account of the same tool.
+# $null = wait. (test-fallback.ps1 checks this.)
+function Get-SessionHarness($q) {
+    if (-not (Test-Parked $q.Harness)) { return $q.Harness }
+    if ($q.Harness -ne 'claude') { return $null }
+    return @('codex', 'hermes') | Where-Object { -not (Test-Parked $_) -and -not ($_ -eq 'hermes' -and $noSpark[$q.Name]) } | Select-Object -First 1
+}
+if ($pending.Count) { Save-RunState }
 while ($pending.Count -or $running.Count) {
     # Start every pending project whose harness has a free slot, in list order (first sessions before relaunches).
     foreach ($q in @($pending)) {
         $left = [int]($deadline - (Get-Date)).TotalSeconds
         if ($left -lt $minSession) { if (-not $sessions[$q.Name]) { $rows[$q.Name].Note = "not run: less than 30 min left before $($deadline.ToString('HH:mm'))" }; $pending.Remove($q); continue }
-        if ($limitUntil[$q.Harness] -and (Get-Date) -lt $limitUntil[$q.Harness]) { continue }   # waits for the tool's usage limit to reset
+        $use = Get-SessionHarness $q
+        if (-not $use) { continue }   # waits for a usage-limit reset
         if ($waitNet[$q.Name]) {   # checked at most once a minute per tool
-            if ($nextNetCheck[$q.Harness] -and (Get-Date) -lt $nextNetCheck[$q.Harness]) { continue }
-            if (-not (Test-Online $q.Harness)) { $nextNetCheck[$q.Harness] = (Get-Date).AddMinutes(1); continue }
+            if ($nextNetCheck[$use] -and (Get-Date) -lt $nextNetCheck[$use]) { continue }
+            if (-not (Test-Online $use)) { $nextNetCheck[$use] = (Get-Date).AddMinutes(1); continue }
             $waitNet.Remove($q.Name)
         }
-        if (@($running.Values | Where-Object { $_.Q.Harness -eq $q.Harness }).Count -ge $PerHarness) { continue }
+        if (@($running.Values | Where-Object { $_.Q.Harness -eq $use }).Count -ge $PerHarness) { continue }
         $pending.Remove($q)
+        $run = $q
+        if ($use -ne $q.Harness) {   # Home: the queue entry the project goes back to when this session ends
+            $run = [pscustomobject]@{ Name = $q.Name; Harness = $use; Model = $null; Home = $q }
+            $rows[$q.Name].Note += "fallback: session $(1 + [int]$sessions[$q.Name]) on $use at $((Get-Date).ToString('HH:mm')) ($($q.Harness) parked until $($limitUntil[$q.Harness].ToString('HH:mm'))). "
+        }
         $dir = Join-Path $projects $q.Name; $log = Join-Path $logDir "$($q.Name).log"
         $sessions[$q.Name] = 1 + [int]$sessions[$q.Name]
         Add-Content -Path $log -Value "=== session $($sessions[$q.Name]) $((Get-Date).ToString('HH:mm')), until $($deadline.ToString('HH:mm')) ===" -Encoding UTF8
         Remove-Item "$log.pid" -ErrorAction SilentlyContinue   # the job writes a fresh one
         $dot = [char]0x00B7   # this file must stay ASCII for PowerShell 5.1
         $sessionName = "$($q.Name) $dot $(if ($Kind -eq 'morning') { 'morning' } else { 'night' }) of $($started.ToString('MMM d', [Globalization.CultureInfo]::InvariantCulture)) $dot session $($sessions[$q.Name])"
-        $job = Start-Job -ScriptBlock $worker -ArgumentList $dir, $q.Harness, $q.Model, $prompt, $log, $left, $ssh, "$sparkProjects/$($q.Name)", $sessionName
-        $running[$job.Id] = @{ Job = $job; Q = $q; Start = Get-Date; Head = (git -C $dir rev-parse HEAD 2>$null); PidFile = "$log.pid" }
+        $job = Start-Job -ScriptBlock $worker -ArgumentList $dir, $run.Harness, $run.Model, $prompt, $log, $left, $ssh, "$sparkProjects/$($q.Name)", $sessionName
+        $running[$job.Id] = @{ Job = $job; Q = $run; Start = Get-Date; Head = (git -C $dir rev-parse HEAD 2>$null); PidFile = "$log.pid" }
     }
     if (-not $running.Count) { if ($pending.Count) { Start-Sleep -Seconds 30; continue }; break }   # only projects waiting for the network or a usage-limit reset
     Wait-Job -Job @($running.Values | ForEach-Object { $_.Job }) -Any -Timeout 60 | Out-Null
@@ -461,6 +486,7 @@ while ($pending.Count -or $running.Count) {
         if ($r.Job.State -ne 'Running') {
             Remove-Job $r.Job -Force; $running.Remove($id)
             $name = $r.Q.Name; $dir = Join-Path $projects $name
+            $own = $(if ($r.Q.Home) { $r.Q.Home } else { $r.Q })   # a fallback session's project goes back to its own lane
             if ($r.Advance) {
                 $integrity[$name] = Get-Integrity $dir   # the advance legitimately extends verify.ps1: that is the new baseline
                 if (-not $row.TimedOut -and (Test-Progress $dir $r.Head)) { $row.Note += "advanced to its next slices at $((Get-Date).ToString('HH:mm')). "; [void]$pending.Add($r.Q) }
@@ -470,15 +496,17 @@ while ($pending.Count -or $running.Count) {
             $row.Minutes += [int]((Get-Date) - $r.Start).TotalMinutes
             $text = Complete-Run $r.Q $row
             if ($row.TimedOut) { continue }
+            # A Hermes fallback for a project not cloned on FirstSpark: no more Hermes fallbacks for it; it waits for a reset.
+            if ($r.Q.Home -and $r.Q.Harness -eq 'hermes' -and "$text" -match 'SPARK_MISSING') { $noSpark[$name] = $true; [void]$pending.Add($own); continue }
             # Stopped early with real progress and time left: start it again; it resumes from PROGRESS.md's next open item.
-            if ($sessions[$name] -lt $maxSessions -and (Test-Progress $dir $r.Head)) { [void]$pending.Add($r.Q) }
-            elseif ($r.Q.Harness -ne 'hermes' -and "$text" -match $limitHit) { [void]$pending.Add($r.Q) }   # starts again after the reset
+            if ($sessions[$name] -lt $maxSessions -and (Test-Progress $dir $r.Head)) { [void]$pending.Add($own) }
+            elseif ($r.Q.Harness -ne 'hermes' -and "$text" -match $limitHit) { [void]$pending.Add($own) }   # on another harness, or after the reset
             elseif ("$text" -match $netError -and [int]$netRetries[$name] -lt 6) {
                 $netRetries[$name] = 1 + [int]$netRetries[$name]; $waitNet[$name] = $true
-                $row.Note += "connection lost at $((Get-Date).ToString('HH:mm')), retried when back. "; [void]$pending.Add($r.Q)
+                $row.Note += "connection lost at $((Get-Date).ToString('HH:mm')), retried when back. "; [void]$pending.Add($own)
             }
             # No new work: tonight's target is probably done. Advance it (at most twice a run) while an hour is left.
-            elseif ([int]$advances[$name] -lt 2 -and ($deadline - (Get-Date)).TotalMinutes -gt 60) { Start-Advance $r.Q }
+            elseif ([int]$advances[$name] -lt 2 -and ($deadline - (Get-Date)).TotalMinutes -gt 60) { Start-Advance $own }
         }
     }
 }
