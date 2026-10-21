@@ -131,7 +131,10 @@ $queue = Set-BuilderModels (Read-Queue)
 # but lacks any of this gets a "structure" item, so the prep agent fills in only what is missing.
 function Get-MissingStructure($dir) {
     $m = @()
+    # shortcut: a "Preview scripts deferred" heading in DECISIONS.md silences preview.* until the agent adds them (the shared rule tells it when); drop the heading to be nagged again
+    $deferred = [bool](Select-String -Path (Join-Path $dir 'DECISIONS.md') -Pattern '^#+ .*preview scripts deferred' -Quiet -ErrorAction SilentlyContinue)
     foreach ($f in 'AGENTS.md', 'CLAUDE.md', 'scripts\verify.sh', 'scripts\stop-gate.ps1', 'scripts\preview.ps1', 'scripts\preview.sh', 'PROGRESS.md', 'FEEDBACK.md', 'DECISIONS.md') {
+        if ($f -like 'scripts\preview.*' -and $deferred) { continue }
         if (-not (Test-Path (Join-Path $dir $f))) { $m += ($f -replace '\\', '/') }
     }
     $settings = Join-Path $dir '.claude\settings.json'
