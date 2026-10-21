@@ -13,6 +13,8 @@ ROOT = Path(__file__).resolve().parent.parent
 PAGE = Path(os.environ.get('LOCAL_SETUP_DASHBOARD_PAGE', ROOT / 'Local Setup Dashboard.html')).resolve()
 AUDIT = Path(os.environ.get('LOCAL_SETUP_AUDIT', ROOT / '.setup-dashboard' / 'checklist-writes.jsonl')).resolve()
 PORT = int(os.environ.get('LOCAL_SETUP_DASHBOARD_PORT', '8767'))
+# Tailscale Serve name, so the DCC phone companion can open this page over the tailnet.
+TAILNET_HOST = os.environ.get('LOCAL_SETUP_TAILNET_HOST', 'nike-workstation.tail4a1242.ts.net')
 LOCK = Lock()
 TASK_RE = re.compile(r'^(\s*(?:[-*+]|\d+[.)])\s+)\[([ xX-])\](\s+)(.*?)(\r?\n)?$')
 
@@ -104,7 +106,7 @@ class Dashboard(BaseHTTPRequestHandler):
     server_version = 'LocalSetupDashboard/2.0'
 
     def valid_host(self) -> bool:
-        return self.headers.get('Host') in {f'127.0.0.1:{PORT}', f'localhost:{PORT}'}
+        return self.headers.get('Host') in {f'127.0.0.1:{PORT}', f'localhost:{PORT}', f'{TAILNET_HOST}:{PORT}'}
 
     def send_json(self, status: int, value: dict) -> None:
         content = json.dumps(value, ensure_ascii=False).encode('utf-8')
@@ -152,7 +154,7 @@ class Dashboard(BaseHTTPRequestHandler):
         if not self.valid_host() or self.path.split('?')[0] not in {'/api/markdown-task', '/api/checklist-task'}:
             self.send_error(404)
             return
-        allowed_origins = {f'http://127.0.0.1:{PORT}', f'http://localhost:{PORT}'}
+        allowed_origins = {f'http://127.0.0.1:{PORT}', f'http://localhost:{PORT}', f'https://{TAILNET_HOST}:{PORT}'}
         if self.headers.get('Origin') not in allowed_origins or self.headers.get('X-Local-Setup-Writer') != 'checkbox-v1':
             self.send_json(403, {'error': 'Write origin rejected'})
             return
