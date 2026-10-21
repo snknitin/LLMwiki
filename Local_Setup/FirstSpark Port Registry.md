@@ -18,7 +18,7 @@ ssh FirstSpark 'ss -ltnH; tailscale serve status'
 | Local port | Tailnet URL port | Service | Runs as |
 |---|---|---|---|
 | 4173 | :4173 | God's Eye View | Docker `gods-eye-view` |
-| 5555 | — (Windows SSH tunnel) | sparkDash | Docker `sparkDash`, host network |
+| 5555 | :5555 (also Windows SSH tunnel) | sparkDash | Docker `sparkDash`, host network |
 | 8091 | :8091 | FreshRSS | Docker `freshrss` (container :80) |
 | 8443 | :8443 | YouTube Learning Center (`ylc`) | process |
 | 8765 | :8765 | Social Capture | `social-capture.service` (user) |
