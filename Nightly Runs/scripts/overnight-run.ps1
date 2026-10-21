@@ -1,4 +1,4 @@
-# Overnight runner: works the "## Tonight" list in Nightly Runs/Project Priorities.md, up to -PerHarness projects per harness at once
+﻿# Overnight runner: works the "## Tonight" list in Nightly Runs/Project Priorities.md, up to -PerHarness projects per harness at once
 # (default 3 Claude + 3 Codex + 3 Hermes = 9 in parallel).
 # @claude and @codex run here on the desktop; @hermes runs on FirstSpark over SSH. After each agent finishes,
 # the runner re-runs that project's scripts/verify.ps1 itself and writes a report plus a dated copy per real run (never overwritten):
@@ -28,13 +28,13 @@ function Get-OtherRuns { @(Get-CimInstance Win32_Process -Filter "Name='powershe
 $others = Get-OtherRuns
 # A -Resume check with nothing to continue exits within seconds: wait that out, so a 23:00 start never loses to it.
 if (-not $Preflight -and $others -and -not @($others | Where-Object { $_.CommandLine -notlike '*-Resume*' })) {
-    $until = (Get-Date).AddSeconds(60)
-    while (@(Get-OtherRuns | Where-Object { $_.CommandLine -like '*-Resume*' }) -and (Get-Date) -lt $until) { Start-Sleep -Seconds 5 }
+    $waitUntil = (Get-Date).AddSeconds(60)   # not $until: PowerShell names ignore case, so that would overwrite -Until
+    while (@(Get-OtherRuns | Where-Object { $_.CommandLine -like '*-Resume*' }) -and (Get-Date) -lt $waitUntil) { Start-Sleep -Seconds 5 }
     $others = Get-OtherRuns
 }
 if (-not $Preflight -and -not $PrepOnly -and $others -and -not @($others | Where-Object { $_.CommandLine -notlike '*-PrepOnly*' })) {
-    $until = (Get-Date).AddMinutes($PrepMinutes + 5)
-    while ((Get-OtherRuns) -and (Get-Date) -lt $until) { Start-Sleep -Seconds 30 }
+    $waitUntil = (Get-Date).AddMinutes($PrepMinutes + 5)
+    while ((Get-OtherRuns) -and (Get-Date) -lt $waitUntil) { Start-Sleep -Seconds 30 }
     $others = Get-OtherRuns
 }
 if (-not $Preflight -and $others) { Write-Output "Another run is going (pid $($others.ProcessId -join ', ')); not starting a second one."; exit 0 }
