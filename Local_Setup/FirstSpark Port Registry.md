@@ -27,6 +27,7 @@ ssh FirstSpark 'ss -ltnH; tailscale serve status'
 | 8769 | :8769 | Paper Logbook sync relay (`paper-logbook`; planned, not deployed yet) | `paper-logbook-sync.service` (user) |
 | 8770 | :8770 | Creator Content Engine daily collector (`creator-content-engine`; planned, not deployed yet) | systemd user unit |
 | 18767 | — (loopback, tests only) | Expert Lens end-to-end test server (`expert-lens-skill` §6.49; reserved) | test runs only |
+| 8783 | :8783 | ntfy push notifications (agents-board phone alerts, topic `agents-board`) | Docker `ntfy` |
 | 8772 | :8772 | Kaggle Learning Center | `kaggle-learning-center.service` (user) |
 | 8787 | :8787 | Fresh Brief | process `python app.py` |
 | 8788 | :8788 | TikTok Learning Center (`tlc`) | process |
