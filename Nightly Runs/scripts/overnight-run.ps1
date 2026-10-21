@@ -1,11 +1,11 @@
-﻿# Overnight runner: works the "## Tonight" list in Nightly Runs/Project Priorities.md, up to -PerHarness projects per harness at once
+﻿# Overnight runner: works the "## Tonight" list in Nightly Runs/Project Priorities.md, every project at once (or up to -PerHarness per harness)
 # (default 3 Claude + 3 Codex + 3 Hermes = 9 in parallel).
 # @claude and @codex run here on the desktop; @hermes runs on FirstSpark over SSH. After each agent finishes,
 # the runner re-runs that project's scripts/verify.ps1 itself and writes a report plus a dated copy per real run (never overwritten):
 #   nightly: Nightly Runs/Overnight Report.md, Nightly Runs/Logs/<yyyy-MM-dd_HHmm>.md, agent logs in E:/GIT_ROOT/Projects/.overnight-logs
 #   morning: Morning Runs/Morning Report.md,   Morning Runs/Logs/<yyyy-MM-dd_HHmm>.md, agent logs in E:/GIT_ROOT/Projects/.morning-logs
 # Every run starts with a preflight: projects with blockers are skipped, and Nightly Runs/Preflight.md lists what needs you.
-# Usage: powershell -NoProfile -ExecutionPolicy Bypass -File overnight-run.ps1 [-Kind nightly|morning] [-Preflight | -DryRun] [-PerHarness 3] [-Until 06:30] [-HoursPerProject 3]
+# Usage: powershell -NoProfile -ExecutionPolicy Bypass -File overnight-run.ps1 [-Kind nightly|morning] [-Preflight | -DryRun] [-PerHarness N (default 0 = no limit)] [-Until 06:30] [-HoursPerProject 3]
 #   -Kind       where results go (above); the scheduled task passes nightly. Default: morning if started 05:00-16:59, else nightly
 #   -Until      a nightly run keeps its lanes working until this time (default 06:30): an agent that stops early with real
 #               progress is started again on its project. A morning run, or any run given -HoursPerProject, works that many hours.
@@ -19,7 +19,7 @@
 # network (or FirstSpark) to come back, then starts again. A tool at its usage limit waits for the reset time it prints;
 # meanwhile a Claude project's sessions run on Codex, or on Hermes if Codex is parked too (noted in the report row).
 # A project that finishes tonight's target mid-run is advanced to its next slices (advance-slice) and keeps going.
-param([ValidateSet('nightly', 'morning')][string]$Kind, [switch]$Preflight, [switch]$DryRun, [int]$PerHarness = 3, [double]$HoursPerProject = 3, [string]$Until = '06:30', [switch]$NoPrep, [int]$PrepMinutes = 90, [switch]$PrepOnly, [switch]$Resume, [int]$QaMinutes = 30)
+param([ValidateSet('nightly', 'morning')][string]$Kind, [switch]$Preflight, [switch]$DryRun, [int]$PerHarness = 0, [double]$HoursPerProject = 3, [string]$Until = '06:30', [switch]$NoPrep, [int]$PrepMinutes = 90, [switch]$PrepOnly, [switch]$Resume, [int]$QaMinutes = 30)
 $ErrorActionPreference = 'Continue'
 $hoursGiven = $PSBoundParameters.ContainsKey('HoursPerProject')   # explicit hours win over a nightly run's -Until
 # One run at a time, however it was started (board button, scheduled "Agents Run HHMM" task, by hand): a second one exits.
@@ -175,7 +175,7 @@ function Get-Upkeep($queue, [switch]$CheckVerify) {
     }
     if ($waiting) {
         $drop = @($queue | Where-Object { -not $inTop[$_.Name] } | ForEach-Object { [pscustomobject]@{ Project = $_.Name; Action = 'dequeue'; Why = "in the $($_.Harness) lane but no longer in the top 10" } })
-        if ($drop -or $queue.Count -lt 3 * $PerHarness) { $items += $drop }
+        if ($drop -or $PerHarness -le 0 -or $queue.Count -lt 3 * $PerHarness) { $items += $drop }
         else {   # every lane is full of top-10 work: a waiting project stays in Ready next, nothing to prep for it
             $items = @($items | ForEach-Object { $_.Action = ($_.Action -split ' \+ ' | Where-Object { $_ -ne 'queue' }) -join ' + '; $_.Why = ($_.Why -split '; ' | Where-Object { $_ -notmatch 'not in a Tonight lane' }) -join '; '; $_ } | Where-Object { $_.Action })
         }
@@ -497,7 +497,7 @@ while ($pending.Count -or $running.Count) {
             if (-not (Test-Online $use)) { $nextNetCheck[$use] = (Get-Date).AddMinutes(1); continue }
             $waitNet.Remove($q.Name)
         }
-        if (@($running.Values | Where-Object { $_.Q.Harness -eq $use }).Count -ge $PerHarness) { continue }
+        if ($PerHarness -gt 0 -and @($running.Values | Where-Object { $_.Q.Harness -eq $use }).Count -ge $PerHarness) { continue }   # 0 = no limit: every project in the lane at once
         $pending.Remove($q)
         $run = $q
         if ($use -ne $q.Harness) {   # Home: the queue entry the project goes back to when this session ends
@@ -595,7 +595,7 @@ while ($qaQueue.Count -or $qaRunning.Count) {
     foreach ($item in @($qaQueue)) {
         $name = $item.Q.Name; $fam = $item.Plan.Family; $dir = Join-Path $projects $name
         if (Test-Parked $fam) { $qaQueue.Remove($item); Set-Qa $name 'skipped' "$fam hit its usage limit; parked until $($limitUntil[$fam].ToString('HH:mm'))"; continue }
-        if (@($qaRunning.Values | Where-Object { $_.Plan.Family -eq $fam }).Count -ge $PerHarness) { continue }
+        if ($PerHarness -gt 0 -and @($qaRunning.Values | Where-Object { $_.Plan.Family -eq $fam }).Count -ge $PerHarness) { continue }
         $qaQueue.Remove($item)
         $log = Join-Path $logDir "$name.qa.txt"   # not .log: the Tonight's run strip lists one row per <folder>.log
         Remove-Item "$log.pid" -ErrorAction SilentlyContinue
@@ -664,7 +664,7 @@ foreach ($q in $queue) {
 }
 
 $md = @("# $(if ($Kind -eq 'morning') { 'Morning' } else { 'Overnight' }) Report", "",
-        "Run started $($started.ToString('yyyy-MM-dd HH:mm')), finished $((Get-Date).ToString('HH:mm'))$(if ($DryRun) { ' (dry run)' }), $Kind run, up to $PerHarness per harness at once. Logs: ``$logDir``", "",
+        "Run started $($started.ToString('yyyy-MM-dd HH:mm')), finished $((Get-Date).ToString('HH:mm'))$(if ($DryRun) { ' (dry run)' }), $Kind run, $(if ($PerHarness -gt 0) { "up to $PerHarness per harness" } else { 'every project at once' }). Logs: ``$logDir``", "",
         ($(if ($prepWork -and -not $DryRun -and -not $NoPrep) { "Prep before the lanes: $($prepWork.Count) top-10 upkeep item(s); see ``Nightly Runs/Prep Report.md`` and ``$logDir\_prep.log``. " } else { '' }) +
         "Verify is re-run by the runner on the desktop after each agent finishes (for @hermes, after pulling its pushed commits). Each project's ``REPORT.md`` has details and open questions."), "",
         "| Project | Harness | Verify | Git (desktop) | Commits tonight | Note |", "|---|---|---|---|---|---|")
