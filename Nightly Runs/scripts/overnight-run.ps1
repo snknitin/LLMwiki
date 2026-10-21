@@ -419,7 +419,11 @@ $deadline = Get-Deadline (Get-Date)
 $minSession = 1800   # never start a session with less than 30 minutes left
 $maxSessions = 8     # shortcut: a fixed cap per project per run in case an agent keeps committing in circles; raise it if logs show real work cut off
 
-if ($pending.Count) { @{ kind = $Kind; started = $started.ToString('o'); until = $deadline.ToString('o') } | ConvertTo-Json | Set-Content -Path $stateFile -Encoding UTF8 }
+# Each project's HEAD as the lanes start: the run's commits are exactly <before>..<after>, so the Agents board's Review tab
+# never has to guess from times (Hermes's commits reach the desktop when its session ends, after the gate's pull).
+$heads = [ordered]@{}
+foreach ($q in $pending) { $h = git -C (Join-Path $projects $q.Name) rev-parse HEAD 2>$null; if ($h) { $heads[$q.Name] = "$h" } }
+if ($pending.Count) { @{ kind = $Kind; started = $started.ToString('o'); until = $deadline.ToString('o'); heads = $heads } | ConvertTo-Json | Set-Content -Path $stateFile -Encoding UTF8 }
 $running = @{}; $limitUntil = @{}; $advances = @{}; $sessions = @{}; $waitNet = @{}; $netRetries = @{}; $nextNetCheck = @{}
 while ($pending.Count -or $running.Count) {
     # Start every pending project whose harness has a free slot, in list order (first sessions before relaunches).
@@ -500,6 +504,7 @@ foreach ($q in $queue) {
     $ahead = git -C $dir rev-list --count '@{u}..HEAD' 2>$null
     $row.Git = $(if ($dirty) { 'uncommitted changes' } elseif ([int]$ahead -gt 0) { "$ahead unpushed" } else { 'clean, pushed' })
     $row.Commits = @(git -C $dir log --since=$($started.ToString('s')) --oneline 2>$null).Count
+    if ($heads[$q.Name]) { $headAfter = git -C $dir rev-parse HEAD 2>$null; $row.Heads = "$($heads[$q.Name])..$headAfter"; $row.Commits = [int](git -C $dir rev-list --count $row.Heads 2>$null) }
 }
 
 $md = @("# $(if ($Kind -eq 'morning') { 'Morning' } else { 'Overnight' }) Report", "",
@@ -509,6 +514,8 @@ $md = @("# $(if ($Kind -eq 'morning') { 'Morning' } else { 'Overnight' }) Report
         "| Project | Harness | Verify | Git (desktop) | Commits tonight | Note |", "|---|---|---|---|---|---|")
 $md += $queue | ForEach-Object { $r = $rows[$_.Name]; "| $($r.Project) | $($r.Harness) | $($r.Verify) | $($r.Git) | $($r.Commits) | $($r.Note) |" }
 if (-not $queue) { $md += '| (Tonight list is empty) | | | | | |' }
+$ranges = @($queue | Where-Object { $rows[$_.Name].Heads } | ForEach-Object { "- ``$($_.Name)``: $($rows[$_.Name].Heads)" })
+if ($ranges) { $md += @('', 'HEAD before..after each project''s lanes (the Agents board Review tab lists exactly these commits):') + $ranges }
 New-Item -ItemType Directory -Force $runLogDir | Out-Null   # Morning Runs/Logs on the first morning run
 Set-Content -Path $reportMd -Value $md -Encoding UTF8
 if (-not $DryRun) { Set-Content -Path (Join-Path $runLogDir "$stamp.md") -Value $md -Encoding UTF8 }
