@@ -1,0 +1,14 @@
+{
+  "claude": {
+    "builder": "claude:opus",
+    "qa": "codex"
+  },
+  "codex": {
+    "builder": "codex",
+    "qa": "claude:sonnet"
+  },
+  "hermes": {
+    "builder": "hermes",
+    "qa": "claude:sonnet"
+  }
+}

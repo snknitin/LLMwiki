@@ -19,7 +19,7 @@
 # network (or FirstSpark) to come back, then starts again. A tool at its usage limit waits for the reset time it prints;
 # meanwhile a Claude project's sessions run on Codex, or on Hermes if Codex is parked too (noted in the report row).
 # A project that finishes tonight's target mid-run is advanced to its next slices (advance-slice) and keeps going.
-param([ValidateSet('nightly', 'morning')][string]$Kind, [switch]$Preflight, [switch]$DryRun, [int]$PerHarness = 3, [double]$HoursPerProject = 3, [string]$Until = '06:30', [switch]$NoPrep, [int]$PrepMinutes = 90, [switch]$PrepOnly, [switch]$Resume)
+param([ValidateSet('nightly', 'morning')][string]$Kind, [switch]$Preflight, [switch]$DryRun, [int]$PerHarness = 3, [double]$HoursPerProject = 3, [string]$Until = '06:30', [switch]$NoPrep, [int]$PrepMinutes = 90, [switch]$PrepOnly, [switch]$Resume, [int]$QaMinutes = 30)
 $ErrorActionPreference = 'Continue'
 $hoursGiven = $PSBoundParameters.ContainsKey('HoursPerProject')   # explicit hours win over a nightly run's -Until
 # One run at a time, however it was started (board button, scheduled "Agents Run HHMM" task, by hand): a second one exits.
@@ -38,8 +38,8 @@ if (-not $Preflight -and -not $PrepOnly -and $others -and -not @($others | Where
     $others = Get-OtherRuns
 }
 if (-not $Preflight -and $others) { Write-Output "Another run is going (pid $($others.ProcessId -join ', ')); not starting a second one."; exit 0 }
-$vault         = 'F:\Vaults\LLMWiki'
-$projects      = 'E:\GIT_ROOT\Projects'
+$vault         = $(if ($env:OVERNIGHT_VAULT) { $env:OVERNIGHT_VAULT } else { 'F:\Vaults\LLMWiki' })   # the env overrides are for test-qa.ps1's fixture
+$projects      = $(if ($env:OVERNIGHT_PROJECTS) { $env:OVERNIGHT_PROJECTS } else { 'E:\GIT_ROOT\Projects' })
 $sparkProjects = '/home/snknitin/Workspace/GIT_ROOT/Projects'
 $ssh           = "$env:WINDIR\System32\OpenSSH\ssh.exe"
 $prioFile      = Join-Path $vault 'Nightly Runs\Project Priorities.md'
@@ -76,14 +76,50 @@ function Read-Queue {
     foreach ($line in Get-Content $prioFile -Encoding UTF8) {
         if ($line -match '^##\s') { $inTonight = $line -match '^##\s+Tonight'; $lane = 'claude'; continue }
         if ($inTonight -and $line -match '^###\s+(\w+)') { $lane = $Matches[1].ToLower(); continue }
-        if ($inTonight -and $line -match '^\s*-\s+([A-Za-z0-9._-]+)(?:\s+@(\w+)(?::([\w./-]+))?)?' -and -not $seen[$Matches[1]]) {
+        if ($inTonight -and $line -match '^\s*-\s+([A-Za-z0-9._-]+)(?:\s+@(\w+)(?::([\w./-]+))?)?(?:\s+qa=([\w:./-]+))?' -and -not $seen[$Matches[1]]) {
             $seen[$Matches[1]] = $true
-            $q += [pscustomobject]@{ Name = $Matches[1]; Harness = $(if ($Matches[2]) { $Matches[2].ToLower() } else { $lane }); Model = $Matches[3] }
+            $q += [pscustomobject]@{ Name = $Matches[1]; Harness = $(if ($Matches[2]) { $Matches[2].ToLower() } else { $lane }); Model = $Matches[3]; Qa = $Matches[4] }
         }
     }
     return $q
 }
-$queue = Read-Queue
+
+# Role matrix (Nightly Runs/roles.json, edited on the Agents board): per lane the builder and the QA harness[:model].
+# QA is always another model family than the builder. A missing or invalid file means these defaults.
+$rolesFile = Join-Path $vault 'Nightly Runs\roles.json'
+$defaultRoles = @{ claude = @{ builder = 'claude:opus'; qa = 'codex' }; codex = @{ builder = 'codex'; qa = 'claude:sonnet' }; hermes = @{ builder = 'hermes'; qa = 'claude:sonnet' } }
+$specPattern = '^(claude|codex|hermes)(?::([\w./-]+))?$'
+function Read-Roles($file) {
+    try {
+        $j = Get-Content $file -Raw -Encoding UTF8 -ErrorAction Stop | ConvertFrom-Json
+        $r = @{}
+        foreach ($lane in 'claude', 'codex', 'hermes') {
+            $b = "$($j.$lane.builder)"; $a = "$($j.$lane.qa)"
+            if ($b -notmatch $specPattern -or $Matches[1] -ne $lane) { return $defaultRoles }
+            if ($a -ne 'off' -and ($a -notmatch $specPattern -or $Matches[1] -eq $lane)) { return $defaultRoles }
+            $r[$lane] = @{ builder = $b; qa = $a }
+        }
+        return $r
+    } catch { return $defaultRoles }
+}
+# What QA to run for a queue entry: the line's qa= override, else its harness's roles.json default. Family = the QA harness
+# (its model after the colon). Skip = why there is none ('off' included). (test-qa.ps1 checks this.)
+function Get-QaPlan($q, $roles) {
+    $own = $q.Harness
+    $spec = $(if ($q.Qa) { $q.Qa } elseif ($roles[$own]) { $roles[$own].qa } else { '' })
+    if ($spec -eq 'off') { return @{ Spec = $spec; Skip = $(if ($q.Qa) { 'off (qa=off)' } else { "off in roles.json for the $own lane" }) } }
+    if ($spec -notmatch $specPattern) { return @{ Spec = $spec; Skip = "no valid QA harness ('$spec')" } }
+    $family = $Matches[1]; $model = $Matches[2]
+    if ($family -eq $own) { return @{ Spec = $spec; Skip = "qa=$spec is the builder's own family, and QA must differ" } }
+    return @{ Spec = $spec; Family = $family; Model = $model; Skip = $null }
+}
+$roles = Read-Roles $rolesFile
+# roles.json's builder model applies to a lane project with no @tag model of its own (claude:opus is the old default).
+function Set-BuilderModels($queue) {
+    foreach ($q in $queue) { if (-not $q.Model -and $roles[$q.Harness] -and $roles[$q.Harness].builder -match $specPattern -and $Matches[1] -eq $q.Harness -and $Matches[2]) { $q.Model = $Matches[2] } }
+    return $queue
+}
+$queue = Set-BuilderModels (Read-Queue)
 
 # ---- Top-10 upkeep: the projects agents work on follow the priority order ----
 # The top 10 of "## Priority order" (skipping Active and Archived) must each be overnight-ready, have a live build tree and
@@ -166,7 +202,7 @@ if ($prepWork -and -not $Preflight -and -not $DryRun -and -not $NoPrep) {
     if (-not (Wait-Job $prepJob -Timeout ($PrepMinutes * 60))) { Stop-Job $prepJob; Write-Output "prep: stopped after $PrepMinutes min (log: $prepLog)" }
     Remove-Job $prepJob -Force
     Write-Output "prep: done for $($prepWork.Count) item(s), log: $prepLog"
-    $queue = Read-Queue   # the prep agent may have moved projects into lanes
+    $queue = Set-BuilderModels (Read-Queue)   # the prep agent may have moved projects into lanes
     $upkeep = @(Get-Upkeep $queue)   # so Preflight.md shows what is still left after prep
 }
 
@@ -290,11 +326,11 @@ function Compare-Integrity($before, $after) {
 
 # One agent run, inside a background job. Output goes to $log.
 $worker = {
-    param($dir, $harness, $model, $prompt, $log, $budget, $ssh, $sparkDir, $sessionName)
+    param($dir, $harness, $model, $prompt, $log, $budget, $ssh, $sparkDir, $sessionName, $isQa)
     Set-Content -Path "$log.pid" -Value $PID   # so the runner can end this job's whole process tree at the end time
     $OutputEncoding = New-Object System.Text.UTF8Encoding $false
     Set-Location $dir
-    $env:OVERNIGHT_RUN = '1'   # turns on the project's Stop-hook verify gate (Claude)
+    if (-not $isQa) { $env:OVERNIGHT_RUN = '1' }   # turns on the project's Stop-hook verify gate (Claude); QA must be free to end on a failing verify
     switch ($harness) {
         'codex' {
             # @codex:<name> is a profile when ~/.codex/<name>.config.toml exists (model + reasoning effort), else a model id.
@@ -425,13 +461,15 @@ $maxSessions = 8     # shortcut: a fixed cap per project per run in case an agen
 # never has to guess from times (Hermes's commits reach the desktop when its session ends, after the gate's pull).
 $heads = [ordered]@{}
 foreach ($q in $pending) { $h = git -C (Join-Path $projects $q.Name) rev-parse HEAD 2>$null; if ($h) { $heads[$q.Name] = "$h" } }
+$qaResults = [ordered]@{}   # QA per project: @{ state = running|pass|findings|skipped|failed; findings; reason }, read by the Agents board
 $running = @{}; $limitUntil = @{}; $advances = @{}; $sessions = @{}; $waitNet = @{}; $netRetries = @{}; $nextNetCheck = @{}; $noSpark = @{}
 # A resumed run keeps the usage limits the cut-off run had hit.
+if ($Resume -and $state.qa) { foreach ($p in $state.qa.PSObject.Properties) { $qaResults[$p.Name] = @{ state = "$($p.Value.state)"; findings = [int]$p.Value.findings; reason = "$($p.Value.reason)" } } }
 if ($Resume -and $state.limitUntil) { foreach ($p in $state.limitUntil.PSObject.Properties) { $limitUntil[$p.Name] = [datetime]::Parse($p.Value) } }
 # limitUntil (harnesses parked on a usage limit, as ISO strings) is also read by the Agents board's Usage limits panel.
 function Save-RunState {
     $parked = @{}; foreach ($k in @($limitUntil.Keys)) { $parked[$k] = $limitUntil[$k].ToString('o') }
-    @{ kind = $Kind; started = $started.ToString('o'); until = $deadline.ToString('o'); heads = $heads; limitUntil = $parked } | ConvertTo-Json | Set-Content -Path $stateFile -Encoding UTF8
+    @{ kind = $Kind; started = $started.ToString('o'); until = $deadline.ToString('o'); heads = $heads; limitUntil = $parked; qa = $qaResults } | ConvertTo-Json -Depth 5 | Set-Content -Path $stateFile -Encoding UTF8
 }
 function Test-Parked($tool) { return [bool]($limitUntil[$tool] -and (Get-Date) -lt $limitUntil[$tool]) }
 # The harness a project's next session runs on. A Claude project whose harness is parked on its usage limit runs on Codex,
@@ -469,7 +507,7 @@ while ($pending.Count -or $running.Count) {
         Remove-Item "$log.pid" -ErrorAction SilentlyContinue   # the job writes a fresh one
         $dot = [char]0x00B7   # this file must stay ASCII for PowerShell 5.1
         $sessionName = "$($q.Name) $dot $(if ($Kind -eq 'morning') { 'morning' } else { 'night' }) of $($started.ToString('MMM d', [Globalization.CultureInfo]::InvariantCulture)) $dot session $($sessions[$q.Name])"
-        $job = Start-Job -ScriptBlock $worker -ArgumentList $dir, $run.Harness, $run.Model, $prompt, $log, $left, $ssh, "$sparkProjects/$($q.Name)", $sessionName
+        $job = Start-Job -ScriptBlock $worker -ArgumentList $dir, $run.Harness, $run.Model, $prompt, $log, $left, $ssh, "$sparkProjects/$($q.Name)", $sessionName, $false
         $running[$job.Id] = @{ Job = $job; Q = $run; Start = Get-Date; Head = (git -C $dir rev-parse HEAD 2>$null); PidFile = "$log.pid" }
     }
     if (-not $running.Count) { if ($pending.Count) { Start-Sleep -Seconds 30; continue }; break }   # only projects waiting for the network or a usage-limit reset
@@ -512,6 +550,93 @@ while ($pending.Count -or $running.Count) {
 }
 foreach ($name in @($sessions.Keys)) { if ($sessions[$name] -gt 1) { $rows[$name].Note = "$($sessions[$name]) sessions. " + $rows[$name].Note } }
 
+# ---- QA pass: after a project's builder sessions, one session on the lane's QA harness (another model family) ----
+# It runs verify, exercises the changed screens, checks every task marked done tonight for evidence, and writes findings
+# (agent-rules/qa-prompt.md). Skipped with a reason when there is no real commit, QA is off (qa=off or roles.json), or its
+# harness is parked on a usage limit. QA may change only the files in $qaAllowed; the runner checks the commits it made.
+# The result goes to .run-state.json (live) and under the report table, and the Agents board shows it as a badge.
+$qaPromptFile = Join-Path $vault 'Nightly Runs\agent-rules\qa-prompt.md'
+$qaAllowed = 'REPORT.md', 'FEEDBACK.md', 'BUILD_SPEC.md', 'PROGRESS.md'   # BUILD_SPEC/PROGRESS only to revert a "done" mark that has no evidence
+function Format-Qa($r) {
+    if ($r.state -eq 'pass') { return 'pass' }
+    if ($r.state -eq 'findings') { return $(if ([int]$r.findings -eq 1) { '1 finding' } else { "$($r.findings) findings" }) }
+    return "$($r.state): $("$($r.reason)" -replace '\s+', ' ')"
+}
+function Set-Qa($name, $state, $reason = '', $findings = 0, $by = '') {
+    $script:qaResults[$name] = @{ state = $state; findings = $findings; reason = $reason }
+    if ($state -ne 'running') { $script:rows[$name].Note = "$($script:rows[$name].Note.TrimEnd()) QA $(Format-Qa $script:qaResults[$name])$(if ($by) { " (on $by)" }). " }   # the gate's note may end in 'log: <path>' without a space
+    if (-not $DryRun) { Save-RunState }
+}
+$qaPromptText = $(if (Test-Path $qaPromptFile) { Get-Content $qaPromptFile -Raw -Encoding UTF8 } else { '' })
+$qaQueue = New-Object System.Collections.ArrayList
+foreach ($q in $queue) {
+    $name = $q.Name; $dir = Join-Path $projects $name
+    if ($DryRun) {
+        if ($checks[$name].Blockers) { continue }
+        $plan = Get-QaPlan $q $roles
+        $rows[$name].Note += $(if ($plan.Skip) { "dry run: QA skipped ($($plan.Skip)). " } else { "dry run: QA would run on $($plan.Spec) after builder sessions with a real commit. " })
+        continue
+    }
+    if (-not $sessions[$name]) { continue }   # no builder session ran (preflight, or no time left): nothing to check
+    if ($qaResults[$name] -and $qaResults[$name].state -ne 'running') { continue }   # a resumed run already finished this one
+    if (-not (Test-Progress $dir $heads[$name])) { Set-Qa $name 'skipped' 'no real commit tonight'; continue }
+    $plan = Get-QaPlan $q $roles
+    if ($plan.Skip) { Set-Qa $name 'skipped' $plan.Skip; continue }
+    if (-not $qaPromptText) { Set-Qa $name 'skipped' 'agent-rules/qa-prompt.md is missing'; continue }
+    if (-not $cliOk[$plan.Family]) { Set-Qa $name 'skipped' "$($plan.Family) CLI not found on this PC"; continue }
+    if (Test-Parked $plan.Family) { Set-Qa $name 'skipped' "$($plan.Family) is parked on its usage limit until $($limitUntil[$plan.Family].ToString('HH:mm'))"; continue }
+    [void]$qaQueue.Add(@{ Q = $q; Plan = $plan })
+}
+$qaRunning = @{}
+while ($qaQueue.Count -or $qaRunning.Count) {
+    foreach ($item in @($qaQueue)) {
+        $name = $item.Q.Name; $fam = $item.Plan.Family; $dir = Join-Path $projects $name
+        if (Test-Parked $fam) { $qaQueue.Remove($item); Set-Qa $name 'skipped' "$fam hit its usage limit; parked until $($limitUntil[$fam].ToString('HH:mm'))"; continue }
+        if (@($qaRunning.Values | Where-Object { $_.Plan.Family -eq $fam }).Count -ge $PerHarness) { continue }
+        $qaQueue.Remove($item)
+        $log = Join-Path $logDir "$name.qa.txt"   # not .log: the Tonight's run strip lists one row per <folder>.log
+        Remove-Item "$log.pid" -ErrorAction SilentlyContinue
+        $head = "$(git -C $dir rev-parse HEAD 2>$null)"
+        $text = $qaPromptText + "`n---`nThis QA session: project folder $name, date for the REPORT.md section $($started.ToString('yyyy-MM-dd')), the builder's commits tonight are $($heads[$name])..$head (git log -p that range), put screenshots in $(Join-Path $logDir "_qa\$name") (outside the repo, never commit them).`n"
+        $sessionName = "$name $([char]0x00B7) QA of $($started.ToString('MMM d', [Globalization.CultureInfo]::InvariantCulture))"
+        $job = Start-Job -ScriptBlock $worker -ArgumentList $dir, $fam, $item.Plan.Model, $text, $log, ($QaMinutes * 60), $ssh, "$sparkProjects/$name", $sessionName, $true
+        $qaRunning[$job.Id] = @{ Job = $job; Q = $item.Q; Plan = $item.Plan; Start = Get-Date; Head = $head; Dirty = @(git -C $dir status --porcelain 2>$null); Log = $log }
+        Set-Qa $name 'running'
+    }
+    if (-not $qaRunning.Count) { if ($qaQueue.Count) { Start-Sleep -Seconds 30; continue }; break }
+    Wait-Job -Job @($qaRunning.Values | ForEach-Object { $_.Job }) -Any -Timeout 60 | Out-Null
+    foreach ($id in @($qaRunning.Keys)) {
+        $r = $qaRunning[$id]; $name = $r.Q.Name; $dir = Join-Path $projects $name; $fam = $r.Plan.Family
+        $timedOut = $false
+        if ($r.Job.State -eq 'Running' -and (Get-Date) -ge $r.Start.AddMinutes($QaMinutes + 5)) {
+            $jobPid = Get-Content "$($r.Log).pid" -ErrorAction SilentlyContinue | Select-Object -First 1
+            if ($jobPid) { & taskkill.exe /PID $jobPid /T /F *> $null }
+            Stop-Job $r.Job; $timedOut = $true
+        }
+        if ($r.Job.State -eq 'Running') { continue }
+        Remove-Job $r.Job -Force; $qaRunning.Remove($id)
+        $text = "$(Get-Content $r.Log -Raw -Encoding UTF8 -ErrorAction SilentlyContinue)" -replace "`0", ''
+        if ($fam -eq 'hermes') { git -C $dir pull --rebase --autostash -q 2>$null }   # its commits reach the desktop only now
+        # Put back what QA's verify run re-took (tracked screenshots), then look at what QA itself committed.
+        $byVerify = @(git -C $dir status --porcelain 2>$null | Where-Object { $_ -notin $r.Dirty -and $_ -match '^ M ' } | ForEach-Object { $_.Substring(3) } | Where-Object { $_ -notin $qaAllowed })
+        if ($byVerify) { git -C $dir checkout -- $byVerify 2>$null }
+        $foreign = @(git -C $dir diff --name-only $r.Head HEAD 2>$null | Where-Object { $_ -notin $qaAllowed })
+        $hit = [regex]::Matches($text, '(?m)^\s*QA RESULT:\s*(pass|findings\s*=\s*(\d+))\s*$')
+        $by = $r.Plan.Spec
+        $rows[$name].Note = "$($rows[$name].Note.TrimEnd()) QA log: $($r.Log)."
+        if ($timedOut) { Set-Qa $name 'failed' "timed out after $QaMinutes min" 0 $by }
+        elseif ($foreign) { Set-Qa $name 'failed' "QA changed files it may not: $($foreign -join ', '); see git log $($r.Head)..HEAD" 0 $by }
+        elseif ($hit.Count) {
+            $n = $(if ($hit[$hit.Count - 1].Groups[2].Success) { [int]$hit[$hit.Count - 1].Groups[2].Value } else { 0 })
+            if ($n -gt 0) { Set-Qa $name 'findings' '' $n $by } else { Set-Qa $name 'pass' '' 0 $by }
+        }
+        elseif ($fam -ne 'hermes' -and $text -match $limitHit) { $limitUntil[$fam] = Get-LimitReset $text; Set-Qa $name 'skipped' "$fam hit its usage limit during QA; resets $($limitUntil[$fam].ToString('HH:mm'))" 0 $by }
+        elseif ($text -match 'SPARK_MISSING') { Set-Qa $name 'skipped' "not cloned on FirstSpark at $sparkProjects" 0 $by }
+        elseif ($text -match 'SPARK_BUSY') { Set-Qa $name 'skipped' 'a Hermes session is still running in that repo on FirstSpark' 0 $by }
+        else { Set-Qa $name 'failed' 'the QA session ended without a "QA RESULT:" line' 0 $by }
+    }
+}
+
 # Independent gate: the runner's own verify and git check, not the agent's claim.
 foreach ($q in $queue) {
     $dir = Join-Path $projects $q.Name; $row = $rows[$q.Name]
@@ -544,12 +669,14 @@ $md += $queue | ForEach-Object { $r = $rows[$_.Name]; "| $($r.Project) | $($r.Ha
 if (-not $queue) { $md += '| (Tonight list is empty) | | | | | |' }
 $ranges = @($queue | Where-Object { $rows[$_.Name].Heads } | ForEach-Object { "- ``$($_.Name)``: $($rows[$_.Name].Heads)" })
 if ($ranges) { $md += @('', 'HEAD before..after each project''s lanes (the Agents board Review tab lists exactly these commits):') + $ranges }
+$qaLines = @($queue | Where-Object { $qaResults[$_.Name] } | ForEach-Object { "- ``$($_.Name)``: QA $(Format-Qa $qaResults[$_.Name])" })
+if ($qaLines) { $md += @('', 'QA after the builder sessions (the Agents board shows these as badges):') + $qaLines }
 New-Item -ItemType Directory -Force $runLogDir | Out-Null   # Morning Runs/Logs on the first morning run
 Set-Content -Path $reportMd -Value $md -Encoding UTF8
 if (-not $DryRun) { Set-Content -Path (Join-Path $runLogDir "$stamp.md") -Value $md -Encoding UTF8 }
 if (-not $DryRun) { Remove-Item $stateFile -ErrorAction SilentlyContinue }   # finished: nothing for -Resume to continue
 # Projects that now have a preview (scripts/preview.ps1) appear as tabs in Dashboard Command Center's Projects group.
-if (-not $DryRun) {
+if (-not $DryRun -and -not $env:OVERNIGHT_VAULT) {   # a fixture run (test-qa-run.ps1) must not touch the real board
     try { $dcc = Invoke-RestMethod -Method Post -Uri 'http://127.0.0.1:8768/api/dcc' -ContentType 'application/json' -Body '{}' -TimeoutSec 60; Write-Output "dcc: registered $(@($dcc.registered) -join ', ')" }
     catch { Write-Output "dcc: could not reach the Agents board to register previews ($($_.Exception.Message))" }
 }
