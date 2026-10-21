@@ -56,6 +56,24 @@ Rules:
 
 <!-- Hermes appends new, ready actions below this line. Keep the queue ordered by current leverage, not capture time. -->
 
+- [ ] **Evaluate Streamio + Real-Debrid for Instant Streaming** — [source](https://x.com/thekitze/status/2112500073762615364?s=20)
+  - Contains: Kitze warns that Streamio with Real-Debrid offers instant playback without torrent traffic for 4 euros monthly. This setup bypasses traditional P2P networks, raising potential legal and ethical concerns for users.
+  - Potential benefit: The post highlights a convenient, high-speed streaming alternative that avoids bandwidth-heavy torrenting. It serves as a cautionary note about the hidden nature of such services.
+  - Intent: learn · inferred
+  - Topic: Streaming Tools
+  - Source author: kitze 🛠️ tinkerer.club
+  - Priority: P2
+  - Impact: medium
+  - Ease: easy
+  - Important: no
+  - Importance reason: It is a niche tool with specific legal risks rather than a core workflow necessity.
+  - Urgent: no
+  - Urgency reason: There is no immediate deadline or time-sensitive benefit to acting on this now.
+  - Done when: I have verified the service's legality and tested its performance for one week.
+  - Effort: 30m
+  - Captured: 2026-10-21 00:05 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_a67d9335cef13fe1
+
 - [ ] **Study Graph Transformer Lecture 9** — [article](https://storage.googleapis.com/xavierbresson/lectures/GML/lecture09_graph_transformer.pdf)
   - Contains: Xavier Bresson's Graph Machine Learning Lecture 9 covers Graph Transformers and their scaling. It details positional encodings, message-passing views, and hierarchical architectures for large graphs. The lecture also outlines future directions like GraphRAG and G-Retriever.
   - Potential benefit: This is a high-quality academic resource for understanding advanced graph neural network architectures. It provides a structured overview of Graph Transformers, addressing scalability issues like over-squashing and computational cost. The content is essential for anyone studying modern graph machine learning.
