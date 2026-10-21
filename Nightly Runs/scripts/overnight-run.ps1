@@ -289,7 +289,7 @@ function Compare-Integrity($before, $after) {
 
 # One agent run, inside a background job. Output goes to $log.
 $worker = {
-    param($dir, $harness, $model, $prompt, $log, $budget, $ssh, $sparkDir)
+    param($dir, $harness, $model, $prompt, $log, $budget, $ssh, $sparkDir, $sessionName)
     Set-Content -Path "$log.pid" -Value $PID   # so the runner can end this job's whole process tree at the end time
     $OutputEncoding = New-Object System.Text.UTF8Encoding $false
     Set-Location $dir
@@ -314,7 +314,8 @@ $worker = {
             # @claude:<model>[-<effort>], e.g. opus-xhigh or fable-high; effort defaults to high for unattended runs.
             $effort = 'high'
             if ($model -match '^(.+)-(low|medium|high|xhigh|max)$') { $model = $Matches[1]; $effort = $Matches[2] }
-            $prompt | & claude -p --model $model --effort $effort --permission-mode bypassPermissions *>> $log
+            # -n names the session in Claude Code's session list; Codex and Hermes have no such flag (the board labels theirs).
+            $prompt | & claude -p -n $sessionName --model $model --effort $effort --permission-mode bypassPermissions *>> $log
         }
     }
 }
@@ -437,7 +438,9 @@ while ($pending.Count -or $running.Count) {
         $sessions[$q.Name] = 1 + [int]$sessions[$q.Name]
         Add-Content -Path $log -Value "=== session $($sessions[$q.Name]) $((Get-Date).ToString('HH:mm')), until $($deadline.ToString('HH:mm')) ===" -Encoding UTF8
         Remove-Item "$log.pid" -ErrorAction SilentlyContinue   # the job writes a fresh one
-        $job = Start-Job -ScriptBlock $worker -ArgumentList $dir, $q.Harness, $q.Model, $prompt, $log, $left, $ssh, "$sparkProjects/$($q.Name)"
+        $dot = [char]0x00B7   # this file must stay ASCII for PowerShell 5.1
+        $sessionName = "$($q.Name) $dot $(if ($Kind -eq 'morning') { 'morning' } else { 'night' }) of $($started.ToString('MMM d', [Globalization.CultureInfo]::InvariantCulture)) $dot session $($sessions[$q.Name])"
+        $job = Start-Job -ScriptBlock $worker -ArgumentList $dir, $q.Harness, $q.Model, $prompt, $log, $left, $ssh, "$sparkProjects/$($q.Name)", $sessionName
         $running[$job.Id] = @{ Job = $job; Q = $q; Start = Get-Date; Head = (git -C $dir rev-parse HEAD 2>$null); PidFile = "$log.pid" }
     }
     if (-not $running.Count) { if ($pending.Count) { Start-Sleep -Seconds 30; continue }; break }   # only projects waiting for the network or a usage-limit reset
