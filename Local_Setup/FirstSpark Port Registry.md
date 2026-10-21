@@ -29,6 +29,7 @@ ssh FirstSpark 'ss -ltnH; tailscale serve status'
 | 18767 | — (loopback, tests only) | Expert Lens end-to-end test server (`expert-lens-skill` §6.49; reserved) | test runs only |
 | 8783 | :8783 | ntfy push notifications (agents-board phone alerts, topic `agents-board`) | Docker `ntfy` |
 | 8772 | :8772 | Kaggle Learning Center | `kaggle-learning-center.service` (user) |
+| 8771 | :8771 | Dashboard Command Center phone companion (**on the Windows desktop**, not FirstSpark; kept free here so the number means one thing) | DCC tray app, `tailscale serve` on the desktop |
 | 8787 | :8787 | Fresh Brief | process `python app.py` |
 | 8788 | :8788 | TikTok Learning Center (`tlc`) | process |
 | 3010 | :8789 | TikTok VPN browser (Selkies) | Docker `tlc-vpn-gluetun` (container :3000) |
@@ -79,7 +80,7 @@ Each overnight project serves its UI (or a read-only status page) on its own por
 
 Use these in order and move each one into a table above once it's taken.
 
-- **Dashboards / web apps:** 8768 (taken on the desktop by the Agents board), 8771, 8783–8786, 8790–8792, 8794–8799 (8793 is resume-blueprint-studio's screenshot-capture port)
+- **Dashboards / web apps:** 8768 (taken on the desktop by the Agents board), 8784–8786, 8790–8792, 8794–8799 (8793 is resume-blueprint-studio's screenshot-capture port)
 - **Agent tools and APIs:** 9121–9199
 - **Model servers:** 8001–8009 (8000 is spark-fast)
 - Avoid 8080 (common default, used inside containers), 8888, 3000, 5000, 11434 (Ollama default).
