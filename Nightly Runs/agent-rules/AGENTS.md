@@ -64,14 +64,6 @@ Rules for all three:
 - A fresh session reads the queue of record first and resumes from the next open item; it never reconstructs state from chat history.
 - End every unattended run by writing `REPORT.md`: what changed, verify result, commits, decisions made, questions for the owner.
 
-## Keep the owner posted on threads
-When you run parallel work (subagents, side sessions, workflows, background tasks), send the owner a short update in chat at each change, not only at the end:
-- **Started**: what each thread is doing, one line each.
-- **Blocked**: which thread, what blocks it, what you're doing meanwhile (the question also goes in `REPORT.md`).
-- **Finished a piece**: which thread, what it produced (commit, file, PR), and whether you checked it.
-- **Failed or stopped**: which thread and why, and what happens next.
-One or two lines per update. When the owner may be away, also push it (SendUserFile with `status: proactive`, or a push notification where available).
-
 ## Shared machine resources
 - FirstSpark ports: read `LLMWiki/Local_Setup/FirstSpark Port Registry.md` before binding any port on FirstSpark. Pick a free port from it and register the new one there in the same change.
 - Project priorities live in `LLMWiki/Nightly Runs/Project Priorities.md`. When choosing what to work on next without instructions, follow it top to bottom.
