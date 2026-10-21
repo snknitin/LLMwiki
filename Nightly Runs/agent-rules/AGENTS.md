@@ -18,10 +18,10 @@ Standing authorization in every git repo; no need to ask.
 - "Done" = the project's verify command passes (in order: `scripts/verify.ps1`, `scripts/verify.sh`, else the test command in the project's CLAUDE.md or AGENTS.md) + committed + pushed. Re-run verify fresh before claiming success; a status code alone is not proof.
 - UI work: take screenshots (desktop and mobile width) and link them in the report.
 
-## Every slice ends with something viewable
-- Overnight projects have `scripts/preview.ps1` (desktop) and `scripts/preview.sh` (FirstSpark). Each serves the app in the foreground on 127.0.0.1 and the project's port from "Project previews" in `LLMWiki/Local_Setup/FirstSpark Port Registry.md`. A project with no row takes the next free dashboard port and registers it in the same change. Line 2 of each script is exactly `# preview: http://127.0.0.1:<port>/`. The Agents board reads that line to start the preview and add it as a Dashboard Command Center tab.
+## Projects with a UI show it early
+- When BUILD_SPEC describes something the owner uses on screen (a dashboard, an app, a web page), plan its screens into the build tree early: a first real screen in slice 0 or 1, then each later slice extends it with that slice's features. Don't leave all UI to the last slice. Projects with no UI (a CLI, a library, a skill) need none of this.
+- Once the first screen exists, keep `scripts/preview.ps1` (desktop) and `scripts/preview.sh` (FirstSpark) serving it in the foreground on 127.0.0.1 and the project's port from "Project previews" in `LLMWiki/Local_Setup/FirstSpark Port Registry.md`. A project with no row takes the next free dashboard port and registers it in the same change. Line 2 of each script is exactly `# preview: http://127.0.0.1:<port>/`. The Agents board reads that line; after each run it adds the preview as a tab in Dashboard Command Center's Projects group by itself.
 - The preview uses synthetic or demo data in a temp data root. No real data, no secrets or tokens in the URL, no login step the owner can't do in the tab.
-- When a slice is finished, the preview shows that slice's work. A back-end-only slice can serve the shared read-only status page instead (what works, last verify, commits, build tree, screenshots): `python "<vault>/Nightly Runs/scripts/status_page.py" <project folder> <port>`.
 - Verify never depends on a preview server running. Its screenshots start their own temporary server. Never edit the DCC registry yourself.
 
 ## Decide, don't ask (for reversible choices)

@@ -24,7 +24,7 @@ description: Use when an overnight project's verify passes (tonight's target is 
    - Add any nodes the spec gained.
    - Re-render `index.html`.
 
-6b. **Keep the preview current.** Make sure `scripts/preview.ps1` and `scripts/preview.sh` exist (step 4 of the `make-overnight-ready` skill). In the contract, say what each new slice adds to the preview. Once the project has a real page, switch the preview from the status page to that page.
+6b. **UI projects: bring the screens along.** If BUILD_SPEC has a UI and the build tree has no screen yet, put one into the next slices rather than leaving the UI for last. Once a screen exists, keep `scripts/preview.ps1` and `scripts/preview.sh` serving it (step 4 of the `make-overnight-ready` skill) and say in the contract what each new slice adds to it. Projects with no UI skip this.
 
 7. **Update the progress files.** Add the new tasks to PROGRESS.md's checklist, and log the scope choice in DECISIONS.md.
 
