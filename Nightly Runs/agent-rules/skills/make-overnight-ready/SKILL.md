@@ -20,6 +20,7 @@ description: Use when a project under E:\GIT_ROOT\Projects (or ~/Workspace/GIT_R
    `Overnight MVP target = **Slices 0–2 = tasks T1–T6 + F-mood-T1**`
    List every task ID, using ranges (`T1–T6`, `F-prep-T1–F-prep-T3`) or single IDs. Then include:
    - a scope sentence and an explicit out-of-scope list;
+   - what the owner will see in the preview when tonight's slices are done (one line per slice);
    - commands for setup, test and run (Windows, plus Linux when it may run on Hermes);
    - "Contract verify.ps1 checks (build to this)";
    - boundaries: only this folder; synthetic fixtures; no network or real accounts; never edit `scripts/verify.ps1`, `scripts/verify.sh`, `scripts/stop-gate.ps1`, `.claude/`, or the spec text;
@@ -36,6 +37,8 @@ description: Use when a project under E:\GIT_ROOT\Projects (or ~/Workspace/GIT_R
    - **Screenshots, for any project with a UI** (pages, templates or components): once the app has a page, verify starts it on a temp port and takes Playwright screenshots at desktop (1440px) and phone (390px) width into `screenshots/latest/` (git-ignored), then checks the files exist. These are the morning's before/after images. Until the first page exists, put this check in the slice that builds it.
 
    Draw them from the spec's acceptance evidence. In `verify.sh`, add `command -v uv >/dev/null || PATH="$HOME/.local/bin:$PATH"` near the top (the same for node/npm if needed), because Hermes runs it over a non-login SSH shell. Keep it LF (add `*.sh text eol=lf` to `.gitattributes` if needed). Run both now: each must exit 1 with `VERIFY FAIL` and no script errors. Read the exit code straight after the command (`cmd; c=$?`), never after another command.
+
+   **Write `scripts/preview.ps1` and `scripts/preview.sh`** (shared rule "Every slice ends with something viewable"). Each starts the app in the foreground on 127.0.0.1 and the project's port from "Project previews" in `Local_Setup/FirstSpark Port Registry.md`. If the project has no row, take the next free dashboard port and add the row in the same change. Line 2 is exactly `# preview: http://127.0.0.1:<port>/`. Use a temp data root seeded from the synthetic fixtures, so the page shows real-looking content without login or tokens. Until the first page exists, serve the shared status page: `python "<vault>/Nightly Runs/scripts/status_page.py" <project folder> <port>` (vault `F:\Vaults\LLMWiki` or `/home/snknitin/vaults/LLMWiki`). Reference: `mock-interview-gauntlet/scripts/preview.ps1`. Agents may edit these scripts (they are not guarded). Verify must not need them.
 
 5. **Copy** `scripts/stop-gate.ps1` and `.claude/settings.json` from the reference. Adjust only the allow list for the toolchain, and deny edits to both verify scripts, the stop gate and the settings. **Never deny git commit or push.**
 

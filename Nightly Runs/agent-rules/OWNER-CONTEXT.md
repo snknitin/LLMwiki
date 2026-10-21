@@ -115,6 +115,7 @@ Dashboard Command Center
   
   (World Monitor, openGym and God's Eye View notes; expert-lens-skill REPORT Q4)
 - Never put cookies, tokens or passwords in the registry. Navigation groups are not auth groups. (DCC README)
+- Overnight project previews go in the **Projects** group, and the Agents board's "Add previews to DCC" button puts them there through DCC's `project-dashboards.json` inbox. Agents only write `scripts/preview.ps1`/`preview.sh` and never touch the registry. Ports are under "Project previews" in the Port Registry. (owner request 2026-10-21)
 
 Toolchain and verify
 - Python → 3.12 with `uv`. Desktop has 3.12.10 and uv 0.12.17. (most BUILD_SPECs)

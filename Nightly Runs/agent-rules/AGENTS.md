@@ -18,6 +18,12 @@ Standing authorization in every git repo; no need to ask.
 - "Done" = the project's verify command passes (in order: `scripts/verify.ps1`, `scripts/verify.sh`, else the test command in the project's CLAUDE.md or AGENTS.md) + committed + pushed. Re-run verify fresh before claiming success; a status code alone is not proof.
 - UI work: take screenshots (desktop and mobile width) and link them in the report.
 
+## Every slice ends with something viewable
+- Overnight projects have `scripts/preview.ps1` (desktop) and `scripts/preview.sh` (FirstSpark). Each serves the app in the foreground on 127.0.0.1 and the project's port from "Project previews" in `LLMWiki/Local_Setup/FirstSpark Port Registry.md`. A project with no row takes the next free dashboard port and registers it in the same change. Line 2 of each script is exactly `# preview: http://127.0.0.1:<port>/`. The Agents board reads that line to start the preview and add it as a Dashboard Command Center tab.
+- The preview uses synthetic or demo data in a temp data root. No real data, no secrets or tokens in the URL, no login step the owner can't do in the tab.
+- When a slice is finished, the preview shows that slice's work. A back-end-only slice can serve the shared read-only status page instead (what works, last verify, commits, build tree, screenshots): `python "<vault>/Nightly Runs/scripts/status_page.py" <project folder> <port>`.
+- Verify never depends on a preview server running. Its screenshots start their own temporary server. Never edit the DCC registry yourself.
+
 ## Decide, don't ask (for reversible choices)
 - Reversible choices (names, layout, which installed library, ordering): pick the simplest option, log it in `DECISIONS.md` (date, choice, why, how to undo), and keep going.
 - Stop only for: missing credentials or access, destructive or irreversible actions, external side effects (sending, posting, paying), or a spec contradiction. Write the question into `REPORT.md` in the format below, then continue with other work.

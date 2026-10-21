@@ -1,5 +1,5 @@
 ---
-updated: 2026-10-20
+updated: 2026-10-21
 host: FirstSpark (spark-07a8, tailnet spark-07a8.tail4a1242.ts.net)
 ---
 
@@ -33,6 +33,23 @@ ssh FirstSpark 'ss -ltnH; tailscale serve status'
 | 3010 | :8789 | TikTok VPN browser (Selkies) | Docker `tlc-vpn-gluetun` (container :3000) |
 | 27910, 27913–27915, 27918, 27919 | :443 `/mcp-oauth/*` | MCP OAuth callbacks (notion, vercel, stripe, figma, linear, cloudflare) | reserved; only listening during an OAuth sign-in |
 
+## Project previews (`scripts/preview.ps1` / `preview.sh`)
+
+Each overnight project serves its UI (or a read-only status page) on its own port, bound to 127.0.0.1, so the owner can open it after every slice. The same number is used on the desktop (preview.ps1, opened as a Dashboard Command Center tab in the **Projects** group) and on FirstSpark (preview.sh). Reserved 2026-10-21 for the top 10; a project entering the top 10 takes the next free dashboard port and adds its row here in the same change.
+
+| Port | Project |
+|---|---|
+| 8773 | mock-interview-gauntlet |
+| 8774 | resume-blueprint-studio |
+| 8775 | paper-logbook |
+| 8776 | language-learning-lab |
+| 8777 | paisa-vasool-subscriptions |
+| 8778 | finance-signals-dashboard |
+| 8779 | expert-lens-skill |
+| 8780 | net-worth-command-center |
+| 8781 | personal-study-curriculum |
+| 8782 | creator-content-engine |
+
 ## Models and agent infrastructure
 
 | Port | Bind | Service | Runs as |
@@ -61,7 +78,7 @@ ssh FirstSpark 'ss -ltnH; tailscale serve status'
 
 Use these in order and move each one into a table above once it's taken.
 
-- **Dashboards / web apps:** 8768, 8771, 8773–8786, 8790–8799
+- **Dashboards / web apps:** 8768 (taken on the desktop by the Agents board), 8771, 8783–8786, 8790–8792, 8794–8799 (8793 is resume-blueprint-studio's screenshot-capture port)
 - **Agent tools and APIs:** 9121–9199
 - **Model servers:** 8001–8009 (8000 is spark-fast)
 - Avoid 8080 (common default, used inside containers), 8888, 3000, 5000, 11434 (Ollama default).

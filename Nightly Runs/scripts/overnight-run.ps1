@@ -94,7 +94,7 @@ $queue = Read-Queue
 # but lacks any of this gets a "structure" item, so the prep agent fills in only what is missing.
 function Get-MissingStructure($dir) {
     $m = @()
-    foreach ($f in 'AGENTS.md', 'CLAUDE.md', 'scripts\verify.sh', 'scripts\stop-gate.ps1', 'PROGRESS.md', 'FEEDBACK.md', 'DECISIONS.md') {
+    foreach ($f in 'AGENTS.md', 'CLAUDE.md', 'scripts\verify.sh', 'scripts\stop-gate.ps1', 'scripts\preview.ps1', 'scripts\preview.sh', 'PROGRESS.md', 'FEEDBACK.md', 'DECISIONS.md') {
         if (-not (Test-Path (Join-Path $dir $f))) { $m += ($f -replace '\\', '/') }
     }
     $settings = Join-Path $dir '.claude\settings.json'

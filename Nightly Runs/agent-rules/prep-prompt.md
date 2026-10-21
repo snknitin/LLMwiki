@@ -13,6 +13,7 @@ The runner worked out the list below. Do each item:
   - PROGRESS.md / FEEDBACK.md / DECISIONS.md: step 6.
   - DESIGN.md: step 6's DESIGN.md bullet.
   - screenshots in verify: step 4's screenshot bullet. Add the step to both verify scripts. It must not make an already-passing slice fail just because a browser is missing; install Playwright's Chromium for the project if needed.
+  - `scripts/preview.ps1` / `scripts/preview.sh`: step 4's preview bullet (the project's port is in the Port Registry's "Project previews" table). Start it once, check that the URL loads, and stop it.
   Run both verify scripts afterwards. Their pass or fail result must be the same as before your change.
 - **advance**: the project's verify already passes, so tonight's run would stop at once. Follow the `advance-slice` skill so tonight has new work.
 - **queue**: the project is ready but not in a Tonight lane. Pick its lane with the skill's "Pick a lane" rules. If that lane has a free slot (at most 3 per lane), move it there. If it's full but the item list names a **dequeue** candidate in that lane, move that one to "Ready next" first. Otherwise use the next-best lane with a free slot, and say why in the Prep Report. Only if every lane is full does it go to "Ready next".
