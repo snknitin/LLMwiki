@@ -145,6 +145,7 @@ function Get-MissingStructure($dir) {
     $hasUi = [bool]($tracked | Where-Object { $_ -match '\.(html|jinja2?|svelte|vue|[jt]sx)$' -and $_ -notmatch '(^|/)(\.hermes|docs|node_modules)/' } | Select-Object -First 1)
     if ($hasUi) {
         if (-not (Test-Path (Join-Path $dir 'DESIGN.md'))) { $m += 'DESIGN.md' }
+        elseif (-not (Select-String -Path (Join-Path $dir 'DESIGN.md') -Pattern '^#+\s*Identity' -Quiet)) { $m += 'DESIGN.md Identity section' }   # shared rule "Designed, not default"
         if (-not (Select-String -Path (Join-Path $dir 'scripts\verify.ps1') -Pattern 'screenshot|playwright' -Quiet)) { $m += 'screenshots in verify' }
     }
     return $m
@@ -167,8 +168,8 @@ function Get-Upkeep($queue, [switch]$CheckVerify) {
             if (-not (Test-Path "$dir\.hermes\live-build-tree\model.json")) { $todo += 'build-tree'; $why += 'no live build tree' }
             $missing = @(Get-MissingStructure $dir)
             if ($missing) { $todo += 'structure'; $why += 'missing: ' + ($missing -join ', ') }
-            # Shared rule "MVP first": until verify carries the MVP gate, the next slice must be a usable MVP (headless specs excepted).
-            $headless = [bool](Select-String -Path "$dir\BUILD_SPEC.md" -Pattern '\bheadless\b' -Quiet)
+            # Shared rule "MVP first": until verify carries the MVP gate, the next slice must be a usable MVP (a BUILD_SPEC line "UI: none" opts out).
+            $headless = [bool](Select-String -Path "$dir\BUILD_SPEC.md" -Pattern '^\s*\**UI\**\s*:\s*\**none\b' -Quiet)   # an explicit 'UI: none' line; a mention of headless tools doesn't count
             if (-not $headless -and -not (Select-String -Path "$dir\scripts\verify.ps1" -Pattern 'MVP FLOW OK' -SimpleMatch -Quiet)) { $todo += 'mvp'; $why += 'no MVP gate yet: re-plan so the next slice is a usable MVP' }
         }
         if ($todo) { $items += [pscustomobject]@{ Project = $name; Action = $todo -join ' + '; Why = $why -join '; ' } }

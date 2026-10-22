@@ -24,7 +24,7 @@ description: Use when an overnight project's verify passes (tonight's target is 
    - Add any nodes the spec gained.
    - Re-render `index.html`.
 
-6b. **Keep the app usable.** Every new scope keeps the `MVP FLOW OK` gate in both verify scripts and extends `tests/mvp/` with a flow for each new screen or feature the owner will use, so each morning the preview works and shows what the night built. Add `scripts/preview.ps1` and `scripts/preview.sh` when the MVP gate first passes; never for a placeholder. Only a BUILD_SPEC that says the project is headless skips this.
+6b. **Keep the app usable.** Every new scope keeps the `MVP FLOW OK` gate in both verify scripts and extends `tests/mvp/` with a flow for each new screen or feature the owner will use, so each morning the preview works and shows what the night built. Add `scripts/preview.ps1` and `scripts/preview.sh` when the MVP gate first passes; never for a placeholder. Only a BUILD_SPEC with a line `UI: none` skips this.
 
 7. **Update the progress files.** Add the new tasks to PROGRESS.md's checklist, and log the scope choice in DECISIONS.md.
 
