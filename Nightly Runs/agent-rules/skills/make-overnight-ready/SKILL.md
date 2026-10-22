@@ -64,7 +64,7 @@ description: Use when a project under E:\GIT_ROOT\Projects (or ~/Workspace/GIT_R
    - **Codex:** well-specified backend or CLI slices. Tag `@codex:sol-6-1` for a big slice, `@codex:sol-5-6` for a smaller one.
    - **Hermes:** private-data work, Spark-hosted services, long grinding slices. Not for work whose spec forbids Spark seeing its data.
 
-   Each lane holds at most 3 projects. If the best lane is full, use the next-best lane with a free slot; only if all lanes are full does the project go to "Ready next".
+   Lanes have no size limit: put it in the best lane, and every project in a lane runs at the same time.
 
    Move it with the Agents board API: GET `http://127.0.0.1:8768/api/board` for `version`, then POST `/api/move` with `{folder, to: claude|codex|hermes|ready, index, version}`. Add a model tag by editing only that line. Commit only that vault file with `git -C F:\Vaults\LLMWiki commit -m "<msg>" -- "Nightly Runs/Project Priorities.md"` and push. The vault holds other sessions' work, so never `add -A`, stash or reset there.
 

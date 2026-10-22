@@ -6,7 +6,7 @@ updated: 2026-10-20
 
 The one list that decides what agents work on. Edit freely: reorder lines, move them between sections, delete them.
 
-**How it works:** **Tonight** has three lanes, one per tool. The runner starts at 23:00 and runs up to **3 projects per lane at the same time** (9 in total), then writes [[Overnight Report]]. To move a project to another tool, move its line to another lane. To pause it, move it out of Tonight. A project stays in its lane until you move it, and each night it continues from its `PROGRESS.md`.
+**How it works:** **Tonight** has three lanes, one per tool. The runner starts at 23:00 and runs **every project in every lane at the same time** (no limit per lane), then writes [[Overnight Report]]. To move a project to another tool, move its line to another lane. To pause it, move it out of Tonight. A project stays in its lane until you move it, and each night it continues from its `PROGRESS.md`.
 
 **Line format:** `- <folder-name> — <note>`
 - `<folder-name>` is the folder under `E:\GIT_ROOT\Projects` (don't rename it here). The note is for you; the runner ignores it.
@@ -20,17 +20,17 @@ The one list that decides what agents work on. Edit freely: reorder lines, move 
 
 ### Claude
 - language-learning-lab — A local-first language workbench built on three loops · includes merged: vocabulary-diction-studio (English track)
-- paper-logbook — An offline-first, paper-like daily/monthly notebook · includes merged: brainrot-rehab, measure-life, npc-mode-personal-coach (NPC Mode tab)
-- paisa-vasool-subscriptions — A private, local-first subscription-utilization tracker for one user · includes merged: 27-clicks-to-cancel, renewal-guard
 
 ### Codex
 - resume-blueprint-studio @codex:sol-6-1-high — first slice (its branch is codex/specification)
+- paper-logbook @codex:sol-6-high — An offline-first, paper-like daily/monthly notebook · includes merged: brainrot-rehab, measure-life, npc-mode-personal-coach (NPC Mode tab)
 - mock-interview-gauntlet @codex:sol-6 — first slice
 - finance-signals-dashboard @codex:sol-6-high — A read-only, local-first personal dashboard that ranks a ten-instrument India/US watchlist by " · includes merged: market-mood-cards (Morning tab)
 
 ### Hermes
 - expert-lens-skill — A FirstSpark dashboard for topic Markdown + GLM chat: Expert Lens, Batman Prep (with goal planner), Rabbit Hole, Research (Claim Check), Experiments (Brain Blast) · includes merged: batman-prep-time-skill, goal-to-calendar-planner, rabbit-hole-speedrun, physics-claim-debunker-skill, brain-blast-skill
 - net-worth-command-center — A private, local-first personal-finance record for one person · includes merged: latte-into-lambo
+- paisa-vasool-subscriptions — A private, local-first subscription-utilization tracker for one user · includes merged: 27-clicks-to-cancel, renewal-guard
 - personal-study-curriculum — A local-first tool that turns one learning goal, weekly hours, and manually imported resources  · includes merged: course-notes-to-quiz-product
 
 ## Priority order (top 10 = daily focus)
@@ -49,76 +49,76 @@ Tiers P0–P5, highest first; ranks count straight through. In the Agents board,
 
 ### P1 · Next up
 10. creator-content-engine
-11. jobs-search-and-apply-tool
-12. side-hustle-radar
-13. personal-finance-cockpit
+11. motto-agent-council
+12. event-market-research-terminal
+13. jobs-search-and-apply-tool
 14. meet-in-the-middle-city-explorer
-15. event-networking-copilot
-16. motto-agent-council
+15. side-hustle-radar
+16. competitive-intelligence-agency
 
 ### P2 · Soon
-17. competitive-intelligence-agency
-18. customer-support-agency
-19. marionettist-utopia
-20. demand-generation-workbench
-21. auto-gtm-engine
-22. personalized-adhd-skill-upgrade
-23. bionic-reading-trainer
-24. epub-highlights-bridge
-25. quiz-master
-26. leetcode-pattern-curriculum
-27. meta-ad-creative-studio
-28. ambient-tv
-29. field-pokedex
-30. giftshelf
-31. moving-out-marketplace
-32. handwriting-to-latex
-33. local-video-generation-evaluation-lab
+17. personal-finance-cockpit
+18. personalized-adhd-skill-upgrade
+19. bionic-reading-trainer
+20. event-networking-copilot
+21. customer-support-agency
+22. marionettist-utopia
+23. demand-generation-workbench
+24. auto-gtm-engine
+25. epub-highlights-bridge
+26. quiz-master
+27. leetcode-pattern-curriculum
+28. meta-ad-creative-studio
+29. ambient-tv
+30. field-pokedex
+31. giftshelf
+32. moving-out-marketplace
+33. handwriting-to-latex
+34. local-video-generation-evaluation-lab
 
 ### P3 · Later
-34. neural-fractal-visualizer
-35. news-depth-telegram-skill
-36. personal-library-website
-37. taxonomy-cluster-explorer
-38. visual-recipe-book
-39. maintainer-desk
-40. sales-development-agency
-41. event-ops-agency
-42. finance-ops-agency
-43. landing-page-conversion-agency
-44. community-ops-agency
-45. commute-copilot
-46. daily-parent-check-in
-47. deal-desk-agency
-48. dies-at-user-50
-49. flex-card-forge
-50. inbox-zero-mercenary
-51. knowledge-base-agency
-52. microsite-factory
-53. murder-mystery-game-master
+35. neural-fractal-visualizer
+36. news-depth-telegram-skill
+37. personal-library-website
+38. taxonomy-cluster-explorer
+39. visual-recipe-book
+40. maintainer-desk
+41. sales-development-agency
+42. event-ops-agency
+43. finance-ops-agency
+44. landing-page-conversion-agency
+45. community-ops-agency
+46. commute-copilot
+47. daily-parent-check-in
+48. deal-desk-agency
+49. dies-at-user-50
+50. flex-card-forge
+51. inbox-zero-mercenary
+52. knowledge-base-agency
+53. microsite-factory
+54. murder-mystery-game-master
 
 ### P4 · Someday
-54. on-call-autopilot
-55. recruiting-agency
-56. red-tape-navigator
-57. scam-radar
-58. seo-agency-crew
-59. shopify-product-page-optimizer
-60. user-research-agency
-61. wedding-gallery-concierge
-62. any-app-widget-maker
-63. ar-scale-lens
-64. audio-watermark-and-perception-lab
-65. feedback-mirror
-66. live-chess-tutor
+55. on-call-autopilot
+56. recruiting-agency
+57. red-tape-navigator
+58. scam-radar
+59. seo-agency-crew
+60. shopify-product-page-optimizer
+61. user-research-agency
+62. wedding-gallery-concierge
+63. any-app-widget-maker
+64. ar-scale-lens
+65. audio-watermark-and-perception-lab
+66. feedback-mirror
+67. live-chess-tutor
 
 ### P5 · Parked ideas
-67. phonescan-pdf
-68. physio-atlas
-69. playo-elo-sports-network
-70. tiny-model-game-lab
-71. visual-token-compiler
-72. event-market-research-terminal
+68. phonescan-pdf
+69. physio-atlas
+70. playo-elo-sports-network
+71. tiny-model-game-lab
+72. visual-token-compiler
 73. adaptive-vision-glasses
 74. drone-mission-mapper
 75. manga-to-animatic-studio

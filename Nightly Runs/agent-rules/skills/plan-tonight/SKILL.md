@@ -7,10 +7,10 @@ description: Use in the evening before an overnight run, when the owner asks wha
 
 1. **Run the preflight:** `powershell -NoProfile -ExecutionPolicy Bypass -File "F:\Vaults\LLMWiki\Nightly Runs\scripts\overnight-run.ps1" -Preflight`. It writes `LLMWiki/Nightly Runs/Preflight.md`: tonight's lanes, then a "Top 10 upkeep" table.
 
-2. **Do the Top 10 upkeep now.** The 23:00 run otherwise does it in a prep step that delays the lanes. The rule: the top 10 of `## Priority order`, skipping Active and Archived, must each be overnight-ready, have a live build tree, and sit in a Tonight lane (at most 3 per lane), or in Ready next only when every lane is full. For each row:
+2. **Do the Top 10 upkeep now.** The 23:00 run otherwise does it in a prep step that delays the lanes. The rule: the top 10 of `## Priority order`, skipping Active and Archived, must each be overnight-ready, have a live build tree, and sit in a Tonight lane (lanes have no size limit; every project in a lane runs at once). For each row:
    - **make-overnight-ready**: run that skill (it ends by choosing and moving the lane).
    - **build-tree**: build `.hermes/live-build-tree/model.json` with the `make-overnight-ready` skill's tree step.
-   - **queue**: move it into a lane with that skill's "Pick a lane" step. To make room, move a **dequeue** project (one no longer in the top 10) to Ready next.
+   - **queue**: move it into a lane with that skill's "Pick a lane" step. Move any **dequeue** project (one no longer in the top 10) to Ready next.
    - **OWNER**: list it for the owner (e.g. no BUILD_SPEC.md yet).
 
    Use subagents in parallel, one per project.
