@@ -53,7 +53,11 @@ def main() -> None:
             continue
         if old and START not in old:  # first sync: keep the original
             path.with_suffix(path.suffix + ".pre-shared-rules.bak").write_text(old, encoding="utf-8")
-        path.write_text(new, encoding="utf-8", newline="\n")
+        try:
+            path.write_text(new, encoding="utf-8", newline="\n")
+        except OSError as error:  # Hermes audit-* profiles are read-only by design; skip them, keep going
+            print(f"skip   {path} (not writable: {error.__class__.__name__})")
+            continue
         print(f"update {path}")
 
     skills = [d for d in sorted((SHARED / "skills").glob("*")) if (d / "SKILL.md").exists()]
@@ -61,8 +65,12 @@ def main() -> None:
         if not needs.exists():
             print(f"skip   {dest} (not installed here)")
             continue
-        for skill in skills:
-            shutil.copytree(skill, dest / skill.name, dirs_exist_ok=True)
+        try:
+            for skill in skills:
+                shutil.copytree(skill, dest / skill.name, dirs_exist_ok=True)
+        except OSError as error:  # shutil.Error is an OSError too
+            print(f"skip   {dest} (not writable: {error.__class__.__name__})")
+            continue
         print(f"skills {dest}: {', '.join(s.name for s in skills) or 'none'}")
 
 
