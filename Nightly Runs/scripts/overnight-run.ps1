@@ -388,7 +388,7 @@ function Complete-Run($q, $row) {
         if ($text -match 'SPARK_GIT dirty=(\d+) unpushed=(\d+)') { $row.Note += "FirstSpark: $($Matches[1]) uncommitted, $($Matches[2]) unpushed. " }
         git -C $dir pull --rebase --autostash -q 2>$null   # bring Hermes's pushed commits here for the gate
     }
-    if ($row.Note -notlike "*log: $log*") { $row.Note += "log: $log" }
+    if ($row.Note -notlike "*log: $log*") { $row.Note += "log: $log. " }
     return $text
 }
 
