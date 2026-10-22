@@ -43,6 +43,37 @@ description: Use when a project under E:\GIT_ROOT\Projects (or ~/Workspace/GIT_R
 
 5. **Copy** `scripts/stop-gate.ps1` and `.claude/settings.json` from the reference. Adjust only the allow list for the toolchain, and deny edits to both verify scripts, the stop gate and the settings. **Never deny git commit or push.**
 
+   Add these scoped entries to `permissions.allow` in `.claude/settings.json` (paths are the shared skills under `~/.claude/skills`; arguments match the pinned SKILL.md workflows). Keep existing permissions and hooks unchanged. `draw.mjs` deals directions; `assets.mjs` searches/downloads public media; `lint.mjs`, `inspect.mjs` and `scenes.mjs` review the UI (installed browser required). `search.py` searches local UI/UX data with `--domain`, `--stack`, `--design-system` and optional `--persist --output-dir`; Python fallbacks are included. Asset network calls still obey project privacy/network rules; this allow list grants no new private-data transfer permission. Impeccable is documentation-only: do not install or fetch its omitted runtime or hooks.
+
+   ```json
+[
+  "Bash(node ~/.claude/skills/design-taste-frontend/scripts/draw.mjs:*)",
+  "Bash(node ~/.claude/skills/design-taste-frontend/scripts/assets.mjs:*)",
+  "Bash(node ~/.claude/skills/design-taste-frontend/scripts/lint.mjs:*)",
+  "Bash(node ~/.claude/skills/design-taste-frontend/scripts/inspect.mjs:*)",
+  "Bash(node ~/.claude/skills/design-taste-frontend/scripts/scenes.mjs:*)",
+  "Bash(python ~/.claude/skills/ui-ux-pro-max/scripts/search.py:*)",
+  "Bash(python3 ~/.claude/skills/ui-ux-pro-max/scripts/search.py:*)",
+  "Bash(py -3 ~/.claude/skills/ui-ux-pro-max/scripts/search.py:*)",
+  "Bash(node \"$HOME/.claude/skills/design-taste-frontend/scripts/draw.mjs\":*)",
+  "Bash(node \"$HOME/.claude/skills/design-taste-frontend/scripts/assets.mjs\":*)",
+  "Bash(node \"$HOME/.claude/skills/design-taste-frontend/scripts/lint.mjs\":*)",
+  "Bash(node \"$HOME/.claude/skills/design-taste-frontend/scripts/inspect.mjs\":*)",
+  "Bash(node \"$HOME/.claude/skills/design-taste-frontend/scripts/scenes.mjs\":*)",
+  "Bash(python \"$HOME/.claude/skills/ui-ux-pro-max/scripts/search.py\":*)",
+  "Bash(python3 \"$HOME/.claude/skills/ui-ux-pro-max/scripts/search.py\":*)",
+  "Bash(py -3 \"$HOME/.claude/skills/ui-ux-pro-max/scripts/search.py\":*)",
+  "PowerShell(node \"$HOME/.claude/skills/design-taste-frontend/scripts/draw.mjs\" *)",
+  "PowerShell(node \"$HOME/.claude/skills/design-taste-frontend/scripts/assets.mjs\" *)",
+  "PowerShell(node \"$HOME/.claude/skills/design-taste-frontend/scripts/lint.mjs\" *)",
+  "PowerShell(node \"$HOME/.claude/skills/design-taste-frontend/scripts/inspect.mjs\" *)",
+  "PowerShell(node \"$HOME/.claude/skills/design-taste-frontend/scripts/scenes.mjs\" *)",
+  "PowerShell(python \"$HOME/.claude/skills/ui-ux-pro-max/scripts/search.py\" *)",
+  "PowerShell(python3 \"$HOME/.claude/skills/ui-ux-pro-max/scripts/search.py\" *)",
+  "PowerShell(py -3 \"$HOME/.claude/skills/ui-ux-pro-max/scripts/search.py\" *)"
+]
+   ```
+
 6. **Write the progress files:**
    - `PROGRESS.md`: the checklist of tonight's tasks, an empty "Open decisions" section, and a log whose entries are `## YYYY-MM-DD HH:MM — <node ID> — <one line>`, saying "done"/"verify PASS" only when that node's check passed.
    - `FEEDBACK.md`: an empty list with a one-line explanation.
