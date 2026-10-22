@@ -230,6 +230,64 @@ function Get-OpenItems($file) {
     if ($q -and -not $qAnswered) { $items += $q }
     return $items
 }
+# ---- Handoff: leftover edits never block a run ----
+# Uncommitted work in a tonight project (desktop or FirstSpark clone) is committed on its own pushed wip/handoff-* branch,
+# the checkout goes back to clean, and PROGRESS.md gets a HANDOFF entry so tonight's agent reviews and continues it.
+# Left alone (and still blocking, with the reason): files edited in the last 10 minutes, a Hermes session still going,
+# and anything that looks like a secret.
+$handoff = @{}; $leftAlone = @{}
+$secretPattern = '(^|/)(\.env[^/]*|[^/]*\.(pem|key|pfx|p12)|id_rsa[^/]*|[^/]*credential[^/]*|[^/]*secret[^/]*)$'
+$handoffBranch = "wip/handoff-$($started.ToString('yyyyMMdd-HHmm'))"
+function Add-HandoffNote($dir, $where, $branch, $hash, $pushed) {
+    git -C $dir pull --rebase -q 2>$null
+    $at = (Get-Date).ToString('yyyy-MM-dd HH:mm')
+    $saved = $(if ($pushed) { "pushed branch ``$branch`` (commit $hash)" } else { "branch ``$branch`` (commit $hash), not pushed: it exists only on $where" })
+    Add-Content -Path (Join-Path $dir 'PROGRESS.md') -Encoding UTF8 -Value "`n## $at - HANDOFF - open: uncommitted changes on $where before this run were saved on $saved. Start here: review that diff, merge what belongs to the current work and finish it (or say in REPORT.md why not), then add a later entry ``HANDOFF - picked up``."
+    git -C $dir add -- PROGRESS.md; git -C $dir commit -q -m "Handoff note: uncommitted work saved on $branch" -- PROGRESS.md 2>$null; git -C $dir push -q 2>$null
+}
+function Save-DesktopHandoff($name, $dir) {
+    $lines = @(git -C $dir status --porcelain 2>$null)
+    if (-not $lines) { return }
+    $paths = @($lines | ForEach-Object { ($_.Substring(3) -replace '^.* -> ', '').Trim('"') })
+    if ($paths | Where-Object { $_ -match $secretPattern }) { $leftAlone[$name] = 'uncommitted changes on the desktop include a file that looks like a secret; commit or remove it yourself'; return }
+    if ($paths | Where-Object { $f = Join-Path $dir $_; (Test-Path $f) -and (Get-Item $f).LastWriteTime -gt (Get-Date).AddMinutes(-10) }) { $leftAlone[$name] = 'uncommitted changes on the desktop edited in the last 10 minutes (someone may be working); left alone'; return }
+    $base = git -C $dir branch --show-current
+    git -C $dir switch -q -c $handoffBranch 2>$null
+    if ($LASTEXITCODE -ne 0) { $leftAlone[$name] = "uncommitted changes on the desktop; could not create $handoffBranch"; return }
+    git -C $dir add -A; git -C $dir commit -q -m "WIP handoff: uncommitted changes left on the desktop before the $Kind run" 2>$null
+    $hash = git -C $dir rev-parse --short HEAD
+    git -C $dir push -q -u origin $handoffBranch 2>$null; $pushed = $LASTEXITCODE -eq 0
+    git -C $dir switch -q $base
+    Add-HandoffNote $dir 'the desktop' $handoffBranch $hash $pushed
+    $handoff[$name] += "desktop edits handed off on $handoffBranch ($hash). "
+}
+if (-not $Preflight -and -not $DryRun -and -not $PrepOnly) {
+    foreach ($q in $queue) { $d = Join-Path $projects $q.Name; if (Test-Path "$d\.git") { Save-DesktopHandoff $q.Name $d } }
+    $sparkNames = @($queue | Where-Object { $_.Harness -eq 'hermes' } | ForEach-Object { $_.Name })
+    if ($sparkNames) {
+        $sb = "$handoffBranch-spark"
+        $script = @(foreach ($n in $sparkNames) {
+            "( cd $sparkProjects/$n 2>/dev/null || exit 0; [ -z `"`$(git status --porcelain)`" ] && exit 0"
+            "  p=.git/overnight-hermes.pid; if [ -f `$p ] && kill -0 `$(cat `$p) 2>/dev/null; then echo `"$n busy`"; exit 0; fi"
+            "  files=`$(git status --porcelain | cut -c4- | sed 's/.* -> //; s/^`"//; s/`"`$//')"
+            "  if echo `"`$files`" | grep -Eq '$secretPattern'; then echo `"$n secret`"; exit 0; fi"
+            "  for f in `$files; do [ -e `"`$f`" ] && [ -n `"`$(find `"`$f`" -maxdepth 0 -mmin -10)`" ] && { echo `"$n recent`"; exit 0; }; done"
+            "  base=`$(git branch --show-current); git switch -q -c $sb || { echo `"$n nobranch`"; exit 0; }"
+            "  git add -A && git commit -qm 'WIP handoff: uncommitted changes left on FirstSpark before the $Kind run'; h=`$(git rev-parse --short HEAD)"
+            "  if git push -q -u origin $sb 2>/dev/null; then ok=1; else ok=0; fi; git switch -q `$base; echo `"$n saved `$h `$ok`" )"
+        }) + '#'
+        foreach ($l in @(($script -join "`n") | & $ssh -o BatchMode=yes -o ConnectTimeout=10 FirstSpark 'bash -s' 2>$null)) {
+            $f = -split $l; $n = $f[0]; $d = Join-Path $projects $n
+            switch ($f[1]) {
+                'saved' { git -C $d fetch -q 2>$null; Add-HandoffNote $d 'FirstSpark' $sb $f[2] ($f[3] -eq '1'); $handoff[$n] += "FirstSpark edits handed off on $sb ($($f[2])). " }
+                'busy' { $leftAlone[$n] = 'a Hermes session is still running on FirstSpark; its uncommitted changes were left alone' }
+                'secret' { $leftAlone[$n] = 'uncommitted changes on FirstSpark include a file that looks like a secret; commit or remove it yourself' }
+                'recent' { $leftAlone[$n] = 'uncommitted changes on FirstSpark edited in the last 10 minutes; left alone' }
+                default { $leftAlone[$n] = "uncommitted changes on FirstSpark; could not create $sb" }
+            }
+        }
+    }
+}
 $sparkState = @{}
 $hermesNames = @($queue | Where-Object { $_.Harness -eq 'hermes' } | ForEach-Object { $_.Name })
 if ($hermesNames) {
@@ -249,12 +307,13 @@ foreach ($q in $queue) {
         elseif (-not $cliOk[$q.Harness]) { $b += "$($q.Harness) CLI not found on this PC" }
         git -C $dir rev-parse '@{u}' *> $null
         if ($LASTEXITCODE -ne 0) { $b += 'no upstream branch, so commits cannot be pushed (add a GitHub remote)' }
-        if (git -C $dir status --porcelain 2>$null) { $b += 'uncommitted changes on the desktop: commit or stash them first' }
+        if ($leftAlone[$q.Name]) { $b += $leftAlone[$q.Name] }   # the handoff above saved everything else
+        elseif (git -C $dir status --porcelain 2>$null) { $w += 'uncommitted changes on the desktop: saved on a wip/handoff branch and handed to tonight''s agent when the run starts' }
         if ($q.Harness -eq 'hermes') {
             $st = "$($sparkState[$q.Name])"
             if ($st -eq 'unreachable') { $b += 'FirstSpark unreachable over SSH' }
             elseif ($st -eq 'missing') { $b += "not cloned on FirstSpark ($sparkProjects/$($q.Name))" }
-            elseif ($st -match '^dirty=([1-9]\d*)$') { $b += "$($Matches[1]) uncommitted change(s) on FirstSpark" }
+            elseif ($st -match '^dirty=([1-9]\d*)$' -and -not $leftAlone[$q.Name]) { $w += "$($Matches[1]) uncommitted change(s) on FirstSpark: saved on a wip/handoff branch and handed to tonight's agent when the run starts" }
         }
         if (-not (Test-Path "$dir\BUILD_SPEC.md")) { $w += 'no BUILD_SPEC.md' }
         if ($q.Harness -ne 'claude' -and -not (Test-Path "$dir\AGENTS.md")) { $w += "no AGENTS.md for @$($q.Harness) (it will fall back to CLAUDE.md if it reads it)" }
@@ -357,9 +416,9 @@ $worker = {
 $rows = @{}; $pending = New-Object System.Collections.ArrayList
 foreach ($q in $queue) {
     $dir = Join-Path $projects $q.Name
-    $rows[$q.Name] = [ordered]@{ Project = $q.Name; Harness = "$($q.Harness)$(if ($q.Model) { ':' + $q.Model })"; Verify = '-'; Git = '-'; Commits = 0; Note = '';
+    $rows[$q.Name] = [ordered]@{ Project = $q.Name; Harness = "$($q.Harness)$(if ($q.Model) { ':' + $q.Model })"; Verify = '-'; Git = '-'; Commits = 0; Note = "$($handoff[$q.Name])";
         Minutes = 0; TestsBefore = ''; TestsAfter = ''; TimedOut = $false; UsageLimit = $false }
-    if ($checks[$q.Name].Blockers) { $rows[$q.Name].Note = 'skipped by preflight: ' + ($checks[$q.Name].Blockers -join '; ') }
+    if ($checks[$q.Name].Blockers) { $rows[$q.Name].Note += 'skipped by preflight: ' + ($checks[$q.Name].Blockers -join '; ') }
     elseif ($DryRun) { $rows[$q.Name].Note = 'dry run: would run now' }
     else { [void]$pending.Add($q) }
 }
