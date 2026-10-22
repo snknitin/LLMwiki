@@ -21,9 +21,17 @@ Standing authorization in every git repo; no need to ask.
 ## Add the app to the dashboard once it's worth using
 - When BUILD_SPEC describes something used on screen (a dashboard, an app, a web page), build toward a working app the owner can try, not only back-end pieces. Plan its screens into the build tree so a usable first version arrives early rather than in the last slice.
 - Only when the app is substantial (an MVP or finished slice that shows how it works end to end, with demo data), add `scripts/preview.ps1` (desktop) and `scripts/preview.sh` (FirstSpark). That script is what puts it on the owner's dashboard, so never add it for a placeholder, a status page or a half-built screen. It serves the app in the foreground on 127.0.0.1 and the project's port from "Project previews" in `LLMWiki/Local_Setup/FirstSpark Port Registry.md`. A project with no row takes the next free dashboard port and registers it in the same change. Line 2 of each script is exactly `# preview: http://127.0.0.1:<port>/`.
-- After that you don't deploy anything: the Agents board keeps the app running, restarts it on the new code when your commits land, and gives it a tab in Dashboard Command Center's Projects group. Keep `preview.ps1` starting cleanly after every commit.
+- After that you don't deploy anything: the Agents board keeps the app running, restarts it on the new code when your commits land, publishes it on the tailnet, and gives it a tab in Dashboard Command Center's Projects group with its Tailscale link. Keep `preview.ps1` starting cleanly after every commit.
 - The preview uses synthetic or demo data in a temp data root. No real data, no secrets or tokens in the URL, no login step the owner can't do in the tab.
 - Verify never depends on a preview server running. Its screenshots start their own temporary server. Never edit the DCC registry yourself.
+
+## Links for the owner: Tailscale, never localhost
+The owner uses several computers and a phone. Any link you give them to something running on the desktop or a Spark (a preview, a review page, a dashboard) is its Tailscale link, never `localhost` or `127.0.0.1`.
+- Serve on `127.0.0.1`, then publish the same port on the tailnet: `tailscale serve --bg --https=<port> http://127.0.0.1:<port>` (with `sudo` on FirstSpark). Never Funnel, never bind `0.0.0.0`.
+- The link is `https://<host>.tail4a1242.ts.net:<port>/`: the desktop is `nike-workstation`, FirstSpark is `spark-07a8`.
+- If the app checks Host or Origin headers, it must also accept that tailnet name, or the link answers 403.
+- Open the link yourself first (a browser, or `curl` from another machine on the tailnet) and send it only once the page loads.
+- Dashboard Command Center tabs use the tailnet link too. The Agents board registers previews with it; if a project tab points at localhost, report it instead of editing the registry.
 
 ## Decide, don't ask (for reversible choices)
 - Reversible choices (names, layout, which installed library, ordering): pick the simplest option, log it in `DECISIONS.md` (date, choice, why, how to undo), and keep going.

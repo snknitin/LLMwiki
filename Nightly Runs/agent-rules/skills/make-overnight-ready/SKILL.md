@@ -16,7 +16,7 @@ description: Use when a project under E:\GIT_ROOT\Projects (or ~/Workspace/GIT_R
    - Hermes lane (local glm53-flash): about 4–6 tasks.
    - Merged-feature tasks that only need fixtures may join if their dependencies are inside the scope.
 
-3. **Write the contract.** CLAUDE.md holds it and AGENTS.md is the one-paragraph pointer from the reference (keep whichever way round the project already uses). The target line must have exactly this shape so the Agents board can parse it:
+3. **Write the contract.** CLAUDE.md holds it and AGENTS.md is the one-paragraph pointer from the reference (keep whichever way round the project already uses). Keep any `## Links for the owner: Tailscale, never localhost` section already in AGENTS.md word for word. The target line must have exactly this shape so the Agents board can parse it:
    `Overnight MVP target = **Slices 0–2 = tasks T1–T6 + F-mood-T1**`
    List every task ID, using ranges (`T1–T6`, `F-prep-T1–F-prep-T3`) or single IDs. Then include:
    - a scope sentence and an explicit out-of-scope list;
