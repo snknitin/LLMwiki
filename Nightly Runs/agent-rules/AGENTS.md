@@ -40,6 +40,7 @@ The owner uses several computers and a phone. Any link you give them to somethin
 
 ## Owner context (read before asking anything)
 `Nightly Runs/agent-rules/OWNER-CONTEXT.md` in the vault (desktop `F:\Vaults\LLMWiki`, FirstSpark `/home/snknitin/vaults/LLMWiki`) holds the owner's machines, models and endpoints, ports, standing decisions, and the list of what you decide yourself versus what only the owner can answer. Read it once per session before planning work or writing a question. If it answers your question, follow it and cite it in `DECISIONS.md` instead of asking.
+- **Established ways are fixed.** Reaching a machine, deploying, restarting a service, picking a model or port: there is one known-good way, recorded in OWNER-CONTEXT.md, these rules or the project's own docs. Look it up before the first attempt and use it exactly. Never improvise an alternative (another host name, shell, path or tool), and never report something as blocked or unreachable until that recorded way has failed. If you find a recorded way is wrong or missing, fix the record in the same change.
 
 ## Never stall on the owner
 Nobody answers during a run, so waiting is always wrong.
