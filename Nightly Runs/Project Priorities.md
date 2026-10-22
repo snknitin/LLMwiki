@@ -20,6 +20,7 @@ The one list that decides what agents work on. Edit freely: reorder lines, move 
 
 ### Claude
 - language-learning-lab — A local-first language workbench built on three loops · includes merged: vocabulary-diction-studio (English track)
+- creator-content-engine — Human-led content OS for one creator · includes merged: build-in-public-autoposter, my-agent-posts-about-me, x-profile-autopsy, personal-voice-ghostwriter-and-dm-desk, social-subscription-curator, longform-to-shorts-studio
 
 ### Codex
 - resume-blueprint-studio @codex:sol-6-1-high — first slice (its branch is codex/specification)
@@ -126,7 +127,6 @@ Tiers P0–P5, highest first; ranks count straight through. In the Agents board,
 77. yugioh-rl-lab
 
 ## Ready next (overnight-ready, not queued)
-- creator-content-engine — Human-led content OS for one creator · includes merged: build-in-public-autoposter, my-agent-posts-about-me, x-profile-autopsy, personal-voice-ghostwriter-and-dm-desk, social-subscription-curator, longform-to-shorts-studio
 
 ## Active (built; daytime feedback and iteration)
 - dashboard-command-center — 48 commits — A Windows-first, browser-chrome-free Electron operations shell for the owner's private dashboar
