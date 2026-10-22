@@ -59,7 +59,7 @@ description: Use when a project under E:\GIT_ROOT\Projects (or ~/Workspace/GIT_R
 
 8. **Commit and push:** check that `git rev-parse @{u}` works, stage only the paths you added or changed, use a short imperative message with no AI attribution, then `git pull --rebase` and `git push`.
 
-9. **Pick a lane** (from "Which lane" in Project Priorities.md):
+9. **Pick a lane** (from "Which lane" in Project Priorities.md), **only when the owner asked you to make this project overnight-ready**. When the runner's prep agent or plan-tonight runs this skill, skip this step and leave the project where the owner put it:
    - **Claude:** UI, product feel, tricky design.
    - **Codex:** well-specified backend or CLI slices. Tag `@codex:sol-6-1` for a big slice, `@codex:sol-5-6` for a smaller one.
    - **Hermes:** private-data work, Spark-hosted services, long grinding slices. Not for work whose spec forbids Spark seeing its data.

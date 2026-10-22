@@ -11,7 +11,7 @@
 #               progress is started again on its project. A morning run, or any run given -HoursPerProject, works that many hours.
 #   -Preflight  only check (run it in the evening, fix what it lists, then let 23:00 run); exit code = number of blocked projects
 #   -NoPrep     skip the top-10 upkeep prep agent (see Get-Upkeep); -PrepMinutes caps it (default 90)
-#   -PrepOnly   run only the prep agent (make-overnight-ready, build-tree, structure, queue, advance), then refresh Preflight.md
+#   -PrepOnly   run only the prep agent (make-overnight-ready, build-tree, structure, advance; never moves lanes), then refresh Preflight.md
 #               and exit. The Agents board runs it when a project enters the top 10 or a Tonight lane, so it's ready before 23:00.
 #   -Resume     continue a run that was cut off (power cut, crash, reboot) until its original end time; exits at once when
 #               there is none. The "Agents Run resume" task runs it at logon and every 15 minutes.
@@ -122,9 +122,9 @@ function Set-BuilderModels($queue) {
 $queue = Set-BuilderModels (Read-Queue)
 
 # ---- Top-10 upkeep: the projects agents work on follow the priority order ----
-# The top 10 of "## Priority order" (skipping Active and Archived) must each be overnight-ready, have a live build tree and
-# sit in a Tonight lane (or Ready next when its lane is full). When a project moves to Active or Archived, the next one in
-# the order takes its place. A tonight project whose verify already passes must advance a slice first, or its run would
+# The top 10 of "## Priority order" (skipping Active and Archived) and every project the owner put in a Tonight lane must
+# each be overnight-ready and have a live build tree. Only the owner moves projects between lanes and sections: prep never
+# queues or dequeues anything. A tonight project whose verify already passes must advance a slice first, or its run would
 # stop at once. Preflight lists this work; a real run hands it to one Claude prep agent (agent-rules/prep-prompt.md)
 # before the lanes start, then re-reads the lanes.
 # The standard overnight repo structure (the make-overnight-ready skill's checklist). A project that already has verify.ps1
@@ -156,10 +156,8 @@ function Get-Upkeep($queue, [switch]$CheckVerify) {
         if ($section -match '^Priority order' -and $line -match '^\s*\d+\.\s+([A-Za-z0-9._-]+)') { $order += $Matches[1] }
         if ($section -match '^(Active|Archived)' -and $line -match '^\s*-\s+([A-Za-z0-9._-]+)') { $parked[$Matches[1]] = $true }
     }
-    $queued = @{}; foreach ($q in $queue) { $queued[$q.Name] = $q.Harness }
-    $top = @($order | Where-Object { -not $parked[$_] } | Select-Object -Unique -First 10)
-    $inTop = @{}; foreach ($t in $top) { $inTop[$t] = $true }
-    $items = @(); $waiting = 0
+    $top = @(@($order | Where-Object { -not $parked[$_] } | Select-Object -Unique -First 10) + @($queue | ForEach-Object { $_.Name }) | Select-Object -Unique)
+    $items = @()
     foreach ($name in $top) {
         $dir = Join-Path $projects $name
         if (-not (Test-Path "$dir\BUILD_SPEC.md")) { $items += [pscustomobject]@{ Project = $name; Action = 'owner'; Why = 'no BUILD_SPEC.md yet, so it cannot be made overnight-ready' }; continue }
@@ -170,15 +168,7 @@ function Get-Upkeep($queue, [switch]$CheckVerify) {
             $missing = @(Get-MissingStructure $dir)
             if ($missing) { $todo += 'structure'; $why += 'missing: ' + ($missing -join ', ') }
         }
-        if (-not $queued[$name]) { $todo += 'queue'; $why += 'in the top 10 but not in a Tonight lane'; $waiting++ }
         if ($todo) { $items += [pscustomobject]@{ Project = $name; Action = $todo -join ' + '; Why = $why -join '; ' } }
-    }
-    if ($waiting) {
-        $drop = @($queue | Where-Object { -not $inTop[$_.Name] } | ForEach-Object { [pscustomobject]@{ Project = $_.Name; Action = 'dequeue'; Why = "in the $($_.Harness) lane but no longer in the top 10" } })
-        if ($drop -or $PerHarness -le 0 -or $queue.Count -lt 3 * $PerHarness) { $items += $drop }
-        else {   # every lane is full of top-10 work: a waiting project stays in Ready next, nothing to prep for it
-            $items = @($items | ForEach-Object { $_.Action = ($_.Action -split ' \+ ' | Where-Object { $_ -ne 'queue' }) -join ' + '; $_.Why = ($_.Why -split '; ' | Where-Object { $_ -notmatch 'not in a Tonight lane' }) -join '; '; $_ } | Where-Object { $_.Action })
-        }
     }
     if ($CheckVerify) {
         foreach ($q in $queue) {
@@ -282,7 +272,7 @@ foreach ($q in $queue) {
 }
 if (-not $queue) { $pf += '| (Tonight list is empty) | | | |' }
 if ($upkeep) {
-    $pf += '', '## Top 10 upkeep', '', "Before the lanes start, the prep agent does the PREP items (make-overnight-ready, build-tree, structure, queue, advance): at the next real run, or right away when the Agents board runs -PrepOnly. OWNER items need you. Advance is checked at run time.", '',
+    $pf += '', '## Top 10 upkeep', '', "Before the lanes start, the prep agent does the PREP items (make-overnight-ready, build-tree, structure, advance; never moves lanes): at the next real run, or right away when the Agents board runs -PrepOnly. OWNER items need you. Advance is checked at run time.", '',
         '| Project | Action | Who | Why |', '|---|---|---|---|'
     $pf += $upkeep | ForEach-Object { "| $($_.Project) | $($_.Action) | $(if ($_.Action -eq 'owner') { 'OWNER' } else { 'PREP' }) | $($_.Why) |" }
 }

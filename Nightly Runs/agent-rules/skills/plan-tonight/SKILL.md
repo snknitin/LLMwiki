@@ -1,16 +1,15 @@
 ---
 name: plan-tonight
-description: Use in the evening before an overnight run, when the owner asks what's queued tonight or what needs them first, or after the owner reorders priorities or moves a project to Active or Archived. Runs the preflight, keeps tonight's lanes equal to the top 10, lists everything that needs the owner, and fixes what it safely can. Works in Claude Code and Codex on the desktop; from Hermes, run the preflight over SSH on the desktop or read Nightly Runs/Preflight.md.
+description: Use in the evening before an overnight run, when the owner asks what's queued tonight or what needs them first, or after the owner reorders priorities or moves a project to Active or Archived. Runs the preflight, makes the top 10 and tonight's lanes overnight-ready (never moving a project between lanes; the owner decides that), lists everything that needs the owner, and fixes what it safely can. Works in Claude Code and Codex on the desktop; from Hermes, run the preflight over SSH on the desktop or read Nightly Runs/Preflight.md.
 ---
 
 # Plan tonight's run
 
 1. **Run the preflight:** `powershell -NoProfile -ExecutionPolicy Bypass -File "F:\Vaults\LLMWiki\Nightly Runs\scripts\overnight-run.ps1" -Preflight`. It writes `LLMWiki/Nightly Runs/Preflight.md`: tonight's lanes, then a "Top 10 upkeep" table.
 
-2. **Do the Top 10 upkeep now.** The 23:00 run otherwise does it in a prep step that delays the lanes. The rule: the top 10 of `## Priority order`, skipping Active and Archived, must each be overnight-ready, have a live build tree, and sit in a Tonight lane (lanes have no size limit; every project in a lane runs at once). For each row:
-   - **make-overnight-ready**: run that skill (it ends by choosing and moving the lane).
+2. **Do the Top 10 upkeep now.** The 23:00 run otherwise does it in a prep step that delays the lanes. The rule: the top 10 of `## Priority order`, skipping Active and Archived, must each be overnight-ready and have a live build tree. Never move a project into, out of or between lanes or sections: only the owner decides what runs tonight (every project in a lane runs at once). For each row:
+   - **make-overnight-ready**: run that skill (skip its "Pick a lane" step unless the owner asked for it).
    - **build-tree**: build `.hermes/live-build-tree/model.json` with the `make-overnight-ready` skill's tree step.
-   - **queue**: move it into a lane with that skill's "Pick a lane" step. Move any **dequeue** project (one no longer in the top 10) to Ready next.
    - **OWNER**: list it for the owner (e.g. no BUILD_SPEC.md yet).
 
    Use subagents in parallel, one per project.
