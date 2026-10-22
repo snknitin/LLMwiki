@@ -11,7 +11,7 @@ description: Use when a project under E:\GIT_ROOT\Projects (or ~/Workspace/GIT_R
 
 1. **Read everything:** the vault's `Nightly Runs/agent-rules/OWNER-CONTEXT.md` first (standing decisions answer most "owner decisions" in specs), then `BUILD_SPEC.md` (task table, slices, merged-feature sections, acceptance, owner decisions), `README.md`, every `features/*/` folder (merged features with their own task tables), and any existing CLAUDE.md/AGENTS.md, PROGRESS.md, DECISIONS.md and REPORT.md.
 
-2. **Pick tonight's scope:** consecutive slices from the first open task, stopping before the first **owner gate**. A gate is anything that needs real or private data, live accounts/OAuth/keys, publishing or sending, a download the machine lacks, or a BLOCKING open question in REPORT.md. Model, endpoint, port and hosting choices are not gates when OWNER-CONTEXT.md settles them: decide, log in DECISIONS.md, and don't turn the spec's whole "owner decisions" list into REPORT.md questions; write only what OWNER-CONTEXT section 5 calls owner-only. Size it for a full night:
+2. **Pick tonight's scope.** **MVP first** (shared rule "MVP first: a usable app every morning"): until the MVP gate passes, tonight's scope is the MVP slice, meaning the screens, API and storage for BUILD_SPEC's core loop, `tests/mvp/` and the `MVP` node. Back-end-only tasks the core loop doesn't need wait. After that: consecutive slices from the first open task, stopping before the first **owner gate**. A gate is anything that needs real or private data, live accounts/OAuth/keys, publishing or sending, a download the machine lacks, or a BLOCKING open question in REPORT.md. Model, endpoint, port and hosting choices are not gates when OWNER-CONTEXT.md settles them: decide, log in DECISIONS.md, and don't turn the spec's whole "owner decisions" list into REPORT.md questions; write only what OWNER-CONTEXT section 5 calls owner-only. Size it for a full night:
    - Claude lane (Opus coordinating Sonnet builders) or Codex lane: about 6–10 tasks.
    - Hermes lane (local glm53-flash): about 4–6 tasks.
    - Merged-feature tasks that only need fixtures may join if their dependencies are inside the scope.
@@ -32,13 +32,14 @@ description: Use when a project under E:\GIT_ROOT\Projects (or ~/Workspace/GIT_R
    - required files;
    - a gate test file (e.g. `tests/test_slice1_gate.py`) that must exist and pass;
    - smoke runs of the CLI/app in a temp data root;
-   - reject fixtures that must exit non-zero.
+   - reject fixtures that must exit non-zero;
+   - **the MVP gate** (shared rule "MVP first"): start the app on a temp port with a temp data root, run every test in `tests/mvp/` (Playwright, driving the UI like the owner: enter input, click, see the result, reload, see it again), and print `MVP FLOW OK` only when all pass. It is part of every scope from the MVP slice on.
 
    - **Screenshots, for any project with a UI** (pages, templates or components): once the app has a page, verify starts it on a temp port and takes Playwright screenshots at desktop (1440px) and phone (390px) width into `screenshots/latest/` (git-ignored), then checks the files exist. These are the morning's before/after images. Until the first page exists, put this check in the slice that builds it.
 
    Draw them from the spec's acceptance evidence. In `verify.sh`, add `command -v uv >/dev/null || PATH="$HOME/.local/bin:$PATH"` near the top (the same for node/npm if needed), because Hermes runs it over a non-login SSH shell. Keep it LF (add `*.sh text eol=lf` to `.gitattributes` if needed). Run both now: each must exit 1 with `VERIFY FAIL` and no script errors. Read the exit code straight after the command (`cmd; c=$?`), never after another command.
 
-   **If BUILD_SPEC has a UI, plan it early** (shared rule "Add the app to the dashboard once it's worth using"): put the screens into the build tree so a usable first version arrives early, not in the last slice. Don't write `scripts/preview.ps1` / `scripts/preview.sh` yet: an agent adds them only when the app is substantial enough to try end to end with demo data, and that is what puts it on the owner's dashboard. Reference for the script shape: `mock-interview-gauntlet/scripts/preview.ps1`. Verify must never need them.
+   **The MVP slice comes first** (shared rule "MVP first: a usable app every morning"): put the core loop's screens and the `MVP` node (kind `integration`, depends on the tasks the core loop needs) at the front of the build tree. Don't write `scripts/preview.ps1` / `scripts/preview.sh` yet: the agent adds them when the MVP gate first passes, and that is what puts it on the owner's dashboard. Reference for the script shape: `mock-interview-gauntlet/scripts/preview.ps1`. Verify must never need them.
 
 5. **Copy** `scripts/stop-gate.ps1` and `.claude/settings.json` from the reference. Adjust only the allow list for the toolchain, and deny edits to both verify scripts, the stop gate and the settings. **Never deny git commit or push.**
 

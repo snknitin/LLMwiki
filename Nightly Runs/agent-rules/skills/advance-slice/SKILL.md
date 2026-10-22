@@ -9,7 +9,7 @@ description: Use when an overnight project's verify passes (tonight's target is 
 
 2. **Read the state:** `BUILD_SPEC.md`, `PROGRESS.md`, `DECISIONS.md` (especially `## Owner answers (from the Agents board)`), `REPORT.md` and `.hermes/live-build-tree/model.json`. Carry every unanswered question forward; don't drop any.
 
-3. **Choose the next scope** the same way as the `make-overnight-ready` skill (step 2): consecutive slices from the next open task, stopping before the first owner gate (`G<n>`) that has no approval evidence in DECISIONS.md. Size it for the project's lane.
+3. **Choose the next scope** the same way as the `make-overnight-ready` skill (step 2). **MVP first:** if `verify.ps1` has no `MVP FLOW OK` gate yet, or the gate does not pass, the next scope is the MVP slice (shared rule "MVP first: a usable app every morning"), whatever the build tree says is next. Otherwise: consecutive slices from the next open task, stopping before the first owner gate (`G<n>`) that has no approval evidence in DECISIONS.md. Size it for the project's lane.
    - **The next work starts with an unapproved gate:** don't advance. Write the gate as a question in REPORT.md (multiple-choice format, with a recommended option) and say "waiting on G<n>" in the Prep Report or your reply.
    - **Every non-gate node is done:** the project is built. Add a REPORT.md question "Move <project> to Active?" with "Yes (recommended)" / "Keep building". Moving it to Active is the owner's call; once they do, the next top-10 project takes its slot automatically.
 
@@ -24,7 +24,7 @@ description: Use when an overnight project's verify passes (tonight's target is 
    - Add any nodes the spec gained.
    - Re-render `index.html`.
 
-6b. **UI projects: bring the screens along.** If BUILD_SPEC has a UI and the build tree has no usable screen yet, put one into the next slices rather than leaving the UI for last. When the app becomes substantial enough to try end to end, add `scripts/preview.ps1` and `scripts/preview.sh` (shared rule "Add the app to the dashboard once it's worth using"); never for a placeholder. Projects with no UI skip this.
+6b. **Keep the app usable.** Every new scope keeps the `MVP FLOW OK` gate in both verify scripts and extends `tests/mvp/` with a flow for each new screen or feature the owner will use, so each morning the preview works and shows what the night built. Add `scripts/preview.ps1` and `scripts/preview.sh` when the MVP gate first passes; never for a placeholder. Only a BUILD_SPEC that says the project is headless skips this.
 
 7. **Update the progress files.** Add the new tasks to PROGRESS.md's checklist, and log the scope choice in DECISIONS.md.
 

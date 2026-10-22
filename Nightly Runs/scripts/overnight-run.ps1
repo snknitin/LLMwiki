@@ -11,7 +11,7 @@
 #               progress is started again on its project. A morning run, or any run given -HoursPerProject, works that many hours.
 #   -Preflight  only check (run it in the evening, fix what it lists, then let 23:00 run); exit code = number of blocked projects
 #   -NoPrep     skip the top-10 upkeep prep agent (see Get-Upkeep); -PrepMinutes caps it (default 90)
-#   -PrepOnly   run only the prep agent (make-overnight-ready, build-tree, structure, advance; never moves lanes), then refresh Preflight.md
+#   -PrepOnly   run only the prep agent (make-overnight-ready, build-tree, structure, mvp, advance; never moves lanes), then refresh Preflight.md
 #               and exit. The Agents board runs it when a project enters the top 10 or a Tonight lane, so it's ready before 23:00.
 #   -Resume     continue a run that was cut off (power cut, crash, reboot) until its original end time; exits at once when
 #               there is none. The "Agents Run resume" task runs it at logon and every 15 minutes.
@@ -167,6 +167,9 @@ function Get-Upkeep($queue, [switch]$CheckVerify) {
             if (-not (Test-Path "$dir\.hermes\live-build-tree\model.json")) { $todo += 'build-tree'; $why += 'no live build tree' }
             $missing = @(Get-MissingStructure $dir)
             if ($missing) { $todo += 'structure'; $why += 'missing: ' + ($missing -join ', ') }
+            # Shared rule "MVP first": until verify carries the MVP gate, the next slice must be a usable MVP (headless specs excepted).
+            $headless = [bool](Select-String -Path "$dir\BUILD_SPEC.md" -Pattern '\bheadless\b' -Quiet)
+            if (-not $headless -and -not (Select-String -Path "$dir\scripts\verify.ps1" -Pattern 'MVP FLOW OK' -SimpleMatch -Quiet)) { $todo += 'mvp'; $why += 'no MVP gate yet: re-plan so the next slice is a usable MVP' }
         }
         if ($todo) { $items += [pscustomobject]@{ Project = $name; Action = $todo -join ' + '; Why = $why -join '; ' } }
     }
@@ -272,7 +275,7 @@ foreach ($q in $queue) {
 }
 if (-not $queue) { $pf += '| (Tonight list is empty) | | | |' }
 if ($upkeep) {
-    $pf += '', '## Top 10 upkeep', '', "Before the lanes start, the prep agent does the PREP items (make-overnight-ready, build-tree, structure, advance; never moves lanes): at the next real run, or right away when the Agents board runs -PrepOnly. OWNER items need you. Advance is checked at run time.", '',
+    $pf += '', '## Top 10 upkeep', '', "Before the lanes start, the prep agent does the PREP items (make-overnight-ready, build-tree, structure, mvp, advance; never moves lanes): at the next real run, or right away when the Agents board runs -PrepOnly. OWNER items need you. Advance is checked at run time.", '',
         '| Project | Action | Who | Why |', '|---|---|---|---|'
     $pf += $upkeep | ForEach-Object { "| $($_.Project) | $($_.Action) | $(if ($_.Action -eq 'owner') { 'OWNER' } else { 'PREP' }) | $($_.Why) |" }
 }
