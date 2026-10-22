@@ -73,5 +73,6 @@ Rules for all three:
 - End every unattended run by writing `REPORT.md`: what changed, verify result, commits, decisions made, questions for the owner.
 
 ## Shared machine resources
+- SSH from the desktop to a Spark: only `C:\Windows\System32\OpenSSH\ssh.exe FirstSpark` (or `SecondSpark`, `ThirdSpark`), e.g. from the PowerShell tool. Git Bash `ssh`, raw IPs and Tailscale names all fail (no key: the aliases live in the NVIDIA Sync ssh_config). Never report a Spark as unreachable without trying this exact command.
 - FirstSpark ports: read `LLMWiki/Local_Setup/FirstSpark Port Registry.md` before binding any port on FirstSpark. Pick a free port from it and register the new one there in the same change.
 - Project priorities live in `LLMWiki/Nightly Runs/Project Priorities.md`. When choosing what to work on next without instructions, follow it top to bottom.
