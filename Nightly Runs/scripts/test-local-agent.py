@@ -4,6 +4,8 @@ from pathlib import Path
 import sys
 import json
 from copy import deepcopy
+from unittest.mock import patch
+from types import SimpleNamespace
 
 sys.dont_write_bytecode = True
 spec = importlib.util.spec_from_file_location("board_local_agent", Path(__file__).with_name("local-agent.py"))
@@ -41,3 +43,12 @@ for url, model in [("http://127.0.0.1:11435/v1", "qwen3.8-27b-desktop"),
         changed = deepcopy(migrated); mutate(changed)
         assert not module.matches_profile(json.dumps(changed), config)
 print("LOCAL ROUTE INVARIANTS OK: main, auxiliary and delegation pinned; thinking off; no cloud fallback")
+for diff, wanted in (
+    ("+### QA RESULT: findings=4\n", "QA RESULT: findings=4"),
+    ("+QA RESULT: pass\n", "QA RESULT: pass"),
+    (" QA RESULT: pass\n- QA RESULT: findings=2\n", None),
+    ("+The build appears to pass\n", None),
+):
+    with patch.object(module.subprocess, "run", return_value=SimpleNamespace(stdout=diff)):
+        assert module.committed_qa_result("fixture", "before") == wanted
+print("COMMITTED QA VERDICT OK: new report verdict only; no inferred or stale pass")

@@ -7,6 +7,7 @@ import argparse
 import base64
 import json
 import os
+import re
 from pathlib import Path
 import shutil
 import signal
@@ -91,6 +92,20 @@ def read_profile(path, hermes_root):
         return parsed.stdout
 
 
+def committed_qa_result(workdir, before):
+    """Recover a judge's new committed verdict when its chat omits the footer."""
+    diff = subprocess.run(["git", "diff", "--unified=0", before, "HEAD", "--", "REPORT.md"],
+                          cwd=workdir, capture_output=True, text=True, timeout=15, check=True).stdout
+    verdicts = []
+    for line in diff.splitlines():
+        if not line.startswith("+") or line.startswith("+++"):
+            continue
+        match = re.fullmatch(r"\s*(?:#{1,6}\s+)?QA RESULT:\s*(pass|findings\s*=\s*\d+)\s*", line[1:])
+        if match:
+            verdicts.append(re.sub(r"\s+", "", match[1]))
+    return "QA RESULT: " + verdicts[-1] if verdicts else None
+
+
 def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("--base-url", required=True)
@@ -98,6 +113,7 @@ def main():
     p.add_argument("--workdir", required=True)
     p.add_argument("--budget", type=int, default=1800)
     p.add_argument("--prompt-file", help="UTF-8 prompt; otherwise read stdin")
+    p.add_argument("--qa-result", action="store_true", help="Emit the new committed REPORT verdict after successful QA")
     a = p.parse_args()
     url = a.base_url.rstrip("/")
     if urlparse(url).hostname not in ("127.0.0.1", "localhost", "::1"):
@@ -137,10 +153,15 @@ def main():
     command = [executable, "chat", "--provider", "custom:board-local", "--base-url", url,
                "--api-key", "local-only", "-m", a.model, "--query-file", "-", "-Q", "--yolo",
                "--in", str(Path(a.workdir).resolve()), "--max-turns", "120", "--run-budget", str(a.budget)]
+    before = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=a.workdir, text=True).strip() if a.qa_result else None
     child = subprocess.Popen(command, stdin=subprocess.PIPE, encoding="utf-8", env=env,
                              cwd=a.workdir, start_new_session=os.name != "nt")
     try:
         child.communicate(prompt, timeout=a.budget + 60)
+        if child.returncode == 0 and a.qa_result:
+            verdict = committed_qa_result(a.workdir, before)
+            if verdict:
+                print(verdict, flush=True)
         return child.returncode
     except subprocess.TimeoutExpired:
         if os.name == "nt":
