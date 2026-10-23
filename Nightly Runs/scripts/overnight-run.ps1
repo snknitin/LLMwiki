@@ -19,7 +19,10 @@
 # network (or FirstSpark) to come back, then starts again. A tool at its usage limit waits for the reset time it prints;
 # meanwhile a Claude project's sessions run on Codex, or on Hermes if Codex is parked too (noted in the report row).
 # A project that finishes tonight's target mid-run is advanced to its next slices (advance-slice) and keeps going.
-param([ValidateSet('nightly', 'morning')][string]$Kind, [switch]$Preflight, [switch]$DryRun, [int]$PerHarness = 0, [double]$HoursPerProject = 3, [string]$Until = '06:30', [switch]$NoPrep, [int]$PrepMinutes = 90, [switch]$PrepOnly, [switch]$Resume, [int]$QaMinutes = 30)
+param([ValidateSet('nightly', 'morning')][string]$Kind, [switch]$Preflight, [switch]$DryRun, [int]$PerHarness = 0, [double]$HoursPerProject = 3, [string]$Until = '06:30', [switch]$NoPrep, [int]$PrepMinutes = 90, [switch]$PrepOnly, [switch]$Resume, [int]$QaMinutes = 30,
+      [switch]$QaOnly, [ValidatePattern('^[A-Za-z0-9._-]+$')][string]$Project, [string]$QaFrom)
+if ($QaOnly -and (-not $Project -or -not $QaFrom -or $Resume -or $PrepOnly -or $DryRun)) { throw '-QaOnly requires -Project and -QaFrom, without Resume, PrepOnly or DryRun' }
+if ($QaOnly) { $NoPrep = $true }
 $ErrorActionPreference = 'Continue'
 $hoursGiven = $PSBoundParameters.ContainsKey('HoursPerProject')   # explicit hours win over a nightly run's -Until
 # One run at a time, however it was started (board button, scheduled "Agents Run HHMM" task, by hand): a second one exits.
@@ -40,7 +43,8 @@ if (-not $Preflight -and -not $PrepOnly -and $others -and -not @($others | Where
 if (-not $Preflight -and $others) { Write-Output "Another run is going (pid $($others.ProcessId -join ', ')); not starting a second one."; exit 0 }
 $vault         = $(if ($env:OVERNIGHT_VAULT) { $env:OVERNIGHT_VAULT } else { 'F:\Vaults\LLMWiki' })   # the env overrides are for test-qa.ps1's fixture
 $projects      = $(if ($env:OVERNIGHT_PROJECTS) { $env:OVERNIGHT_PROJECTS } else { 'E:\GIT_ROOT\Projects' })
-$sparkProjects = '/home/snknitin/Workspace/GIT_ROOT/Projects'
+$sparkProjects = $(if ($env:OVERNIGHT_SPARK_PROJECTS) { $env:OVERNIGHT_SPARK_PROJECTS } else { '/home/snknitin/Workspace/GIT_ROOT/Projects' })
+if ($sparkProjects -notmatch '^/[A-Za-z0-9/._-]+$') { throw 'Invalid Spark project root' }
 $ssh           = "$env:WINDIR\System32\OpenSSH\ssh.exe"
 $prioFile      = Join-Path $vault 'Nightly Runs\Project Priorities.md'
 $preflightMd   = Join-Path $vault 'Nightly Runs\Preflight.md'
@@ -87,8 +91,20 @@ function Read-Queue {
 # Role matrix (Nightly Runs/roles.json, edited on the Agents board): per lane the builder and the QA harness[:model].
 # QA is always another model family than the builder. A missing or invalid file means these defaults.
 $rolesFile = Join-Path $vault 'Nightly Runs\roles.json'
-$defaultRoles = @{ claude = @{ builder = 'claude:opus'; qa = 'codex' }; codex = @{ builder = 'codex'; qa = 'claude:sonnet' }; hermes = @{ builder = 'hermes'; qa = 'claude:sonnet' } }
+$defaultRoles = @{ claude = @{ builder = 'claude:opus'; qa = 'codex'; fallbackQa = 'hermes:qwen3.6-35b-a3b' }; codex = @{ builder = 'codex'; qa = 'claude:sonnet'; fallbackQa = 'hermes:qwen3.6-35b-a3b' }; hermes = @{ builder = 'hermes'; qa = 'claude:sonnet'; fallbackQa = 'hermes:qwen3.6-35b-a3b' } }
 $specPattern = '^(claude|codex|hermes)(?::([\w./-]+))?$'
+function Get-ModelFamily($spec) {
+    if ($spec -notmatch $specPattern) { return $spec }
+    $harness = $Matches[1]; $model = $Matches[2]
+    if ($harness -ne 'hermes') { return $harness }
+    if (-not $model) { $model = 'glm53-flash' }
+    $model = ($model -split '/')[-1].ToLower()
+    if ($model -match 'qwen|spark-fast') { return 'qwen' }
+    if ($model -match 'glm') { return 'glm' }
+    if ($model -match 'claude') { return 'claude' }
+    if ($model -match 'gpt|codex') { return 'codex' }
+    return $model
+}
 function Read-Roles($file) {
     try {
         $j = Get-Content $file -Raw -Encoding UTF8 -ErrorAction Stop | ConvertFrom-Json
@@ -96,22 +112,26 @@ function Read-Roles($file) {
         foreach ($lane in 'claude', 'codex', 'hermes') {
             $b = "$($j.$lane.builder)"; $a = "$($j.$lane.qa)"
             if ($b -notmatch $specPattern -or $Matches[1] -ne $lane) { return $defaultRoles }
-            if ($a -ne 'off' -and ($a -notmatch $specPattern -or $Matches[1] -eq $lane)) { return $defaultRoles }
-            $r[$lane] = @{ builder = $b; qa = $a }
+            if ($a -ne 'off' -and ($a -notmatch $specPattern -or (Get-ModelFamily $a) -eq (Get-ModelFamily $b))) { return $defaultRoles }
+            $f = "$($j.$lane.fallbackQa)"
+            if (-not $f) { $f = $(if ((Get-ModelFamily $a) -eq 'qwen') { 'off' } else { 'hermes:qwen3.6-35b-a3b' }) }
+            if ($f -ne 'off' -and ($f -notmatch $specPattern -or (Get-ModelFamily $f) -eq (Get-ModelFamily $b) -or $f -eq $a)) { return $defaultRoles }
+            $r[$lane] = @{ builder = $b; qa = $a; fallbackQa = $f }
         }
         return $r
     } catch { return $defaultRoles }
 }
 # What QA to run for a queue entry: the line's qa= override, else its harness's roles.json default. Family = the QA harness
 # (its model after the colon). Skip = why there is none ('off' included). (test-qa.ps1 checks this.)
-function Get-QaPlan($q, $roles) {
+function Get-QaPlan($q, $roles, [switch]$Fallback) {
     $own = $q.Harness
-    $spec = $(if ($q.Qa) { $q.Qa } elseif ($roles[$own]) { $roles[$own].qa } else { '' })
+    $spec = $(if ($Fallback) { $roles[$own].fallbackQa } elseif ($q.Qa) { $q.Qa } elseif ($roles[$own]) { $roles[$own].qa } else { '' })
     if ($spec -eq 'off') { return @{ Spec = $spec; Skip = $(if ($q.Qa) { 'off (qa=off)' } else { "off in roles.json for the $own lane" }) } }
     if ($spec -notmatch $specPattern) { return @{ Spec = $spec; Skip = "no valid QA harness ('$spec')" } }
     $family = $Matches[1]; $model = $Matches[2]
-    if ($family -eq $own) { return @{ Spec = $spec; Skip = "qa=$spec is the builder's own family, and QA must differ" } }
-    return @{ Spec = $spec; Family = $family; Model = $model; Skip = $null }
+    $builder = "$own$(if ($q.Model) { ':' + $q.Model })"
+    if ((Get-ModelFamily $spec) -eq (Get-ModelFamily $builder)) { return @{ Spec = $spec; Skip = "qa=$spec is the builder's own model family, and QA must differ" } }
+    return @{ Spec = $spec; Family = $family; Model = $model; Skip = $null; FallbackUsed = [bool]$Fallback }
 }
 $roles = Read-Roles $rolesFile
 # roles.json's builder model applies to a lane project with no @tag model of its own (claude:opus is the old default).
@@ -120,6 +140,13 @@ function Set-BuilderModels($queue) {
     return $queue
 }
 $queue = Set-BuilderModels (Read-Queue)
+if ($Project) { $queue = @($queue | Where-Object { $_.Name -eq $Project }); if (-not $queue) { throw "Project $Project is not in Tonight" } }
+if ($QaOnly) {
+    $qaBase = git -C (Join-Path $projects $Project) rev-parse --verify "$QaFrom^{commit}" 2>$null
+    if ($LASTEXITCODE) { throw 'QaFrom must resolve to a local commit' }
+    git -C (Join-Path $projects $Project) merge-base --is-ancestor $qaBase HEAD
+    if ($LASTEXITCODE) { throw 'QaFrom must be an ancestor of HEAD' }
+}
 
 # ---- Top-10 upkeep: the projects agents work on follow the priority order ----
 # The top 10 of "## Priority order" (skipping Active and Archived) and every project the owner put in a Tonight lane must
@@ -184,21 +211,30 @@ function Get-Upkeep($queue, [switch]$CheckVerify) {
     }
     return $items
 }
-$upkeep = @(Get-Upkeep $queue -CheckVerify:(-not $Preflight))
+$upkeep = @(Get-Upkeep $queue -CheckVerify:(-not $Preflight -and -not $QaOnly))
 $prepWork = @($upkeep | Where-Object { $_.Action -ne 'owner' })
 if ($prepWork -and -not $Preflight -and -not $DryRun -and -not $NoPrep) {
     $prepLog = Join-Path $logDir '_prep.log'
     $prepPrompt = (Get-Content (Join-Path $vault 'Nightly Runs\agent-rules\prep-prompt.md') -Raw -Encoding UTF8) + "`n" +
         (($prepWork | ForEach-Object { "- $($_.Project): $($_.Action) ($($_.Why))" }) -join "`n") + "`n"
     $prepJob = Start-Job -ScriptBlock {
-        param($dir, $text, $log)
+        param($dir, $text, $log, $helper, $budget)
         $OutputEncoding = New-Object System.Text.UTF8Encoding $false
         Set-Location $dir   # the Projects root, so no project's .claude deny rules apply to the prep agent
-        $text | & claude -p --model opus --permission-mode bypassPermissions *> $log
-    } -ArgumentList $projects, $prepPrompt, $prepLog
-    if (-not (Wait-Job $prepJob -Timeout ($PrepMinutes * 60))) { Stop-Job $prepJob; Write-Output "prep: stopped after $PrepMinutes min (log: $prepLog)" }
+        Set-Content "$log.pid" $PID
+        $text | & python $helper --base-url http://127.0.0.1:11435/v1 --model qwen3.8-27b-desktop --workdir $dir --budget $budget *> $log
+        if ($LASTEXITCODE) { throw "Local prep failed (exit $LASTEXITCODE); see $log" }
+    } -ArgumentList $projects, $prepPrompt, $prepLog, (Join-Path $PSScriptRoot 'local-agent.py'), ($PrepMinutes * 60)
+    $prepFailed = $false
+    if (-not (Wait-Job $prepJob -Timeout ($PrepMinutes * 60 + 90))) {
+        $jobPid = Get-Content "$prepLog.pid" -ErrorAction SilentlyContinue | Select-Object -First 1
+        if ($jobPid) { & taskkill.exe /PID $jobPid /T /F *> $null }
+        Stop-Job $prepJob; $prepFailed = $true
+    } elseif ($prepJob.State -eq 'Failed') { $prepFailed = $true }
+    Receive-Job $prepJob -ErrorAction Continue
     Remove-Job $prepJob -Force
-    Write-Output "prep: done for $($prepWork.Count) item(s), log: $prepLog"
+    Write-Output "prep: $(if ($prepFailed) { 'FAILED' } else { 'finished' }) for $($prepWork.Count) item(s), desktop Qwen, log: $prepLog"
+    if ($prepFailed) { exit 1 }  # never start lanes on an unprepared target, or call a cloud fallback
     $queue = Set-BuilderModels (Read-Queue)   # the prep agent may have moved projects into lanes
     $upkeep = @(Get-Upkeep $queue)   # so Preflight.md shows what is still left after prep
 }
@@ -261,7 +297,7 @@ function Save-DesktopHandoff($name, $dir) {
     Add-HandoffNote $dir 'the desktop' $handoffBranch $hash $pushed
     $handoff[$name] += "desktop edits handed off on $handoffBranch ($hash). "
 }
-if (-not $Preflight -and -not $DryRun -and -not $PrepOnly) {
+if (-not $Preflight -and -not $DryRun -and -not $PrepOnly -and -not $QaOnly) {
     foreach ($q in $queue) { $d = Join-Path $projects $q.Name; if (Test-Path "$d\.git") { Save-DesktopHandoff $q.Name $d } }
     $sparkNames = @($queue | Where-Object { $_.Harness -eq 'hermes' } | ForEach-Object { $_.Name })
     if ($sparkNames) {
@@ -344,7 +380,7 @@ if ($Preflight -or $PrepOnly) { Write-Output ($pf -join "`n"); exit @($checks.Va
 
 # Every repo in tonight's queue gets a Hermes project (if it has none yet) so its sessions group under it.
 # A failure here (FirstSpark down) never stops the run.
-try { & (Join-Path $PSScriptRoot 'ensure-projects.ps1') -Projects @($queue | ForEach-Object { $_.Name }) -DryRun:$DryRun | ForEach-Object { Write-Output "projects: $_" } }
+try { if (-not $QaOnly) { & (Join-Path $PSScriptRoot 'ensure-projects.ps1') -Projects @($queue | ForEach-Object { $_.Name }) -DryRun:$DryRun | ForEach-Object { Write-Output "projects: $_" } } }
 catch { Write-Output "projects: skipped ($($_.Exception.Message))" }
 
 # ---- Tamper check: the files that judge the work must not change overnight, and the test suite must not shrink ----
@@ -382,7 +418,7 @@ function Compare-Integrity($before, $after) {
 
 # One agent run, inside a background job. Output goes to $log.
 $worker = {
-    param($dir, $harness, $model, $prompt, $log, $budget, $ssh, $sparkDir, $sessionName, $isQa)
+    param($dir, $harness, $model, $prompt, $log, $budget, $ssh, $sparkDir, $sessionName, $isQa, $reviewHead)
     Set-Content -Path "$log.pid" -Value $PID   # so the runner can end this job's whole process tree at the end time
     $OutputEncoding = New-Object System.Text.UTF8Encoding $false
     Set-Location $dir
@@ -396,10 +432,15 @@ $worker = {
         }
         'hermes' {
             if (-not $model) { $model = 'glm53-flash' }   # best local coding model (SecondSpark + ThirdSpark)
-            $m = "-m $model"
+            $m = "--provider custom:local-models --base-url http://127.0.0.1:4000/v1 -m $model"
             # .git/overnight-hermes.pid: a session cut off from this side (dropped SSH) can still be running on FirstSpark;
             # never start a second one in the same repo (SPARK_BUSY makes the runner wait and try again).
-            $remote = 'test -d {0} || {{ echo SPARK_MISSING; exit 3; }}; cd {0} || exit 3; p=.git/overnight-hermes.pid; if [ -f $p ] && kill -0 $(cat $p) 2>/dev/null; then echo SPARK_BUSY; exit 4; fi; echo $$ > $p; git pull --rebase -q; ~/.local/bin/hermes chat --query-file - -Q --yolo --in {0} --run-budget {1} {2}; rm -f $p; echo SPARK_GIT dirty=$(git status --porcelain | wc -l) unpushed=$(git rev-list --count @{{u}}..HEAD)' -f $sparkDir, $budget, $m
+            if ($isQa -and $model -in 'qwen3.6-35b-a3b', 'spark-fast') {
+                # Dedicated local profile: no subscription plugins, inherited keys, or cloud fallback.
+                $m = 'python3 ~/.agents-board/local-agent.py --base-url http://127.0.0.1:8000/v1 --model spark-fast --workdir {0} --budget {1}' -f $sparkDir, $budget
+            } else { $m = '~/.local/bin/hermes chat --query-file - -Q --yolo --in {0} --run-budget {1} {2}' -f $sparkDir, $budget, $m }
+            $headCheck = $(if ($isQa) { '[ $(git rev-parse HEAD) = {0} ] || {{ echo SPARK_HEAD_MISMATCH; exit 6; }}; ' -f $reviewHead } else { '' })
+            $remote = 'test -d {0} || {{ echo SPARK_MISSING; exit 3; }}; cd {0} || exit 3; p=.git/overnight-hermes.pid; if [ -f $p ] && kill -0 $(cat $p) 2>/dev/null; then echo SPARK_BUSY; exit 4; fi; echo $$ > $p; trap ''rm -f $p'' EXIT; git pull --rebase -q || exit 5; {2}{1}; rc=$?; echo SPARK_GIT dirty=$(git status --porcelain | wc -l) unpushed=$(git rev-list --count @{{u}}..HEAD); exit $rc' -f $sparkDir, $m, $headCheck
             $prompt | & $ssh -o BatchMode=yes FirstSpark $remote *>> $log
         }
         default {
@@ -472,25 +513,23 @@ function Get-LimitReset($text) {
 # Tonight's target finished mid-run: the prep agent advances the project to its next slices (advance-slice skill) from the
 # Projects root, where the projects' deny rules on verify.ps1 don't apply, then the project gets a new session.
 $advanceWorker = {
-    param($root, $text, $log, $tool)
+    param($root, $text, $log, $helper)
     $OutputEncoding = New-Object System.Text.UTF8Encoding $false
     Set-Content -Path "$log.pid" -Value $PID
     Set-Location $root
-    if ($tool -eq 'codex') { $text | & codex exec --dangerously-bypass-approvals-and-sandbox - *>> $log }
-    else { $text | & claude -p --model opus --permission-mode bypassPermissions *>> $log }
+    $text | & python $helper --base-url http://127.0.0.1:11435/v1 --model qwen3.8-27b-desktop --workdir $root --budget 1800 *>> $log
+    if ($LASTEXITCODE) { throw "Local slice advance failed (exit $LASTEXITCODE); see $log" }
 }
 function Start-Advance($q) {
     $name = $q.Name; $dir = Join-Path $projects $name
     $issues = @(Compare-Integrity $integrity[$name] (Get-Integrity $dir))   # checked before the advance re-baselines it
     if ($issues) { $rows[$name].Note += "not advanced: SUSPECT ($($issues -join '; ')). "; return }
     $now = Get-Date
-    $tool = $(if (-not $limitUntil['claude'] -or $now -ge $limitUntil['claude']) { 'claude' } elseif (-not $limitUntil['codex'] -or $now -ge $limitUntil['codex']) { 'codex' } else { '' })
-    if (-not $tool) { $rows[$name].Note += 'not advanced: claude and codex are both at their usage limit. '; return }
     $advances[$name] = 1 + [int]$advances[$name]
     $text = (Get-Content (Join-Path $vault 'Nightly Runs\agent-rules\prep-prompt.md') -Raw -Encoding UTF8) +
         "`n- ${name}: advance (tonight's target passed during the run and the lanes are already going: do only this item, quickly)`n"
     $log = Join-Path $logDir "$name.advance.txt"; Remove-Item "$log.pid" -ErrorAction SilentlyContinue
-    $job = Start-Job -ScriptBlock $advanceWorker -ArgumentList $projects, $text, $log, $tool
+    $job = Start-Job -ScriptBlock $advanceWorker -ArgumentList $projects, $text, $log, (Join-Path $PSScriptRoot 'local-agent.py')
     $running[$job.Id] = @{ Job = $job; Q = $q; Start = $now; Head = (git -C $dir rev-parse HEAD 2>$null); Advance = $true; PidFile = "$log.pid" }
 }
 
@@ -517,6 +556,7 @@ $maxSessions = 8     # shortcut: a fixed cap per project per run in case an agen
 # never has to guess from times (Hermes's commits reach the desktop when its session ends, after the gate's pull).
 $heads = [ordered]@{}
 foreach ($q in $pending) { $h = git -C (Join-Path $projects $q.Name) rev-parse HEAD 2>$null; if ($h) { $heads[$q.Name] = "$h" } }
+if ($QaOnly) { $heads[$Project] = "$qaBase"; $pending.Clear() }
 $qaResults = [ordered]@{}   # QA per project: @{ state = running|pass|findings|skipped|failed; findings; reason }, read by the Agents board
 $running = @{}; $limitUntil = @{}; $advances = @{}; $sessions = @{}; $waitNet = @{}; $netRetries = @{}; $nextNetCheck = @{}; $noSpark = @{}
 # A resumed run keeps the usage limits the cut-off run had hit.
@@ -633,29 +673,59 @@ foreach ($q in $queue) {
         $rows[$name].Note += $(if ($plan.Skip) { "dry run: QA skipped ($($plan.Skip)). " } else { "dry run: QA would run on $($plan.Spec) after builder sessions with a real commit. " })
         continue
     }
-    if (-not $sessions[$name]) { continue }   # no builder session ran (preflight, or no time left): nothing to check
+    if (-not $QaOnly -and -not $sessions[$name]) { continue }   # QA-only explicitly reviews the supplied earlier range
+    if ($QaOnly -and $checks[$name].Blockers) { Set-Qa $name 'skipped' ('preflight: ' + ($checks[$name].Blockers -join '; ')); continue }
     if ($qaResults[$name] -and $qaResults[$name].state -ne 'running') { continue }   # a resumed run already finished this one
     if (-not (Test-Progress $dir $heads[$name])) { Set-Qa $name 'skipped' 'no real commit tonight'; continue }
     $plan = Get-QaPlan $q $roles
     if ($plan.Skip) { Set-Qa $name 'skipped' $plan.Skip; continue }
     if (-not $qaPromptText) { Set-Qa $name 'skipped' 'agent-rules/qa-prompt.md is missing'; continue }
-    if (-not $cliOk[$plan.Family]) { Set-Qa $name 'skipped' "$($plan.Family) CLI not found on this PC"; continue }
-    if (Test-Parked $plan.Family) { Set-Qa $name 'skipped' "$($plan.Family) is parked on its usage limit until $($limitUntil[$plan.Family].ToString('HH:mm'))"; continue }
+    if (-not $cliOk[$plan.Family] -or (Test-Parked $plan.Family)) {
+        $why = $(if (-not $cliOk[$plan.Family]) { "$($plan.Family) CLI not found" } else { "$($plan.Family) is parked on its usage limit until $($limitUntil[$plan.Family].ToString('HH:mm'))" })
+        $fallback = Get-QaPlan $q $roles -Fallback
+        if ($fallback.Skip -or -not $cliOk[$fallback.Family] -or (Test-Parked $fallback.Family)) { Set-Qa $name 'skipped' "$why; no available fallback QA"; continue }
+        $rows[$name].Note += "Primary QA $($plan.Spec) unavailable ($why); using fallback $($fallback.Spec). "
+        $plan = $fallback
+    }
     [void]$qaQueue.Add(@{ Q = $q; Plan = $plan })
 }
 $qaRunning = @{}
+$localQaReady = $false
+if (@($qaQueue | Where-Object { $_.Plan.Family -eq 'hermes' -or (Get-QaPlan $_.Q $roles -Fallback).Family -eq 'hermes' }).Count) {
+    # Install this checkout's reviewed launcher, not an independently edited copy on the Spark.
+    $encoded = [Convert]::ToBase64String([IO.File]::ReadAllBytes((Join-Path $PSScriptRoot 'local-agent.py')))
+    $encoded | & $ssh -o BatchMode=yes -o ConnectTimeout=10 FirstSpark 'umask 077; mkdir -p ~/.agents-board; base64 --decode --ignore-garbage > ~/.agents-board/local-agent.py.tmp && mv ~/.agents-board/local-agent.py.tmp ~/.agents-board/local-agent.py'
+    $localQaReady = $LASTEXITCODE -eq 0
+    if (-not $localQaReady) {
+        foreach ($item in @($qaQueue | Where-Object { $_.Plan.Family -eq 'hermes' })) {
+            $qaQueue.Remove($item); Set-Qa $item.Q.Name 'failed' 'could not deploy the local QA launcher to FirstSpark'
+        }
+    }
+}
 while ($qaQueue.Count -or $qaRunning.Count) {
     foreach ($item in @($qaQueue)) {
         $name = $item.Q.Name; $fam = $item.Plan.Family; $dir = Join-Path $projects $name
-        if (Test-Parked $fam) { $qaQueue.Remove($item); Set-Qa $name 'skipped' "$fam hit its usage limit; parked until $($limitUntil[$fam].ToString('HH:mm'))"; continue }
-        if ($PerHarness -gt 0 -and @($qaRunning.Values | Where-Object { $_.Plan.Family -eq $fam }).Count -ge $PerHarness) { continue }
+        if (Test-Parked $fam) {
+            $fallback = Get-QaPlan $item.Q $roles -Fallback
+            if (-not $item.Plan.FallbackUsed -and -not $fallback.Skip -and -not (Test-Parked $fallback.Family) -and $cliOk[$fallback.Family]) {
+                $rows[$name].Note += "Primary QA $($item.Plan.Spec) parked; using fallback $($fallback.Spec). "
+                $item.Plan = $fallback; $fam = $fallback.Family
+            } else { $qaQueue.Remove($item); Set-Qa $name 'skipped' "$fam hit its usage limit; no available fallback QA"; continue }
+        }
+        if ($fam -eq 'hermes' -and -not $localQaReady) { $qaQueue.Remove($item); Set-Qa $name 'failed' 'local QA launcher deployment failed'; continue }
+        # FirstSpark Qwen is shared with apps. One complete local review at a time.
+        $qaLimit = $(if ($fam -eq 'hermes') { 1 } else { $PerHarness })
+        if ($qaLimit -gt 0 -and @($qaRunning.Values | Where-Object { $_.Plan.Family -eq $fam }).Count -ge $qaLimit) { continue }
         $qaQueue.Remove($item)
-        $log = Join-Path $logDir "$name.qa.txt"   # not .log: the Tonight's run strip lists one row per <folder>.log
+        $suffix = $(if ($item.Plan.FallbackUsed) { 'qa-fallback' } else { 'qa' })
+        $log = Join-Path $logDir "$name.$suffix.txt"   # separate attempt logs: never accept a stale primary result
         Remove-Item "$log.pid" -ErrorAction SilentlyContinue
         $head = "$(git -C $dir rev-parse HEAD 2>$null)"
-        $text = $qaPromptText + "`n---`nThis QA session: project folder $name, date for the REPORT.md section $($started.ToString('yyyy-MM-dd')), the builder's commits tonight are $($heads[$name])..$head (git log -p that range), put screenshots in $(Join-Path $logDir "_qa\$name") (outside the repo, never commit them).`n"
+        $shots = $(if ($fam -eq 'hermes') { "/home/snknitin/.agents-board/qa/$stamp/$name" } else { Join-Path $logDir "_qa\$name" })
+        $platform = $(if ($fam -eq 'hermes') { 'You are on Linux: use scripts/verify.sh and scripts/preview.sh when present. If absent, reproduce verify.ps1 steps with the available Linux commands; do not invoke a Windows path or claim unavailable checks passed.' } else { '' })
+        $text = $qaPromptText + "`n---`nThis QA session: project folder $name, date for the REPORT.md section $($started.ToString('yyyy-MM-dd')), the builder's commits tonight are $($heads[$name])..$head (git log -p that range), put screenshots in $shots (outside the repo, never commit them). $platform`n"
         $sessionName = "$name $([char]0x00B7) QA of $($started.ToString('MMM d', [Globalization.CultureInfo]::InvariantCulture))"
-        $job = Start-Job -ScriptBlock $worker -ArgumentList $dir, $fam, $item.Plan.Model, $text, $log, ($QaMinutes * 60), $ssh, "$sparkProjects/$name", $sessionName, $true
+        $job = Start-Job -ScriptBlock $worker -ArgumentList $dir, $fam, $item.Plan.Model, $text, $log, ($QaMinutes * 60), $ssh, "$sparkProjects/$name", $sessionName, $true, $head
         $qaRunning[$job.Id] = @{ Job = $job; Q = $item.Q; Plan = $item.Plan; Start = Get-Date; Head = $head; Dirty = @(git -C $dir status --porcelain 2>$null); Log = $log }
         Set-Qa $name 'running'
     }
@@ -689,7 +759,18 @@ while ($qaQueue.Count -or $qaRunning.Count) {
         elseif ($fam -ne 'hermes' -and $text -match $limitHit) { $limitUntil[$fam] = Get-LimitReset $text; Set-Qa $name 'skipped' "$fam hit its usage limit during QA; resets $($limitUntil[$fam].ToString('HH:mm'))" 0 $by }
         elseif ($text -match 'SPARK_MISSING') { Set-Qa $name 'skipped' "not cloned on FirstSpark at $sparkProjects" 0 $by }
         elseif ($text -match 'SPARK_BUSY') { Set-Qa $name 'skipped' 'a Hermes session is still running in that repo on FirstSpark' 0 $by }
+        elseif ($text -match 'SPARK_HEAD_MISMATCH') { Set-Qa $name 'failed' 'FirstSpark HEAD differs from the desktop commit being reviewed' 0 $by }
         else { Set-Qa $name 'failed' 'the QA session ended without a "QA RESULT:" line' 0 $by }
+        # Retry infrastructure/limit failures once on the configured fallback. Findings are a completed review,
+        # and forbidden edits are an integrity failure: neither is replaced by a second judge's opinion.
+        if (-not $r.Plan.FallbackUsed -and -not $foreign -and $qaResults[$name].state -in 'failed', 'skipped') {
+            $fallback = Get-QaPlan $r.Q $roles -Fallback
+            if (-not $fallback.Skip -and $fallback.Spec -ne $r.Plan.Spec -and $cliOk[$fallback.Family] -and -not (Test-Parked $fallback.Family)) {
+                $rows[$name].Note += "Retrying QA on fallback $($fallback.Spec). "
+                [void]$qaQueue.Add(@{ Q = $r.Q; Plan = $fallback })
+                Set-Qa $name 'running'
+            }
+        }
     }
 }
 

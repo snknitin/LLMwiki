@@ -7,7 +7,7 @@ $ErrorActionPreference = 'Stop'
 $runner = Join-Path $PSScriptRoot 'overnight-run.ps1'
 $ast = [System.Management.Automation.Language.Parser]::ParseFile($runner, [ref]$null, [ref]$null)
 $ast.FindAll({ param($n) $n -is [System.Management.Automation.Language.AssignmentStatementAst] -and $n.Left.Extent.Text -in '$specPattern', '$defaultRoles' }, $true) | ForEach-Object { . ([scriptblock]::Create($_.Extent.Text)) }
-$ast.FindAll({ param($n) $n -is [System.Management.Automation.Language.FunctionDefinitionAst] -and $n.Name -in 'Read-Roles', 'Get-QaPlan', 'Format-Qa' }, $true) | ForEach-Object { . ([scriptblock]::Create($_.Extent.Text)) }
+$ast.FindAll({ param($n) $n -is [System.Management.Automation.Language.FunctionDefinitionAst] -and $n.Name -in 'Get-ModelFamily', 'Read-Roles', 'Get-QaPlan', 'Format-Qa' }, $true) | ForEach-Object { . ([scriptblock]::Create($_.Extent.Text)) }
 $failed = 0
 function Check($what, $got, $want) { if ("$got" -ne "$want") { Write-Output "FAIL $what`: got '$got', want '$want'"; $script:failed++ } else { Write-Output "ok   $what" } }
 
@@ -40,6 +40,12 @@ try {
     Check 'override in the builder family is refused' ([bool]$plan.Skip) 'True'
     $plan = Get-QaPlan ([pscustomobject]@{ Harness = 'claude'; Qa = 'gpt' }) $roles
     Check 'unknown QA harness is refused' ([bool]$plan.Skip) 'True'
+    $plan = Get-QaPlan ([pscustomobject]@{ Harness = 'hermes'; Model = 'glm53-flash'; Qa = 'hermes:qwen3.6-35b-a3b' }) $roles
+    Check 'Hermes GLM reviewed by Hermes Qwen' "$($plan.Family)|$($plan.Model)|$($plan.Skip)" 'hermes|qwen3.6-35b-a3b|'
+    $plan = Get-QaPlan ([pscustomobject]@{ Harness = 'hermes'; Model = 'qwen3.8-27b-desktop'; Qa = 'hermes:spark-fast' }) $roles
+    Check 'actual Qwen builder override cannot be reviewed by Qwen alias' ([bool]$plan.Skip) 'True'
+    $plan = Get-QaPlan ([pscustomobject]@{ Harness = 'hermes'; Model = 'glm53-flash'; Qa = $null }) $roles -Fallback
+    Check 'fallback is local Qwen, independent of primary subscription' "$($plan.Spec)|$($plan.FallbackUsed)|$($plan.Skip)" 'hermes:qwen3.6-35b-a3b|True|'
     Check 'format: pass' (Format-Qa @{ state = 'pass' }) 'pass'
     Check 'format: findings' (Format-Qa @{ state = 'findings'; findings = 3 }) '3 findings'
     Check 'format: one finding' (Format-Qa @{ state = 'findings'; findings = 1 }) '1 finding'
@@ -72,13 +78,15 @@ try {
         git init -q --bare (Join-Path $tmp "$n.git"); git -C $d remote add origin (Join-Path $tmp "$n.git"); git -C $d push -q -u origin main 2>$null
     }
     $env:OVERNIGHT_VAULT = $vault; $env:OVERNIGHT_PROJECTS = $projects
+    $ErrorActionPreference = 'Continue' # fixture intentionally omits optional project docs; inspect the actual report below
     $out = & powershell -NoProfile -ExecutionPolicy Bypass -File $runner -DryRun -Kind nightly -NoPrep 2>&1 | Out-String
+    $ErrorActionPreference = 'Stop'
     Remove-Item Env:OVERNIGHT_VAULT, Env:OVERNIGHT_PROJECTS
     $report = Get-Content (Join-Path $vault 'Nightly Runs\Overnight Report.md') -Raw
     Check 'dry run wrote a report' ($report -match 'dry run') 'True'
     Check 'dry run: alpha QA on the roles.json harness' ($report -match 'alpha[^\r\n]*QA would run on hermes') 'True'
     Check 'dry run: beta qa=off' ($report -match 'beta[^\r\n]*QA skipped \(off \(qa=off\)\)') 'True'
-    Check 'dry run: gamma same-family override' ($report -match "gamma[^\r\n]*QA skipped \(qa=claude:opus is the builder's own family") 'True'
+    Check 'dry run: gamma same-family override' ($report -match "gamma[^\r\n]*QA skipped \(qa=claude:opus is the builder's own model family") 'True'
     if ($failed) { Write-Output $out }
 } finally {
     Remove-Item Env:OVERNIGHT_VAULT, Env:OVERNIGHT_PROJECTS -ErrorAction SilentlyContinue

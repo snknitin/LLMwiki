@@ -32,6 +32,7 @@ if ($text -match 'QA reviewer') {
     foreach ($t in 'claude', 'codex') { Set-Content (Join-Path $shims "$t.cmd") "@powershell -NoProfile -ExecutionPolicy Bypass -File `"%~dp0shim.ps1`" $t"-Encoding Ascii }
     Set-Content (Join-Path $vault 'Nightly Runs\agent-rules\overnight-prompt.md') 'fixture builder prompt'
     Set-Content (Join-Path $vault 'Nightly Runs\agent-rules\prep-prompt.md') 'fixture prep prompt'
+    Set-Content (Join-Path $vault 'Nightly Runs\roles.json') '{"claude":{"builder":"claude:opus","qa":"codex","fallbackQa":"off"},"codex":{"builder":"codex","qa":"claude:sonnet","fallbackQa":"off"},"hermes":{"builder":"hermes","qa":"claude:sonnet","fallbackQa":"off"}}'
     Copy-Item (Join-Path $PSScriptRoot '..\agent-rules\qa-prompt.md') (Join-Path $vault 'Nightly Runs\agent-rules\qa-prompt.md')
     Set-Content (Join-Path $vault 'Nightly Runs\Project Priorities.md') @'
 ## Tonight
@@ -57,7 +58,9 @@ if ($text -match 'QA reviewer') {
         git init -q --bare (Join-Path $tmp "$n.git"); git -C $d remote add origin (Join-Path $tmp "$n.git"); git -C $d push -q -u origin main 2>$null
     }
     $env:OVERNIGHT_VAULT = $vault; $env:OVERNIGHT_PROJECTS = $projects; $env:PATH = "$shims;$env:PATH"
+    $ErrorActionPreference = 'Continue' # fixture omits optional docs; assertions below check the actual run results
     $out = & powershell -NoProfile -ExecutionPolicy Bypass -File $runner -Kind morning -NoPrep -HoursPerProject 1 -QaMinutes 5 2>&1 | Out-String
+    $ErrorActionPreference = 'Stop'
     $report = Get-Content (Join-Path $vault 'Morning Runs\Morning Report.md') -Raw
     if ($env:QA_TEST_VERBOSE) { Write-Output $out; Write-Output $report; Get-ChildItem $projects -Recurse -Filter '*.qa.txt' | ForEach-Object { Write-Output "--- $($_.Name)"; Get-Content $_.FullName } }
     Check 'alpha: findings' ($report -match '(?m)^- `alpha`: QA 2 findings\r?$') 'True'
