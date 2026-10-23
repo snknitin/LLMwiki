@@ -12,6 +12,7 @@
 #   -Preflight  only check (run it in the evening, fix what it lists, then let 23:00 run); exit code = number of blocked projects
 #   -NoPrep     skip the top-10 upkeep prep agent (see Get-Upkeep); -PrepMinutes caps it (default 90)
 #   -PrepOnly   run only the prep agent (make-overnight-ready, build-tree, structure, mvp, advance; never moves lanes), then refresh Preflight.md
+#   -QaOnly -Project <folder> -QaFrom <commit>: review an earlier range, without prep or builder sessions
 #               and exit. The Agents board runs it when a project enters the top 10 or a Tonight lane, so it's ready before 23:00.
 #   -Resume     continue a run that was cut off (power cut, crash, reboot) until its original end time; exits at once when
 #               there is none. The "Agents Run resume" task runs it at logon and every 15 minutes.
@@ -152,7 +153,7 @@ if ($QaOnly) {
 # The top 10 of "## Priority order" (skipping Active and Archived) and every project the owner put in a Tonight lane must
 # each be overnight-ready and have a live build tree. Only the owner moves projects between lanes and sections: prep never
 # queues or dequeues anything. A tonight project whose verify already passes must advance a slice first, or its run would
-# stop at once. Preflight lists this work; a real run hands it to one Claude prep agent (agent-rules/prep-prompt.md)
+# stop at once. Preflight lists this work; a real run hands it to desktop Qwen (agent-rules/prep-prompt.md)
 # before the lanes start, then re-reads the lanes.
 # The standard overnight repo structure (the make-overnight-ready skill's checklist). A project that already has verify.ps1
 # but lacks any of this gets a "structure" item, so the prep agent fills in only what is missing.
