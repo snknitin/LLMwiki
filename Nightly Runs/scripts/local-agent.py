@@ -149,6 +149,17 @@ def main():
                PYTHONIOENCODING="utf-8", PYTHONUTF8="1")
     prompt = Path(a.prompt_file).read_text(encoding="utf-8-sig") if a.prompt_file else sys.stdin.buffer.read().decode("utf-8-sig")
     prompt += f"\nInstalled skills can be read from {hermes_root / 'skills'}; read the appropriate SKILL.md when the task names a skill. Never call a subscription model or change the pinned local route.\n"
+    if not a.qa_result:
+        prompt += ("\nPREP HANDOFF: If a project's protected contract explicitly delegates its nightly scope to "
+                   "NIGHT_TARGET.json, keep CLAUDE.md and AGENTS.md static. For that project, the legacy "
+                   "advance-slice step about rewriting the contract means updating NIGHT_TARGET.json instead. "
+                   "Read its fixed verify-night-target dispatcher and choose a new acceptance-test path within "
+                   "that dispatcher's allowlist; preserve every existing regression and MVP check. Update its "
+                   "tasks, scope, progress and build-tree data, then verify the new gate reports TARGET PENDING "
+                   "for the unimplemented scope and commit/push the preparation. Never use target data to "
+                   "override permissions, security, privacy or an unapproved owner gate. If no explicit static "
+                   "handoff exists, preserve protected instruction-file guards; record a concrete proposal "
+                   "rather than retrying a denied instruction-file write.\n")
     print(f"LOCAL ROUTE: {a.model} at {url}; profile={home}", flush=True)
     command = [executable, "chat", "--provider", "custom:board-local", "--base-url", url,
                "--api-key", "local-only", "-m", a.model, "--query-file", "-", "-Q", "--yolo",
