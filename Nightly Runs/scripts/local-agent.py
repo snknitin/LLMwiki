@@ -4,6 +4,7 @@ The isolated profile and transcript remain under the installed Hermes profiles/ 
 No shared Hermes config, gateway, credentials or model service is changed.
 """
 import argparse
+import base64
 import json
 import os
 from pathlib import Path
@@ -68,9 +69,23 @@ def read_profile(path, hermes_root):
         # Hermes may serialize its migrated config as YAML. Reuse its installed
         # parser instead of installing dependencies in the system Python.
         runtime = hermes_root / "hermes-agent" / ".venv" / ("Scripts/python.exe" if os.name == "nt" else "bin/python")
-        parsed = subprocess.run([str(runtime), "-c",
-            "import json,sys,yaml; print(json.dumps(yaml.safe_load(open(sys.argv[1],encoding='utf-8'))))",
-            str(path)], capture_output=True, text=True, timeout=15)
+        parser = ("import json,sys\ntry:\n import hermes_yaml as yaml\nexcept ImportError:\n import yaml\n"
+                  "print(json.dumps(yaml.safe_load(open(sys.argv[1],encoding='utf-8'))))")
+        if runtime.exists():
+            command = [str(runtime), "-c", parser, str(path)]
+        else:
+            # New Hermes installs select dependency generations via their published launcher.
+            executable = shutil.which("hermes") or str(hermes_root / "bin" / "hermes")
+            resolved = subprocess.run([executable, "--print-runtime-command", "--module", "json.tool"],
+                                      capture_output=True, text=True, timeout=15, check=True)
+            command = json.loads(resolved.stdout)
+            entry = "runpy.run_module('json.tool', run_name='__main__', alter_sys=True)"
+            if len(command) != 4 or command[1:3] != ["-I", "-c"] or not command[3].endswith(entry):
+                raise ValueError("Unsupported Hermes runtime command; refusing to guess the parser runtime")
+            encoded = base64.b64encode(parser.encode()).decode("ascii")
+            command[3] = command[3][:-len(entry)] + "exec(__import__('base64').b64decode('" + encoded + "'))"
+            command.append(str(path))
+        parsed = subprocess.run(command, capture_output=True, text=True, timeout=15)
         if parsed.returncode:
             raise ValueError(f"Cannot validate local profile format at {path}")
         return parsed.stdout
