@@ -2,6 +2,8 @@
 import importlib.util
 from pathlib import Path
 import sys
+import json
+from copy import deepcopy
 
 sys.dont_write_bytecode = True
 spec = importlib.util.spec_from_file_location("board_local_agent", Path(__file__).with_name("local-agent.py"))
@@ -22,4 +24,20 @@ for url, model in [("http://127.0.0.1:11435/v1", "qwen3.8-27b-desktop"),
             assert (route["base_url"], route["model"]) == (url, model)
             assert route["extra_body"]["chat_template_kwargs"]["enable_thinking"] is False
     assert config["custom_providers"][0]["extra_body"]["chat_template_kwargs"]["enable_thinking"] is False
+    assert module.matches_profile(json.dumps(config, indent=2), config)
+    migrated = deepcopy(config)
+    provider = migrated.pop("custom_providers")[0]
+    migrated["providers"] = {"board-local": {"api": url, "name": "board-local", "api_key": "local-only",
+                                             "default_model": model, "extra_body": provider["extra_body"]}}
+    migrated["_config_version"] = 51
+    assert module.matches_profile(json.dumps(migrated), config)
+    for mutate in (
+        lambda c: c["model"].update(base_url="https://cloud.invalid/v1"),
+        lambda c: c.update(fallback_providers=[{"provider": "anthropic"}]),
+        lambda c: c["auxiliary"]["vision"].update(model="cloud-model"),
+        lambda c: c["providers"]["board-local"].update(api="https://cloud.invalid/v1"),
+        lambda c: c.update(plugins={"cloud": True}),
+    ):
+        changed = deepcopy(migrated); mutate(changed)
+        assert not module.matches_profile(json.dumps(changed), config)
 print("LOCAL ROUTE INVARIANTS OK: main, auxiliary and delegation pinned; thinking off; no cloud fallback")

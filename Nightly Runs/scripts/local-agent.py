@@ -36,6 +36,29 @@ def profile(url, model):
     }
 
 
+def matches_profile(text, expected):
+    """Allow formatting and Hermes' custom_providers -> providers migration only."""
+    try:
+        actual = json.loads(text)
+    except (ValueError, TypeError):
+        return False
+    if not isinstance(actual, dict):
+        return False
+    version = actual.pop("_config_version", None)
+    if version is not None and (not isinstance(version, int) or isinstance(version, bool)):
+        return False
+    if actual == expected:
+        return True
+    migrated = dict(expected)
+    providers = migrated.pop("custom_providers")
+    migrated["providers"] = {
+        item["name"]: {"api": item["base_url"], "name": item["name"],
+                       "api_key": item["api_key"], "extra_body": item["extra_body"],
+                       "default_model": item["model"]} for item in providers
+    }
+    return actual == migrated
+
+
 def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("--base-url", required=True)
@@ -56,9 +79,10 @@ def main():
     # Reuse one service profile per host. Project/session identity belongs in the session and run log.
     home = hermes_root / "profiles" / ("agents-board-prep" if os.name == "nt" else "agents-board-qa")
     home.mkdir(parents=True, exist_ok=True)
-    config = json.dumps(profile(url, a.model))
+    expected = profile(url, a.model)
+    config = json.dumps(expected)
     path = home / "config.yaml"
-    if path.exists() and path.read_text(encoding="utf-8") != config:
+    if path.exists() and not matches_profile(path.read_text(encoding="utf-8"), expected):
         raise ValueError(f"{path} differs from the pinned local route; refusing to overwrite an operator change")
     if not path.exists():
         # Exclusive creation also makes simultaneous launches safe when they share this profile.
@@ -66,7 +90,7 @@ def main():
             with path.open("x", encoding="utf-8") as output:
                 output.write(config)
         except FileExistsError:
-            if path.read_text(encoding="utf-8") != config:
+            if not matches_profile(path.read_text(encoding="utf-8"), expected):
                 raise ValueError(f"Conflicting local profile creation at {path}")
     env = dict(os.environ)
     # User configuration is isolated; inherited cloud keys and provider hints cannot select a subscription.
