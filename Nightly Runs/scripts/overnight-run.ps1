@@ -212,8 +212,29 @@ function Get-Upkeep($queue, [switch]$CheckVerify) {
     }
     return $items
 }
+$prepStatusFile = Join-Path $vault 'Nightly Runs\prep-status.json'
+$recordPrep = -not $Preflight -and -not $DryRun -and -not $QaOnly -and -not $NoPrep
+$prepReceipt = $null
+function Save-PrepReceipt($state, $remaining = @(), $blockers = @(), $reason = '') {
+    if (-not $script:prepReceipt) { return }
+    $script:prepReceipt.state = $state
+    $script:prepReceipt.remaining = @($remaining)
+    $script:prepReceipt.blockers = @($blockers)
+    $script:prepReceipt.reason = $reason
+    if ($state -ne 'running') { $script:prepReceipt.ended = (Get-Date).ToString('o') }
+    $tmp = "$prepStatusFile.$PID.tmp"
+    [IO.File]::WriteAllText($tmp, ($script:prepReceipt | ConvertTo-Json -Depth 7), (New-Object Text.UTF8Encoding $false))
+    Move-Item -LiteralPath $tmp -Destination $prepStatusFile -Force
+}
+if ($recordPrep) {
+    $prepReceipt = @{ state = 'running'; started = (Get-Date).ToString('o'); prioritiesHash = (Get-FileHash $prioFile -Algorithm SHA256).Hash.ToLowerInvariant(); projects = @($queue | ForEach-Object Name); remaining = @(); blockers = @(); reason = '' }
+    Save-PrepReceipt 'running' @() @() 'Checking current targets before local preparation'
+}
 $upkeep = @(Get-Upkeep $queue -CheckVerify:(-not $Preflight -and -not $QaOnly))
 $prepWork = @($upkeep | Where-Object { $_.Action -ne 'owner' })
+$prepHeads = @{}
+foreach ($item in $prepWork) { $prepHeads[$item.Project] = "$(git -C (Join-Path $projects $item.Project) rev-parse HEAD 2>$null)" }
+if ($recordPrep) { $prepReceipt.projects = @(@($queue | ForEach-Object Name) + @($upkeep | ForEach-Object Project) | Select-Object -Unique); Save-PrepReceipt 'running' $upkeep @() 'Desktop Qwen is preparing the current queue' }
 if ($prepWork -and -not $Preflight -and -not $DryRun -and -not $NoPrep) {
     $prepLog = Join-Path $logDir '_prep.log'
     $prepPrompt = (Get-Content (Join-Path $vault 'Nightly Runs\agent-rules\prep-prompt.md') -Raw -Encoding UTF8) + "`n" +
@@ -235,7 +256,7 @@ if ($prepWork -and -not $Preflight -and -not $DryRun -and -not $NoPrep) {
     Receive-Job $prepJob -ErrorAction Continue
     Remove-Job $prepJob -Force
     Write-Output "prep: $(if ($prepFailed) { 'FAILED' } else { 'finished' }) for $($prepWork.Count) item(s), desktop Qwen, log: $prepLog"
-    if ($prepFailed) { exit 1 }  # never start lanes on an unprepared target, or call a cloud fallback
+    if ($prepFailed) { Save-PrepReceipt 'failed' $prepWork @() "Desktop Qwen prep did not finish; inspect $prepLog"; exit 1 }
     $queue = Set-BuilderModels (Read-Queue)   # the prep agent may have moved projects into lanes
     $upkeep = @(Get-Upkeep $queue)   # so Preflight.md shows what is still left after prep
 }
@@ -377,6 +398,17 @@ if ($upkeep) {
     $pf += $upkeep | ForEach-Object { "| $($_.Project) | $($_.Action) | $(if ($_.Action -eq 'owner') { 'OWNER' } else { 'PREP' }) | $($_.Why) |" }
 }
 Set-Content -Path $preflightMd -Value $pf -Encoding UTF8
+if ($recordPrep) {
+    $remaining = @($upkeep)
+    # A commit is required when a passing target needed advancement. Process exit alone is not readiness.
+    foreach ($item in @($prepWork | Where-Object { $_.Action -match 'advance' })) {
+        $headNow = "$(git -C (Join-Path $projects $item.Project) rev-parse HEAD 2>$null)"
+        if ($headNow -eq $prepHeads[$item.Project]) { $remaining += @{ Project = $item.Project; Action = 'advance'; Why = 'Passing target was not advanced to a committed next scope; review its owner gates or completion decision' } }
+    }
+    $blocked = @($queue | ForEach-Object { $n = $_.Name; foreach ($why in @($checks[$n].Blockers)) { if ($why) { @{ project = $n; reason = $why } } } })
+    $prepReceipt.warnings = @($queue | ForEach-Object { $n = $_.Name; foreach ($why in @($checks[$n].Warnings)) { if ($why) { "$n`: $why" } } })
+    Save-PrepReceipt $(if ($remaining.Count -or $blocked.Count) { 'attention' } else { 'ready' }) $remaining $blocked $(if ($remaining.Count -or $blocked.Count) { 'Preparation finished with items still requiring attention' } else { 'Current queue checked and prepared for the scheduled run' })
+}
 if ($Preflight -or $PrepOnly) { Write-Output ($pf -join "`n"); exit @($checks.Values | Where-Object { $_.Blockers }).Count }
 
 # Every repo in tonight's queue gets a Hermes project (if it has none yet) so its sessions group under it.

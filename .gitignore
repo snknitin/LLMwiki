@@ -33,3 +33,5 @@ undefined/
 
 # Overnight runner: present only while a run is going (lets -Resume continue a cut-off run)
 Nightly Runs/.run-state.json
+Nightly Runs/prep-status.json
+Nightly Runs/prep-status.json.*.tmp
