@@ -59,6 +59,23 @@ def matches_profile(text, expected):
     return actual == migrated
 
 
+def read_profile(path, hermes_root):
+    text = path.read_text(encoding="utf-8")
+    try:
+        json.loads(text)
+        return text
+    except ValueError:
+        # Hermes may serialize its migrated config as YAML. Reuse its installed
+        # parser instead of installing dependencies in the system Python.
+        runtime = hermes_root / "hermes-agent" / ".venv" / ("Scripts/python.exe" if os.name == "nt" else "bin/python")
+        parsed = subprocess.run([str(runtime), "-c",
+            "import json,sys,yaml; print(json.dumps(yaml.safe_load(open(sys.argv[1],encoding='utf-8'))))",
+            str(path)], capture_output=True, text=True, timeout=15)
+        if parsed.returncode:
+            raise ValueError(f"Cannot validate local profile format at {path}")
+        return parsed.stdout
+
+
 def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("--base-url", required=True)
@@ -82,7 +99,7 @@ def main():
     expected = profile(url, a.model)
     config = json.dumps(expected)
     path = home / "config.yaml"
-    if path.exists() and not matches_profile(path.read_text(encoding="utf-8"), expected):
+    if path.exists() and not matches_profile(read_profile(path, hermes_root), expected):
         raise ValueError(f"{path} differs from the pinned local route; refusing to overwrite an operator change")
     if not path.exists():
         # Exclusive creation also makes simultaneous launches safe when they share this profile.
@@ -90,7 +107,7 @@ def main():
             with path.open("x", encoding="utf-8") as output:
                 output.write(config)
         except FileExistsError:
-            if not matches_profile(path.read_text(encoding="utf-8"), expected):
+            if not matches_profile(read_profile(path, hermes_root), expected):
                 raise ValueError(f"Conflicting local profile creation at {path}")
     env = dict(os.environ)
     # User configuration is isolated; inherited cloud keys and provider hints cannot select a subscription.
