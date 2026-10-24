@@ -423,7 +423,8 @@ function Save-DesktopHandoff($name, $dir) {
     if (-not $lines) { return }
     $paths = @($lines | ForEach-Object { ($_.Substring(3) -replace '^.* -> ', '').Trim('"') })
     if ($paths | Where-Object { $_ -match $secretPattern }) { $leftAlone[$name] = 'uncommitted changes on the desktop include a file that looks like a secret; commit or remove it yourself'; return }
-    if ($paths | Where-Object { $f = Join-Path $dir $_; (Test-Path $f) -and (Get-Item $f).LastWriteTime -gt (Get-Date).AddMinutes(-10) }) { $leftAlone[$name] = 'uncommitted changes on the desktop edited in the last 10 minutes (someone may be working); left alone'; return }
+    # Screenshots a verify run just regenerated are not someone working: hand them off like any older edit.
+    if ($paths | Where-Object { $_ -notmatch '(^|/)screenshots/.*\.png$' } | Where-Object { $f = Join-Path $dir $_; (Test-Path $f) -and (Get-Item $f).LastWriteTime -gt (Get-Date).AddMinutes(-10) }) { $leftAlone[$name] = 'uncommitted changes on the desktop edited in the last 10 minutes (someone may be working); left alone'; return }
     $base = git -C $dir branch --show-current
     git -C $dir switch -q -c $handoffBranch 2>$null
     if ($LASTEXITCODE -ne 0) { $leftAlone[$name] = "uncommitted changes on the desktop; could not create $handoffBranch"; return }
