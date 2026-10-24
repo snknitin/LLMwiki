@@ -26,6 +26,8 @@ try {
     if ($out -notmatch 'prep: FAILED') { $fails += 'prep did not fail as staged' }
     if (-not (Test-Path (Join-Path $d 'built.txt'))) { $fails += 'the lane did not run after the failed prep' }
     if ($receipt.state -ne 'attention' -or $receipt.reason -notmatch 'did not finish') { $fails += "receipt is '$($receipt.state)': $($receipt.reason)" }
+    $prepReport = Get-Content (Join-Path $vault 'Nightly Runs\Prep Report.md') -Raw -ErrorAction SilentlyContinue
+    if ($prepReport -notmatch '## Checked by the runner' -or $prepReport -notmatch '- alpha \([^)]*\): no new commit') { $fails += "Prep Report has no git check for alpha: $prepReport" }
     if ($fails) { Write-Output $out; throw ($fails -join '; ') }
-    Write-Output 'PREP FAILURE OK: the lane ran after a failed prep, receipt says attention'
+    Write-Output 'PREP FAILURE OK: the lane ran after a failed prep, receipt says attention, Prep Report says what git shows'
 } finally { Remove-Item -Recurse -Force $tmp -ErrorAction SilentlyContinue }

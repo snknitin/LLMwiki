@@ -255,6 +255,20 @@ if ($prepWork -and -not $Preflight -and -not $DryRun -and -not $NoPrep) {
     } elseif ($prepJob.State -eq 'Failed') { $prepFailed = $true }
     Receive-Job $prepJob -ErrorAction Continue
     Remove-Job $prepJob -Force
+    # The prep agent writes the Prep Report itself, and on 2026-10-23 it named commits that were never made.
+    # Append what git actually shows per project, so an invented claim cannot pass for done.
+    $facts = foreach ($item in $prepWork) {
+        $dir = Join-Path $projects $item.Project; $head = $prepHeads[$item.Project]
+        $new = @(if ($head) { git -C $dir log --format='%h %s' "$head..HEAD" 2>$null })
+        $ahead = "$(git -C $dir rev-list --count '@{u}..HEAD' 2>$null)"
+        $dirty = @(git -C $dir status --porcelain 2>$null).Count
+        "- $($item.Project) ($($item.Action)): " + $(if ($new) { "$($new.Count) new commit(s): $($new -join '; ')" } else { 'no new commit' }) +
+            $(if ($ahead -and $ahead -ne '0') { "; $ahead commit(s) NOT pushed" } elseif ($new) { '; pushed' } else { '' }) +
+            $(if ($dirty) { "; $dirty uncommitted file(s)" } else { '' })
+    }
+    Add-Content -Path (Join-Path $vault 'Nightly Runs\Prep Report.md') -Encoding UTF8 -Value (@('', "## Checked by the runner ($(Get-Date -Format 'yyyy-MM-dd HH:mm'))", '',
+        'What git shows in each project after prep, whatever the report above says.', '') + @($facts))
+    $facts | ForEach-Object { Write-Output "prep check: $_" }
     Write-Output "prep: $(if ($prepFailed) { 'FAILED' } else { 'finished' }) for $($prepWork.Count) item(s), desktop Qwen, log: $prepLog"
     if ($prepFailed) { Save-PrepReceipt 'failed' $prepWork @() "Desktop Qwen prep did not finish; inspect $prepLog" }
     # A failed prep never cancels the night: lanes still run on each project's current target (2026-10-23 ran nothing).

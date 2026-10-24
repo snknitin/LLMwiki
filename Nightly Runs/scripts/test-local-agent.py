@@ -43,6 +43,12 @@ for url, model in [("http://127.0.0.1:11435/v1", "qwen3.8-27b-desktop"),
         changed = deepcopy(migrated); mutate(changed)
         assert not module.matches_profile(json.dumps(changed), config)
 print("LOCAL ROUTE INVARIANTS OK: main, auxiliary and delegation pinned; thinking off; no cloud fallback")
+# Only prep may edit agent-instruction files; QA (and the old pin) keep Hermes' guard on.
+prep = module.profile("http://127.0.0.1:11435/v1", "qwen3.8-27b-desktop", edits_instructions=True)
+qa = module.profile("http://127.0.0.1:8000/v1", "spark-fast")
+assert prep["security"] == {"protected_instruction_files": False} and "security" not in qa
+assert not module.matches_profile(json.dumps(prep), module.profile("http://127.0.0.1:11435/v1", "qwen3.8-27b-desktop"))
+print("INSTRUCTION GUARD OK: off for prep only")
 for diff, wanted in (
     ("+### QA RESULT: findings=4\n", "QA RESULT: findings=4"),
     ("+QA RESULT: pass\n", "QA RESULT: pass"),
