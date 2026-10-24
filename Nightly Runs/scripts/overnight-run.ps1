@@ -21,9 +21,10 @@
 # meanwhile a Claude project's sessions run on Codex, or on Hermes if Codex is parked too (noted in the report row).
 # A project that finishes tonight's target mid-run is advanced to its next slices (advance-slice) and keeps going.
 param([ValidateSet('nightly', 'morning')][string]$Kind, [switch]$Preflight, [switch]$DryRun, [int]$PerHarness = 0, [double]$HoursPerProject = 3, [string]$Until = '06:30', [switch]$NoPrep, [int]$PrepMinutes = 90, [switch]$PrepOnly, [switch]$Resume, [switch]$Scheduled, [int]$QaMinutes = 30,
-      [switch]$QaOnly, [ValidatePattern('^[A-Za-z0-9._-]+$')][string]$Project, [string]$QaFrom)
+      [switch]$QaOnly, [ValidatePattern('^[A-Za-z0-9._-]+$')][string]$Project, [string]$QaFrom, [switch]$FixOnly)
 if ($QaOnly -and (-not $Project -or -not $QaFrom -or $Resume -or $PrepOnly -or $DryRun)) { throw '-QaOnly requires -Project and -QaFrom, without Resume, PrepOnly or DryRun' }
 if ($QaOnly) { $NoPrep = $true }
+if ($FixOnly -and (-not $Project -or $QaOnly -or $PrepOnly -or $DryRun -or $Resume)) { throw '-FixOnly requires -Project, without QaOnly, PrepOnly, DryRun or Resume' }
 $ErrorActionPreference = 'Continue'
 $hoursGiven = $PSBoundParameters.ContainsKey('HoursPerProject')   # explicit hours win over a nightly run's -Until
 # Paused on the board (Nightly Runs/pause.json): the scheduled tasks (-Scheduled) skip until then. Prep now and
@@ -43,7 +44,7 @@ if (-not $Preflight -and $others -and -not @($others | Where-Object { $_.Command
     while (@(Get-OtherRuns | Where-Object { $_.CommandLine -like '*-Resume*' }) -and (Get-Date) -lt $waitUntil) { Start-Sleep -Seconds 5 }
     $others = Get-OtherRuns
 }
-if (-not $Preflight -and -not $PrepOnly -and $others -and -not @($others | Where-Object { $_.CommandLine -notlike '*-PrepOnly*' })) {
+if (-not $Preflight -and -not $PrepOnly -and $others -and -not @($others | Where-Object { $_.CommandLine -notlike '*-PrepOnly*' -and $_.CommandLine -notlike '*-FixOnly*' })) {
     $waitUntil = (Get-Date).AddMinutes($PrepMinutes + 5)
     while ((Get-OtherRuns) -and (Get-Date) -lt $waitUntil) { Start-Sleep -Seconds 30 }
     $others = Get-OtherRuns
@@ -57,6 +58,11 @@ $ssh           = "$env:WINDIR\System32\OpenSSH\ssh.exe"
 $prioFile      = Join-Path $vault 'Nightly Runs\Project Priorities.md'
 $preflightMd   = Join-Path $vault 'Nightly Runs\Preflight.md'
 $prompt        = Get-Content (Join-Path $vault 'Nightly Runs\agent-rules\overnight-prompt.md') -Raw -Encoding UTF8
+# Owner answers that asked for work become PROGRESS.md items (the board writes them); builders clear them first.
+$ownerQueue    = "OWNER QUEUE: before tonight's target, do every open '- [ ]' item under '## Queued by the owner (Agents board)' in PROGRESS.md. " +
+    "The owner asked for each on the Agents board, with their answer in the item. Build or fix it, run verify, tick the item with the commit hash, " +
+    "and resolve the matching entry in any 'Open decisions' or open-question list (mark it resolved with the date and commit) so the board stops asking.`n"
+$prompt       += "`n$ownerQueue"
 # Written when the lanes start, deleted when the run finishes: if it is still here and no run is going, the run was cut off.
 $stateFile     = Join-Path $vault 'Nightly Runs\.run-state.json'
 $resumeEnd     = $null
@@ -259,6 +265,34 @@ if ($spec -in 'hermes:glm53-flash', 'hermes:qwen3.6-35b-a3b') {
 }
 if ($LASTEXITCODE) { throw "Prep agent $spec failed (exit $LASTEXITCODE); see $log" }
 '@
+# -FixOnly -Project <name>: the board starts this right after the owner answers a question with "fix it": the prep model
+# works only that project's owner queue, then the runner reports what git shows. No upkeep scan, no lanes.
+if ($FixOnly) {
+    $dir = Join-Path $projects $Project
+    if (-not (Test-Path "$dir\.git")) { throw "No project $Project" }
+    New-Item -ItemType Directory -Force $logDir | Out-Null
+    $fixLog = Join-Path $logDir "_fix-$Project.log"
+    $before = "$(git -C $dir rev-parse HEAD 2>$null)"
+    $fixText = "You are fixing what the owner asked for in one project, now, in its own session (not tonight's target).`n$ownerQueue" +
+        "Work only in $dir. Read its CLAUDE.md (or AGENTS.md), PROGRESS.md and DECISIONS.md first. Keep every existing check and the MVP gate green; " +
+        "commit only your paths and git pull --rebase then git push. Report only what happened.`n- ${Project}: owner-queue (the open items under '## Queued by the owner (Agents board)' in PROGRESS.md)`n"
+    $fixJob = Start-Job -ScriptBlock {
+        param($agent, $spec, $dir, $text, $log, $helper, $budget)
+        Set-Content "$log.pid" $PID
+        & ([scriptblock]::Create($agent)) $spec $dir $text $log $helper $budget
+    } -ArgumentList $prepAgent, $prepModel, $projects, $fixText, $fixLog, (Join-Path $PSScriptRoot 'local-agent.py'), ($PrepMinutes * 60)
+    if (-not (Wait-Job $fixJob -Timeout ($PrepMinutes * 60 + 300))) {
+        $jobPid = Get-Content "$fixLog.pid" -ErrorAction SilentlyContinue | Select-Object -First 1
+        if ($jobPid) { & taskkill.exe /PID $jobPid /T /F *> $null }
+        Stop-Job $fixJob
+    }
+    Receive-Job $fixJob -ErrorAction Continue; Remove-Job $fixJob -Force
+    $new = @(if ($before) { git -C $dir log --format='%h %s' "$before..HEAD" 2>$null })
+    $ahead = "$(git -C $dir rev-list --count '@{u}..HEAD' 2>$null)"
+    $open = @(Select-String -Path "$dir\PROGRESS.md" -Pattern '^\s*- \[ \] Owner answer' -ErrorAction SilentlyContinue).Count
+    Write-Output "fix $Project with ${prepModel}: $(if ($new) { "$($new.Count) new commit(s): $($new -join '; ')" } else { 'no new commit' }); $(if ($ahead -and $ahead -ne '0') { "$ahead NOT pushed" } else { 'pushed' }); $open owner item(s) still open; log: $fixLog"
+    exit $(if ($new) { 0 } else { 1 })
+}
 $prepStatusFile = Join-Path $vault 'Nightly Runs\prep-status.json'
 $recordPrep = -not $Preflight -and -not $DryRun -and -not $QaOnly -and -not $NoPrep
 $prepReceipt = $null
@@ -273,11 +307,27 @@ function Save-PrepReceipt($state, $remaining = @(), $blockers = @(), $reason = '
     [IO.File]::WriteAllText($tmp, ($script:prepReceipt | ConvertTo-Json -Depth 7), (New-Object Text.UTF8Encoding $false))
     Move-Item -LiteralPath $tmp -Destination $prepStatusFile -Force
 }
+# Already prepped: today's ready receipt is for this exact queue and no project has moved since. Skip the scan (every
+# project's verify, ~20 min) instead of repeating it at the scheduled prep and again when the run starts.
+$cycleStart = (Get-Date).Date.AddHours(6.5); if ((Get-Date) -lt $cycleStart) { $cycleStart = $cycleStart.AddDays(-1) }
+$prepDone = $false
+if ($recordPrep -and -not $FixOnly) {
+    try { $oldReceipt = Get-Content $prepStatusFile -Raw -ErrorAction Stop | ConvertFrom-Json } catch { $oldReceipt = $null }
+    if ($oldReceipt -and $oldReceipt.state -eq 'ready' -and $oldReceipt.heads -and $oldReceipt.ended -and [datetime]$oldReceipt.ended -ge $cycleStart -and
+        $oldReceipt.prioritiesHash -eq (Get-FileHash $prioFile -Algorithm SHA256).Hash.ToLowerInvariant()) {
+        $prepDone = -not @($queue | Where-Object { "$(git -C (Join-Path $projects $_.Name) rev-parse HEAD 2>$null)" -ne "$($oldReceipt.heads.($_.Name))" })
+    }
+}
+if ($prepDone) {
+    Write-Output "prep: already done at $(([datetime]$oldReceipt.ended).ToString('HH:mm')) for this queue and no project changed since; skipping"
+    if ($PrepOnly) { exit 0 }
+    $recordPrep = $false   # today's ready receipt stays as it is
+}
 if ($recordPrep) {
     $prepReceipt = @{ state = 'running'; started = (Get-Date).ToString('o'); prioritiesHash = (Get-FileHash $prioFile -Algorithm SHA256).Hash.ToLowerInvariant(); projects = @($queue | ForEach-Object Name); remaining = @(); blockers = @(); reason = '' }
     Save-PrepReceipt 'running' @() @() 'Checking current targets before local preparation'
 }
-$upkeep = @(Get-Upkeep $queue -CheckVerify:(-not $Preflight -and -not $QaOnly))
+$upkeep = @(Get-Upkeep $queue -CheckVerify:(-not $Preflight -and -not $QaOnly -and -not $prepDone))
 $prepWork = @($upkeep | Where-Object { $_.Action -ne 'owner' })
 $prepHeads = @{}
 foreach ($item in $prepWork) { $prepHeads[$item.Project] = "$(git -C (Join-Path $projects $item.Project) rev-parse HEAD 2>$null)" }
@@ -467,6 +517,7 @@ if ($recordPrep) {
     }
     $blocked = @($queue | ForEach-Object { $n = $_.Name; foreach ($why in @($checks[$n].Blockers)) { if ($why) { @{ project = $n; reason = $why } } } })
     $prepReceipt.warnings = @($queue | ForEach-Object { $n = $_.Name; foreach ($why in @($checks[$n].Warnings)) { if ($why) { "$n`: $why" } } })
+    $prepReceipt.heads = @{}; foreach ($q in $queue) { $prepReceipt.heads[$q.Name] = "$(git -C (Join-Path $projects $q.Name) rev-parse HEAD 2>$null)" }   # lets a later prep see nothing moved
     Save-PrepReceipt $(if ($prepFailed -or $remaining.Count -or $blocked.Count) { 'attention' } else { 'ready' }) $remaining $blocked $(if ($prepFailed) { "Prep ($prepModel) did not finish (see $prepLog); lanes run on current targets" } elseif ($remaining.Count -or $blocked.Count) { 'Preparation finished with items still requiring attention' } else { 'Current queue checked and prepared for the scheduled run' })
 }
 if ($Preflight -or $PrepOnly) { Write-Output ($pf -join "`n"); exit @($checks.Values | Where-Object { $_.Blockers }).Count }
