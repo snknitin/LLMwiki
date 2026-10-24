@@ -172,9 +172,10 @@ def main():
                    "shows it, and say plainly when an edit, verify, commit or push failed. The runner checks every "
                    "claim against git and reports the difference.\n")
     print(f"LOCAL ROUTE: {a.model} at {url}; profile={home}", flush=True)
+    # Prep covers every queued project in one session (120 turns ran out after three on 2026-10-24); --run-budget still caps time.
     command = [executable, "chat", "--provider", "custom:board-local", "--base-url", url,
                "--api-key", "local-only", "-m", a.model, "--query-file", "-", "-Q", "--yolo",
-               "--in", str(Path(a.workdir).resolve()), "--max-turns", "120", "--run-budget", str(a.budget)]
+               "--in", str(Path(a.workdir).resolve()), "--max-turns", "400" if prep else "120", "--run-budget", str(a.budget)]
     before = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=a.workdir, text=True).strip() if a.qa_result else None
     child = subprocess.Popen(command, stdin=subprocess.PIPE, encoding="utf-8", env=env,
                              cwd=a.workdir, start_new_session=os.name != "nt")
