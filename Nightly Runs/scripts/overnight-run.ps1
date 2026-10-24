@@ -222,14 +222,31 @@ function Get-Upkeep($queue, [switch]$CheckVerify) {
 # Who preps (Nightly Runs/prep.json, picked on the board): Desktop Qwen through local-agent.py, or Claude / Codex.
 $prepModel = 'hermes:qwen3.8-27b-desktop'
 try { $m = (Get-Content (Join-Path $vault 'Nightly Runs\prep.json') -Raw -ErrorAction Stop | ConvertFrom-Json).model } catch { $m = $null }
-if ($m -match '^(hermes:qwen3\.8-27b-desktop|claude:[a-z0-9][\w.-]{0,40}|codex(:[a-z0-9][\w.-]{0,60})?)$') { $prepModel = $m }
+if ($m -match '^(hermes:qwen3\.8-27b-desktop|hermes:glm53-flash|hermes:qwen3\.6-35b-a3b|claude:[a-z0-9][\w.-]{0,40}|codex(:[a-z0-9][\w.-]{0,60})?)$') { $prepModel = $m }
 # Runs inside the prep and slice-advance jobs (jobs see no functions), from the Projects root so no project's deny rules apply.
 $prepAgent = @'
 param($spec, $dir, $text, $log, $helper, $budget)
 $OutputEncoding = New-Object System.Text.UTF8Encoding $false
 Set-Location $dir
 $model = ($spec -split ':', 2)[1]
-if ($spec -like 'hermes:*') {
+if ($spec -in 'hermes:glm53-flash', 'hermes:qwen3.6-35b-a3b') {
+    # GLM 5.3 Flash and Qwen 3.6 35B are reachable only from FirstSpark (key-protected loopback LiteLLM), so prep runs there through Hermes'
+    # agents-board-prep profile on FirstSpark's clones: pull them, prep and push there, then the desktop pulls.
+    $items = @([regex]::Matches($text, '(?m)^- ([A-Za-z0-9._-]+): ') | ForEach-Object { $_.Groups[1].Value } | Select-Object -Unique | Where-Object { Test-Path (Join-Path $dir "$_\.git") })
+    $spark = '/home/snknitin/Workspace/GIT_ROOT/Projects'
+    $sparkText = [regex]::Replace($text, '(?i)(F:\\Vaults\\LLMWiki|E:\\GIT_ROOT\\Projects)((?:\\[^\\\s`"'',;:)]+(?: [A-Z][^\\\s`"'',;:)]*)?)*)', {
+        param($m) $(if ($m.Groups[1].Value -like 'F:*') { '/home/snknitin/vaults/LLMWiki' } else { $spark }) + ($m.Groups[2].Value -replace '\\', '/') })
+    $sparkText += "`nYOU ARE ON FIRSTSPARK (Linux), in $spark. Each project's gate is ``bash scripts/verify.sh`` (keep verify.ps1 in step with it; you cannot run it here). " +
+        "The vault is /home/snknitin/vaults/LLMWiki (it syncs to the desktop). The shared skills are in ~/.hermes/profiles/agents-board-prep/skills/shared/<skill>/SKILL.md; read the one the task names. " +
+        "You may edit a project's CLAUDE.md or AGENTS.md, but only the target, scope, order-of-work and stop-condition lines; never its rules, permissions, owner gates or security text. " +
+        "Work one project at a time, yourself. Commit only your paths and git push after each project. Report only what happened: name a commit hash only after git log -1 shows it. The runner checks every claim against git.`n"
+    $pulls = ($items | ForEach-Object { "if [ -d $_/.git ]; then git -C $_ pull --rebase -q || echo 'PREP PULL FAILED: $_ (FirstSpark clone)'; else git clone -q $(git -C (Join-Path $dir $_) remote get-url origin) $_ || echo 'PREP CLONE FAILED: $_'; fi" }) -join '; '
+    $remote = "cd $spark && $pulls; timeout $([int]$budget + 120) ~/.local/bin/hermes -p agents-board-prep chat -m $model --query-file - -Q --yolo --in $spark --max-turns 400 --run-budget $budget"
+    $sparkText | & "$env:WINDIR\System32\OpenSSH\ssh.exe" -o BatchMode=yes FirstSpark $remote *>> $log
+    $code = $LASTEXITCODE
+    foreach ($p in $items) { git -C (Join-Path $dir $p) pull --rebase -q *>> $log }   # bring FirstSpark's prep commits to the desktop
+    $global:LASTEXITCODE = $code
+} elseif ($spec -like 'hermes:*') {
     $text | & python $helper --base-url http://127.0.0.1:11435/v1 --model qwen3.8-27b-desktop --workdir $dir --budget $budget *>> $log
 } elseif ($spec -like 'codex*') {
     $a = @('exec', '--dangerously-bypass-approvals-and-sandbox')
