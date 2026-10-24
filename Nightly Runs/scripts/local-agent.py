@@ -161,7 +161,9 @@ def main():
                    GIT_CONFIG_KEY_0="credential.helper", GIT_CONFIG_VALUE_0="",
                    GIT_CONFIG_KEY_1="credential.helper", GIT_CONFIG_VALUE_1="manager")
     prompt = Path(a.prompt_file).read_text(encoding="utf-8-sig") if a.prompt_file else sys.stdin.buffer.read().decode("utf-8-sig")
-    prompt += f"\nInstalled skills can be read from {hermes_root / 'skills'}; read the appropriate SKILL.md when the task names a skill. Never call a subscription model or change the pinned local route.\n"
+    # sync_agent_rules.py and install-skill.ps1 put the shared skills (advance-slice, make-overnight-ready, live-build-tree...) here.
+    skills = home / "skills" / "shared"
+    prompt += f"\nThe shared skills are in {skills} (one folder per skill, e.g. {skills / 'advance-slice' / 'SKILL.md'}); read the SKILL.md the task names before doing it. Never call a subscription model or change the pinned local route.\n"
     if not a.qa_result:
         prompt += ("\nPREP RULES: You may edit a project's CLAUDE.md or AGENTS.md, but only the target, scope, "
                    "order-of-work and stop-condition lines the advance-slice or make-overnight-ready skill names; never "
