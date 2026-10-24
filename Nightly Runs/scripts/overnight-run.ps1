@@ -256,7 +256,9 @@ if ($prepWork -and -not $Preflight -and -not $DryRun -and -not $NoPrep) {
     Receive-Job $prepJob -ErrorAction Continue
     Remove-Job $prepJob -Force
     Write-Output "prep: $(if ($prepFailed) { 'FAILED' } else { 'finished' }) for $($prepWork.Count) item(s), desktop Qwen, log: $prepLog"
-    if ($prepFailed) { Save-PrepReceipt 'failed' $prepWork @() "Desktop Qwen prep did not finish; inspect $prepLog"; exit 1 }
+    if ($prepFailed) { Save-PrepReceipt 'failed' $prepWork @() "Desktop Qwen prep did not finish; inspect $prepLog" }
+    # A failed prep never cancels the night: lanes still run on each project's current target (2026-10-23 ran nothing).
+    if ($prepFailed -and $PrepOnly) { exit 1 }
     $queue = Set-BuilderModels (Read-Queue)   # the prep agent may have moved projects into lanes
     $upkeep = @(Get-Upkeep $queue)   # so Preflight.md shows what is still left after prep
 }
@@ -407,7 +409,7 @@ if ($recordPrep) {
     }
     $blocked = @($queue | ForEach-Object { $n = $_.Name; foreach ($why in @($checks[$n].Blockers)) { if ($why) { @{ project = $n; reason = $why } } } })
     $prepReceipt.warnings = @($queue | ForEach-Object { $n = $_.Name; foreach ($why in @($checks[$n].Warnings)) { if ($why) { "$n`: $why" } } })
-    Save-PrepReceipt $(if ($remaining.Count -or $blocked.Count) { 'attention' } else { 'ready' }) $remaining $blocked $(if ($remaining.Count -or $blocked.Count) { 'Preparation finished with items still requiring attention' } else { 'Current queue checked and prepared for the scheduled run' })
+    Save-PrepReceipt $(if ($prepFailed -or $remaining.Count -or $blocked.Count) { 'attention' } else { 'ready' }) $remaining $blocked $(if ($prepFailed) { "Desktop Qwen prep did not finish (see $prepLog); lanes run on current targets" } elseif ($remaining.Count -or $blocked.Count) { 'Preparation finished with items still requiring attention' } else { 'Current queue checked and prepared for the scheduled run' })
 }
 if ($Preflight -or $PrepOnly) { Write-Output ($pf -join "`n"); exit @($checks.Values | Where-Object { $_.Blockers }).Count }
 
