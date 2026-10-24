@@ -20,12 +20,19 @@
 # network (or FirstSpark) to come back, then starts again. A tool at its usage limit waits for the reset time it prints;
 # meanwhile a Claude project's sessions run on Codex, or on Hermes if Codex is parked too (noted in the report row).
 # A project that finishes tonight's target mid-run is advanced to its next slices (advance-slice) and keeps going.
-param([ValidateSet('nightly', 'morning')][string]$Kind, [switch]$Preflight, [switch]$DryRun, [int]$PerHarness = 0, [double]$HoursPerProject = 3, [string]$Until = '06:30', [switch]$NoPrep, [int]$PrepMinutes = 90, [switch]$PrepOnly, [switch]$Resume, [int]$QaMinutes = 30,
+param([ValidateSet('nightly', 'morning')][string]$Kind, [switch]$Preflight, [switch]$DryRun, [int]$PerHarness = 0, [double]$HoursPerProject = 3, [string]$Until = '06:30', [switch]$NoPrep, [int]$PrepMinutes = 90, [switch]$PrepOnly, [switch]$Resume, [switch]$Scheduled, [int]$QaMinutes = 30,
       [switch]$QaOnly, [ValidatePattern('^[A-Za-z0-9._-]+$')][string]$Project, [string]$QaFrom)
 if ($QaOnly -and (-not $Project -or -not $QaFrom -or $Resume -or $PrepOnly -or $DryRun)) { throw '-QaOnly requires -Project and -QaFrom, without Resume, PrepOnly or DryRun' }
 if ($QaOnly) { $NoPrep = $true }
 $ErrorActionPreference = 'Continue'
 $hoursGiven = $PSBoundParameters.ContainsKey('HoursPerProject')   # explicit hours win over a nightly run's -Until
+# Paused on the board (Nightly Runs/pause.json): the scheduled tasks (-Scheduled) skip until then. Prep now and
+# Start a run now still work, and so does -Resume of a run that was cut off.
+if ($Scheduled) {
+    $pauseFile = Join-Path $(if ($env:OVERNIGHT_VAULT) { $env:OVERNIGHT_VAULT } else { 'F:\Vaults\LLMWiki' }) 'Nightly Runs\pause.json'
+    try { $pausedUntil = [datetime]((Get-Content $pauseFile -Raw -ErrorAction Stop | ConvertFrom-Json).until) } catch { $pausedUntil = $null }
+    if ($pausedUntil -and $pausedUntil -gt (Get-Date)) { Write-Output "Scheduled $(if ($PrepOnly) { 'prep' } else { 'run' }) skipped: paused until $($pausedUntil.ToString('yyyy-MM-dd HH:mm'))"; exit 0 }
+}
 # One run at a time, however it was started (board button, scheduled "Agents Run HHMM" task, by hand): a second one exits.
 # A real run that finds only a -PrepOnly going waits for it (prep is short), so a late prep never costs the night.
 function Get-OtherRuns { @(Get-CimInstance Win32_Process -Filter "Name='powershell.exe' OR Name='pwsh.exe'" | Where-Object { $_.ProcessId -ne $PID -and $_.CommandLine -like '*-File*overnight-run.ps1*' -and $_.CommandLine -notlike '*-Preflight*' }) }
@@ -153,7 +160,7 @@ if ($QaOnly) {
 # The top 10 of "## Priority order" (skipping Active and Archived) and every project the owner put in a Tonight lane must
 # each be overnight-ready and have a live build tree. Only the owner moves projects between lanes and sections: prep never
 # queues or dequeues anything. A tonight project whose verify already passes must advance a slice first, or its run would
-# stop at once. Preflight lists this work; a real run hands it to desktop Qwen (agent-rules/prep-prompt.md)
+# stop at once. Preflight lists this work; a real run hands it to the prep model, prep.json (agent-rules/prep-prompt.md)
 # before the lanes start, then re-reads the lanes.
 # The standard overnight repo structure (the make-overnight-ready skill's checklist). A project that already has verify.ps1
 # but lacks any of this gets a "structure" item, so the prep agent fills in only what is missing.
@@ -212,6 +219,29 @@ function Get-Upkeep($queue, [switch]$CheckVerify) {
     }
     return $items
 }
+# Who preps (Nightly Runs/prep.json, picked on the board): Desktop Qwen through local-agent.py, or Claude / Codex.
+$prepModel = 'hermes:qwen3.8-27b-desktop'
+try { $m = (Get-Content (Join-Path $vault 'Nightly Runs\prep.json') -Raw -ErrorAction Stop | ConvertFrom-Json).model } catch { $m = $null }
+if ($m -match '^(hermes:qwen3\.8-27b-desktop|claude:[a-z0-9][\w.-]{0,40}|codex(:[a-z0-9][\w.-]{0,60})?)$') { $prepModel = $m }
+# Runs inside the prep and slice-advance jobs (jobs see no functions), from the Projects root so no project's deny rules apply.
+$prepAgent = @'
+param($spec, $dir, $text, $log, $helper, $budget)
+$OutputEncoding = New-Object System.Text.UTF8Encoding $false
+Set-Location $dir
+$model = ($spec -split ':', 2)[1]
+if ($spec -like 'hermes:*') {
+    $text | & python $helper --base-url http://127.0.0.1:11435/v1 --model qwen3.8-27b-desktop --workdir $dir --budget $budget *>> $log
+} elseif ($spec -like 'codex*') {
+    $a = @('exec', '--dangerously-bypass-approvals-and-sandbox')
+    if ($model -and (Test-Path (Join-Path $HOME ".codex\$model.config.toml"))) { $a += @('-p', $model) } elseif ($model) { $a += @('-m', $model) }
+    $text | & codex @a - *>> $log
+} else {
+    $effort = 'high'
+    if ($model -match '^(.+)-(low|medium|high|xhigh|max)$') { $model = $Matches[1]; $effort = $Matches[2] }
+    $text | & claude -p -n 'Prep' --model $model --effort $effort --permission-mode bypassPermissions *>> $log
+}
+if ($LASTEXITCODE) { throw "Prep agent $spec failed (exit $LASTEXITCODE); see $log" }
+'@
 $prepStatusFile = Join-Path $vault 'Nightly Runs\prep-status.json'
 $recordPrep = -not $Preflight -and -not $DryRun -and -not $QaOnly -and -not $NoPrep
 $prepReceipt = $null
@@ -234,19 +264,16 @@ $upkeep = @(Get-Upkeep $queue -CheckVerify:(-not $Preflight -and -not $QaOnly))
 $prepWork = @($upkeep | Where-Object { $_.Action -ne 'owner' })
 $prepHeads = @{}
 foreach ($item in $prepWork) { $prepHeads[$item.Project] = "$(git -C (Join-Path $projects $item.Project) rev-parse HEAD 2>$null)" }
-if ($recordPrep) { $prepReceipt.projects = @(@($queue | ForEach-Object Name) + @($upkeep | ForEach-Object Project) | Select-Object -Unique); Save-PrepReceipt 'running' $upkeep @() 'Desktop Qwen is preparing the current queue' }
+if ($recordPrep) { $prepReceipt.projects = @(@($queue | ForEach-Object Name) + @($upkeep | ForEach-Object Project) | Select-Object -Unique); Save-PrepReceipt 'running' $upkeep @() "Preparing the current queue with $prepModel" }
 if ($prepWork -and -not $Preflight -and -not $DryRun -and -not $NoPrep) {
     $prepLog = Join-Path $logDir '_prep.log'
     $prepPrompt = (Get-Content (Join-Path $vault 'Nightly Runs\agent-rules\prep-prompt.md') -Raw -Encoding UTF8) + "`n" +
         (($prepWork | ForEach-Object { "- $($_.Project): $($_.Action) ($($_.Why))" }) -join "`n") + "`n"
     $prepJob = Start-Job -ScriptBlock {
-        param($dir, $text, $log, $helper, $budget)
-        $OutputEncoding = New-Object System.Text.UTF8Encoding $false
-        Set-Location $dir   # the Projects root, so no project's .claude deny rules apply to the prep agent
+        param($agent, $spec, $dir, $text, $log, $helper, $budget)
         Set-Content "$log.pid" $PID
-        $text | & python $helper --base-url http://127.0.0.1:11435/v1 --model qwen3.8-27b-desktop --workdir $dir --budget $budget *> $log
-        if ($LASTEXITCODE) { throw "Local prep failed (exit $LASTEXITCODE); see $log" }
-    } -ArgumentList $projects, $prepPrompt, $prepLog, (Join-Path $PSScriptRoot 'local-agent.py'), ($PrepMinutes * 60)
+        & ([scriptblock]::Create($agent)) $spec $dir $text $log $helper $budget
+    } -ArgumentList $prepAgent, $prepModel, $projects, $prepPrompt, $prepLog, (Join-Path $PSScriptRoot 'local-agent.py'), ($PrepMinutes * 60)
     $prepFailed = $false
     if (-not (Wait-Job $prepJob -Timeout ($PrepMinutes * 60 + 90))) {
         $jobPid = Get-Content "$prepLog.pid" -ErrorAction SilentlyContinue | Select-Object -First 1
@@ -269,8 +296,8 @@ if ($prepWork -and -not $Preflight -and -not $DryRun -and -not $NoPrep) {
     Add-Content -Path (Join-Path $vault 'Nightly Runs\Prep Report.md') -Encoding UTF8 -Value (@('', "## Checked by the runner ($(Get-Date -Format 'yyyy-MM-dd HH:mm'))", '',
         'What git shows in each project after prep, whatever the report above says.', '') + @($facts))
     $facts | ForEach-Object { Write-Output "prep check: $_" }
-    Write-Output "prep: $(if ($prepFailed) { 'FAILED' } else { 'finished' }) for $($prepWork.Count) item(s), desktop Qwen, log: $prepLog"
-    if ($prepFailed) { Save-PrepReceipt 'failed' $prepWork @() "Desktop Qwen prep did not finish; inspect $prepLog" }
+    Write-Output "prep: $(if ($prepFailed) { 'FAILED' } else { 'finished' }) for $($prepWork.Count) item(s), $prepModel, log: $prepLog"
+    if ($prepFailed) { Save-PrepReceipt 'failed' $prepWork @() "Prep ($prepModel) did not finish; inspect $prepLog" }
     # A failed prep never cancels the night: lanes still run on each project's current target (2026-10-23 ran nothing).
     if ($prepFailed -and $PrepOnly) { exit 1 }
     $queue = Set-BuilderModels (Read-Queue)   # the prep agent may have moved projects into lanes
@@ -423,7 +450,7 @@ if ($recordPrep) {
     }
     $blocked = @($queue | ForEach-Object { $n = $_.Name; foreach ($why in @($checks[$n].Blockers)) { if ($why) { @{ project = $n; reason = $why } } } })
     $prepReceipt.warnings = @($queue | ForEach-Object { $n = $_.Name; foreach ($why in @($checks[$n].Warnings)) { if ($why) { "$n`: $why" } } })
-    Save-PrepReceipt $(if ($prepFailed -or $remaining.Count -or $blocked.Count) { 'attention' } else { 'ready' }) $remaining $blocked $(if ($prepFailed) { "Desktop Qwen prep did not finish (see $prepLog); lanes run on current targets" } elseif ($remaining.Count -or $blocked.Count) { 'Preparation finished with items still requiring attention' } else { 'Current queue checked and prepared for the scheduled run' })
+    Save-PrepReceipt $(if ($prepFailed -or $remaining.Count -or $blocked.Count) { 'attention' } else { 'ready' }) $remaining $blocked $(if ($prepFailed) { "Prep ($prepModel) did not finish (see $prepLog); lanes run on current targets" } elseif ($remaining.Count -or $blocked.Count) { 'Preparation finished with items still requiring attention' } else { 'Current queue checked and prepared for the scheduled run' })
 }
 if ($Preflight -or $PrepOnly) { Write-Output ($pf -join "`n"); exit @($checks.Values | Where-Object { $_.Blockers }).Count }
 
@@ -563,12 +590,9 @@ function Get-LimitReset($text) {
 # Tonight's target finished mid-run: the prep agent advances the project to its next slices (advance-slice skill) from the
 # Projects root, where the projects' deny rules on verify.ps1 don't apply, then the project gets a new session.
 $advanceWorker = {
-    param($root, $text, $log, $helper)
-    $OutputEncoding = New-Object System.Text.UTF8Encoding $false
+    param($agent, $spec, $root, $text, $log, $helper)
     Set-Content -Path "$log.pid" -Value $PID
-    Set-Location $root
-    $text | & python $helper --base-url http://127.0.0.1:11435/v1 --model qwen3.8-27b-desktop --workdir $root --budget 1800 *>> $log
-    if ($LASTEXITCODE) { throw "Local slice advance failed (exit $LASTEXITCODE); see $log" }
+    & ([scriptblock]::Create($agent)) $spec $root $text $log $helper 1800
 }
 function Start-Advance($q) {
     $name = $q.Name; $dir = Join-Path $projects $name
@@ -579,7 +603,7 @@ function Start-Advance($q) {
     $text = (Get-Content (Join-Path $vault 'Nightly Runs\agent-rules\prep-prompt.md') -Raw -Encoding UTF8) +
         "`n- ${name}: advance (tonight's target passed during the run and the lanes are already going: do only this item, quickly)`n"
     $log = Join-Path $logDir "$name.advance.txt"; Remove-Item "$log.pid" -ErrorAction SilentlyContinue
-    $job = Start-Job -ScriptBlock $advanceWorker -ArgumentList $projects, $text, $log, (Join-Path $PSScriptRoot 'local-agent.py')
+    $job = Start-Job -ScriptBlock $advanceWorker -ArgumentList $prepAgent, $prepModel, $projects, $text, $log, (Join-Path $PSScriptRoot 'local-agent.py')
     $running[$job.Id] = @{ Job = $job; Q = $q; Start = $now; Head = (git -C $dir rev-parse HEAD 2>$null); Advance = $true; PidFile = "$log.pid" }
 }
 
