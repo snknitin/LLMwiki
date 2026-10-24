@@ -5,6 +5,7 @@ Usage:  python sync_agent_rules.py          (desktop)
 Rules go between markers, so the rest of each file is left alone and re-runs are safe.
 Skills in agent-rules/skills/<name>/ are copied whole into each harness's skills folder.
 """
+import os
 import pathlib
 import shutil
 import sys
@@ -13,16 +14,19 @@ START, END = "<!-- shared-agent-rules:start -->", "<!-- shared-agent-rules:end -
 SHARED = pathlib.Path(__file__).resolve().parent.parent / "agent-rules"
 RULES = SHARED / "AGENTS.md"
 HOME = pathlib.Path.home()
+# Hermes lives in ~/.hermes on Linux but in %LOCALAPPDATA%\hermes on Windows (the desktop never got skills before 2026-10-24).
+_LOCAL = pathlib.Path(os.environ.get("LOCALAPPDATA", "")) / "hermes"
+HERMES = _LOCAL if os.name == "nt" and _LOCAL.exists() else HOME / ".hermes"
 TARGETS = [  # (file, only if this path exists)
     (HOME / ".claude" / "CLAUDE.md", HOME / ".claude"),
     (HOME / ".codex" / "AGENTS.md", HOME / ".codex"),
-    (HOME / ".hermes" / "SOUL.md", HOME / ".hermes" / "SOUL.md"),
-] + [(soul, soul) for soul in sorted((HOME / ".hermes" / "profiles").glob("*/SOUL.md"))]
+    (HERMES / "SOUL.md", HERMES / "SOUL.md"),
+] + [(soul, soul) for soul in sorted((HERMES / "profiles").glob("*/SOUL.md"))]
 SKILL_DIRS = [  # (destination, only if this path exists)
     (HOME / ".claude" / "skills", HOME / ".claude"),
     (HOME / ".codex" / "skills", HOME / ".codex"),
-    (HOME / ".hermes" / "skills" / "shared", HOME / ".hermes" / "skills"),
-] + [(d / "shared", d) for d in sorted((HOME / ".hermes" / "profiles").glob("*/skills"))]  # each profile has its own
+    (HERMES / "skills" / "shared", HERMES / "skills"),
+] + [(d / "shared", d) for d in sorted((HERMES / "profiles").glob("*/skills"))]  # each profile has its own
 
 
 def upsert(text: str, rules: str) -> str:
