@@ -49,6 +49,11 @@ if (-not $Preflight -and -not $PrepOnly -and $others -and -not @($others | Where
     while ((Get-OtherRuns) -and (Get-Date) -lt $waitUntil) { Start-Sleep -Seconds 30 }
     $others = Get-OtherRuns
 }
+# A fix session ignores -Resume checks that have no cut-off run to continue: they only wait (for preps and fixes too),
+# so counting them would deadlock the two.
+if ($FixOnly -and -not (Test-Path (Join-Path $(if ($env:OVERNIGHT_VAULT) { $env:OVERNIGHT_VAULT } else { 'F:\Vaults\LLMWiki' }) 'Nightly Runs\.run-state.json'))) {
+    $others = @($others | Where-Object { $_.CommandLine -notlike '*-Resume*' })
+}
 if (-not $Preflight -and $others) { Write-Output "Another run is going (pid $($others.ProcessId -join ', ')); not starting a second one."; exit 0 }
 $vault         = $(if ($env:OVERNIGHT_VAULT) { $env:OVERNIGHT_VAULT } else { 'F:\Vaults\LLMWiki' })   # the env overrides are for test-qa.ps1's fixture
 $projects      = $(if ($env:OVERNIGHT_PROJECTS) { $env:OVERNIGHT_PROJECTS } else { 'E:\GIT_ROOT\Projects' })
