@@ -68,6 +68,7 @@ $ownerQueue    = "OWNER QUEUE: before tonight's target, do every open '- [ ]' it
     "The owner asked for each on the Agents board, with their answer in the item. Build or fix it, run verify, tick the item with the commit hash, " +
     "and resolve the matching entry in any 'Open decisions' or open-question list (mark it resolved with the date and commit) so the board stops asking.`n"
 $prompt       += "`n$ownerQueue"
+$hermesPythonNote = "HERMES PYTHONPATH (FirstSpark, since the 2026-10-24 Hermes update): Hermes' terminal sets PYTHONPATH to its own Python 3.14 packages, which breaks project Pythons (uv, pytest, verify fail with errors like 'No module named pydantic_core._pydantic_core'). Start every shell command that runs python, uv, pytest or a verify script with env -u PYTHONPATH, for example: env -u PYTHONPATH bash scripts/verify.sh`n"
 # Written when the lanes start, deleted when the run finishes: if it is still here and no run is going, the run was cut off.
 $stateFile     = Join-Path $vault 'Nightly Runs\.run-state.json'
 $resumeEnd     = $null
@@ -247,6 +248,7 @@ if ($spec -in 'hermes:glm53-flash', 'hermes:qwen3.6-35b-a3b') {
     $spark = '/home/snknitin/Workspace/GIT_ROOT/Projects'
     $sparkText = [regex]::Replace($text, '(?i)(F:\\Vaults\\LLMWiki|E:\\GIT_ROOT\\Projects)((?:\\[^\\\s`"'',;:)]+(?: [A-Z][^\\\s`"'',;:)]*)?)*)', {
         param($m) $(if ($m.Groups[1].Value -like 'F:*') { '/home/snknitin/vaults/LLMWiki' } else { $spark }) + ($m.Groups[2].Value -replace '\\', '/') })
+    $sparkText += "`nHermes' terminal sets PYTHONPATH to its own Python 3.14 packages; start every command that runs python, uv, pytest or a verify script with env -u PYTHONPATH."
     $sparkText += "`nYOU ARE ON FIRSTSPARK (Linux), in $spark. Each project's gate is ``bash scripts/verify.sh`` (keep verify.ps1 in step with it; you cannot run it here). " +
         "The vault is /home/snknitin/vaults/LLMWiki (it syncs to the desktop). The shared skills are in ~/.hermes/profiles/agents-board-prep/skills/shared/<skill>/SKILL.md; read the one the task names. " +
         "You may edit a project's CLAUDE.md or AGENTS.md, but only the target, scope, order-of-work and stop-condition lines; never its rules, permissions, owner gates or security text. " +
@@ -567,7 +569,7 @@ function Compare-Integrity($before, $after) {
 
 # One agent run, inside a background job. Output goes to $log.
 $worker = {
-    param($dir, $harness, $model, $prompt, $log, $budget, $ssh, $sparkDir, $sessionName, $isQa, $reviewHead)
+    param($dir, $harness, $model, $prompt, $log, $budget, $ssh, $sparkDir, $sessionName, $isQa, $reviewHead, $hermesPythonNote)
     Set-Content -Path "$log.pid" -Value $PID   # so the runner can end this job's whole process tree at the end time
     $OutputEncoding = New-Object System.Text.UTF8Encoding $false
     Set-Location $dir
@@ -580,6 +582,7 @@ $worker = {
             $prompt | & codex @a - *>> $log
         }
         'hermes' {
+            $prompt += "`n$hermesPythonNote"
             if (-not $model) { $model = 'glm53-flash' }   # best local coding model (SecondSpark + ThirdSpark)
             $m = "--provider custom:local-models --base-url http://127.0.0.1:4000/v1 -m $model"
             # .git/overnight-hermes.pid: a session cut off from this side (dropped SSH) can still be running on FirstSpark;
@@ -750,7 +753,7 @@ while ($pending.Count -or $running.Count) {
         Remove-Item "$log.pid" -ErrorAction SilentlyContinue   # the job writes a fresh one
         $dot = [char]0x00B7   # this file must stay ASCII for PowerShell 5.1
         $sessionName = "$($q.Name) $dot $(if ($Kind -eq 'morning') { 'morning' } else { 'night' }) of $($started.ToString('MMM d', [Globalization.CultureInfo]::InvariantCulture)) $dot session $($sessions[$q.Name])"
-        $job = Start-Job -ScriptBlock $worker -ArgumentList $dir, $run.Harness, $run.Model, $prompt, $log, $left, $ssh, "$sparkProjects/$($q.Name)", $sessionName, $false
+        $job = Start-Job -ScriptBlock $worker -ArgumentList $dir, $run.Harness, $run.Model, $prompt, $log, $left, $ssh, "$sparkProjects/$($q.Name)", $sessionName, $false, $null, $hermesPythonNote
         $running[$job.Id] = @{ Job = $job; Q = $run; Start = Get-Date; Head = (git -C $dir rev-parse HEAD 2>$null); PidFile = "$log.pid" }
     }
     if (-not $running.Count) { if ($pending.Count) { Start-Sleep -Seconds 30; continue }; break }   # only projects waiting for the network or a usage-limit reset
@@ -872,7 +875,7 @@ while ($qaQueue.Count -or $qaRunning.Count) {
         $platform = $(if ($fam -eq 'hermes') { 'You are on Linux: use scripts/verify.sh and scripts/preview.sh when present. If absent, reproduce verify.ps1 steps with the available Linux commands; do not invoke a Windows path or claim unavailable checks passed.' } else { '' })
         $text = $qaPromptText + "`n---`nThis QA session: project folder $name, date for the REPORT.md section $($started.ToString('yyyy-MM-dd')), the builder's commits tonight are $($heads[$name])..$head (git log -p that range), put screenshots in $shots (outside the repo, never commit them). $platform`n"
         $sessionName = "$name $([char]0x00B7) QA of $($started.ToString('MMM d', [Globalization.CultureInfo]::InvariantCulture))"
-        $job = Start-Job -ScriptBlock $worker -ArgumentList $dir, $fam, $item.Plan.Model, $text, $log, ($QaMinutes * 60), $ssh, "$sparkProjects/$name", $sessionName, $true, $head
+        $job = Start-Job -ScriptBlock $worker -ArgumentList $dir, $fam, $item.Plan.Model, $text, $log, ($QaMinutes * 60), $ssh, "$sparkProjects/$name", $sessionName, $true, $head, $hermesPythonNote
         $qaRunning[$job.Id] = @{ Job = $job; Q = $item.Q; Plan = $item.Plan; Start = Get-Date; Head = $head; Dirty = @(git -C $dir status --porcelain 2>$null); Log = $log }
         Set-Qa $name 'running'
     }
