@@ -52,6 +52,7 @@ Each overnight project serves its UI (or a read-only status page) on its own por
 | 8781 | personal-study-curriculum |
 | 8782 | creator-content-engine |
 | 8784 | event-market-research-terminal |
+| 8785 | competitive-intelligence-agency |
 
 ## Models and agent infrastructure
 
@@ -81,7 +82,7 @@ Each overnight project serves its UI (or a read-only status page) on its own por
 
 Use these in order and move each one into a table above once it's taken.
 
-- **Dashboards / web apps:** 8768 (taken on the desktop by the Agents board), 8785–8786, 8790–8792, 8794–8799 (8793 is resume-blueprint-studio's screenshot-capture port)
+- **Dashboards / web apps:** 8768 (taken on the desktop by the Agents board), 8786, 8790–8792, 8794–8799 (8793 is resume-blueprint-studio's screenshot-capture port)
 - **Agent tools and APIs:** 9121–9199
 - **Model servers:** 8001–8009 (8000 is spark-fast)
 - Avoid 8080 (common default, used inside containers), 8888, 3000, 5000, 11434 (Ollama default).
