@@ -3,7 +3,7 @@
 # Usage: powershell -NoProfile -ExecutionPolicy Bypass -File test-fallback.ps1
 $ErrorActionPreference = 'Stop'
 $ast = [System.Management.Automation.Language.Parser]::ParseFile((Join-Path $PSScriptRoot 'overnight-run.ps1'), [ref]$null, [ref]$null)
-$ast.FindAll({ param($n) $n -is [System.Management.Automation.Language.FunctionDefinitionAst] -and $n.Name -in 'Test-Parked', 'Get-SessionHarness', 'Save-RunState', 'Test-Leftover', 'Get-Backfill' }, $true) |
+$ast.FindAll({ param($n) $n -is [System.Management.Automation.Language.FunctionDefinitionAst] -and $n.Name -in 'Test-Parked', 'Get-SessionHarness', 'Save-RunState', 'Test-Leftover', 'Get-Backfill', 'Get-AdvanceSpec', 'Test-CachedPass' }, $true) |
     ForEach-Object { . ([scriptblock]::Create($_.Extent.Text)) }
 $failed = 0
 function Check($what, $got, $want) { if ("$got" -ne "$want") { Write-Output "FAIL $what`: got '$got', want '$want'"; $script:failed++ } else { Write-Output "ok   $what" } }
@@ -54,5 +54,35 @@ Check 'backfill: then Ready next' (Get-Backfill 'codex').Name 'good2'
 $rows['good2'] = @{}
 Check 'backfill: none left' (Get-Backfill 'codex') ''
 Remove-Item $root -Recurse -Force
+
+# Planning runs on the lane's own model (2026-10-25: GLM Flash planned every lane), falling back like a session does.
+$prepModel = 'hermes:glm53-flash'; $noSpark = @{}
+$limitUntil = @{}
+Check 'advance spec: claude lane model' (Get-AdvanceSpec ([pscustomobject]@{ Name = 'a'; Harness = 'claude'; Model = 'opus-xhigh' })) 'claude:opus-xhigh'
+Check 'advance spec: claude default' (Get-AdvanceSpec ([pscustomobject]@{ Name = 'a'; Harness = 'claude'; Model = $null })) 'claude:opus'
+Check 'advance spec: codex profile' (Get-AdvanceSpec ([pscustomobject]@{ Name = 'c'; Harness = 'codex'; Model = 'sol-6-high' })) 'codex:sol-6-high'
+Check 'advance spec: hermes lane' (Get-AdvanceSpec ([pscustomobject]@{ Name = 'h'; Harness = 'hermes'; Model = $null })) 'hermes:glm53-flash'
+$limitUntil = @{ claude = $later }
+Check 'advance spec: claude parked plans on codex' (Get-AdvanceSpec ([pscustomobject]@{ Name = 'a'; Harness = 'claude'; Model = 'opus' })) 'codex'
+$limitUntil = @{ claude = $later; codex = $later }
+Check 'advance spec: claude and codex parked plan on hermes' (Get-AdvanceSpec ([pscustomobject]@{ Name = 'a'; Harness = 'claude'; Model = 'opus' })) 'hermes:glm53-flash'
+Check 'advance spec: codex parked uses the prep model' (Get-AdvanceSpec ([pscustomobject]@{ Name = 'c'; Harness = 'codex'; Model = 'sol-6-high' })) 'hermes:glm53-flash'
+$limitUntil = @{}
+
+# A target that passed at this exact commit (clean tree) starts with its advance; anything else builds first.
+$repo = Join-Path ([IO.Path]::GetTempPath()) "cache-test-$PID"; git init -q $repo
+Set-Content (Join-Path $repo 'a.txt') 'x'; git -C $repo add -A; git -C $repo -c user.email=t@t -c user.name=t commit -qm init
+$head = "$(git -C $repo rev-parse HEAD)"
+$verifyCache = @{ p = [pscustomobject]@{ head = $head; verify = 'PASS'; at = 'x' } }
+Check 'cache: pass at this commit' (Test-CachedPass 'p' $repo) 'True'
+Check 'cache: no entry' (Test-CachedPass 'other' $repo) 'False'
+$verifyCache = @{ p = [pscustomobject]@{ head = $head; verify = 'SUSPECT (PASS)'; at = 'x' } }
+Check 'cache: suspect is not a pass' (Test-CachedPass 'p' $repo) 'False'
+$verifyCache = @{ p = [pscustomobject]@{ head = 'abc'; verify = 'PASS'; at = 'x' } }
+Check 'cache: another commit' (Test-CachedPass 'p' $repo) 'False'
+$verifyCache = @{ p = [pscustomobject]@{ head = $head; verify = 'PASS'; at = 'x' } }
+Set-Content (Join-Path $repo 'b.txt') 'y'
+Check 'cache: uncommitted changes' (Test-CachedPass 'p' $repo) 'False'
+Remove-Item $repo -Recurse -Force
 
 if ($failed) { exit 1 }

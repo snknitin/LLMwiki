@@ -1,13 +1,14 @@
-# A failed prep must not cancel the night (2026-10-23 ran nothing after prep timed out). Fake `python` (the prep agent)
-# exits 1, fake `claude` builds; the lanes must still run and the receipt must say attention, not ready.
+# A failed prep step must not stop a lane (2026-10-23 ran nothing after prep timed out). A run no longer preps serially
+# before the lanes: a tonight project's prep item is its lane's first step, on the lane's model. Fake `claude` fails when
+# called as the planner (-n Prep) and builds when called as the builder; the lane must still build, at once.
 # Usage: powershell -NoProfile -ExecutionPolicy Bypass -File test-prep-failure.ps1   (needs no other overnight run going)
 $ErrorActionPreference = 'Stop'
 $tmp = Join-Path ([IO.Path]::GetTempPath()) "test-prep-failure-$PID"
 $vault = Join-Path $tmp 'vault'; $projects = Join-Path $tmp 'projects'; $shims = Join-Path $tmp 'shims'
 New-Item -ItemType Directory -Force (Join-Path $vault 'Nightly Runs\agent-rules'), (Join-Path $vault 'Morning Runs'), $projects, $shims | Out-Null
 try {
-    Set-Content (Join-Path $shims 'python.cmd') '@echo prep agent fake failure & exit /b 1' -Encoding Ascii
-    Set-Content (Join-Path $shims 'claude.cmd') '@powershell -NoProfile -Command "Set-Content built.txt x; git add built.txt; git commit -qm build; git push -q; ''built''"' -Encoding Ascii
+    Set-Content (Join-Path $shims 'claude.cmd') ('@echo %* | findstr /C:"-n Prep" >nul && (echo prep agent fake failure & exit /b 1)' + "`r`n" +
+        '@powershell -NoProfile -Command "Set-Content built.txt x; git add built.txt; git commit -qm build; git push -q; ''built''"') -Encoding Ascii
     Set-Content (Join-Path $vault 'Nightly Runs\agent-rules\overnight-prompt.md') 'fixture builder prompt'
     Set-Content (Join-Path $vault 'Nightly Runs\agent-rules\prep-prompt.md') 'fixture prep prompt'
     Set-Content (Join-Path $vault 'Nightly Runs\roles.json') '{"claude":{"builder":"claude:opus","qa":"off","fallbackQa":"off"}}'
@@ -21,13 +22,11 @@ try {
     $ErrorActionPreference = 'Continue'
     $out = & powershell -NoProfile -ExecutionPolicy Bypass -File (Join-Path $PSScriptRoot 'overnight-run.ps1') -Kind morning -PrepMinutes 1 -HoursPerProject 1 2>&1 | Out-String
     $ErrorActionPreference = 'Stop'
-    $receipt = Get-Content (Join-Path $vault 'Nightly Runs\prep-status.json') -Raw | ConvertFrom-Json
+    $report = Get-Content (Join-Path $vault 'Morning Runs\Morning Report.md') -Raw -ErrorAction SilentlyContinue
     $fails = @()
-    if ($out -notmatch 'prep: FAILED') { $fails += 'prep did not fail as staged' }
-    if (-not (Test-Path (Join-Path $d 'built.txt'))) { $fails += 'the lane did not run after the failed prep' }
-    if ($receipt.state -ne 'attention' -or $receipt.reason -notmatch 'did not finish') { $fails += "receipt is '$($receipt.state)': $($receipt.reason)" }
-    $prepReport = Get-Content (Join-Path $vault 'Nightly Runs\Prep Report.md') -Raw -ErrorAction SilentlyContinue
-    if ($prepReport -notmatch '## Checked by the runner' -or $prepReport -notmatch '- alpha \([^)]*\): no new commit') { $fails += "Prep Report has no git check for alpha: $prepReport" }
+    if ($out -match 'prep: (FAILED|finished)') { $fails += 'the run waited on a serial prep before its lanes' }
+    if ($report -notmatch 'build-tree[^|]*made no commit on claude:opus; building on the current target') { $fails += "the lane's first step was not the build-tree item on the lane's model: $report" }
+    if (-not (Test-Path (Join-Path $d 'built.txt'))) { $fails += 'the lane did not build after the failed prep step' }
     if ($fails) { Write-Output $out; throw ($fails -join '; ') }
-    Write-Output 'PREP FAILURE OK: the lane ran after a failed prep, receipt says attention, Prep Report says what git shows'
+    Write-Output 'PREP FAILURE OK: the prep step ran first on the lane model, failed, and the lane built anyway'
 } finally { Remove-Item -Recurse -Force $tmp -ErrorAction SilentlyContinue }

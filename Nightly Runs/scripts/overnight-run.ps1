@@ -178,7 +178,7 @@ if ($QaOnly) {
 function Get-MissingStructure($dir) {
     $m = @()
     # shortcut: a "Preview scripts deferred" heading in DECISIONS.md silences preview.* until the agent adds them (the shared rule tells it when); drop the heading to be nagged again
-    $deferred = [bool](Select-String -Path (Join-Path $dir 'DECISIONS.md') -Pattern '^#+ .*preview scripts deferred' -Quiet -ErrorAction SilentlyContinue)
+    $deferred = (Test-Path (Join-Path $dir 'DECISIONS.md')) -and [bool](Select-String -Path (Join-Path $dir 'DECISIONS.md') -Pattern '^#+ .*preview scripts deferred' -Quiet)
     foreach ($f in 'AGENTS.md', 'CLAUDE.md', 'scripts\verify.sh', 'scripts\stop-gate.ps1', 'scripts\preview.ps1', 'scripts\preview.sh', 'PROGRESS.md', 'FEEDBACK.md', 'DECISIONS.md') {
         if ($f -like 'scripts\preview.*' -and $deferred) { continue }
         if (-not (Test-Path (Join-Path $dir $f))) { $m += ($f -replace '\\', '/') }
@@ -196,7 +196,7 @@ function Get-MissingStructure($dir) {
     }
     return $m
 }
-function Get-Upkeep($queue, [switch]$CheckVerify) {
+function Get-Upkeep($queue) {
     $order = @(); $section = ''; $parked = @{}
     foreach ($line in Get-Content $prioFile -Encoding UTF8) {
         if ($line -match '^##\s+(.*)$') { $section = $Matches[1]; continue }
@@ -219,14 +219,6 @@ function Get-Upkeep($queue, [switch]$CheckVerify) {
             if (-not $headless -and -not (Select-String -Path "$dir\scripts\verify.ps1" -Pattern 'MVP FLOW OK' -SimpleMatch -Quiet)) { $todo += 'mvp'; $why += 'no MVP gate yet: re-plan so the next slice is a usable MVP' }
         }
         if ($todo) { $items += [pscustomobject]@{ Project = $name; Action = $todo -join ' + '; Why = $why -join '; ' } }
-    }
-    if ($CheckVerify) {
-        foreach ($q in $queue) {
-            $v = Join-Path $projects "$($q.Name)\scripts\verify.ps1"
-            if (-not (Test-Path $v)) { continue }
-            & powershell -NoProfile -ExecutionPolicy Bypass -File $v *> $null
-            if ($LASTEXITCODE -eq 0) { $items += [pscustomobject]@{ Project = $q.Name; Action = 'advance'; Why = 'verify already passes, so tonight needs its next slices' } }
-        }
     }
     return $items
 }
@@ -298,6 +290,79 @@ if ($FixOnly) {
     Write-Output "fix $Project with ${prepModel}: $(if ($new) { "$($new.Count) new commit(s): $($new -join '; ')" } else { 'no new commit' }); $(if ($ahead -and $ahead -ne '0') { "$ahead NOT pushed" } else { 'pushed' }); $open owner item(s) still open; log: $fixLog"
     exit $(if ($new) { 0 } else { 1 })
 }
+$upkeep = @(Get-Upkeep $queue)
+# ---- Handoff: leftover edits never block a run ----
+# Uncommitted work in a tonight project (desktop or FirstSpark clone) is committed on its own pushed wip/handoff-* branch,
+# the checkout goes back to clean, and PROGRESS.md gets a HANDOFF entry so tonight's agent reviews and continues it.
+# Left alone (and still blocking, with the reason): files edited in the last 10 minutes, a Hermes session still going,
+# and anything that looks like a secret.
+$handoff = @{}; $leftAlone = @{}; $recheck = @{}; $notBefore = @{}
+$waitPattern = 'last 10 minutes|still running'   # left-alone reasons that pass on their own
+$secretPattern = '(^|/)(\.env[^/]*|[^/]*\.(pem|key|pfx|p12)|id_rsa[^/]*|[^/]*credential[^/]*|[^/]*secret[^/]*)$'
+$handoffBranch = "wip/handoff-$($started.ToString('yyyyMMdd-HHmm'))"
+function Add-HandoffNote($dir, $where, $branch, $hash, $pushed) {
+    git -C $dir pull --rebase -q 2>$null
+    $at = (Get-Date).ToString('yyyy-MM-dd HH:mm')
+    $saved = $(if ($pushed) { "pushed branch ``$branch`` (commit $hash)" } else { "branch ``$branch`` (commit $hash), not pushed: it exists only on $where" })
+    Add-Content -Path (Join-Path $dir 'PROGRESS.md') -Encoding UTF8 -Value "`n## $at - HANDOFF - open: uncommitted changes on $where before this run were saved on $saved. Start here: review that diff, merge what belongs to the current work and finish it (or say in REPORT.md why not), then add a later entry ``HANDOFF - picked up``."
+    git -C $dir add -- PROGRESS.md; git -C $dir commit -q -m "Handoff note: uncommitted work saved on $branch" -- PROGRESS.md 2>$null; git -C $dir push -q 2>$null
+}
+function Save-DesktopHandoff($name, $dir) {
+    $lines = @(git -C $dir status --porcelain 2>$null)
+    if (-not $lines) { return }
+    $paths = @($lines | ForEach-Object { ($_.Substring(3) -replace '^.* -> ', '').Trim('"') })
+    if ($paths | Where-Object { $_ -match $secretPattern }) { $leftAlone[$name] = 'uncommitted changes on the desktop include a file that looks like a secret; commit or remove it yourself'; return }
+    # Screenshots a verify run just regenerated are not someone working: hand them off like any older edit.
+    if ($paths | Where-Object { $_ -notmatch '(^|/)screenshots/.*\.png$' } | Where-Object { $f = Join-Path $dir $_; (Test-Path $f) -and (Get-Item $f).LastWriteTime -gt (Get-Date).AddMinutes(-10) }) { $leftAlone[$name] = 'uncommitted changes on the desktop edited in the last 10 minutes (someone may be working); left alone'; return }
+    $base = git -C $dir branch --show-current
+    git -C $dir switch -q -c $handoffBranch 2>$null
+    if ($LASTEXITCODE -ne 0) { $leftAlone[$name] = "uncommitted changes on the desktop; could not create $handoffBranch"; return }
+    git -C $dir add -A; git -C $dir commit -q -m "WIP handoff: uncommitted changes left on the desktop before the $Kind run" 2>$null
+    $hash = git -C $dir rev-parse --short HEAD
+    git -C $dir push -q -u origin $handoffBranch 2>$null; $pushed = $LASTEXITCODE -eq 0
+    git -C $dir switch -q $base
+    Add-HandoffNote $dir 'the desktop' $handoffBranch $hash $pushed
+    $handoff[$name] += "desktop edits handed off on $handoffBranch ($hash). "
+}
+if (-not $Preflight -and -not $DryRun -and -not $QaOnly) {
+    # Desktop checkouts only before a real run (a daytime prep must not sweep up the owner's work in progress).
+    if (-not $PrepOnly) { foreach ($q in $queue) { $d = Join-Path $projects $q.Name; if (Test-Path "$d\.git") { Save-DesktopHandoff $q.Name $d } } }
+    # FirstSpark clones of every tonight project and prep item: a GLM prep, advance or fallback session pulls them, and a dirty
+    # clone made that pull fail (2026-10-25). Only a Hermes-lane project is held back by its clone's state.
+    $sparkNames = @(@($queue | ForEach-Object { $_.Name }) + @($upkeep | Where-Object { $_.Action -ne 'owner' } | ForEach-Object { $_.Project }) | Select-Object -Unique)
+    if ($sparkNames) {
+        $sb = "$handoffBranch-spark"
+        $script = @(foreach ($n in $sparkNames) {
+            "( cd $sparkProjects/$n 2>/dev/null || exit 0; [ -z `"`$(git status --porcelain)`" ] && exit 0"
+            "  p=.git/overnight-hermes.pid; if [ -f `$p ] && kill -0 `$(cat `$p) 2>/dev/null; then echo `"$n busy`"; exit 0; fi"
+            "  files=`$(git status --porcelain | cut -c4- | sed 's/.* -> //; s/^`"//; s/`"`$//')"
+            "  if echo `"`$files`" | grep -Eq '$secretPattern'; then echo `"$n secret`"; exit 0; fi"
+            "  for f in `$files; do [ -e `"`$f`" ] && [ -n `"`$(find `"`$f`" -maxdepth 0 -mmin -10)`" ] && { echo `"$n recent`"; exit 0; }; done"
+            "  base=`$(git branch --show-current); git switch -q -c $sb || { echo `"$n nobranch`"; exit 0; }"
+            "  git add -A && git commit -qm 'WIP handoff: uncommitted changes left on FirstSpark before the $Kind run'; h=`$(git rev-parse --short HEAD)"
+            "  if git push -q -u origin $sb 2>/dev/null; then ok=1; else ok=0; fi; git switch -q `$base; echo `"$n saved `$h `$ok`" )"
+        }) + '#'
+        foreach ($l in @(($script -join "`n") | & $ssh -o BatchMode=yes -o ConnectTimeout=10 FirstSpark 'bash -s' 2>$null)) {
+            $f = -split $l; $n = $f[0]; $d = Join-Path $projects $n
+            if ($f[1] -eq 'saved') { git -C $d fetch -q 2>$null; Add-HandoffNote $d 'FirstSpark' $sb $f[2] ($f[3] -eq '1'); $handoff[$n] += "FirstSpark edits handed off on $sb ($($f[2])). "; continue }
+            $why = switch ($f[1]) {
+                'busy' { 'a Hermes session is still running on FirstSpark; its uncommitted changes were left alone' }
+                'secret' { 'uncommitted changes on FirstSpark include a file that looks like a secret; commit or remove it yourself' }
+                'recent' { 'uncommitted changes on FirstSpark edited in the last 10 minutes; left alone' }
+                default { "uncommitted changes on FirstSpark; could not create $sb" }
+            }
+            if (@($queue | Where-Object { $_.Name -eq $n -and $_.Harness -eq 'hermes' })) { $leftAlone[$n] = $why }
+        }
+    }
+}
+$sparkState = @{}
+$hermesNames = @($queue | Where-Object { $_.Harness -eq 'hermes' } | ForEach-Object { $_.Name })
+if ($hermesNames) {
+    $check = ($hermesNames | ForEach-Object { "p=$sparkProjects/$_; if [ -d `$p/.git ]; then echo $_ ok `$(git -C `$p status --porcelain | wc -l); else echo $_ missing; fi" }) -join '; '
+    $out = @(& $ssh -o BatchMode=yes -o ConnectTimeout=10 FirstSpark $check 2>$null)
+    if (-not $out) { $hermesNames | ForEach-Object { $sparkState[$_] = 'unreachable' } }
+    foreach ($l in $out) { $f = -split $l; $sparkState[$f[0]] = $(if ($f[1] -eq 'ok') { "dirty=$($f[2])" } else { 'missing' }) }
+}
 $prepStatusFile = Join-Path $vault 'Nightly Runs\prep-status.json'
 $recordPrep = -not $Preflight -and -not $DryRun -and -not $QaOnly -and -not $NoPrep
 $prepReceipt = $null
@@ -332,12 +397,19 @@ if ($recordPrep) {
     $prepReceipt = @{ state = 'running'; started = (Get-Date).ToString('o'); prioritiesHash = (Get-FileHash $prioFile -Algorithm SHA256).Hash.ToLowerInvariant(); projects = @($queue | ForEach-Object Name); remaining = @(); blockers = @(); reason = '' }
     Save-PrepReceipt 'running' @() @() 'Checking current targets before local preparation'
 }
-$upkeep = @(Get-Upkeep $queue -CheckVerify:(-not $Preflight -and -not $QaOnly -and -not $prepDone))
 $prepWork = @($upkeep | Where-Object { $_.Action -ne 'owner' })
+# A real run never waits on a serial prep: each tonight project's item becomes its lane's first step, on the lane's own model,
+# all lanes at once (2026-10-25: a serial prep kept every lane idle for over two hours). The scheduled prep and Prep now
+# (-PrepOnly) still prep everything, tonight projects included, so a prepped project starts building at once.
+$laneWork = @{}
+if (-not $PrepOnly) {
+    foreach ($i in @($prepWork | Where-Object { $q0 = $_.Project; @($queue | Where-Object { $_.Name -eq $q0 }) })) { $laneWork[$i.Project] = $i }
+    $prepWork = @($prepWork | Where-Object { -not $laneWork[$_.Project] })
+}
 $prepHeads = @{}
 foreach ($item in $prepWork) { $prepHeads[$item.Project] = "$(git -C (Join-Path $projects $item.Project) rev-parse HEAD 2>$null)" }
 if ($recordPrep) { $prepReceipt.projects = @(@($queue | ForEach-Object Name) + @($upkeep | ForEach-Object Project) | Select-Object -Unique); Save-PrepReceipt 'running' $upkeep @() "Preparing the current queue with $prepModel" }
-if ($prepWork -and -not $Preflight -and -not $DryRun -and -not $NoPrep) {
+if ($prepWork -and $PrepOnly -and -not $NoPrep) {
     $prepLog = Join-Path $logDir '_prep.log'
     $prepPrompt = (Get-Content (Join-Path $vault 'Nightly Runs\agent-rules\prep-prompt.md') -Raw -Encoding UTF8) + "`n" +
         (($prepWork | ForEach-Object { "- $($_.Project): $($_.Action) ($($_.Why))" }) -join "`n") + "`n"
@@ -403,74 +475,6 @@ function Get-OpenItems($file) {
     if ($q -and -not $qAnswered) { $items += $q }
     return $items
 }
-# ---- Handoff: leftover edits never block a run ----
-# Uncommitted work in a tonight project (desktop or FirstSpark clone) is committed on its own pushed wip/handoff-* branch,
-# the checkout goes back to clean, and PROGRESS.md gets a HANDOFF entry so tonight's agent reviews and continues it.
-# Left alone (and still blocking, with the reason): files edited in the last 10 minutes, a Hermes session still going,
-# and anything that looks like a secret.
-$handoff = @{}; $leftAlone = @{}; $recheck = @{}; $notBefore = @{}
-$waitPattern = 'last 10 minutes|still running'   # left-alone reasons that pass on their own
-$secretPattern = '(^|/)(\.env[^/]*|[^/]*\.(pem|key|pfx|p12)|id_rsa[^/]*|[^/]*credential[^/]*|[^/]*secret[^/]*)$'
-$handoffBranch = "wip/handoff-$($started.ToString('yyyyMMdd-HHmm'))"
-function Add-HandoffNote($dir, $where, $branch, $hash, $pushed) {
-    git -C $dir pull --rebase -q 2>$null
-    $at = (Get-Date).ToString('yyyy-MM-dd HH:mm')
-    $saved = $(if ($pushed) { "pushed branch ``$branch`` (commit $hash)" } else { "branch ``$branch`` (commit $hash), not pushed: it exists only on $where" })
-    Add-Content -Path (Join-Path $dir 'PROGRESS.md') -Encoding UTF8 -Value "`n## $at - HANDOFF - open: uncommitted changes on $where before this run were saved on $saved. Start here: review that diff, merge what belongs to the current work and finish it (or say in REPORT.md why not), then add a later entry ``HANDOFF - picked up``."
-    git -C $dir add -- PROGRESS.md; git -C $dir commit -q -m "Handoff note: uncommitted work saved on $branch" -- PROGRESS.md 2>$null; git -C $dir push -q 2>$null
-}
-function Save-DesktopHandoff($name, $dir) {
-    $lines = @(git -C $dir status --porcelain 2>$null)
-    if (-not $lines) { return }
-    $paths = @($lines | ForEach-Object { ($_.Substring(3) -replace '^.* -> ', '').Trim('"') })
-    if ($paths | Where-Object { $_ -match $secretPattern }) { $leftAlone[$name] = 'uncommitted changes on the desktop include a file that looks like a secret; commit or remove it yourself'; return }
-    # Screenshots a verify run just regenerated are not someone working: hand them off like any older edit.
-    if ($paths | Where-Object { $_ -notmatch '(^|/)screenshots/.*\.png$' } | Where-Object { $f = Join-Path $dir $_; (Test-Path $f) -and (Get-Item $f).LastWriteTime -gt (Get-Date).AddMinutes(-10) }) { $leftAlone[$name] = 'uncommitted changes on the desktop edited in the last 10 minutes (someone may be working); left alone'; return }
-    $base = git -C $dir branch --show-current
-    git -C $dir switch -q -c $handoffBranch 2>$null
-    if ($LASTEXITCODE -ne 0) { $leftAlone[$name] = "uncommitted changes on the desktop; could not create $handoffBranch"; return }
-    git -C $dir add -A; git -C $dir commit -q -m "WIP handoff: uncommitted changes left on the desktop before the $Kind run" 2>$null
-    $hash = git -C $dir rev-parse --short HEAD
-    git -C $dir push -q -u origin $handoffBranch 2>$null; $pushed = $LASTEXITCODE -eq 0
-    git -C $dir switch -q $base
-    Add-HandoffNote $dir 'the desktop' $handoffBranch $hash $pushed
-    $handoff[$name] += "desktop edits handed off on $handoffBranch ($hash). "
-}
-if (-not $Preflight -and -not $DryRun -and -not $PrepOnly -and -not $QaOnly) {
-    foreach ($q in $queue) { $d = Join-Path $projects $q.Name; if (Test-Path "$d\.git") { Save-DesktopHandoff $q.Name $d } }
-    $sparkNames = @($queue | Where-Object { $_.Harness -eq 'hermes' } | ForEach-Object { $_.Name })
-    if ($sparkNames) {
-        $sb = "$handoffBranch-spark"
-        $script = @(foreach ($n in $sparkNames) {
-            "( cd $sparkProjects/$n 2>/dev/null || exit 0; [ -z `"`$(git status --porcelain)`" ] && exit 0"
-            "  p=.git/overnight-hermes.pid; if [ -f `$p ] && kill -0 `$(cat `$p) 2>/dev/null; then echo `"$n busy`"; exit 0; fi"
-            "  files=`$(git status --porcelain | cut -c4- | sed 's/.* -> //; s/^`"//; s/`"`$//')"
-            "  if echo `"`$files`" | grep -Eq '$secretPattern'; then echo `"$n secret`"; exit 0; fi"
-            "  for f in `$files; do [ -e `"`$f`" ] && [ -n `"`$(find `"`$f`" -maxdepth 0 -mmin -10)`" ] && { echo `"$n recent`"; exit 0; }; done"
-            "  base=`$(git branch --show-current); git switch -q -c $sb || { echo `"$n nobranch`"; exit 0; }"
-            "  git add -A && git commit -qm 'WIP handoff: uncommitted changes left on FirstSpark before the $Kind run'; h=`$(git rev-parse --short HEAD)"
-            "  if git push -q -u origin $sb 2>/dev/null; then ok=1; else ok=0; fi; git switch -q `$base; echo `"$n saved `$h `$ok`" )"
-        }) + '#'
-        foreach ($l in @(($script -join "`n") | & $ssh -o BatchMode=yes -o ConnectTimeout=10 FirstSpark 'bash -s' 2>$null)) {
-            $f = -split $l; $n = $f[0]; $d = Join-Path $projects $n
-            switch ($f[1]) {
-                'saved' { git -C $d fetch -q 2>$null; Add-HandoffNote $d 'FirstSpark' $sb $f[2] ($f[3] -eq '1'); $handoff[$n] += "FirstSpark edits handed off on $sb ($($f[2])). " }
-                'busy' { $leftAlone[$n] = 'a Hermes session is still running on FirstSpark; its uncommitted changes were left alone' }
-                'secret' { $leftAlone[$n] = 'uncommitted changes on FirstSpark include a file that looks like a secret; commit or remove it yourself' }
-                'recent' { $leftAlone[$n] = 'uncommitted changes on FirstSpark edited in the last 10 minutes; left alone' }
-                default { $leftAlone[$n] = "uncommitted changes on FirstSpark; could not create $sb" }
-            }
-        }
-    }
-}
-$sparkState = @{}
-$hermesNames = @($queue | Where-Object { $_.Harness -eq 'hermes' } | ForEach-Object { $_.Name })
-if ($hermesNames) {
-    $check = ($hermesNames | ForEach-Object { "p=$sparkProjects/$_; if [ -d `$p/.git ]; then echo $_ ok `$(git -C `$p status --porcelain | wc -l); else echo $_ missing; fi" }) -join '; '
-    $out = @(& $ssh -o BatchMode=yes -o ConnectTimeout=10 FirstSpark $check 2>$null)
-    if (-not $out) { $hermesNames | ForEach-Object { $sparkState[$_] = 'unreachable' } }
-    foreach ($l in $out) { $f = -split $l; $sparkState[$f[0]] = $(if ($f[1] -eq 'ok') { "dirty=$($f[2])" } else { 'missing' }) }
-}
 $cliOk = @{ claude = [bool](Get-Command claude -ErrorAction SilentlyContinue); codex = [bool](Get-Command codex -ErrorAction SilentlyContinue); hermes = $true }
 $checks = @{}
 foreach ($q in $queue) {
@@ -512,18 +516,13 @@ foreach ($q in $queue) {
 }
 if (-not $queue) { $pf += '| (Tonight list is empty) | | | |' }
 if ($upkeep) {
-    $pf += '', '## Top 10 upkeep', '', "Before the lanes start, the prep agent does the PREP items (make-overnight-ready, build-tree, structure, mvp, advance; never moves lanes): at the next real run, or right away when the Agents board runs -PrepOnly. OWNER items need you. Advance is checked at run time.", '',
+    $pf += '', '## Top 10 upkeep', '', "The scheduled prep and Prep now do the PREP items (make-overnight-ready, build-tree, structure, mvp; never moves lanes). In a run, a Tonight project's PREP item is its lane's first step, on the lane's own model, all lanes at once. OWNER items need you. Advancing to the next slices happens in the run, as soon as a target passes.", '',
         '| Project | Action | Who | Why |', '|---|---|---|---|'
     $pf += $upkeep | ForEach-Object { "| $($_.Project) | $($_.Action) | $(if ($_.Action -eq 'owner') { 'OWNER' } else { 'PREP' }) | $($_.Why) |" }
 }
 Set-Content -Path $preflightMd -Value $pf -Encoding UTF8
 if ($recordPrep) {
-    $remaining = @($upkeep)
-    # A commit is required when a passing target needed advancement. Process exit alone is not readiness.
-    foreach ($item in @($prepWork | Where-Object { $_.Action -match 'advance' })) {
-        $headNow = "$(git -C (Join-Path $projects $item.Project) rev-parse HEAD 2>$null)"
-        if ($headNow -eq $prepHeads[$item.Project]) { $remaining += @{ Project = $item.Project; Action = 'advance'; Why = 'Passing target was not advanced to a committed next scope; review its owner gates or completion decision' } }
-    }
+    $remaining = @($upkeep | Where-Object { -not $laneWork[$_.Project] })   # tonight's items run as their lanes' first steps
     $blocked = @($queue | ForEach-Object { $n = $_.Name; foreach ($why in @($checks[$n].Blockers)) { if ($why) { @{ project = $n; reason = $why } } } })
     $prepReceipt.warnings = @($queue | ForEach-Object { $n = $_.Name; foreach ($why in @($checks[$n].Warnings)) { if ($why) { "$n`: $why" } } })
     $prepReceipt.heads = @{}; foreach ($q in $queue) { $prepReceipt.heads[$q.Name] = "$(git -C (Join-Path $projects $q.Name) rev-parse HEAD 2>$null)" }   # lets a later prep see nothing moved
@@ -671,17 +670,50 @@ $advanceWorker = {
     Set-Content -Path "$log.pid" -Value $PID
     & ([scriptblock]::Create($agent)) $spec $root $text $log $helper 1800
 }
-function Start-Advance($q) {
+# The model that plans a lane's next slices (or does its prep item): the lane's own builder model, which knows the project
+# best, falling back like a session does when its harness is parked; the prep model only when nothing else is free.
+function Get-AdvanceSpec($q) {
+    $use = Get-SessionHarness $q
+    if (-not $use) { return $prepModel }
+    $model = $(if ($use -eq $q.Harness) { $q.Model })
+    switch ($use) {
+        'claude' { return "claude:$(if ($model) { $model } else { 'opus' })" }
+        'codex' { return $(if ($model) { "codex:$model" } else { 'codex' }) }
+        default { return "hermes:$(if ($model -in 'glm53-flash', 'qwen3.6-35b-a3b') { $model } else { 'glm53-flash' })" }
+    }
+}
+function Start-Advance($q, $action = 'advance', $why = "tonight's target passed during the run") {
     $name = $q.Name; $dir = Join-Path $projects $name
     $issues = @(Compare-Integrity $integrity[$name] (Get-Integrity $dir))   # checked before the advance re-baselines it
     if ($issues) { $rows[$name].Note += "not advanced: SUSPECT ($($issues -join '; ')). "; Start-Backfill $rows[$name] $q.Harness $name; return }
     $now = Get-Date
-    $advances[$name] = 1 + [int]$advances[$name]
+    if ($action -eq 'advance') { $advances[$name] = 1 + [int]$advances[$name] }
+    $spec = Get-AdvanceSpec $q
     $text = (Get-Content (Join-Path $vault 'Nightly Runs\agent-rules\prep-prompt.md') -Raw -Encoding UTF8) +
-        "`n- ${name}: advance (tonight's target passed during the run and the lanes are already going: do only this item, quickly)`n"
+        "`n- ${name}: $action ($why. The lanes are already going: do only this item, quickly. Read the project's PROGRESS.md '## Now' handoff and REPORT.md first: they hold what its builder learned. Add your line to the Prep Report without removing other projects' lines.)`n"
     $log = Join-Path $logDir "$name.advance.txt"; Remove-Item "$log.pid" -ErrorAction SilentlyContinue
-    $job = Start-Job -ScriptBlock $advanceWorker -ArgumentList $prepAgent, $prepModel, $projects, $text, $log, (Join-Path $PSScriptRoot 'local-agent.py')
-    $running[$job.Id] = @{ Job = $job; Q = $q; Start = $now; Head = (git -C $dir rev-parse HEAD 2>$null); Advance = $true; PidFile = "$log.pid" }
+    Add-Content -Path $log -Value "=== $action $((Get-Date).ToString('HH:mm')) on $spec ===" -Encoding UTF8
+    $job = Start-Job -ScriptBlock $advanceWorker -ArgumentList $prepAgent, $spec, $projects, $text, $log, (Join-Path $PSScriptRoot 'local-agent.py')
+    $running[$job.Id] = @{ Job = $job; Q = $q; Start = $now; Head = (git -C $dir rev-parse HEAD 2>$null); Advance = $true; Action = $action; Why = $why; Spec = $spec; PidFile = "$log.pid" }
+}
+
+# The runner's own final verify per project, by commit (Nightly Runs/.verify-cache.json): a project whose target passed at
+# the commit it is still on starts with its advance, instead of a builder session that would only find nothing to do.
+$verifyCacheFile = Join-Path $vault 'Nightly Runs\.verify-cache.json'
+$verifyCache = @{}
+try { (Get-Content $verifyCacheFile -Raw -ErrorAction Stop | ConvertFrom-Json).PSObject.Properties | ForEach-Object { $verifyCache[$_.Name] = $_.Value } } catch { }
+function Test-CachedPass($name, $dir) {
+    $c = $verifyCache[$name]
+    return [bool]($c -and $c.verify -eq 'PASS' -and $c.head -and "$(git -C $dir rev-parse HEAD 2>$null)" -eq $c.head -and -not (git -C $dir status --porcelain 2>$null))
+}
+# A lane's first step: its prep item (make-overnight-ready, mvp, build-tree, structure), or its advance when its target
+# already passed at this commit; none means a builder session.
+function Set-FirstStep($q) {
+    $dir = Join-Path $projects $q.Name
+    $item = $laneWork[$q.Name]
+    if (-not $item) { $item = @(Get-Upkeep @($q) | Where-Object { $_.Project -eq $q.Name -and $_.Action -ne 'owner' })[0] }
+    if ($item) { $firstStep[$q.Name] = @{ Action = $item.Action; Why = $item.Why } }
+    elseif (Test-CachedPass $q.Name $dir) { $firstStep[$q.Name] = @{ Action = 'advance'; Why = "verify passed at this commit in the runner's last check ($($verifyCache[$q.Name].at))" } }
 }
 
 # Real progress since $from: a commit that changes more than the bookkeeping files every session rewrites.
@@ -728,7 +760,7 @@ function Start-Backfill($row, $harness, $from) {
     $rows[$b.Name] = [ordered]@{ Project = $b.Name; Harness = $b.Harness; Verify = '-'; Git = '-'; Commits = 0; Note = "filled $from's lane at $((Get-Date).ToString('HH:mm')) (not in tonight's lanes). ";
         Minutes = 0; TestsBefore = ''; TestsAfter = ''; TimedOut = $false; UsageLimit = $false }
     $integrity[$b.Name] = Get-Integrity $bd; $rows[$b.Name].TestsBefore = $integrity[$b.Name].Tests
-    $heads[$b.Name] = "$(git -C $bd rev-parse HEAD 2>$null)"; [void]$pending.Add($b); Save-RunState
+    $heads[$b.Name] = "$(git -C $bd rev-parse HEAD 2>$null)"; Set-FirstStep $b; [void]$pending.Add($b); Save-RunState
 }
 
 # The lanes' end time. Nightly: -Until (next occurrence), so the lanes work all night. Otherwise -HoursPerProject from now.
@@ -770,6 +802,8 @@ function Get-SessionHarness($q) {
     if ($q.Harness -ne 'claude') { return $null }
     return @('codex', 'hermes') | Where-Object { -not (Test-Parked $_) -and -not ($_ -eq 'hermes' -and $noSpark[$q.Name]) } | Select-Object -First 1
 }
+$firstStep = @{}; $tails = @{}
+foreach ($q in @($pending)) { Set-FirstStep $q }
 foreach ($q in @($queue | Where-Object { $checks[$_.Name].Blockers })) { if (-not $DryRun -and -not $QaOnly) { Start-Backfill $rows[$q.Name] $q.Harness $q.Name } }
 if ($pending.Count) { Save-RunState }
 while ($pending.Count -or $running.Count) {
@@ -793,6 +827,7 @@ while ($pending.Count -or $running.Count) {
             $waitNet.Remove($q.Name)
         }
         if ($PerHarness -gt 0 -and @($running.Values | Where-Object { $_.Q.Harness -eq $use }).Count -ge $PerHarness) { continue }   # 0 = no limit: every project in the lane at once
+        if ($firstStep[$q.Name]) { $f = $firstStep[$q.Name]; $firstStep.Remove($q.Name); $pending.Remove($q); Start-Advance $q $f.Action $f.Why; continue }
         $pending.Remove($q)
         $run = $q
         if ($use -ne $q.Harness) {   # Home: the queue entry the project goes back to when this session ends
@@ -805,7 +840,9 @@ while ($pending.Count -or $running.Count) {
         Remove-Item "$log.pid" -ErrorAction SilentlyContinue   # the job writes a fresh one
         $dot = [char]0x00B7   # this file must stay ASCII for PowerShell 5.1
         $sessionName = "$($q.Name) $dot $(if ($Kind -eq 'morning') { 'morning' } else { 'night' }) of $($started.ToString('MMM d', [Globalization.CultureInfo]::InvariantCulture)) $dot session $($sessions[$q.Name])"
-        $job = Start-Job -ScriptBlock $worker -ArgumentList $dir, $run.Harness, $run.Model, $prompt, $log, $left, $ssh, "$sparkProjects/$($q.Name)", $sessionName, $false
+        # A fresh session after a cut-off one also sees how the last one ended (PROGRESS.md '## Now' is the handoff itself).
+        $sessionPrompt = $prompt + $(if ($tails[$q.Name]) { "`nTHE PREVIOUS SESSION on this project ended at $($tails[$q.Name].At). Start from PROGRESS.md '## Now'; this is the end of its output:`n" + $tails[$q.Name].Text + "`n" } else { '' })
+        $job = Start-Job -ScriptBlock $worker -ArgumentList $dir, $run.Harness, $run.Model, $sessionPrompt, $log, $left, $ssh, "$sparkProjects/$($q.Name)", $sessionName, $false
         $running[$job.Id] = @{ Job = $job; Q = $run; Start = Get-Date; Head = (git -C $dir rev-parse HEAD 2>$null); PidFile = "$log.pid" }
     }
     if (-not $running.Count) { if ($pending.Count) { Start-Sleep -Seconds 30; continue }; break }   # only projects waiting for the network or a usage-limit reset
@@ -825,13 +862,24 @@ while ($pending.Count -or $running.Count) {
             $own = $(if ($r.Q.Home) { $r.Q.Home } else { $r.Q })   # a fallback session's project goes back to its own lane
             if ($r.Advance) {
                 $integrity[$name] = Get-Integrity $dir   # the advance legitimately extends verify.ps1: that is the new baseline
-                if (-not $row.TimedOut -and (Test-Progress $dir $r.Head)) { $row.Note += "advanced to its next slices at $((Get-Date).ToString('HH:mm')). "; [void]$pending.Add($r.Q) }
-                elseif (-not $row.TimedOut) { $row.Note += "not advanced: no buildable node left outside owner-only gates (see Prep Report). "; Start-Backfill $row $r.Q.Harness $name }
+                if ($row.TimedOut) { continue }
+                $atext = (((Get-Content (Join-Path $logDir "$name.advance.txt") -Raw -Encoding UTF8 -ErrorAction SilentlyContinue) -replace "`0", '') -split '(?m)^=== ')[-1]
+                $fam = ($r.Spec -split ':')[0]
+                if (Test-Progress $dir $r.Head) { $row.Note += "$(if ($r.Action -eq 'advance') { 'advanced to its next slices' } else { "$($r.Action) done" }) at $((Get-Date).ToString('HH:mm')) on $($r.Spec). "; [void]$pending.Add($r.Q) }
+                elseif ($fam -ne 'hermes' -and "$atext" -match $limitHit -and -not (Test-Parked $fam)) {
+                    $limitUntil[$fam] = Get-LimitReset $atext; Save-RunState
+                    $row.Note += "$fam usage limit while planning at $((Get-Date).ToString('HH:mm')); planning again on the next free model. "
+                    if ($r.Action -eq 'advance') { $advances[$name] = [int]$advances[$name] - 1 }   # that one never ran
+                    Start-Advance $r.Q $r.Action $r.Why
+                }
+                elseif ($r.Action -ne 'advance') { $row.Note += "$($r.Action) made no commit on $($r.Spec); building on the current target. "; [void]$pending.Add($r.Q) }
+                else { $row.Note += "not advanced: no buildable node left outside owner-only gates (see Prep Report). "; Start-Backfill $row $r.Q.Harness $name }
                 continue
             }
             $row.Minutes += [int]((Get-Date) - $r.Start).TotalMinutes
             $text = Complete-Run $r.Q $row
             if ($row.TimedOut) { continue }
+            $t = ("$text" -replace '\s+$', ''); $tails[$name] = @{ At = (Get-Date).ToString('HH:mm'); Text = $t.Substring([Math]::Max(0, $t.Length - 1500)) }
             # A Hermes fallback for a project not cloned on FirstSpark: no more Hermes fallbacks for it; it waits for a reset.
             if ($r.Q.Home -and $r.Q.Harness -eq 'hermes' -and "$text" -match 'SPARK_MISSING') { $noSpark[$name] = $true; [void]$pending.Add($own); continue }
             # Stopped early with real progress and time left: start it again; it resumes from PROGRESS.md's next open item.
@@ -1024,11 +1072,13 @@ foreach ($q in $queue) {
     $dirty = git -C $dir status --porcelain 2>$null
     $ahead = git -C $dir rev-list --count '@{u}..HEAD' 2>$null
     $row.Git = $(if ($dirty) { 'uncommitted changes' } elseif ([int]$ahead -gt 0) { "$ahead unpushed" } else { 'clean, pushed' })
+    if (-not $dirty -and -not $DryRun) { $verifyCache[$q.Name] = @{ head = "$(git -C $dir rev-parse HEAD 2>$null)"; verify = $row.Verify; at = (Get-Date).ToString('yyyy-MM-dd HH:mm') } }
     $row.Commits = @(git -C $dir log --since=$($started.ToString('s')) --oneline 2>$null).Count
     if ($heads[$q.Name]) { $headAfter = git -C $dir rev-parse HEAD 2>$null; $row.Heads = "$($heads[$q.Name])..$headAfter"; $row.Commits = [int](git -C $dir rev-list --count $row.Heads 2>$null) }
 }
 
 Write-RunReport -final
+if (-not $DryRun -and $verifyCache.Count) { $verifyCache | ConvertTo-Json -Depth 4 | Set-Content -Path $verifyCacheFile -Encoding UTF8 }
 if (-not $DryRun) { Remove-Item $stateFile -ErrorAction SilentlyContinue }   # finished: nothing for -Resume to continue
 # Projects that now have a preview (scripts/preview.ps1) appear as tabs in Dashboard Command Center's Projects group.
 if (-not $DryRun -and -not $env:OVERNIGHT_VAULT) {   # a fixture run (test-qa-run.ps1) must not touch the real board
