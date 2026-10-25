@@ -158,6 +158,75 @@ function Set-BuilderModels($queue) {
     foreach ($q in $queue) { if (-not $q.Model -and $roles[$q.Harness] -and $roles[$q.Harness].builder -match $specPattern -and $Matches[1] -eq $q.Harness -and $Matches[2]) { $q.Model = $Matches[2] } }
     return $queue
 }
+# ---- Pipeline: the lanes, Ready next and Active follow the priority order (owner, 2026-10-25) ----
+# Project Priorities.md keeps one "- name ..." line per project under "### Claude/Codex/Hermes" (in "## Tonight"),
+# "## Ready next", "## Active" or "## Backlog"; the "## Priority order" list only ranks and never changes here.
+# Every top-10 project that is overnight-ready (scripts/verify.ps1) goes into a Tonight lane, a Backlog project that has
+# become overnight-ready goes to Ready next, and a built one goes to Active (see Test-Built), so the owner never has to.
+$pipelineMoves = New-Object System.Collections.ArrayList
+# The file's projects: Order (ranked), Where (name -> claude/codex/hermes/ready/active/backlog/archived), Tag (its @harness).
+function Read-Pipeline {
+    $st = @{ Order = @(); Where = @{}; Tag = @{} }; $sec = ''
+    foreach ($l in [IO.File]::ReadAllText($prioFile) -split '\r?\n') {
+        if ($l -match '^##\s+(.+)') { $t = $Matches[1]; $sec = $(if ($t -match '^Tonight') { 'claude' } elseif ($t -match '^Priority order') { 'order' } elseif ($t -match '^Ready next') { 'ready' } elseif ($t -match '^Active') { 'active' } elseif ($t -match '^Backlog') { 'backlog' } elseif ($t -match '^Archive') { 'archived' } else { '' }); continue }
+        if ($l -match '^###\s+(Claude|Codex|Hermes)\b' -and $sec -in 'claude', 'codex', 'hermes') { $sec = $Matches[1].ToLower(); continue }
+        if ($sec -eq 'order') { if ($l -match '^\s*\d+\.\s+([A-Za-z0-9._-]+)') { $st.Order += $Matches[1] }; continue }
+        if ($sec -and $l -match '^\s*-\s+([A-Za-z0-9._-]+)(?:\s+@(claude|codex|hermes)\b)?') { if (-not $st.Where[$Matches[1]]) { $st.Where[$Matches[1]] = $sec }; if ($Matches[2]) { $st.Tag[$Matches[1]] = $Matches[2] } }
+    }
+    return $st
+}
+# Moves a project's line to the end of another section's list (a new "- name" line when it has none), in place, keeping
+# the file's line endings; an atomic write, like the Agents board's own moves.
+function Move-ProjectLine($folder, $to) {
+    $pipeHeads = @{ claude = '### Claude'; codex = '### Codex'; hermes = '### Hermes'; ready = '## Ready next'; active = '## Active'; backlog = '## Backlog' }
+    $raw = [IO.File]::ReadAllText($prioFile); $eol = $(if ($raw -match "`r`n") { "`r`n" } else { "`n" })
+    $lines = New-Object System.Collections.ArrayList; foreach ($l in $raw -split '\r?\n') { [void]$lines.Add($l) }
+    $sec = ''; $text = "- $folder"
+    for ($i = 0; $i -lt $lines.Count; $i++) {
+        if ($lines[$i] -match '^##\s+(.+)') { $sec = $Matches[1]; continue }
+        if ($sec -match '^(Tonight|Ready next|Active|Backlog)' -and $lines[$i] -match "^\s*-\s+$([regex]::Escape($folder))(\s|$)") { $text = $lines[$i]; $lines.RemoveAt($i); break }
+    }
+    $h = -1; for ($i = 0; $i -lt $lines.Count; $i++) { if ($lines[$i].StartsWith($pipeHeads[$to])) { $h = $i; break } }
+    if ($h -lt 0) { return $false }
+    $k = $h + 1; while ($k -lt $lines.Count -and $lines[$k] -match '^\s*-\s') { $k++ }
+    $lines.Insert($k, $text)
+    $tmp = "$prioFile.$PID.tmp"
+    [IO.File]::WriteAllText($tmp, ($lines -join $eol), (New-Object Text.UTF8Encoding $false))
+    Move-Item -LiteralPath $tmp -Destination $prioFile -Force
+    return $true
+}
+# The lane a project joins: its own @harness tag, else the emptier of Claude and Codex (Hermes needs a FirstSpark clone,
+# so an untagged project only goes there when the owner tags it).
+function Get-LaneFor($name, $st) {
+    if ($st.Tag[$name]) { return $st.Tag[$name] }
+    $count = @{ claude = 0; codex = 0 }; foreach ($w in $st.Where.Values) { if ($w -in 'claude', 'codex') { $count[$w]++ } }
+    return $(if ($count.codex -lt $count.claude) { 'codex' } else { 'claude' })
+}
+# Fills the lanes from the top 10 and moves overnight-ready Backlog projects to Ready next. Returns what it moved.
+function Sync-Pipeline {
+    $st = Read-Pipeline; $moved = @()
+    $top = @($st.Order | Where-Object { $st.Where[$_] -notin 'active', 'archived' } | Select-Object -Unique -First 10)
+    foreach ($n in $top) {
+        if ($st.Where[$n] -in 'claude', 'codex', 'hermes' -or -not (Test-Path (Join-Path $projects "$n\scripts\verify.ps1"))) { continue }
+        $lane = Get-LaneFor $n $st
+        if (Move-ProjectLine $n $lane) { $st.Where[$n] = $lane; $moved += "$n to Tonight $lane (top 10, overnight-ready)" }
+    }
+    foreach ($n in @($st.Where.Keys | Where-Object { $st.Where[$_] -eq 'backlog' })) {
+        if (-not (Test-Path (Join-Path $projects "$n\scripts\verify.ps1"))) { continue }
+        if (Move-ProjectLine $n 'ready') { $st.Where[$n] = 'ready'; $moved += "$n to Ready next (now overnight-ready)" }
+    }
+    foreach ($m in $moved) { [void]$pipelineMoves.Add("$((Get-Date).ToString('HH:mm')) $m"); Write-Output "pipeline: moved $m" }
+}
+# Built: the planner found nothing buildable outside owner-only steps and wrote "Project built: ..." in REPORT.md (or the
+# older "Move <project> to Active?" question, unless the owner answered it with keep building).
+function Test-Built($dir) {
+    $t = Get-Content (Join-Path $dir 'REPORT.md') -Raw -Encoding UTF8 -ErrorAction SilentlyContinue
+    if (-not $t) { return $false }
+    if ($t -match '(?m)^\W*Project built:') { return $true }
+    if ($t -match '(?ms)^###\s+Q\d+[^\r\n]*Move \S+ to Active\?(.*?)(?=^#|\z)') { return $Matches[1] -notmatch '(?i)- \[x\][^\r\n]*keep' }
+    return $false
+}
+if (-not $Preflight -and -not $DryRun -and -not $QaOnly -and -not $Resume -and -not $FixOnly -and -not $Project) { Sync-Pipeline }
 $queue = Set-BuilderModels (Read-Queue)
 if ($Project) { $queue = @($queue | Where-Object { $_.Name -eq $Project }); if (-not $queue) { throw "Project $Project is not in Tonight" } }
 if ($QaOnly) {
@@ -219,6 +288,17 @@ function Get-Upkeep($queue) {
             if (-not $headless -and -not (Select-String -Path "$dir\scripts\verify.ps1" -Pattern 'MVP FLOW OK' -SimpleMatch -Quiet)) { $todo += 'mvp'; $why += 'no MVP gate yet: re-plan so the next slice is a usable MVP' }
         }
         if ($todo) { $items += [pscustomobject]@{ Project = $name; Action = $todo -join ' + '; Why = $why -join '; ' } }
+    }
+    # Keep at least 5 overnight-ready projects waiting beyond tonight's lanes (owner, 2026-10-25): the next ones in the
+    # priority order that have a BUILD_SPEC but no verify.ps1 get make-overnight-ready, so the pipeline never runs dry.
+    $lanesNow = @($queue | ForEach-Object { $_.Name })
+    $readyCount = @($order | Where-Object { -not $parked[$_] -and $_ -notin $lanesNow -and (Test-Path (Join-Path $projects "$_\scripts\verify.ps1")) } | Select-Object -Unique).Count
+    foreach ($name in @($order | Where-Object { -not $parked[$_] -and $_ -notin $top } | Select-Object -Unique)) {
+        if ($readyCount -ge 5) { break }
+        $dir = Join-Path $projects $name
+        if ((Test-Path "$dir\BUILD_SPEC.md") -and -not (Test-Path "$dir\scripts\verify.ps1") -and -not @($items | Where-Object { $_.Project -eq $name })) {
+            $items += [pscustomobject]@{ Project = $name; Action = 'make-overnight-ready'; Why = 'next in the priority order, to keep 5 overnight-ready projects waiting' }; $readyCount++
+        }
     }
     return $items
 }
@@ -444,6 +524,7 @@ if ($prepWork -and $PrepOnly -and -not $NoPrep) {
     if ($prepFailed) { Save-PrepReceipt 'failed' $prepWork @() "Prep ($prepModel) did not finish; inspect $prepLog" }
     # A failed prep never cancels the night: lanes still run on each project's current target (2026-10-23 ran nothing).
     if ($prepFailed -and $PrepOnly) { exit 1 }
+    Sync-Pipeline   # projects the prep just made overnight-ready move to Ready next, or into a lane when top 10
     $queue = Set-BuilderModels (Read-Queue)   # the prep agent may have moved projects into lanes
     $upkeep = @(Get-Upkeep $queue)   # so Preflight.md shows what is still left after prep
 }
@@ -756,6 +837,7 @@ function Start-Backfill($row, $harness, $from) {
     $b = Get-Backfill $harness
     if (-not $b) { $row.Note += "no other overnight-ready project left for its $harness lane. "; return }
     $row.Note += "its $harness lane went to $($b.Name) at $((Get-Date).ToString('HH:mm')). "
+    if (Move-ProjectLine $b.Name $harness) { [void]$pipelineMoves.Add("$((Get-Date).ToString('HH:mm')) $($b.Name) to Tonight $harness (filled $from's lane)") }
     $script:queue += $b; $bd = Join-Path $projects $b.Name
     $rows[$b.Name] = [ordered]@{ Project = $b.Name; Harness = $b.Harness; Verify = '-'; Git = '-'; Commits = 0; Note = "filled $from's lane at $((Get-Date).ToString('HH:mm')) (not in tonight's lanes). ";
         Minutes = 0; TestsBefore = ''; TestsAfter = ''; TimedOut = $false; UsageLimit = $false }
@@ -897,7 +979,11 @@ while ($pending.Count -or $running.Count) {
                     Start-Advance $r.Q $r.Action $r.Why
                 }
                 elseif ($r.Action -ne 'advance') { $row.Note += "$($r.Action) made no commit on $($r.Spec); building on the current target. "; [void]$pending.Add($r.Q) }
-                else { $row.Note += "not advanced: no buildable node left outside owner-only gates (see Prep Report). "; Start-Backfill $row $r.Q.Harness $name }
+                else {
+                    $row.Note += "not advanced: no buildable node left outside owner-only gates (see Prep Report). "
+                    if ((Test-Built $dir) -and (Move-ProjectLine $name 'active')) { $row.Note += "moved to Active (built; only owner steps left). "; [void]$pipelineMoves.Add("$((Get-Date).ToString('HH:mm')) $name to Active (built)") }
+                    Start-Backfill $row $r.Q.Harness $name
+                }
                 continue
             }
             $row.Minutes += [int]((Get-Date) - $r.Start).TotalMinutes
@@ -955,6 +1041,7 @@ function Write-RunReport([switch]$final) {
     if (-not $queue) { $md += '| (Tonight list is empty) | | | | | |' }
     $ranges = @($queue | Where-Object { $rows[$_.Name].Heads } | ForEach-Object { "- ``$($_.Name)``: $($rows[$_.Name].Heads)" })
     if ($ranges) { $md += @('', 'HEAD before..after each project''s lanes (the Agents board Review tab lists exactly these commits):') + $ranges }
+    if ($pipelineMoves.Count) { $md += @('', 'Moved in Project Priorities.md by the runner (lanes follow the priority order):') + @($pipelineMoves | ForEach-Object { "- $_" }) }
     $qaLines = @($queue | Where-Object { $qaResults[$_.Name] } | ForEach-Object { "- ``$($_.Name)``: QA $(Format-Qa $qaResults[$_.Name])" })
     if ($qaLines) { $md += @('', 'QA after the builder sessions (the Agents board shows these as badges):') + $qaLines }
     New-Item -ItemType Directory -Force $runLogDir | Out-Null   # Morning Runs/Logs on the first morning run

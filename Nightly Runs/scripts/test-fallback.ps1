@@ -3,7 +3,7 @@
 # Usage: powershell -NoProfile -ExecutionPolicy Bypass -File test-fallback.ps1
 $ErrorActionPreference = 'Stop'
 $ast = [System.Management.Automation.Language.Parser]::ParseFile((Join-Path $PSScriptRoot 'overnight-run.ps1'), [ref]$null, [ref]$null)
-$ast.FindAll({ param($n) $n -is [System.Management.Automation.Language.FunctionDefinitionAst] -and $n.Name -in 'Test-Parked', 'Get-SessionHarness', 'Save-RunState', 'Test-Leftover', 'Get-Backfill', 'Get-AdvanceSpec', 'Test-CachedPass', 'Get-LaneStates' }, $true) |
+$ast.FindAll({ param($n) $n -is [System.Management.Automation.Language.FunctionDefinitionAst] -and $n.Name -in 'Test-Parked', 'Get-SessionHarness', 'Save-RunState', 'Test-Leftover', 'Get-Backfill', 'Get-AdvanceSpec', 'Test-CachedPass', 'Get-LaneStates', 'Read-Pipeline', 'Move-ProjectLine', 'Get-LaneFor', 'Sync-Pipeline', 'Test-Built' }, $true) |
     ForEach-Object { . ([scriptblock]::Create($_.Extent.Text)) }
 $failed = 0
 function Check($what, $got, $want) { if ("$got" -ne "$want") { Write-Output "FAIL $what`: got '$got', want '$want'"; $script:failed++ } else { Write-Output "ok   $what" } }
@@ -87,7 +87,7 @@ Remove-Item $repo -Recurse -Force
 
 # The board shows each lane's state in the runner's words (2026-10-25: Codex lanes parked on a usage limit read
 # "waiting for network" or "done" because the board guessed from log text).
-$reset = (Get-Date).Date.AddHours(11).AddMinutes(33)
+$reset = (Get-Date).AddHours(2)
 $limitUntil = @{ codex = $reset }; $waitNet = @{ net1 = $true }; $notBefore = @{}; $recheck = @{}
 $running = @{ 1 = @{ Q = [pscustomobject]@{ Name = 'plan1'; Harness = 'claude' }; Advance = $true; Action = 'advance'; Spec = 'claude:opus' }; 2 = @{ Q = [pscustomobject]@{ Name = 'build1'; Harness = 'hermes' } } }
 $pending = [System.Collections.ArrayList]@([pscustomobject]@{ Name = 'cx1'; Harness = 'codex' }, [pscustomobject]@{ Name = 'net1'; Harness = 'claude' })
@@ -95,9 +95,44 @@ $rows = @{ plan1 = @{}; build1 = @{}; cx1 = @{}; net1 = @{}; done1 = @{ Note = '
 $lanes = Get-LaneStates
 Check 'lane: planning' "$($lanes.plan1.state): $($lanes.plan1.why)" 'planning: planning its next slices on claude:opus'
 Check 'lane: building' $lanes.build1.state 'building'
-Check 'lane: waiting on a usage limit' "$($lanes.cx1.state): $($lanes.cx1.why)" 'waiting: codex usage limit, back at 11:33'
+Check 'lane: waiting on a usage limit' "$($lanes.cx1.state): $($lanes.cx1.why)" "waiting: codex usage limit, back at $($reset.ToString('HH:mm'))"
 Check 'lane: waiting on the network' $lanes.net1.state 'waiting'
 Check 'lane: finished and where its lane went' "$($lanes.done1.state): $($lanes.done1.why)" 'finished: nothing left to build outside owner-only steps; its lane went to fresh-brief'
 $limitUntil = @{}; $running = @{}; $pending = $null; $rows = @{}
+
+# Pipeline (owner, 2026-10-25): top-10 overnight-ready projects fill the lanes, overnight-ready Backlog moves to Ready
+# next, a built project moves to Active; the priority order itself never changes.
+$root = Join-Path ([IO.Path]::GetTempPath()) "pipeline-test-$PID"; $projects = Join-Path $root 'p'; $prioFile = Join-Path $root 'prio.md'
+foreach ($n in 'top1', 'top2', 'blready') { New-Item -ItemType Directory -Force (Join-Path $projects "$n\scripts") | Out-Null; Set-Content (Join-Path $projects "$n\scripts\verify.ps1") 'x' }
+New-Item -ItemType Directory -Force (Join-Path $projects 'topnov') | Out-Null
+$fixture = @('# P', '## Tonight', '', '### Claude', '- a1 - x', '', '### Codex', '- c1 @codex:sol - y', '- c2', '', '### Hermes', '',
+    '## Priority order (top 10 = daily focus)', '### P0', '1. a1', '2. top1', '3. top2', '4. topnov', '5. act1', '',
+    '## Ready next (overnight-ready, not queued)', '', '## Active (built; daytime feedback and iteration)', '- act1 - built', '',
+    '## Backlog (BUILD_SPEC written, not set up for overnight yet)', '- top2 @codex - tagged', '- blready - has verify now', '- blnot - no verify', '') -join "`r`n"
+[IO.File]::WriteAllText($prioFile, $fixture)
+$pipelineMoves = New-Object System.Collections.ArrayList
+$null = Sync-Pipeline
+$st = Read-Pipeline; $after = [IO.File]::ReadAllText($prioFile)
+Check 'pipeline: untagged top-10 joins the emptier lane' $st.Where.top1 'claude'
+Check 'pipeline: tagged top-10 joins its own lane' $st.Where.top2 'codex'
+Check 'pipeline: not overnight-ready stays out' $st.Where.topnov ''
+Check 'pipeline: Active stays Active' $st.Where.act1 'active'
+Check 'pipeline: overnight-ready Backlog goes to Ready next' $st.Where.blready 'ready'
+Check 'pipeline: Backlog without verify stays' $st.Where.blnot 'backlog'
+Check 'pipeline: line text and tag kept' ([bool]($after -match "### Codex`r`n- c1 @codex:sol - y`r`n- c2`r`n- top2 @codex - tagged`r`n")) 'True'
+Check 'pipeline: order untouched, CRLF kept' ([bool]($after -match "1\. a1`r`n2\. top1`r`n3\. top2`r`n4\. topnov`r`n5\. act1`r`n" -and $after -notmatch "[^`r]`n")) 'True'
+Check 'pipeline: moves logged' $pipelineMoves.Count 3
+$null = Move-ProjectLine 'c2' 'active'
+Check 'pipeline: built project to Active' (Read-Pipeline).Where.c2 'active'
+$rep = Join-Path $root 'rep'; New-Item -ItemType Directory -Force $rep | Out-Null
+Set-Content (Join-Path $rep 'REPORT.md') "# R`n## Status`nProject built: only G3 and G4 (owner steps) are left"
+Check 'built: marker' (Test-Built $rep) 'True'
+Set-Content (Join-Path $rep 'REPORT.md') "# R`n## Open questions`n### Q5: Move x to Active?`n- [ ] Yes (recommended)`n- [x] Keep building`n"
+Check 'built: owner said keep building' (Test-Built $rep) 'False'
+Set-Content (Join-Path $rep 'REPORT.md') "# R`n## Open questions`n### Q5: Move x to Active?`n- [ ] Yes (recommended)`n- [ ] Keep building`n"
+Check 'built: open move-to-Active question' (Test-Built $rep) 'True'
+Set-Content (Join-Path $rep 'REPORT.md') "# R`nverify passed"
+Check 'built: no claim' (Test-Built $rep) 'False'
+Remove-Item $root -Recurse -Force
 
 if ($failed) { exit 1 }

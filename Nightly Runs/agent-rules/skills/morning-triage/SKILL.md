@@ -20,4 +20,4 @@ description: Use in the morning after an overnight run, or when the owner asks h
 4. **Reply with three short sections:**
    - **Decide now:** every open question and every gate awaiting approval, each with its recommended default.
    - **Fix:** failures, each with its cause and one-line fix.
-   - **Next:** projects to advance, projects ready to move to Active, and which top-10 projects will take freed slots.
+   - **Next:** projects to advance, projects the runner moved to Active (the report's "Moved in Project Priorities.md" list; move one back if it isn't done), and which top-10 projects will take freed slots.
