@@ -3,7 +3,7 @@
 # Usage: powershell -NoProfile -ExecutionPolicy Bypass -File test-fallback.ps1
 $ErrorActionPreference = 'Stop'
 $ast = [System.Management.Automation.Language.Parser]::ParseFile((Join-Path $PSScriptRoot 'overnight-run.ps1'), [ref]$null, [ref]$null)
-$ast.FindAll({ param($n) $n -is [System.Management.Automation.Language.FunctionDefinitionAst] -and $n.Name -in 'Test-Parked', 'Get-SessionHarness', 'Save-RunState', 'Test-Leftover', 'Get-Backfill', 'Get-AdvanceSpec', 'Test-CachedPass', 'Get-LaneStates', 'Read-Pipeline', 'Move-ProjectLine', 'Get-LaneFor', 'Sync-Pipeline', 'Test-Built' }, $true) |
+$ast.FindAll({ param($n) $n -is [System.Management.Automation.Language.FunctionDefinitionAst] -and $n.Name -in 'Test-Parked', 'Get-SessionHarness', 'Save-RunState', 'Test-Leftover', 'Get-Backfill', 'Get-AdvanceSpec', 'Test-CachedPass', 'Get-LaneStates', 'Read-Pipeline', 'Move-ProjectLine', 'Get-LaneFor', 'Sync-Pipeline', 'Test-Built', 'Get-RunSet' }, $true) |
     ForEach-Object { . ([scriptblock]::Create($_.Extent.Text)) }
 $failed = 0
 function Check($what, $got, $want) { if ("$got" -ne "$want") { Write-Output "FAIL $what`: got '$got', want '$want'"; $script:failed++ } else { Write-Output "ok   $what" } }
@@ -108,17 +108,17 @@ $limitUntil = @{}; $running = @{}; $pending = $null; $rows = @{}; $noSpark = @{}
 # Pipeline (owner, 2026-10-25): top-10 overnight-ready projects fill the lanes, overnight-ready Backlog moves to Ready
 # next, a built project moves to Active; the priority order itself never changes.
 $root = Join-Path ([IO.Path]::GetTempPath()) "pipeline-test-$PID"; $projects = Join-Path $root 'p'; $prioFile = Join-Path $root 'prio.md'
-foreach ($n in 'top1', 'top2', 'blready', 'blunranked') { New-Item -ItemType Directory -Force (Join-Path $projects "$n\scripts") | Out-Null; Set-Content (Join-Path $projects "$n\scripts\verify.ps1") 'x' }
+foreach ($n in 'top1', 'top2', 'blready', 'blunranked') { New-Item -ItemType Directory -Force (Join-Path $projects "$n\scripts") | Out-Null; Set-Content (Join-Path $projects "$n\scripts\verify.ps1") 'x'; Set-Content (Join-Path $projects "$n\BUILD_SPEC.md") 'spec' }
 New-Item -ItemType Directory -Force (Join-Path $projects 'topnov') | Out-Null
 $fixture = @('# P', '## Tonight', '', '### Claude', '- a1 - x', '', '### Codex', '- c1 @codex:sol - y', '- c2', '', '### Hermes', '',
-    '## Priority order (top 10 = daily focus)', '### P0', '1. a1', '2. top1', '3. top2', '4. topnov', '5. act1', '6. f6', '7. f7', '8. f8', '9. f9', '10. f10', '11. f11', '12. blready', '',
+    '## Priority order (top 10 = daily focus)', '### P0', '1. a1', '2. top1', '3. top2', '4. topnov', '5. act1', '### P2 · Soon', '6. blready', '7. f7', '8. f8', '9. f9', '10. f10', '11. f11', '12. f12', '',
     '## Ready next (overnight-ready, not queued)', '', '## Active (built; daytime feedback and iteration)', '- act1 - built', '',
     '## Backlog (BUILD_SPEC written, not set up for overnight yet)', '- top2 @codex - tagged', '- blready - has verify now', '- blunranked - ready but not in the priority order', '- blnot - no verify', '') -join "`r`n"
 [IO.File]::WriteAllText($prioFile, $fixture)
 $pipelineMoves = New-Object System.Collections.ArrayList
 $null = Sync-Pipeline
 $st = Read-Pipeline; $after = [IO.File]::ReadAllText($prioFile)
-Check 'pipeline: untagged top-10 joins the emptier lane' $st.Where.top1 'claude'
+Check 'pipeline: untagged project joins the emptiest lane (Hermes had none)' $st.Where.top1 'hermes'
 Check 'pipeline: tagged top-10 joins its own lane' $st.Where.top2 'codex'
 Check 'pipeline: not overnight-ready stays out' $st.Where.topnov ''
 Check 'pipeline: Active stays Active' $st.Where.act1 'active'
@@ -139,6 +139,30 @@ Set-Content (Join-Path $rep 'REPORT.md') "# R`n## Open questions`n### Q5: Move x
 Check 'built: open move-to-Active question' (Test-Built $rep) 'True'
 Set-Content (Join-Path $rep 'REPORT.md') "# R`nverify passed"
 Check 'built: no claim' (Test-Built $rep) 'False'
+Remove-Item $root -Recurse -Force
+
+# Tiers (owner, 2026-10-25): every P0 and P1 project with a spec goes into a lane, overnight-ready or not (its lane makes it
+# ready first); nothing from P2 or below runs; a freed lane picks only from P0 and P1, in rank order.
+$root = Join-Path ([IO.Path]::GetTempPath()) "tiers-test-$PID"; $projects = Join-Path $root 'p'; $prioFile = Join-Path $root 'prio.md'
+foreach ($n in 'p0ready', 'p1new', 'p1nospec', 'p2ready') { $d = Join-Path $projects $n; git init -q $d; if ($n -ne 'p1nospec') { Set-Content "$d\BUILD_SPEC.md" 'spec' }; if ($n -like '*ready') { New-Item -ItemType Directory "$d\scripts" -Force | Out-Null; Set-Content "$d\scripts\verify.ps1" 'x' }; Set-Content "$d\README.md" 'x'; git -C $d add -A; git -C $d -c user.email=t@t -c user.name=t commit -qm init }
+[IO.File]::WriteAllText($prioFile, (@('## Tonight', '', '### Claude', '', '### Codex', '- busy1', '', '### Hermes', '', '## Priority order (top 10 = daily focus)',
+    '### P0 · Daily focus', '1. p0ready', '### P1 · Next up', '2. p1new', '3. p1nospec', '### P2 · Soon', '4. p2ready', '',
+    '## Ready next (overnight-ready, not queued)', '', '## Active (built; daytime feedback and iteration)', '', '## Backlog (BUILD_SPEC written, not set up for overnight yet)', '- p1new', '- p2ready', '') -join "`r`n"))
+$pipelineMoves = New-Object System.Collections.ArrayList
+Check 'tiers: run set is P0 and P1' ((Get-RunSet (Read-Pipeline)) -join ',') 'p0ready,p1new,p1nospec'
+$null = Sync-Pipeline
+$st = Read-Pipeline
+Check 'tiers: P0 ready project joins a lane' ([bool]($st.Where.p0ready -in 'claude', 'codex', 'hermes')) 'True'
+Check 'tiers: P1 project not overnight-ready yet joins a lane too' ([bool]($st.Where.p1new -in 'claude', 'codex', 'hermes')) 'True'
+Check 'tiers: P1 project without a spec stays out' $st.Where.p1nospec ''
+Check 'tiers: P2 project never joins a lane' $st.Where.p2ready 'ready'
+Check 'tiers: lanes fill the emptiest first (Codex had one)' "$($st.Where.p0ready),$($st.Where.p1new)" 'claude,hermes'
+$rows = @{}
+[IO.File]::WriteAllText($prioFile, ([IO.File]::ReadAllText($prioFile) -replace '(?m)^- (p0ready|p1new)\r?\n', ''))
+Check 'tiers: a freed lane takes the next P0/P1 project' (Get-Backfill 'codex').Name 'p0ready'
+$rows = @{ p0ready = @{}; p1new = @{} }
+Check 'tiers: never a P2 project, even a ready one' (Get-Backfill 'codex') ''
+$rows = @{}
 Remove-Item $root -Recurse -Force
 
 if ($failed) { exit 1 }

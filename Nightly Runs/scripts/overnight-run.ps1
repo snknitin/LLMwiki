@@ -173,11 +173,15 @@ function Set-BuilderModels($queue) {
 $pipelineMoves = New-Object System.Collections.ArrayList
 # The file's projects: Order (ranked), Where (name -> claude/codex/hermes/ready/active/backlog/archived), Tag (its @harness).
 function Read-Pipeline {
-    $st = @{ Order = @(); Where = @{}; Tag = @{} }; $sec = ''
+    $st = @{ Order = @(); Where = @{}; Tag = @{}; Tier = @{} }; $sec = ''; $tier = ''
     foreach ($l in [IO.File]::ReadAllText($prioFile) -split '\r?\n') {
         if ($l -match '^##\s+(.+)') { $t = $Matches[1]; $sec = $(if ($t -match '^Tonight') { 'claude' } elseif ($t -match '^Priority order') { 'order' } elseif ($t -match '^Ready next') { 'ready' } elseif ($t -match '^Active') { 'active' } elseif ($t -match '^Backlog') { 'backlog' } elseif ($t -match '^Archive') { 'archived' } else { '' }); continue }
         if ($l -match '^###\s+(Claude|Codex|Hermes)\b' -and $sec -in 'claude', 'codex', 'hermes') { $sec = $Matches[1].ToLower(); continue }
-        if ($sec -eq 'order') { if ($l -match '^\s*\d+\.\s+([A-Za-z0-9._-]+)') { $st.Order += $Matches[1] }; continue }
+        if ($sec -eq 'order') {
+            if ($l -match '^###\s+(P\d+)\b') { $tier = $Matches[1] }
+            elseif ($l -match '^\s*\d+\.\s+([A-Za-z0-9._-]+)') { $st.Order += $Matches[1]; if ($tier) { $st.Tier[$Matches[1]] = $tier } }
+            continue
+        }
         if ($sec -and $l -match '^\s*-\s+([A-Za-z0-9._-]+)(?:\s+@(claude|codex|hermes)\b)?') { if (-not $st.Where[$Matches[1]]) { $st.Where[$Matches[1]] = $sec }; if ($Matches[2]) { $st.Tag[$Matches[1]] = $Matches[2] } }
     }
     return $st
@@ -204,21 +208,33 @@ function Move-ProjectLine($folder, $to) {
 }
 # The lane a project joins: its own @harness tag, else the emptier of Claude and Codex (Hermes needs a FirstSpark clone,
 # so an untagged project only goes there when the owner tags it).
+# The projects approved to run (owner, 2026-10-25): every project in the P0 and P1 tiers of the priority order, in rank
+# order, skipping Active and Archived. A file without tiers falls back to the top 10.
+function Get-RunSet($st) {
+    $live = @($st.Order | Where-Object { $st.Where[$_] -notin 'active', 'archived' } | Select-Object -Unique)
+    if ($st.Tier.Count) { return @($live | Where-Object { $st.Tier[$_] -in 'P0', 'P1' }) }
+    return @($live | Select-Object -First 10)
+}
+# A project's lane: its own @harness tag, else the lane with the fewest projects (ties: Codex, then Claude, then Hermes;
+# the runner clones a missing FirstSpark copy for Hermes).
 function Get-LaneFor($name, $st) {
     if ($st.Tag[$name]) { return $st.Tag[$name] }
-    $count = @{ claude = 0; codex = 0 }; foreach ($w in $st.Where.Values) { if ($w -in 'claude', 'codex') { $count[$w]++ } }
-    return $(if ($count.codex -lt $count.claude) { 'codex' } else { 'claude' })
+    $count = [ordered]@{ codex = 0; claude = 0; hermes = 0 }; foreach ($w in $st.Where.Values) { if ($w -in 'claude', 'codex', 'hermes') { $count[$w]++ } }
+    $best = 'codex'; foreach ($k in @($count.Keys)) { if ($count[$k] -lt $count[$best]) { $best = $k } }   # first wins a tie
+    return $best
 }
 # Fills the lanes from the top 10 and moves overnight-ready Backlog projects to Ready next. Returns what it moved.
 function Sync-Pipeline {
     $st = Read-Pipeline; $moved = @()
-    $top = @($st.Order | Where-Object { $st.Where[$_] -notin 'active', 'archived' } | Select-Object -Unique -First 10)
-    foreach ($n in $top) {
-        if ($st.Where[$n] -in 'claude', 'codex', 'hermes' -or -not (Test-Path (Join-Path $projects "$n\scripts\verify.ps1"))) { continue }
+    foreach ($n in @(Get-RunSet $st)) {   # a project not overnight-ready yet goes in too: its lane makes it ready first
+        if ($st.Where[$n] -in 'claude', 'codex', 'hermes' -or -not (Test-Path (Join-Path $projects "$n\BUILD_SPEC.md"))) { continue }
         $lane = Get-LaneFor $n $st
-        if (Move-ProjectLine $n $lane) { $st.Where[$n] = $lane; $moved += "$n to Tonight $lane (top 10, overnight-ready)" }
+        if (Move-ProjectLine $n $lane) { $st.Where[$n] = $lane; $moved += "$n to the $lane lane ($(if ($st.Tier[$n]) { $st.Tier[$n] } else { 'top 10' }))" }
     }
-    foreach ($n in @($st.Order | Where-Object { $st.Where[$_] -eq 'backlog' } | Select-Object -Unique)) {   # ranked projects only, in rank order
+    # Ready next is the next 5 ranks after the approved ones, in order (the same 5 the prep makes overnight-ready).
+    $runSet = @(Get-RunSet $st)
+    $next5 = @($st.Order | Where-Object { $st.Where[$_] -notin 'active', 'archived' -and $_ -notin $runSet } | Select-Object -Unique -First 5)
+    foreach ($n in @($next5 | Where-Object { $st.Where[$_] -eq 'backlog' })) {
         if (-not (Test-Path (Join-Path $projects "$n\scripts\verify.ps1"))) { continue }
         if (Move-ProjectLine $n 'ready') { $st.Where[$n] = 'ready'; $moved += "$n to Ready next (now overnight-ready)" }
     }
@@ -279,7 +295,7 @@ function Get-Upkeep($queue) {
         if ($section -match '^Priority order' -and $line -match '^\s*\d+\.\s+([A-Za-z0-9._-]+)') { $order += $Matches[1] }
         if ($section -match '^(Active|Archived)' -and $line -match '^\s*-\s+([A-Za-z0-9._-]+)') { $parked[$Matches[1]] = $true }
     }
-    $top = @(@($order | Where-Object { -not $parked[$_] } | Select-Object -Unique -First 10) + @($queue | ForEach-Object { $_.Name }) | Select-Object -Unique)
+    $top = @(@(Get-RunSet (Read-Pipeline)) + @($queue | ForEach-Object { $_.Name }) | Select-Object -Unique)
     $items = @()
     foreach ($name in $top) {
         $dir = Join-Path $projects $name
@@ -296,8 +312,8 @@ function Get-Upkeep($queue) {
         }
         if ($todo) { $items += [pscustomobject]@{ Project = $name; Action = $todo -join ' + '; Why = $why -join '; ' } }
     }
-    # The next 5 projects in the priority order after the top 10 (skipping Active and Archived) are made overnight-ready, in
-    # rank order (owner, 2026-10-25), so a freed lane always continues with the next rank.
+    # The next 5 projects in the priority order after the approved ones (skipping Active and Archived) are made
+    # overnight-ready in rank order (owner, 2026-10-25), so they are ready the day the owner moves them up.
     foreach ($name in @($order | Where-Object { -not $parked[$_] -and $_ -notin $top } | Select-Object -Unique -First 5)) {
         $dir = Join-Path $projects $name
         if ((Test-Path "$dir\BUILD_SPEC.md") -and -not (Test-Path "$dir\scripts\verify.ps1") -and -not @($items | Where-Object { $_.Project -eq $name })) {
@@ -845,7 +861,7 @@ function Test-Leftover($dir, $harness, $text) {
 # same harness, so no lane idles. Nothing moves in Project Priorities.md; the report says which project filled in.
 function Get-Backfill($harness) {
     $st = Read-Pipeline
-    foreach ($n in $st.Order) {   # strictly the priority order (owner, 2026-10-25): never a ready project further down first
+    foreach ($n in @(Get-RunSet $st)) {   # strictly the approved projects in priority order (owner, 2026-10-25), never one further down
         if ($st.Where[$n] -in 'claude', 'codex', 'hermes', 'active', 'archived' -or $rows[$n]) { continue }
         $d = Join-Path $projects $n
         if (-not (Test-Path "$d\.git") -or -not (Test-Path "$d\BUILD_SPEC.md") -or (git -C $d status --porcelain 2>$null)) { continue }   # no spec yet, or someone is working in it
