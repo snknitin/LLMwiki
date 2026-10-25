@@ -1018,7 +1018,7 @@ foreach ($name in @($sessions.Keys)) { if ($sessions[$name] -gt 1) { $rows[$name
 # harness is parked on a usage limit. QA may change only the files in $qaAllowed; the runner checks the commits it made.
 # The result goes to .run-state.json (live) and under the report table, and the Agents board shows it as a badge.
 $qaPromptFile = Join-Path $vault 'Nightly Runs\agent-rules\qa-prompt.md'
-$qaAllowed = 'REPORT.md', 'FEEDBACK.md', 'BUILD_SPEC.md', 'PROGRESS.md'   # BUILD_SPEC/PROGRESS only to revert a "done" mark that has no evidence
+$qaAllowed = 'REPORT.md', 'FEEDBACK.md', 'BUILD_SPEC.md', 'PROGRESS.md', 'DECISIONS.md'   # BUILD_SPEC/PROGRESS only to revert a "done" mark that has no evidence; DECISIONS.md is bookkeeping (2026-10-25: two QA results were thrown away for logging there)
 function Format-Qa($r) {
     if ($r.state -eq 'pass') { return 'pass' }
     if ($r.state -eq 'findings') { return $(if ([int]$r.findings -eq 1) { '1 finding' } else { "$($r.findings) findings" }) }
