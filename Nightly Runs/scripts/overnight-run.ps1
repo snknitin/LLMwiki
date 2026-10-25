@@ -226,9 +226,14 @@ function Get-LaneFor($name, $st) {
 # A ranked project below the 10 leaves its lane; a project the owner put in a lane without ranking it stays.
 function Sync-Pipeline {
     $st = Read-Pipeline; $moved = @()
+    $lanes = 'claude', 'codex', 'hermes'
+    # Built projects go to Active without asking (owner, 2026-10-25): a "Project built:" line, or a Move-to-Active question
+    # answered Yes or not answered at all. Their spots go to the next ranks below.
+    foreach ($n in @($st.Where.Keys | Where-Object { $st.Where[$_] -in $lanes + 'ready' })) {
+        if ((Test-Built (Join-Path $projects $n)) -and (Move-ProjectLine $n 'active')) { $st.Where[$n] = 'active'; $moved += "$n to Active (built: only owner steps left)" }
+    }
     $runSet = @(Get-RunSet $st)
     $next5 = @($st.Order | Where-Object { $st.Where[$_] -notin 'active', 'archived' -and $_ -notin $runSet } | Select-Object -Unique -First 5)
-    $lanes = 'claude', 'codex', 'hermes'
     foreach ($n in @($st.Where.Keys | Where-Object { $st.Where[$_] -in $lanes -and $_ -notin $runSet -and $st.Order -contains $_ })) {
         $to = $(if ($next5 -contains $n) { 'ready' } else { 'backlog' })
         if (Move-ProjectLine $n $to) { $st.Where[$n] = $to; $moved += "$n out of its lane to $(if ($to -eq 'ready') { 'Ready next' } else { 'Backlog' }) (below the 10 that run)" }
@@ -253,7 +258,7 @@ function Test-Built($dir) {
     $t = Get-Content (Join-Path $dir 'REPORT.md') -Raw -Encoding UTF8 -ErrorAction SilentlyContinue
     if (-not $t) { return $false }
     if ($t -match '(?m)^\W*Project built:') { return $true }
-    if ($t -match '(?ms)^###\s+Q\d+[^\r\n]*Move \S+ to Active\?(.*?)(?=^#|\z)') { return $Matches[1] -notmatch '(?i)- \[x\][^\r\n]*keep' }
+    if ($t -match '(?ms)^###\s+Q\d+[^\r\n]*Move \S+ to Active\?(.*?)(?=^#|\z)') { return $Matches[1] -notmatch '(?i)- \[x\][^\r\n]*(keep|not now|not yet|\bno\b)' }
     return $false
 }
 if (-not $Preflight -and -not $DryRun -and -not $QaOnly -and -not $Resume -and -not $FixOnly -and -not $Project) { Sync-Pipeline }

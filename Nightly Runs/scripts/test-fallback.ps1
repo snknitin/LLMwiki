@@ -166,6 +166,13 @@ $before = [IO.File]::ReadAllText($prioFile); $null = Sync-Pipeline
 Check 'top 10: running it again changes nothing' ([IO.File]::ReadAllText($prioFile) -eq $before) 'True'
 $null = Move-ProjectLine 'r03' 'active'; $null = Sync-Pipeline; $st = Read-Pipeline
 Check 'top 10: one more Active brings in the next rank' ([bool]($st.Where.r13 -in 'claude', 'codex', 'hermes')) 'True'
+# Built projects move to Active without asking; one the owner told to keep building stays.
+New-Item -ItemType Directory -Force (Join-Path $projects 'r04') | Out-Null; Set-Content (Join-Path $projects 'r04\REPORT.md') "# R`n## Status`nProject built: only G3 is left (owner)"
+Set-Content (Join-Path $projects 'r06\REPORT.md') "# R`n## Open questions`n### Q5: Move r06 to Active?`n- [ ] Yes (recommended)`n- [x] Not now, keep building"
+$null = Sync-Pipeline; $st = Read-Pipeline
+Check 'built: a built project in a lane moves to Active by itself' $st.Where.r04 'active'
+Check 'built: one the owner said keep building stays in its lane' ([bool]($st.Where.r06 -in 'claude', 'codex', 'hermes')) 'True'
+Check 'built: its spot goes to the next rank' ([bool]($st.Where.r14 -in 'claude', 'codex', 'hermes')) 'True'
 Remove-Item $root -Recurse -Force
 
 if ($failed) { exit 1 }
