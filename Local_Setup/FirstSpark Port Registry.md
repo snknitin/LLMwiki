@@ -51,8 +51,14 @@ Each overnight project serves its UI (or a read-only status page) on its own por
 | 8780 | net-worth-command-center |
 | 8781 | personal-study-curriculum |
 | 8782 | creator-content-engine |
+| 8783 | (taken: ntfy push notifications, see the services table; never a preview) |
 | 8784 | event-market-research-terminal |
 | 8785 | competitive-intelligence-agency |
+| 8786 | personalized-adhd-skill-upgrade |
+| 8790 | daily-parent-check-in |
+| 8791 | meet-in-the-middle-city-explorer |
+| 8792 | jobs-search-and-apply-tool |
+| 8793 | side-hustle-radar |
 
 ## Models and agent infrastructure
 
