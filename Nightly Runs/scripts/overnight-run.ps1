@@ -748,6 +748,7 @@ $heads = [ordered]@{}
 foreach ($q in $pending) { $h = git -C (Join-Path $projects $q.Name) rev-parse HEAD 2>$null; if ($h) { $heads[$q.Name] = "$h" } }
 if ($QaOnly) { $heads[$Project] = "$qaBase"; $pending.Clear() }
 $qaResults = [ordered]@{}   # QA per project: @{ state = running|pass|findings|skipped|failed; findings; reason }, read by the Agents board
+$runPhase = 'lanes'   # read by the Agents board: lanes = agents working, wrapup = QA and the runner's verify
 $running = @{}; $limitUntil = @{}; $advances = @{}; $sessions = @{}; $waitNet = @{}; $nextNetCheck = @{}; $noSpark = @{}; $leftovers = @{}
 foreach ($n in @($recheck.Keys)) { $notBefore[$n] = (Get-Date).AddMinutes(5) }
 foreach ($n in @($sparkState.Keys)) { if ($sparkState[$n] -eq 'unreachable') { $waitNet[$n] = $true } }   # starts when FirstSpark answers
@@ -757,7 +758,7 @@ if ($Resume -and $state.limitUntil) { foreach ($p in $state.limitUntil.PSObject.
 # limitUntil (harnesses parked on a usage limit, as ISO strings) is also read by the Agents board's Usage limits panel.
 function Save-RunState {
     $parked = @{}; foreach ($k in @($limitUntil.Keys)) { $parked[$k] = $limitUntil[$k].ToString('o') }
-    @{ kind = $Kind; started = $started.ToString('o'); until = $deadline.ToString('o'); heads = $heads; limitUntil = $parked; qa = $qaResults } | ConvertTo-Json -Depth 5 | Set-Content -Path $stateFile -Encoding UTF8
+    @{ kind = $Kind; phase = $runPhase; started = $started.ToString('o'); until = $deadline.ToString('o'); heads = $heads; limitUntil = $parked; qa = $qaResults } | ConvertTo-Json -Depth 5 | Set-Content -Path $stateFile -Encoding UTF8
 }
 function Test-Parked($tool) { return [bool]($limitUntil[$tool] -and (Get-Date) -lt $limitUntil[$tool]) }
 # The harness a project's next session runs on. A Claude project whose harness is parked on its usage limit runs on Codex,
@@ -888,6 +889,7 @@ function Write-RunReport([switch]$final) {
     Set-Content -Path $reportMd -Value $md -Encoding UTF8
     if ($final -and -not $DryRun) { Set-Content -Path (Join-Path $runLogDir "$stamp.md") -Value $md -Encoding UTF8 }
 }
+$runPhase = 'wrapup'; if (-not $DryRun) { Save-RunState }
 if (-not $DryRun -and -not $QaOnly) {
     foreach ($q in $queue) { if ($heads[$q.Name]) { $d = Join-Path $projects $q.Name; $h = git -C $d rev-parse HEAD 2>$null; $rows[$q.Name].Heads = "$($heads[$q.Name])..$h"; $rows[$q.Name].Commits = [int](git -C $d rev-list --count $rows[$q.Name].Heads 2>$null) } }
     Write-RunReport
