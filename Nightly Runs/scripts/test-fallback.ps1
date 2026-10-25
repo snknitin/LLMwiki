@@ -111,7 +111,7 @@ $root = Join-Path ([IO.Path]::GetTempPath()) "pipeline-test-$PID"; $projects = J
 foreach ($n in 'top1', 'top2', 'blready', 'blunranked') { New-Item -ItemType Directory -Force (Join-Path $projects "$n\scripts") | Out-Null; Set-Content (Join-Path $projects "$n\scripts\verify.ps1") 'x'; Set-Content (Join-Path $projects "$n\BUILD_SPEC.md") 'spec' }
 New-Item -ItemType Directory -Force (Join-Path $projects 'topnov') | Out-Null
 $fixture = @('# P', '## Tonight', '', '### Claude', '- a1 - x', '', '### Codex', '- c1 @codex:sol - y', '- c2', '', '### Hermes', '',
-    '## Priority order (top 10 = daily focus)', '### P0', '1. a1', '2. top1', '3. top2', '4. topnov', '5. act1', '### P2 · Soon', '6. blready', '7. f7', '8. f8', '9. f9', '10. f10', '11. f11', '12. f12', '',
+    '## Priority order (top 10 = daily focus)', '### P0', '1. a1', '2. top1', '3. top2', '4. topnov', '5. act1', '6. f6', '7. f7', '8. f8', '9. f9', '10. f10', '11. f11', '12. blready', '',
     '## Ready next (overnight-ready, not queued)', '', '## Active (built; daytime feedback and iteration)', '- act1 - built', '',
     '## Backlog (BUILD_SPEC written, not set up for overnight yet)', '- top2 @codex - tagged', '- blready - has verify now', '- blunranked - ready but not in the priority order', '- blnot - no verify', '') -join "`r`n"
 [IO.File]::WriteAllText($prioFile, $fixture)
@@ -141,28 +141,31 @@ Set-Content (Join-Path $rep 'REPORT.md') "# R`nverify passed"
 Check 'built: no claim' (Test-Built $rep) 'False'
 Remove-Item $root -Recurse -Force
 
-# Tiers (owner, 2026-10-25): every P0 and P1 project with a spec goes into a lane, overnight-ready or not (its lane makes it
-# ready first); nothing from P2 or below runs; a freed lane picks only from P0 and P1, in rank order.
-$root = Join-Path ([IO.Path]::GetTempPath()) "tiers-test-$PID"; $projects = Join-Path $root 'p'; $prioFile = Join-Path $root 'prio.md'
-foreach ($n in 'p0ready', 'p1new', 'p1nospec', 'p2ready') { $d = Join-Path $projects $n; git init -q $d; if ($n -ne 'p1nospec') { Set-Content "$d\BUILD_SPEC.md" 'spec' }; if ($n -like '*ready') { New-Item -ItemType Directory "$d\scripts" -Force | Out-Null; Set-Content "$d\scripts\verify.ps1" 'x' }; Set-Content "$d\README.md" 'x'; git -C $d add -A; git -C $d -c user.email=t@t -c user.name=t commit -qm init }
-[IO.File]::WriteAllText($prioFile, (@('## Tonight', '', '### Claude', '', '### Codex', '- busy1', '', '### Hermes', '', '## Priority order (top 10 = daily focus)',
-    '### P0 · Daily focus', '1. p0ready', '### P1 · Next up', '2. p1new', '3. p1nospec', '### P2 · Soon', '4. p2ready', '',
-    '## Ready next (overnight-ready, not queued)', '', '## Active (built; daytime feedback and iteration)', '', '## Backlog (BUILD_SPEC written, not set up for overnight yet)', '- p1new', '- p2ready', '') -join "`r`n"))
+# 10 at a time (owner, 2026-10-25): the lanes hold the first 10 ranks that are not Active; when two of them are Active,
+# ranks 11 and 12 come in. Ready next is exactly the next 5 ranks; Backlog the rest. A ranked project below the 10 leaves
+# its lane; one the owner put in a lane without ranking it stays. Running it twice changes nothing.
+$root = Join-Path ([IO.Path]::GetTempPath()) "top10-test-$PID"; $projects = Join-Path $root 'p'; $prioFile = Join-Path $root 'prio.md'
+$names = 1..19 | ForEach-Object { 'r{0:d2}' -f $_ }
+foreach ($n in $names) { $d = Join-Path $projects $n; New-Item -ItemType Directory -Force $d | Out-Null; Set-Content "$d\BUILD_SPEC.md" 'spec' }
+$order = @(for ($i = 0; $i -lt $names.Count; $i++) { "$($i + 1). $($names[$i])" })
+[IO.File]::WriteAllText($prioFile, (@('## Tonight', '', '### Claude', '- r01', '- mine - placed by the owner, not ranked', '', '### Codex', '- r13 - below the 10', '', '### Hermes', '',
+    '## Priority order (top 10 = daily focus)', '### P0 · Daily focus') + $order + @('',
+    '## Ready next (overnight-ready, not queued)', '- r19 - too far down', '', '## Active (built; daytime feedback and iteration)', '- r02', '- r05', '',
+    '## Backlog (BUILD_SPEC written, not set up for overnight yet)', '') -join "`r`n"))
 $pipelineMoves = New-Object System.Collections.ArrayList
-Check 'tiers: run set is P0 and P1' ((Get-RunSet (Read-Pipeline)) -join ',') 'p0ready,p1new,p1nospec'
+Check 'top 10: the 10 that run skip Active' ((Get-RunSet (Read-Pipeline)) -join ',') 'r01,r03,r04,r06,r07,r08,r09,r10,r11,r12'
 $null = Sync-Pipeline
 $st = Read-Pipeline
-Check 'tiers: P0 ready project joins a lane' ([bool]($st.Where.p0ready -in 'claude', 'codex', 'hermes')) 'True'
-Check 'tiers: P1 project not overnight-ready yet joins a lane too' ([bool]($st.Where.p1new -in 'claude', 'codex', 'hermes')) 'True'
-Check 'tiers: P1 project without a spec stays out' $st.Where.p1nospec ''
-Check 'tiers: P2 project never joins a lane' $st.Where.p2ready 'ready'
-Check 'tiers: lanes fill the emptiest first (Codex had one)' "$($st.Where.p0ready),$($st.Where.p1new)" 'claude,hermes'
-$rows = @{}
-[IO.File]::WriteAllText($prioFile, ([IO.File]::ReadAllText($prioFile) -replace '(?m)^- (p0ready|p1new)\r?\n', ''))
-Check 'tiers: a freed lane takes the next P0/P1 project' (Get-Backfill 'codex').Name 'p0ready'
-$rows = @{ p0ready = @{}; p1new = @{} }
-Check 'tiers: never a P2 project, even a ready one' (Get-Backfill 'codex') ''
-$rows = @{}
+$inLanes = @($names | Where-Object { $st.Where[$_] -in 'claude', 'codex', 'hermes' })
+Check 'top 10: exactly those 10 are in lanes' ($inLanes -join ',') 'r01,r03,r04,r06,r07,r08,r09,r10,r11,r12'
+Check 'top 10: a ranked project below the 10 leaves its lane for Ready next' $st.Where.r13 'ready'
+Check 'top 10: Ready next is exactly the next 5 ranks' (@($names | Where-Object { $st.Where[$_] -eq 'ready' }) -join ',') 'r13,r14,r15,r16,r17'
+Check 'top 10: anything else in Ready next goes back to Backlog' $st.Where.r19 'backlog'
+Check 'top 10: an unranked project the owner put in a lane stays' $st.Where.mine 'claude'
+$before = [IO.File]::ReadAllText($prioFile); $null = Sync-Pipeline
+Check 'top 10: running it again changes nothing' ([IO.File]::ReadAllText($prioFile) -eq $before) 'True'
+$null = Move-ProjectLine 'r03' 'active'; $null = Sync-Pipeline; $st = Read-Pipeline
+Check 'top 10: one more Active brings in the next rank' ([bool]($st.Where.r13 -in 'claude', 'codex', 'hermes')) 'True'
 Remove-Item $root -Recurse -Force
 
 if ($failed) { exit 1 }
