@@ -1003,7 +1003,7 @@ foreach ($q in $pending) { $h = git -C (Join-Path $projects $q.Name) rev-parse H
 if ($QaOnly) { $heads[$Project] = "$qaBase"; $pending.Clear() }
 $qaResults = [ordered]@{}   # QA per project: @{ state = running|pass|findings|skipped|failed; findings; reason }, read by the Agents board
 $runPhase = 'lanes'   # read by the Agents board: lanes = agents working, wrapup = QA and the runner's verify
-$running = @{}; $limitUntil = @{}; $advances = @{}; $sessions = @{}; $restores = @{}; $hangs = @{}; $idle = @{}; $steered = @{}; $waitNet = @{}; $nextNetCheck = @{}; $noSpark = @{}; $leftovers = @{}
+$running = @{}; $limitUntil = @{}; $advances = @{}; $sessions = @{}; $restores = @{}; $hangs = @{}; $idle = @{}; $steered = @{}; $planLimits = @{}; $waitNet = @{}; $nextNetCheck = @{}; $noSpark = @{}; $leftovers = @{}
 foreach ($n in @($recheck.Keys)) { $notBefore[$n] = (Get-Date).AddMinutes(5) }
 foreach ($n in @($sparkState.Keys)) { if ($sparkState[$n] -eq 'unreachable') { $waitNet[$n] = $true } }   # starts when FirstSpark answers
 # A resumed run keeps the usage limits the cut-off run had hit.
@@ -1231,8 +1231,12 @@ while ($pending.Count -or $running.Count) {
                 $atext = (((Get-Content (Join-Path $logDir "$name.advance.txt") -Raw -Encoding UTF8 -ErrorAction SilentlyContinue) -replace "`0", '') -split '(?m)^=== ')[-1]
                 $fam = ($r.Spec -split ':')[0]
                 if (Test-Progress $dir $r.Head) { $row.Note += "$(if ($r.Action -eq 'advance') { 'advanced to its next slices' } else { "$($r.Action) done" }) at $((Get-Date).ToString('HH:mm')) on $($r.Spec). "; [void]$pending.Add($r.Q) }
-                elseif ($fam -ne 'hermes' -and (Test-LimitHit $atext) -and -not (Test-Parked $fam)) {
-                    $limitUntil[$fam] = Get-LimitReset $atext; Save-RunState
+                # A usage limit means the planner never ran, even when another session parked that model first (2026-10-26:
+                # creator-content-engine and event-market-research-terminal lost the night to "no new slice" this way).
+                elseif ($fam -ne 'hermes' -and (Test-LimitHit $atext) -and [int]$planLimits[$name] -lt 4) {
+                    $planLimits[$name] = 1 + [int]$planLimits[$name]
+                    if (-not (Test-Parked $fam)) { $limitUntil[$fam] = Get-LimitReset $atext; Save-RunState }
+                    Write-Decision $name "$fam usage limit while planning: planning again on the next free model"
                     $row.Note += "$fam usage limit while planning at $((Get-Date).ToString('HH:mm')); planning again on the next free model. "
                     if ($r.Action -eq 'advance') { $advances[$name] = [int]$advances[$name] - 1 }   # that one never ran
                     Start-Advance $r.Q $r.Action $r.Why

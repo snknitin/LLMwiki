@@ -141,6 +141,7 @@ Toolchain and verify
 - Docs, broken links, wikilinks, section numbering, typos and stale model names
 - Which Command Center group to use (section 4) and the registry ids
 - Defaults the spec calls "non-blocking". Take the spec's stated default.
+- A contradiction inside the spec or the project's own files (BUILD_SPEC vs README vs CLAUDE.md vs a protected fixture or test): take the reading closest to BUILD_SPEC's purpose and the owner's latest word (Owner direction, Owner answers), change what has to change (fixtures and protected files included, with the reason in the commit), log `Auto-decided <conflict>: <choice> (why; how to undo)` and keep building (owner, 2026-10-26: "There is nothing that should block a run. No questions.")
 - Owner gates (`G<n>`) and approval questions about anything on this list, even when BUILD_SPEC calls them owner gates: take the spec's default, else your recommended option, and log `Auto-decided <gate>` in `DECISIONS.md`. The owner overrides in the morning if they disagree.
 
 **Wait for the owner, but never sit idle:**
@@ -150,7 +151,6 @@ Toolchain and verify
 - Stopping or swapping shared services (vLLM, LiteLLM, Hermes, the GLM pair, Desktop Qwen)
 - Privacy exposure: real personal data leaving the owner's machines, or a new third-party data flow
 - Real data only the owner has: exports, device model, city, real accounts
-- A real conflict with BUILD_SPEC, README or an earlier owner answer
 
 When blocked:
 1. Read `DECISIONS.md` → `## Owner answers (from the Agents board)` first.

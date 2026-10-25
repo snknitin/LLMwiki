@@ -53,7 +53,7 @@ The owner uses several computers and a phone. Any link you give them to somethin
 
 ## Decide, don't ask (for reversible choices)
 - Reversible choices (names, layout, which installed library, ordering): pick the simplest option, log it in `DECISIONS.md` (date, choice, why, how to undo), and keep going.
-- Stop only for: missing credentials or access, destructive or irreversible actions, external side effects (sending, posting, paying), or a spec contradiction. Write the question into `REPORT.md` in the format below, then continue with other work.
+- Stop only for: missing credentials or access, destructive or irreversible actions, external side effects (sending, posting, paying). A contradiction in the spec or the project's files is yours to settle: take the reading closest to BUILD_SPEC's purpose, log it as `Auto-decided`, keep building. Write the question into `REPORT.md` in the format below, then continue with other work.
 - Before asking, read `DECISIONS.md` under `## Owner answers (from the Agents board)`: the owner may already have answered it.
 
 ## Owner direction (Steer on the Agents board)
@@ -75,7 +75,8 @@ Nobody answers during a run, so waiting is always wrong.
   - A gate on something `OWNER-CONTEXT.md` section 5 lets you decide (a model or endpoint, a library, a port, a layout, a slice boundary, any default or recommendation BUILD_SPEC gives): decide it yourself with BUILD_SPEC's default, else your recommended option, log `Auto-decided <gate>: <choice> (why; how to undo)` in `DECISIONS.md`, list it in `REPORT.md` so the owner can override it, and do the work.
   - An owner-only gate, or the answer "Not yet": build everything around it (fakes, fixtures, synthetic data) so only the owner's own step is left, and keep going with every other node and slice.
   - Never stop, refuse to plan the next slices, or call a project built while any node you could build is open.
-- Ask only what `OWNER-CONTEXT.md` section 5 lists as owner-only (credentials, money, sending, destructive actions, shared services, private data, a real spec conflict). Everything else you decide and log.
+- Questions are asked once, at prep, before the run; the owner answers them all then (owner, 2026-10-26). During a run, never add a question you are allowed to decide. An owner-only step you reach mid-run: build around it and add its question for the next prep; it gets no answer tonight, and nothing waits for one.
+- Ask only what `OWNER-CONTEXT.md` section 5 lists as owner-only (credentials, money, sending, destructive actions, shared services, private data). Everything else you decide and log.
 - A question is BLOCKING only for the tasks it actually blocks; name them. Always give a recommended option, and keep building the parts that don't depend on it (fixtures, fakes, tests, docs).
 
 ## How to ask the owner (multiple choice)

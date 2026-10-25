@@ -20,6 +20,10 @@ The runner worked out the list below. Do each item:
 
 Moving projects: use the Agents board API (GET http://127.0.0.1:8768/api/board for the version, then POST /api/move with folder, to (claude, codex, hermes or ready), index and version). It keeps the file's format intact. If the board isn't reachable, edit the line by hand without touching anything else. Commit only that file in the vault: `git -C F:\Vaults\LLMWiki commit -m "<msg>" -- "Nightly Runs/Project Priorities.md"`, then `git push`. The vault holds other sessions' uncommitted work, so never `git add -A`, stash or reset there.
 
+**Ask everything now, once.** Prep is the only time the owner answers anything; the run that follows never waits and nothing reaches them at night (owner, 2026-10-26). For every project you work on, read its next slices in the build tree and every open owner gate (`G<n>`):
+- Anything OWNER-CONTEXT.md section 5 lets you decide (ports, models, libraries, layouts, spec contradictions, defaults): decide it now, log `Auto-decided <it>: <choice> (why; how to undo)` in DECISIONS.md, and remove the matching question from REPORT.md.
+- Anything owner-only (credentials, money, sending, real data, shared services) that the coming slices will reach: write it now in REPORT.md `## Open questions` in the multiple-choice format, with a `(recommended)` option, or leave it as the open gate (the board asks every open gate as "Approve: …"). Ask for a pre-approval, so that later slices can go ahead the moment the owner says yes.
+
 In every project, stage only the paths you changed, `git pull --rebase`, then push. Never force-push. Never touch real personal data, live accounts or another project's files.
 
 Finish by writing `F:\Vaults\LLMWiki\Nightly Runs\Prep Report.md` (overwrite it): one line per item saying what you did and the result (verify exit code, commit hash, lane), plus anything left for the owner in the multiple-choice question format from the shared rules. Do not commit the Prep Report; the runner reads it.
