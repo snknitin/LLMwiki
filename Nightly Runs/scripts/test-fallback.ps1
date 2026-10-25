@@ -3,10 +3,15 @@
 # Usage: powershell -NoProfile -ExecutionPolicy Bypass -File test-fallback.ps1
 $ErrorActionPreference = 'Stop'
 $ast = [System.Management.Automation.Language.Parser]::ParseFile((Join-Path $PSScriptRoot 'overnight-run.ps1'), [ref]$null, [ref]$null)
-$ast.FindAll({ param($n) $n -is [System.Management.Automation.Language.FunctionDefinitionAst] -and $n.Name -in 'Test-Parked', 'Get-SessionHarness', 'Save-RunState', 'Test-Leftover', 'Get-Backfill', 'Get-AdvanceSpec', 'Test-CachedPass', 'Get-LaneStates', 'Read-Pipeline', 'Move-ProjectLine', 'Get-LaneFor', 'Sync-Pipeline', 'Test-Built', 'Get-RunSet' }, $true) |
+$ast.FindAll({ param($n) $n -is [System.Management.Automation.Language.FunctionDefinitionAst] -and $n.Name -in 'Test-Parked', 'Get-SessionHarness', 'Save-RunState', 'Test-Leftover', 'Get-Backfill', 'Get-AdvanceSpec', 'Test-CachedPass', 'Get-LaneStates', 'Read-Pipeline', 'Move-ProjectLine', 'Get-LaneFor', 'Sync-Pipeline', 'Test-Built', 'Get-RunSet', 'Test-NetError' }, $true) |
     ForEach-Object { . ([scriptblock]::Create($_.Extent.Text)) }
 $failed = 0
 function Check($what, $got, $want) { if ("$got" -ne "$want") { Write-Output "FAIL $what`: got '$got', want '$want'"; $script:failed++ } else { Write-Output "ok   $what" } }
+
+# A network error counts only at the end of a session (2026-10-25: a project's own "fetch failed" text restarted it every few minutes).
+$netError = $ast.Find({ param($n) $n -is [System.Management.Automation.Language.AssignmentStatementAst] -and "$($n.Left)" -eq '$netError' }, $true).Right.Extent.Text.Trim("'")
+Check 'net: a project mentioning fetch failed mid-session is not a dropped connection' (Test-NetError ("the calendar fetch failed path is covered`n" + ('x' * 2000) + "`nSlices done.")) 'False'
+Check 'net: a dropped connection at the end is' (Test-NetError (('x' * 2000) + "`nError: fetch failed ECONNRESET")) 'True'
 
 $claude = [pscustomobject]@{ Name = 'alpha'; Harness = 'claude' }
 $codex = [pscustomobject]@{ Name = 'gamma'; Harness = 'codex' }

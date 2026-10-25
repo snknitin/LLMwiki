@@ -781,6 +781,11 @@ function Test-Online($harness) {
 # a real Codex limit).
 $limitHit = "(?i)you(?:'|\u2019)?ve hit your (?:session |usage |weekly |daily )?limit|claude ai usage limit reached|usage limit reached|rate_limit_exceeded|insufficient_quota"
 function Test-LimitHit($text) { $t = "$text"; return $t.Substring([Math]::Max(0, $t.Length - 1500)) -match $limitHit }
+# The same for a dropped connection: only at the end of the output, where the tool reports it as it stops (2026-10-25:
+# paper-logbook's own text "calendar/plan fetch failed" restarted it every few minutes).
+function Test-NetError($text) { $t = "$text"; return $t.Substring([Math]::Max(0, $t.Length - 1500)) -match $netError }
+# Every lane decision, one line each, in <run log folder>\_decisions.log: what ended, what the runner did next, and why.
+function Write-Decision($name, $what) { Add-Content -Path (Join-Path $logDir '_decisions.log') -Value "$((Get-Date).ToString('HH:mm:ss')) $name`: $what" -Encoding UTF8 }
 function Get-LimitReset($text) {
     $now = Get-Date
     if ($text -match '(?i)(?:resets?|try again)\s+(?:at\s+)?(\d{1,2})(?::(\d{2}))?\s*(am|pm)') {
@@ -825,6 +830,7 @@ function Start-Advance($q, $action = 'advance', $why = "tonight's target passed 
             git -C $dir commit -q -m "Restore $($changed -join ', '): changed by a builder session (the runner keeps the judge fixed overnight)" -- @($changed) 2>$null
             git -C $dir push -q 2>$null
             $rows[$name].Note += "SUSPECT: a session changed $($changed -join ', '); restored at $((Get-Date).ToString('HH:mm')) and kept building. "
+            Write-Decision $name "restored $($changed -join ', '): builder session"
             [void]$pending.Add($q); return   # its target must now pass the real verify: a builder session, not the planner
         } elseif ($changed) { $rows[$name].Note += "not advanced: SUSPECT ($($issues -join '; ')) again after two restores. "; Start-Backfill $rows[$name] $q.Harness $name; return }
         else { $rows[$name].Note += "SUSPECT: $($issues -join '; ') (flagged for the morning; kept building). " }
@@ -925,7 +931,7 @@ foreach ($q in $pending) { $h = git -C (Join-Path $projects $q.Name) rev-parse H
 if ($QaOnly) { $heads[$Project] = "$qaBase"; $pending.Clear() }
 $qaResults = [ordered]@{}   # QA per project: @{ state = running|pass|findings|skipped|failed; findings; reason }, read by the Agents board
 $runPhase = 'lanes'   # read by the Agents board: lanes = agents working, wrapup = QA and the runner's verify
-$running = @{}; $limitUntil = @{}; $advances = @{}; $sessions = @{}; $restores = @{}; $hangs = @{}; $waitNet = @{}; $nextNetCheck = @{}; $noSpark = @{}; $leftovers = @{}
+$running = @{}; $limitUntil = @{}; $advances = @{}; $sessions = @{}; $restores = @{}; $hangs = @{}; $idle = @{}; $waitNet = @{}; $nextNetCheck = @{}; $noSpark = @{}; $leftovers = @{}
 foreach ($n in @($recheck.Keys)) { $notBefore[$n] = (Get-Date).AddMinutes(5) }
 foreach ($n in @($sparkState.Keys)) { if ($sparkState[$n] -eq 'unreachable') { $waitNet[$n] = $true } }   # starts when FirstSpark answers
 # A resumed run keeps the usage limits the cut-off run had hit.
@@ -1175,22 +1181,28 @@ while ($pending.Count -or $running.Count) {
             # A Hermes fallback for a project not cloned on FirstSpark: no more Hermes fallbacks for it; it waits for a reset.
             if ($r.Q.Home -and $r.Q.Harness -eq 'hermes' -and "$text" -match 'SPARK_MISSING') { $noSpark[$name] = $true; [void]$pending.Add($own); continue }
             # Stopped early with real progress and time left: start it again; it resumes from PROGRESS.md's next open item.
-            if (Test-Progress $dir $r.Head) { $advances[$name] = 0; [void]$pending.Add($own) }   # real work resets the advance count
-            elseif ($r.Q.Harness -ne 'hermes' -and (Test-LimitHit $text)) { [void]$pending.Add($own) }   # on another harness, or after the reset
-            elseif ("$text" -match $netError) {
+            # Builder sessions in a row with no real work (only REPORT/PROGRESS/DECISIONS): from the second one on, nothing but a
+            # real usage limit starts another builder session; the target is done, so QA and planning follow (2026-10-25:
+            # personalized-adhd ran 16 two-minute sessions that only re-recorded a passing verify).
+            $progress = Test-Progress $dir $r.Head
+            $idle[$name] = $(if ($progress) { 0 } else { 1 + [int]$idle[$name] })
+            $quiet = [int]$idle[$name] -ge 2
+            if ($progress) { $advances[$name] = 0; [void]$pending.Add($own); Write-Decision $name 'real work committed: next builder session' }   # real work resets the advance count
+            elseif ($r.Q.Harness -ne 'hermes' -and (Test-LimitHit $text)) { [void]$pending.Add($own); Write-Decision $name "usage limit: waits for $($r.Q.Harness)'s reset or another harness" }
+            elseif (-not $quiet -and (Test-NetError $text)) {
                 $waitNet[$name] = $true; if ("$text" -match 'SPARK_BUSY') { $notBefore[$name] = (Get-Date).AddMinutes(5) }
-                $row.Note += "connection lost at $((Get-Date).ToString('HH:mm')), retried when back. "; [void]$pending.Add($own)
+                $row.Note += "connection lost at $((Get-Date).ToString('HH:mm')), retried when back. "; [void]$pending.Add($own); Write-Decision $name 'connection lost: retried when back'
             }
-            elseif ($r.Hung -and [int]$hangs[$name] -lt 2) { $hangs[$name] = 1 + [int]$hangs[$name]; [void]$pending.Add($own) }   # hung, not done: a fresh session
-            elseif ([int]$leftovers[$name] -lt 3 -and (Test-Leftover $dir $r.Q.Harness $text)) {
+            elseif (-not $quiet -and $r.Hung -and [int]$hangs[$name] -lt 2) { $hangs[$name] = 1 + [int]$hangs[$name]; [void]$pending.Add($own); Write-Decision $name 'hung: fresh session' }   # hung, not done: a fresh session
+            elseif (-not $quiet -and [int]$leftovers[$name] -lt 3 -and (Test-Leftover $dir $r.Q.Harness $text)) {
                 $leftovers[$name] = 1 + [int]$leftovers[$name]
-                $row.Note += "session ended mid-work at $((Get-Date).ToString('HH:mm')) (uncommitted changes left); fresh session started to finish it. "; [void]$pending.Add($own)
+                $row.Note += "session ended mid-work at $((Get-Date).ToString('HH:mm')) (uncommitted changes left); fresh session started to finish it. "; [void]$pending.Add($own); Write-Decision $name 'ended mid-work: fresh session'
             }
             # No new work: tonight's target is done. Advance it to its next slices; after two advances in a row with no
             # real work between them, the lane moves to the next overnight-ready project.
-            elseif ([int]$advances[$name] -lt 2 -and (Start-SliceQa $own)) { }   # QA of the finished slice first; planning follows it
-            elseif ([int]$advances[$name] -lt 2) { Start-Advance $own }
-            else { $row.Note += "two advances in a row brought no real work. "; Start-Backfill $row $own.Harness $name }
+            elseif ([int]$advances[$name] -lt 2 -and (Start-SliceQa $own)) { Write-Decision $name 'target done: QA of the slice, then planning' }
+            elseif ([int]$advances[$name] -lt 2) { Write-Decision $name 'target done: planning the next slices'; Start-Advance $own }
+            else { $row.Note += "two advances in a row brought no real work. "; Write-Decision $name 'two advances brought no real work: lane goes to the next project'; Start-Backfill $row $own.Harness $name }
         }
     }
 }
