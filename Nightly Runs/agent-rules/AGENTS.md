@@ -46,7 +46,9 @@ The owner uses several computers and a phone. Any link you give them to somethin
 - Serve on `127.0.0.1`, then publish the same port on the tailnet: `tailscale serve --bg --https=<port> http://127.0.0.1:<port>` (with `sudo` on FirstSpark). Never Funnel, never bind `0.0.0.0`.
 - The link is `https://<host>.tail4a1242.ts.net:<port>/`: the desktop is `nike-workstation`, FirstSpark is `spark-07a8`.
 - If the app checks Host or Origin headers, it must also accept that tailnet name, or the link answers 403.
-- Open the link yourself first (a browser, or `curl` from another machine on the tailnet) and send it only once the page loads.
+- Before publishing, run `tailscale serve status --json`: if that port already serves another project, take a free port from the registry instead of overwriting it.
+- Open the link yourself first (a browser, or `curl` from another machine on the tailnet) and send it only once the page loads. If Tailscale or `tailscale serve` isn't working on that machine, say so and what fixes it; never fall back to a localhost link.
+- A one-off link (a review page, not a project's registered preview) is turned off when the task ends: `tailscale serve --https=<port> off`.
 - Dashboard Command Center tabs use the tailnet link too. The Agents board registers previews with it; if a project tab points at localhost, report it instead of editing the registry.
 
 ## Decide, don't ask (for reversible choices)
