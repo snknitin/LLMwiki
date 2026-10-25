@@ -706,7 +706,7 @@ function Complete-Run($q, $row) {
     $text = $(if (Test-Path $log) { Get-Content $log -Raw -Encoding UTF8 } else { '' })
     $text = ($text -split '(?m)^=== session \d+ ')[-1]   # only this session's output; earlier sessions were already read
     $text = $text -replace "`0", ''   # *>> appends UTF-16 to a UTF-8 file: drop the NULs so the checks below can match
-    if ($q.Harness -ne 'hermes' -and $text -match $limitHit) {
+    if ($q.Harness -ne 'hermes' -and (Test-LimitHit $text)) {
         $script:limitUntil[$q.Harness] = Get-LimitReset $text
         $row.Note += "$($q.Harness) usage limit at $((Get-Date).ToString('HH:mm')), resumed after $($script:limitUntil[$q.Harness].ToString('HH:mm')). "; $row.UsageLimit = $true
         Save-RunState
@@ -732,7 +732,12 @@ function Test-Online($harness) {
 
 # A tool at its usage limit ("You've hit your session limit, resets 2:30am", "try again in 2 hours") waits for the reset,
 # then its projects start again; nothing is dropped for the night.
-$limitHit = '(?i)usage limit|limit reached|rate.limit|hit your (session |usage |weekly )?limit|session limit'
+# Only the tools' own limit messages, and only at the end of the output, where a tool prints them before it exits: Claude
+# "You've hit your session limit - resets 2:30am", Codex "You've hit your usage limit ... try again in ...". Matching the
+# whole log parked Codex for an hour at a time on project text like "rate-limited" (2026-10-24/25; no log ever ended in
+# a real Codex limit).
+$limitHit = "(?i)you(?:'|\u2019)?ve hit your (?:session |usage |weekly |daily )?limit|claude ai usage limit reached|usage limit reached|rate_limit_exceeded|insufficient_quota"
+function Test-LimitHit($text) { $t = "$text"; return $t.Substring([Math]::Max(0, $t.Length - 1500)) -match $limitHit }
 function Get-LimitReset($text) {
     $now = Get-Date
     if ($text -match '(?i)(?:resets?|try again)\s+(?:at\s+)?(\d{1,2})(?::(\d{2}))?\s*(am|pm)') {
@@ -972,7 +977,7 @@ while ($pending.Count -or $running.Count) {
                 $atext = (((Get-Content (Join-Path $logDir "$name.advance.txt") -Raw -Encoding UTF8 -ErrorAction SilentlyContinue) -replace "`0", '') -split '(?m)^=== ')[-1]
                 $fam = ($r.Spec -split ':')[0]
                 if (Test-Progress $dir $r.Head) { $row.Note += "$(if ($r.Action -eq 'advance') { 'advanced to its next slices' } else { "$($r.Action) done" }) at $((Get-Date).ToString('HH:mm')) on $($r.Spec). "; [void]$pending.Add($r.Q) }
-                elseif ($fam -ne 'hermes' -and "$atext" -match $limitHit -and -not (Test-Parked $fam)) {
+                elseif ($fam -ne 'hermes' -and (Test-LimitHit $atext) -and -not (Test-Parked $fam)) {
                     $limitUntil[$fam] = Get-LimitReset $atext; Save-RunState
                     $row.Note += "$fam usage limit while planning at $((Get-Date).ToString('HH:mm')); planning again on the next free model. "
                     if ($r.Action -eq 'advance') { $advances[$name] = [int]$advances[$name] - 1 }   # that one never ran
@@ -994,7 +999,7 @@ while ($pending.Count -or $running.Count) {
             if ($r.Q.Home -and $r.Q.Harness -eq 'hermes' -and "$text" -match 'SPARK_MISSING') { $noSpark[$name] = $true; [void]$pending.Add($own); continue }
             # Stopped early with real progress and time left: start it again; it resumes from PROGRESS.md's next open item.
             if (Test-Progress $dir $r.Head) { $advances[$name] = 0; [void]$pending.Add($own) }   # real work resets the advance count
-            elseif ($r.Q.Harness -ne 'hermes' -and "$text" -match $limitHit) { [void]$pending.Add($own) }   # on another harness, or after the reset
+            elseif ($r.Q.Harness -ne 'hermes' -and (Test-LimitHit $text)) { [void]$pending.Add($own) }   # on another harness, or after the reset
             elseif ("$text" -match $netError) {
                 $waitNet[$name] = $true; if ("$text" -match 'SPARK_BUSY') { $notBefore[$name] = (Get-Date).AddMinutes(5) }
                 $row.Note += "connection lost at $((Get-Date).ToString('HH:mm')), retried when back. "; [void]$pending.Add($own)
@@ -1146,7 +1151,7 @@ while ($qaQueue.Count -or $qaRunning.Count) {
             $n = $(if ($hit[$hit.Count - 1].Groups[2].Success) { [int]$hit[$hit.Count - 1].Groups[2].Value } else { 0 })
             if ($n -gt 0) { Set-Qa $name 'findings' '' $n $by } else { Set-Qa $name 'pass' '' 0 $by }
         }
-        elseif ($fam -ne 'hermes' -and $text -match $limitHit) { $limitUntil[$fam] = Get-LimitReset $text; Set-Qa $name 'skipped' "$fam hit its usage limit during QA; resets $($limitUntil[$fam].ToString('HH:mm'))" 0 $by }
+        elseif ($fam -ne 'hermes' -and (Test-LimitHit $text)) { $limitUntil[$fam] = Get-LimitReset $text; Set-Qa $name 'skipped' "$fam hit its usage limit during QA; resets $($limitUntil[$fam].ToString('HH:mm'))" 0 $by }
         elseif ($text -match 'SPARK_MISSING') { Set-Qa $name 'skipped' "not cloned on FirstSpark at $sparkProjects" 0 $by }
         elseif ($text -match 'SPARK_BUSY') { Set-Qa $name 'skipped' 'a Hermes session is still running in that repo on FirstSpark' 0 $by }
         elseif ($text -match 'SPARK_HEAD_MISMATCH') { Set-Qa $name 'failed' 'FirstSpark HEAD differs from the desktop commit being reviewed' 0 $by }
