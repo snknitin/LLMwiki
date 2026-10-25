@@ -72,6 +72,7 @@ Each overnight project serves its UI (or a read-only status page) on its own por
 | 8888 | 127.0.0.1 | Docker container on network 172.18 (likely SearXNG): **confirm** | Docker |
 | 9119 | tailnet IP | Hermes Serve | `hermes-serve.service` (user) |
 | 9120 | tailnet IP | Hermes Dashboard | `hermes-dashboard.service` (user) |
+| 9121 | 127.0.0.1 | event-market-research-terminal job API (FastAPI, called by n8n; T11) | `python -m emrt.api` (not yet a service) |
 | 3003 | 127.0.0.1 | OpenCode web | `opencode-web.service` (user) |
 
 ## System and unknown
@@ -91,7 +92,7 @@ Each overnight project serves its UI (or a read-only status page) on its own por
 Use these in order and move each one into a table above once it's taken.
 
 - **Dashboards / web apps:** 8768 (taken on the desktop by the Agents board), 8786, 8790–8792, 8795–8799 (8793 is resume-blueprint-studio's screenshot-capture port)
-- **Agent tools and APIs:** 9121–9199
+- **Agent tools and APIs:** 9122–9199
 - **Model servers:** 8001–8009 (8000 is spark-fast)
 - Avoid 8080 (common default, used inside containers), 8888, 3000, 5000, 11434 (Ollama default).
 
