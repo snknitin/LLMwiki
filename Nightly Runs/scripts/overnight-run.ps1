@@ -281,10 +281,9 @@ if ($QaOnly) {
 # but lacks any of this gets a "structure" item, so the prep agent fills in only what is missing.
 function Get-MissingStructure($dir) {
     $m = @()
-    # shortcut: a "Preview scripts deferred" heading in DECISIONS.md silences preview.* until the agent adds them (the shared rule tells it when); drop the heading to be nagged again
-    $deferred = (Test-Path (Join-Path $dir 'DECISIONS.md')) -and [bool](Select-String -Path (Join-Path $dir 'DECISIONS.md') -Pattern '^#+ .*preview scripts deferred' -Quiet)
-    foreach ($f in 'AGENTS.md', 'CLAUDE.md', 'scripts\verify.sh', 'scripts\stop-gate.ps1', 'scripts\preview.ps1', 'scripts\preview.sh', 'PROGRESS.md', 'FEEDBACK.md', 'DECISIONS.md') {
-        if ($f -like 'scripts\preview.*' -and $deferred) { continue }
+    # Not preview.ps1/.sh: the shared rule has the builder add them once the MVP gate passes, never before (2026-10-25: the
+    # prep was sent to add a preview to projects with no working app yet).
+    foreach ($f in 'AGENTS.md', 'CLAUDE.md', 'scripts\verify.sh', 'scripts\stop-gate.ps1', 'PROGRESS.md', 'FEEDBACK.md', 'DECISIONS.md') {
         if (-not (Test-Path (Join-Path $dir $f))) { $m += ($f -replace '\\', '/') }
     }
     $settings = Join-Path $dir '.claude\settings.json'
