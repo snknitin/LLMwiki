@@ -788,9 +788,32 @@ foreach ($n in @($sparkState.Keys)) { if ($sparkState[$n] -eq 'unreachable') { $
 if ($Resume -and $state.qa) { foreach ($p in $state.qa.PSObject.Properties) { $qaResults[$p.Name] = @{ state = "$($p.Value.state)"; findings = [int]$p.Value.findings; reason = "$($p.Value.reason)" } } }
 if ($Resume -and $state.limitUntil) { foreach ($p in $state.limitUntil.PSObject.Properties) { $limitUntil[$p.Name] = [datetime]::Parse($p.Value) } }
 # limitUntil (harnesses parked on a usage limit, as ISO strings) is also read by the Agents board's Usage limits panel.
+# Each lane's state in the runner's own words, for the Agents board (it cannot see the runner's queue): building, planning,
+# waiting (and for what), queued, or finished (and why).
+function Get-LaneStates {
+    $lanes = @{}
+    foreach ($r in @($running.Values)) { if ($r.Q) { $lanes[$r.Q.Name] = $(if ($r.Advance) { @{ state = 'planning'; why = $(if ($r.Action -eq 'advance') { "planning its next slices on $($r.Spec)" } else { "$($r.Action) on $($r.Spec)" }) } } else { @{ state = 'building'; why = "on $($r.Q.Harness)" } }) } }
+    foreach ($q in @($pending)) {
+        if (-not $q -or $lanes[$q.Name]) { continue }
+        $use = Get-SessionHarness $q
+        $lanes[$q.Name] = $(if ($notBefore[$q.Name] -and (Get-Date) -lt $notBefore[$q.Name]) { @{ state = 'waiting'; why = $(if ($recheck[$q.Name]) { 'someone is editing it; starts once the edits stop' } else { 'its last Hermes session is still finishing' }) } }
+            elseif (-not $use) { @{ state = 'waiting'; why = "$($q.Harness) usage limit, back at $($limitUntil[$q.Harness].ToString('HH:mm'))" } }
+            elseif ($waitNet[$q.Name]) { @{ state = 'waiting'; why = "network ($use)" } }
+            else { @{ state = 'queued'; why = 'starts in a moment' } })
+    }
+    foreach ($name in @($rows.Keys)) {
+        if ($lanes[$name]) { continue }
+        $note = "$($rows[$name].Note)"
+        $lanes[$name] = @{ state = 'finished'; why = $(if ($note -match 'lane went to ([A-Za-z0-9._-]+)') { "nothing left to build outside owner-only steps; its lane went to $($Matches[1])" }
+            elseif ($note -match 'no buildable node left') { 'nothing left to build outside owner-only steps' }
+            elseif ($note -match 'SUSPECT') { 'SUSPECT: its verify or tests changed; check the diff' }
+            elseif ($note -match 'skipped[^.]*') { $Matches[0] } elseif ($note -match 'not run[^.]*') { $Matches[0] } else { 'done for this run' }) }
+    }
+    return $lanes
+}
 function Save-RunState {
     $parked = @{}; foreach ($k in @($limitUntil.Keys)) { $parked[$k] = $limitUntil[$k].ToString('o') }
-    @{ kind = $Kind; phase = $runPhase; started = $started.ToString('o'); until = $deadline.ToString('o'); heads = $heads; limitUntil = $parked; qa = $qaResults } | ConvertTo-Json -Depth 5 | Set-Content -Path $stateFile -Encoding UTF8
+    @{ kind = $Kind; phase = $runPhase; started = $started.ToString('o'); until = $deadline.ToString('o'); heads = $heads; limitUntil = $parked; qa = $qaResults; lanes = $(if ($runPhase -eq 'lanes') { Get-LaneStates } else { @{} }) } | ConvertTo-Json -Depth 5 | Set-Content -Path $stateFile -Encoding UTF8
 }
 function Test-Parked($tool) { return [bool]($limitUntil[$tool] -and (Get-Date) -lt $limitUntil[$tool]) }
 # The harness a project's next session runs on. A Claude project whose harness is parked on its usage limit runs on Codex,
@@ -845,6 +868,7 @@ while ($pending.Count -or $running.Count) {
         $job = Start-Job -ScriptBlock $worker -ArgumentList $dir, $run.Harness, $run.Model, $sessionPrompt, $log, $left, $ssh, "$sparkProjects/$($q.Name)", $sessionName, $false
         $running[$job.Id] = @{ Job = $job; Q = $run; Start = Get-Date; Head = (git -C $dir rev-parse HEAD 2>$null); PidFile = "$log.pid" }
     }
+    Save-RunState   # each lane's state for the Agents board
     if (-not $running.Count) { if ($pending.Count) { Start-Sleep -Seconds 30; continue }; break }   # only projects waiting for the network or a usage-limit reset
     Wait-Job -Job @($running.Values | ForEach-Object { $_.Job }) -Any -Timeout 60 | Out-Null
     foreach ($id in @($running.Keys)) {

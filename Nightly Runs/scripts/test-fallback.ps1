@@ -3,7 +3,7 @@
 # Usage: powershell -NoProfile -ExecutionPolicy Bypass -File test-fallback.ps1
 $ErrorActionPreference = 'Stop'
 $ast = [System.Management.Automation.Language.Parser]::ParseFile((Join-Path $PSScriptRoot 'overnight-run.ps1'), [ref]$null, [ref]$null)
-$ast.FindAll({ param($n) $n -is [System.Management.Automation.Language.FunctionDefinitionAst] -and $n.Name -in 'Test-Parked', 'Get-SessionHarness', 'Save-RunState', 'Test-Leftover', 'Get-Backfill', 'Get-AdvanceSpec', 'Test-CachedPass' }, $true) |
+$ast.FindAll({ param($n) $n -is [System.Management.Automation.Language.FunctionDefinitionAst] -and $n.Name -in 'Test-Parked', 'Get-SessionHarness', 'Save-RunState', 'Test-Leftover', 'Get-Backfill', 'Get-AdvanceSpec', 'Test-CachedPass', 'Get-LaneStates' }, $true) |
     ForEach-Object { . ([scriptblock]::Create($_.Extent.Text)) }
 $failed = 0
 function Check($what, $got, $want) { if ("$got" -ne "$want") { Write-Output "FAIL $what`: got '$got', want '$want'"; $script:failed++ } else { Write-Output "ok   $what" } }
@@ -84,5 +84,20 @@ $verifyCache = @{ p = [pscustomobject]@{ head = $head; verify = 'PASS'; at = 'x'
 Set-Content (Join-Path $repo 'b.txt') 'y'
 Check 'cache: uncommitted changes' (Test-CachedPass 'p' $repo) 'False'
 Remove-Item $repo -Recurse -Force
+
+# The board shows each lane's state in the runner's words (2026-10-25: Codex lanes parked on a usage limit read
+# "waiting for network" or "done" because the board guessed from log text).
+$reset = (Get-Date).Date.AddHours(11).AddMinutes(33)
+$limitUntil = @{ codex = $reset }; $waitNet = @{ net1 = $true }; $notBefore = @{}; $recheck = @{}
+$running = @{ 1 = @{ Q = [pscustomobject]@{ Name = 'plan1'; Harness = 'claude' }; Advance = $true; Action = 'advance'; Spec = 'claude:opus' }; 2 = @{ Q = [pscustomobject]@{ Name = 'build1'; Harness = 'hermes' } } }
+$pending = [System.Collections.ArrayList]@([pscustomobject]@{ Name = 'cx1'; Harness = 'codex' }, [pscustomobject]@{ Name = 'net1'; Harness = 'claude' })
+$rows = @{ plan1 = @{}; build1 = @{}; cx1 = @{}; net1 = @{}; done1 = @{ Note = 'not advanced: no buildable node left outside owner-only gates (see Prep Report). its claude lane went to fresh-brief at 03:10. ' } }
+$lanes = Get-LaneStates
+Check 'lane: planning' "$($lanes.plan1.state): $($lanes.plan1.why)" 'planning: planning its next slices on claude:opus'
+Check 'lane: building' $lanes.build1.state 'building'
+Check 'lane: waiting on a usage limit' "$($lanes.cx1.state): $($lanes.cx1.why)" 'waiting: codex usage limit, back at 11:33'
+Check 'lane: waiting on the network' $lanes.net1.state 'waiting'
+Check 'lane: finished and where its lane went' "$($lanes.done1.state): $($lanes.done1.why)" 'finished: nothing left to build outside owner-only steps; its lane went to fresh-brief'
+$limitUntil = @{}; $running = @{}; $pending = $null; $rows = @{}
 
 if ($failed) { exit 1 }
