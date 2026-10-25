@@ -63,6 +63,12 @@ $rows['good1'] = @{}
 Check 'backfill: never an unranked Ready next project' (Get-Backfill 'codex') ''
 $rows['good2'] = @{}
 Check 'backfill: none left' (Get-Backfill 'codex') ''
+# Mid-run the pipeline sync can put the next rank into a lane line; not running tonight, it still takes the free lane.
+$rows = @{ tonight1 = @{} }
+Set-Content $prioFile "## Tonight`n### Codex`n- tonight1`n- good1`n## Priority order`n1. tonight1`n2. good1`n## Active"
+Check 'backfill: a rank the sync put in a lane, not yet running, takes it' (Get-Backfill 'codex').Name 'good1'
+$rows['good1'] = @{}
+Check 'backfill: one already running tonight does not' (Get-Backfill 'codex') ''
 Remove-Item $root -Recurse -Force
 
 # Planning runs on the lane's own model (2026-10-25: GLM Flash planned every lane), falling back like a session does.

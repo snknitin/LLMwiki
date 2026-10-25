@@ -942,7 +942,7 @@ function Test-OpenDirection($dir) {
 function Get-Backfill($harness) {
     $st = Read-Pipeline
     foreach ($n in @(Get-RunSet $st)) {   # strictly the 10 that run, in priority order (owner, 2026-10-25), never one further down
-        if ($st.Where[$n] -in 'claude', 'codex', 'hermes', 'active', 'archived' -or $rows[$n]) { continue }
+        if ($st.Where[$n] -in 'active', 'archived' -or $rows[$n]) { continue }   # already running tonight, built, or out
         $d = Join-Path $projects $n
         if (-not (Test-Path "$d\.git") -or -not (Test-Path "$d\BUILD_SPEC.md") -or (git -C $d status --porcelain 2>$null)) { continue }   # no spec yet, or someone is working in it
         if ($harness -eq 'hermes') {   # its FirstSpark clone: made now if missing
@@ -971,6 +971,9 @@ function Start-Backfill($row, $harness, $from) {
         Write-Decision $n0 "owner note on the board: back on $harness"
         [void]$pending.Add($q1); Save-RunState; return
     }
+    # Mid-run too: a project that finished and wrote "Project built:" goes to Active, so the next rank joins the 10 and takes
+    # this lane (2026-10-25: personalized-adhd was built at 22:20 and its spot stayed empty all night).
+    $null = Sync-Pipeline
     $b = Get-Backfill $harness
     if (-not $b) { $row.Note += "no project left in the priority order for its $harness lane. "; return }
     $row.Note += "its $harness lane went to $($b.Name) at $((Get-Date).ToString('HH:mm')). "
@@ -1254,9 +1257,13 @@ while ($pending.Count -or $running.Count) {
             # real usage limit starts another builder session; the target is done, so QA and planning follow (2026-10-25:
             # personalized-adhd ran 16 two-minute sessions that only re-recorded a passing verify).
             $progress = Test-Progress $dir $r.Head
-            $idle[$name] = $(if ($progress) { 0 } else { 1 + [int]$idle[$name] })
+            # FirstSpark still had a session in this repo (one a stopped run left behind): nothing ran, so it is neither work
+            # nor an empty session; try again in 5 minutes (2026-10-25: four of these handed personal-study-curriculum's lane away).
+            $sparkBusy = -not $progress -and "$text" -match '(?m)^SPARK_BUSY'
+            $idle[$name] = $(if ($progress) { 0 } elseif ($sparkBusy) { [int]$idle[$name] } else { 1 + [int]$idle[$name] })
             $quiet = [int]$idle[$name] -ge 2
             if ($progress) { $advances[$name] = 0; [void]$pending.Add($own); Write-Decision $name 'real work committed: next builder session' }   # real work resets the advance count
+            elseif ($sparkBusy) { $notBefore[$name] = (Get-Date).AddMinutes(5); [void]$pending.Add($own); Write-Decision $name 'FirstSpark still busy in this repo: tried again in 5 minutes' }
             elseif ($r.Q.Harness -ne 'hermes' -and (Test-LimitHit $text)) { [void]$pending.Add($own); Write-Decision $name "usage limit: waits for $($r.Q.Harness)'s reset or another harness" }
             elseif (-not $quiet -and (Test-NetError $text)) {
                 $waitNet[$name] = $true; if ("$text" -match 'SPARK_BUSY') { $notBefore[$name] = (Get-Date).AddMinutes(5) }
