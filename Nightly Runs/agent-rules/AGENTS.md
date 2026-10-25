@@ -56,6 +56,15 @@ The owner uses several computers and a phone. Any link you give them to somethin
 - Stop only for: missing credentials or access, destructive or irreversible actions, external side effects (sending, posting, paying), or a spec contradiction. Write the question into `REPORT.md` in the format below, then continue with other work.
 - Before asking, read `DECISIONS.md` under `## Owner answers (from the Agents board)`: the owner may already have answered it.
 
+## Owner direction (Steer on the Agents board)
+The owner steers a project from its board card: `DECISIONS.md` under `## Owner direction (from the Agents board)`, newest first, each entry `### <date time> · Add context|Change course · open` with the note quoted below it. It outranks prep, earlier plans, PROGRESS.md's queue and your own past decisions.
+- At the start of every session (builder, planner, QA, prep), before any other work, apply every `open` entry, oldest first:
+  - **Add context**: fold it into `BUILD_SPEC.md` (features, constraints, links) and, where it adds work, the build tree and PROGRESS.md's checklist; follow it from now on.
+  - **Change course**: re-plan first. Update `BUILD_SPEC.md`, `.hermes/live-build-tree/model.json` and PROGRESS.md (`## Now` and the checklist); mark nodes it makes obsolete as dropped, redo finished work only where the note says it went the wrong way, then build the new way.
+  - Read every link it gives. Use the skills or MCP servers it names if you have them; if one is missing or needs a credential, say so in `REPORT.md` and carry on without it.
+- Then change that entry's `open` to `applied <date>: <one line on what changed>`, and commit it with the plan change. Never delete or reword the owner's text. A part that needs an owner-only answer: ask it in `REPORT.md` and apply the rest.
+- QA reviews against it too: work that ignores an applied or open direction is a finding.
+
 ## Owner context (read before asking anything)
 `Nightly Runs/agent-rules/OWNER-CONTEXT.md` in the vault (desktop `F:\Vaults\LLMWiki`, FirstSpark `/home/snknitin/vaults/LLMWiki`) holds the owner's machines, models and endpoints, ports, standing decisions, and the list of what you decide yourself versus what only the owner can answer. Read it once per session before planning work or writing a question. If it answers your question, follow it and cite it in `DECISIONS.md` instead of asking.
 

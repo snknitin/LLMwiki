@@ -882,6 +882,13 @@ function Test-Leftover($dir, $harness, $text) {
 # A lane whose project has nothing buildable left takes the next overnight-ready project (scripts/verify.ps1, clean
 # checkout, cloned on FirstSpark for Hermes) from the priority order, then Ready next, for the rest of the night on the
 # same harness, so no lane idles. Nothing moves in Project Priorities.md; the report says which project filled in.
+# The owner steered it on the board (an open "## Owner direction" entry in DECISIONS.md) after its lane finished tonight.
+function Test-OpenDirection($dir) {
+    $t = Get-Content (Join-Path $dir 'DECISIONS.md') -Raw -ErrorAction SilentlyContinue
+    if (-not $t -or $t -notmatch '(?ms)^## Owner direction \(from the Agents board\)[ \t]*\r?$(.*?)(?=^## |\z)') { return $false }
+    return $Matches[1] -match '(?m)^### .+ \S+ open[ \t]*\r?$'
+}
+
 function Get-Backfill($harness) {
     $st = Read-Pipeline
     foreach ($n in @(Get-RunSet $st)) {   # strictly the 10 that run, in priority order (owner, 2026-10-25), never one further down
@@ -902,6 +909,18 @@ function Start-Backfill($row, $harness, $from) {
     if (($deadline - (Get-Date)).TotalSeconds -lt $minSession) { return }
     # A lane whose harness is parked on a usage limit hands the next project to a harness that is working now.
     if (Test-Parked $harness) { $free = @('codex', 'claude', 'hermes') | Where-Object { -not (Test-Parked $_) } | Select-Object -First 1; if ($free) { $harness = $free } }
+    # A project the owner steered after it finished tonight comes back first, on this lane, with fresh counters.
+    $busy = @($running.Values | ForEach-Object { if ($_.Q) { $_.Q.Name } }) + @($pending | ForEach-Object { $_.Name })
+    foreach ($q0 in @($script:queue)) {
+        $n0 = $q0.Name; $d0 = Join-Path $projects $n0
+        if ($n0 -in $busy -or $steered[$n0] -ge 2 -or -not (Test-OpenDirection $d0) -or (git -C $d0 status --porcelain 2>$null)) { continue }
+        $steered[$n0] = 1 + [int]$steered[$n0]; $advances[$n0] = 0; $idle[$n0] = 0; $hangs[$n0] = 0; $leftovers[$n0] = 0
+        $q1 = [pscustomobject]@{ Name = $n0; Harness = $harness; Model = $null; Qa = $q0.Qa }
+        $row.Note += "its $harness lane went back to $n0 (owner note on the board) at $((Get-Date).ToString('HH:mm')). "
+        $rows[$n0].Note += "back at $((Get-Date).ToString('HH:mm')) for the owner's note. "
+        Write-Decision $n0 "owner note on the board: back on $harness"
+        [void]$pending.Add($q1); Save-RunState; return
+    }
     $b = Get-Backfill $harness
     if (-not $b) { $row.Note += "no project left in the priority order for its $harness lane. "; return }
     $row.Note += "its $harness lane went to $($b.Name) at $((Get-Date).ToString('HH:mm')). "
@@ -931,7 +950,7 @@ foreach ($q in $pending) { $h = git -C (Join-Path $projects $q.Name) rev-parse H
 if ($QaOnly) { $heads[$Project] = "$qaBase"; $pending.Clear() }
 $qaResults = [ordered]@{}   # QA per project: @{ state = running|pass|findings|skipped|failed; findings; reason }, read by the Agents board
 $runPhase = 'lanes'   # read by the Agents board: lanes = agents working, wrapup = QA and the runner's verify
-$running = @{}; $limitUntil = @{}; $advances = @{}; $sessions = @{}; $restores = @{}; $hangs = @{}; $idle = @{}; $waitNet = @{}; $nextNetCheck = @{}; $noSpark = @{}; $leftovers = @{}
+$running = @{}; $limitUntil = @{}; $advances = @{}; $sessions = @{}; $restores = @{}; $hangs = @{}; $idle = @{}; $steered = @{}; $waitNet = @{}; $nextNetCheck = @{}; $noSpark = @{}; $leftovers = @{}
 foreach ($n in @($recheck.Keys)) { $notBefore[$n] = (Get-Date).AddMinutes(5) }
 foreach ($n in @($sparkState.Keys)) { if ($sparkState[$n] -eq 'unreachable') { $waitNet[$n] = $true } }   # starts when FirstSpark answers
 # A resumed run keeps the usage limits the cut-off run had hit.

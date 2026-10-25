@@ -3,7 +3,7 @@
 # Usage: powershell -NoProfile -ExecutionPolicy Bypass -File test-fallback.ps1
 $ErrorActionPreference = 'Stop'
 $ast = [System.Management.Automation.Language.Parser]::ParseFile((Join-Path $PSScriptRoot 'overnight-run.ps1'), [ref]$null, [ref]$null)
-$ast.FindAll({ param($n) $n -is [System.Management.Automation.Language.FunctionDefinitionAst] -and $n.Name -in 'Test-Parked', 'Get-SessionHarness', 'Save-RunState', 'Test-Leftover', 'Get-Backfill', 'Get-AdvanceSpec', 'Test-CachedPass', 'Get-LaneStates', 'Read-Pipeline', 'Move-ProjectLine', 'Get-LaneFor', 'Sync-Pipeline', 'Test-Built', 'Get-RunSet', 'Test-NetError' }, $true) |
+$ast.FindAll({ param($n) $n -is [System.Management.Automation.Language.FunctionDefinitionAst] -and $n.Name -in 'Test-Parked', 'Get-SessionHarness', 'Save-RunState', 'Test-Leftover', 'Get-Backfill', 'Get-AdvanceSpec', 'Test-CachedPass', 'Get-LaneStates', 'Read-Pipeline', 'Move-ProjectLine', 'Get-LaneFor', 'Sync-Pipeline', 'Test-Built', 'Get-RunSet', 'Test-NetError', 'Test-OpenDirection' }, $true) |
     ForEach-Object { . ([scriptblock]::Create($_.Extent.Text)) }
 $failed = 0
 function Check($what, $got, $want) { if ("$got" -ne "$want") { Write-Output "FAIL $what`: got '$got', want '$want'"; $script:failed++ } else { Write-Output "ok   $what" } }
@@ -179,5 +179,17 @@ Check 'built: a built project in a lane moves to Active by itself' $st.Where.r04
 Check 'built: one the owner said keep building stays in its lane' ([bool]($st.Where.r06 -in 'claude', 'codex', 'hermes')) 'True'
 Check 'built: its spot goes to the next rank' ([bool]($st.Where.r14 -in 'claude', 'codex', 'hermes')) 'True'
 Remove-Item $root -Recurse -Force
+
+# Steer on the board: an open owner direction brings a finished project back; an applied one, or an open-looking line
+# in another section, does not.
+$sd = Join-Path ([IO.Path]::GetTempPath()) "steer-test-$PID"; New-Item -ItemType Directory -Force $sd | Out-Null
+$open = "# Decisions`r`n`r`n## Owner direction (from the Agents board)`r`n### 2026-10-25 21:40 $([char]0xB7) Change course $([char]0xB7) open`r`n> Use SQLite`r`n`r`n## Owner answers (from the Agents board)`r`n"
+[IO.File]::WriteAllText("$sd\DECISIONS.md", $open)
+Check 'steer: an open note counts' (Test-OpenDirection $sd) 'True'
+[IO.File]::WriteAllText("$sd\DECISIONS.md", $open.Replace('open', 'applied 2026-10-26: store switched'))
+Check 'steer: an applied note does not' (Test-OpenDirection $sd) 'False'
+[IO.File]::WriteAllText("$sd\DECISIONS.md", "# Decisions`n## Owner direction (from the Agents board)`n`n## Other`n### 2026 x $([char]0xB7) open`n")
+Check 'steer: only inside its own section' (Test-OpenDirection $sd) 'False'
+Remove-Item $sd -Recurse -Force
 
 if ($failed) { exit 1 }
