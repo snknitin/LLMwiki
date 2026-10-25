@@ -57,9 +57,15 @@ if ($FixOnly -and -not (Test-Path (Join-Path $(if ($env:OVERNIGHT_VAULT) { $env:
 # A scheduled run never loses its night to a run still going (a Start now in the evening): it waits for that one to end.
 if (-not $Preflight -and $others -and $Scheduled -and -not $PrepOnly -and -not $Resume) {
     Write-Output "Another run is going (pid $($others.ProcessId -join ', ')); this scheduled run starts when it ends."
-    $waitUntil = (Get-Date).AddHours(10)
+    $launched = Get-Date; $waitUntil = $launched.AddHours(10)
     while ((Get-OtherRuns) -and (Get-Date) -lt $waitUntil) { Start-Sleep -Seconds 60 }
     $others = Get-OtherRuns
+    # Its night ended while it waited: starting now would set the end time to the next -Until and run all day
+    # (2026-10-25: a 21:00 run waiting behind a 19:23 Start now that the owner kept until 06:00).
+    if (-not $others -and $Kind -eq 'nightly' -and -not $hoursGiven) {
+        $end = $launched.Date.Add([timespan]::Parse($Until)); if ($end -le $launched) { $end = $end.AddDays(1) }
+        if ((Get-Date) -ge $end.AddMinutes(-30)) { Write-Output "The run it waited for went on until $((Get-Date).ToString('HH:mm')); tonight's window ($Until) is over, so this scheduled run does not start."; exit 0 }
+    }
 }
 if (-not $Preflight -and $others) { Write-Output "Another run is going (pid $($others.ProcessId -join ', ')); not starting a second one."; exit 0 }
 $vault         = $(if ($env:OVERNIGHT_VAULT) { $env:OVERNIGHT_VAULT } else { 'F:\Vaults\LLMWiki' })   # the env overrides are for test-qa.ps1's fixture
