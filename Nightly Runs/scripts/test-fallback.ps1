@@ -3,7 +3,7 @@
 # Usage: powershell -NoProfile -ExecutionPolicy Bypass -File test-fallback.ps1
 $ErrorActionPreference = 'Stop'
 $ast = [System.Management.Automation.Language.Parser]::ParseFile((Join-Path $PSScriptRoot 'overnight-run.ps1'), [ref]$null, [ref]$null)
-$ast.FindAll({ param($n) $n -is [System.Management.Automation.Language.FunctionDefinitionAst] -and $n.Name -in 'Test-Parked', 'Get-SessionHarness', 'Save-RunState' }, $true) |
+$ast.FindAll({ param($n) $n -is [System.Management.Automation.Language.FunctionDefinitionAst] -and $n.Name -in 'Test-Parked', 'Get-SessionHarness', 'Save-RunState', 'Test-Leftover', 'Get-Backfill' }, $true) |
     ForEach-Object { . ([scriptblock]::Create($_.Extent.Text)) }
 $failed = 0
 function Check($what, $got, $want) { if ("$got" -ne "$want") { Write-Output "FAIL $what`: got '$got', want '$want'"; $script:failed++ } else { Write-Output "ok   $what" } }
@@ -31,5 +31,28 @@ $state = Get-Content $stateFile -Raw | ConvertFrom-Json
 Remove-Item $stateFile
 Check 'state keeps heads' $state.heads.alpha 'abc'
 Check 'state saves limitUntil as a round-trip time' ([datetime]::Parse($state.limitUntil.codex)).ToString('s') $later.ToString('s')
+
+# A session that ended mid-work is restarted, not taken for "target done" (2026-10-24: a Hermes repetition loop and a
+# compression timeout each left uncommitted work and the lane was dropped for the night).
+Check 'hermes crash with uncommitted work' (Test-Leftover '.' 'hermes' "Repetition Detected`nSPARK_GIT dirty=6 unpushed=0") 'True'
+Check 'hermes clean finish' (Test-Leftover '.' 'hermes' 'SPARK_GIT dirty=0 unpushed=0') 'False'
+$repo = Join-Path ([IO.Path]::GetTempPath()) "leftover-test-$PID"; git init -q $repo
+Check 'desktop clean' (Test-Leftover $repo 'claude' '') 'False'
+Set-Content (Join-Path $repo 'a.txt') 'x'
+Check 'desktop uncommitted' (Test-Leftover $repo 'claude' '') 'True'
+Remove-Item $repo -Recurse -Force
+
+# A built project's lane takes the next overnight-ready project: skips Tonight/Active, missing verify.ps1, dirty checkouts.
+$root = Join-Path ([IO.Path]::GetTempPath()) "backfill-test-$PID"; $projects = Join-Path $root 'p'; $prioFile = Join-Path $root 'prio.md'
+foreach ($n in 'tonight1', 'active1', 'noverify', 'dirty1', 'good1', 'good2') { $d = Join-Path $projects $n; git init -q $d; if ($n -ne 'noverify') { New-Item -ItemType Directory "$d\scripts" -Force | Out-Null; Set-Content "$d\scripts\verify.ps1" 'x'; git -C $d add -A; git -C $d -c user.email=t@t -c user.name=t commit -qm init } }
+Set-Content (Join-Path $projects 'dirty1\new.txt') 'x'
+Set-Content $prioFile "## Tonight`n### Codex`n- tonight1`n## Priority order`n1. tonight1`n2. active1`n3. noverify`n4. dirty1`n5. good1`n## Ready next`n- good2`n## Active`n- active1"
+$rows = @{ tonight1 = @{} }
+Check 'backfill: first ready project' (Get-Backfill 'codex').Name 'good1'
+$rows['good1'] = @{}
+Check 'backfill: then Ready next' (Get-Backfill 'codex').Name 'good2'
+$rows['good2'] = @{}
+Check 'backfill: none left' (Get-Backfill 'codex') ''
+Remove-Item $root -Recurse -Force
 
 if ($failed) { exit 1 }

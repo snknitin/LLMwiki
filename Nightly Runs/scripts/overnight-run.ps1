@@ -408,7 +408,8 @@ function Get-OpenItems($file) {
 # the checkout goes back to clean, and PROGRESS.md gets a HANDOFF entry so tonight's agent reviews and continues it.
 # Left alone (and still blocking, with the reason): files edited in the last 10 minutes, a Hermes session still going,
 # and anything that looks like a secret.
-$handoff = @{}; $leftAlone = @{}
+$handoff = @{}; $leftAlone = @{}; $recheck = @{}; $notBefore = @{}
+$waitPattern = 'last 10 minutes|still running'   # left-alone reasons that pass on their own
 $secretPattern = '(^|/)(\.env[^/]*|[^/]*\.(pem|key|pfx|p12)|id_rsa[^/]*|[^/]*credential[^/]*|[^/]*secret[^/]*)$'
 $handoffBranch = "wip/handoff-$($started.ToString('yyyyMMdd-HHmm'))"
 function Add-HandoffNote($dir, $where, $branch, $hash, $pushed) {
@@ -481,11 +482,13 @@ foreach ($q in $queue) {
         elseif (-not $cliOk[$q.Harness]) { $b += "$($q.Harness) CLI not found on this PC" }
         git -C $dir rev-parse '@{u}' *> $null
         if ($LASTEXITCODE -ne 0) { $b += 'no upstream branch, so commits cannot be pushed (add a GitHub remote)' }
-        if ($leftAlone[$q.Name]) { $b += $leftAlone[$q.Name] }   # the handoff above saved everything else
+        # Someone editing or a Hermes session still going is temporary: the lane re-checks every 5 minutes and starts then.
+        if ($leftAlone[$q.Name] -match $waitPattern) { $w += "$($leftAlone[$q.Name]); re-checked every 5 minutes, starts on its own once the edits stop"; $recheck[$q.Name] = $true }
+        elseif ($leftAlone[$q.Name]) { $b += $leftAlone[$q.Name] }   # the handoff above saved everything else
         elseif (git -C $dir status --porcelain 2>$null) { $w += 'uncommitted changes on the desktop: saved on a wip/handoff branch and handed to tonight''s agent when the run starts' }
         if ($q.Harness -eq 'hermes') {
             $st = "$($sparkState[$q.Name])"
-            if ($st -eq 'unreachable') { $b += 'FirstSpark unreachable over SSH' }
+            if ($st -eq 'unreachable') { $w += 'FirstSpark unreachable over SSH at prep; its sessions retry when it answers' }
             elseif ($st -eq 'missing') { $b += "not cloned on FirstSpark ($sparkProjects/$($q.Name))" }
             elseif ($st -match '^dirty=([1-9]\d*)$' -and -not $leftAlone[$q.Name]) { $w += "$($Matches[1]) uncommitted change(s) on FirstSpark: saved on a wip/handoff branch and handed to tonight's agent when the run starts" }
         }
@@ -688,6 +691,33 @@ function Test-Progress($dir, $from) {
     return [bool](@(git -C $dir diff --name-only $from $head 2>$null) | Where-Object { $_ -notmatch '(^|/)(REPORT|PROGRESS|DECISIONS)\.md$' })
 }
 
+# A session that ended mid-work (a crash, a model repetition loop, a context-compression timeout) leaves uncommitted
+# changes: on FirstSpark the session's SPARK_GIT line says so, on the desktop git status does. That is not "target done".
+function Test-Leftover($dir, $harness, $text) {
+    if ($harness -eq 'hermes') { return "$text" -match 'SPARK_GIT dirty=[1-9]' }
+    return [bool](git -C $dir status --porcelain 2>$null)
+}
+
+# A lane whose project has nothing buildable left takes the next overnight-ready project (scripts/verify.ps1, clean
+# checkout, cloned on FirstSpark for Hermes) from the priority order, then Ready next, for the rest of the night on the
+# same harness, so no lane idles. Nothing moves in Project Priorities.md; the report says which project filled in.
+function Get-Backfill($harness) {
+    $lines = @(Get-Content $prioFile -Encoding UTF8); $section = ''; $skip = @{}; $cands = @()
+    foreach ($line in $lines) {
+        if ($line -match '^##\s+(.+)') { $section = $Matches[1]; continue }
+        if ($line -notmatch '^\s*(?:\d+\.|-)\s+([A-Za-z0-9._-]+)') { continue }
+        $n = $Matches[1]   # before the section -match below overwrites $Matches
+        if ($section -match '^(Active|Archived|Tonight)') { $skip[$n] = $true }
+        elseif ($section -match '^(Priority order|Ready next)') { $cands += $n }
+    }
+    foreach ($n in $cands) {
+        $d = Join-Path $projects $n
+        if ($skip[$n] -or $rows[$n] -or -not (Test-Path "$d\scripts\verify.ps1") -or -not (Test-Path "$d\.git") -or (git -C $d status --porcelain 2>$null)) { continue }
+        if ($harness -eq 'hermes') { & $ssh -o BatchMode=yes -o ConnectTimeout=8 FirstSpark "test -d $sparkProjects/$n/.git" *> $null; if ($LASTEXITCODE -ne 0) { continue } }
+        return [pscustomobject]@{ Name = $n; Harness = $harness; Model = $null; Qa = $null }
+    }
+}
+
 # The lanes' end time. Nightly: -Until (next occurrence), so the lanes work all night. Otherwise -HoursPerProject from now.
 function Get-Deadline($now) {
     if ($resumeEnd) { return $resumeEnd }   # a resumed run keeps the cut-off run's end time
@@ -706,7 +736,9 @@ $heads = [ordered]@{}
 foreach ($q in $pending) { $h = git -C (Join-Path $projects $q.Name) rev-parse HEAD 2>$null; if ($h) { $heads[$q.Name] = "$h" } }
 if ($QaOnly) { $heads[$Project] = "$qaBase"; $pending.Clear() }
 $qaResults = [ordered]@{}   # QA per project: @{ state = running|pass|findings|skipped|failed; findings; reason }, read by the Agents board
-$running = @{}; $limitUntil = @{}; $advances = @{}; $sessions = @{}; $waitNet = @{}; $netRetries = @{}; $nextNetCheck = @{}; $noSpark = @{}
+$running = @{}; $limitUntil = @{}; $advances = @{}; $sessions = @{}; $waitNet = @{}; $netRetries = @{}; $nextNetCheck = @{}; $noSpark = @{}; $leftovers = @{}
+foreach ($n in @($recheck.Keys)) { $notBefore[$n] = (Get-Date).AddMinutes(5) }
+foreach ($n in @($sparkState.Keys)) { if ($sparkState[$n] -eq 'unreachable') { $waitNet[$n] = $true } }   # starts when FirstSpark answers
 # A resumed run keeps the usage limits the cut-off run had hit.
 if ($Resume -and $state.qa) { foreach ($p in $state.qa.PSObject.Properties) { $qaResults[$p.Name] = @{ state = "$($p.Value.state)"; findings = [int]$p.Value.findings; reason = "$($p.Value.reason)" } } }
 if ($Resume -and $state.limitUntil) { foreach ($p in $state.limitUntil.PSObject.Properties) { $limitUntil[$p.Name] = [datetime]::Parse($p.Value) } }
@@ -731,6 +763,14 @@ while ($pending.Count -or $running.Count) {
     foreach ($q in @($pending)) {
         $left = [int]($deadline - (Get-Date)).TotalSeconds
         if ($left -lt $minSession) { if (-not $sessions[$q.Name]) { $rows[$q.Name].Note = "not run: less than 30 min left before $($deadline.ToString('HH:mm'))" }; $pending.Remove($q); continue }
+        if ($notBefore[$q.Name] -and (Get-Date) -lt $notBefore[$q.Name]) { continue }
+        if ($recheck[$q.Name]) {   # left alone at prep: someone was editing, or a Hermes session was still going
+            $leftAlone.Remove($q.Name); $d = Join-Path $projects $q.Name
+            if ($q.Harness -ne 'hermes') { Save-DesktopHandoff $q.Name $d }   # FirstSpark: the session's own SPARK_BUSY check waits
+            if ($leftAlone[$q.Name] -match $waitPattern) { $notBefore[$q.Name] = (Get-Date).AddMinutes(5); continue }
+            if ($leftAlone[$q.Name]) { $rows[$q.Name].Note += "skipped: $($leftAlone[$q.Name]). "; $pending.Remove($q); continue }
+            $recheck.Remove($q.Name); $rows[$q.Name].Note += "started at $((Get-Date).ToString('HH:mm')) once the edits stopped. $($handoff[$q.Name])"
+        }
         $use = Get-SessionHarness $q
         if (-not $use) { continue }   # waits for a usage-limit reset
         if ($waitNet[$q.Name]) {   # checked at most once a minute per tool
@@ -772,7 +812,18 @@ while ($pending.Count -or $running.Count) {
             if ($r.Advance) {
                 $integrity[$name] = Get-Integrity $dir   # the advance legitimately extends verify.ps1: that is the new baseline
                 if (-not $row.TimedOut -and (Test-Progress $dir $r.Head)) { $row.Note += "advanced to its next slices at $((Get-Date).ToString('HH:mm')). "; [void]$pending.Add($r.Q) }
-                elseif (-not $row.TimedOut) { $row.Note += "not advanced: the next work waits on an owner gate, or the project is built (see Prep Report). " }
+                elseif (-not $row.TimedOut) {
+                    $row.Note += "not advanced: no buildable node left outside owner-only gates (see Prep Report). "
+                    $b = Get-Backfill $r.Q.Harness
+                    if ($b) {
+                        $row.Note += "its $($b.Harness) lane went to $($b.Name) at $((Get-Date).ToString('HH:mm')). "
+                        $queue += $b; $bd = Join-Path $projects $b.Name
+                        $rows[$b.Name] = [ordered]@{ Project = $b.Name; Harness = $b.Harness; Verify = '-'; Git = '-'; Commits = 0; Note = "filled $name's lane at $((Get-Date).ToString('HH:mm')) (not in tonight's lanes). ";
+                            Minutes = 0; TestsBefore = ''; TestsAfter = ''; TimedOut = $false; UsageLimit = $false }
+                        $integrity[$b.Name] = Get-Integrity $bd; $rows[$b.Name].TestsBefore = $integrity[$b.Name].Tests
+                        $heads[$b.Name] = "$(git -C $bd rev-parse HEAD 2>$null)"; [void]$pending.Add($b); Save-RunState
+                    }
+                }
                 continue
             }
             $row.Minutes += [int]((Get-Date) - $r.Start).TotalMinutes
@@ -787,8 +838,12 @@ while ($pending.Count -or $running.Count) {
                 $netRetries[$name] = 1 + [int]$netRetries[$name]; $waitNet[$name] = $true
                 $row.Note += "connection lost at $((Get-Date).ToString('HH:mm')), retried when back. "; [void]$pending.Add($own)
             }
-            # No new work: tonight's target is probably done. Advance it (at most twice a run) while an hour is left.
-            elseif ([int]$advances[$name] -lt 2 -and ($deadline - (Get-Date)).TotalMinutes -gt 60) { Start-Advance $own }
+            elseif ([int]$leftovers[$name] -lt 3 -and (Test-Leftover $dir $r.Q.Harness $text)) {
+                $leftovers[$name] = 1 + [int]$leftovers[$name]
+                $row.Note += "session ended mid-work at $((Get-Date).ToString('HH:mm')) (uncommitted changes left); fresh session started to finish it. "; [void]$pending.Add($own)
+            }
+            # No new work: tonight's target is probably done. Advance it (at most 4 times a run) while an hour is left.
+            elseif ([int]$advances[$name] -lt 4 -and ($deadline - (Get-Date)).TotalMinutes -gt 60) { Start-Advance $own }
         }
     }
 }

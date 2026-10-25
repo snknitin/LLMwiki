@@ -39,6 +39,21 @@ The owner uses several computers and a phone. Any link you give them to somethin
 - Open the link yourself first (a browser, or `curl` from another machine on the tailnet) and send it only once the page loads.
 - Dashboard Command Center tabs use the tailnet link too. The Agents board registers previews with it; if a project tab points at localhost, report it instead of editing the registry.
 
+## Add the app to the dashboard once it's worth using
+- When BUILD_SPEC describes something used on screen (a dashboard, an app, a web page), build toward a working app the owner can try, not only back-end pieces. Plan its screens into the build tree so a usable first version arrives early rather than in the last slice.
+- Only when the app is substantial (an MVP or finished slice that shows how it works end to end, with demo data), add `scripts/preview.ps1` (desktop) and `scripts/preview.sh` (FirstSpark). That script is what puts it on the owner's dashboard, so never add it for a placeholder, a status page or a half-built screen. It serves the app in the foreground on 127.0.0.1 and the project's port from "Project previews" in `LLMWiki/Local_Setup/FirstSpark Port Registry.md`. A project with no row takes the next free dashboard port and registers it in the same change. Line 2 of each script is exactly `# preview: http://127.0.0.1:<port>/`.
+- After that you don't deploy anything: the Agents board keeps the app running, restarts it on the new code when your commits land, publishes it on the tailnet, and gives it a tab in Dashboard Command Center's Projects group with its Tailscale link. Keep `preview.ps1` starting cleanly after every commit.
+- The preview uses synthetic or demo data in a temp data root. No real data, no secrets or tokens in the URL, no login step the owner can't do in the tab.
+- Verify never depends on a preview server running. Its screenshots start their own temporary server. Never edit the DCC registry yourself.
+
+## Links for the owner: Tailscale, never localhost
+The owner uses several computers and a phone. Any link you give them to something running on the desktop or a Spark (a preview, a review page, a dashboard) is its Tailscale link, never `localhost` or `127.0.0.1`.
+- Serve on `127.0.0.1`, then publish the same port on the tailnet: `tailscale serve --bg --https=<port> http://127.0.0.1:<port>` (with `sudo` on FirstSpark). Never Funnel, never bind `0.0.0.0`.
+- The link is `https://<host>.tail4a1242.ts.net:<port>/`: the desktop is `nike-workstation`, FirstSpark is `spark-07a8`.
+- If the app checks Host or Origin headers, it must also accept that tailnet name, or the link answers 403.
+- Open the link yourself first (a browser, or `curl` from another machine on the tailnet) and send it only once the page loads.
+- Dashboard Command Center tabs use the tailnet link too. The Agents board registers previews with it; if a project tab points at localhost, report it instead of editing the registry.
+
 ## Decide, don't ask (for reversible choices)
 - Reversible choices (names, layout, which installed library, ordering): pick the simplest option, log it in `DECISIONS.md` (date, choice, why, how to undo), and keep going.
 - Stop only for: missing credentials or access, destructive or irreversible actions, external side effects (sending, posting, paying), or a spec contradiction. Write the question into `REPORT.md` in the format below, then continue with other work.
@@ -46,12 +61,14 @@ The owner uses several computers and a phone. Any link you give them to somethin
 
 ## Owner context (read before asking anything)
 `Nightly Runs/agent-rules/OWNER-CONTEXT.md` in the vault (desktop `F:\Vaults\LLMWiki`, FirstSpark `/home/snknitin/vaults/LLMWiki`) holds the owner's machines, models and endpoints, ports, standing decisions, and the list of what you decide yourself versus what only the owner can answer. Read it once per session before planning work or writing a question. If it answers your question, follow it and cite it in `DECISIONS.md` instead of asking.
-- **Established ways are fixed.** Reaching a machine, deploying, restarting a service, picking a model or port: there is one known-good way, recorded in OWNER-CONTEXT.md, these rules or the project's own docs. Look it up before the first attempt and use it exactly. Never improvise an alternative (another host name, shell, path or tool), and never report something as blocked or unreachable until that recorded way has failed. If you find a recorded way is wrong or missing, fix the record in the same change.
 
 ## Never stall on the owner
 Nobody answers during a run, so waiting is always wrong.
 - Never wait, poll, sleep or end early because of a question or an approval step. Record it and move to the next unblocked task.
-- Approval steps (owner gates `G<n>`, "ask before slice N", "needs owner approval"): look in `DECISIONS.md` under `## Owner answers (from the Agents board)` for a line `Approve: <gate title>: **Approved…**`. If it is there, the gate is passed: do that work. If not, or the answer is "Not yet", skip only the work behind the gate and keep going with everything else.
+- Approval steps (owner gates `G<n>`, "ask before slice N", "needs owner approval"): look in `DECISIONS.md` under `## Owner answers (from the Agents board)` for a line `Approve: <gate title>: **Approved…**`. If it is there, the gate is passed: do that work. If not:
+  - A gate on something `OWNER-CONTEXT.md` section 5 lets you decide (a model or endpoint, a library, a port, a layout, a slice boundary, any default or recommendation BUILD_SPEC gives): decide it yourself with BUILD_SPEC's default, else your recommended option, log `Auto-decided <gate>: <choice> (why; how to undo)` in `DECISIONS.md`, list it in `REPORT.md` so the owner can override it, and do the work.
+  - An owner-only gate, or the answer "Not yet": build everything around it (fakes, fixtures, synthetic data) so only the owner's own step is left, and keep going with every other node and slice.
+  - Never stop, refuse to plan the next slices, or call a project built while any node you could build is open.
 - Ask only what `OWNER-CONTEXT.md` section 5 lists as owner-only (credentials, money, sending, destructive actions, shared services, private data, a real spec conflict). Everything else you decide and log.
 - A question is BLOCKING only for the tasks it actually blocks; name them. Always give a recommended option, and keep building the parts that don't depend on it (fixtures, fakes, tests, docs).
 
@@ -80,6 +97,5 @@ Rules for all three:
 - End every unattended run by writing `REPORT.md`: what changed, verify result, commits, decisions made, questions for the owner.
 
 ## Shared machine resources
-- SSH from the desktop to a Spark: only `C:\Windows\System32\OpenSSH\ssh.exe FirstSpark` (or `SecondSpark`, `ThirdSpark`), e.g. from the PowerShell tool. Git Bash `ssh`, raw IPs and Tailscale names all fail (no key: the aliases live in the NVIDIA Sync ssh_config). Never report a Spark as unreachable without trying this exact command.
 - FirstSpark ports: read `LLMWiki/Local_Setup/FirstSpark Port Registry.md` before binding any port on FirstSpark. Pick a free port from it and register the new one there in the same change.
 - Project priorities live in `LLMWiki/Nightly Runs/Project Priorities.md`. When choosing what to work on next without instructions, follow it top to bottom.

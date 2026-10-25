@@ -141,6 +141,7 @@ Toolchain and verify
 - Docs, broken links, wikilinks, section numbering, typos and stale model names
 - Which Command Center group to use (section 4) and the registry ids
 - Defaults the spec calls "non-blocking". Take the spec's stated default.
+- Owner gates (`G<n>`) and approval questions about anything on this list, even when BUILD_SPEC calls them owner gates: take the spec's default, else your recommended option, and log `Auto-decided <gate>` in `DECISIONS.md`. The owner overrides in the morning if they disagree.
 
 **Wait for the owner, but never sit idle:**
 - Missing credentials, tokens, OAuth clients, API keys, or sign-ins
