@@ -711,8 +711,14 @@ $worker = {
                 $m = 'python3 ~/.agents-board/local-agent.py --base-url http://127.0.0.1:8000/v1 --model spark-fast --workdir {0} --budget {1}' -f $sparkDir, $budget
                 if ($isQa) { $m += ' --qa-result' }
             } else { $m = '~/.local/bin/hermes chat --query-file - -Q --yolo --in {0} --run-budget {1} {2}' -f $sparkDir, $budget, $m }
+            # Leftovers in the FirstSpark clone made 'git pull --rebase' fail, so the session never started (2026-10-25: QA of
+            # paper-logbook and mock-interview). QA reviews the exact commit, so its leftovers go to a pushed wip branch; a builder
+            # continues from them, so they become a WIP commit. A file that looks like a secret is never committed.
+            $tidy = 'if git status --porcelain | grep -q .; then if git status --porcelain | grep -Eiq ''(\.env|\.pem|\.key|id_rsa|credential|secret)''; then echo SPARK_DIRTY_SECRET; exit 7; fi; '
+            $tidy += $(if ($isQa) { 'b=wip/qa-handoff-$(date +%Y%m%d-%H%M%S); git switch -q -c $b && git add -A && git commit -qm ''WIP left in the FirstSpark clone before QA, saved by the runner'' && git push -q -u origin $b 2>/dev/null; git switch -q -; echo SPARK_HANDOFF $b; fi; ' }
+                else { 'git add -A && git commit -qm ''WIP: unfinished work left by the previous session, saved by the runner; continue from it''; echo SPARK_WIP_COMMITTED; fi; ' })
             $headCheck = $(if ($isQa) { '[ $(git rev-parse HEAD) = {0} ] || {{ echo SPARK_HEAD_MISMATCH; exit 6; }}; ' -f $reviewHead } else { '' })
-            $remote = 'test -d {0} || {{ echo SPARK_MISSING; exit 3; }}; cd {0} || exit 3; p=.git/overnight-hermes.pid; if [ -f $p ] && kill -0 $(cat $p) 2>/dev/null; then echo SPARK_BUSY; exit 4; fi; echo $$ > $p; trap ''rm -f $p'' EXIT; git pull --rebase -q || exit 5; {2}{1}; rc=$?; echo SPARK_GIT dirty=$(git status --porcelain | wc -l) unpushed=$(git rev-list --count @{{u}}..HEAD); exit $rc' -f $sparkDir, $m, $headCheck
+            $remote = 'test -d {0} || {{ echo SPARK_MISSING; exit 3; }}; cd {0} || exit 3; p=.git/overnight-hermes.pid; if [ -f $p ] && kill -0 $(cat $p) 2>/dev/null; then echo SPARK_BUSY; exit 4; fi; echo $$ > $p; trap ''rm -f $p'' EXIT; {3}git pull --rebase -q || exit 5; {2}{1}; rc=$?; echo SPARK_GIT dirty=$(git status --porcelain | wc -l) unpushed=$(git rev-list --count @{{u}}..HEAD); exit $rc' -f $sparkDir, $m, $headCheck, $tidy
             $prompt | & $ssh -o BatchMode=yes FirstSpark $remote *>> $log
         }
         default {
