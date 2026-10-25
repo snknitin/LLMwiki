@@ -20,7 +20,10 @@ $limitUntil = @{ claude = $later }
 Check 'claude parked: codex' (Get-SessionHarness $claude) 'codex'
 $limitUntil = @{ claude = $later; codex = $later }
 Check 'claude and codex parked: hermes' (Get-SessionHarness $claude) 'hermes'
-Check 'codex project with codex parked: waits' (Get-SessionHarness $codex) ''
+Check 'codex project with codex parked: hermes' (Get-SessionHarness $codex) 'hermes'
+$noSpark = @{ gamma = $true }
+Check 'codex project with codex parked, not on FirstSpark: waits' (Get-SessionHarness $codex) ''
+$noSpark = @{}
 $noSpark = @{ alpha = $true }
 Check 'not on FirstSpark: waits' (Get-SessionHarness $claude) ''
 
@@ -44,13 +47,15 @@ Remove-Item $repo -Recurse -Force
 
 # A built project's lane takes the next overnight-ready project: skips Tonight/Active, missing verify.ps1, dirty checkouts.
 $root = Join-Path ([IO.Path]::GetTempPath()) "backfill-test-$PID"; $projects = Join-Path $root 'p'; $prioFile = Join-Path $root 'prio.md'
-foreach ($n in 'tonight1', 'active1', 'noverify', 'dirty1', 'good1', 'good2') { $d = Join-Path $projects $n; git init -q $d; if ($n -ne 'noverify') { New-Item -ItemType Directory "$d\scripts" -Force | Out-Null; Set-Content "$d\scripts\verify.ps1" 'x'; git -C $d add -A; git -C $d -c user.email=t@t -c user.name=t commit -qm init } }
+foreach ($n in 'tonight1', 'active1', 'noverify', 'nospec', 'dirty1', 'good1', 'good2') { $d = Join-Path $projects $n; git init -q $d; if ($n -ne 'nospec') { Set-Content "$d\BUILD_SPEC.md" 'spec' }; if ($n -notin 'noverify', 'nospec') { New-Item -ItemType Directory "$d\scripts" -Force | Out-Null; Set-Content "$d\scripts\verify.ps1" 'x' }; Set-Content "$d\README.md" 'x'; git -C $d add -A; git -C $d -c user.email=t@t -c user.name=t commit -qm init }
 Set-Content (Join-Path $projects 'dirty1\new.txt') 'x'
-Set-Content $prioFile "## Tonight`n### Codex`n- tonight1`n## Priority order`n1. tonight1`n2. active1`n3. noverify`n4. dirty1`n5. good1`n## Ready next`n- good2`n## Active`n- active1"
+Set-Content $prioFile "## Tonight`n### Codex`n- tonight1`n## Priority order`n1. tonight1`n2. active1`n3. nospec`n4. noverify`n5. dirty1`n6. good1`n## Ready next`n- good2`n## Active`n- active1"
 $rows = @{ tonight1 = @{} }
-Check 'backfill: first ready project' (Get-Backfill 'codex').Name 'good1'
+Check 'backfill: the next rank even before it is overnight-ready' (Get-Backfill 'codex').Name 'noverify'
+$rows['noverify'] = @{}
+Check 'backfill: then the next rank' (Get-Backfill 'codex').Name 'good1'
 $rows['good1'] = @{}
-Check 'backfill: then Ready next' (Get-Backfill 'codex').Name 'good2'
+Check 'backfill: never an unranked Ready next project' (Get-Backfill 'codex') ''
 $rows['good2'] = @{}
 Check 'backfill: none left' (Get-Backfill 'codex') ''
 Remove-Item $root -Recurse -Force
@@ -88,7 +93,7 @@ Remove-Item $repo -Recurse -Force
 # The board shows each lane's state in the runner's words (2026-10-25: Codex lanes parked on a usage limit read
 # "waiting for network" or "done" because the board guessed from log text).
 $reset = (Get-Date).AddHours(2)
-$limitUntil = @{ codex = $reset }; $waitNet = @{ net1 = $true }; $notBefore = @{}; $recheck = @{}
+$limitUntil = @{ codex = $reset }; $waitNet = @{ net1 = $true }; $notBefore = @{}; $recheck = @{}; $noSpark = @{ cx1 = $true }
 $running = @{ 1 = @{ Q = [pscustomobject]@{ Name = 'plan1'; Harness = 'claude' }; Advance = $true; Action = 'advance'; Spec = 'claude:opus' }; 2 = @{ Q = [pscustomobject]@{ Name = 'build1'; Harness = 'hermes' } } }
 $pending = [System.Collections.ArrayList]@([pscustomobject]@{ Name = 'cx1'; Harness = 'codex' }, [pscustomobject]@{ Name = 'net1'; Harness = 'claude' })
 $rows = @{ plan1 = @{}; build1 = @{}; cx1 = @{}; net1 = @{}; done1 = @{ Note = 'not advanced: no buildable node left outside owner-only gates (see Prep Report). its claude lane went to fresh-brief at 03:10. ' } }
@@ -98,17 +103,17 @@ Check 'lane: building' $lanes.build1.state 'building'
 Check 'lane: waiting on a usage limit' "$($lanes.cx1.state): $($lanes.cx1.why)" "waiting: codex usage limit, back at $($reset.ToString('HH:mm'))"
 Check 'lane: waiting on the network' $lanes.net1.state 'waiting'
 Check 'lane: finished and where its lane went' "$($lanes.done1.state): $($lanes.done1.why)" 'finished: nothing left to build outside owner-only steps; its lane went to fresh-brief'
-$limitUntil = @{}; $running = @{}; $pending = $null; $rows = @{}
+$limitUntil = @{}; $running = @{}; $pending = $null; $rows = @{}; $noSpark = @{}
 
 # Pipeline (owner, 2026-10-25): top-10 overnight-ready projects fill the lanes, overnight-ready Backlog moves to Ready
 # next, a built project moves to Active; the priority order itself never changes.
 $root = Join-Path ([IO.Path]::GetTempPath()) "pipeline-test-$PID"; $projects = Join-Path $root 'p'; $prioFile = Join-Path $root 'prio.md'
-foreach ($n in 'top1', 'top2', 'blready') { New-Item -ItemType Directory -Force (Join-Path $projects "$n\scripts") | Out-Null; Set-Content (Join-Path $projects "$n\scripts\verify.ps1") 'x' }
+foreach ($n in 'top1', 'top2', 'blready', 'blunranked') { New-Item -ItemType Directory -Force (Join-Path $projects "$n\scripts") | Out-Null; Set-Content (Join-Path $projects "$n\scripts\verify.ps1") 'x' }
 New-Item -ItemType Directory -Force (Join-Path $projects 'topnov') | Out-Null
 $fixture = @('# P', '## Tonight', '', '### Claude', '- a1 - x', '', '### Codex', '- c1 @codex:sol - y', '- c2', '', '### Hermes', '',
-    '## Priority order (top 10 = daily focus)', '### P0', '1. a1', '2. top1', '3. top2', '4. topnov', '5. act1', '',
+    '## Priority order (top 10 = daily focus)', '### P0', '1. a1', '2. top1', '3. top2', '4. topnov', '5. act1', '6. f6', '7. f7', '8. f8', '9. f9', '10. f10', '11. f11', '12. blready', '',
     '## Ready next (overnight-ready, not queued)', '', '## Active (built; daytime feedback and iteration)', '- act1 - built', '',
-    '## Backlog (BUILD_SPEC written, not set up for overnight yet)', '- top2 @codex - tagged', '- blready - has verify now', '- blnot - no verify', '') -join "`r`n"
+    '## Backlog (BUILD_SPEC written, not set up for overnight yet)', '- top2 @codex - tagged', '- blready - has verify now', '- blunranked - ready but not in the priority order', '- blnot - no verify', '') -join "`r`n"
 [IO.File]::WriteAllText($prioFile, $fixture)
 $pipelineMoves = New-Object System.Collections.ArrayList
 $null = Sync-Pipeline
@@ -118,6 +123,7 @@ Check 'pipeline: tagged top-10 joins its own lane' $st.Where.top2 'codex'
 Check 'pipeline: not overnight-ready stays out' $st.Where.topnov ''
 Check 'pipeline: Active stays Active' $st.Where.act1 'active'
 Check 'pipeline: overnight-ready Backlog goes to Ready next' $st.Where.blready 'ready'
+Check 'pipeline: unranked Backlog stays (the priority order decides)' $st.Where.blunranked 'backlog'
 Check 'pipeline: Backlog without verify stays' $st.Where.blnot 'backlog'
 Check 'pipeline: line text and tag kept' ([bool]($after -match "### Codex`r`n- c1 @codex:sol - y`r`n- c2`r`n- top2 @codex - tagged`r`n")) 'True'
 Check 'pipeline: order untouched, CRLF kept' ([bool]($after -match "1\. a1`r`n2\. top1`r`n3\. top2`r`n4\. topnov`r`n5\. act1`r`n" -and $after -notmatch "[^`r]`n")) 'True'

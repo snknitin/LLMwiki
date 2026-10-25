@@ -71,7 +71,7 @@ if ($text -match 'QA reviewer') {
     Check 'alpha REPORT.md has the QA section' ((Get-Content (Join-Path $projects 'alpha\REPORT.md') -Raw) -match '## QA 2026-01-01') 'True'
     Check 'alpha FEEDBACK.md has the item' ((Get-Content (Join-Path $projects 'alpha\FEEDBACK.md') -Raw) -match 'fix the thing') 'True'
     $prompt = Get-Content (Join-Path $shims 'alpha.qa-prompt.txt') -Raw
-    Check 'QA prompt names the project and the commit range' ($prompt -match 'This QA session: project folder alpha, date for the REPORT\.md section \d{4}-\d{2}-\d{2}, the builder''s commits tonight are [0-9a-f]{40}\.\.[0-9a-f]{40}') 'True'
+    Check 'QA prompt names the project and the commit range' ($prompt -match 'This QA session: project folder alpha, date for the REPORT\.md section \d{4}-\d{2}-\d{2} \d{2}:\d{2}, the builder''s commits to review are [0-9a-f]{40}\.\.[0-9a-f]{40}') 'True'
     Check 'no QA session for beta' (Test-Path (Join-Path $shims 'beta.qa-prompt.txt')) 'False'
     Check 'no QA session for gamma' (Test-Path (Join-Path $shims 'gamma.qa-prompt.txt')) 'False'
     if ($failed) { Write-Output $out }
