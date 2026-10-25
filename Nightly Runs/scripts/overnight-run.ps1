@@ -5,9 +5,9 @@
 #   nightly: Nightly Runs/Overnight Report.md, Nightly Runs/Logs/<yyyy-MM-dd_HHmm>.md, agent logs in E:/GIT_ROOT/Projects/.overnight-logs
 #   morning: Morning Runs/Morning Report.md,   Morning Runs/Logs/<yyyy-MM-dd_HHmm>.md, agent logs in E:/GIT_ROOT/Projects/.morning-logs
 # Every run starts with a preflight: projects with blockers are skipped, and Nightly Runs/Preflight.md lists what needs you.
-# Usage: powershell -NoProfile -ExecutionPolicy Bypass -File overnight-run.ps1 [-Kind nightly|morning] [-Preflight | -DryRun] [-PerHarness N (default 0 = no limit)] [-Until 06:30] [-HoursPerProject 3]
+# Usage: powershell -NoProfile -ExecutionPolicy Bypass -File overnight-run.ps1 [-Kind nightly|morning] [-Preflight | -DryRun] [-PerHarness N (default 0 = no limit)] [-Until 06:00] [-HoursPerProject 3]
 #   -Kind       where results go (above); the scheduled task passes nightly. Default: morning if started 05:00-16:59, else nightly
-#   -Until      a nightly run keeps its lanes working until this time (default 06:30): an agent that stops early with real
+#   -Until      a nightly run keeps its lanes working until this time (default 06:00): an agent that stops early with real
 #               progress is started again on its project. A morning run, or any run given -HoursPerProject, works that many hours.
 #   -Preflight  only check (run it in the evening, fix what it lists, then let 23:00 run); exit code = number of blocked projects
 #   -NoPrep     skip the top-10 upkeep prep agent (see Get-Upkeep); -PrepMinutes caps it (default 90)
@@ -20,7 +20,7 @@
 # network (or FirstSpark) to come back, then starts again. A tool at its usage limit waits for the reset time it prints;
 # meanwhile a Claude project's sessions run on Codex, or on Hermes if Codex is parked too (noted in the report row).
 # A project that finishes tonight's target mid-run is advanced to its next slices (advance-slice) and keeps going.
-param([ValidateSet('nightly', 'morning')][string]$Kind, [switch]$Preflight, [switch]$DryRun, [int]$PerHarness = 0, [double]$HoursPerProject = 3, [string]$Until = '06:30', [switch]$NoPrep, [int]$PrepMinutes = 90, [switch]$PrepOnly, [switch]$Resume, [switch]$Scheduled, [int]$QaMinutes = 30,
+param([ValidateSet('nightly', 'morning')][string]$Kind, [switch]$Preflight, [switch]$DryRun, [int]$PerHarness = 0, [double]$HoursPerProject = 3, [string]$Until = '06:00', [switch]$NoPrep, [int]$PrepMinutes = 90, [switch]$PrepOnly, [switch]$Resume, [switch]$Scheduled, [int]$QaMinutes = 30,
       [switch]$QaOnly, [ValidatePattern('^[A-Za-z0-9._-]+$')][string]$Project, [string]$QaFrom, [switch]$FixOnly)
 if ($QaOnly -and (-not $Project -or -not $QaFrom -or $Resume -or $PrepOnly -or $DryRun)) { throw '-QaOnly requires -Project and -QaFrom, without Resume, PrepOnly or DryRun' }
 if ($QaOnly) { $NoPrep = $true }
@@ -674,7 +674,7 @@ $advanceWorker = {
 function Start-Advance($q) {
     $name = $q.Name; $dir = Join-Path $projects $name
     $issues = @(Compare-Integrity $integrity[$name] (Get-Integrity $dir))   # checked before the advance re-baselines it
-    if ($issues) { $rows[$name].Note += "not advanced: SUSPECT ($($issues -join '; ')). "; return }
+    if ($issues) { $rows[$name].Note += "not advanced: SUSPECT ($($issues -join '; ')). "; Start-Backfill $rows[$name] $q.Harness $name; return }
     $now = Get-Date
     $advances[$name] = 1 + [int]$advances[$name]
     $text = (Get-Content (Join-Path $vault 'Nightly Runs\agent-rules\prep-prompt.md') -Raw -Encoding UTF8) +
@@ -718,6 +718,19 @@ function Get-Backfill($harness) {
     }
 }
 
+# Hand a lane to the next overnight-ready project for the rest of the run (its row, HEAD and tamper baseline as at start).
+function Start-Backfill($row, $harness, $from) {
+    if (($deadline - (Get-Date)).TotalSeconds -lt $minSession) { return }
+    $b = Get-Backfill $harness
+    if (-not $b) { $row.Note += "no other overnight-ready project left for its $harness lane. "; return }
+    $row.Note += "its $harness lane went to $($b.Name) at $((Get-Date).ToString('HH:mm')). "
+    $script:queue += $b; $bd = Join-Path $projects $b.Name
+    $rows[$b.Name] = [ordered]@{ Project = $b.Name; Harness = $b.Harness; Verify = '-'; Git = '-'; Commits = 0; Note = "filled $from's lane at $((Get-Date).ToString('HH:mm')) (not in tonight's lanes). ";
+        Minutes = 0; TestsBefore = ''; TestsAfter = ''; TimedOut = $false; UsageLimit = $false }
+    $integrity[$b.Name] = Get-Integrity $bd; $rows[$b.Name].TestsBefore = $integrity[$b.Name].Tests
+    $heads[$b.Name] = "$(git -C $bd rev-parse HEAD 2>$null)"; [void]$pending.Add($b); Save-RunState
+}
+
 # The lanes' end time. Nightly: -Until (next occurrence), so the lanes work all night. Otherwise -HoursPerProject from now.
 function Get-Deadline($now) {
     if ($resumeEnd) { return $resumeEnd }   # a resumed run keeps the cut-off run's end time
@@ -728,7 +741,6 @@ function Get-Deadline($now) {
 }
 $deadline = Get-Deadline (Get-Date)
 $minSession = 1800   # never start a session with less than 30 minutes left
-$maxSessions = 8     # shortcut: a fixed cap per project per run in case an agent keeps committing in circles; raise it if logs show real work cut off
 
 # Each project's HEAD as the lanes start: the run's commits are exactly <before>..<after>, so the Agents board's Review tab
 # never has to guess from times (Hermes's commits reach the desktop when its session ends, after the gate's pull).
@@ -736,7 +748,7 @@ $heads = [ordered]@{}
 foreach ($q in $pending) { $h = git -C (Join-Path $projects $q.Name) rev-parse HEAD 2>$null; if ($h) { $heads[$q.Name] = "$h" } }
 if ($QaOnly) { $heads[$Project] = "$qaBase"; $pending.Clear() }
 $qaResults = [ordered]@{}   # QA per project: @{ state = running|pass|findings|skipped|failed; findings; reason }, read by the Agents board
-$running = @{}; $limitUntil = @{}; $advances = @{}; $sessions = @{}; $waitNet = @{}; $netRetries = @{}; $nextNetCheck = @{}; $noSpark = @{}; $leftovers = @{}
+$running = @{}; $limitUntil = @{}; $advances = @{}; $sessions = @{}; $waitNet = @{}; $nextNetCheck = @{}; $noSpark = @{}; $leftovers = @{}
 foreach ($n in @($recheck.Keys)) { $notBefore[$n] = (Get-Date).AddMinutes(5) }
 foreach ($n in @($sparkState.Keys)) { if ($sparkState[$n] -eq 'unreachable') { $waitNet[$n] = $true } }   # starts when FirstSpark answers
 # A resumed run keeps the usage limits the cut-off run had hit.
@@ -757,6 +769,7 @@ function Get-SessionHarness($q) {
     if ($q.Harness -ne 'claude') { return $null }
     return @('codex', 'hermes') | Where-Object { -not (Test-Parked $_) -and -not ($_ -eq 'hermes' -and $noSpark[$q.Name]) } | Select-Object -First 1
 }
+foreach ($q in @($queue | Where-Object { $checks[$_.Name].Blockers })) { if (-not $DryRun -and -not $QaOnly) { Start-Backfill $rows[$q.Name] $q.Harness $q.Name } }
 if ($pending.Count) { Save-RunState }
 while ($pending.Count -or $running.Count) {
     # Start every pending project whose harness has a free slot, in list order (first sessions before relaunches).
@@ -812,18 +825,7 @@ while ($pending.Count -or $running.Count) {
             if ($r.Advance) {
                 $integrity[$name] = Get-Integrity $dir   # the advance legitimately extends verify.ps1: that is the new baseline
                 if (-not $row.TimedOut -and (Test-Progress $dir $r.Head)) { $row.Note += "advanced to its next slices at $((Get-Date).ToString('HH:mm')). "; [void]$pending.Add($r.Q) }
-                elseif (-not $row.TimedOut) {
-                    $row.Note += "not advanced: no buildable node left outside owner-only gates (see Prep Report). "
-                    $b = Get-Backfill $r.Q.Harness
-                    if ($b) {
-                        $row.Note += "its $($b.Harness) lane went to $($b.Name) at $((Get-Date).ToString('HH:mm')). "
-                        $queue += $b; $bd = Join-Path $projects $b.Name
-                        $rows[$b.Name] = [ordered]@{ Project = $b.Name; Harness = $b.Harness; Verify = '-'; Git = '-'; Commits = 0; Note = "filled $name's lane at $((Get-Date).ToString('HH:mm')) (not in tonight's lanes). ";
-                            Minutes = 0; TestsBefore = ''; TestsAfter = ''; TimedOut = $false; UsageLimit = $false }
-                        $integrity[$b.Name] = Get-Integrity $bd; $rows[$b.Name].TestsBefore = $integrity[$b.Name].Tests
-                        $heads[$b.Name] = "$(git -C $bd rev-parse HEAD 2>$null)"; [void]$pending.Add($b); Save-RunState
-                    }
-                }
+                elseif (-not $row.TimedOut) { $row.Note += "not advanced: no buildable node left outside owner-only gates (see Prep Report). "; Start-Backfill $row $r.Q.Harness $name }
                 continue
             }
             $row.Minutes += [int]((Get-Date) - $r.Start).TotalMinutes
@@ -832,18 +834,20 @@ while ($pending.Count -or $running.Count) {
             # A Hermes fallback for a project not cloned on FirstSpark: no more Hermes fallbacks for it; it waits for a reset.
             if ($r.Q.Home -and $r.Q.Harness -eq 'hermes' -and "$text" -match 'SPARK_MISSING') { $noSpark[$name] = $true; [void]$pending.Add($own); continue }
             # Stopped early with real progress and time left: start it again; it resumes from PROGRESS.md's next open item.
-            if ($sessions[$name] -lt $maxSessions -and (Test-Progress $dir $r.Head)) { [void]$pending.Add($own) }
+            if (Test-Progress $dir $r.Head) { $advances[$name] = 0; [void]$pending.Add($own) }   # real work resets the advance count
             elseif ($r.Q.Harness -ne 'hermes' -and "$text" -match $limitHit) { [void]$pending.Add($own) }   # on another harness, or after the reset
-            elseif ("$text" -match $netError -and [int]$netRetries[$name] -lt 6) {
-                $netRetries[$name] = 1 + [int]$netRetries[$name]; $waitNet[$name] = $true
+            elseif ("$text" -match $netError) {
+                $waitNet[$name] = $true; if ("$text" -match 'SPARK_BUSY') { $notBefore[$name] = (Get-Date).AddMinutes(5) }
                 $row.Note += "connection lost at $((Get-Date).ToString('HH:mm')), retried when back. "; [void]$pending.Add($own)
             }
             elseif ([int]$leftovers[$name] -lt 3 -and (Test-Leftover $dir $r.Q.Harness $text)) {
                 $leftovers[$name] = 1 + [int]$leftovers[$name]
                 $row.Note += "session ended mid-work at $((Get-Date).ToString('HH:mm')) (uncommitted changes left); fresh session started to finish it. "; [void]$pending.Add($own)
             }
-            # No new work: tonight's target is probably done. Advance it (at most 4 times a run) while an hour is left.
-            elseif ([int]$advances[$name] -lt 4 -and ($deadline - (Get-Date)).TotalMinutes -gt 60) { Start-Advance $own }
+            # No new work: tonight's target is done. Advance it to its next slices; after two advances in a row with no
+            # real work between them, the lane moves to the next overnight-ready project.
+            elseif ([int]$advances[$name] -lt 2) { Start-Advance $own }
+            else { $row.Note += "two advances in a row brought no real work. "; Start-Backfill $row $own.Harness $name }
         }
     }
 }
@@ -865,6 +869,28 @@ function Set-Qa($name, $state, $reason = '', $findings = 0, $by = '') {
     $script:qaResults[$name] = @{ state = $state; findings = $findings; reason = $reason }
     if ($state -ne 'running') { $script:rows[$name].Note = "$($script:rows[$name].Note.TrimEnd()) QA $(Format-Qa $script:qaResults[$name])$(if ($by) { " (on $by)" }). " }   # the gate's note may end in 'log: <path>' without a space
     if (-not $DryRun) { Save-RunState }
+}
+# The run's report. Written once when the lanes stop, so the morning has it at the end time, then again with QA and
+# the runner's own verify (which take another hour or so).
+function Write-RunReport([switch]$final) {
+    $md = @("# $(if ($Kind -eq 'morning') { 'Morning' } else { 'Overnight' }) Report", "",
+            "Run started $($started.ToString('yyyy-MM-dd HH:mm')), $(if ($final) { 'finished' } else { 'lanes stopped' }) $((Get-Date).ToString('HH:mm'))$(if ($DryRun) { ' (dry run)' })$(if (-not $final) { '; QA and the runner''s own verify are still running and fill in this report when they finish' }), $Kind run, $(if ($PerHarness -gt 0) { "up to $PerHarness per harness" } else { 'every project at once' }). Logs: ``$logDir``", "",
+            ($(if ($prepWork -and -not $DryRun -and -not $NoPrep) { "Prep before the lanes: $($prepWork.Count) top-10 upkeep item(s); see ``Nightly Runs/Prep Report.md`` and ``$logDir\_prep.log``. " } else { '' }) +
+            "Verify is re-run by the runner on the desktop after each agent finishes (for @hermes, after pulling its pushed commits). Each project's ``REPORT.md`` has details and open questions."), "",
+            "| Project | Harness | Verify | Git (desktop) | Commits tonight | Note |", "|---|---|---|---|---|---|")
+    $md += $queue | ForEach-Object { $r = $rows[$_.Name]; "| $($r.Project) | $($r.Harness) | $($r.Verify) | $($r.Git) | $($r.Commits) | $($r.Note) |" }
+    if (-not $queue) { $md += '| (Tonight list is empty) | | | | | |' }
+    $ranges = @($queue | Where-Object { $rows[$_.Name].Heads } | ForEach-Object { "- ``$($_.Name)``: $($rows[$_.Name].Heads)" })
+    if ($ranges) { $md += @('', 'HEAD before..after each project''s lanes (the Agents board Review tab lists exactly these commits):') + $ranges }
+    $qaLines = @($queue | Where-Object { $qaResults[$_.Name] } | ForEach-Object { "- ``$($_.Name)``: QA $(Format-Qa $qaResults[$_.Name])" })
+    if ($qaLines) { $md += @('', 'QA after the builder sessions (the Agents board shows these as badges):') + $qaLines }
+    New-Item -ItemType Directory -Force $runLogDir | Out-Null   # Morning Runs/Logs on the first morning run
+    Set-Content -Path $reportMd -Value $md -Encoding UTF8
+    if ($final -and -not $DryRun) { Set-Content -Path (Join-Path $runLogDir "$stamp.md") -Value $md -Encoding UTF8 }
+}
+if (-not $DryRun -and -not $QaOnly) {
+    foreach ($q in $queue) { if ($heads[$q.Name]) { $d = Join-Path $projects $q.Name; $h = git -C $d rev-parse HEAD 2>$null; $rows[$q.Name].Heads = "$($heads[$q.Name])..$h"; $rows[$q.Name].Commits = [int](git -C $d rev-list --count $rows[$q.Name].Heads 2>$null) } }
+    Write-RunReport
 }
 $qaPromptText = $(if (Test-Path $qaPromptFile) { Get-Content $qaPromptFile -Raw -Encoding UTF8 } else { '' })
 $qaQueue = New-Object System.Collections.ArrayList
@@ -1000,20 +1026,7 @@ foreach ($q in $queue) {
     if ($heads[$q.Name]) { $headAfter = git -C $dir rev-parse HEAD 2>$null; $row.Heads = "$($heads[$q.Name])..$headAfter"; $row.Commits = [int](git -C $dir rev-list --count $row.Heads 2>$null) }
 }
 
-$md = @("# $(if ($Kind -eq 'morning') { 'Morning' } else { 'Overnight' }) Report", "",
-        "Run started $($started.ToString('yyyy-MM-dd HH:mm')), finished $((Get-Date).ToString('HH:mm'))$(if ($DryRun) { ' (dry run)' }), $Kind run, $(if ($PerHarness -gt 0) { "up to $PerHarness per harness" } else { 'every project at once' }). Logs: ``$logDir``", "",
-        ($(if ($prepWork -and -not $DryRun -and -not $NoPrep) { "Prep before the lanes: $($prepWork.Count) top-10 upkeep item(s); see ``Nightly Runs/Prep Report.md`` and ``$logDir\_prep.log``. " } else { '' }) +
-        "Verify is re-run by the runner on the desktop after each agent finishes (for @hermes, after pulling its pushed commits). Each project's ``REPORT.md`` has details and open questions."), "",
-        "| Project | Harness | Verify | Git (desktop) | Commits tonight | Note |", "|---|---|---|---|---|---|")
-$md += $queue | ForEach-Object { $r = $rows[$_.Name]; "| $($r.Project) | $($r.Harness) | $($r.Verify) | $($r.Git) | $($r.Commits) | $($r.Note) |" }
-if (-not $queue) { $md += '| (Tonight list is empty) | | | | | |' }
-$ranges = @($queue | Where-Object { $rows[$_.Name].Heads } | ForEach-Object { "- ``$($_.Name)``: $($rows[$_.Name].Heads)" })
-if ($ranges) { $md += @('', 'HEAD before..after each project''s lanes (the Agents board Review tab lists exactly these commits):') + $ranges }
-$qaLines = @($queue | Where-Object { $qaResults[$_.Name] } | ForEach-Object { "- ``$($_.Name)``: QA $(Format-Qa $qaResults[$_.Name])" })
-if ($qaLines) { $md += @('', 'QA after the builder sessions (the Agents board shows these as badges):') + $qaLines }
-New-Item -ItemType Directory -Force $runLogDir | Out-Null   # Morning Runs/Logs on the first morning run
-Set-Content -Path $reportMd -Value $md -Encoding UTF8
-if (-not $DryRun) { Set-Content -Path (Join-Path $runLogDir "$stamp.md") -Value $md -Encoding UTF8 }
+Write-RunReport -final
 if (-not $DryRun) { Remove-Item $stateFile -ErrorAction SilentlyContinue }   # finished: nothing for -Resume to continue
 # Projects that now have a preview (scripts/preview.ps1) appear as tabs in Dashboard Command Center's Projects group.
 if (-not $DryRun -and -not $env:OVERNIGHT_VAULT) {   # a fixture run (test-qa-run.ps1) must not touch the real board
