@@ -3,7 +3,7 @@
 # Usage: powershell -NoProfile -ExecutionPolicy Bypass -File test-fallback.ps1
 $ErrorActionPreference = 'Stop'
 $ast = [System.Management.Automation.Language.Parser]::ParseFile((Join-Path $PSScriptRoot 'overnight-run.ps1'), [ref]$null, [ref]$null)
-$ast.FindAll({ param($n) $n -is [System.Management.Automation.Language.FunctionDefinitionAst] -and $n.Name -in 'Test-Parked', 'Get-SessionHarness', 'Save-RunState', 'Test-Leftover', 'Get-Backfill', 'Get-AdvanceSpec', 'Test-CachedPass', 'Get-LaneStates', 'Read-Pipeline', 'Move-ProjectLine', 'Get-LaneFor', 'Sync-Pipeline', 'Test-Built', 'Get-RunSet', 'Test-NetError', 'Test-OpenDirection' }, $true) |
+$ast.FindAll({ param($n) $n -is [System.Management.Automation.Language.FunctionDefinitionAst] -and $n.Name -in 'Test-Parked', 'Get-SessionHarness', 'Save-RunState', 'Test-Leftover', 'Get-Backfill', 'Get-AdvanceSpec', 'Test-CachedPass', 'Get-LaneStates', 'Read-Pipeline', 'Move-ProjectLine', 'Get-LaneFor', 'Sync-Pipeline', 'Test-Built', 'Get-RunSet', 'Test-NetError', 'Test-OpenDirection', 'Set-PreviewPorts' }, $true) |
     ForEach-Object { . ([scriptblock]::Create($_.Extent.Text)) }
 $failed = 0
 function Check($what, $got, $want) { if ("$got" -ne "$want") { Write-Output "FAIL $what`: got '$got', want '$want'"; $script:failed++ } else { Write-Output "ok   $what" } }
@@ -191,5 +191,25 @@ Check 'steer: an applied note does not' (Test-OpenDirection $sd) 'False'
 [IO.File]::WriteAllText("$sd\DECISIONS.md", "# Decisions`n## Owner direction (from the Agents board)`n`n## Other`n### 2026 x $([char]0xB7) open`n")
 Check 'steer: only inside its own section' (Test-OpenDirection $sd) 'False'
 Remove-Item $sd -Recurse -Force
+
+# Preview ports: the runner hands them out; agents never ask. Skips taken (any table) and listening ports, UI: none
+# projects and ones that have a row; a preview script anywhere outside Archived also gets one.
+$root = Join-Path ([IO.Path]::GetTempPath()) "ports-test-$PID"; $projects = Join-Path $root 'projects'
+$prioFile = Join-Path $root 'prio.md'; $portRegistry = Join-Path $root 'registry.md'
+foreach ($n in 'a1', 'a2', 'a3', 'b9', 'z0') { New-Item -ItemType Directory -Force (Join-Path $projects "$n\scripts") | Out-Null; Set-Content (Join-Path $projects "$n\BUILD_SPEC.md") 'spec' }
+Set-Content (Join-Path $projects 'a3\BUILD_SPEC.md') "spec`nUI: none"
+Set-Content (Join-Path $projects 'b9\scripts\preview.ps1') 'x'; Set-Content (Join-Path $projects 'z0\scripts\preview.ps1') 'x'
+[IO.File]::WriteAllText($prioFile, "## Tonight`r`n### Claude`r`n- a1`r`n### Codex`r`n- a2`r`n- a3`r`n### Hermes`r`n`r`n## Priority order`r`n1. a1`r`n2. a2`r`n3. a3`r`n`r`n## Ready next`r`n`r`n## Active`r`n`r`n## Backlog`r`n- b9`r`n`r`n## Archived`r`n- z0`r`n")
+[IO.File]::WriteAllText($portRegistry, "# R`r`n## Services`r`n| Port | What |`r`n|---|---|`r`n| 8775 | ntfy |`r`n`r`n## Project previews (x)`r`n| Port | Project |`r`n|---|---|`r`n| 8773 | a1 |`r`n`r`n## Free`r`n")
+$pipelineMoves = New-Object System.Collections.ArrayList
+Set-PreviewPorts @{ 8774 = $true }
+$reg = [IO.File]::ReadAllText($portRegistry)
+Check 'ports: next free skips taken and listening ones' ([bool]($reg -match '\| 8776 \| a2 \|')) 'True'
+Check 'ports: a preview script outside the lanes gets one too' ([bool]($reg -match '\| 8777 \| b9 \|')) 'True'
+Check 'ports: UI: none, archived and existing rows get none' ([regex]::Matches($reg, '\| a1 \||\| a3 \||\| z0 \|').Count) '1'
+Check 'ports: rows stay inside the previews table' ([bool]($reg -match '\| 8773 \| a1 \|\r\n\| 8776 \| a2 \|\r\n\| 8777 \| b9 \|\r\n\r\n## Free')) 'True'
+Set-PreviewPorts @{}
+Check 'ports: running again changes nothing' ([IO.File]::ReadAllText($portRegistry) -eq $reg) 'True'
+Remove-Item $root -Recurse -Force
 
 if ($failed) { exit 1 }

@@ -52,7 +52,7 @@ Cloud models:
 ## 3. Services and ports
 
 Port rules:
-- **FirstSpark:** read `Local_Setup/FirstSpark Port Registry.md` first. Take the first free port from its list and add the row in the same commit.
+- **FirstSpark:** read `Local_Setup/FirstSpark Port Registry.md` first. A project's preview port is its row under "Project previews", which the overnight runner adds before the first session; never ask the owner which port to use. For any other new service, take the first free port from its list and add the row in the same commit.
   - Free for dashboards and web apps: 8768, 8771, 8773–8786, 8790–8799
   - Free for agent tools and APIs: 9121–9199
   - Free for model servers: 8001–8009

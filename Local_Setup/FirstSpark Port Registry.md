@@ -60,6 +60,7 @@ Each overnight project serves its UI (or a read-only status page) on its own por
 | 8792 | jobs-search-and-apply-tool |
 | 8793 | side-hustle-radar |
 | 8794 | motto-agent-council |
+| 8795 | bionic-reading-trainer |
 
 ## Models and agent infrastructure
 

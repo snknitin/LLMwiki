@@ -261,7 +261,46 @@ function Test-Built($dir) {
     if ($t -match '(?ms)^###\s+Q\d+[^\r\n]*Move \S+ to Active\?(.*?)(?=^#|\z)') { return $Matches[1] -notmatch '(?i)- \[x\][^\r\n]*(keep|not now|not yet|\bno\b)' }
     return $false
 }
-if (-not $Preflight -and -not $DryRun -and -not $QaOnly -and -not $Resume -and -not $FixOnly -and -not $Project) { Sync-Pipeline }
+# Preview ports are handed out here, never asked about (2026-10-25: agents asked the owner which port to use, and one
+# preview took ntfy's 8783). Every project in the lanes, Ready next or with a preview script gets a "Project previews" row
+# before any agent runs: the next port from 8773 that no registry table names and nothing listens on, on the desktop or
+# FirstSpark. Agents read their row (shared rule "The preview").
+$portRegistry = Join-Path $vault 'Local_Setup\FirstSpark Port Registry.md'
+function Get-ListeningPorts {
+    $l = @{}
+    try { Get-NetTCPConnection -State Listen -ErrorAction Stop | ForEach-Object { $l[[int]$_.LocalPort] = $true } } catch { }
+    $out = & $ssh -o BatchMode=yes -o ConnectTimeout=8 FirstSpark 'ss -Htln' 2>$null
+    foreach ($line in @($out)) { if ("$line" -match ':(\d+)\s+\S+:\S+\s*$') { $l[[int]$Matches[1]] = $true } }
+    return $l
+}
+function Set-PreviewPorts($listening) {
+    if (-not (Test-Path $portRegistry)) { return }
+    $raw = [IO.File]::ReadAllText($portRegistry); $eol = $(if ($raw -match "`r`n") { "`r`n" } else { "`n" })
+    $lines = New-Object System.Collections.ArrayList; foreach ($l in $raw -split '\r?\n') { [void]$lines.Add($l) }
+    $head = -1; for ($i = 0; $i -lt $lines.Count; $i++) { if ($lines[$i] -match '^##\s+Project previews') { $head = $i; break } }
+    if ($head -lt 0) { return }
+    $taken = @{}; $has = @{}; $last = -1; $sec = ''
+    for ($i = 0; $i -lt $lines.Count; $i++) {
+        if ($lines[$i] -match '^##\s') { $sec = $(if ($i -eq $head) { 'previews' } else { '' }) }
+        if ($lines[$i] -match '^\|\s*(\d{2,5})\s*\|\s*([^|]*?)\s*\|') { $taken[[int]$Matches[1]] = $true; if ($sec -eq 'previews') { $has[$Matches[2]] = $true; $last = $i } }
+    }
+    if ($last -lt 0) { return }
+    $st = Read-Pipeline
+    $want = @(@(Get-RunSet $st) + @($st.Where.Keys | Where-Object { $st.Where[$_] -in 'claude', 'codex', 'hermes', 'ready' -or ($st.Where[$_] -ne 'archived' -and (Test-Path (Join-Path $projects "$_\scripts\preview.ps1"))) }) | Select-Object -Unique)
+    $added = @()
+    foreach ($n in $want) {
+        $spec = Join-Path $projects "$n\BUILD_SPEC.md"
+        if ($has[$n] -or -not (Test-Path $spec) -or (Select-String -Path $spec -Pattern '^UI:\s*none' -Quiet)) { continue }
+        $p = 8773; while ($taken[$p] -or $listening[$p]) { $p++ }
+        $taken[$p] = $true; $has[$n] = $true; $last++; $lines.Insert($last, "| $p | $n |"); $added += "$n=$p"
+        [void]$pipelineMoves.Add("$((Get-Date).ToString('HH:mm')) $n gets preview port $p (Port Registry)")
+    }
+    if (-not $added) { return }
+    $tmp = "$portRegistry.$PID.tmp"; [IO.File]::WriteAllText($tmp, ($lines -join $eol), (New-Object Text.UTF8Encoding($false)))
+    Move-Item -Force $tmp $portRegistry
+    Write-Host "Preview ports assigned: $($added -join ', ')"
+}
+if (-not $Preflight -and -not $DryRun -and -not $QaOnly -and -not $Resume -and -not $FixOnly -and -not $Project) { Sync-Pipeline; Set-PreviewPorts (Get-ListeningPorts) }
 $queue = Set-BuilderModels (Read-Queue)
 if ($Project) { $queue = @($queue | Where-Object { $_.Name -eq $Project }); if (-not $queue) { throw "Project $Project is not in Tonight" } }
 if ($QaOnly) {
@@ -364,12 +403,16 @@ if ($spec -in 'hermes:glm53-flash', 'hermes:qwen3.6-35b-a3b') {
     $text | & python $helper --base-url http://127.0.0.1:11435/v1 --model qwen3.8-27b-desktop --workdir $dir --budget $budget *>> $log
 } elseif ($spec -like 'codex*') {
     $a = @('exec', '--dangerously-bypass-approvals-and-sandbox')
+    # codex:<profile>-<level> (codex:default-<level>: the config's own model) sets the reasoning level, unless a profile has that full name.
+    if ($model -match '^(.+)-(low|medium|high|xhigh)$' -and -not (Test-Path (Join-Path $HOME ".codex\$model.config.toml"))) { $model = $Matches[1]; $a += @('-c', "model_reasoning_effort=$($Matches[2])") }
+    if ($model -eq 'default') { $model = $null }
     if ($model -and (Test-Path (Join-Path $HOME ".codex\$model.config.toml"))) { $a += @('-p', $model) } elseif ($model) { $a += @('-m', $model) }
     $text | & codex @a - *>> $log
 } else {
     $effort = 'high'
     if ($model -match '^(.+)-(low|medium|high|xhigh|max)$') { $model = $Matches[1]; $effort = $Matches[2] }
-    $text | & claude -p -n 'Prep' --model $model --effort $effort --permission-mode bypassPermissions *>> $log
+    $level = $(if ($model -like 'haiku*') { @() } else { @('--effort', $effort) })   # Haiku has no reasoning level
+    $text | & claude -p -n 'Prep' --model $model @level --permission-mode bypassPermissions *>> $log
 }
 if ($LASTEXITCODE) { throw "Prep agent $spec failed (exit $LASTEXITCODE); see $log" }
 '@
@@ -562,6 +605,7 @@ if ($prepWork -and $PrepOnly -and -not $NoPrep) {
     # A failed prep never cancels the night: lanes still run on each project's current target (2026-10-23 ran nothing).
     if ($prepFailed -and $PrepOnly) { exit 1 }
     Sync-Pipeline   # projects the prep just made overnight-ready move to Ready next, or into a lane when top 10
+    Set-PreviewPorts (Get-ListeningPorts)
     $queue = Set-BuilderModels (Read-Queue)   # the prep agent may have moved projects into lanes
     $upkeep = @(Get-Upkeep $queue)   # so Preflight.md shows what is still left after prep
 }
