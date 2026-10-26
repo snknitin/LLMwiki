@@ -76,19 +76,24 @@ Known limits (recipe): `response_format` and `logprobs` return HTTP 400; INT4-AR
 | Loop check (thinking on, `reasoning_effort: max`) | all stop on their own; 85.5 / 69.7 / 68.1 tok/s; answers correct (9, $0.05, the `- 1` bug) | all stop; 78.5 / 53.3 / 53.1 tok/s | all stop; 62.1 / 67.4 / 65.6 tok/s | all stop |
 | Retrieval (`ORANGE-427`) at 30K / 195K / 790K tokens | pass in 12.5 / 72.6 / **295.1 s** | pass in 17.6 / 109.0 / 423.3 s | pass in 9.0 / 65.2 / 378.9 s | pass ≥ 500K |
 | Prefill implied by retrieval (prompt ÷ time) | ~2,400 / ~2,690 / ~2,680 | ~1,700 / ~1,790 / ~1,870 | ~3,340 / ~2,990 / ~2,090 | — |
-| Cold prefill, recipe `tools/bench.py` at 8K / 32K / 128K / 256K | *pending* | not measured | not measured | ≥ 2,000 at 32K |
+| Cold prefill, recipe `tools/bench.py` at 8K / 32K / 128K / 256K (TTFT) | **2,216 / 2,217 / 2,147 / 2,120 tok/s** (3.5 / 13.8 / 57.1 / 115.7 s) | not measured | not measured | ≥ 2,000 at 32K |
 | Recipe `tools/validate.py` | **all passed**: text, thinking, tool call, tool result, image, 21,875-token prompt (9.8 s), concurrent == solo 8/8; video skipped (no PyAV on the host) | — | — | pass |
-| Needle at ~1M tokens | *pending* | — | — | — |
-| model-serving-minefield `quick` | *pending* | 13 clean, 3 flagged (77, 12, 15) | — | no new real finding |
+| Needle at ~1M tokens (`bench.py`, 957,842 tokens, depths 0.1 / 0.5 / 0.9) | **3/3 correct**, TTFT 506 / 508 / 512 s (~1,885 tok/s) | — | — | — |
+| `bench.py` decode on random prose (256 out) / multi 1, 2, 4 streams | 58.7 tok/s / 56.5, 84.5, 116.6 aggregate | — | — | — |
+| model-serving-minefield `quick` (newer build than GLM's run: 70 checks implemented) | 16 clean, 7 problems (77, 12, 15 as GLM; 04/20, 57, 58, 21: see below), none a lane defect | 13 clean, 3 flagged (77, 12, 15) | — | no new real finding |
 | Hermes coding A/B (3 tasks × 2 runs, hidden tests) | *pending* | **6/6 pass**, 15–56 s a task, 5–17 tool calls, no repeated calls | — | not worse than GLM |
 | 2-hour soak (4 Hermes sessions, a 300K+ prompt, idle gaps) | *pending* | — | — | no hang or freeze |
 | Load time | **47 s** | ~90 s | 86 s | — |
 | `MemAvailable` after load, head / worker | 8.0 / 10.0 GiB | ~9 / ~11 GiB | — | — |
-| Lowest `MemAvailable` head / worker (qualification) | 5.7 / 9.3 GiB | 7.3 / 9.9 GiB | 28.0 / 39.4 GiB | ≥ 2.5 GiB |
+| Lowest `MemAvailable` head / worker | 5.7 / 9.3 GiB (qualification); **4.9 / 8.8 GiB** (three ~958K needles) | 7.3 / 9.9 GiB | 28.0 / 39.4 GiB | ≥ 2.5 GiB |
 | Kernel memory / Xid errors | none | none | none | none |
 | RoCE rails | both used, equal split | both | both | both |
 
 C1 prose 69.1 is 1% under the owner's 70 target and above the 60 minimum. The implied prefill figures include a 64-token answer and are end to end; `bench.py` measures cold prefill on its own.
+
+`bench.py`'s decode figure (58.7) is lower than the probe's C1 (69.1): random prose is hard for the DSpark drafts to predict, while the probe's prose prompt drafts at 89% acceptance. Treat 57–59 as the pessimistic single-stream rate and 69 as the typical one. Cold prefill stays above 2,000 tok/s up to 256K and drops to ~1,885 near 1M. Receipts: `~/src/frontier/dsv41-runs/{validate,bench,needle}-eaq.{json,log}` and `mem-eaq.txt` on SecondSpark.
+
+model-serving-minefield `quick` against `:8890` with `--hf-repo Mia-AiLab/DeepSeek-V4.1-Flash-1017-EXL3-EAQ-v1-2.9-bpw --hf-revision 45ee5d0f…` (report `~/Workspace/minefield-runs/dsv41-1017-direct-quick.{txt,json}` on FirstSpark). Problems, judged: **77** unknown fields accepted with HTTP 200, **12** empty content when a hard task hits a 512-token cap, **15** no echo/logprobs: all three as on GLM (engine traits, test budget). **04/20** earlier-turn reasoning is stripped in tool-less chats but kept once tools are defined: DeepSeek's template design; Hermes agent loops resend earlier reasoning, so their context grows faster. **57** the string `"false"` for `enable_thinking` turns thinking on: send real booleans. **58** `reasoning_effort` changes the rendered prompt: that is the effort switch this lane relies on. **21** the pack has no `generation_config.json`: the recipe sets sampling server-side (temperature 1.0, top_p 0.95, top_k 20). Clean: reasoning in `reasoning_content`, thinking on/off switch, structured and forced tool calls, `tool_choice: none`, streaming, images, bad media = 400, system prompt position, tool-argument replay.
 
 Hermes A/B harness: `scripts/pair-hermes-ab/` in this vault (deployed to `~/ai/tools/pair-hermes-ab` on FirstSpark): `run.sh <label> <model>` copies each task fresh, runs `hermes chat -Q --format stream-json --provider custom:local-models -m <model> --yolo --max-turns 60`, then judges with hidden tests the model never sees; `summarize.py` reports pass, time, tool calls, tool errors, the longest run of identical consecutive tool calls (loop sign) and which model(s) Hermes actually used (from `~/.hermes/state.db`, so a fallback cannot hide a failure). Tasks: t1 interval-merge bug fix (existing tests must not change), t2 `--group-by` feature for a CSV CLI with tests, t3 an invoice bug report (KeyError on a missing discount, half-up cent rounding, two-decimal format; an existing test encodes the wrong format and has to be corrected). The hidden tests fail on the shipped code and pass on a reference fix (checked 26 Oct).
 
