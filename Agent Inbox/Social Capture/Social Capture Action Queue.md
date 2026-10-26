@@ -56,11 +56,128 @@ Rules:
 
 <!-- Hermes appends new, ready actions below this line. Keep the queue ordered by current leverage, not capture time. -->
 
+- [ ] **Study DeepInfer Open Source Framework** — [article](http://github.com/deepseek-ai/DeepInfer)
+  - Contains: DeepSeek released DeepInfer, an open-source inference framework powering their V4.1-Flash model. It offers high throughput, low latency, and features like parallelism and optimized kernels.
+  - Potential benefit: This is a valuable resource for understanding production-grade inference optimization. It provides concrete implementation details for reducing compute costs and energy usage.
+  - Intent: learn · inferred
+  - Topic: Local models & inference
+  - Sources:
+    - [article](http://github.com/deepseek-ai/DeepInfer)
+    - [X post](https://x.com/deepseek_ai/status/2112476496283775135?s=20)
+  - Source author: DeepSeek
+  - Priority: P2
+  - Impact: medium
+  - Ease: moderate
+  - Important: yes
+  - Importance reason: It reveals production techniques for scaling inference efficiently. Understanding these optimizations can significantly reduce operational costs.
+  - Urgent: no
+  - Urgency reason: The framework is already open source and stable. There is no immediate deadline to adopt it for current projects.
+  - Done when: I have reviewed the core features and understood the parallelism approach.
+  - Effort: 30m
+  - Captured: 2026-10-21 22:53 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_1f72409cea235d25
+
+- [ ] **Explore Hermes GPT + Jev integration** — [source](https://x.com/tonysimons/status/2112930360900427854?s=20)
+  - Contains: Tony Simons built Hermes GPT to replace Codex with ChatGPT, adding Jev for a second opinion. He open-sourced this tool to streamline idea validation before execution.
+  - Potential benefit: This offers a concrete workflow for reducing token waste by validating ideas with a secondary agent. It aligns with Jev's decision-model focus and Hermes' tooling goals.
+  - Intent: implement · inferred
+  - Topic: Hermes & agent tooling
+  - Source author: Tony Simons
+  - Priority: P2
+  - Impact: medium
+  - Ease: easy
+  - Important: yes
+  - Importance reason: It directly reduces operational costs by optimizing token usage. It also integrates Jev, enhancing decision quality through dual-agent validation.
+  - Urgent: no
+  - Urgency reason: There is no immediate deadline or time-sensitive context requiring immediate action. The tool is available for exploration at any time.
+  - Done when: I have cloned the repo and run a test validation on a current idea.
+  - Effort: 30m
+  - Captured: 2026-10-21 22:49 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_3d577a7a6d16bea7
+
+- [ ] **Test TensorFold Drama 3 Voice Cloning** — [article](https://github.com/plotarmordev/drama-tensorfold)
+  - Contains: TensorFold enables local voice cloning via Drama 3 on NVIDIA GB10 GPUs using a Zig/CUDA engine. It provides an OpenAI-compatible speech API for streaming or file output.
+  - Potential benefit: This allows running high-fidelity TTS locally without cloud dependencies or API costs. It fits the AI image & video theme as a generative media tool.
+  - Intent: test · inferred
+  - Topic: AI image & video
+  - Sources:
+    - [article](https://github.com/plotarmordev/drama-tensorfold)
+    - [X post](https://x.com/plotarmordev/status/2112537790076584239?s=20)
+  - Source author: netrunner
+  - Priority: P2
+  - Impact: medium
+  - Ease: moderate
+  - Important: yes
+  - Importance reason: Local voice cloning reduces latency and privacy risks for audio generation tasks. It enables custom voice models without third-party API reliance.
+  - Urgent: no
+  - Urgency reason: No immediate deadline or breaking change requires urgent action. The technology is stable enough for non-critical testing.
+  - Done when: Engine builds successfully and curl test returns valid audio output.
+  - Effort: 1h
+  - Captured: 2026-10-21 22:35 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_fd85f7b4cc3f3f19
+
+- [ ] **Study DeepSeek-V4.1 KV Sharding & NVMe Spill** — [source](https://x.com/rwojo/status/2112717855087038827?s=20)
+  - Contains: Wojo ported KV sharding and NVMe spill to DeepSeek-V4.1 using TensorFold on Zig. This enables 2.1M token contexts with fast disk resume times on dual DGX Sparks.
+  - Potential benefit: This demonstrates practical high-performance inference optimizations for long-context models. It highlights Zig and TensorFold as viable stacks for custom KV cache management.
+  - Intent: learn · inferred
+  - Topic: Local models & inference
+  - Source author: wojo
+  - Priority: P2
+  - Impact: medium
+  - Ease: moderate
+  - Important: yes
+  - Importance reason: Optimizes long-context handling for cost-effective inference. Reduces latency for large KV caches via NVMe spill.
+  - Urgent: no
+  - Urgency reason: No immediate deadline or breaking change. Can be studied during routine learning blocks.
+  - Done when: Understand TensorFold's KV sharding approach and NVMe spill mechanism.
+  - Effort: 30m
+  - Captured: 2026-10-21 22:12 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_2de4a8c29a9f3b5b
+
+- [ ] **Install Free My TV on Android TV** — [article](https://freemytv.io)
+  - Contains: Simba shares a GitHub project that replaces the Google TV home screen with a clean, ad-free interface. The tool supports Android 9+ devices and aims to expand to Tizen and webOS platforms.
+  - Potential benefit: This is a practical home-hack for reducing visual clutter and ad exposure on smart TVs. It offers immediate usability for anyone tired of promotional carousels on their home screen.
+  - Intent: implement · inferred
+  - Topic: Home & device hacks
+  - Sources:
+    - [article](https://freemytv.io)
+    - [X post](https://x.com/SimbasJungles/status/2112525805364367515?s=20)
+  - Source author: Simba
+  - Priority: P2
+  - Impact: medium
+  - Ease: easy
+  - Important: yes
+  - Importance reason: Improves daily interaction quality by removing distracting ads from the primary viewing device. Enhances privacy by reducing telemetry associated with promotional content.
+  - Urgent: no
+  - Urgency reason: No immediate deadline or security vulnerability requires instant action. The tool is stable enough for non-critical testing.
+  - Done when: Successfully installed on an Android TV device and verified ad-free home screen.
+  - Effort: 15m
+  - Captured: 2026-10-21 14:56 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_292b43792839ae73
+
+- [ ] **Install TizenTube for ad-free TV YouTube** — [source](https://x.com/akhileshutup/status/2112493759975862402?s=20)
+  - Contains: TizenTube is a free open-source YouTube client for Tizen TVs that blocks ads and skips sponsored segments. It also removes clickbait elements and allows adjustable playback speeds for a better viewing experience.
+  - Potential benefit: This tool directly addresses the user's interest in debloating smart TVs by removing unwanted content. It provides a cleaner, faster YouTube experience without modifying the TV's core system.
+  - Intent: implement · stated
+  - Topic: Home & device hacks
+  - Source author: akhilesh
+  - Priority: P2
+  - Impact: medium
+  - Ease: moderate
+  - Important: yes
+  - Importance reason: Enhances daily media consumption by removing ads and sponsored content. Aligns with user's goal of debloating and optimizing smart TV usage.
+  - Urgent: no
+  - Urgency reason: No immediate deadline or time-sensitive benefit. Can be installed at convenience when setting up or reviewing TV apps.
+  - Done when: TizenTube is installed and playing a video without ads or sponsored segments on the TV.
+  - Effort: 30m
+  - Captured: 2026-10-21 10:30 IST via Telegram · Hermes Swarm / Capture
+  - ID: sc_de04b42cb4c8bdab
+
 - [ ] **Evaluate Streamio + Real-Debrid for Instant Streaming** — [source](https://x.com/thekitze/status/2112500073762615364?s=20)
   - Contains: Kitze warns that Streamio with Real-Debrid offers instant playback without torrent traffic for 4 euros monthly. This setup bypasses traditional P2P networks, raising potential legal and ethical concerns for users.
   - Potential benefit: The post highlights a convenient, high-speed streaming alternative that avoids bandwidth-heavy torrenting. It serves as a cautionary note about the hidden nature of such services.
   - Intent: learn · inferred
-  - Topic: Streaming Tools
+  - Topic: Home & device hacks
   - Source author: kitze 🛠️ tinkerer.club
   - Priority: P2
   - Impact: medium
@@ -78,7 +195,7 @@ Rules:
   - Contains: Xavier Bresson's Graph Machine Learning Lecture 9 covers Graph Transformers and their scaling. It details positional encodings, message-passing views, and hierarchical architectures for large graphs. The lecture also outlines future directions like GraphRAG and G-Retriever.
   - Potential benefit: This is a high-quality academic resource for understanding advanced graph neural network architectures. It provides a structured overview of Graph Transformers, addressing scalability issues like over-squashing and computational cost. The content is essential for anyone studying modern graph machine learning.
   - Intent: learn · inferred
-  - Topic: Graph Machine Learning
+  - Topic: Learning & references
   - Sources:
     - [article](https://storage.googleapis.com/xavierbresson/lectures/GML/lecture09_graph_transformer.pdf)
     - [X post](https://x.com/xbresson/status/2112127568698810675?s=20)
@@ -99,7 +216,7 @@ Rules:
   - Contains: The post demonstrates a low-cost computer use agent using JEV 1.14's Image/Box feature. It claims human-like interaction with significantly lower costs than standard LLMs.
   - Potential benefit: This suggests JEV 1.14 is a viable alternative for automating UI tasks cheaply. The upcoming open-source release offers a chance to inspect the implementation details.
   - Intent: learn · inferred
-  - Topic: AI Agents
+  - Topic: Jev & decision models
   - Source author: brainstormity
   - Priority: P2
   - Impact: medium
@@ -117,7 +234,7 @@ Rules:
   - Contains: The user built a custom TV OS using Claude Code that replaces ads with a real-time 3D apartment model linked to physical lights. This demonstrates a creative integration of AI coding, IoT, and immersive UI design.
   - Potential benefit: This is a high-impact social post worth engaging with to discuss the technical stack or the novelty of the 3D overlay. It serves as inspiration for implementing similar IoT-driven UI experiments.
   - Intent: learn · inferred
-  - Topic: IoT UI Experiment
+  - Topic: Home & device hacks
   - Source author: Rod Pers
   - Priority: P2
   - Impact: medium
@@ -135,7 +252,7 @@ Rules:
   - Contains: The user intends to compile a thread of TV hacks observed recently. This is a social content creation task focused on sharing curated tips.
   - Potential benefit: This is a valid post intent requiring curation of visual or textual hacks. The action is to draft the thread based on the user's collected observations.
   - Intent: learn · inferred
-  - Topic: Social Media Content
+  - Topic: Home & device hacks
   - Source author: Azad Balabanian
   - Priority: P2
   - Impact: medium
@@ -153,7 +270,7 @@ Rules:
   - Contains: The post highlights a popular open-source tool for blocking YouTube ads and Shorts on smart TVs. It cites significant community adoption and recent development activity as proof of viability.
   - Potential benefit: This represents a practical utility task to enhance media consumption quality on personal hardware. The high engagement suggests the solution is robust and worth testing immediately.
   - Intent: test · inferred
-  - Topic: Smart TV Ad Blocking
+  - Topic: Home & device hacks
   - Source author: Muzzammil
   - Priority: P2
   - Impact: high
@@ -171,7 +288,7 @@ Rules:
   - Contains: MiaAI-Lab provides a TensorFold recipe to run DeepSeek V4.1 Flash on two DGX Sparks with 1M context. The setup uses 2.9 bpw EXL3 quantization and achieves 130 tok/s across four concurrent streams.
   - Potential benefit: This is a high-performance local inference benchmark for the latest DeepSeek model. It demonstrates how to achieve high throughput using TensorFold's native Zig engine and DSpark speculative decoding.
   - Intent: learn · inferred
-  - Topic: DeepSeek V4.1 Flash on 2x DGX Sparks
+  - Topic: Local models & inference
   - Sources:
     - [article](https://github.com/MiaAI-Lab/DeepSeek-v4.1-Flash-1017-2x-DGX-Sparks)
     - [X post](https://x.com/MiaAI_lab/status/2112105974546694249)
@@ -192,7 +309,7 @@ Rules:
   - Contains: The post promotes Explee as an AI agent that automates B2B lead generation and outreach for solo founders. It claims the tool identifies prospects, sends emails, and books calls automatically.
   - Potential benefit: This tool addresses the common bottleneck of manual sales outreach for bootstrapped SaaS founders. The visual diagram emphasizes prioritizing client acquisition over unnecessary feature development.
   - Intent: test · stated
-  - Topic: SaaS Sales Automation
+  - Topic: Content & personal brand
   - Sources:
     - [article](https://explee.com/auto-gtm/x/tw-ag547-c1137)
     - [X post](https://x.com/StacySchulphks/status/2112133463730266444)
@@ -213,7 +330,7 @@ Rules:
   - Contains: Amol Tangade uses Claude to execute ADB commands over local network, removing 40+ bloatware apps and building a custom launcher. This approach achieves low memory usage (~65 MB) while integrating features like GitHub stats and weather.
   - Potential benefit: This demonstrates a practical pattern for AI-assisted device management using standard Android debugging tools. It highlights how LLMs can bridge high-level intent with low-level system commands effectively.
   - Intent: learn · inferred
-  - Topic: Android Automation
+  - Topic: Home & device hacks
   - Source author: Amol Tangade
   - Priority: P2
   - Impact: medium
@@ -231,7 +348,7 @@ Rules:
   - Contains: A user built a fast Home Assistant dashboard for a Denver Frameo using vanilla JS and one websocket. It loads in 1.9s with zero jank on a 1GHz CPU, unlike the native HA frontend.
   - Potential benefit: This proves a minimal custom UI can outperform heavy official apps on low-end hardware. The approach offers a reusable template for other cheap Android frames or tablets.
   - Intent: implement · inferred
-  - Topic: Home Assistant / Embedded UI
+  - Topic: Home & device hacks
   - Sources:
     - [article](http://github.com/wellavelino/frameo-homeassistant-dashboard)
     - [X post](https://x.com/wellavelino/status/2112243166053101918)
@@ -252,7 +369,7 @@ Rules:
   - Contains: The post recommends a video explaining Hermes Agent for home labs. It highlights seven skills with starter prompts for Proxmox and Docker.
   - Potential benefit: This is a practical guide for automating infrastructure tasks. The included prompts allow immediate testing of the agent's capabilities.
   - Intent: learn · inferred
-  - Topic: Home Lab Automation
+  - Topic: Hermes & agent tooling
   - Sources:
     - [article](https://youtu.be/6AEl6_8NG0c)
     - [X post](https://x.com/witcheer/status/2112227279069999377?s=20)
@@ -273,7 +390,7 @@ Rules:
   - Contains: A tool removes TV ads by vibe coding a new launcher. It demonstrates rapid AI-assisted development for specific hardware.
   - Potential benefit: This shows how to automate legacy interfaces with AI. It offers a template for similar device customization tasks.
   - Intent: learn · inferred
-  - Topic: AI Automation
+  - Topic: Home & device hacks
   - Sources:
     - [article](https://cleanyour.tv)
     - [X post](https://x.com/gathint/status/2112182577947926920?s=20)
@@ -294,7 +411,7 @@ Rules:
   - Contains: The post shares a GitHub repo for an Android TV app overlaying live Polymarket odds on YouTube TV. It provides setup instructions for building the APK on a local machine.
   - Potential benefit: This is a concrete implementation project for sports betting visualization. It requires specific hardware and development tools to build and install.
   - Intent: implement · stated
-  - Topic: Software Development
+  - Topic: Home & device hacks
   - Sources:
     - [article](https://github.com/dylorr/poly-tv-odds)
     - [X post](https://x.com/dylanorrell/status/2111879430255825199)

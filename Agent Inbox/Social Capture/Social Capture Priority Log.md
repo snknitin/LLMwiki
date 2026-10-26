@@ -217,3 +217,17 @@
 - 2026-10-19T11:33:28+05:30 · theme · `sc_5880f8ca8d839095` · Market Sense for Young Traders · Trading Education → Learning & references
 - 2026-10-19T11:33:28+05:30 · theme · `sc_8cb5f6bbdc2c819d` · Women's Fitness App Revenue Benchmarks · App Market Research → Learning & references
 - 2026-10-19T13:36:54+05:30 · you · `sc_d2fc479804301a66` · Read up on RAG, research agents and WebMCP notebooks · Schedule → Do
+- 2026-10-21T14:55:18+05:30 · theme · `sc_de04b42cb4c8bdab` · Install TizenTube for ad-free TV YouTube · TizenTube Installation → Home & device hacks
+- 2026-10-21T14:55:18+05:30 · theme · `sc_a67d9335cef13fe1` · Evaluate Streamio + Real-Debrid for Instant Streaming · Streaming Tools → Home & device hacks
+- 2026-10-21T14:55:18+05:30 · theme · `sc_898a4134a2ce488e` · Replicate Vibe-Coded TV OS with 3D Apartment · IoT UI Experiment → Home & device hacks
+- 2026-10-21T14:55:18+05:30 · theme · `sc_6eee90e62b9a0cc0` · Collect TV Hacks Thread · Social Media Content → Home & device hacks
+- 2026-10-21T14:55:18+05:30 · theme · `sc_6f83d4b3000b2779` · Evaluate dumbtv for ad blocking · Smart TV Ad Blocking → Home & device hacks
+- 2026-10-21T14:55:18+05:30 · theme · `sc_9ed294c79d2f5758` · ADB Automation with Claude for Bloatware Removal · Android Automation → Home & device hacks
+- 2026-10-21T14:55:18+05:30 · theme · `sc_c3b0966bc1e61caa` · Build lightweight HA dashboard for Frameo · Home Assistant / Embedded UI → Home & device hacks
+- 2026-10-21T14:55:18+05:30 · theme · `sc_515d223352455778` · Learn Vibe Coding for TV Automation · AI Automation → Home & device hacks
+- 2026-10-21T14:55:18+05:30 · theme · `sc_2d984df1b22d2b6c` · Build Polymarket overlay for YouTube TV · Software Development → Home & device hacks
+- 2026-10-21T14:55:18+05:30 · theme · `sc_13971c375b7d4759` · Study DeepSeek V4.1 Flash on 2x DGX Sparks · DeepSeek V4.1 Flash on 2x DGX Sparks → Local models & inference
+- 2026-10-21T14:55:18+05:30 · theme · `sc_0af2c2ce35ce3aff` · Evaluate JEV 1.14 for Cost-Effective Computer Use · AI Agents → Jev & decision models
+- 2026-10-21T14:55:18+05:30 · theme · `sc_042e10c69b38b7e8` · Watch Hermes Agent Home Lab Setup Video · Home Lab Automation → Hermes & agent tooling
+- 2026-10-21T14:55:18+05:30 · theme · `sc_0f4fb32542943b56` · Study Graph Transformer Lecture 9 · Graph Machine Learning → Learning & references
+- 2026-10-21T14:55:18+05:30 · theme · `sc_af4ed40ef17b142e` · Evaluate Explee AI Sales Agent for SaaS · SaaS Sales Automation → Content & personal brand
