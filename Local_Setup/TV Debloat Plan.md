@@ -82,6 +82,37 @@ First built 2026-10-21 from the Social Capture "Home & device hacks" TV captures
   - Measured on the TV, from key press to the first frame of the new style: 31–208 ms. PlayStation then plays its 1.8 s fade-in.
   - The child lock blocks the switch.
 
+**2026-10-26: Parents' Sony KD-55A8G (in person; adb over Tailscale on the TV, then Tailscale removed)**
+- **Device:** BRAVIA 4K GB ATV3, MediaTek MT5891, **Android TV 9** (not Google TV), 2 GB RAM.
+  - Developer options live under Settings → Device Preferences.
+  - There is no Wireless debugging; port 5555 is open once USB debugging is on.
+- **Backup:** `E:\GIT_ROOT\External\tv-backups\kd-55a8g-2026-10-26\` holds packages, settings, getprop and the before/after gfx and meminfo.
+- **Debloat:** cleanyourtv `examples/sony-bravia-4k-gb`, 23 packages disabled (promos absent).
+  - Includes Samba ACR, Sony Select/Discover, recommendations, demo, telemetry, the b2b Node broadcaster, help apps, Play Movies, Games, YouTube Music and Backdrop.
+  - Chromecast, mirroring, DLNA, USB media and voice are kept.
+- **Settings:** animations 0.5x.
+- **Home:** Free My TV 1.2 (release APK) replaces `com.google.android.tvlauncher`.
+  - The shelf is 14 apps, set by the owner.
+  - The quotes widget is off, and SmartTube is installed and on the shelf.
+- **Measured:**
+
+  | | Before | After |
+  |---|---|---|
+  | Home jank | 64% | 0% |
+  | 99th percentile frame | 400 ms | 9 ms |
+  | Home memory | 222 MB | 64 MB |
+  | MemAvailable | 138 MB | 371 MB (451 MB after reboot) |
+
+  Everything survived a reboot.
+- **Screensaver:** Free My TV's boot check re-claims the screensaver, because the release build has `screensaver=true`. The owner accepted Free My TV's screensaver. A `screensaver=false` build with Hyderabad, no crypto and the shelf baked in is in `E:\GIT_ROOT\External\free-my-tv\FreeMyTV.apk`, unused.
+  - Building on Windows needs `ANDROID_HOME=E:/Android/sdk` in Windows form; otherwise javac loses `core-lambda-stubs.jar`.
+- **Remote lag:** all buttons arrive over **IR** (`mtkinp_ir_events`); the RC MIC remote uses Bluetooth for voice only.
+  - With the UI at 0% jank, any remaining lag is IR: batteries, line of sight, or the phone's Google TV app.
+- **Network:** 5 GHz, −55 dBm, 866 Mbps link, 15 ms ping, 79 Mbps on fast.com.
+- **SmartTube buffering:** the TV has hardware AVC/HEVC/VP9 and **no AV1**. Set SmartTube Player → Video presets to VP9 and Video buffer to Low.
+- **Access:** Tailscale was uninstalled from the TV; the owner removes `kd-55a8g` in the admin console.
+  - USB debugging stays on for Free My TV's Original undo and boot check. It is LAN-only, and the desktop can no longer reach the TV.
+
 ## How you'll run it: your phone, this desktop, Remote Control
 
 ```
