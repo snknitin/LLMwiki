@@ -91,8 +91,8 @@ Details and the comparison table: [[DGX Spark Frontier Model Qualification Resul
 - One short request moved +75 MB each way on **both** RoCE rails (`rocep1s0f0`, `roceP2p1s0f0`), split evenly.
 - Identity, chat, tool call, vision: pass. Prose C1 **69.1 tok/s**, code C1 **99.1 tok/s**; C4 183.7 / 229.0.
 - Loop check at `reasoning_effort: max`: all three stop on their own with correct answers.
-- Retrieval: 30,019 tokens in 12.5 s, 195,019 in 72.6 s.
-- Lowest `MemAvailable` so far 6.1 GiB head / 9.4 GiB worker; no kernel memory or Xid errors.
+- Retrieval: 30,019 tokens in 12.5 s, 195,019 in 72.6 s, **790,019 in 295.1 s**: the standard qualification passed (`GLM_PAIR_QUALIFY_PASS`, 20:07–~20:30).
+- Lowest `MemAvailable` over the qualification 5.7 GiB head / 9.3 GiB worker; no kernel memory or Xid errors.
 
 ## Still to do
 
