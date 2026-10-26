@@ -34,7 +34,9 @@ out = os.path.expanduser(f"~/frontier-results/soak/{args.label}-{time.strftime('
 os.makedirs(out)
 log = open(os.path.join(out, "events.jsonl"), "a", buffering=1)
 start = time.time()
-env = dict(os.environ, PATH=os.path.expanduser("~/ai/tools/pair-ab-venv/bin:~/.local/bin:") + os.environ["PATH"])
+home = os.path.expanduser("~")
+env = dict(os.environ, PATH=f"{home}/ai/tools/pair-ab-venv/bin:{home}/.local/bin:" + os.environ["PATH"])
+assert shutil.which("hermes", path=env["PATH"]), "hermes is not on PATH"
 NODES = {"head": "192.168.100.11", "worker": "ThirdSpark"}
 SOURCES = ["argparse.py", "subprocess.py", "inspect.py", "typing.py"]  # 2,000-3,700 lines each, from /usr/lib/python3.12
 TASK = ("Read {f} in this directory completely (it is long; read all of it, in parts if needed). Then write REPORT.md "
