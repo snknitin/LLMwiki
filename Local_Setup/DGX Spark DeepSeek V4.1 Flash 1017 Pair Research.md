@@ -49,6 +49,17 @@ All three run the same engine: bertholomus's native TensorFold (Zig) `dsv41` bui
 
 Better models? No other model found fits two Sparks at a higher precision with these speeds. Qwen 3.8 Flash Next (66 tok/s, NVFP4) and GLM 5.3 Flash are already lanes; the guides' other two-Spark 1M options (Inkling-Small, MiMo-V2.5 Omni) run ~31–33 tok/s.
 
+## DeepInfer (checked 26 Oct): not runnable here
+
+[deepseek-ai/DeepInfer](https://github.com/deepseek-ai/DeepInfer) (Apache 2.0, released 20 Oct, [announcement](https://x.com/deepseek_ai/status/2112476496283775135)) is DeepSeek's production engine for V4.1 Flash. It fits none of our machines:
+
+- **GPUs: NVIDIA SM100 (B200/GB200/B300) or Huawei Ascend 950 only.** The Sparks are SM121 (GB10) and the desktop's RTX PRO 5000 is SM120; its DeepGEMM/FlashMLA kernels target SM100. Issues are disabled on the repo; no Spark or RTX port found ([dev.to: "won't run on your RTX 5090"](https://dev.to/alanwest/deepseek-deepinfer-wont-run-on-your-rtx-5090-heres-what-to-run-instead-53n5)).
+- **Weights: the native FP8/FP4 checkpoint** (~307 GB without Engram, 510 GB with). It doesn't load EXL3, so not even the pair's 256 GB holds it.
+- **Offline inference only**: no OpenAI server, KV cache system or load balancers in the release, so LiteLLM/Hermes couldn't reach it.
+- **Built for clusters**: decode at EP64–128; DeepSeek's own [deployment Q&A](https://github.com/deepseek-ai/DeepInfer/blob/main/doc/inference_deployment_qa.md) puts the smallest efficient unit at 64 prefill + 64 decode GPUs.
+
+What does carry over are its ideas, and our engines already have them: DSpark draft blocks (the recipe's `DRAFTS=1`), interleaving short requests into a long prefill (`PREFILL_INTERLEAVE_MS`), and decoder sliding-window replay (in vLLM as #58132; [al-engr](https://al-engr.com/deepinfer-what-transfers-to-a-4-spark-homelab.html) found it already in their 4-Spark lane). Its companion [deepseek-recipe](https://github.com/deepseek-ai/deepseek-recipe) (the official API's prompt encoding) is worth a later check against the recipe's chat template if tool calls misbehave. Revisit DeepInfer only if it adds SM120/SM121 support.
+
 ## Risks to plan for
 
 - **Memory is the limit.** Weights ~99 GiB a Spark; rank 0 holds ~104 GiB. `start.sh` refuses below `MIN_AVAIL_GIB` 112 (our idle pair: 117–123 GiB). A Spark that runs out does not error, it freezes and must be power-cycled; `memguard.sh` kills the rank first (2.5 GiB floor). MiaAI's head (desktop + ~6 GiB of other software) bottomed at 3.1 GiB on a 100K prompt at 1M and at 2.67 GiB on a 479K needle at 512K. SecondSpark is leaner (only the GNOME session, ~0.5 GiB), so 1M is plausible; switching it to `multi-user.target` frees that too.
