@@ -1127,6 +1127,11 @@ function Complete-QaJob($r, $timedOut) {
 # QA of a slice the moment its builder finishes it, on the lane, before the next slice is planned: its findings go into
 # FEEDBACK.md, which the planner puts first, so they are fixed the same night, and the end of the run has little left to
 # review. FirstSpark Qwen reviews one project at a time, so a slice whose only reviewer is Qwen waits for the end.
+# FirstSpark's Qwen is shared with the owner's apps: one review on it at a time, and none while the lanes run. GLM (the
+# plain "hermes" QA spec, on SecondSpark + ThirdSpark) is not that model (2026-10-26: treating it the same left the whole
+# Codex lane without slice QA all night, then reviewed it one project at a time for 3.5 hours after the lanes stopped).
+function Test-SharedQwen($plan) { return "$($plan.Spec)" -like 'hermes:qwen*' }
+
 function Start-SliceQa($q) {
     $name = $q.Name; $dir = Join-Path $projects $name
     $from = $(if ($qaFrom[$name]) { $qaFrom[$name] } else { $heads[$name] })
@@ -1134,7 +1139,7 @@ function Start-SliceQa($q) {
     $plan = Get-QaPlan $q $roles
     if ($plan.Skip) { return $false }
     if (-not $cliOk[$plan.Family] -or (Test-Parked $plan.Family)) { $plan = Get-QaPlan $q $roles -Fallback; if ($plan.Skip -or -not $cliOk[$plan.Family] -or (Test-Parked $plan.Family)) { return $false } }
-    if ($plan.Family -eq 'hermes') { return $false }
+    if (Test-SharedQwen $plan) { return $false }   # waits for the end of the run
     $rec = Start-QaJob $q $plan $from
     $running[$rec.Job.Id] = $rec
     $rows[$name].Note += "slice QA on $($plan.Spec) at $((Get-Date).ToString('HH:mm')). "
@@ -1367,9 +1372,10 @@ while ($qaQueue.Count -or $qaRunning.Count) {
             } else { $qaQueue.Remove($item); Set-Qa $name 'skipped' "$fam hit its usage limit; no available fallback QA"; continue }
         }
         if ($fam -eq 'hermes' -and -not $localQaReady) { $qaQueue.Remove($item); Set-Qa $name 'failed' 'local QA launcher deployment failed'; continue }
-        # FirstSpark Qwen is shared with apps. One complete local review at a time.
-        $qaLimit = $(if ($fam -eq 'hermes') { 1 } else { $PerHarness })
-        if ($qaLimit -gt 0 -and @($qaRunning.Values | Where-Object { $_.Plan.Family -eq $fam }).Count -ge $qaLimit) { continue }
+        # The shared Qwen: one review at a time. GLM: three at once. Claude and Codex: -PerHarness (0 = no limit).
+        $qwen = Test-SharedQwen $item.Plan
+        $qaLimit = $(if ($qwen) { 1 } elseif ($fam -eq 'hermes') { 3 } else { $PerHarness })
+        if ($qaLimit -gt 0 -and @($qaRunning.Values | Where-Object { $_.Plan.Family -eq $fam -and (Test-SharedQwen $_.Plan) -eq $qwen }).Count -ge $qaLimit) { continue }
         $qaQueue.Remove($item)
         $rec = Start-QaJob $item.Q $item.Plan $item.From
         $qaRunning[$rec.Job.Id] = $rec

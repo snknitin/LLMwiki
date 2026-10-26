@@ -3,7 +3,7 @@
 # Usage: powershell -NoProfile -ExecutionPolicy Bypass -File test-fallback.ps1
 $ErrorActionPreference = 'Stop'
 $ast = [System.Management.Automation.Language.Parser]::ParseFile((Join-Path $PSScriptRoot 'overnight-run.ps1'), [ref]$null, [ref]$null)
-$ast.FindAll({ param($n) $n -is [System.Management.Automation.Language.FunctionDefinitionAst] -and $n.Name -in 'Test-Parked', 'Get-SessionHarness', 'Save-RunState', 'Test-Leftover', 'Get-Backfill', 'Get-AdvanceSpec', 'Test-CachedPass', 'Get-LaneStates', 'Read-Pipeline', 'Move-ProjectLine', 'Get-LaneFor', 'Sync-Pipeline', 'Test-Built', 'Get-RunSet', 'Test-NetError', 'Test-OpenDirection', 'Set-PreviewPorts' }, $true) |
+$ast.FindAll({ param($n) $n -is [System.Management.Automation.Language.FunctionDefinitionAst] -and $n.Name -in 'Test-Parked', 'Get-SessionHarness', 'Save-RunState', 'Test-Leftover', 'Get-Backfill', 'Get-AdvanceSpec', 'Test-CachedPass', 'Get-LaneStates', 'Read-Pipeline', 'Move-ProjectLine', 'Get-LaneFor', 'Sync-Pipeline', 'Test-Built', 'Get-RunSet', 'Test-NetError', 'Test-OpenDirection', 'Set-PreviewPorts', 'Test-SharedQwen' }, $true) |
     ForEach-Object { . ([scriptblock]::Create($_.Extent.Text)) }
 $failed = 0
 function Check($what, $got, $want) { if ("$got" -ne "$want") { Write-Output "FAIL $what`: got '$got', want '$want'"; $script:failed++ } else { Write-Output "ok   $what" } }
@@ -217,5 +217,10 @@ Check 'ports: rows stay inside the previews table' ([bool]($reg -match '\| 8773 
 Set-PreviewPorts @{}
 Check 'ports: running again changes nothing' ([IO.File]::ReadAllText($portRegistry) -eq $reg) 'True'
 Remove-Item $root -Recurse -Force
+
+# QA on GLM (the plain "hermes" spec) runs during the lanes and in parallel; only the shared FirstSpark Qwen waits.
+Check 'qa: GLM is not the shared Qwen' (Test-SharedQwen @{ Spec = 'hermes'; Family = 'hermes' }) 'False'
+Check 'qa: the FirstSpark Qwen is' (Test-SharedQwen @{ Spec = 'hermes:qwen3.6-35b-a3b'; Family = 'hermes' }) 'True'
+Check 'qa: Codex is not' (Test-SharedQwen @{ Spec = 'codex:sol-5-6'; Family = 'codex' }) 'False'
 
 if ($failed) { exit 1 }
