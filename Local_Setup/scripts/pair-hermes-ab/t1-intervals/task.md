@@ -1,0 +1,1 @@
+The tests in tests/ fail. Find and fix the bugs in intervals.py so that merge() does what its docstring says and the whole test suite passes (run it with `python3 -m pytest -q`). Do not modify the existing tests. When you are done, reply with a one-paragraph summary of what was wrong.
