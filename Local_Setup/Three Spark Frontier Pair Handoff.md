@@ -248,6 +248,7 @@ Plan and evidence: [[DGX Spark DeepSeek V4.1 Flash 1017 Pair Research]].
 - Recipe: `~/src/frontier/deepseek41-1017-tf` on SecondSpark, MiaAI-Lab/DeepSeek-v4.1-Flash-1017-2x-DGX-Sparks at **`27741e17`** (24 Oct, still the newest on 26 Oct). Container `dsv41-1017-exl3-tf` on both Sparks; image `tensorfold-dsv41:exl3-tp2-928adbd0e57d` (built locally; none is published).
 - `scripts/local.sh`: `WORKER=snknitin@192.168.102.12`, `FABRIC_PEER=192.168.102.12`, `CONTEXT=1048576`, **`PORT=8890`**, `THINKING_BUDGET=16384`, `REASONING_EFFORT=high`. Engine reserve, `MIN_AVAIL_GIB=112` and memguard (2.5 GiB floor) left at the recipe's defaults.
 - Download (26 Oct, 15:57): SecondSpark's `~/.cache/huggingface/hub/.locks` is still root-owned, so both repos go to a staging cache `~/hf-staging-dsv41/hub` (pack `Mia-AiLab/DeepSeek-V4.1-Flash-1017-EXL3-EAQ-v1-2.9-bpw@45ee5d0f`, Engram shards 47–48 of `deepseek-ai/DeepSeek-V4.1-Flash-1017@1bae0e10`), to be moved into the main hub afterwards (neither existed there). Measured **38 MB/s** (line rate), ~3 h for ~413 GB.
+- Hermes coding A/B baseline (`scripts/pair-hermes-ab/`, deployed to `~/ai/tools/pair-hermes-ab` on FirstSpark; 3 tasks judged by hidden tests, `custom:local-models`): **GLM 6/6 pass** over two runs, 15–56 s a task, 5–17 tool calls, no repeated identical calls, no fallback. Receipts `~/frontier-results/hermes-ab/glm-r{1,2}-*`.
 
 ## 7. Routing after the move
 
