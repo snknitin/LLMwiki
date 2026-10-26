@@ -1,0 +1,17 @@
+# SecondSpark user unit: after a reboot, bring the SecondSpark+ThirdSpark pair's default lane up (pair-swap.sh default,
+# which falls back to GLM if the default fails to start). Install as ~/.config/systemd/user/pair-default.service;
+# starting at boot needs `sudo loginctl enable-linger snknitin` once, then `systemctl --user enable pair-default`.
+[Unit]
+Description=SecondSpark+ThirdSpark pair: default lane after boot
+After=default.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+# ThirdSpark (rank 1) may boot later than this Spark: wait up to 10 minutes for it on the Port0 link
+ExecStartPre=/usr/bin/bash -c 'for i in $(seq 60); do ssh -o BatchMode=yes -o ConnectTimeout=5 snknitin@192.168.102.12 "docker info >/dev/null" && exit 0; sleep 10; done; exit 1'
+ExecStart=%h/src/frontier/pair-swap.sh default
+TimeoutStartSec=2400
+
+[Install]
+WantedBy=default.target
