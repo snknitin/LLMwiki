@@ -241,7 +241,7 @@ So the recipe needs a fresh ~178 GB download (checkpoint + drafter) on the head;
 - Routed: LiteLLM `qwen38-flash-pair` → `http://192.168.100.11:8889/v1` (backup `~/ai/services/litellm/config.yaml.bak-20261016-pre-qwen38-pair`); `qwen38-flash-pair` added to the `local-models` model list in `~/.hermes/config.yaml` and `profiles/creator/config.yaml`; the `custom:http://127.0.0.1:4000/v1#…` cache entry cleared (backups `~/.hermes/backups/qwen38-pair-20261016/`). Hermes one-shot via `custom:local-models` / `qwen38-flash-pair` passed. While GLM is resident the alias returns a connection error, and vice versa.
 - Limits: `response_format` and `logprobs` return HTTP 400; don't use `QUANT=int4ar`. Not auto-started (restart policy `no`), same as GLM.
 
-## 6d. DeepSeek V4.1 Flash 1017 lane (live, qualifying, 26 Oct)
+## 6d. DeepSeek V4.1 Flash 1017 lane (live, default lane since 27 Oct)
 
 Full install record, problems and fixes: [[DGX Spark DeepSeek V4.1 Flash 1017 Pair Setup Log]]. Why this model: [[DGX Spark DeepSeek V4.1 Flash 1017 Pair Research]]. Numbers: [[DGX Spark Frontier Model Qualification Results]].
 
@@ -249,7 +249,8 @@ Full install record, problems and fixes: [[DGX Spark DeepSeek V4.1 Flash 1017 Pa
 - Start / stop (on SecondSpark): `cd ~/src/frontier/deepseek41-1017-tf && PATH=$HOME/.local/bin:$PATH ./start.sh` · `./stop.sh`. Loads in ~47 s; only one pair lane fits, so stop GLM or Qwen first.
 - The worker reads SecondSpark's `~/.cache/huggingface` over NFS (export to `192.168.102.12`, read-only, `all_squash,anonuid=1000`); Engram and rank 1's weight file are on ThirdSpark's own disk under `~/.cache/dsv41-tensorfold/`.
 - GPU clocks capped with `nvidia-smi -lgc 0,2200` on both Sparks; **this resets at reboot**.
-- First numbers: prose C1 69.1 tok/s, code C1 99.1; loop check, tool, vision pass; retrieval to 195K so far.
+- Qualified: prose C1 69.1 tok/s, code C1 99.1, cold prefill 2,120–2,217 tok/s to 256K, retrieval at 790K and a 958K needle, Hermes A/B equal to GLM, clean 2-hour soak. Mia EAQ v1 kept over Plus-Ten (slower).
+- **Swap:** desktop shortcut **Spark Pair - Switch Model** (`scripts/pair-swap.ps1`, a menu of DeepSeek, GLM, Qwen 3.8) or `~/src/frontier/pair-swap.sh deepseek|glm|qwen|default|status` on SecondSpark; `DEFAULT=deepseek`, a failed start brings back DeepSeek, then GLM. The Agents board offers all three pair lanes in its Hermes pickers.
 
 ## 7. Routing after the move
 

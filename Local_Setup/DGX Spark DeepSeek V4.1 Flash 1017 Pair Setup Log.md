@@ -1,6 +1,6 @@
 ---
 created: 2026-10-26
-status: live-qualifying
+status: live-default
 tags: [dgx-spark, deepseek, tensorfold, exl3, second-spark, third-spark, setup-log]
 ---
 
@@ -10,7 +10,7 @@ How the DeepSeek lane was installed on 26 Oct 2026, what went wrong and how each
 
 ## Where it stands
 
-**Live on port 8890** since ~20:06 on 26 Oct (head SecondSpark, worker ThirdSpark). Qualification is under way; GLM is stopped while DeepSeek runs (only one lane fits).
+**Live on port 8890 and the pair's default lane** (head SecondSpark, worker ThirdSpark), Mia EAQ v1 pack. Every bar in the plan passed (numbers: [[DGX Spark Frontier Model Qualification Results]]). GLM 5.3 Flash and Qwen 3.8 Flash stay as swap lanes: desktop shortcut **Spark Pair - Switch Model**. Only one lane fits at a time.
 
 | Step | State |
 |---|---|
@@ -18,12 +18,12 @@ How the DeepSeek lane was installed on 26 Oct 2026, what went wrong and how each
 | 2. Sudo: NFS export, GPU clock limits | done (owner ran the commands; verified) |
 | 3. Weights downloaded and merged | done |
 | 4. Prepared and started | done: 47 s load, 8.0 / 10.0 GiB free after load, both rails used |
-| 5. Qualification against GLM | standard probe, `validate.py`, `bench.py`, 1M needle, minefield done; Hermes A/B running |
-| 6. Plus-Ten pack A/B | pack loaded cleanly (27 Oct, 00:2x); tests running |
+| 5. Qualification against GLM | done: standard probe, `validate.py`, `bench.py`, 958K needle, minefield, Hermes A/B 6/6 (equal to GLM) |
+| 6. Plus-Ten pack A/B | done: Plus-Ten equal on quality, slower (prose C1 58.0, prefill 1,945 at 32K); **EAQ v1 kept** and serving again (00:47, 56 s) |
 | 7. 2-hour soak | **passed** (21:38–23:51): 7 cycles, 28 Hermes sessions, four ~316K prompts, no restart, hang or kernel error; low-water 6.05 / 8.21 GiB |
 | 8. Swap script, shortcut, boot unit | `pair-swap.sh` deployed (deepseek, glm, qwen, default, status), **Spark Pair - Switch Model** shortcut; default and boot unit wait for the soak |
 | 9. LiteLLM alias and Hermes model lists | done (pulled ahead of 6–8 so the Hermes A/B runs through the real path) |
-| 10. Notes | this file, the results note, the handoff |
+| 10. Notes | done: this file, the results note, the handoff, the names note, the index, the research note |
 
 ## What was installed
 
@@ -121,4 +121,6 @@ Details and the comparison table: [[DGX Spark Frontier Model Qualification Resul
 
 ## Still to do
 
-Steps 5 (rest) to 10 above. Owner decisions pending: deleting whichever pack loses the step 6 A/B, enabling the boot unit (needs `sudo loginctl enable-linger snknitin`), and freeing `~/hf-staging-dsv41` (only empty `.lock` files are left).
+- **Owner decisions:** Hermes' default model (main config and the builder, orchestrator and agents-board-prep profiles still default to `glm53-flash`, which falls back to `qwen3.6-35b-a3b` while DeepSeek holds the pair); the boot unit (`scripts/pair-default.service`, needs `sudo loginctl enable-linger snknitin`, and should re-apply `nvidia-smi -lgc 0,2200`, which resets at reboot); deleting the Plus-Ten files (~590 GB over three Sparks, listed in the results note) and the two older per-model desktop shortcuts.
+- Freeable without loss: `~/hf-staging-dsv41` on SecondSpark (3.7 GB: the aborted Plus-Ten start and empty lock files).
+- Not measured: video input (no PyAV), more than 4 requests at once, behaviour after a reboot.

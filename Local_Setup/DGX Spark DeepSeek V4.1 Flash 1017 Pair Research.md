@@ -1,10 +1,13 @@
 ---
 created: 2026-10-26
-status: researched-not-installed
+status: installed-default
 tags: [dgx-spark, deepseek, tensorfold, exl3, second-spark, third-spark, research]
 ---
 
 # DeepSeek V4.1 Flash 1017 on the SecondSpark + ThirdSpark pair: research and plan
+
+> [!success] Installed and made the pair's default lane, 26–27 Oct 2026
+> All gates passed with the Mia EAQ v1 pack: prose C1 69.1, code C1 99.1, cold prefill 2,217 at 32K, retrieval at 790K and a 958K needle, Hermes A/B equal to GLM, a clean 2-hour soak. The Plus-Ten pack was tested and not kept (prose C1 58.0, prefill 1,945 at 32K). How it went: [[DGX Spark DeepSeek V4.1 Flash 1017 Pair Setup Log]]; numbers: [[DGX Spark Frontier Model Qualification Results]].
 
 Should DeepSeek-V4.1-Flash-1017 become the pair's third lane, and its default, next to GLM 5.3 Flash and Qwen 3.8 Flash Next? Targets from the owner: **context 1M** (500K minimum), **decode 70+ tok/s** for one request (60 minimum), **prefill 2,000+ tok/s**, and quality better than GLM. Nothing here is installed yet; the last section is the goal command for the session that installs it. Pair setup and the existing lanes: [[Three Spark Frontier Pair Handoff]]. Measured numbers for the current lanes: [[DGX Spark Frontier Model Qualification Results]].
 

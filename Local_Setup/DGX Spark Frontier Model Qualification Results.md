@@ -17,7 +17,8 @@ Snapshot: 2026-09-30, adding the saved SecondSpark TensorFold qualification whil
 | **`glm53-flash-tf-fp8`** (Second+Third pair, TensorFold, **live**) | 1,048,576 | 40.585 | **42.986** | 62.623 | 107.586 | 790,022 | Pass / pass / pass | `20261016-115541` | — |
 | `glm53-flash-tf-q4` (same, `DENSE=q4`, not kept) | 1,048,576 | 47.892 | 55.977 | 79.932 | 145.095 | 790,022 | Pass / pass / pass | `20261016-121319` | — |
 | **`qwen38-flash-tf-pair`** (Second+Third pair, TensorFold NVFP4, **swap lane**) | 1,048,576 | 53.281 | **66.216** | 102.872 | 196.635 | 790,029 | Pass / pass / pass | `20261016-133342` | — |
-| **`deepseek41-1017-tf-eaq`** (Second+Third pair, TensorFold EXL3 2.9 bpw, **qualifying**) | 1,048,576 | 63.287 | **69.143** | 124.530 | 183.733 | 790,019 | Pass / pass / pass | `20261026-200758` | — |
+| `deepseek41-1017-tf-plusten` (same, Plus-Ten 2.9 bpw pack, not kept) | 1,048,576 | 58.935 | 57.994 | 138.404 | 196.059 | 790,019 | Pass / pass / pass | `20261027-002040` | — |
+| **`deepseek41-1017-tf-eaq`** (Second+Third pair, TensorFold EXL3 2.9 bpw, **live, default lane**) | 1,048,576 | 63.287 | **69.143** | 124.530 | 183.733 | 790,019 | Pass / pass / pass | `20261026-200758` | — |
 
 All listed chat, tool, vision, context, and concurrency results passed in their saved runs. TensorFold's direct SecondSpark run and separate routed Hermes workflow receipt are detailed below. The earlier Qwen NVFP4/FP8 headline rows and both single-node v0.30 attempts remain unchanged. The updated GLM row also has a passing `identity.json` receipt and retained `ORANGE-427` through a 790,022-token prompt in 250.867 seconds. Its matched five-run recipe benchmarks are stored beside the probe results: structured decode **24.169 tok/s** median and hash-map prose **19.572 tok/s** median, versus **18.966** and **19.261** immediately before the source refresh. The structured improvement is +27.4%; prose is +1.6%.
 
@@ -62,7 +63,7 @@ Against the author's sparkDash figure (67.4 tok/s prose, one request) our end-to
 
 Known limits (recipe): `response_format` and `logprobs` return HTTP 400; INT4-AR mode not used. Not measured: the recipe's own `tools/` harnesses, 8/16-way concurrency, TTFT under sparkDash, multi-turn agent soak.
 
-### DeepSeek V4.1 Flash 1017 on the SecondSpark + ThirdSpark pair — 2026-10-26 (in progress)
+### DeepSeek V4.1 Flash 1017 on the SecondSpark + ThirdSpark pair — 2026-10-26 (live, default lane)
 
 [MiaAI-Lab recipe](https://github.com/MiaAI-Lab/DeepSeek-v4.1-Flash-1017-2x-DGX-Sparks) at `27741e17`, image `tensorfold-dsv41:exl3-tp2-928adbd0e57d` (built locally), pack `Mia-AiLab/DeepSeek-V4.1-Flash-1017-EXL3-EAQ-v1-2.9-bpw@45ee5d0f` (EAQ v1, 2.9 bpw), Engram from `deepseek-ai/DeepSeek-V4.1-Flash-1017@1bae0e10`, 1,048,576 window, 4 requests, DSpark drafts, `THINKING_BUDGET=16384`, `REASONING_EFFORT=high`, **port 8890**, GPU clocks capped at 2200 MHz on both Sparks. Probe from FirstSpark: `MODEL=DeepSeek-V4.1-Flash-1017 CONTAINER=dsv41-1017-exl3-tf ENDPOINT=http://192.168.100.11:8890 FLOOR_GIB=2.5 LOOP_EFFORT=max ~/ai/tools/glm53-pair-qualify.sh deepseek41-1017-tf-eaq` (same probe as the GLM and Qwen rows: thinking off, temperature 0, 512-token cap). Receipts: `~/frontier-results/deepseek41-1017-tf-eaq/20261026-200758/` on FirstSpark. How it was installed and what went wrong: [[DGX Spark DeepSeek V4.1 Flash 1017 Pair Setup Log]].
 
@@ -102,6 +103,28 @@ Soak (21:38–23:51 on 26 Oct, `scripts/pair-soak/soak.py`, receipts `~/frontier
 Hermes sends `reasoning_effort: medium` on these requests (the engine logs `effort=medium`), so Hermes runs override the lane's `REASONING_EFFORT=high` default; the A/B and the soak measure that setting.
 
 A/B result (26 Oct, receipts `~/frontier-results/hermes-ab/{glm,deepseek}-r{1,2}-*` on FirstSpark): **both 6/6**, equal on correctness, tool use and loops, so DeepSeek is not worse than GLM. DeepSeek took longer per task (32–67 s against 15–56 s) despite its faster decode, because it writes more: 1,074–3,553 output tokens a task against GLM's 495–2,460 (more reasoning, plus extra tests it added on t2/t3: 11 and 17–26 tests collected against GLM's 9 and 15–19). These tasks are easy for both, so the A/B catches breakage, bad tool use and loops, not small quality gaps.
+
+**Decision (27 Oct): DeepSeek V4.1 Flash 1017 with the Mia EAQ v1 pack is the pair's default lane.** Every bar in the plan passed: all step-5 gates, prose C1 69.1 (≥ 60), cold prefill 2,217 at 32K (≥ 2,000), retrieval at 790K and a 958K needle (≥ 500K), a clean 2-hour soak, and a Hermes A/B equal to GLM. `pair-swap.sh` has `DEFAULT=deepseek`; GLM and Qwen 3.8 stay as swap lanes. Hermes' own default model was left on `glm53-flash` (an owner decision).
+
+#### Pack A/B: Mia EAQ v1 against Plus-Ten (27 Oct)
+
+`Plus-Ten/DeepSeek-V4.1-Flash-1017-TensorFold-EXL3-2.9bpw@3273823e` (v1.1, F32 router bias), served by the same image with `MODEL_ID` / `MODEL_REVISION`, same probes, run one after another. Receipts: `~/frontier-results/deepseek41-1017-tf-plusten/20261027-002040/`, `hermes-ab/plusten-r{1,2}-*` (FirstSpark) and `~/src/frontier/dsv41-runs/{validate,bench}-plusten.*` (SecondSpark).
+
+| | Mia EAQ v1 (kept) | Plus-Ten |
+|---|---:|---:|
+| Card KL / top-1 against the original (sudoingX panel) | 0.0290 / 94.93% | **0.0256 / 95.25%** |
+| Card MMLU-Pro, thinking off | 66.2 | **67.0** |
+| Prose C1 / C2 / C4 tok/s | **69.1** / 124.5 / 183.7 | 58.0 / 138.4 / 196.1 |
+| Code C1 / C2 / C4 tok/s | 99.1 / 182.9 / 229.0 | 100.5 / 178.9 / 211.1 |
+| Cold prefill 8K / 32K / 128K / 256K (`bench.py`) | 2,216 / **2,217 / 2,147 / 2,120** | 2,213 / 1,945 / 1,881 / 1,818 |
+| Retrieval 30K / 195K / 790K | 12.5 / **72.6 / 295.1 s** | 12.3 / 83.3 / 342.3 s |
+| `bench.py` decode / multi 1, 2, 4 | 58.7 / 56.5, 84.5, 116.6 | 57.3 / 55.8, 77.1, 113.4 |
+| Loop check, `validate.py`, tool / vision | pass | pass |
+| Hermes coding A/B | 6/6, 32–67 s a task | 6/6, 38–84 s a task |
+| Load time / model per rank / free after load | 47 s / 104.96 GiB / 8.0, 10.0 | 53 s / 105.04 GiB / 8.1, 9.8 |
+| Lowest `MemAvailable` during the probe | 5.7 / 9.3 GiB | 7.3 / 9.2 GiB |
+
+Kept **Mia EAQ v1**: on our tests the two are equal on quality, and Plus-Ten's quality edge exists only on its card, while its speed loss is clear and breaks two bars (prose C1 58.0 < 60; prefill 1,945 < 2,000 at 32K; retrieval ~15% slower). Why its prefill is slower was not investigated (its 6-bit MTP block and F32 router bias are the only differences). Its files stay until the owner decides: 197 GiB in SecondSpark's hub, 99 GiB of rank 0 files (`~/.cache/huggingface/tensorfold-dsv41/3273823e`), 99 GiB on ThirdSpark (`~/.cache/dsv41-tensorfold/rank-cache-3273823e`), and the 197 GiB download on FirstSpark (`~/hf-staging-plusten`).
 
 ### GLM pair: model-serving-minefield checks — 2026-10-16
 
