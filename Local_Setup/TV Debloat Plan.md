@@ -1,96 +1,114 @@
 # TV Debloat Plan (Fire TV Stick + Sony Bravia Google TV)
 
-Built 2026-10-21 from the Social Capture "Home & device hacks" TV captures (Oct 17–20). Every tweet's thread, replies and quotes were read, along with the linked repos. Detailed notes with source links are in [[TV Debloat Research/Fire TV dumbtv and fire-tv-cleanup]], [[TV Debloat Research/Google TV cleanyourtv and Sony]], [[TV Debloat Research/Remote and phone ADB]] and [[TV Debloat Research/TV hacks roundup]].
+First built 2026-10-21 from the Social Capture "Home & device hacks" TV captures. **Updated 2026-10-26** with the captures from Oct 21–25 and the repo changes since then. Every tweet's thread, replies and quotes were read, along with the linked repos. Detailed research notes with source links are in [[TV Debloat Research/Fire TV dumbtv and fire-tv-cleanup]], [[TV Debloat Research/Google TV cleanyourtv and Sony]], [[TV Debloat Research/Remote and phone ADB]] and [[TV Debloat Research/TV hacks roundup]]. Where those notes and this page disagree, this page is newer.
 
-## How everyone is doing it
+## What changed since Oct 21
 
-There is no root and no firmware flashing. Every hack in the wave uses the same four steps:
+- **dumbtv fixed every problem on our list.**
+  - Prime Video (`firebat`), the boot-hang package (`device.messaging`) and the remote popup (`vizzini`) are now on its never-disable list.
+  - The Fire OS 8 Home-button takeover is merged (PRs #31 and #49), and so is the DNS-filter fix for Fire OS 8.
+  - Its launcher is a prebuilt release (dumbtv home 1.5), so the desktop needs no Java or Android SDK.
+  - It's now one sentence to an agent. dumbtv's AGENTS.md drives the agent, which asks a few questions and reboots the TV twice.
+- **New for the Sony: Free My TV** (simbasjungles/free-my-tv, from @SimbasJungles, saved Oct 21). It's a better fit for your parents than cleanyourtv:
+  - A ready APK, so nothing to build. The new home screen uses 96 MB of memory where the stock one uses 242 MB.
+  - **A one-button undo on the TV itself**: Free My TV → Home Screen → *Original*. Your parents can undo it without you.
+  - **A safety net:** after three crashes in five minutes it brings the stock home back by itself, and a boot check keeps your choice after TV updates.
+  - **Sony support:** it maps the BRAVIA CORE, Netflix, Disney+, Prime, YouTube and Crunchyroll remote buttons.
+  - It never disables an app that saved the Wi-Fi network, so the TV can't lose its connection.
+  - It switches setupwraith and the launcher in the safe order by itself.
+  - It runs its ADB commands from inside the TV (to 127.0.0.1:5555), so after the install no computer is needed.
+- **cleanyourtv** (formerly tv-vibehack) is still the best general toolkit: 316 TV models, 89 brands, 121 showcased projects. It's the fallback if Free My TV misbehaves on the Bravia.
+- **The TCL proof point** (@TheWarKettle): disabling 24 apps on a 1.4 GB-RAM Android TV 9 made it clearly faster. He added cleanyourtv's Pi-hole stats add-on, so the TV shows what it blocks. His view: a streaming stick still wins on raw power, but debloating closes much of the gap.
+- **Not for your devices:**
+  - TizenTube: Samsung Tizen TVs only. On the Fire TV and the Sony, SmartTube does the same job.
+  - Stremio + Real-Debrid: piracy-adjacent, so skipped.
+- **Related security captures:** Alex Hillman's Tailscale ACL lockdown prompt. Use it when the parents' TV joins your tailnet (Phase 2, step 6).
 
-1. Turn on **Developer options → ADB/network debugging** on the TV.
-2. A computer on the same network runs `adb connect <tv-ip>:5555`. Someone at the TV presses **"Always allow"** once.
-3. A coding agent such as Claude Code runs a prepared prompt or script. It uses `pm disable-user --user 0 <pkg>` on ads and telemetry packages. This is reversible with `pm enable` and deletes nothing.
-4. Optionally the agent installs a small custom launcher APK and moves the Home button to it.
+## How you'll run it: your phone, this desktop, Remote Control
 
-Most "I vibe-coded my TV" posts are steps 1–3 plus **Gathin23/cleanyourtv** (formerly tv-vibehack). It has 17k stars, lists for 174 TV models, and 22 Sony lists. On a Fire TV the equivalent is **dumbtv**.
-
-## Your questions, answered
-
-| Question | Answer |
-|---|---|
-| Same Wi-Fi needed? | The machine running `adb` has to *reach* the TV's IP. On the same LAN that works directly. From somewhere else, use Tailscale. |
-| Remote (parents' house)? | Yes. Install **Tailscale on the Sony** (official Google TV app) and log it into your tailnet. Then run `adb connect 100.x.y.z:5555` from the desktop. **Never port-forward 5555**: open ADB ports are scanned by botnets. |
-| Someone physically at the TV? | **Once per TV.** They enable developer options, sign in to Tailscale, and accept the "Allow debugging" prompt. Plan one phone or video call with a parent. |
-| Run it all from the phone? | Yes. Phone (Claude app) → **Claude Code Remote Control** (`/rc` or `claude --remote-control`, scan the QR code) → the desktop session runs `adb`. The phone needs no ADB or Tailscale of its own. |
-| Phone only, no desktop? | Possible: Termux from F-Droid, then `pkg install android-tools bash curl git`. It's untested with these repos, and you can't build launcher APKs on the phone. Not recommended. |
-| Run the GitHub repos? | Yes. **dumbtv** for the Fire TV, **cleanyourtv** for the Sony. Each is a prompt plus bash/PowerShell scripts that call `adb`. Claude reads the scripts before running anything. |
-
-## Phase 0 — Desktop prep (10 min, at the desktop)
-
-```powershell
-winget install Google.PlatformTools
 ```
-Back up `%USERPROFILE%\.android\adbkey` after the first connection. If you lose it, both TVs show the approval prompt again, and the parents' TV needs someone in person.
+Phone (Claude app → Code) ──Remote Control──▶ this desktop session
+                                              │ adb (LAN)      → Fire TV Stick on the Sanyo
+                                              │ adb (tailnet)  → Sony Bravia at your parents'
+```
 
-Start the session with `/rc` so the rest can be done from the phone.
+- **Yes, turn on Remote Control for the session.** Use the Remote Control switch in the session toolbar, or ask me to turn it on. Then open the Claude app on your phone → Code, and this session appears there. Everything runs on the desktop, so the phone needs nothing installed.
+- **Use this session**, so all the research stays in context.
+- **Keep the desktop awake while you work.** It never sleeps (display-off only), so this is already fine.
+- **You still need to be at the TV with the remote** for a few on-screen prompts. The phone in your hand is the chat; the TV remote is in the other hand.
 
-## Phase 1 — Fire TV Stick on the Sanyo (home LAN, ~1 h)
+## Phase 0 — Desktop prep (5 min; I can do it once you say go)
 
-1. **Check the model.** Go to Settings → My Fire TV → About.
-   - **Fire TV Stick 4K Select (2025)** runs Vega OS: there is no ADB, so stop here.
-   - **2nd-gen stick (Fire OS 5)**: debloat is refused, so only the settings changes work.
-   - **4K / 4K Max / Lite (Fire OS 7/8)**: everything below works.
-2. **Enable ADB.** In About, select the device name and press OK 7 times. Then go to Developer Options and turn on **ADB debugging** and **Apps from unknown sources**. Get the IP from About → Network.
-3. **Connect from the desktop.** Run `adb connect <ip>:5555` and accept "Always allow" on the TV. Then `adb shell getprop ro.build.version.sdk` gives 28 for Fire OS 7 and 30 for Fire OS 8.
-4. **Debloat with dumbtv** (humblemuzzu/dumbtv, run under Git Bash). Use preflight → configure → debloat in **small batches, rebooting between them**. Before running, **remove these packages from `data/fireos/packages.txt`**:
-   - `com.amazon.firebat`: this is Prime Video. Main disables it by mistake; PRs #52, #56 and #60 are unmerged.
-   - `com.amazon.device.messaging`: disabling it caused a boot-animation hang that only a factory reset fixed (#57).
-   - `com.amazon.vizzini`: disabling it leaves a stuck "Unable to detect remote" screen.
-   - Keep `animator_duration_scale` at 1.0. At 0.5 the Fire OS 8 Settings menu can't be reached.
-5. **YouTube without ads.** Use dumbtv's opt-in `youtube.sh`, which installs **SmartTube** and disables the stock YouTube app.
-6. **Skip at first:**
-   - **dumbtv's DNS filter:** it's fragile; three issues cover lost settings and DNS bypass.
-   - **Launcher replacement:** Fire OS blocks a custom default home. Every Fire launcher, from dumbtv to orchard-tv to fire-tv-web-launcher, uses an accessibility "Home on Fire" redirect. Amazon's home flashes, and OTAs break it. dumbtv's Fire OS 8 Home fix is still only in unmerged PRs (#31 and #49).
-   - Revisit after a week of stable use. **orchard-tv** is the most complete Fire launcher. **fire-tv-web-launcher** makes the home screen a web page, the easiest route to a calendar or weather dashboard.
-7. **Undo** with dumbtv's `restore.sh`, or run `adb shell pm enable --user 0 <pkg>` per package.
+1. `winget install Google.PlatformTools`, which installs adb. It isn't on the desktop yet.
+2. Clone `humblemuzzu/dumbtv`, and download the Free My TV release APK, into `E:\GIT_ROOT\Tools\tv\`.
+3. After the first TV connection, back up `%USERPROFILE%\.android\adbkey`. If you lose it, both TVs ask for approval again in person.
 
-## Phase 2 — Sony Bravia at your parents' place (one call, then remote)
+## Phase 1 — Fire TV Stick on the Sanyo (at home, ~40 min)
 
-**Option A, zero risk and no ADB:** turn on Google TV **Apps only mode** (profile → Settings → Accounts & sign-in). It removes the recommendation and ad rows, but also Assistant and search. If your parents mostly open Netflix and YouTube, this alone may be enough.
+**You, at the TV (5 min):**
+1. Settings → My Fire TV → About. Note the model name. The 2025 *4K Select* runs Vega OS, so no ADB: stop there. The 2nd gen (Fire OS 5) supports settings changes only.
+2. On the device name, press OK 7 times. Then go to Developer Options and turn on **ADB debugging**.
+3. Read the IP from About → Network and type it in chat. The desktop is on 192.168.0.x. If the stick shows a different subnet (for example 192.168.1.x) and I can't reach it, I'll run adb from FirstSpark instead, which sits on 192.168.1.x.
 
-**Option B, full cleanup with cleanyourtv:**
+**Me, from the desktop:**
+1. `adb connect <ip>:5555`, and you press **Allow → Always allow** on the TV.
+2. `scripts/preflight.sh`: reads the TV and changes nothing. I'll post what it would change.
+3. `configure.sh`, answered from chat:
 
-1. **On the call** (they hold the remote):
-   - Settings → System → About → **Android TV OS build**, press OK 7 times.
-   - Developer options → **USB debugging** on. On a Sony also turn on **Wireless debugging**, since port 5555 can stay closed otherwise.
-   - Install **Tailscale** from the Play Store and sign in to your tailnet, using the QR code on the TV.
-   - Read you the model number from the back of the set or Settings → About.
-2. **From the desktop:**
-   - If the TV runs Android 13+, use the pairing code: `adb pair <tailnet-ip>:<pairport> <code>` while they read the code out, then `adb connect`, then `adb tcpip 5555` to pin the port.
-   - On older Android, `adb connect <tailnet-ip>:5555`. They press **Always allow** and the call can end.
-3. **Check Wi-Fi ownership first.** Run `adb shell dumpsys wifi | grep -o 'cname=[^ ]*'`. If it names `setupwraith`, disabling setupwraith later **deletes the Wi-Fi network**, and the TV drops off Tailscale and ADB. Have them forget and re-join Wi-Fi in Settings first, or skip the launcher step.
-4. **Run cleanyourtv's `PROMPT.md`** with the exact model's Sony list. The agent backs up, disables in small batches, and screenshots after each step.
-   - **Never disable:** `com.sony.dtv.tvinput.*`, `tvapi`, `sonysystemservice`, `sonyvendorservice` (it handles the Netflix and YouTube buttons), `braviasync*` (HDMI-CEC), anything `com.mediatek.*`, `com.sony.dtv.webapi.core`, Play Store and Play Services.
-   - **Safe to disable:** Samba TV (`tv.samba.ssm*`), Sony promos and select, retail demo, and telemetry. The full list is in the Google TV notes.
-5. **Launcher (optional, in this exact order):**
-   1. Install it.
-   2. `am start` it.
-   3. `cmd package set-home-activity`.
-   4. Confirm it holds focus.
-   5. Only then disable `launcherx` and `setupwraith`.
-   - The wrong order gives a black screen or boot loop.
-   - Lower-risk alternatives that don't disable the stock launcher: **barehome** (33 KB), **Rivi**, Projectivy (closed source).
-6. **After firmware updates** run cleanyourtv's `tools/check.py --fix`. Updates re-enable packages and give Home back to launcherx.
-7. **Before any factory reset**, re-enable launcherx and setupwraith.
+   | Question | Recommended answer |
+   |---|---|
+   | Prime Video? | Yes |
+   | Alexa voice button? | Your call; it's off if you say no |
+   | dumbtv home launcher? | Yes |
+   | DNS filter? | Yes |
+   | Apps to remove? | None |
+   | SmartTube instead of YouTube? | Yes, for no ads and no Shorts |
 
-## Phase 3 — Fun extras (later)
+4. `all.sh`: it asks before each step and reboots the TV twice. I screenshot the TV (`adb exec-out screencap`) after each step and send it to your phone.
+5. `verify.sh`, then you test Netflix, Prime, YouTube/SmartTube, the remote and the Home button.
 
-- **Dashboard home screen** like doooyle's or srepdor's (calendar, weather, Home Assistant). Use a fire-tv-web-launcher page, or the cleanyourtv launcher with added widgets, as Amol did with GitHub stats and weather at about 65 MB RAM.
-- **Intent control** like Harshit's: a small model on a home box (FirstSpark) maps a request to `adb shell am start -a android.intent.action.VIEW -d <deeplink> <pkg>`. Deep links are more robust than key-press sequences.
+**Undo:** `scripts/restore.sh`.
+
+## Phase 2 — Sony Bravia at your parents' place (one video call, then remote)
+
+**Option A, no ADB:** Google TV **Apps only mode** (profile → Settings → Accounts & sign-in). It hides the ad rows but also removes Assistant and search. Use it if they don't want anything installed.
+
+**Option B, Free My TV over Tailscale (recommended):**
+
+**Before the call:** I prepare the APK, and in the Tailscale admin console you make an ACL rule (step 6) ready to apply.
+
+**On the call (~15 min, a parent holds the remote):**
+1. Settings → System → About → **Android TV OS build**: press OK 7 times. Then Developer options → **USB debugging** on.
+   - If the TV runs Android 14, also turn on **Wireless debugging**, since port 5555 can stay closed.
+2. Play Store → install **Tailscale** → sign in with your account using the QR code on the TV.
+   - This needs your account login on your phone. That's yours to do; I never handle the credentials.
+3. I connect over the tailnet with `adb connect 100.x.y.z:5555`. On Android 14 that's `adb pair` with the code they read out, then `adb tcpip 5555`. They press **Always allow**.
+4. I check whether setupwraith owns the saved Wi-Fi network (`dumpsys wifi`). If it does, they forget and re-join the Wi-Fi in Settings. Free My TV also asks for this.
+5. I install Free My TV (`adb install -r FreeMyTV.apk`). They open **Free My TV → Home Screen → Free My TV** and accept the second **Allow USB debugging** prompt (the app's own key), with "Always allow" ticked. Then I post a screenshot.
+6. **Lock it down:** apply a tailnet ACL so the parents' TV can't reach anything of yours, and only the desktop can reach it (port 5555 only). Never port-forward 5555 on their router.
+
+**Afterwards, from anywhere:**
+- Optional TMDB key: free, so trending picks appear (this needs a self-built APK).
+- Remote-button mapping.
+- Re-checks after firmware updates.
+- **Android 14 caveat:** port 5555 closes at every restart, so after a reboot I re-pin it with `adb tcpip 5555` over the existing pairing. Free My TV's watchdog depends on that port.
+- **If anything looks wrong:** a parent presses Free My TV → Home Screen → *Original*.
+
+**Fallback:** cleanyourtv's `PROMPT.md` with the exact Bravia model list.
+- Never disable: `com.sony.dtv.tvinput.*`, `sonyvendorservice`, `braviasync*`, `com.mediatek.*`, `webapi.core`, Play Store/Services.
+
+## Phase 3 — Extras (later)
+
+- **Dashboard home** like doooyle's or srepdor's: calendar, weather, Home Assistant. On the Fire TV use fire-tv-web-launcher; on the Sony, add-ons from the cleanyourtv showcase.
+- **Pi-hole stats add-on**, if you run Pi-hole or AdGuard Home on FirstSpark.
+- **Intent control** like Harshit's: a small model on FirstSpark maps a request to `adb shell am start -a android.intent.action.VIEW -d <deeplink> <pkg>`.
 
 ## Risks to know
 
-- An OTA or firmware update re-enables packages and can drop the Home takeover. Plan to re-run the scripts.
-- A factory reset undoes everything. It is also the last-resort recovery.
-- Claude sometimes refuses this task. Framing it as a reversible cleanup of a TV you own gets it through.
-- Netflix and DRM weren't reported to break from a normal cleanup.
-- Nobody answered the warranty question.
+- An OTA or firmware update can re-enable packages.
+  - dumbtv's DNS filter blocks Amazon's update servers. Free My TV's boot check keeps its home screen.
+  - Re-run `verify.sh` or cleanyourtv's `check.py --fix` after an update.
+- A factory reset undoes everything and is the last-resort recovery.
+  - On the Sony, switch Free My TV to *Original* before any reset.
+- Claude sometimes refuses TV tweaks. Framing it as a reversible cleanup of TVs you own gets it through.
+- Netflix and DRM weren't reported to break. Nobody answered the warranty question.
