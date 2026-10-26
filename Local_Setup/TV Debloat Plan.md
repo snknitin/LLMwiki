@@ -57,6 +57,26 @@ First built 2026-10-21 from the Social Capture "Home & device hacks" TV captures
   - App order in dumbtv home → Options.
 - **Undo everything:** `cd E:\GIT_ROOT\External\dumbtv && ./scripts/restore.sh -y`.
 
+**2026-10-26: Fire TV home screen styles (Wii, PlayStation, Spotlight)**
+- **Where it lives:**
+  - dumbtv home was rebuilt from source on the local branch `skins` in `E:\GIT_ROOT\External\dumbtv`, commit 719d60f. It is not pushed anywhere: the Spotlight and XMB originals have no licence, so this is a personal build only.
+  - The APK and the TV's `home.conf` are copied to `E:\GIT_ROOT\External\tv-apks\`.
+- **Switching:** Options → Layout cycles Rows / Grid / Wii / PlayStation / Spotlight. The same setting is `layout=` in `home.conf`. Each style runs inside dumbtv home, so the Fire OS 6 Keeper still owns HOME.
+  - **Wii:** written for this build, in English. 12 tiles a page, the curved clock bar, Options and Settings buttons.
+  - **PlayStation:** ported from amachador/xmb-home. Cross bar with Settings / Search / Video / Apps, PSP waves, month colours. Search filters installed apps. 0 janky frames.
+  - **Spotlight:** ported from IyiolaJay/spotlight-tv. Turning wheel and glass card. `name=Nitin` gives the greeting and the signature. 0 janky frames.
+- **Toolchain:**
+  - JDK 17 is Temurin, from winget.
+  - The Android SDK is in `E:\Android\sdk` (platform 25, build-tools 34). The owner approved accepting the SDK licence.
+  - Build with `ANDROID_HOME=/e/Android/sdk JAVA_HOME=".../jdk-17..." ./launcher/install.sh --build`.
+- **Windows build fixes** (committed in build.sh):
+  - Argfile paths go through `cygpath`.
+  - The `.bat` build tools are resolved.
+  - `jar` stands in for `zip`.
+  - Assets must stay flat, because aapt2 writes `dir\file`.
+- **Signing:** the build uses its own key (`launcher/release.keystore`, git-ignored). Back it up: the official dumbtv release can't update over it, and swapping back means uninstalling.
+- `verify.sh`: all checks passed after the swap.
+
 ## How you'll run it: your phone, this desktop, Remote Control
 
 ```
