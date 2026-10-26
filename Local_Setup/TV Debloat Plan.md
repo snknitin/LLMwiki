@@ -76,6 +76,11 @@ First built 2026-10-21 from the Social Capture "Home & device hacks" TV captures
   - Assets must stay flat, because aapt2 writes `dir\file`.
 - **Signing:** the build uses its own key (`launcher/release.keystore`, git-ignored). Back it up: the official dumbtv release can't update over it, and swapping back means uninstalling.
 - `verify.sh`: all checks passed after the swap.
+- **Default and switching** (commit f8183be):
+  - Spotlight is the default layout.
+  - The remote's **⏩ / ⏪** step through Spotlight → PlayStation → Wii → Grid → Rows, in one press, with a name toast.
+  - Measured on the TV, from key press to the first frame of the new style: 31–208 ms. PlayStation then plays its 1.8 s fade-in.
+  - The child lock blocks the switch.
 
 ## How you'll run it: your phone, this desktop, Remote Control
 
