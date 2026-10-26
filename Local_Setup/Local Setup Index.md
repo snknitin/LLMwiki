@@ -19,6 +19,9 @@ This is the canonical progress and navigation page. If an older note suggests a 
 > [!success] Local OCR models (24 October 2026)
 > **GLM-OCR** on the workstation via Ollama (`glm-ocr:8k`, 2 GB GPU) for fast single pages and receipts; **Unlimited-OCR** on FirstSpark (`unlimited-ocr <file>`, ~10 GB GPU only while a call runs) for long PDFs, 16 pages per pass. Both offline, both read a synthetic receipt exactly. Apps use Docling + RapidOCR (pip, no sudo). [[Local OCR Models (GLM-OCR and Unlimited-OCR)]].
 
+> [!todo] DeepSeek V4.1 Flash 1017 as the pair's third lane and default (researched 26 October 2026)
+> MiaAI TensorFold recipe, 2.9 bpw EXL3: author figures 74.9 prose / 109.9 code tok/s, ~2,000-2,180 prefill, 1M window; beats GLM 5.3 Flash on vendor coding benchmarks. Not installed; the plan, risks and the goal command are in [[DGX Spark DeepSeek V4.1 Flash 1017 Pair Research]].
+
 > [!success] GLM 5.3 Flash live on SecondSpark + ThirdSpark (16 October 2026)
 > MiaAI TensorFold, `DENSE=fp8`, FP8 KV, 1M context: **43.0 tok/s prose / 57.4 code** single request (old GLM 23.8), 107.6 / 145.3 at four requests; retrieval at 790K, tool calls and loop check pass. LiteLLM `glm53-flash` → `192.168.100.11:8888`; Hermes verified. FirstSpark keeps files and the always-on models under 50B and is no longer drained (`spark-frontier use` retired). Open: the FirstSpark clean-up list (~1 TB, you run it) and auto-start after reboot. [[Three Spark Frontier Pair Handoff]] · [[DGX Spark Frontier Model Qualification Results]].
 
