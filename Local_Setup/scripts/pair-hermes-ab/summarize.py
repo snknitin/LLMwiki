@@ -35,7 +35,7 @@ for name in sorted(d for d in os.listdir(out) if os.path.isdir(os.path.join(out,
     secs, rc = open(os.path.join(d, "time-rc.txt")).read().split()
     tail = open(os.path.join(d, "pytest.txt")).read().strip().splitlines()[-1:] or [""]
     # the task-1 prompt forbids touching the existing tests
-    edited = subprocess.run(["diff", "-r", os.path.join(here, name, "repo", "tests"), os.path.join(d, "work", "tests")],
+    edited = subprocess.run(["diff", "-r", "-x", "__pycache__", os.path.join(here, name, "repo", "tests"), os.path.join(d, "work", "tests")],
                             capture_output=True).returncode != 0 if name.startswith("t1") else None
     rows.append({
         "task": name, "hidden_pass": "passed" in tail[0] and "failed" not in tail[0] and "error" not in tail[0],
