@@ -20,8 +20,8 @@ How the DeepSeek lane was installed on 26 Oct 2026, what went wrong and how each
 | 4. Prepared and started | done: 47 s load, 8.0 / 10.0 GiB free after load, both rails used |
 | 5. Qualification against GLM | standard probe, `validate.py`, `bench.py`, 1M needle, minefield done; Hermes A/B running |
 | 6. Plus-Ten pack A/B | not started |
-| 7. 2-hour soak | not started |
-| 8. Swap script, shortcut, boot unit | drafted in the vault, not deployed |
+| 7. 2-hour soak | **passed** (21:38–23:51): 7 cycles, 28 Hermes sessions, four ~316K prompts, no restart, hang or kernel error; low-water 6.05 / 8.21 GiB |
+| 8. Swap script, shortcut, boot unit | `pair-swap.sh` deployed (deepseek, glm, qwen, default, status), **Spark Pair - Switch Model** shortcut; default and boot unit wait for the soak |
 | 9. LiteLLM alias and Hermes model lists | done (pulled ahead of 6–8 so the Hermes A/B runs through the real path) |
 | 10. Notes | this file, the results note, the handoff |
 
@@ -85,6 +85,7 @@ Start / stop on SecondSpark: `cd ~/src/frontier/deepseek41-1017-tf && PATH=$HOME
 | 10 | `tools/validate.py` got "connection refused" | It takes the base URL as its first argument and defaults to `:8888` (GLM's port); it does not read `local.sh` (`bench.py` does) | `python3 -I tools/validate.py http://127.0.0.1:8890 --model DeepSeek-V4.1-Flash-1017` | Pass the URL to every recipe tool |
 | 11 | A memory sampler wrote awk errors instead of numbers; a `pkill -f` killed its own ssh session | Nested single quotes in a heredoc sent through `ssh '…'` broke the script's awk lines; `pkill -f "<pattern>"` matched the ssh command line that contained the pattern | Wrote the script locally and sent it over stdin (`ssh … 'cat > file' < file`); bracketed patterns (`[m]em-sample.sh`) | Don't write scripts with quotes through a quoted ssh command |
 | 12 | **memguard killed the lane at 21:02:53** (rank 0 under 2.5 GiB for 4 s, lowest 2,153 MiB; rank 1 then stopped on `PeerDown`) | The Plus-Ten download (step 6) was started **on the head while it served**: `hf` held 3.7 GB resident, and the head normally runs with ~6–8 GiB free | Stopped the download (3.7 GB had arrived, not reused), restarted the lane (`./start.sh restart`, 38 s, 7.9 / 9.1 GiB free), and downloaded on **FirstSpark** instead (48 GiB free; it is the files machine), to copy over the 200G link later | **Never run a download, build or other big job on a Spark that serves a pair lane.** memguard did its job: no freeze, nothing else affected. The first download (15:57) ran on the head while GLM served with 4.5 GiB free and was lucky |
+| 13 | **A test of the new switch menu swapped the pair to Qwen** (21:3x), interrupting the soak's second cycle | The test piped an empty answer into `pair-swap.ps1`; with redirected input Windows PowerShell's `Read-Host` returned a non-string, the `-notmatch '^[1-3]$'` guard did not stop it, and `[int]` of it minus 1 picked index −1 (Qwen). The swap itself worked as designed | Swapped back with `pair-swap.sh deepseek` (46 s), stopped the contaminated soak (its first cycle had passed) and started a clean one; the menu now makes the answer a plain trimmed string, and its status `ssh` uses `-n`. Re-tested on a copy whose swap line prints instead of running: empty, `x`, `0`, `4` and end of input do nothing; `1` says already live; `2` and `3` would swap | Test interactive scripts on a copy with the side effect stubbed out, never against the live pair |
 
 ## Measured so far
 
@@ -103,6 +104,12 @@ Details and the comparison table: [[DGX Spark Frontier Model Qualification Resul
 - Hermes: `deepseek41-flash-pair` (`context_length: 1048576`) added under `qwen38-flash-pair` in the `local-models` list of `~/.hermes/config.yaml`, `profiles/creator` and `profiles/agents-board-prep` (two lines each; YAML parses); `custom:http://127.0.0.1:4000/v1#11bc07540439304b` cleared from the main `provider_models_cache.json` (the profiles had none). Backups `~/.hermes/backups/deepseek41-pair-20261026/`. Default models unchanged.
 - Verified: a Hermes `custom:local-models` / `deepseek41-flash-pair` one-shot ran `sha256sum` through its terminal tool, wrote `hashes.txt` with both correct hashes and returned `HERMES_DEEPSEEK_PAIR_OK` in 19 s; `session_model_usage` shows only `deepseek41-flash-pair` (3 calls), no fallback.
 - While GLM or Qwen holds the pair, this alias returns a connection error, and vice versa.
+
+## Switching models (step 8, 26 Oct)
+
+- **Desktop shortcut "Spark Pair - Switch Model"** (`scripts/pair-swap.ps1` with no arguments): asks SecondSpark which lane is live, lists DeepSeek, GLM and Qwen 3.8 with the live one marked, and swaps to the number you type (Enter leaves it as it is). `pair-swap.ps1 -To deepseek|glm|qwen` swaps without the menu. The older **Spark Pair - GLM 5.3 Flash** and **Spark Pair - Qwen 3.8 Flash** shortcuts still work (same script with `-To`).
+- `~/src/frontier/pair-swap.sh` on SecondSpark (source `scripts/pair-swap.sh`; the two-lane version kept as `pair-swap.sh.bak-20261026-two-lanes`): `deepseek|glm|qwen` stops the other lanes and starts that one; if it fails to start, it brings back the default lane, then GLM; `status` prints `live: <lane>`. `DEFAULT=glm` until the soak passes. Verified live: DeepSeek → Qwen (by accident, row 13 above) and Qwen → DeepSeek (46 s).
+- **Agents board** (`E:\GIT_ROOT\Projects\agents-board` `e6cb7e4`): the Hermes role pickers (builder, QA, fallback QA) and the prep-model picker now offer `deepseek41-flash-pair` and `qwen38-flash-pair` beside `glm53-flash` and `qwen3.6-35b-a3b`; the runner (`Nightly Runs/scripts/overnight-run.ps1`, vault `b3b72b0`) accepts them for prep and slice advances instead of silently using GLM. Board verify passed (typecheck, unit, 29/29 e2e); runner `test-fallback.ps1` 80/80. The board was restarted and serves the new options. A pick only works while that lane holds the pair; otherwise Hermes falls back to `qwen3.6-35b-a3b`.
 
 ## Still to do
 
