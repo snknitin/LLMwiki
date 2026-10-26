@@ -742,6 +742,9 @@ $worker = {
     Set-Content -Path "$log.pid" -Value $PID   # so the runner can end this job's whole process tree at the end time
     $OutputEncoding = New-Object System.Text.UTF8Encoding $false
     Set-Location $dir
+    # Its own temp folder: pytest keeps one "pytest-of-<user>\pytest-current" link per temp folder, and side-by-side runs
+    # on the desktop fail with WinError 5 on it (2026-10-26: three projects' final verify, and builders chasing it as a bug).
+    $env:TEMP = $env:TMP = (New-Item -ItemType Directory -Force (Join-Path ([IO.Path]::GetTempPath()) "ov-$(Split-Path $dir -Leaf)-$PID")).FullName
     if (-not $isQa) { $env:OVERNIGHT_RUN = '1' }   # turns on the project's Stop-hook verify gate (Claude); QA must be free to end on a failing verify
     switch ($harness) {
         'codex' {
@@ -1419,7 +1422,7 @@ $gateDirty = @{}; $gateCode = @{}; $gateJobs = @{}
 foreach ($q in $gateList) { $gateDirty[$q.Name] = @(git -C (Join-Path $projects $q.Name) status --porcelain 2>$null) }
 foreach ($q in $gateList) {
     while (@($gateJobs.Values | Where-Object { $_.State -eq 'Running' }).Count -ge 3) { Start-Sleep -Seconds 5 }
-    $gateJobs[$q.Name] = Start-Job -ScriptBlock { param($at, $v, $out) Set-Location $at; & powershell -NoProfile -ExecutionPolicy Bypass -File $v *> $out; $LASTEXITCODE } -ArgumentList (Get-Location).Path, (Join-Path $projects "$($q.Name)\scripts\verify.ps1"), (Join-Path $logDir "$($q.Name).verify.txt")
+    $gateJobs[$q.Name] = Start-Job -ScriptBlock { param($at, $v, $out) Set-Location $at; $env:TEMP = $env:TMP = (New-Item -ItemType Directory -Force (Join-Path ([IO.Path]::GetTempPath()) "ov-$(Split-Path $at -Leaf)-$PID")).FullName; & powershell -NoProfile -ExecutionPolicy Bypass -File $v *> $out; $LASTEXITCODE } -ArgumentList (Get-Location).Path, (Join-Path $projects "$($q.Name)\scripts\verify.ps1"), (Join-Path $logDir "$($q.Name).verify.txt")
 }
 foreach ($n in @($gateJobs.Keys)) { $out = @(Receive-Job -Job $gateJobs[$n] -Wait 2>$null); $gateCode[$n] = $(if ($out.Count) { [int]$out[-1] } else { 1 }); Remove-Job $gateJobs[$n] -Force }
 foreach ($n in @($gateCode.Keys | Where-Object { $gateCode[$_] -ne 0 })) {
