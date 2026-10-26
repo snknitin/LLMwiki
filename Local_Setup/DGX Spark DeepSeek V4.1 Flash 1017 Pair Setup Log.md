@@ -19,7 +19,7 @@ How the DeepSeek lane was installed on 26 Oct 2026, what went wrong and how each
 | 3. Weights downloaded and merged | done |
 | 4. Prepared and started | done: 47 s load, 8.0 / 10.0 GiB free after load, both rails used |
 | 5. Qualification against GLM | standard probe, `validate.py`, `bench.py`, 1M needle, minefield done; Hermes A/B running |
-| 6. Plus-Ten pack A/B | not started |
+| 6. Plus-Ten pack A/B | pack loaded cleanly (27 Oct, 00:2x); tests running |
 | 7. 2-hour soak | **passed** (21:38–23:51): 7 cycles, 28 Hermes sessions, four ~316K prompts, no restart, hang or kernel error; low-water 6.05 / 8.21 GiB |
 | 8. Swap script, shortcut, boot unit | `pair-swap.sh` deployed (deepseek, glm, qwen, default, status), **Spark Pair - Switch Model** shortcut; default and boot unit wait for the soak |
 | 9. LiteLLM alias and Hermes model lists | done (pulled ahead of 6–8 so the Hermes A/B runs through the real path) |
@@ -104,6 +104,14 @@ Details and the comparison table: [[DGX Spark Frontier Model Qualification Resul
 - Hermes: `deepseek41-flash-pair` (`context_length: 1048576`) added under `qwen38-flash-pair` in the `local-models` list of `~/.hermes/config.yaml`, `profiles/creator` and `profiles/agents-board-prep` (two lines each; YAML parses); `custom:http://127.0.0.1:4000/v1#11bc07540439304b` cleared from the main `provider_models_cache.json` (the profiles had none). Backups `~/.hermes/backups/deepseek41-pair-20261026/`. Default models unchanged.
 - Verified: a Hermes `custom:local-models` / `deepseek41-flash-pair` one-shot ran `sha256sum` through its terminal tool, wrote `hashes.txt` with both correct hashes and returned `HERMES_DEEPSEEK_PAIR_OK` in 19 s; `session_model_usage` shows only `deepseek41-flash-pair` (3 calls), no fallback.
 - While GLM or Qwen holds the pair, this alias returns a connection error, and vice versa.
+
+## Plus-Ten pack (step 6, 26–27 Oct)
+
+- `Plus-Ten/DeepSeek-V4.1-Flash-1017-TensorFold-EXL3-2.9bpw@3273823e` (v1.1, 25 Oct; 197 GiB, 39 shards): same layout as Mia's 2.9 bpw packs except a 6-bit MTP dense block; card KL 0.0256 / top-1 95.25% against Mia EAQ v1's 0.0290 / 94.93%, MMLU-Pro (thinking off) 67.0 vs 66.2.
+- Downloaded on **FirstSpark** (21:03–00:00, 2 h 57 min; slower than line rate at the end) into `~/hf-staging-plusten/hub` (FirstSpark's `hf` keeps the blobs inside the repo folder), then `rsync -aH --ignore-existing` to SecondSpark's `~/.cache/huggingface/hub` over the 100.x link: **446 s** for 197 GiB, 0 broken links. DeepSeek was stopped first (00:03).
+- `PATH=$HOME/.local/bin:$PATH MODEL_ID=Plus-Ten/DeepSeek-V4.1-Flash-1017-TensorFold-EXL3-2.9bpw MODEL_REVISION=3273823ec08d632700b1fb76f4bc0d918cd4408a ./scripts/prepare.sh` then the same with `./start.sh` (environment wins over `local.sh`, so the EAQ setup is unchanged). Its rank files are separate: `~/.cache/huggingface/tensorfold-dsv41/3273823e/` on the head, `~/.cache/dsv41-tensorfold/rank-cache-3273823e` on ThirdSpark. The kit's image routing bias (made from EAQ's `gate.bias_vl`) is reused; Plus-Ten's own `extras/gate_bias_vl.safetensors` is the same 1017 data.
+- F32 router bias: the served folder contains `zz-gate-bias-f32-1017.safetensors` and its index maps all 43 `ffn.gate.bias` keys to it, so loading by index or by shard name order both give the F32 values (which one the engine does was not checked in its source).
+- Loaded cleanly in **53 s**: model 105.04 GiB a rank (EAQ 104.96), 8.1 / 9.8 GiB free after load.
 
 ## Switching models (step 8, 26 Oct)
 
