@@ -24,6 +24,39 @@ First built 2026-10-21 from the Social Capture "Home & device hacks" TV captures
   - Stremio + Real-Debrid: piracy-adjacent, so skipped.
 - **Related security captures:** Alex Hillman's Tailscale ACL lockdown prompt. Use it when the parents' TV joins your tailnet (Phase 2, step 6).
 
+## Status log
+
+**2026-10-26: Fire TV Stick (Sanyo) — Phase 1 done**
+- **Device:** Fire TV Stick 4K 1st gen (AFTMM), Fire OS 6.7.1.1. dumbtv's catalogue lists this model as fully tested.
+- **Tools:**
+  - adb runs from the desktop over LAN to 192.168.1.8. The desktop is on 192.168.0.x and routes to it fine.
+  - adb is installed by winget (`Google.PlatformTools`). The adb key is backed up in `%USERPROFILE%\.android\backup\`.
+  - Repos and APKs are in `E:\GIT_ROOT\External\` (dumbtv, `tv-apks\`, `free-my-tv-release\`).
+- **dumbtv answers:** prime=1, alexa=1 (kept, since Fire TV voice search runs through Alexa), launcher=1, dnsfilter=1, youtube=1, system_dns=0.
+- **Results:**
+  - 30 packages disabled.
+  - 9 protected packages starved of background running, including both OTA updaters.
+  - 13 privacy settings applied.
+  - DNS filter live (382 hosts).
+  - dumbtv home 1.5 owns Home, via Keeper.
+  - SmartTube 32.56 installed, stock YouTube disabled.
+  - `verify.sh`: **all checks passed**.
+- **Added afterwards:**
+  - Stremio 1.10.4 (Android TV, armeabi-v7a, from dl.strem.io) and CloudStream 4.8.0 (GitHub release).
+  - Only the apps were installed; no add-ons or provider repos were added.
+  - 420 MB of storage left.
+- **Gotcha:** don't export `MSYS_NO_PATHCONV=1` when running the dumbtv scripts from Git Bash. curl then gets `/c/...` paths and fails with "error 23".
+- **Open: Prime Video still shows the US price.**
+  - The Amazon login is one identity; India Prime covers shopping only.
+  - The stick registers on amazon.com because the account's *digital* country is US.
+  - Fix: change it to India on amazon.com → Content & Devices → Preferences → Country/Region. Then re-register, sync, `pm clear com.amazon.firebat`, and reboot.
+  - The DNS filter may need pausing for that.
+- **Left for the owner on the TV:**
+  - SmartTube: Settings → General → Hide content → "Hide shorts everywhere".
+  - SmartTube: Player → Video presets → 1080p 60fps vp9.
+  - App order in dumbtv home → Options.
+- **Undo everything:** `cd E:\GIT_ROOT\External\dumbtv && ./scripts/restore.sh -y`.
+
 ## How you'll run it: your phone, this desktop, Remote Control
 
 ```
