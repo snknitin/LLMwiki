@@ -61,6 +61,9 @@ Each overnight project serves its UI (or a read-only status page) on its own por
 | 8793 | side-hustle-radar |
 | 8794 | motto-agent-council |
 | 8795 | bionic-reading-trainer |
+| 8796 | personal-finance-cockpit |
+| 8797 | quiz-master |
+| 8798 | event-networking-copilot |
 
 ## Models and agent infrastructure
 
