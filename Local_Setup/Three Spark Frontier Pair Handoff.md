@@ -241,6 +241,14 @@ So the recipe needs a fresh ~178 GB download (checkpoint + drafter) on the head;
 - Routed: LiteLLM `qwen38-flash-pair` → `http://192.168.100.11:8889/v1` (backup `~/ai/services/litellm/config.yaml.bak-20261016-pre-qwen38-pair`); `qwen38-flash-pair` added to the `local-models` model list in `~/.hermes/config.yaml` and `profiles/creator/config.yaml`; the `custom:http://127.0.0.1:4000/v1#…` cache entry cleared (backups `~/.hermes/backups/qwen38-pair-20261016/`). Hermes one-shot via `custom:local-models` / `qwen38-flash-pair` passed. While GLM is resident the alias returns a connection error, and vice versa.
 - Limits: `response_format` and `logprobs` return HTTP 400; don't use `QUANT=int4ar`. Not auto-started (restart policy `no`), same as GLM.
 
+## 6d. DeepSeek V4.1 Flash 1017 lane (in progress, 26 Oct)
+
+Plan and evidence: [[DGX Spark DeepSeek V4.1 Flash 1017 Pair Research]].
+
+- Recipe: `~/src/frontier/deepseek41-1017-tf` on SecondSpark, MiaAI-Lab/DeepSeek-v4.1-Flash-1017-2x-DGX-Sparks at **`27741e17`** (24 Oct, still the newest on 26 Oct). Container `dsv41-1017-exl3-tf` on both Sparks; image `tensorfold-dsv41:exl3-tp2-928adbd0e57d` (built locally; none is published).
+- `scripts/local.sh`: `WORKER=snknitin@192.168.102.12`, `FABRIC_PEER=192.168.102.12`, `CONTEXT=1048576`, **`PORT=8890`**, `THINKING_BUDGET=16384`, `REASONING_EFFORT=high`. Engine reserve, `MIN_AVAIL_GIB=112` and memguard (2.5 GiB floor) left at the recipe's defaults.
+- Download (26 Oct, 15:57): SecondSpark's `~/.cache/huggingface/hub/.locks` is still root-owned, so both repos go to a staging cache `~/hf-staging-dsv41/hub` (pack `Mia-AiLab/DeepSeek-V4.1-Flash-1017-EXL3-EAQ-v1-2.9-bpw@45ee5d0f`, Engram shards 47–48 of `deepseek-ai/DeepSeek-V4.1-Flash-1017@1bae0e10`), to be moved into the main hub afterwards (neither existed there). Measured **38 MB/s** (line rate), ~3 h for ~413 GB.
+
 ## 7. Routing after the move
 
 **Done 16 Oct:** `glm53-flash` → `http://192.168.100.11:8888/v1` (backup `~/ai/services/litellm/config.yaml.bak-20261016-pre-glm-pair`), `docker restart spark-litellm`, healthy; the reasoning shim is no longer in the path. `custom:http://127.0.0.1:4000/v1#…` cleared from the main and orchestrator Hermes caches (backups `~/.hermes/backups/glm-pair-20261016/`). Hermes one-shot via `custom:local-models` / `glm53-flash` passed. `spark-frontier use …` now refuses with a pointer to the pair (backup `~/.local/bin/spark-frontier.before-glm-pair-20261016`); `status` and `restore-spark-fast` unchanged. `deepseek41-flash` still points at the old FirstSpark-head address and will fail if called.
