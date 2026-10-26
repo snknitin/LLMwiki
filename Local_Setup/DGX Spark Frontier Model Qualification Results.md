@@ -77,7 +77,7 @@ Known limits (recipe): `response_format` and `logprobs` return HTTP 400; INT4-AR
 | Retrieval (`ORANGE-427`) at 30K / 195K / 790K tokens | pass in 12.5 / 72.6 / **295.1 s** | pass in 17.6 / 109.0 / 423.3 s | pass in 9.0 / 65.2 / 378.9 s | pass ≥ 500K |
 | Prefill implied by retrieval (prompt ÷ time) | ~2,400 / ~2,690 / ~2,680 | ~1,700 / ~1,790 / ~1,870 | ~3,340 / ~2,990 / ~2,090 | — |
 | Cold prefill, recipe `tools/bench.py` at 8K / 32K / 128K / 256K | *pending* | not measured | not measured | ≥ 2,000 at 32K |
-| Recipe `tools/validate.py` | *pending* | — | — | pass |
+| Recipe `tools/validate.py` | **all passed**: text, thinking, tool call, tool result, image, 21,875-token prompt (9.8 s), concurrent == solo 8/8; video skipped (no PyAV on the host) | — | — | pass |
 | Needle at ~1M tokens | *pending* | — | — | — |
 | model-serving-minefield `quick` | *pending* | 13 clean, 3 flagged (77, 12, 15) | — | no new real finding |
 | Hermes coding A/B (3 tasks × 2 runs, hidden tests) | *pending* | **6/6 pass**, 15–56 s a task, 5–17 tool calls, no repeated calls | — | not worse than GLM |
