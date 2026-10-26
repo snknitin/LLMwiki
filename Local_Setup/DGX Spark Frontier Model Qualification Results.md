@@ -17,6 +17,7 @@ Snapshot: 2026-09-30, adding the saved SecondSpark TensorFold qualification whil
 | **`glm53-flash-tf-fp8`** (Second+Third pair, TensorFold, **live**) | 1,048,576 | 40.585 | **42.986** | 62.623 | 107.586 | 790,022 | Pass / pass / pass | `20261016-115541` | — |
 | `glm53-flash-tf-q4` (same, `DENSE=q4`, not kept) | 1,048,576 | 47.892 | 55.977 | 79.932 | 145.095 | 790,022 | Pass / pass / pass | `20261016-121319` | — |
 | **`qwen38-flash-tf-pair`** (Second+Third pair, TensorFold NVFP4, **swap lane**) | 1,048,576 | 53.281 | **66.216** | 102.872 | 196.635 | 790,029 | Pass / pass / pass | `20261016-133342` | — |
+| **`deepseek41-1017-tf-eaq`** (Second+Third pair, TensorFold EXL3 2.9 bpw, **qualifying**) | 1,048,576 | 63.287 | **69.143** | 124.530 | 183.733 | 195,019 so far | Pass / pass / pass | `20261026-200758` | — |
 
 All listed chat, tool, vision, context, and concurrency results passed in their saved runs. TensorFold's direct SecondSpark run and separate routed Hermes workflow receipt are detailed below. The earlier Qwen NVFP4/FP8 headline rows and both single-node v0.30 attempts remain unchanged. The updated GLM row also has a passing `identity.json` receipt and retained `ORANGE-427` through a 790,022-token prompt in 250.867 seconds. Its matched five-run recipe benchmarks are stored beside the probe results: structured decode **24.169 tok/s** median and hash-map prose **19.572 tok/s** median, versus **18.966** and **19.261** immediately before the source refresh. The structured improvement is +27.4%; prose is +1.6%.
 
@@ -60,6 +61,36 @@ Routed: LiteLLM `glm53-flash` → `http://192.168.100.11:8888/v1` (no reasoning 
 Against the author's sparkDash figure (67.4 tok/s prose, one request) our end-to-end C1 is **66.2 tok/s**, within 2%. Draft acceptance on the code prompt ~58% (~4 tokens a round). Routed: LiteLLM `qwen38-flash-pair` → `http://192.168.100.11:8889/v1`; a Hermes `custom:local-models` / `qwen38-flash-pair` one-shot ran `sha256sum` through its tools, wrote `hashes.txt` and returned both correct hashes plus `HERMES_QWEN_PAIR_OK` in 14 s.
 
 Known limits (recipe): `response_format` and `logprobs` return HTTP 400; INT4-AR mode not used. Not measured: the recipe's own `tools/` harnesses, 8/16-way concurrency, TTFT under sparkDash, multi-turn agent soak.
+
+### DeepSeek V4.1 Flash 1017 on the SecondSpark + ThirdSpark pair — 2026-10-26 (in progress)
+
+[MiaAI-Lab recipe](https://github.com/MiaAI-Lab/DeepSeek-v4.1-Flash-1017-2x-DGX-Sparks) at `27741e17`, image `tensorfold-dsv41:exl3-tp2-928adbd0e57d` (built locally), pack `Mia-AiLab/DeepSeek-V4.1-Flash-1017-EXL3-EAQ-v1-2.9-bpw@45ee5d0f` (EAQ v1, 2.9 bpw), Engram from `deepseek-ai/DeepSeek-V4.1-Flash-1017@1bae0e10`, 1,048,576 window, 4 requests, DSpark drafts, `THINKING_BUDGET=16384`, `REASONING_EFFORT=high`, **port 8890**, GPU clocks capped at 2200 MHz on both Sparks. Probe from FirstSpark: `MODEL=DeepSeek-V4.1-Flash-1017 CONTAINER=dsv41-1017-exl3-tf ENDPOINT=http://192.168.100.11:8890 FLOOR_GIB=2.5 LOOP_EFFORT=max ~/ai/tools/glm53-pair-qualify.sh deepseek41-1017-tf-eaq` (same probe as the GLM and Qwen rows: thinking off, temperature 0, 512-token cap). Receipts: `~/frontier-results/deepseek41-1017-tf-eaq/20261026-200758/` on FirstSpark. How it was installed and what went wrong: [[DGX Spark DeepSeek V4.1 Flash 1017 Pair Setup Log]].
+
+| | DeepSeek 1017 pair (EAQ v1) | GLM 5.3 Flash pair (`DENSE=fp8`) | Qwen 3.8 Flash pair (NVFP4) | Pass bar |
+|---|---:|---:|---:|---:|
+| Prose C1 / C2 / C4 tok/s | **69.143** / 124.530 / 183.733 | 42.986 / 62.623 / 107.586 | 66.216 / 102.872 / 196.635 | C1 ≥ 60 (target 70) |
+| Code C1 / C2 / C4 tok/s | **99.114** / 182.948 / 229.020 | 57.415 / 77.117 / 145.332 | 75.674 / 144.571 / 175.660 | — |
+| Quality response | 367 tokens, 63.287 tok/s, pass | 420 tokens, 40.585 tok/s, pass | 283 tokens, 53.281 tok/s, pass | pass |
+| Identity / tool call / vision | pass / pass (54.4 tok/s) / pass | pass / pass / pass | pass / pass / pass | pass |
+| Draft acceptance (prose probe) | 88.6%, 3.48 tokens a round | — | ~58% (code) | — |
+| Loop check (thinking on, `reasoning_effort: max`) | all stop on their own; 85.5 / 69.7 / 68.1 tok/s; answers correct (9, $0.05, the `- 1` bug) | all stop; 78.5 / 53.3 / 53.1 tok/s | all stop; 62.1 / 67.4 / 65.6 tok/s | all stop |
+| Retrieval (`ORANGE-427`) at 30K / 195K / 790K tokens | pass in 12.5 / 72.6 s / *pending* | pass in 17.6 / 109.0 / 423.3 s | pass in 9.0 / 65.2 / 378.9 s | pass ≥ 500K |
+| Prefill implied by retrieval (prompt ÷ time) | ~2,400 at 30K, ~2,690 at 195K | ~1,700 / ~1,790 / ~1,870 | ~3,340 / ~2,990 / ~2,090 | — |
+| Cold prefill, recipe `tools/bench.py` at 8K / 32K / 128K / 256K | *pending* | not measured | not measured | ≥ 2,000 at 32K |
+| Recipe `tools/validate.py` | *pending* | — | — | pass |
+| Needle at ~1M tokens | *pending* | — | — | — |
+| model-serving-minefield `quick` | *pending* | 13 clean, 3 flagged (77, 12, 15) | — | no new real finding |
+| Hermes coding A/B (3 tasks × 2 runs, hidden tests) | *pending* | **6/6 pass**, 15–56 s a task, 5–17 tool calls, no repeated calls | — | not worse than GLM |
+| 2-hour soak (4 Hermes sessions, a 300K+ prompt, idle gaps) | *pending* | — | — | no hang or freeze |
+| Load time | **47 s** | ~90 s | 86 s | — |
+| `MemAvailable` after load, head / worker | 8.0 / 10.0 GiB | ~9 / ~11 GiB | — | — |
+| Lowest `MemAvailable` head / worker (so far) | 6.1 / 9.4 GiB | 7.3 / 9.9 GiB | 28.0 / 39.4 GiB | ≥ 2.5 GiB |
+| Kernel memory / Xid errors | none so far | none | none | none |
+| RoCE rails | both used, equal split | both | both | both |
+
+C1 prose 69.1 is 1% under the owner's 70 target and above the 60 minimum. The implied prefill figures include a 64-token answer and are end to end; `bench.py` measures cold prefill on its own.
+
+Hermes A/B harness: `scripts/pair-hermes-ab/` in this vault (deployed to `~/ai/tools/pair-hermes-ab` on FirstSpark): `run.sh <label> <model>` copies each task fresh, runs `hermes chat -Q --format stream-json --provider custom:local-models -m <model> --yolo --max-turns 60`, then judges with hidden tests the model never sees; `summarize.py` reports pass, time, tool calls, tool errors, the longest run of identical consecutive tool calls (loop sign) and which model(s) Hermes actually used (from `~/.hermes/state.db`, so a fallback cannot hide a failure). Tasks: t1 interval-merge bug fix (existing tests must not change), t2 `--group-by` feature for a CSV CLI with tests, t3 an invoice bug report (KeyError on a missing discount, half-up cent rounding, two-decimal format; an existing test encodes the wrong format and has to be corrected). The hidden tests fail on the shipped code and pass on a reference fix (checked 26 Oct).
 
 ### GLM pair: model-serving-minefield checks — 2026-10-16
 
