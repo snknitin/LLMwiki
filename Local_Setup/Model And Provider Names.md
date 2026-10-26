@@ -16,7 +16,7 @@ What each local model and provider is called now, and which old names still work
 | Qwen 3.6 35B-A3B NVFP4 (the fast always-on Spark model) via LiteLLM | `spark-fast` | **`qwen3.6-35b-a3b`** | LiteLLM `~/ai/services/litellm/config.yaml` |
 | Desktop Qwen 3.8 27B (Windows RTX) in Hermes | `qwen3.8:27b-q4_k_m` | **`qwen3.8-27b-desktop`** (provider `desktop-qwen`) | Hermes configs + `scripts/desktop-qwen-apply.ps1` alias |
 
-The `local-models` provider now carries `qwen3.6-35b-a3b`, `glm53-flash` and the swap-lane `qwen38-flash-pair` (see the 16 October notes below).
+The `local-models` provider now carries `qwen3.6-35b-a3b`, `glm53-flash` and the swap lanes `qwen38-flash-pair` and `deepseek41-flash-pair` (see the 16 and 26 October notes below).
 
 ## Old names that still work, on purpose
 
@@ -79,3 +79,7 @@ The 27B now runs only on the Windows workstation, as Hermes provider **`desktop-
 - Backups: `~/.hermes/backups/drop-spark-27b-20261016/`. Verified afterwards: Hermes default (desktop-qwen), orchestrator and builder profiles each returned an exact reply; the 35B answered through LiteLLM.
 
 To bring a FirstSpark 27B back you would need to copy the GGUFs back, rebuild llama.cpp, re-enable both units and re-add the provider.
+
+## Added 26 October 2026: the DeepSeek pair lane
+
+**`deepseek41-flash-pair`** → `http://192.168.100.11:8890/v1` (DeepSeek V4.1 Flash 1017, EXL3 2.9 bpw, on the SecondSpark + ThirdSpark pair; served model id `DeepSeek-V4.1-Flash-1017`, context 1,048,576 in the Hermes `local-models` list of main, `creator` and `agents-board-prep`). A new name, not a revival of the retired `deepseek41-flash` (the old V4.1 on FirstSpark, removed 16 Oct). Like the other pair lanes it answers only while it holds the pair; its own port keeps GLM or Qwen from ever answering it. Backups: `~/ai/services/litellm/config.yaml.bak-20261026-pre-deepseek41-pair`, `~/.hermes/backups/deepseek41-pair-20261026/`. Setup: [[DGX Spark DeepSeek V4.1 Flash 1017 Pair Setup Log]].

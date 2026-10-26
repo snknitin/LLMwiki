@@ -18,11 +18,11 @@ How the DeepSeek lane was installed on 26 Oct 2026, what went wrong and how each
 | 2. Sudo: NFS export, GPU clock limits | done (owner ran the commands; verified) |
 | 3. Weights downloaded and merged | done |
 | 4. Prepared and started | done: 47 s load, 8.0 / 10.0 GiB free after load, both rails used |
-| 5. Qualification against GLM | in progress |
+| 5. Qualification against GLM | standard probe, `validate.py`, `bench.py`, 1M needle, minefield done; Hermes A/B running |
 | 6. Plus-Ten pack A/B | not started |
 | 7. 2-hour soak | not started |
 | 8. Swap script, shortcut, boot unit | drafted in the vault, not deployed |
-| 9. LiteLLM alias and Hermes model lists | not started |
+| 9. LiteLLM alias and Hermes model lists | done (pulled ahead of 6–8 so the Hermes A/B runs through the real path) |
 | 10. Notes | this file, the results note, the handoff |
 
 ## What was installed
@@ -95,6 +95,13 @@ Details and the comparison table: [[DGX Spark Frontier Model Qualification Resul
 - Loop check at `reasoning_effort: max`: all three stop on their own with correct answers.
 - Retrieval: 30,019 tokens in 12.5 s, 195,019 in 72.6 s, **790,019 in 295.1 s**: the standard qualification passed (`GLM_PAIR_QUALIFY_PASS`, 20:07–~20:30).
 - Lowest `MemAvailable` over the qualification 5.7 GiB head / 9.3 GiB worker; no kernel memory or Xid errors.
+
+## Routing (step 9, 26 Oct)
+
+- LiteLLM on FirstSpark: `deepseek41-flash-pair` → `openai/DeepSeek-V4.1-Flash-1017` at `http://192.168.100.11:8890/v1`, added after `qwen38-flash-pair` (backup `~/ai/services/litellm/config.yaml.bak-20261026-pre-deepseek41-pair`), `docker restart spark-litellm`: healthy, `/v1/models` lists `qwen3.6-35b-a3b`, `glm53-flash`, `qwen38-flash-pair`, `deepseek41-flash-pair`; the alias answered, and the 35B still answers.
+- Hermes: `deepseek41-flash-pair` (`context_length: 1048576`) added under `qwen38-flash-pair` in the `local-models` list of `~/.hermes/config.yaml`, `profiles/creator` and `profiles/agents-board-prep` (two lines each; YAML parses); `custom:http://127.0.0.1:4000/v1#11bc07540439304b` cleared from the main `provider_models_cache.json` (the profiles had none). Backups `~/.hermes/backups/deepseek41-pair-20261026/`. Default models unchanged.
+- Verified: a Hermes `custom:local-models` / `deepseek41-flash-pair` one-shot ran `sha256sum` through its terminal tool, wrote `hashes.txt` with both correct hashes and returned `HERMES_DEEPSEEK_PAIR_OK` in 19 s; `session_model_usage` shows only `deepseek41-flash-pair` (3 calls), no fallback.
+- While GLM or Qwen holds the pair, this alias returns a connection error, and vice versa.
 
 ## Still to do
 
