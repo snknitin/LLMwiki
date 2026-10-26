@@ -3,7 +3,7 @@
 # Usage: powershell -NoProfile -ExecutionPolicy Bypass -File test-fallback.ps1
 $ErrorActionPreference = 'Stop'
 $ast = [System.Management.Automation.Language.Parser]::ParseFile((Join-Path $PSScriptRoot 'overnight-run.ps1'), [ref]$null, [ref]$null)
-$ast.FindAll({ param($n) $n -is [System.Management.Automation.Language.FunctionDefinitionAst] -and $n.Name -in 'Test-Parked', 'Get-SessionHarness', 'Save-RunState', 'Test-Leftover', 'Get-Backfill', 'Get-AdvanceSpec', 'Test-CachedPass', 'Get-LaneStates', 'Read-Pipeline', 'Move-ProjectLine', 'Get-LaneFor', 'Sync-Pipeline', 'Test-Built', 'Get-RunSet', 'Test-NetError', 'Test-OpenDirection', 'Set-PreviewPorts', 'Test-SharedQwen' }, $true) |
+$ast.FindAll({ param($n) $n -is [System.Management.Automation.Language.FunctionDefinitionAst] -and $n.Name -in 'Test-Parked', 'Get-SessionHarness', 'Save-RunState', 'Test-Leftover', 'Get-Backfill', 'Get-AdvanceSpec', 'Test-CachedPass', 'Get-LaneStates', 'Read-Pipeline', 'Move-ProjectLine', 'Get-LaneFor', 'Sync-Pipeline', 'Test-Built', 'Get-RunSet', 'Test-NetError', 'Test-OpenDirection', 'Set-PreviewPorts', 'Test-SharedQwen', 'Test-LimitHit', 'Get-LimitReset' }, $true) |
     ForEach-Object { . ([scriptblock]::Create($_.Extent.Text)) }
 $failed = 0
 function Check($what, $got, $want) { if ("$got" -ne "$want") { Write-Output "FAIL $what`: got '$got', want '$want'"; $script:failed++ } else { Write-Output "ok   $what" } }
@@ -22,7 +22,7 @@ Check 'nothing parked: own harness' (Get-SessionHarness $claude) 'claude'
 $limitUntil = @{ claude = (Get-Date).AddMinutes(-1) }
 Check 'claude limit already reset: claude' (Get-SessionHarness $claude) 'claude'
 $limitUntil = @{ claude = $later }
-Check 'claude parked: codex' (Get-SessionHarness $claude) 'codex'
+Check 'claude parked: hermes, always the fallback (owner, 2026-10-26)' (Get-SessionHarness $claude) 'hermes'
 $limitUntil = @{ claude = $later; codex = $later }
 Check 'claude and codex parked: hermes' (Get-SessionHarness $claude) 'hermes'
 Check 'codex project with codex parked: hermes' (Get-SessionHarness $codex) 'hermes'
@@ -79,7 +79,7 @@ Check 'advance spec: claude default' (Get-AdvanceSpec ([pscustomobject]@{ Name =
 Check 'advance spec: codex profile' (Get-AdvanceSpec ([pscustomobject]@{ Name = 'c'; Harness = 'codex'; Model = 'sol-6-high' })) 'codex:sol-6-high'
 Check 'advance spec: hermes lane' (Get-AdvanceSpec ([pscustomobject]@{ Name = 'h'; Harness = 'hermes'; Model = $null })) 'hermes:glm53-flash'
 $limitUntil = @{ claude = $later }
-Check 'advance spec: claude parked plans on codex' (Get-AdvanceSpec ([pscustomobject]@{ Name = 'a'; Harness = 'claude'; Model = 'opus' })) 'codex'
+Check 'advance spec: claude parked plans on hermes (always the fallback)' (Get-AdvanceSpec ([pscustomobject]@{ Name = 'a'; Harness = 'claude'; Model = 'opus' })) 'hermes:glm53-flash'
 $limitUntil = @{ claude = $later; codex = $later }
 Check 'advance spec: claude and codex parked plan on hermes' (Get-AdvanceSpec ([pscustomobject]@{ Name = 'a'; Harness = 'claude'; Model = 'opus' })) 'hermes:glm53-flash'
 Check 'advance spec: codex parked uses the prep model' (Get-AdvanceSpec ([pscustomobject]@{ Name = 'c'; Harness = 'codex'; Model = 'sol-6-high' })) 'hermes:glm53-flash'
@@ -222,5 +222,13 @@ Remove-Item $root -Recurse -Force
 Check 'qa: GLM is not the shared Qwen' (Test-SharedQwen @{ Spec = 'hermes'; Family = 'hermes' }) 'False'
 Check 'qa: the FirstSpark Qwen is' (Test-SharedQwen @{ Spec = 'hermes:qwen3.6-35b-a3b'; Family = 'hermes' }) 'True'
 Check 'qa: Codex is not' (Test-SharedQwen @{ Spec = 'codex:sol-5-6'; Family = 'codex' }) 'False'
+
+# Codex's weekly limit, as its log shows it: a garbled apostrophe and a dated reset on the next line.
+$limitHit = $ast.Find({ param($n) $n -is [System.Management.Automation.Language.AssignmentStatementAst] -and "$($n.Left)" -eq '$limitHit' }, $true).Right.Extent.Text.Trim('"')
+$codexLimit = "ERROR: You$([char]0xFFFD)$([char]0xFFFD)$([char]0xFFFD)ve hit your usage limit. Visit https://chatgpt.com/settings/usage to purchase more credits or try again `r`nat Nov 1st, 2026 11:40 AM."
+Check 'limit: Codex weekly limit with a garbled apostrophe' (Test-LimitHit $codexLimit) 'True'
+Check 'limit: its dated reset' (Get-LimitReset $codexLimit).ToString('yyyy-MM-dd HH:mm') '2026-11-01 11:42'
+Check 'limit: Claude session limit still' (Test-LimitHit "You've hit your session limit · resets 2:40am") 'True'
+Check 'limit: ordinary text is not one' (Test-LimitHit 'All 58 tests passed.') 'False'
 
 if ($failed) { exit 1 }

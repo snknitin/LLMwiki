@@ -829,7 +829,9 @@ function Test-Online($harness) {
 # "You've hit your session limit - resets 2:30am", Codex "You've hit your usage limit ... try again in ...". Matching the
 # whole log parked Codex for an hour at a time on project text like "rate-limited" (2026-10-24/25; no log ever ended in
 # a real Codex limit).
-$limitHit = "(?i)you(?:'|\u2019)?ve hit your (?:session |usage |weekly |daily )?limit|claude ai usage limit reached|usage limit reached|rate_limit_exceeded|insufficient_quota"
+# The apostrophe often arrives garbled ("You\ufffd\ufffd\ufffdve"), so anything that is not a letter may stand in for it
+# (2026-10-26: Codex's weekly limit went unnoticed and its lanes were closed as "no work left").
+$limitHit = "(?i)you\W{0,6}ve hit your (?:session |usage |weekly |daily )?limit|chatgpt\.com/settings/usage|claude ai usage limit reached|usage limit reached|rate_limit_exceeded|insufficient_quota"
 function Test-LimitHit($text) { $t = "$text"; return $t.Substring([Math]::Max(0, $t.Length - 1500)) -match $limitHit }
 # The same for a dropped connection: only at the end of the output, where the tool reports it as it stops (2026-10-25:
 # paper-logbook's own text "calendar/plan fetch failed" restarted it every few minutes).
@@ -838,6 +840,11 @@ function Test-NetError($text) { $t = "$text"; return $t.Substring([Math]::Max(0,
 function Write-Decision($name, $what) { Add-Content -Path (Join-Path $logDir '_decisions.log') -Value "$((Get-Date).ToString('HH:mm:ss')) $name`: $what" -Encoding UTF8 }
 function Get-LimitReset($text) {
     $now = Get-Date
+    # Codex's weekly limit names a date: "try again at Nov 1st, 2026 11:40 AM" (the line may wrap after "again").
+    if ($text -match '(?i)try again\s+at\s+([a-z]{3})[a-z]*\.?\s+(\d{1,2})(?:st|nd|rd|th)?,?\s+(\d{4})\s+(\d{1,2}):(\d{2})\s*(am|pm)') {
+        $at = [datetime]::ParseExact("$($Matches[1]) $($Matches[2]) $($Matches[3]) $($Matches[4]):$($Matches[5]) $($Matches[6].ToUpper())", 'MMM d yyyy h:mm tt', [Globalization.CultureInfo]::InvariantCulture)
+        return $at.AddMinutes(2)
+    }
     if ($text -match '(?i)(?:resets?|try again)\s+(?:at\s+)?(\d{1,2})(?::(\d{2}))?\s*(am|pm)') {
         $h = [int]$Matches[1] % 12; if ($Matches[3] -ieq 'pm') { $h += 12 }
         $t = $now.Date.AddHours($h).AddMinutes([int]$Matches[2] + 2); if ($t -le $now) { $t = $t.AddDays(1) }
@@ -958,7 +965,7 @@ function Get-Backfill($harness) {
 function Start-Backfill($row, $harness, $from) {
     if (($deadline - (Get-Date)).TotalSeconds -lt $minSession) { return }
     # A lane whose harness is parked on a usage limit hands the next project to a harness that is working now.
-    if (Test-Parked $harness) { $free = @('codex', 'claude', 'hermes') | Where-Object { -not (Test-Parked $_) } | Select-Object -First 1; if ($free) { $harness = $free } }
+    if (Test-Parked $harness -and -not (Test-Parked 'hermes')) { $harness = 'hermes' }   # the fallback is always Hermes (owner, 2026-10-26)
     # A project the owner steered after it finished tonight comes back first, on this lane, with fresh counters.
     $busy = @($running.Values | ForEach-Object { if ($_.Q) { $_.Q.Name } }) + @($pending | ForEach-Object { $_.Name })
     foreach ($q0 in @($script:queue)) {
@@ -1048,7 +1055,7 @@ function Test-Parked($tool) { return [bool]($limitUntil[$tool] -and (Get-Date) -
 # $null = wait. (test-fallback.ps1 checks this.)
 function Get-SessionHarness($q) {
     if (-not (Test-Parked $q.Harness)) { return $q.Harness }
-    $next = $(if ($q.Harness -eq 'claude') { 'codex', 'hermes' } elseif ($q.Harness -eq 'codex') { @('hermes') } else { @() })
+    $next = $(if ($q.Harness -ne 'hermes') { @('hermes') } else { @() })   # the fallback is always Hermes (owner, 2026-10-26)
     return @($next) | Where-Object { -not (Test-Parked $_) -and -not ($_ -eq 'hermes' -and $noSpark[$q.Name]) } | Select-Object -First 1
 }
 $qaPromptFile = Join-Path $vault 'Nightly Runs\agent-rules\qa-prompt.md'
