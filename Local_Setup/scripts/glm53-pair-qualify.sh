@@ -2,6 +2,7 @@
 # Standardized qualification of the SecondSpark+ThirdSpark GLM 5.3 Flash TensorFold pair. Run on FirstSpark:
 #   glm53-pair-qualify.sh <profile>      e.g. glm53-flash-tf-fp8
 #   MODEL=Qwen3.8-Flash-Next CONTAINER=qwen38-fn-tf ENDPOINT=http://192.168.100.11:8889 glm53-pair-qualify.sh qwen38-flash-tf-pair   (the Qwen swap lane)
+#   FLOOR_GIB=2.5 (MemAvailable stop line, default 4)  LOOP_EFFORT=high (loop check's reasoning_effort, default max)  RUNGS="30000 195000 790000"
 # Same probe as DGX Spark Frontier Model Qualification Results, plus a code-prompt ladder and a thinking loop check.
 set -euo pipefail
 profile=${1:?profile}
@@ -10,7 +11,8 @@ probe="$HOME/ai/tools/frontier-model-probe.py"
 model=${MODEL:-GLM-5.3-Flash-EXL3}
 container=${CONTAINER:-glm53-flash-tf}
 endpoint=${ENDPOINT:-http://192.168.100.11:8888}
-floor_kib=$((4 * 1024 * 1024))   # recipe's documented low-water is ~5 GiB under a 1M prompt; stop below 4
+floor_gib=${FLOOR_GIB:-4}   # GLM recipe's documented low-water is ~5 GiB under a 1M prompt; DeepSeek's memguard floor is 2.5
+floor_kib=$(awk -v g="$floor_gib" 'BEGIN {printf "%d", g * 1048576}')
 code_prompt='Write a complete Python module implementing a thread-safe LRU cache with per-entry TTL expiry, type hints and docstrings, followed by pytest unit tests covering eviction order, expiry and concurrent access. Output only code.'
 
 python3 "$probe" init --profile "$profile" --model "$model" --endpoint "$endpoint" --max-context 1048576
@@ -26,7 +28,7 @@ check_safety() {
     f="$run/${side%%:*}-memavailable-kib.txt"
     min="$(awk 'NR==1 || $1 < m {m=$1} END {print m+0}' "$f")"
     printf '%s MIN_MEMAVAILABLE_KIB=%s\n' "${side%%:*}" "$min" | tee -a "$run/qualification-monitor.txt"
-    test "$min" -ge "$floor_kib" || { echo "STOP: ${side%%:*} below 4 GiB MemAvailable"; exit 1; }
+    test "$min" -ge "$floor_kib" || { echo "STOP: ${side%%:*} below $floor_gib GiB MemAvailable"; exit 1; }
     ssh -o BatchMode=yes "${side#*:}" "journalctl -k --since '$started' --no-pager" > "$run/${side%%:*}-kernel.txt"
     ! grep -Eiq 'NV_ERR_NO_MEMORY|NVRM.*Xid|Out of memory|oom-killer' "$run/${side%%:*}-kernel.txt" || { echo "STOP: kernel error on ${side%%:*}"; exit 1; }
     ssh -o BatchMode=yes "${side#*:}" "test \"\$(docker inspect -f '{{.State.Running}}' $container)\" = true" || { echo "STOP: rank stopped on ${side%%:*}"; exit 1; }
@@ -43,10 +45,10 @@ check_safety
 python3 "$probe" concurrency --profile "$profile" --levels 1,2,4 --max-tokens 512 --minimum-tokens 128 --label code --prompt "$code_prompt"
 check_safety
 
-# Loop check: thinking on at max effort, the server's own sampling; each must stop on its own inside the budget.
-python3 - "$endpoint" "$run/loop-check.json" "$model" <<'PY'
+# Loop check: thinking on at LOOP_EFFORT (default max), the server's own sampling; each must stop on its own inside the budget.
+python3 - "$endpoint" "$run/loop-check.json" "$model" "${LOOP_EFFORT:-max}" <<'PY'
 import json, sys, time, urllib.request
-endpoint, out, model = sys.argv[1:4]
+endpoint, out, model, effort = sys.argv[1:5]
 prompts = [
     "How many times does the letter r appear in 'strawberry raspberry cranberry'? Answer with the number.",
     "A bat and a ball cost $1.10 in total. The bat costs $1.00 more than the ball. How much is the ball? Then list three similar trick questions with answers.",
@@ -54,7 +56,7 @@ prompts = [
 ]
 rows = []
 for p in prompts:
-    body = {"model": model, "messages": [{"role": "user", "content": p}], "max_tokens": 32768, "reasoning_effort": "max"}
+    body = {"model": model, "messages": [{"role": "user", "content": p}], "max_tokens": 32768, "reasoning_effort": effort}
     req = urllib.request.Request(f"{endpoint}/v1/chat/completions", json.dumps(body).encode(), {"Content-Type": "application/json"})
     t = time.perf_counter(); r = json.load(urllib.request.urlopen(req, timeout=3600)); e = time.perf_counter() - t
     c = r["choices"][0]; u = r.get("usage", {})
@@ -68,7 +70,7 @@ print("LOOP_CHECK_OK" if passed else "LOOP_CHECK_FAILED")
 PY
 check_safety
 
-for rung in 30000 195000 790000; do
+for rung in ${RUNGS:-30000 195000 790000}; do
   python3 "$probe" context --profile "$profile" --filler-counts "$rung" --max-tokens 64 --timeout 7200
   check_safety
 done
