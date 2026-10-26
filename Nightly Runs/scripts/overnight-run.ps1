@@ -381,15 +381,15 @@ function Get-Upkeep($queue) {
 # Who preps (Nightly Runs/prep.json, picked on the board): Desktop Qwen through local-agent.py, or Claude / Codex.
 $prepModel = 'hermes:qwen3.8-27b-desktop'
 try { $m = (Get-Content (Join-Path $vault 'Nightly Runs\prep.json') -Raw -ErrorAction Stop | ConvertFrom-Json).model } catch { $m = $null }
-if ($m -match '^(hermes:qwen3\.8-27b-desktop|hermes:glm53-flash|hermes:qwen3\.6-35b-a3b|claude:[a-z0-9][\w.-]{0,40}|codex(:[a-z0-9][\w.-]{0,60})?)$') { $prepModel = $m }
+if ($m -match '^(hermes:qwen3\.8-27b-desktop|hermes:glm53-flash|hermes:deepseek41-flash-pair|hermes:qwen38-flash-pair|hermes:qwen3\.6-35b-a3b|claude:[a-z0-9][\w.-]{0,40}|codex(:[a-z0-9][\w.-]{0,60})?)$') { $prepModel = $m }
 # Runs inside the prep and slice-advance jobs (jobs see no functions), from the Projects root so no project's deny rules apply.
 $prepAgent = @'
 param($spec, $dir, $text, $log, $helper, $budget)
 $OutputEncoding = New-Object System.Text.UTF8Encoding $false
 Set-Location $dir
 $model = ($spec -split ':', 2)[1]
-if ($spec -in 'hermes:glm53-flash', 'hermes:qwen3.6-35b-a3b') {
-    # GLM 5.3 Flash and Qwen 3.6 35B are reachable only from FirstSpark (key-protected loopback LiteLLM), so prep runs there through Hermes'
+if ($spec -in 'hermes:glm53-flash', 'hermes:deepseek41-flash-pair', 'hermes:qwen38-flash-pair', 'hermes:qwen3.6-35b-a3b') {
+    # The Spark pair's models (GLM 5.3 Flash, DeepSeek V4.1 Flash, Qwen 3.8 Flash; whichever is loaded) and Qwen 3.6 35B are reachable only from FirstSpark (key-protected loopback LiteLLM), so prep runs there through Hermes'
     # agents-board-prep profile on FirstSpark's clones: pull them, prep and push there, then the desktop pulls.
     $items = @([regex]::Matches($text, '(?m)^- ([A-Za-z0-9._-]+): ') | ForEach-Object { $_.Groups[1].Value } | Select-Object -Unique | Where-Object { Test-Path (Join-Path $dir "$_\.git") })
     $spark = '/home/snknitin/Workspace/GIT_ROOT/Projects'
@@ -874,7 +874,7 @@ function Get-AdvanceSpec($q) {
     switch ($use) {
         'claude' { return "claude:$(if ($model) { $model } else { 'opus' })" }
         'codex' { return $(if ($model) { "codex:$model" } else { 'codex' }) }
-        default { return "hermes:$(if ($model -in 'glm53-flash', 'qwen3.6-35b-a3b') { $model } else { 'glm53-flash' })" }
+        default { return "hermes:$(if ($model -in 'glm53-flash', 'deepseek41-flash-pair', 'qwen38-flash-pair', 'qwen3.6-35b-a3b') { $model } else { 'glm53-flash' })" }
     }
 }
 function Start-Advance($q, $action = 'advance', $why = "tonight's target passed during the run") {

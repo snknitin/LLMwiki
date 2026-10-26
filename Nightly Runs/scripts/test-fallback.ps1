@@ -78,6 +78,7 @@ Check 'advance spec: claude lane model' (Get-AdvanceSpec ([pscustomobject]@{ Nam
 Check 'advance spec: claude default' (Get-AdvanceSpec ([pscustomobject]@{ Name = 'a'; Harness = 'claude'; Model = $null })) 'claude:opus'
 Check 'advance spec: codex profile' (Get-AdvanceSpec ([pscustomobject]@{ Name = 'c'; Harness = 'codex'; Model = 'sol-6-high' })) 'codex:sol-6-high'
 Check 'advance spec: hermes lane' (Get-AdvanceSpec ([pscustomobject]@{ Name = 'h'; Harness = 'hermes'; Model = $null })) 'hermes:glm53-flash'
+Check 'advance spec: hermes lane on DeepSeek keeps it' (Get-AdvanceSpec ([pscustomobject]@{ Name = 'h'; Harness = 'hermes'; Model = 'deepseek41-flash-pair' })) 'hermes:deepseek41-flash-pair'
 $limitUntil = @{ claude = $later }
 Check 'advance spec: claude parked plans on hermes (always the fallback)' (Get-AdvanceSpec ([pscustomobject]@{ Name = 'a'; Harness = 'claude'; Model = 'opus' })) 'hermes:glm53-flash'
 $limitUntil = @{ claude = $later; codex = $later }
