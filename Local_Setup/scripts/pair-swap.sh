@@ -10,7 +10,7 @@
 set -euo pipefail
 test "$(hostname)" = spark-7047 || { echo 'STOP: run on SecondSpark'; exit 1; }
 cd ~/src/frontier
-DEFAULT=glm
+DEFAULT=deepseek
 declare -A dir=([deepseek]=deepseek41-1017-tf [glm]=glm53-tf [qwen]=qwen38-dual-tf)
 declare -A ctr=([deepseek]=dsv41-1017-exl3-tf [glm]=glm53-flash-tf [qwen]=qwen38-fn-tf)
 declare -A args=([glm]='--thinking-budget 16384')
