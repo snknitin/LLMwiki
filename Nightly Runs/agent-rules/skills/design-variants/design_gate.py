@@ -66,7 +66,7 @@ def token_violations(cfg):
 
 
 def parse(text):
-    found = re.findall(r"<result>(.*?)</result>", text, re.S)
+    found = re.findall(r"<result>(.*?)</result>", text, re.DOTALL)
     if not found:
         raise ValueError("judge gave no <result> block")
     return json.loads(found[-1])
@@ -90,7 +90,7 @@ def judge(name, screens):
         cmd.append("-")
     else:
         sys.exit(f"unknown judge {name}")
-    run = subprocess.run(cmd, input=prompt, capture_output=True, text=True, encoding="utf-8", cwd=ROOT, timeout=1800)
+    run = subprocess.run(cmd, check=False, input=prompt, capture_output=True, text=True, encoding="utf-8", cwd=ROOT, timeout=1800)
     if run.returncode:
         sys.exit(f"DESIGN GATE ERROR: the {name} judge failed: {run.stderr.strip()[-400:]}")
     return parse(run.stdout)
