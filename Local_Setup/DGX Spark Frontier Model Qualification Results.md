@@ -104,7 +104,7 @@ Hermes sends `reasoning_effort: medium` on these requests (the engine logs `effo
 
 A/B result (26 Oct, receipts `~/frontier-results/hermes-ab/{glm,deepseek}-r{1,2}-*` on FirstSpark): **both 6/6**, equal on correctness, tool use and loops, so DeepSeek is not worse than GLM. DeepSeek took longer per task (32–67 s against 15–56 s) despite its faster decode, because it writes more: 1,074–3,553 output tokens a task against GLM's 495–2,460 (more reasoning, plus extra tests it added on t2/t3: 11 and 17–26 tests collected against GLM's 9 and 15–19). These tasks are easy for both, so the A/B catches breakage, bad tool use and loops, not small quality gaps.
 
-**Decision (27 Oct): DeepSeek V4.1 Flash 1017 with the Mia EAQ v1 pack is the pair's default lane.** Every bar in the plan passed: all step-5 gates, prose C1 69.1 (≥ 60), cold prefill 2,217 at 32K (≥ 2,000), retrieval at 790K and a 958K needle (≥ 500K), a clean 2-hour soak, and a Hermes A/B equal to GLM. `pair-swap.sh` has `DEFAULT=deepseek`; GLM and Qwen 3.8 stay as swap lanes. Hermes' own default model was left on `glm53-flash` (an owner decision).
+**Decision (27 Oct): DeepSeek V4.1 Flash 1017 with the Mia EAQ v1 pack is the pair's default lane.** Every bar in the plan passed: all step-5 gates, prose C1 69.1 (≥ 60), cold prefill 2,217 at 32K (≥ 2,000), retrieval at 790K and a 958K needle (≥ 500K), a clean 2-hour soak, and a Hermes A/B equal to GLM. `pair-swap.sh` has `DEFAULT=deepseek`; GLM and Qwen 3.8 stay as swap lanes. Hermes' default model became `deepseek41-flash-pair` on 27 Oct (owner's decision; [[Model And Provider Names]]).
 
 #### Pack A/B: Mia EAQ v1 against Plus-Ten (27 Oct)
 
@@ -124,7 +124,7 @@ A/B result (26 Oct, receipts `~/frontier-results/hermes-ab/{glm,deepseek}-r{1,2}
 | Load time / model per rank / free after load | 47 s / 104.96 GiB / 8.0, 10.0 | 53 s / 105.04 GiB / 8.1, 9.8 |
 | Lowest `MemAvailable` during the probe | 5.7 / 9.3 GiB | 7.3 / 9.2 GiB |
 
-Kept **Mia EAQ v1**: on our tests the two are equal on quality, and Plus-Ten's quality edge exists only on its card, while its speed loss is clear and breaks two bars (prose C1 58.0 < 60; prefill 1,945 < 2,000 at 32K; retrieval ~15% slower). Why its prefill is slower was not investigated (its 6-bit MTP block and F32 router bias are the only differences). Its files stay until the owner decides: 197 GiB in SecondSpark's hub, 99 GiB of rank 0 files (`~/.cache/huggingface/tensorfold-dsv41/3273823e`), 99 GiB on ThirdSpark (`~/.cache/dsv41-tensorfold/rank-cache-3273823e`), and the 197 GiB download on FirstSpark (`~/hf-staging-plusten`).
+Kept **Mia EAQ v1**: on our tests the two are equal on quality, and Plus-Ten's quality edge exists only on its card, while its speed loss is clear and breaks two bars (prose C1 58.0 < 60; prefill 1,945 < 2,000 at 32K; retrieval ~15% slower). Why its prefill is slower was not investigated (its 6-bit MTP block and F32 router bias are the only differences). Its files were deleted on 27 Oct with the owner's approval (~596 GB: the pack and rank 0 files on SecondSpark, rank 1 files on ThirdSpark, the download on FirstSpark); trying it again means a ~3 h download.
 
 ### GLM pair: model-serving-minefield checks — 2026-10-16
 

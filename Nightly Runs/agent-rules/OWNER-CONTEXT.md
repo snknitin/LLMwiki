@@ -27,16 +27,17 @@ How to reach each machine:
 
 | Name (what you pass as `model`) | Where it runs | Endpoint | Use it for |
 |---|---|---|---|
-| `glm53-flash` | SecondSpark + ThirdSpark | LiteLLM `http://127.0.0.1:4000/v1` on FirstSpark | Hermes default since 2026-10-19 and the Hermes overnight lane. Coding and long grinding work. 1,048,576 context. |
+| `deepseek41-flash-pair` | SecondSpark + ThirdSpark | LiteLLM `http://127.0.0.1:4000/v1` on FirstSpark, backend `192.168.100.11:8890` | **Hermes default since 2026-10-27** (main, builder, orchestrator, agents-board-prep) and the Hermes overnight lane; the pair's default lane. DeepSeek V4.1 Flash 1017: coding and long grinding work, ~69 tok/s, 1,048,576 context. |
+| `glm53-flash` | SecondSpark + ThirdSpark | LiteLLM, backend `192.168.100.11:8888` | Swap lane (Hermes default 2026-10-19 to 10-27). It answers only after the pair is switched to GLM, and `deepseek41-flash-pair` is down while it runs. Don't swap unattended. |
 | `qwen3.6-35b-a3b` | FirstSpark vLLM | LiteLLM `127.0.0.1:4000` on FirstSpark | Fast always-on model for quick tasks, scheduled jobs and app inference. Accepts image input. The hidden alias `spark-fast` still works. |
 | `spark-fast` (vLLM served name) | FirstSpark | `http://127.0.0.1:8000/v1` directly | For FirstSpark apps that skip LiteLLM. Fresh Brief, YouTube Learning Center and Social Capture already call it this way. |
-| `qwen38-flash-pair` | SecondSpark + ThirdSpark | LiteLLM, backend `192.168.100.11:8889` | Swap lane. It answers only after `pair-swap.sh qwen`, and `glm53-flash` is down while it runs. Don't swap unattended. |
+| `qwen38-flash-pair` | SecondSpark + ThirdSpark | LiteLLM, backend `192.168.100.11:8889` | Swap lane. It answers only after `pair-swap.sh qwen`, and the pair's other lanes are down while it runs. Don't swap unattended. |
 | `qwen3.8-27b-desktop` (Hermes provider `desktop-qwen`) | Desktop RTX, llama-server | `http://127.0.0.1:11435/v1`. From Docker: `http://host.docker.internal:11435`. From the tailnet: `https://nike-workstation.tail4a1242.ts.net:8444/v1` | Windows apps that need a local LLM. Qwen 3.8 27B UD-Q5_K_XL with 2 slots × 262K context and vision. Any model name is accepted. |
 | Ollama models (Gemma 4 31B and 26B-A4B, `gemma3:4b`) | Desktop | `http://127.0.0.1:11434`. From the tailnet: `:8443` | Occasional use only. Never select `qwen3.8:27b-q4_k_m` in Ollama: it loads a second copy that spills onto the CPU. |
 
 How a project's app should call a local model:
 - **Use one OpenAI-compatible base URL and model name, read from config or env.** Never hard-code them. Tests use a fake or fixture model. (event-market-research-terminal REPORT §6.2 resolved: the extract role uses FirstSpark `spark-fast` and the synthesize role uses the frontier pair.)
-- **Apps on FirstSpark** call LiteLLM at `127.0.0.1:4000` (`qwen3.6-35b-a3b` or `glm53-flash`) or vLLM at `127.0.0.1:8000` (`spark-fast`).
+- **Apps on FirstSpark** call LiteLLM at `127.0.0.1:4000` (`qwen3.6-35b-a3b` or `deepseek41-flash-pair`) or vLLM at `127.0.0.1:8000` (`spark-fast`).
 - **Apps on Windows** call Desktop Qwen at `127.0.0.1:11435`. The Spark LiteLLM is loopback-only and **cannot be reached from the desktop** (AI Coding Playbook).
 - **Desktop Qwen thinking:** send `chat_template_kwargs: {"enable_thinking": false}` unless you really want thinking. Ollama's `think:false` is ignored, so Qwen uses up the token budget and the request times out empty (World Monitor on Windows Workstation).
 - **Desktop Qwen is sometimes off.** It has only 2 slots, shared with Hermes and Fresh Brief, and the owner turns it off for ComfyUI (Qwen OFF/ON). Apps must degrade gracefully with an empty or "unavailable" result, never crash.
