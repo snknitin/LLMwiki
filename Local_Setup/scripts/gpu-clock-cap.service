@@ -1,0 +1,14 @@
+# Root unit on SecondSpark and ThirdSpark: re-apply the pair's equal GPU clock ceiling at boot (nvidia-smi -lgc resets
+# at every reboot). Install: sudo cp ~/gpu-clock-cap.service /etc/systemd/system/ && sudo systemctl daemon-reload &&
+# sudo systemctl enable --now gpu-clock-cap.service
+[Unit]
+Description=Cap GPU clocks at 2200 MHz for the frontier pair
+After=nvidia-persistenced.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/bin/nvidia-smi -lgc 0,2200
+
+[Install]
+WantedBy=multi-user.target
