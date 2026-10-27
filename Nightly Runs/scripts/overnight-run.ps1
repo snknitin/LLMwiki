@@ -129,10 +129,11 @@ function Get-ModelFamily($spec) {
     if ($spec -notmatch $specPattern) { return $spec }
     $harness = $Matches[1]; $model = $Matches[2]
     if ($harness -ne 'hermes') { return $harness }
-    if (-not $model) { $model = 'glm53-flash' }
+    if (-not $model) { $model = 'deepseek41-flash-pair' }   # Hermes' default model
     $model = ($model -split '/')[-1].ToLower()
     if ($model -match 'qwen|spark-fast') { return 'qwen' }
     if ($model -match 'glm') { return 'glm' }
+    if ($model -match 'deepseek') { return 'deepseek' }
     if ($model -match 'claude') { return 'claude' }
     if ($model -match 'gpt|codex') { return 'codex' }
     return $model
@@ -755,7 +756,7 @@ $worker = {
             $prompt | & codex @a - *>> $log
         }
         'hermes' {
-            if (-not $model) { $model = 'glm53-flash' }   # best local coding model (SecondSpark + ThirdSpark)
+            if (-not $model) { $model = 'deepseek41-flash-pair' }   # the Spark pair's default lane (SecondSpark + ThirdSpark)
             $m = "--provider custom:local-models --base-url http://127.0.0.1:4000/v1 -m $model"
             # .git/overnight-hermes.pid: a session cut off from this side (dropped SSH) can still be running on FirstSpark;
             # never start a second one in the same repo (SPARK_BUSY makes the runner wait and try again).
@@ -874,7 +875,7 @@ function Get-AdvanceSpec($q) {
     switch ($use) {
         'claude' { return "claude:$(if ($model) { $model } else { 'opus' })" }
         'codex' { return $(if ($model) { "codex:$model" } else { 'codex' }) }
-        default { return "hermes:$(if ($model -in 'glm53-flash', 'deepseek41-flash-pair', 'qwen38-flash-pair', 'qwen3.6-35b-a3b') { $model } else { 'glm53-flash' })" }
+        default { return "hermes:$(if ($model -in 'glm53-flash', 'deepseek41-flash-pair', 'qwen38-flash-pair', 'qwen3.6-35b-a3b') { $model } else { 'deepseek41-flash-pair' })" }
     }
 }
 function Start-Advance($q, $action = 'advance', $why = "tonight's target passed during the run") {

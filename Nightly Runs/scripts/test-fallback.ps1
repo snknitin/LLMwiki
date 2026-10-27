@@ -77,13 +77,13 @@ $limitUntil = @{}
 Check 'advance spec: claude lane model' (Get-AdvanceSpec ([pscustomobject]@{ Name = 'a'; Harness = 'claude'; Model = 'opus-xhigh' })) 'claude:opus-xhigh'
 Check 'advance spec: claude default' (Get-AdvanceSpec ([pscustomobject]@{ Name = 'a'; Harness = 'claude'; Model = $null })) 'claude:opus'
 Check 'advance spec: codex profile' (Get-AdvanceSpec ([pscustomobject]@{ Name = 'c'; Harness = 'codex'; Model = 'sol-6-high' })) 'codex:sol-6-high'
-Check 'advance spec: hermes lane' (Get-AdvanceSpec ([pscustomobject]@{ Name = 'h'; Harness = 'hermes'; Model = $null })) 'hermes:glm53-flash'
+Check 'advance spec: hermes lane' (Get-AdvanceSpec ([pscustomobject]@{ Name = 'h'; Harness = 'hermes'; Model = $null })) 'hermes:deepseek41-flash-pair'
 Check 'advance spec: hermes lane on DeepSeek keeps it' (Get-AdvanceSpec ([pscustomobject]@{ Name = 'h'; Harness = 'hermes'; Model = 'deepseek41-flash-pair' })) 'hermes:deepseek41-flash-pair'
 $limitUntil = @{ claude = $later }
-Check 'advance spec: claude parked plans on hermes (always the fallback)' (Get-AdvanceSpec ([pscustomobject]@{ Name = 'a'; Harness = 'claude'; Model = 'opus' })) 'hermes:glm53-flash'
+Check 'advance spec: claude parked plans on hermes (always the fallback)' (Get-AdvanceSpec ([pscustomobject]@{ Name = 'a'; Harness = 'claude'; Model = 'opus' })) 'hermes:deepseek41-flash-pair'
 $limitUntil = @{ claude = $later; codex = $later }
-Check 'advance spec: claude and codex parked plan on hermes' (Get-AdvanceSpec ([pscustomobject]@{ Name = 'a'; Harness = 'claude'; Model = 'opus' })) 'hermes:glm53-flash'
-Check 'advance spec: codex parked uses the prep model' (Get-AdvanceSpec ([pscustomobject]@{ Name = 'c'; Harness = 'codex'; Model = 'sol-6-high' })) 'hermes:glm53-flash'
+Check 'advance spec: claude and codex parked plan on hermes' (Get-AdvanceSpec ([pscustomobject]@{ Name = 'a'; Harness = 'claude'; Model = 'opus' })) 'hermes:deepseek41-flash-pair'
+Check 'advance spec: codex parked plans on hermes, not the prep model' (Get-AdvanceSpec ([pscustomobject]@{ Name = 'c'; Harness = 'codex'; Model = 'sol-6-high' })) 'hermes:deepseek41-flash-pair'
 $limitUntil = @{}
 
 # A target that passed at this exact commit (clean tree) starts with its advance; anything else builds first.
