@@ -86,7 +86,8 @@ Each overnight project serves its UI (or a read-only status page) on its own por
 | 443 | Tailscale Serve (root URL, MCP OAuth paths) |
 | 53 | systemd-resolved |
 | 631 | CUPS printing |
-| 9333 | **unknown**, loopback: identify before reusing |
+| 9150–9159 | Design jobs from the Agents board: Hermes serves a project's design options here while it screenshots them (temporary, loopback) |
+| 9333 | Hermes `browser.cdp_url` (config.yaml); nothing listens unless a Hermes browser session starts one |
 | 11000 | **unknown**, loopback: identify before reusing |
 | 39765, 41480 | Tailscale internals (change on restart) |
 
