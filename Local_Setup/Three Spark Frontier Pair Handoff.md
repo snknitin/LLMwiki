@@ -248,7 +248,8 @@ Full install record, problems and fixes: [[DGX Spark DeepSeek V4.1 Flash 1017 Pa
 - Recipe `~/src/frontier/deepseek41-1017-tf` on SecondSpark (MiaAI-Lab/DeepSeek-v4.1-Flash-1017-2x-DGX-Sparks `27741e17`), container `dsv41-1017-exl3-tf`, **port 8890**, 1M window, `THINKING_BUDGET=16384`, `REASONING_EFFORT=high`.
 - Start / stop (on SecondSpark): `cd ~/src/frontier/deepseek41-1017-tf && PATH=$HOME/.local/bin:$PATH ./start.sh` · `./stop.sh`. Loads in ~47 s; only one pair lane fits, so stop GLM or Qwen first.
 - The worker reads SecondSpark's `~/.cache/huggingface` over NFS (export to `192.168.102.12`, read-only, `all_squash,anonuid=1000`); Engram and rank 1's weight file are on ThirdSpark's own disk under `~/.cache/dsv41-tensorfold/`.
-- GPU clocks capped with `nvidia-smi -lgc 0,2200` on both Sparks; **this resets at reboot**.
+- GPU clocks capped with `nvidia-smi -lgc 0,2200` on both Sparks; this resets at reboot unless `gpu-clock-cap.service` is installed (`scripts/gpu-clock-cap.service`).
+- **Starts after a reboot:** SecondSpark user unit `pair-default.service` (enabled 27 Oct, linger on) brings up the default lane once ThirdSpark answers.
 - Qualified: prose C1 69.1 tok/s, code C1 99.1, cold prefill 2,120–2,217 tok/s to 256K, retrieval at 790K and a 958K needle, Hermes A/B equal to GLM, clean 2-hour soak. Mia EAQ v1 kept over Plus-Ten (slower).
 - **Swap:** desktop shortcut **Spark Pair - Switch Model** (`scripts/pair-swap.ps1`, a menu of DeepSeek, GLM, Qwen 3.8) or `~/src/frontier/pair-swap.sh deepseek|glm|qwen|default|status` on SecondSpark; `DEFAULT=deepseek`, a failed start brings back DeepSeek, then GLM. The Agents board offers all three pair lanes in its Hermes pickers.
 

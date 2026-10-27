@@ -125,7 +125,12 @@ Details and the comparison table: [[DGX Spark Frontier Model Qualification Resul
 - The overnight runner used to pass `-m glm53-flash` for a bare `hermes` lane whatever Hermes' config said; it now defaults to `deepseek41-flash-pair` (`Nightly Runs/scripts/overnight-run.ps1`, vault `f52ba11`), and the Agents board labels Hermes' default as DeepSeek V4.1 Flash with GLM as an option (agents-board `e8a6aa4`). Both treat DeepSeek as its own model family (`deepseek`) for the rule that QA must differ from the builder. Tests: board 133 unit + 29/29 e2e, runner 80/80 + 22/22, live local QA flow OK.
 - **Plus-Ten deleted** after checking that neither running rank referenced revision `3273823e` and no other repo linked into it: SecondSpark's pack and rank 0 files plus `~/hf-staging-dsv41` (~300 GB), ThirdSpark's rank 1 files (99 GB), FirstSpark's download (197 GB). Afterwards every model in SecondSpark's hub resolves (0 broken links) and DeepSeek still answered.
 
+## Start after a reboot (27 Oct)
+
+- `sudo loginctl enable-linger snknitin` run by the owner on SecondSpark (`Linger=yes`), then `scripts/pair-default.service` installed as `~/.config/systemd/user/pair-default.service` and **enabled**: at boot it waits up to 10 minutes for ThirdSpark's docker over the Port0 link, then runs `pair-swap.sh default` (DeepSeek; GLM if DeepSeek fails). Tested with `systemctl --user start pair-default`: it found DeepSeek already live and changed nothing (3 s, container start time unchanged). Not yet tested through a real reboot.
+- GPU clock cap at boot: `scripts/gpu-clock-cap.service` (root oneshot, `nvidia-smi -lgc 0,2200`), copied to `~/gpu-clock-cap.service` on both Sparks for the owner to install with sudo.
+
 ## Still to do
 
-- **Owner:** the boot unit (`scripts/pair-default.service`, needs `sudo loginctl enable-linger snknitin`; it should also re-apply `nvidia-smi -lgc 0,2200`, which resets at reboot); whether to delete the two older per-model desktop shortcuts.
+- **Owner:** install the clock-cap root unit on both Sparks (`sudo cp ~/gpu-clock-cap.service /etc/systemd/system/ && sudo systemctl daemon-reload && sudo systemctl enable --now gpu-clock-cap.service`; the file is already in `~` on both); whether to delete the two older per-model desktop shortcuts.
 - Not measured: video input (no PyAV), more than 4 requests at once, behaviour after a reboot.
