@@ -398,7 +398,7 @@ if ($spec -in 'hermes:glm53-flash', 'hermes:deepseek41-flash-pair', 'hermes:qwen
         "You may edit a project's CLAUDE.md or AGENTS.md, but only the target, scope, order-of-work and stop-condition lines; never its rules, permissions, owner gates or security text. " +
         "Work one project at a time, yourself. Commit only your paths and git push after each project. Report only what happened: name a commit hash only after git log -1 shows it. The runner checks every claim against git.`n"
     $pulls = ($items | ForEach-Object { "if [ -d $_/.git ]; then git -C $_ pull --rebase -q || echo 'PREP PULL FAILED: $_ (FirstSpark clone)'; else git clone -q $(git -C (Join-Path $dir $_) remote get-url origin) $_ || echo 'PREP CLONE FAILED: $_'; fi" }) -join '; '
-    $remote = "cd $spark && $pulls; timeout $([int]$budget + 120) ~/.local/bin/hermes -p agents-board-prep chat -m $model --query-file - -Q --yolo --in $spark --max-turns 400 --run-budget $budget"
+    $remote = "cd $spark && $pulls; timeout $([int]$budget + 120) ~/.local/bin/hermes -p agents-board-prep chat -m $model$(if ($model -match 'deepseek') { ' --reasoning xhigh' }) --query-file - -Q --yolo --in $spark --max-turns 400 --run-budget $budget"
     $sparkText | & "$env:WINDIR\System32\OpenSSH\ssh.exe" -o BatchMode=yes FirstSpark $remote *>> $log
     $code = $LASTEXITCODE
     foreach ($p in $items) { git -C (Join-Path $dir $p) pull --rebase -q *>> $log }   # bring FirstSpark's prep commits to the desktop
@@ -754,7 +754,8 @@ $worker = {
         }
         'hermes' {
             if (-not $model) { $model = 'deepseek41-flash-pair' }   # the Spark pair's default lane (SecondSpark + ThirdSpark)
-            $m = "--provider custom:local-models --base-url http://127.0.0.1:4000/v1 -m $model"
+            # DeepSeek runs at Extra high (owner, 2026-10-28); other Hermes models keep ~/.hermes/config.yaml's effort.
+            $m = "--provider custom:local-models --base-url http://127.0.0.1:4000/v1 -m $model$(if ($model -match 'deepseek') { ' --reasoning xhigh' })"
             # .git/overnight-hermes.pid: a session cut off from this side (dropped SSH) can still be running on FirstSpark;
             # never start a second one in the same repo (SPARK_BUSY makes the runner wait and try again).
             if ($isQa -and $model -in 'qwen3.6-35b-a3b', 'spark-fast') {
