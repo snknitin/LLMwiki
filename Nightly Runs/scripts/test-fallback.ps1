@@ -287,4 +287,9 @@ Check 'stalled: a lane project with only bookkeeping commits goes to Active' $st
 Check 'stalled: one with real work keeps its lane' $st.Where.busy 'codex'
 Check 'stalled: the next rank takes the freed lane' $fill.Name 'next1'
 
+# A Hermes model can carry the board's effort ("<model>-<effort>"); the planner keeps it (owner, 2026-10-28).
+$limitUntil = @{}; $noSpark = @{}
+Check 'effort: a Hermes lane model keeps its effort for planning' (Get-AdvanceSpec ([pscustomobject]@{ Name = 'h'; Harness = 'hermes'; Model = 'deepseek41-flash-pair-xhigh' })) 'hermes:deepseek41-flash-pair-xhigh'
+Check 'effort: no effort, the config default' (Get-AdvanceSpec ([pscustomobject]@{ Name = 'h'; Harness = 'hermes'; Model = $null })) 'hermes:deepseek41-flash-pair'
+
 if ($failed) { exit 1 }
