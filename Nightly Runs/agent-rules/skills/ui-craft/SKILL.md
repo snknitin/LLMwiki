@@ -1,6 +1,6 @@
 ---
 name: ui-craft
-description: Use whenever you design, build, redesign, restyle, review or roast any UI (app screen, dashboard, website, GitHub Pages site, landing page, HTML mockup, design option) in any project, including other people's repos, or when a UI looks generic, amateur or AI-made. With a person in the chat it interviews them with simple multiple-choice questions, shows options and builds their pick. The entry point for all design work; it settles conflicts between the other design skills.
+description: Use whenever you design, build, redesign, restyle, review or roast any UI (app screen, dashboard, website, GitHub Pages site, landing page, HTML mockup, design option) in any project, including other people's repos, or when a UI looks generic, amateur or AI-made. Also when given a reference image, screenshot, wireframe, sketch or site to build from or copy exactly. With a person in the chat it interviews them with simple multiple-choice questions, shows options and builds their pick. The entry point for all design work; it settles conflicts between the other design skills.
 ---
 
 # UI craft
@@ -36,6 +36,7 @@ When this skill and another design skill disagree, this one wins (the reasons ar
 | Implement a screen or a picked mockup | **Build** | [craft.md](references/craft.md), then [app-screens.md](references/app-screens.md) or [pages.md](references/pages.md) |
 | Existing UI, "review", "roast", "looks generic", or no change named | **Roast** (never Build) | [critique.md](references/critique.md) |
 | "Redesign this", "make it look better", "give me options", with a person in the chat | **Redesign** | [session.md](references/session.md) |
+| An image, screenshot, wireframe, sketch or URL: "build it like this", "exactly like this" | **Replicate** | [replicate.md](references/replicate.md) |
 | Add a tab or view to an existing app | **Fit** | [app-screens.md § Adding a view](references/app-screens.md#adding-a-view-to-an-existing-app) |
 | Charts, tables, KPIs | **Data** | [app-screens.md § Data](references/app-screens.md#data-picks-the-component) |
 
