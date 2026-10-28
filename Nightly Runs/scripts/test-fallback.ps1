@@ -3,7 +3,7 @@
 # Usage: powershell -NoProfile -ExecutionPolicy Bypass -File test-fallback.ps1
 $ErrorActionPreference = 'Stop'
 $ast = [System.Management.Automation.Language.Parser]::ParseFile((Join-Path $PSScriptRoot 'overnight-run.ps1'), [ref]$null, [ref]$null)
-$ast.FindAll({ param($n) $n -is [System.Management.Automation.Language.FunctionDefinitionAst] -and $n.Name -in 'Test-Parked', 'Get-SessionHarness', 'Save-RunState', 'Test-Leftover', 'Get-Backfill', 'Get-AdvanceSpec', 'Test-CachedPass', 'Get-LaneStates', 'Read-Pipeline', 'Move-ProjectLine', 'Get-LaneFor', 'Sync-Pipeline', 'Test-Built', 'Get-RunSet', 'Test-NetError', 'Test-OpenDirection', 'Set-PreviewPorts', 'Test-SharedQwen', 'Test-LimitHit', 'Get-LimitReset', 'Complete-Run', 'Complete-QaJob', 'Set-Qa', 'Format-Qa', 'Get-QaFromReport', 'Get-Upkeep', 'Get-MissingStructure' }, $true) |
+$ast.FindAll({ param($n) $n -is [System.Management.Automation.Language.FunctionDefinitionAst] -and $n.Name -in 'Test-Parked', 'Get-SessionHarness', 'Save-RunState', 'Test-Leftover', 'Get-Backfill', 'Get-AdvanceSpec', 'Test-CachedPass', 'Get-LaneStates', 'Read-Pipeline', 'Move-ProjectLine', 'Get-LaneFor', 'Sync-Pipeline', 'Test-Built', 'Get-RunSet', 'Test-NetError', 'Test-OpenDirection', 'Set-PreviewPorts', 'Test-SharedQwen', 'Test-LimitHit', 'Get-LimitReset', 'Complete-Run', 'Complete-QaJob', 'Set-Qa', 'Format-Qa', 'Get-QaFromReport', 'Get-Upkeep', 'Get-MissingStructure', 'Move-Stalled', 'Test-Progress', 'Write-Decision' }, $true) |
     ForEach-Object { . ([scriptblock]::Create($_.Extent.Text)) }
 $failed = 0
 function Check($what, $got, $want) { if ("$got" -ne "$want") { Write-Output "FAIL $what`: got '$got', want '$want'"; $script:failed++ } else { Write-Output "ok   $what" } }
@@ -267,5 +267,24 @@ $ErrorActionPreference = 'Continue'; $upkeep = @(Get-Upkeep @()); $ErrorActionPr
 Remove-Item -Recurse -Force $projects
 Check 'prep: a Ready next project without a tree gets one' (@($upkeep | Where-Object { $_.Project -eq 'r1' }).Action -match 'build-tree') 'True'
 Check 'prep: a Ready next project without a spec is left alone' @($upkeep | Where-Object { $_.Project -eq 'r2' }).Count 0
+
+# A lane project with no real commit all night goes to Active and the next rank takes its lane (owner, 2026-10-28).
+$projects = Join-Path ([IO.Path]::GetTempPath()) "stalled-test-$PID"; $prioFile = Join-Path $projects 'prio.md'; $logDir = $projects
+$ErrorActionPreference = 'Continue'; $heads = @{}
+foreach ($n in 'idle', 'busy', 'next1') {
+    $d = Join-Path $projects $n; New-Item -ItemType Directory -Force $d | Out-Null; Set-Content (Join-Path $d 'BUILD_SPEC.md') '# spec'
+    git -C $d init -q; git -C $d add -A; git -C $d -c user.email=t@t -c user.name=t commit -qm init; $heads[$n] = "$(git -C $d rev-parse HEAD)"
+}
+Set-Content (Join-Path $projects 'idle\REPORT.md') 'diagnosis only'; git -C (Join-Path $projects 'idle') add -A; git -C (Join-Path $projects 'idle') -c user.email=t@t -c user.name=t commit -qm report
+Set-Content (Join-Path $projects 'busy\app.py') 'x = 1'; git -C (Join-Path $projects 'busy') add -A; git -C (Join-Path $projects 'busy') -c user.email=t@t -c user.name=t commit -qm feature
+Set-Content $prioFile "## Priority order`n1. idle`n2. busy`n3. next1`n`n## Tonight`n`n### Claude`n`n### Codex`n- idle`n- busy`n`n### Hermes`n`n## Ready next`n- next1`n`n## Active`n`n## Backlog`n"
+$rows = @{ idle = @{ Note = '' }; busy = @{ Note = '' } }; $pipelineMoves = New-Object System.Collections.ArrayList
+Move-Stalled 'idle' $rows.idle; Move-Stalled 'busy' $rows.busy
+$st = Read-Pipeline; $fill = Get-Backfill 'codex'
+$ErrorActionPreference = 'Stop'
+Remove-Item -Recurse -Force $projects
+Check 'stalled: a lane project with only bookkeeping commits goes to Active' $st.Where.idle 'active'
+Check 'stalled: one with real work keeps its lane' $st.Where.busy 'codex'
+Check 'stalled: the next rank takes the freed lane' $fill.Name 'next1'
 
 if ($failed) { exit 1 }

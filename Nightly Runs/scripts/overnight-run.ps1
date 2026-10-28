@@ -965,6 +965,17 @@ function Get-Backfill($harness) {
     }
 }
 
+# A lane project its planner left with nothing to build, that made no real commit all night (only REPORT, PROGRESS or
+# DECISIONS), goes to Active, so the next rank takes its lane tonight and the prep readies it for the next run (owner,
+# 2026-10-28: paper-logbook held a lane for two bookkeeping commits). The owner moves it back to a lane on the board.
+function Move-Stalled($name, $row) {
+    if (Test-Progress (Join-Path $projects $name) $heads[$name]) { return }
+    if (-not (Move-ProjectLine $name 'active')) { return }
+    $row.Note += "stalled: no real work tonight; moved to Active. "
+    [void]$pipelineMoves.Add("$((Get-Date).ToString('HH:mm')) $name to Active (stalled: no real work tonight)")
+    Write-Decision $name 'stalled: no real work tonight, moved to Active'
+}
+
 # Hand a lane to the next overnight-ready project for the rest of the run (its row, HEAD and tamper baseline as at start).
 function Start-Backfill($row, $harness, $from) {
     if (($deadline - (Get-Date)).TotalSeconds -lt $minSession) { return }
@@ -1039,7 +1050,8 @@ function Get-LaneStates {
         if ($lanes[$name]) { continue }
         $note = "$($rows[$name].Note)"
         $went = $(if ($note -match 'lane went to ([A-Za-z0-9._-]+)') { "; its lane went to $($Matches[1])" } else { '' })
-        $lanes[$name] = @{ state = 'finished'; why = $(if ($note -match 'moved to Active') { "built (only owner steps left), moved to Active$went" }
+        $lanes[$name] = @{ state = 'finished'; why = $(if ($note -match 'stalled: no real work') { "stalled: no real work tonight, moved to Active$went" }
+            elseif ($note -match 'moved to Active') { "built (only owner steps left), moved to Active$went" }
             elseif ($note -match 'planner made no new slice') { "its planner made no new slice$went" }
             elseif ($note -match 'could not make it overnight-ready') { "could not be made overnight-ready$went" }
             elseif ($note -match 'no buildable node left') { "nothing left to build outside owner-only steps$went" }
@@ -1271,7 +1283,7 @@ while ($pending.Count -or $running.Count) {
                 elseif ($r.Action -ne 'advance') { $row.Note += "$($r.Action) made no commit on $($r.Spec); building on the current target. "; [void]$pending.Add($r.Q) }
                 else {
                     if ((Test-Built $dir) -and (Move-ProjectLine $name 'active')) { $row.Note += "built: only owner steps left; moved to Active. "; [void]$pipelineMoves.Add("$((Get-Date).ToString('HH:mm')) $name to Active (built)") }
-                    else { $row.Note += "its planner made no new slice on $($r.Spec) (see $name.advance.txt). " }
+                    else { $row.Note += "its planner made no new slice on $($r.Spec) (see $name.advance.txt). "; Move-Stalled $name $row }
                     Start-Backfill $row $r.Q.Harness $name
                 }
                 continue
@@ -1310,7 +1322,7 @@ while ($pending.Count -or $running.Count) {
             # real work between them, the lane moves to the next overnight-ready project.
             elseif ([int]$advances[$name] -lt 2 -and (Start-SliceQa $own)) { Write-Decision $name 'target done: QA of the slice, then planning' }
             elseif ([int]$advances[$name] -lt 2) { Write-Decision $name 'target done: planning the next slices'; Start-Advance $own }
-            else { $row.Note += "two advances in a row brought no real work. "; Write-Decision $name 'two advances brought no real work: lane goes to the next project'; Start-Backfill $row $own.Harness $name }
+            else { $row.Note += "two advances in a row brought no real work. "; Write-Decision $name 'two advances brought no real work: lane goes to the next project'; Move-Stalled $name $row; Start-Backfill $row $own.Harness $name }
         }
     }
 }
