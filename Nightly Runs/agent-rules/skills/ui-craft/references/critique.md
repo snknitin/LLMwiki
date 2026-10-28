@@ -38,7 +38,7 @@ Mark each Blocker / Major / Minor. A Blocker stops "done".
 | 15 | Real content: no lorem, "Item 1", ISO dates, raw ids, JSON, server addresses, broken plurals or mojibake | "Habit 1–4"; "1 approved claims"; "5?8 min" |
 | 16 | Phone: nothing clipped, 44px targets, one scroll direction, actions in thumb reach | Nav cut to "Da…"; popover off-screen |
 | 17 | Shell: same header, nav, tokens and finish as the app's other screens | A secondary screen that drops the app shell |
-| 18 | Identity: passes the swap and name tests; not one of the AI tells below | Indistinguishable from a template |
+| 18 | Identity: passes the swap and name tests, serves the two values its domain rewards ([domains.md](domains.md)), not one of the AI tells below | A look that would fit any app; a finance app styled like a habit diary |
 | 19 | Native controls styled; nothing browser-default | Default file input or select |
 | 20 | Motion: answers actions, short, ease-out, reduced-motion safe | Fade-up on every section; linear easing |
 

@@ -1,6 +1,6 @@
 # Directions: where concepts come from
 
-Use in Direction mode. A direction is a **structure from the subject's world** that decides the layout, plus the palette, type and texture that world implies. Pick from different families for different options; check the ledger first.
+Use in Direction mode, after the domain read in [domains.md](domains.md). A direction is a **structure from the subject's world** that decides the layout, plus the palette, type and texture that world implies. The domain says what the design must serve; the family says how it looks. Pick from different families for different options; check the ledger first.
 
 ## The look ledger (check before choosing)
 
