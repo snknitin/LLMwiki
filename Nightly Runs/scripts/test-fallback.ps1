@@ -3,7 +3,7 @@
 # Usage: powershell -NoProfile -ExecutionPolicy Bypass -File test-fallback.ps1
 $ErrorActionPreference = 'Stop'
 $ast = [System.Management.Automation.Language.Parser]::ParseFile((Join-Path $PSScriptRoot 'overnight-run.ps1'), [ref]$null, [ref]$null)
-$ast.FindAll({ param($n) $n -is [System.Management.Automation.Language.FunctionDefinitionAst] -and $n.Name -in 'Test-Parked', 'Get-SessionHarness', 'Save-RunState', 'Test-Leftover', 'Get-Backfill', 'Get-AdvanceSpec', 'Test-CachedPass', 'Get-LaneStates', 'Read-Pipeline', 'Move-ProjectLine', 'Get-LaneFor', 'Sync-Pipeline', 'Test-Built', 'Get-RunSet', 'Test-NetError', 'Test-OpenDirection', 'Set-PreviewPorts', 'Test-SharedQwen', 'Test-LimitHit', 'Get-LimitReset', 'Complete-Run', 'Complete-QaJob', 'Set-Qa', 'Format-Qa', 'Get-QaFromReport', 'Get-Upkeep', 'Get-MissingStructure', 'Move-Stalled', 'Test-Progress', 'Write-Decision' }, $true) |
+$ast.FindAll({ param($n) $n -is [System.Management.Automation.Language.FunctionDefinitionAst] -and $n.Name -in 'Test-Parked', 'Get-SessionHarness', 'Save-RunState', 'Test-Leftover', 'Get-Backfill', 'Get-AdvanceSpec', 'Test-CachedPass', 'Get-LaneStates', 'Read-Pipeline', 'Move-ProjectLine', 'Get-LaneFor', 'Sync-Pipeline', 'Test-Built', 'Get-RunSet', 'Test-NetError', 'Test-OpenDirection', 'Set-PreviewPorts', 'Test-SharedQwen', 'Test-LimitHit', 'Get-LimitReset', 'Complete-Run', 'Complete-QaJob', 'Set-Qa', 'Format-Qa', 'Get-QaFromReport', 'Get-Upkeep', 'Get-MissingStructure', 'Move-Stalled', 'Test-Progress', 'Write-Decision', 'Test-ToolMissing' }, $true) |
     ForEach-Object { . ([scriptblock]::Create($_.Extent.Text)) }
 $failed = 0
 function Check($what, $got, $want) { if ("$got" -ne "$want") { Write-Output "FAIL $what`: got '$got', want '$want'"; $script:failed++ } else { Write-Output "ok   $what" } }
@@ -279,6 +279,8 @@ Set-Content (Join-Path $projects 'idle\REPORT.md') 'diagnosis only'; git -C (Joi
 Set-Content (Join-Path $projects 'busy\app.py') 'x = 1'; git -C (Join-Path $projects 'busy') add -A; git -C (Join-Path $projects 'busy') -c user.email=t@t -c user.name=t commit -qm feature
 Set-Content $prioFile "## Priority order`n1. idle`n2. busy`n3. next1`n`n## Tonight`n`n### Claude`n`n### Codex`n- idle`n- busy`n`n### Hermes`n`n## Ready next`n- next1`n`n## Active`n`n## Backlog`n"
 $rows = @{ idle = @{ Note = '' }; busy = @{ Note = '' } }; $pipelineMoves = New-Object System.Collections.ArrayList
+$sessions = @{ idle = 2; busy = 3 }   # next1 only just joined: no session yet
+Move-Stalled 'next1' @{ Note = '' }; $joined = (Read-Pipeline).Where.next1
 Move-Stalled 'idle' $rows.idle; Move-Stalled 'busy' $rows.busy
 $st = Read-Pipeline; $fill = Get-Backfill 'codex'
 $ErrorActionPreference = 'Stop'
@@ -286,6 +288,9 @@ Remove-Item -Recurse -Force $projects
 Check 'stalled: a lane project with only bookkeeping commits goes to Active' $st.Where.idle 'active'
 Check 'stalled: one with real work keeps its lane' $st.Where.busy 'codex'
 Check 'stalled: the next rank takes the freed lane' $fill.Name 'next1'
+Check 'stalled: never a project that only just joined (2026-10-28 cascade)' $joined 'ready'
+Check 'tool: a CLI that would not start is not nothing-to-do' (Test-ToolMissing "& : The term 'C:\x\claude.exe' is not recognized as the name of a cmdlet, function") 'True'
+Check 'tool: ordinary output is not' (Test-ToolMissing 'Slice 3 planned.') 'False'
 
 # A Hermes model can carry the board's effort ("<model>-<effort>"); the planner keeps it (owner, 2026-10-28).
 $limitUntil = @{}; $noSpark = @{}

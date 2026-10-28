@@ -73,6 +73,8 @@ $projects      = $(if ($env:OVERNIGHT_PROJECTS) { $env:OVERNIGHT_PROJECTS } else
 $sparkProjects = $(if ($env:OVERNIGHT_SPARK_PROJECTS) { $env:OVERNIGHT_SPARK_PROJECTS } else { '/home/snknitin/Workspace/GIT_ROOT/Projects' })
 if ($sparkProjects -notmatch '^/[A-Za-z0-9/._-]+$') { throw 'Invalid Spark project root' }
 $ssh           = "$env:WINDIR\System32\OpenSSH\ssh.exe"
+# No Claude self-update mid-run: one at 21:36 on 2026-10-28 left claude.exe missing and every later Claude call failed.
+$env:DISABLE_AUTOUPDATER = '1'
 $prioFile      = Join-Path $vault 'Nightly Runs\Project Priorities.md'
 $preflightMd   = Join-Path $vault 'Nightly Runs\Preflight.md'
 $prompt        = Get-Content (Join-Path $vault 'Nightly Runs\agent-rules\overnight-prompt.md') -Raw -Encoding UTF8
@@ -840,6 +842,8 @@ function Test-Online($harness) {
 # (2026-10-26: Codex's weekly limit went unnoticed and its lanes were closed as "no work left").
 $limitHit = "(?i)you\W{0,6}ve hit your (?:session |usage |weekly |daily )?limit|chatgpt\.com/settings/usage|claude ai usage limit reached|usage limit reached|rate_limit_exceeded|insufficient_quota"
 function Test-LimitHit($text) { $t = "$text"; return $t.Substring([Math]::Max(0, $t.Length - 1500)) -match $limitHit }
+# The tool itself would not start (a broken install or PATH): the work never ran, so it is never "nothing to do".
+function Test-ToolMissing($text) { $t = "$text"; return $t.Substring([Math]::Max(0, $t.Length - 1500)) -match '(?i)is not recognized as the name of a cmdlet|CommandNotFoundException|: command not found' }
 # The same for a dropped connection: only at the end of the output, where the tool reports it as it stops (2026-10-25:
 # paper-logbook's own text "calendar/plan fetch failed" restarted it every few minutes).
 function Test-NetError($text) { $t = "$text"; return $t.Substring([Math]::Max(0, $t.Length - 1500)) -match $netError }
@@ -972,6 +976,7 @@ function Get-Backfill($harness) {
 # DECISIONS), goes to Active, so the next rank takes its lane tonight and the prep readies it for the next run (owner,
 # 2026-10-28: paper-logbook held a lane for two bookkeeping commits). The owner moves it back to a lane on the board.
 function Move-Stalled($name, $row) {
+    if (-not [int]$sessions[$name]) { return }   # never a project that only just joined a lane: it has not built anything yet
     if (Test-Progress (Join-Path $projects $name) $heads[$name]) { return }
     if (-not (Move-ProjectLine $name 'active')) { return }
     $row.Note += "stalled: no real work tonight; moved to Active. "
@@ -1274,11 +1279,14 @@ while ($pending.Count -or $running.Count) {
                 if (Test-Progress $dir $r.Head) { $row.Note += "$(if ($r.Action -eq 'advance') { 'advanced to its next slices' } else { "$($r.Action) done" }) at $((Get-Date).ToString('HH:mm')) on $($r.Spec). "; [void]$pending.Add($r.Q) }
                 # A usage limit means the planner never ran, even when another session parked that model first (2026-10-26:
                 # creator-content-engine and event-market-research-terminal lost the night to "no new slice" this way).
-                elseif ($fam -ne 'hermes' -and (Test-LimitHit $atext) -and [int]$planLimits[$name] -lt 4) {
+                # A tool that would not start is parked for 30 min the same way (2026-10-28: a broken claude.exe at 21:36
+                # sent five Ready next projects to Active in 30 seconds).
+                elseif ($fam -ne 'hermes' -and ((Test-LimitHit $atext) -or (Test-ToolMissing $atext)) -and [int]$planLimits[$name] -lt 4) {
                     $planLimits[$name] = 1 + [int]$planLimits[$name]
-                    if (-not (Test-Parked $fam)) { $limitUntil[$fam] = Get-LimitReset $atext; Save-RunState }
-                    Write-Decision $name "$fam usage limit while planning: planning again on the next free model"
-                    $row.Note += "$fam usage limit while planning at $((Get-Date).ToString('HH:mm')); planning again on the next free model. "
+                    $why = $(if (Test-ToolMissing $atext) { "$fam would not start" } else { "$fam usage limit" })
+                    if (-not (Test-Parked $fam)) { $limitUntil[$fam] = $(if (Test-ToolMissing $atext) { (Get-Date).AddMinutes(30) } else { Get-LimitReset $atext }); Save-RunState }
+                    Write-Decision $name "$why while planning: planning again on the next free model"
+                    $row.Note += "$why while planning at $((Get-Date).ToString('HH:mm')); planning again on the next free model. "
                     if ($r.Action -eq 'advance') { $advances[$name] = [int]$advances[$name] - 1 }   # that one never ran
                     Start-Advance $r.Q $r.Action $r.Why
                 }
@@ -1310,6 +1318,7 @@ while ($pending.Count -or $running.Count) {
             if ($progress) { $advances[$name] = 0; [void]$pending.Add($own); Write-Decision $name 'real work committed: next builder session' }   # real work resets the advance count
             elseif ($sparkBusy) { $notBefore[$name] = (Get-Date).AddMinutes(5); [void]$pending.Add($own); Write-Decision $name 'FirstSpark still busy in this repo: tried again in 5 minutes' }
             elseif ($r.Q.Harness -ne 'hermes' -and (Test-LimitHit $text)) { [void]$pending.Add($own); Write-Decision $name "usage limit: waits for $($r.Q.Harness)'s reset or another harness" }
+            elseif ($r.Q.Harness -ne 'hermes' -and (Test-ToolMissing $text)) { $limitUntil[$r.Q.Harness] = (Get-Date).AddMinutes(30); Save-RunState; [void]$pending.Add($own); $row.Note += "$($r.Q.Harness) would not start at $((Get-Date).ToString('HH:mm')); parked 30 min, its sessions run on the fallback. "; Write-Decision $name "$($r.Q.Harness) would not start: parked 30 min, next session on the fallback" }
             elseif (-not $quiet -and (Test-NetError $text)) {
                 $waitNet[$name] = $true; if ("$text" -match 'SPARK_BUSY') { $notBefore[$name] = (Get-Date).AddMinutes(5) }
                 $row.Note += "connection lost at $((Get-Date).ToString('HH:mm')), retried when back. "; [void]$pending.Add($own); Write-Decision $name 'connection lost: retried when back'
