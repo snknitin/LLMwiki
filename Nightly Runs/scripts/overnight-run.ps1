@@ -565,6 +565,24 @@ if ($recordPrep) {
     Save-PrepReceipt 'running' @() @() 'Checking current targets before local preparation'
 }
 $prepWork = @($upkeep | Where-Object { $_.Action -ne 'owner' })
+# The runner's own final verify per project, by commit (Nightly Runs/.verify-cache.json): a project whose target passed at
+# the commit it is still on starts with its advance, instead of a builder session that would only find nothing to do.
+$verifyCacheFile = Join-Path $vault 'Nightly Runs\.verify-cache.json'
+$verifyCache = @{}
+try { (Get-Content $verifyCacheFile -Raw -ErrorAction Stop | ConvertFrom-Json).PSObject.Properties | ForEach-Object { $verifyCache[$_.Name] = $_.Value } } catch { }
+function Test-CachedPass($name, $dir) {
+    $c = $verifyCache[$name]
+    return [bool]($c -and $c.verify -eq 'PASS' -and $c.head -and "$(git -C $dir rev-parse HEAD 2>$null)" -eq $c.head -and -not (git -C $dir status --porcelain 2>$null))
+}
+# Planning moves to prep (owner, 2026-10-28): each lane project whose target already passed at its commit gets its
+# advance now, so the gates and questions of its next slices reach the owner before the run, not after 21:00. The run
+# then finds a new commit and starts with a builder session; one prep did not reach still plans as its first step.
+if ($PrepOnly) {
+    foreach ($q in $queue) {
+        if (@($prepWork | Where-Object { $_.Project -eq $q.Name }) -or -not (Test-CachedPass $q.Name (Join-Path $projects $q.Name))) { continue }
+        $prepWork += [pscustomobject]@{ Project = $q.Name; Action = 'advance'; Why = "its target passed verify at this commit ($($verifyCache[$q.Name].at)); plan the next slices now and ask their owner questions" }
+    }
+}
 # A real run never waits on a serial prep: each tonight project's item becomes its lane's first step, on the lane's own model,
 # all lanes at once (2026-10-25: a serial prep kept every lane idle for over two hours). The scheduled prep and Prep now
 # (-PrepOnly) still prep everything, tonight projects included, so a prepped project starts building at once.
@@ -914,15 +932,6 @@ function Start-Advance($q, $action = 'advance', $why = "tonight's target passed 
     $running[$job.Id] = @{ Job = $job; Q = $q; Start = $now; Head = (git -C $dir rev-parse HEAD 2>$null); Advance = $true; Action = $action; Why = $why; Spec = $spec; PidFile = "$log.pid" }
 }
 
-# The runner's own final verify per project, by commit (Nightly Runs/.verify-cache.json): a project whose target passed at
-# the commit it is still on starts with its advance, instead of a builder session that would only find nothing to do.
-$verifyCacheFile = Join-Path $vault 'Nightly Runs\.verify-cache.json'
-$verifyCache = @{}
-try { (Get-Content $verifyCacheFile -Raw -ErrorAction Stop | ConvertFrom-Json).PSObject.Properties | ForEach-Object { $verifyCache[$_.Name] = $_.Value } } catch { }
-function Test-CachedPass($name, $dir) {
-    $c = $verifyCache[$name]
-    return [bool]($c -and $c.verify -eq 'PASS' -and $c.head -and "$(git -C $dir rev-parse HEAD 2>$null)" -eq $c.head -and -not (git -C $dir status --porcelain 2>$null))
-}
 # A lane's first step: its prep item (make-overnight-ready, mvp, build-tree, structure), or its advance when its target
 # already passed at this commit; none means a builder session.
 function Set-FirstStep($q) {
