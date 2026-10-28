@@ -33,8 +33,20 @@ When this skill and another design skill disagree, this one wins (the reasons ar
 | New app, new screen, "give me options", a Design-tab job | **Direction** | [domains.md](references/domains.md), the brief below, [directions.md](references/directions.md) |
 | Implement a screen or a picked mockup | **Build** | [craft.md](references/craft.md), then [app-screens.md](references/app-screens.md) or [pages.md](references/pages.md) |
 | Existing UI, "review", "roast", "looks generic", or no change named | **Roast** (never Build) | [critique.md](references/critique.md) |
+| "Redesign this screen", "give me better options" for a live app, in one chat | **Redesign** | the section below |
 | Add a tab or view to an existing app | **Fit** | [app-screens.md § Adding a view](references/app-screens.md#adding-a-view-to-an-existing-app) |
 | Charts, tables, KPIs | **Data** | [app-screens.md § Data](references/app-screens.md#data-picks-the-component) |
+
+## Redesign in one session
+
+For a live app in a single chat (any harness, no Agents board). Stop where marked and wait for the owner; never build before a pick.
+
+1. **Roast the live screen.** Start the app (its `scripts/preview.*` or dev server on a temp port), screenshot the screen at 1440 and 390 with real data, run [critique.md](references/critique.md), and report the score on the 2/6/8/10 ladder with the Blockers in one Before | After | Why table.
+2. **Read the domain** ([domains.md](references/domains.md)) and the look ledger. Write the Domain line.
+3. **Make 3 options**, each from a different family and each with its own full brief, built as one self-contained static HTML mockup with the screen's real content: `design/variants/<screen>/<YYYY-MM-DD>/<a|b|c>.html`. Do not copy the live layout; options are original concepts. Screenshot each at 1440 and 390 beside it, look, fix the worst problem once.
+4. **Judge and recommend.** Score each option and the live screen on the critique checklist and on the domain's two values; show a table (option, idea, score, best thing, weakest thing) and recommend one. Then **stop** and ask the owner to pick, combine ("layout of B, palette of A") or ask for another round.
+5. **Combine** if asked: one new mockup letter `d` from the named parts, same checks, then stop again.
+6. **Build the pick** into the app (Build mode): tokens first, then the screen, then its sibling screens' shell; run verify; screenshot; roast again until no Blocker remains; update DESIGN.md (Identity = the picked brief, Kit = tokens and components); commit.
 
 ## The brief
 
