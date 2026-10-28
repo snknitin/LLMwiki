@@ -3,7 +3,7 @@
 # Usage: powershell -NoProfile -ExecutionPolicy Bypass -File test-fallback.ps1
 $ErrorActionPreference = 'Stop'
 $ast = [System.Management.Automation.Language.Parser]::ParseFile((Join-Path $PSScriptRoot 'overnight-run.ps1'), [ref]$null, [ref]$null)
-$ast.FindAll({ param($n) $n -is [System.Management.Automation.Language.FunctionDefinitionAst] -and $n.Name -in 'Test-Parked', 'Get-SessionHarness', 'Save-RunState', 'Test-Leftover', 'Get-Backfill', 'Get-AdvanceSpec', 'Test-CachedPass', 'Get-LaneStates', 'Read-Pipeline', 'Move-ProjectLine', 'Get-LaneFor', 'Sync-Pipeline', 'Test-Built', 'Get-RunSet', 'Test-NetError', 'Test-OpenDirection', 'Set-PreviewPorts', 'Test-SharedQwen', 'Test-LimitHit', 'Get-LimitReset', 'Complete-Run', 'Complete-QaJob', 'Set-Qa', 'Format-Qa', 'Get-QaFromReport', 'Get-Upkeep', 'Get-MissingStructure', 'Move-Stalled', 'Test-Progress', 'Write-Decision', 'Test-ToolMissing', 'Test-TreeBuilt', 'Get-LockHolder' }, $true) |
+$ast.FindAll({ param($n) $n -is [System.Management.Automation.Language.FunctionDefinitionAst] -and $n.Name -in 'Test-Parked', 'Get-SessionHarness', 'Save-RunState', 'Test-Leftover', 'Get-Backfill', 'Get-AdvanceSpec', 'Test-CachedPass', 'Get-LaneStates', 'Read-Pipeline', 'Move-ProjectLine', 'Get-LaneFor', 'Sync-Pipeline', 'Test-Built', 'Get-RunSet', 'Test-NetError', 'Test-OpenDirection', 'Set-PreviewPorts', 'Test-SharedQwen', 'Test-LimitHit', 'Get-LimitReset', 'Complete-Run', 'Complete-QaJob', 'Set-Qa', 'Format-Qa', 'Get-QaFromReport', 'Get-Upkeep', 'Get-MissingStructure', 'Move-Stalled', 'Test-Progress', 'Write-Decision', 'Test-ToolMissing', 'Test-TreeBuilt', 'Get-LockHolder', 'Get-UnverifiedActive' }, $true) |
     ForEach-Object { . ([scriptblock]::Create($_.Extent.Text)) }
 $failed = 0
 function Check($what, $got, $want) { if ("$got" -ne "$want") { Write-Output "FAIL $what`: got '$got', want '$want'"; $script:failed++ } else { Write-Output "ok   $what" } }
@@ -328,5 +328,14 @@ Stop-Process -Id $other.Id -Force; Start-Sleep -Milliseconds 300
 @{ pid = $other.Id; started = 'x' } | ConvertTo-Json -Compress | Set-Content $runLock
 Check 'lock: a dead runner does not' ([string](Get-LockHolder)) ''
 Remove-Item $runLock
+
+# Active projects with a preview that no recent run verified get verified at the end of a run (their DCC tab needs it).
+$projects = Join-Path ([IO.Path]::GetTempPath()) "unverified-$PID"; $prioFile = Join-Path $projects 'prio.md'
+foreach ($n in 'shown', 'fresh', 'noprev') { New-Item -ItemType Directory -Force (Join-Path $projects "$n\scripts") | Out-Null; Set-Content (Join-Path $projects "$n\scripts\verify.ps1") 'exit 0' }
+foreach ($n in 'shown', 'fresh') { Set-Content (Join-Path $projects "$n\scripts\preview.ps1") '# preview' }
+New-Item -ItemType Directory -Force (Join-Path $projects '.overnight-logs\2026-10-28_2100') | Out-Null; Set-Content (Join-Path $projects '.overnight-logs\2026-10-28_2100\shown.verify.txt') 'MVP FLOW OK'
+Set-Content $prioFile "## Tonight`n`n### Claude`n`n### Codex`n`n### Hermes`n`n## Active`n- shown`n- fresh`n- noprev`n`n## Backlog`n"
+Check 'unverified: only the Active project with a preview and no recent verify' ((Get-UnverifiedActive) -join ',') 'fresh'
+Remove-Item -Recurse -Force $projects
 
 if ($failed) { exit 1 }

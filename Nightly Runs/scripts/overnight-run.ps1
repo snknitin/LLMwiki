@@ -1502,7 +1502,18 @@ while ($qaQueue.Count -or $qaRunning.Count) {
 # Independent gate: the runner's own verify and git check, not the agent's claim. The verify runs go three at a time
 # (it took 40 min one by one on 2026-10-25); a FAIL is run again alone before it counts, so two projects' verify runs
 # can never fail each other.
+# Active projects with a preview that no recent run verified get one verify here, so the board can give them their
+# Dashboard Command Center tab (it reads the newest of the last 40 runs' <name>.verify.txt; 2026-10-29: four built
+# projects had no tab because nothing ever verified them after they reached Active).
+function Get-UnverifiedActive {
+    $runs = @(foreach ($r in 'overnight-logs', 'morning-logs') { Get-ChildItem (Join-Path $projects ".$r") -Directory -ErrorAction SilentlyContinue }) | Sort-Object Name -Descending | Select-Object -First 40
+    $st = Read-Pipeline
+    @($st.Where.Keys | Where-Object { $st.Where[$_] -eq 'active' } | Sort-Object | Where-Object {
+        $n = $_; (Test-Path (Join-Path $projects "$n\scripts\preview.ps1")) -and (Test-Path (Join-Path $projects "$n\scripts\verify.ps1")) -and
+            -not @($runs | Where-Object { Test-Path (Join-Path $_.FullName "$n.verify.txt") }).Count })
+}
 $gateList = @($queue | Where-Object { Test-Path (Join-Path $projects "$($_.Name)\scripts\verify.ps1") })
+if (-not $DryRun -and -not $QaOnly) { $gateList += @(Get-UnverifiedActive | Where-Object { $_ -notin @($queue | ForEach-Object Name) } | ForEach-Object { [pscustomobject]@{ Name = $_ } }) }
 $gateDirty = @{}; $gateCode = @{}; $gateJobs = @{}
 foreach ($q in $gateList) { $gateDirty[$q.Name] = @(git -C (Join-Path $projects $q.Name) status --porcelain 2>$null) }
 foreach ($q in $gateList) {
@@ -1512,6 +1523,12 @@ foreach ($q in $gateList) {
 foreach ($n in @($gateJobs.Keys)) { $out = @(Receive-Job -Job $gateJobs[$n] -Wait 2>$null); $gateCode[$n] = $(if ($out.Count) { [int]$out[-1] } else { 1 }); Remove-Job $gateJobs[$n] -Force }
 foreach ($n in @($gateCode.Keys | Where-Object { $gateCode[$_] -ne 0 })) {
     & powershell -NoProfile -ExecutionPolicy Bypass -File (Join-Path $projects "$n\scripts\verify.ps1") *> (Join-Path $logDir "$n.verify.txt"); $gateCode[$n] = $LASTEXITCODE
+}
+# The Active projects verified only for their tab: put back what their verify re-took (tracked screenshots), nothing else.
+foreach ($q in @($gateList | Where-Object { $_.Name -notin @($queue | ForEach-Object Name) })) {
+    $dir = Join-Path $projects $q.Name
+    $byVerify = @(git -C $dir status --porcelain 2>$null | Where-Object { $_ -notin $gateDirty[$q.Name] -and $_ -match '^ M ' } | ForEach-Object { $_.Substring(3) })
+    if ($byVerify) { git -C $dir checkout -- $byVerify 2>$null }
 }
 foreach ($q in $queue) {
     $dir = Join-Path $projects $q.Name; $row = $rows[$q.Name]
