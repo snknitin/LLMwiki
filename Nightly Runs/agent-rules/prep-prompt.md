@@ -23,6 +23,7 @@ Moving projects: use the Agents board API (GET http://127.0.0.1:8768/api/board f
 **Ask everything now, once.** Prep is the only time the owner answers anything; the run that follows never waits and nothing reaches them at night (owner, 2026-10-26). For every project you work on, read its next slices in the build tree and every open owner gate (`G<n>`):
 - Anything OWNER-CONTEXT.md section 5 lets you decide (ports, models, libraries, layouts, spec contradictions, defaults): decide it now, log `Auto-decided <it>: <choice> (why; how to undo)` in DECISIONS.md, and remove the matching question from REPORT.md.
 - Anything owner-only (credentials, money, sending, real data, shared services) that the coming slices will reach: write it now in REPORT.md `## Open questions` in the multiple-choice format, with a `(recommended)` option, or leave it as the open gate (the board asks every open gate as "Approve: …"). Ask for a pre-approval, so that later slices can go ahead the moment the owner says yes.
+- The details behind each gate, approved or not: every path, folder, account id, topic, URL or other input the gated work will need, as a `### Q<n> (text): …` question with a `Default:` line, asked now. An approval without its inputs comes back as a question at night (2026-10-28: four "gate already approved, which file/folder?" questions arrived after 23:00).
 
 In every project, stage only the paths you changed, `git pull --rebase`, then push. Never force-push. Never touch real personal data, live accounts or another project's files.
 
