@@ -21,15 +21,21 @@ The one list that decides what agents work on. Edit freely: reorder lines, move 
 ### Claude
 - creator-content-engine — Human-led content OS for one creator · includes merged: build-in-public-autoposter, my-agent-posts-about-me, x-profile-autopsy, personal-voice-ghostwriter-and-dm-desk, social-subscription-curator, longform-to-shorts-studio, auto-gtm-engine
 - event-market-research-terminal — A research-only terminal for event markets and crypto narratives · includes merged: edge-desk
+- field-pokedex — An Expo mobile app that identifies likely plant species from a photo via a hosted identificatio
 
 ### Codex
-- finance-signals-dashboard @codex:sol-6-high — A read-only, local-first personal dashboard that ranks a ten-instrument India/US watchlist by " · includes merged: market-mood-cards (Morning tab)
 - event-networking-copilot — A phone-first event companion
-- marionettist-utopia — A private synthetic-society sandbox
+- demand-generation-workbench — A local experiment ledger and dashboard for demand discovery · includes merged: conversion-list-builder
+- meta-ad-creative-studio — A local creative workbench that turns one product's evidence, audience, offer, and brand system · includes merged: paid-ad-account-audit
+- finance-signals-dashboard @codex:sol-6-high — A read-only, local-first personal dashboard that ranks a ten-instrument India/US watchlist by " · includes merged: market-mood-cards (Morning tab)
+- paper-logbook @codex:sol-6-high — An offline-first, paper-like daily/monthly notebook · includes merged: brainrot-rehab, measure-life, npc-mode-personal-coach (NPC Mode tab)
+- customer-support-agency — Local-first analysis app · includes merged: google-review-reply-desk, support-faq-builder, knowledge-base-agency
+- bionic-reading-trainer — T1–T2: SvelteKit reader, emphasis + scroll/RSVP/chunk modes, screenshots
 
 ### Hermes
 - expert-lens-skill — A FirstSpark dashboard for topic Markdown + GLM chat: Expert Lens, Batman Prep (with goal planner), Rabbit Hole, Research (Claim Check), Experiments (Brain Blast) · includes merged: batman-prep-time-skill, goal-to-calendar-planner, rabbit-hole-speedrun, physics-claim-debunker-skill, brain-blast-skill
 - motto-agent-council — first slice (local small-agent council)
+- personal-library-website — A static, book-led personal website · includes merged: epub-highlights-bridge, giftshelf
 - daily-parent-check-in — Consent-first local app that sends one daily check-in prompt to a parent (via a simulated inbox
 - leetcode-pattern-curriculum — T1 + T3: lcpc predict/attempt/hint loop, two-pointers module (verify.sh on Linux)
 
@@ -118,14 +124,13 @@ Tiers P0–P5, highest first; ranks count straight through. In the Agents board,
 69. yugioh-rl-lab
 
 ## Ready next (overnight-ready, not queued)
-- personal-library-website — A static, book-led personal website · includes merged: epub-highlights-bridge, giftshelf
-- ambient-tv — A lean-back channel guide for the owner's own Jellyfin library
-- demand-generation-workbench — A local experiment ledger and dashboard for demand discovery · includes merged: conversion-list-builder
-- visual-recipe-book — A local-first PWA + Python service that captures recipes (URL, paste, image), compiles them int
-- meta-ad-creative-studio — A local creative workbench that turns one product's evidence, audience, offer, and brand system · includes merged: paid-ad-account-audit
+- moving-out-marketplace — A deadline-first local marketplace where one move-out becomes a temporary storefront · includes merged: price-my-room
+- local-video-generation-evaluation-lab — A reproducible CLI benchmark harness answering one question
+- handwriting-to-latex — A local desktop hotkey utility
+- neural-fractal-visualizer — A deterministic audio-reactive visualizer
+- dies-at-user-50 — An authorized synthetic-user gauntlet
 
 ## Active (built; daytime feedback and iteration)
-- paper-logbook @codex:sol-6-high — An offline-first, paper-like daily/monthly notebook · includes merged: brainrot-rehab, measure-life, npc-mode-personal-coach (NPC Mode tab)
 - resume-blueprint-studio @codex:sol-6-1-high — first slice (its branch is codex/specification)
 - mock-interview-gauntlet @codex:sol-6-high — first slice
 - dashboard-command-center — 48 commits — A Windows-first, browser-chrome-free Electron operations shell for the owner's private dashboar
@@ -147,8 +152,9 @@ Tiers P0–P5, highest first; ranks count straight through. In the Agents board,
 - competitive-intelligence-agency — A recurring, local-first monitoring pipeline · includes merged: b2b-competitor-battlecard
 - quiz-master — A local quiz-authoring studio that learns structural patterns from the owner's private K-Circle · includes merged: quiz-poker
 - jobs-search-and-apply-tool — A private, Windows-localhost career operations console for one job seeker · includes merged: am-i-underpaid
-- customer-support-agency — Local-first analysis app · includes merged: google-review-reply-desk, support-faq-builder, knowledge-base-agency
-- bionic-reading-trainer — T1–T2: SvelteKit reader, emphasis + scroll/RSVP/chunk modes, screenshots
+- marionettist-utopia — A private synthetic-society sandbox
+- ambient-tv — A lean-back channel guide for the owner's own Jellyfin library
+- visual-recipe-book — A local-first PWA + Python service that captures recipes (URL, paste, image), compiles them int
 
 ## Backlog (BUILD_SPEC written, not set up for overnight yet)
 - adaptive-vision-glasses — A phone-based electronic magnifier for specific near/far tasks (reading labels, whiteboards, me
@@ -158,23 +164,16 @@ Tiers P0–P5, highest first; ranks count straight through. In the Agents board,
 - community-ops-agency — A human-supervised operations desk for one community
 - commute-copilot — A local route-specific departure checker for one saved commute
 - deal-desk-agency — Local web app that turns messy sales notes plus a service catalog and rate card into a linked, 
-- dies-at-user-50 — An authorized synthetic-user gauntlet
 - drone-mission-mapper — Simulation-first mission planner
 - event-ops-agency — A local Next.js app that turns an event brief plus working spreadsheets (CSV) into a deadline-a · includes merged: ai-event-matchmaker
 - feedback-mirror — A privacy-first, on-device daily appearance journal
-- field-pokedex — An Expo mobile app that identifies likely plant species from a photo via a hosted identificatio
 - finance-ops-agency — A local finance-operations desk for a freelancer · includes merged: invoice-chaser-agent, tax-packet-autopilot
 - flex-card-forge — A local Next.js app that turns opt-in GitHub stats plus pasted Strava/Chess.com exports into a 
-- handwriting-to-latex — A local desktop hotkey utility
 - inbox-zero-mercenary — A reversible email triage desk
 - landing-page-conversion-agency — A local CRO workbench that audits a user-OWNED landing page · includes merged: roast-my-landing-page, shopify-product-page-optimizer
 - live-chess-tutor — A local desktop chess board for guided practice
-- local-video-generation-evaluation-lab — A reproducible CLI benchmark harness answering one question
-- maintainer-desk — A supervised operations desk for one GitHub repository · includes merged: pr-factory
 - manga-to-animatic-studio — A local previsualization studio that turns user-supplied sequential art (original/public-domain
-- moving-out-marketplace — A deadline-first local marketplace where one move-out becomes a temporary storefront · includes merged: price-my-room
 - murder-mystery-game-master — A deterministic party-game engine for 45–90 minute murder mysteries on a local LAN
-- neural-fractal-visualizer — A deterministic audio-reactive visualizer
 - on-call-autopilot — A supervised incident investigator that replays a frozen telemetry bundle from a synthetic brok
 - phonescan-pdf — A local-first document scanner
 - playo-elo-sports-network — A local sports matchmaker for one invite-only group
@@ -184,12 +183,13 @@ Tiers P0–P5, highest first; ranks count straight through. In the Agents board,
 - scam-radar — A local evidence dashboard that analyzes a pasted gig/job post, URL, email header set, or redac
 - seo-agency-crew — A local, evidence-led editorial workbench for an owned site
 - song-phrase-mosaic — A local desktop tool that indexes a folder of user-owned recordings, transcribes them with word
-- taxonomy-cluster-explorer — A local-first dual-view explorer
 - tiny-model-game-lab — A reproducible local research lab that measures where capability comes from when a 135M–270M 
 - user-research-agency — A consent-first local research desk for one researcher
 - visual-token-compiler — A local benchmark-driven compiler
 - wedding-gallery-concierge — A photographer-controlled, event-scoped photo search service
 - yugioh-rl-lab — A reproducible card-battler RL laboratory built on an original small rules engine (40–100 car
+- maintainer-desk — A supervised operations desk for one GitHub repository · includes merged: pr-factory
+- taxonomy-cluster-explorer — A local-first dual-view explorer
 
 ## Archived (out of consideration)
 - agent-reach — 375 commits — Agent Reach is a Python CLI + capability layer that gives any shell-capable AI agent (Claude Co
