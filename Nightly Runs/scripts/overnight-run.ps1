@@ -353,10 +353,15 @@ function Get-Upkeep($queue) {
         if ($section -match '^(Active|Archived)' -and $line -match '^\s*-\s+([A-Za-z0-9._-]+)') { $parked[$Matches[1]] = $true }
     }
     $top = @(@(Get-RunSet (Read-Pipeline)) + @($queue | ForEach-Object { $_.Name }) | Select-Object -Unique)
+    # Ready next (the next 5 ranks, skipping Active and Archived) gets the same prep, after the top: a lane that frees up
+    # mid-run takes one, and its tree, gates and questions must exist before the run so the owner answers them then
+    # (2026-10-28: bionic-reading-trainer had verify.ps1 but no tree, joined at 01:34 and raised its approvals mid-run).
+    $readyNext = @($order | Where-Object { -not $parked[$_] -and $_ -notin $top } | Select-Object -Unique -First 5)
     $items = @()
-    foreach ($name in $top) {
+    foreach ($name in @($top) + $readyNext) {
         $dir = Join-Path $projects $name
-        if (-not (Test-Path "$dir\BUILD_SPEC.md")) { $items += [pscustomobject]@{ Project = $name; Action = 'owner'; Why = 'no BUILD_SPEC.md yet, so it cannot be made overnight-ready' }; continue }
+        if (-not (Test-Path "$dir\BUILD_SPEC.md") -and $name -in $readyNext) { continue }   # never a lane pick (Get-Backfill needs a spec)
+        if (-not (Test-Path "$dir\BUILD_SPEC.md")) { $items +=[pscustomobject]@{ Project = $name; Action = 'owner'; Why = 'no BUILD_SPEC.md yet, so it cannot be made overnight-ready' }; continue }
         $todo = @(); $why = @()
         if (-not (Test-Path "$dir\scripts\verify.ps1")) { $todo += 'make-overnight-ready'; $why += 'no scripts/verify.ps1' }
         else {
@@ -368,14 +373,6 @@ function Get-Upkeep($queue) {
             if (-not $headless -and -not (Select-String -Path "$dir\scripts\verify.ps1" -Pattern 'MVP FLOW OK' -SimpleMatch -Quiet)) { $todo += 'mvp'; $why += 'no MVP gate yet: re-plan so the next slice is a usable MVP' }
         }
         if ($todo) { $items += [pscustomobject]@{ Project = $name; Action = $todo -join ' + '; Why = $why -join '; ' } }
-    }
-    # Ready next is the next 5 ranks after the 10 that run (skipping Active and Archived): the prep makes them overnight-ready
-    # in rank order (owner, 2026-10-25), so the next one can start the moment a lane frees up.
-    foreach ($name in @($order | Where-Object { -not $parked[$_] -and $_ -notin $top } | Select-Object -Unique -First 5)) {
-        $dir = Join-Path $projects $name
-        if ((Test-Path "$dir\BUILD_SPEC.md") -and -not (Test-Path "$dir\scripts\verify.ps1") -and -not @($items | Where-Object { $_.Project -eq $name })) {
-            $items += [pscustomobject]@{ Project = $name; Action = 'make-overnight-ready'; Why = 'next in the priority order (the 5 after the top 10)' }
-        }
     }
     return $items
 }

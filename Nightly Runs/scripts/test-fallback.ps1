@@ -3,7 +3,7 @@
 # Usage: powershell -NoProfile -ExecutionPolicy Bypass -File test-fallback.ps1
 $ErrorActionPreference = 'Stop'
 $ast = [System.Management.Automation.Language.Parser]::ParseFile((Join-Path $PSScriptRoot 'overnight-run.ps1'), [ref]$null, [ref]$null)
-$ast.FindAll({ param($n) $n -is [System.Management.Automation.Language.FunctionDefinitionAst] -and $n.Name -in 'Test-Parked', 'Get-SessionHarness', 'Save-RunState', 'Test-Leftover', 'Get-Backfill', 'Get-AdvanceSpec', 'Test-CachedPass', 'Get-LaneStates', 'Read-Pipeline', 'Move-ProjectLine', 'Get-LaneFor', 'Sync-Pipeline', 'Test-Built', 'Get-RunSet', 'Test-NetError', 'Test-OpenDirection', 'Set-PreviewPorts', 'Test-SharedQwen', 'Test-LimitHit', 'Get-LimitReset', 'Complete-Run', 'Complete-QaJob', 'Set-Qa', 'Format-Qa', 'Get-QaFromReport' }, $true) |
+$ast.FindAll({ param($n) $n -is [System.Management.Automation.Language.FunctionDefinitionAst] -and $n.Name -in 'Test-Parked', 'Get-SessionHarness', 'Save-RunState', 'Test-Leftover', 'Get-Backfill', 'Get-AdvanceSpec', 'Test-CachedPass', 'Get-LaneStates', 'Read-Pipeline', 'Move-ProjectLine', 'Get-LaneFor', 'Sync-Pipeline', 'Test-Built', 'Get-RunSet', 'Test-NetError', 'Test-OpenDirection', 'Set-PreviewPorts', 'Test-SharedQwen', 'Test-LimitHit', 'Get-LimitReset', 'Complete-Run', 'Complete-QaJob', 'Set-Qa', 'Format-Qa', 'Get-QaFromReport', 'Get-Upkeep', 'Get-MissingStructure' }, $true) |
     ForEach-Object { . ([scriptblock]::Create($_.Extent.Text)) }
 $failed = 0
 function Check($what, $got, $want) { if ("$got" -ne "$want") { Write-Output "FAIL $what`: got '$got', want '$want'"; $script:failed++ } else { Write-Output "ok   $what" } }
@@ -256,5 +256,16 @@ $ErrorActionPreference = 'Stop'
 Remove-Item -Recurse -Force $projects
 Check 'qa: Hermes run-budget stop is a timeout' $qaResults.gamma.reason 'timed out after 30 min'
 Check 'qa: the next QA starts after the timed-out range' $qaFrom.gamma $c1
+
+# Prep covers Ready next like the top 10, so a project that fills a lane mid-run has its tree and gates before the run.
+$projects = Join-Path ([IO.Path]::GetTempPath()) "upkeep-test-$PID"; $prioFile = Join-Path $projects 'prio.md'
+$ranks = @(1..10 | ForEach-Object { "p$_" }) + 'r1', 'r2'
+New-Item -ItemType Directory -Force (Join-Path $projects 'r1\scripts') | Out-Null
+Set-Content (Join-Path $projects 'r1\BUILD_SPEC.md') "# r1`nUI: none"; Set-Content (Join-Path $projects 'r1\scripts\verify.ps1') 'exit 0'
+Set-Content $prioFile ("## Priority order`n" + (($ranks | ForEach-Object { "$($ranks.IndexOf($_) + 1). $_" }) -join "`n") + "`n## Ready next`n- r1`n- r2`n## Backlog`n")
+$ErrorActionPreference = 'Continue'; $upkeep = @(Get-Upkeep @()); $ErrorActionPreference = 'Stop'
+Remove-Item -Recurse -Force $projects
+Check 'prep: a Ready next project without a tree gets one' (@($upkeep | Where-Object { $_.Project -eq 'r1' }).Action -match 'build-tree') 'True'
+Check 'prep: a Ready next project without a spec is left alone' @($upkeep | Where-Object { $_.Project -eq 'r2' }).Count 0
 
 if ($failed) { exit 1 }
