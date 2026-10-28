@@ -34,10 +34,10 @@ Score each screenshot 1-10 on:
 - direction: matches the picked identity (palette, type pairing, signature element, layout idea). A generic styled document is 4 or less.
 - hierarchy: one clear primary thing; summary before detail; the eye knows where to go.
 - layout: composition, alignment, the spacing scale, density that fits the job; no dead space, no cramming.
-- typography: the pairing is used deliberately, a clear scale, readable measure, aligned figures.
-- colour: tokens only, 60-30-10, accent used with restraint, contrast holds.
+- typography: the pairing is used deliberately, a clear scale, reading text at least 16px, readable measure, aligned figures.
+- colour: tokens only, neutral surface layers, one accent with a job (data or the primary action, never decoration), semantic red for destructive, contrast holds.
 - polish: designed hover/focus/empty/error states where visible, no browser-default controls, repeated elements consistent, the phone layout works.
-- restraint: no eyebrow captions over headings, no slogans, no sentence explaining a panel, no decoration that means nothing.
+- restraint: no eyebrow captions over headings, no slogans, no sentence explaining a panel, button labels of 1-3 words, no decoration that means nothing, none of the stock AI looks (cream + serif + terracotta, identical rounded cards, purple gradients, emoji icons).
 Then an overall score (your judgement, not an average): 7 means you would ship it to this owner; 8+ means it is distinctive.
 
 Reply with the JSON only, between <result> and </result>:
