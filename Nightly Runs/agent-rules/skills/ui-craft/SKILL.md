@@ -64,7 +64,7 @@ Before building, run four tests on the brief and revise what fails:
 Each step ends on a check; don't start the next until it holds.
 
 1. **Ground.** Read BUILD_SPEC.md / the request, FEEDBACK.md and DECISIONS.md owner direction. Write the screen's one job in a sentence and rank its elements High / Mid / Low. *Done when* every element on the screen traces to that job.
-2. **Direct.** Write the brief (above) or, for options, one brief per option from different families in [directions.md](references/directions.md). *Done when* all fields are concrete and the four tests pass.
+2. **Direct.** Write the brief (above) or, for options, one brief per option from different families in [directions.md](references/directions.md). On a new project the brief becomes DESIGN.md's Identity before the first screen is built. *Done when* all fields are concrete and the four tests pass.
 3. **Tokens.** Put palette, type scale, spacing, radii and depth into CSS custom properties named from the domain (`--ink`, `--brass`, not `--gray-700`); on an existing app, read its tokens, grid and one sibling view first. *Done when* no colour literal sits outside the token file.
 4. **Build.** Follow [craft.md](references/craft.md) and the surface's reference. Real content, every state, the shared shell. *Done when* every visible control does something and every state in rule 9 renders.
 5. **Look.** Screenshot at 1440×900 and 390×844 with real, long content (`npx -y playwright@1.64.1 screenshot --full-page --viewport-size "1440, 900" <url> out-1440.png`). *Done when* you have looked at both images, not just produced them.
