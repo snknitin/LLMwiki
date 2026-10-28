@@ -67,7 +67,17 @@ if (-not $Preflight -and $others -and $Scheduled -and -not $PrepOnly -and -not $
         if ((Get-Date) -ge $end.AddMinutes(-30)) { Write-Output "The run it waited for went on until $((Get-Date).ToString('HH:mm')); tonight's window ($Until) is over, so this scheduled run does not start."; exit 0 }
     }
 }
-if (-not $Preflight -and $others) { Write-Output "Another run is going (pid $($others.ProcessId -join ', ')); not starting a second one."; exit 0 }
+# A second check that needs no WMI: the running run's lock (pid + process start time). On 2026-10-28 the process query
+# came back without the 23:32 runner under load, and a -Resume runner worked the same projects alongside it all night.
+$runLock = Join-Path $(if ($env:OVERNIGHT_VAULT) { $env:OVERNIGHT_VAULT } else { 'F:\Vaults\LLMWiki' }) 'Nightly Runs\.runner.lock'
+function Get-LockHolder {
+    try { $l = Get-Content $runLock -Raw -ErrorAction Stop | ConvertFrom-Json } catch { return $null }
+    $p = Get-Process -Id ([int]$l.pid) -ErrorAction SilentlyContinue
+    if ($p -and $p.Id -ne $PID -and $p.StartTime.ToString('o') -eq $l.started) { return [int]$l.pid } else { return $null }
+}
+$holder = $(if (-not $Preflight) { Get-LockHolder })
+if (-not $Preflight -and ($others -or $holder)) { Write-Output "Another run is going (pid $(@(@($others.ProcessId) + $holder | Where-Object { $_ } | Select-Object -Unique) -join ', ')); not starting a second one."; exit 0 }
+if (-not $Preflight -and -not $PrepOnly -and -not $DryRun) { @{ pid = $PID; started = (Get-Process -Id $PID).StartTime.ToString('o') } | ConvertTo-Json -Compress | Set-Content -Path $runLock -Encoding UTF8 }
 $vault         = $(if ($env:OVERNIGHT_VAULT) { $env:OVERNIGHT_VAULT } else { 'F:\Vaults\LLMWiki' })   # the env overrides are for test-qa.ps1's fixture
 $projects      = $(if ($env:OVERNIGHT_PROJECTS) { $env:OVERNIGHT_PROJECTS } else { 'E:\GIT_ROOT\Projects' })
 $sparkProjects = $(if ($env:OVERNIGHT_SPARK_PROJECTS) { $env:OVERNIGHT_SPARK_PROJECTS } else { '/home/snknitin/Workspace/GIT_ROOT/Projects' })

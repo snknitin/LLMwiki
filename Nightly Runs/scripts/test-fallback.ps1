@@ -3,7 +3,7 @@
 # Usage: powershell -NoProfile -ExecutionPolicy Bypass -File test-fallback.ps1
 $ErrorActionPreference = 'Stop'
 $ast = [System.Management.Automation.Language.Parser]::ParseFile((Join-Path $PSScriptRoot 'overnight-run.ps1'), [ref]$null, [ref]$null)
-$ast.FindAll({ param($n) $n -is [System.Management.Automation.Language.FunctionDefinitionAst] -and $n.Name -in 'Test-Parked', 'Get-SessionHarness', 'Save-RunState', 'Test-Leftover', 'Get-Backfill', 'Get-AdvanceSpec', 'Test-CachedPass', 'Get-LaneStates', 'Read-Pipeline', 'Move-ProjectLine', 'Get-LaneFor', 'Sync-Pipeline', 'Test-Built', 'Get-RunSet', 'Test-NetError', 'Test-OpenDirection', 'Set-PreviewPorts', 'Test-SharedQwen', 'Test-LimitHit', 'Get-LimitReset', 'Complete-Run', 'Complete-QaJob', 'Set-Qa', 'Format-Qa', 'Get-QaFromReport', 'Get-Upkeep', 'Get-MissingStructure', 'Move-Stalled', 'Test-Progress', 'Write-Decision', 'Test-ToolMissing', 'Test-TreeBuilt' }, $true) |
+$ast.FindAll({ param($n) $n -is [System.Management.Automation.Language.FunctionDefinitionAst] -and $n.Name -in 'Test-Parked', 'Get-SessionHarness', 'Save-RunState', 'Test-Leftover', 'Get-Backfill', 'Get-AdvanceSpec', 'Test-CachedPass', 'Get-LaneStates', 'Read-Pipeline', 'Move-ProjectLine', 'Get-LaneFor', 'Sync-Pipeline', 'Test-Built', 'Get-RunSet', 'Test-NetError', 'Test-OpenDirection', 'Set-PreviewPorts', 'Test-SharedQwen', 'Test-LimitHit', 'Get-LimitReset', 'Complete-Run', 'Complete-QaJob', 'Set-Qa', 'Format-Qa', 'Get-QaFromReport', 'Get-Upkeep', 'Get-MissingStructure', 'Move-Stalled', 'Test-Progress', 'Write-Decision', 'Test-ToolMissing', 'Test-TreeBuilt', 'Get-LockHolder' }, $true) |
     ForEach-Object { . ([scriptblock]::Create($_.Extent.Text)) }
 $failed = 0
 function Check($what, $got, $want) { if ("$got" -ne "$want") { Write-Output "FAIL $what`: got '$got', want '$want'"; $script:failed++ } else { Write-Output "ok   $what" } }
@@ -316,5 +316,17 @@ Check 'built: not without the MVP gate and a preview' (Test-Built $tb) 'False'
 New-Item -ItemType Directory -Force (Join-Path $tb 'scripts') | Out-Null; Set-Content (Join-Path $tb 'scripts\verify.ps1') "'MVP FLOW OK'"; Set-Content (Join-Path $tb 'scripts\preview.ps1') '# preview'
 Check 'built: tree done, MVP gate and preview' (Test-Built $tb) 'True'
 Remove-Item -Recurse -Force $tb
+
+# One run at a time even when the process query misses: the lock names a live runner (2026-10-28: two runners all night).
+$runLock = Join-Path ([IO.Path]::GetTempPath()) "runner-lock-$PID.json"
+$other = Start-Process powershell -ArgumentList '-NoProfile', '-Command', 'Start-Sleep 60' -WindowStyle Hidden -PassThru
+@{ pid = $other.Id; started = (Get-Process -Id $other.Id).StartTime.ToString('o') } | ConvertTo-Json -Compress | Set-Content $runLock
+Check 'lock: a live runner holds it' (Get-LockHolder) $other.Id
+@{ pid = $other.Id; started = '2001-01-01T00:00:00.0000000+05:30' } | ConvertTo-Json -Compress | Set-Content $runLock
+Check 'lock: a reused process id does not' ([string](Get-LockHolder)) ''
+Stop-Process -Id $other.Id -Force; Start-Sleep -Milliseconds 300
+@{ pid = $other.Id; started = 'x' } | ConvertTo-Json -Compress | Set-Content $runLock
+Check 'lock: a dead runner does not' ([string](Get-LockHolder)) ''
+Remove-Item $runLock
 
 if ($failed) { exit 1 }
