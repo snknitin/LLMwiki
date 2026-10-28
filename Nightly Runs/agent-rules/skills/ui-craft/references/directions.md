@@ -4,12 +4,7 @@ Use in Direction mode, after the domain read in [domains.md](domains.md). A dire
 
 ## The look ledger (check before choosing)
 
-The owner wants no two projects sharing a theme. Before choosing a family:
-
-1. Read the `## Identity` section of sibling projects' DESIGN.md: `E:\GIT_ROOT\Projects\*\DESIGN.md` on the desktop, `~/Workspace/GIT_ROOT/Projects/*/DESIGN.md` on FirstSpark (a quick `grep -A3 "## Identity"` is enough).
-2. Tally the families below. As of 2026-10-28 about 22 of 28 projects are **print and paper** (ledger, case file, manila folder, rubber stamp, bound book, iron-gall ink); 23 use a serif. Treat that family as full: use it only when the subject really is a paper artefact, and never twice in one round of options.
-3. Never repeat a sibling's palette (same ground + accent pair) or its signature element.
-4. After a pick, the project's DESIGN.md Identity line is the ledger entry: start it with the family name, e.g. `Identity: Transit — departure board for due reviews`.
+When the person has other projects, they shouldn't look alike. Before choosing a family, read the identity of their sibling projects (DESIGN.md, the stylesheet's tokens, or screenshots), tally the families below, and pick one they haven't used, or haven't used often. Never repeat a sibling's palette (same ground + accent pair) or signature element. Many AI-designed apps default to print and paper (ledgers, case files, stamps, bound books, cream and serif): use that family only when the subject really is a paper artefact, and at most once per round of options. The owner's own ledger is in [house-rules.md](house-rules.md#the-look-ledger).
 
 ## Families and example structures
 
@@ -28,17 +23,17 @@ Each structure is a layout idea, not a skin. Ask: what does this artefact *organ
 | **Craft and movements** | Swiss International Style grid poster, Bauhaus primary shapes, De Stijl blocks, Memphis 1981, Art Deco symmetry, Japanese 24-season calendar (volvelle), ukiyo-e flat colour, stained glass leading, weaving draft (warp x weft grid), glaze test tiles | the movement's own palette, strictly limited; the movement's type (Akzidenz/Helvetica, Futura, Didone, geometric deco) |
 | **Nature and seasons** | almanac (day by day with moon/tide columns), tide table, seed catalogue, field guide plates, phenology wheel | botanical greens, earth, sky; old-style serif or humanist sans |
 | **Sport and body** | training log, race bib, gym plate weights, heart-rate trace, climbing grade chart | track red, chalk white; condensed numerals |
-| **Print and paper** (full: see ledger) | broadsheet columns, ledger, field notebook, riso poster, index card catalogue, type specimen, bound dictionary | paper + ink + one spot colour; Didone or old-style serif |
+| **Print and paper** (overused: see ledger) | broadsheet columns, ledger, field notebook, riso poster, index card catalogue, type specimen, bound dictionary | paper + ink + one spot colour; Didone or old-style serif |
 
-## Domain map: starting points for this owner's app types
+## Domain map: starting points by app type
 
 Use these as a first draw, then go past them. Two options from one row should come from different families.
 
 | App type | Structures worth trying |
 |---|---|
-| Finance, markets, net worth | chart recorder, departure board of positions, overnight timeline hung on exchange closes (picked for finance-signals-dashboard), cockpit, topographic net-worth terrain |
-| Learning, language, quizzes | metro map of a curriculum, trading cards, scoreboard/league table, periodic table of words, bound dictionary filling in (picked for language-learning-lab) |
-| Habits, journal, health, physio | chart recorder of the day, training log, almanac, chronograph rings, clothbound diary spread (picked for paper-logbook) |
+| Finance, markets, net worth | chart recorder, departure board of positions, overnight timeline hung on exchange closes, cockpit, topographic net-worth terrain |
+| Learning, language, quizzes | metro map of a curriculum, trading cards, scoreboard/league table, periodic table of words, bound dictionary filling in |
+| Habits, journal, health, physio | chart recorder of the day, training log, almanac, chronograph rings, clothbound diary spread |
 | Agents, ops, run monitors | air-traffic strip board, departure board, mixing desk of lanes, terminal, broadcast cue sheet |
 | Video, reading, research libraries | TV guide grid, specimen drawer, star chart of concepts, film slate metadata, museum label wall |
 | Social capture, inbox, triage | air-traffic strips moved between bays, sorting office pigeonholes, specimen drawer, kanban as a signal box |
@@ -58,12 +53,6 @@ Measured on 2,300 AI-generated pages (Mia's AI Lab, 2026): the strongest briefs 
 - **Constraints as one-liners:** "palette strictly these four and nothing else", "no gradients, no blur shadows, no rounded corners", "deliberately dense, but composed", "must stay legible at 390px".
 - **Physical feel instead of adjectives:** "dense like a trading floor", "calm like a reading room", "cold like a terminal", "warm like a kitchen ticket rail".
 
-## Worked examples (the owner's picks, 2026-10-27)
+## Worked examples
 
-What the three picked options share: one structural idea from the subject's world became the layout itself. The rejects were a plain grid, a gimmick (a crossword, a giant day number) or a dark mood piece. All three picks were calm, light, readable, with one accent.
-
-- **paper-logbook / Today: Clothbound spread.** Morning on the left page, evening on the right, a brass ribbon marking today. Source Serif 4; black linen, paper, blue-black ink, one brass accent.
-- **language-learning-lab / Recall: Bound dictionary.** The left page asks; the right page is today's dictionary page filling in alphabetically with guide words and day tabs. Oxblood bookcloth, gilt, bible paper; Literata + Albert Sans.
-- **finance-signals-dashboard / Today: The overnight.** A 24-hour timeline from the last 07:00 IST brief to this one, each instrument hung on its exchange's close. Grey-teal frame, white sheet, deep teal data, a dawn-amber brief mark; Public Sans; no red/green, no gauges.
-
-Note that two of the three are paper. The next rounds should prove the other families.
+The owner's picked options, with what they share, are in [house-rules.md](house-rules.md#worked-examples-the-owners-picks-2026-10-27). The pattern generalises: one structural idea from the subject's world becomes the layout itself; calm, readable, one accent.

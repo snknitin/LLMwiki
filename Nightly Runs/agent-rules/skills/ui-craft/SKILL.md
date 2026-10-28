@@ -1,18 +1,20 @@
 ---
 name: ui-craft
-description: Use whenever you design, build, restyle, review or roast any UI (app screen, dashboard, landing page, HTML mockup, Design-tab option), or when a UI looks generic, amateur or AI-made. The entry point for all design work; it settles conflicts between the other design skills and says when to open them.
+description: Use whenever you design, build, redesign, restyle, review or roast any UI (app screen, dashboard, website, GitHub Pages site, landing page, HTML mockup, design option) in any project, including other people's repos, or when a UI looks generic, amateur or AI-made. With a person in the chat it interviews them with simple multiple-choice questions, shows options and builds their pick. The entry point for all design work; it settles conflicts between the other design skills.
 ---
 
 # UI craft
 
-Generic UI comes from a generic brief, not from a weak model: five models given the same short prompt built the same page. So every screen starts from what its **domain** rewards, then a written **brief**; its concept is **structure, not costume**, and it is finished only after a **roast** of real screenshots by someone other than the builder. Works the same in Claude Code, Codex and Hermes.
+Generic UI comes from a generic brief, not from a weak model: five models given the same short prompt built the same page. So every screen starts from what its **domain** rewards, then a written **brief**; its concept is **structure, not costume**, and it is finished only after a **roast** of real screenshots by someone other than the builder. Works the same in Claude Code, Codex and Hermes, in any project.
+
+**Someone in the chat?** Start with the interview in [session.md](references/session.md): look at the project yourself, then ask simple multiple-choice questions (what they want, what bothers them, which directions pull them), show options side by side, and build only what they pick. They never have to score or know design terms. **No one in the chat?** Don't ask; take the recommended defaults and report the choices. **In the owner's own projects** (AGENTS.md mentions DECISIONS.md, REPORT.md or the Agents board), also follow [house-rules.md](references/house-rules.md).
 
 ## The rules (every UI, every run)
 
 1. **Brief before code.** Write the brief below for every new screen, page or option. Never go from prompt to page in one step.
 2. **Domain first.** Read what this kind of app is for before choosing a look ([domains.md](references/domains.md)): the person's job, their state, the shape of the data, and the two things the domain rewards (money: precision and calm; habits: momentum and low friction; news: recency and hierarchy). Every later choice must serve those two; a choice that serves neither is a default.
 3. **Structure, not costume.** The concept is an idea from the subject's world that decides the layout (a 24-hour timeline hung on market closes, a dictionary page filling in, a departure board of due cards). Texture painted onto a generic page is costume.
-4. **Name the surface first.** *Operate* (tools, dashboards, admin; most of this owner's apps): dense, precise, known patterns, no hero, no entrance animation. *Persuade* (landing, marketing): one composition per viewport, one signature moment. *Read* (docs, reports, lessons): 60–75ch measure, type does the work.
+4. **Name the surface first.** *Operate* (tools, dashboards, admin; most personal apps): dense, precise, known patterns, no hero, no entrance animation. *Persuade* (landing, marketing): one composition per viewport, one signature moment. *Read* (docs, reports, lessons): 60–75ch measure, type does the work.
 5. **Let the layout explain.** No eyebrow caption over a heading, no tagline, no sentence explaining a panel, never your instructions on screen. Buttons are 1–3 words and start with a verb ("Generate", "Select all"). Longer help goes behind an ⓘ tooltip. Keep units, amounts and what a save covers.
 6. **Readable.** Reading text ≥16px (phone ≥16px, inputs ≥16px), at most 2 families, 2 weights, 3 text tones, contrast ≥4.5:1. Paragraphs at full contrast; secondary text 55–70%.
 7. **One primary per section.** One filled button; secondaries ghost or outline; destructive is red even if the brand is not.
@@ -33,20 +35,13 @@ When this skill and another design skill disagree, this one wins (the reasons ar
 | New app, new screen, "give me options", a Design-tab job | **Direction** | [domains.md](references/domains.md), the brief below, [directions.md](references/directions.md) |
 | Implement a screen or a picked mockup | **Build** | [craft.md](references/craft.md), then [app-screens.md](references/app-screens.md) or [pages.md](references/pages.md) |
 | Existing UI, "review", "roast", "looks generic", or no change named | **Roast** (never Build) | [critique.md](references/critique.md) |
-| "Redesign this screen", "give me better options" for a live app, in one chat | **Redesign** | the section below |
+| "Redesign this", "make it look better", "give me options", with a person in the chat | **Redesign** | [session.md](references/session.md) |
 | Add a tab or view to an existing app | **Fit** | [app-screens.md § Adding a view](references/app-screens.md#adding-a-view-to-an-existing-app) |
 | Charts, tables, KPIs | **Data** | [app-screens.md § Data](references/app-screens.md#data-picks-the-component) |
 
-## Redesign in one session
+## Redesign with a person
 
-For a live app in a single chat (any harness, no Agents board). Stop where marked and wait for the owner; never build before a pick.
-
-1. **Roast the live screen.** Start the app (its `scripts/preview.*` or dev server on a temp port), screenshot the screen at 1440 and 390 with real data, run [critique.md](references/critique.md), and report the score on the 2/6/8/10 ladder with the Blockers in one Before | After | Why table.
-2. **Read the domain** ([domains.md](references/domains.md)) and the look ledger. Write the Domain line.
-3. **Make 3 options**, each from a different family and each with its own full brief, built as one self-contained static HTML mockup with the screen's real content: `design/variants/<screen>/<YYYY-MM-DD>/<a|b|c>.html`. Do not copy the live layout; options are original concepts. Screenshot each at 1440 and 390 beside it, look, fix the worst problem once.
-4. **Judge and recommend.** Score each option and the live screen on the critique checklist and on the domain's two values; show a table (option, idea, score, best thing, weakest thing) and recommend one. Then **stop** and ask the owner to pick, combine ("layout of B, palette of A") or ask for another round.
-5. **Combine** if asked: one new mockup letter `d` from the named parts, same checks, then stop again.
-6. **Build the pick** into the app (Build mode): tokens first, then the screen, then its sibling screens' shell; run verify; screenshot; roast again until no Blocker remains; update DESIGN.md (Identity = the picked brief, Kit = tokens and components); commit.
+The full flow, questions included, is in [session.md](references/session.md): look first, ask what they want, show the biggest problems in plain words, confirm the domain, offer directions, build 3 options, let them pick or mix, then build on a branch and show before and after. Never build before they pick.
 
 ## The brief
 
@@ -78,13 +73,13 @@ Before building, run four tests on the brief and revise what fails:
 
 Each step ends on a check; don't start the next until it holds.
 
-1. **Ground.** Read BUILD_SPEC.md / the request, FEEDBACK.md and DECISIONS.md owner direction. Answer the five domain questions in [domains.md](references/domains.md), write the screen's one job in a sentence and rank its elements High / Mid / Low. *Done when* the brief's Domain line is written and every element on the screen traces to that job.
+1. **Ground.** Read the request and the project's own docs (README, BUILD_SPEC.md, FEEDBACK.md, DESIGN.md when present). Answer the five domain questions in [domains.md](references/domains.md), write the screen's one job in a sentence and rank its elements High / Mid / Low. *Done when* the brief's Domain line is written and every element on the screen traces to that job.
 2. **Direct.** Write the brief (above) or, for options, one brief per option from different families in [directions.md](references/directions.md). On a new project the brief becomes DESIGN.md's Identity before the first screen is built. *Done when* all fields are concrete and the four tests pass.
 3. **Tokens.** Put palette, type scale, spacing, radii and depth into CSS custom properties named from the domain (`--ink`, `--brass`, not `--gray-700`); on an existing app, read its tokens, grid and one sibling view first. *Done when* no colour literal sits outside the token file.
 4. **Build.** Follow [craft.md](references/craft.md) and the surface's reference. Real content, every state, the shared shell. *Done when* every visible control does something and every state in rule 10 renders.
 5. **Look.** Screenshot at 1440×900 and 390×844 with real, long content (`npx -y playwright@1.64.1 screenshot --full-page --viewport-size "1440, 900" <url> out-1440.png`). *Done when* you have looked at both images, not just produced them.
 6. **Roast.** Run the checklist in [critique.md](references/critique.md) against the screenshots; fix every Blocker and the top three Majors; re-shoot. On a project with `scripts/design_gate.py`, it must print `DESIGN GATE PASS` with the other model family as judge. *Done when* no Blocker remains.
-7. **Record.** Update DESIGN.md (Identity = the brief; Kit = tokens and the components every screen uses) and promote any owner complaint you fixed into a DESIGN.md rule. *Done when* the next agent could build a sibling screen from DESIGN.md alone.
+7. **Record.** Update DESIGN.md (Identity = the brief; Kit = tokens and the components every screen uses) and promote any complaint you fixed into a DESIGN.md rule. In someone else's repo, keep these notes where the person wants them ([session.md](references/session.md#someone-elses-repo-open-source)). *Done when* the next agent could build a sibling screen from DESIGN.md alone.
 
 ## The other design skills: when to open them
 
@@ -94,9 +89,9 @@ Load at most two extra skills per task; this one already carries their must-foll
 - **design-taste-frontend**: Persuade pages only, for `draw.mjs` directions and the `inspect.mjs` browser check. Ignore its motion quota (8+ moving elements, entrances on every section).
 - **ui-ux-pro-max**: lookups only (UX guidelines, stack gotchas, chart types): `python <its folder>/scripts/search.py "<2-5 words>" --domain ux` (its documented `${CLAUDE_PLUGIN_ROOT}` path is wrong outside a plugin). Never adopt its `--design-system` look.
 - **frontend-design**: the calibration list of current AI looks (already folded into [critique.md](references/critique.md#ai-tells)).
-- **design-variants**: building options on branches or for the Agents board's Design tab; it uses [brief.md](brief.md) for mockup jobs.
+- **design-variants** (owner's setup): options on branches or for the Agents board's Design tab; it uses [brief.md](brief.md) for mockup jobs.
 - **dataviz** (Claude host skill), when present: chart colour and form.
 
 Component libraries, checklists and reference sites, and when each earns a visit: [resources.md](references/resources.md).
 
-Never decide by asking the owner mid-run: decide, log it in DECISIONS.md, and ask only through REPORT.md's question format. Links you hand the owner are Tailscale links.
+Unattended runs never stop to ask: decide, record the choice where the work is reported, and carry on. Interactive sessions ask as [session.md](references/session.md) describes.

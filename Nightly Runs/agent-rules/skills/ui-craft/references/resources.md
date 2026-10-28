@@ -6,7 +6,7 @@ Taste lives in this skill and the project's DESIGN.md, not in runtime browsing: 
 - **Native HTML first**, then a headless primitive (Radix, React Aria, Base UI, Vaul for drawers, cmdk for palettes), then hand-rolled with full keyboard, focus and ARIA. Never `<div onClick>` as a button.
 - **shadcn/ui**: the default React primitive set and registry format. Replace its theme with the project's tokens first; shadcn defaults are a look of their own.
 - **coss.com/ui** (Base UI + Tailwind, from Cal.com), **reui.io/components** (app shells, settings, data grids): vetted variants when starting a React app's primitive layer.
-- **beautifului.dev**: agent-UI pieces (thinking trace, approval card, tool chips, task rows, diff table) for the Agents board and similar run monitors.
+- **beautifului.dev**: agent-UI pieces (thinking trace, approval card, tool chips, task rows, diff table) for agent dashboards and run monitors.
 - **Amicro** (amicro.dev, `npx @subhanhq/amicro add`): one loader, mono chart or micro-interaction at a time.
 - **21st.dev, uiverse.io, beUI, Rare UI, EasyUI**: a specific widget or interaction; restyle to the project's tokens.
 - **NumberFlow, dither-kit, evilcharts**: animated numbers and charts for shadcn apps.
@@ -20,7 +20,7 @@ Taste lives in this skill and the project's DESIGN.md, not in runtime browsing: 
 - **Google DESIGN.md** (`npx @google/design.md lint | diff | export --format css-tailwind`): lint a DESIGN.md's tokens and contrast, export them to CSS.
 
 ## References for patterns (look, don't copy)
-- **Mobbin MCP** (paid, owner credentials): real shipped flows (onboarding, paywalls, settings).
+- **Mobbin MCP** (paid; needs your own login): real shipped flows (onboarding, paywalls, settings).
 - **collectui.com, recent.design, siteinspire.com, Design Spells, 60fps.design** (iOS motion): free pattern and interaction inspiration.
 - **VoltAgent awesome-design-md / getdesign.md**: real brands' tokens. Use for craft-level calibration (how Linear spaces a list), never as a project's identity.
 - Reference real products, not Dribbble shots: tall artboards hide the real viewport and dense details confuse models (Kole).

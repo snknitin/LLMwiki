@@ -56,7 +56,7 @@ Defaults that show up whatever the subject. Legitimate only when the brief chose
 - **From 2,300 generated pages** (Mia lab): dark void with a faint centred title and particles; aurora blobs behind frosted glass; "Ship products at light speed" hero + KPI cards + bento + gradient pill CTA; one italic accent word in every headline; a sidebar of sliders shrinking the content; synthwave sun grid.
 - **Kole's vibe-code tells:** emoji icons; gradient circle with initials as avatar; the same KPI row on every page; cards that do nothing; five pricing plans; no domain imagery anywhere; counts in sidebar nav; AI-picked bright clashing colours.
 - **Community fingerprints:** a 4px left accent bar on every card; a blinking green "live" dot; containers nested three deep; a three-column feature grid as section two; Lucide everywhere by default.
-- **This owner's projects:** paper/ledger/stamp/serif identity on almost every app; explanatory sentences and taglines; sentence-long buttons; a redesign that stops at the first screen; self-graded "zero failures".
+- **Repeat offenders in agent-built apps:** the same paper/ledger/stamp/serif identity on every project; explanatory sentences and taglines; sentence-long buttons; a redesign that stops at the first screen; self-graded "zero failures".
 
 ## Bad → good (the swaps that matter most)
 
@@ -96,11 +96,11 @@ Defaults that show up whatever the subject. Legitimate only when the brief chose
 | A command palette that fades in | Opens instantly | EK |
 | Spinner that resizes the button | Fixed-size button, spinner overlaid | DSC |
 | Error shown only as a red border | Red border + text + icon beside the field | DSC |
-| "Tick all without a design" button | "Select all" | owner |
-| Two-row header that jumps when settings collapse | One fixed row; collapsed panel is one line | owner |
-| Label column with empty space under it | Label above its text, full width | owner |
-| 13.5px reading text | 16px, one consistent size; let the page scroll | owner |
-| Options derived from the live page | Original concepts from the brief | owner |
+| "Tick all without a design" button | "Select all" | field notes |
+| Two-row header that jumps when settings collapse | One fixed row; collapsed panel is one line | field notes |
+| Label column with empty space under it | Label above its text, full width | field notes |
+| 13.5px reading text | 16px, one consistent size; let the page scroll | field notes |
+| Options derived from the live page | Original concepts from the brief | field notes |
 
 ## Conflicts settled
 
@@ -110,13 +110,13 @@ Defaults that show up whatever the subject. Legitimate only when the brief chose
 | Motion amount | Operate: feedback motion only. Persuade: one orchestrated moment. No quota | taste-skill's 8+ moving elements contradicts frontend-design, impeccable and Kole |
 | Borders | Operate apps may use quiet 1px borders (1.1–1.3:1 contrast); never border + shadow together | taste pages vs taste app-screens and Kole |
 | Shadows | Floating layers only, soft recipe; none in dark mode; hard offset only as a chosen direction | Kole, impeccable |
-| Eyebrows | Never above a heading. A 12–13px sentence-case label above a *value* is fine | owner rule beats Kole's hero-spacing example |
+| Eyebrows | Never above a heading. A 12–13px sentence-case label above a *value* is fine | the let-the-layout-explain rule beats Kole's hero-spacing example |
 | Monospace | Code, ids, keys, timecodes only | frontend-design and taste: mono as costume is a tell |
 | Fonts | Chosen for the subject; ≤2 families; Inter/system only as a logged choice | all sources |
-| Where the look comes from | The subject and the brief; never ui-ux-pro-max's catalogue style, never a cloned brand file | owner rule: no two projects share a theme |
-| Gradients | None as decoration; scrims, one-hue chart fades and identity fields on Persuade pages allowed | Kole, taste, owner |
+| Where the look comes from | The subject and the brief; never ui-ux-pro-max's catalogue style, never a cloned brand file | no two projects should share a theme |
+| Gradients | None as decoration; scrims, one-hue chart fades and identity fields on Persuade pages allowed | Kole, taste |
 | Cards and bento | Cards only for peer objects; bento only on Persuade pages with real content for every cell | Kole, OpenAI, taste |
 | Confirmation | Undo first; confirm only irreversible high-stakes actions | Kole, Vercel |
 | Tooltips | For icons and truncated text, as backup; never to explain a confusing layout | Kole |
 | DESIGN.md | Identity (the brief) + Kit (tokens, components); optional Google-spec YAML token front matter so `npx @google/design.md lint` can check it | one format instead of three |
-| Asking the owner | Decide and log in DECISIONS.md; questions only via REPORT.md | owner's never-stall rule |
+| Asking | Interactive: interview with recommended answers ([session.md](session.md)). Unattended: decide, record, carry on | people answer options better than design theory; unattended runs must not stall |
