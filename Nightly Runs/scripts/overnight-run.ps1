@@ -266,9 +266,23 @@ function Sync-Pipeline {
 function Test-Built($dir) {
     $t = Get-Content (Join-Path $dir 'REPORT.md') -Raw -Encoding UTF8 -ErrorAction SilentlyContinue
     if (-not $t) { return $false }
-    if ($t -match '(?m)^\W*Project built:') { return $true }
-    if ($t -match '(?ms)^###\s+Q\d+[^\r\n]*Move \S+ to Active\?(.*?)(?=^#|\z)') { return $Matches[1] -notmatch '(?i)- \[x\][^\r\n]*(keep|not now|not yet|\bno\b)' }
-    return $false
+    $said = $(if ($t -match '(?m)^\W*Project built:') { $true }
+        elseif ($t -match '(?ms)^###\s+Q\d+[^\r\n]*Move \S+ to Active\?(.*?)(?=^#|\z)') { $Matches[1] -notmatch '(?i)- \[x\][^\r\n]*(keep|not now|not yet|\bno\b)' }
+        else { $false })
+    if (-not $said) { return $false }
+    $tree = Test-TreeBuilt $dir
+    return ($null -eq $tree) -or $tree   # the tree overrules the report line; no tree, the line decides
+}
+# Built per the build tree: at least 80% of its work nodes (gates aside) done and none an agent could build now (ready or
+# active), so what is left waits on the owner's gates or testing (owner, 2026-10-28: projects with nodes left went to
+# Active). $null when the project has no tree.
+function Test-TreeBuilt($dir) {
+    $f = Join-Path $dir '.hermes\live-build-tree\model.json'
+    if (-not (Test-Path $f)) { return $null }
+    try { $work = @((Get-Content $f -Raw -Encoding UTF8 | ConvertFrom-Json).nodes | Where-Object { $_.kind -ne 'gate' }) } catch { return $false }
+    if (-not $work.Count) { return $false }
+    $done = @($work | Where-Object { $_.status -eq 'done' }).Count
+    return ($done / $work.Count -ge 0.8) -and -not @($work | Where-Object { $_.status -in 'ready', 'active' }).Count
 }
 # Preview ports are handed out here, never asked about (2026-10-25: agents asked the owner which port to use, and one
 # preview took ntfy's 8783). Every project in the lanes, Ready next or with a preview script gets a "Project previews" row
@@ -986,6 +1000,7 @@ function Get-Backfill($harness) {
 # 2026-10-28: paper-logbook held a lane for two bookkeeping commits). The owner moves it back to a lane on the board.
 function Move-Stalled($name, $row) {
     if (-not [int]$sessions[$name]) { return }   # never a project that only just joined a lane: it has not built anything yet
+    if (-not (Test-TreeBuilt (Join-Path $projects $name))) { return }   # nodes left to build: it keeps its lane for the next run
     if (Test-Progress (Join-Path $projects $name) $heads[$name]) { return }
     if (-not (Move-ProjectLine $name 'active')) { return }
     $row.Note += "stalled: no real work tonight; moved to Active. "

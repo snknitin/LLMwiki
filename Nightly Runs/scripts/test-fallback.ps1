@@ -3,7 +3,7 @@
 # Usage: powershell -NoProfile -ExecutionPolicy Bypass -File test-fallback.ps1
 $ErrorActionPreference = 'Stop'
 $ast = [System.Management.Automation.Language.Parser]::ParseFile((Join-Path $PSScriptRoot 'overnight-run.ps1'), [ref]$null, [ref]$null)
-$ast.FindAll({ param($n) $n -is [System.Management.Automation.Language.FunctionDefinitionAst] -and $n.Name -in 'Test-Parked', 'Get-SessionHarness', 'Save-RunState', 'Test-Leftover', 'Get-Backfill', 'Get-AdvanceSpec', 'Test-CachedPass', 'Get-LaneStates', 'Read-Pipeline', 'Move-ProjectLine', 'Get-LaneFor', 'Sync-Pipeline', 'Test-Built', 'Get-RunSet', 'Test-NetError', 'Test-OpenDirection', 'Set-PreviewPorts', 'Test-SharedQwen', 'Test-LimitHit', 'Get-LimitReset', 'Complete-Run', 'Complete-QaJob', 'Set-Qa', 'Format-Qa', 'Get-QaFromReport', 'Get-Upkeep', 'Get-MissingStructure', 'Move-Stalled', 'Test-Progress', 'Write-Decision', 'Test-ToolMissing' }, $true) |
+$ast.FindAll({ param($n) $n -is [System.Management.Automation.Language.FunctionDefinitionAst] -and $n.Name -in 'Test-Parked', 'Get-SessionHarness', 'Save-RunState', 'Test-Leftover', 'Get-Backfill', 'Get-AdvanceSpec', 'Test-CachedPass', 'Get-LaneStates', 'Read-Pipeline', 'Move-ProjectLine', 'Get-LaneFor', 'Sync-Pipeline', 'Test-Built', 'Get-RunSet', 'Test-NetError', 'Test-OpenDirection', 'Set-PreviewPorts', 'Test-SharedQwen', 'Test-LimitHit', 'Get-LimitReset', 'Complete-Run', 'Complete-QaJob', 'Set-Qa', 'Format-Qa', 'Get-QaFromReport', 'Get-Upkeep', 'Get-MissingStructure', 'Move-Stalled', 'Test-Progress', 'Write-Decision', 'Test-ToolMissing', 'Test-TreeBuilt' }, $true) |
     ForEach-Object { . ([scriptblock]::Create($_.Extent.Text)) }
 $failed = 0
 function Check($what, $got, $want) { if ("$got" -ne "$want") { Write-Output "FAIL $what`: got '$got', want '$want'"; $script:failed++ } else { Write-Output "ok   $what" } }
@@ -273,6 +273,7 @@ $projects = Join-Path ([IO.Path]::GetTempPath()) "stalled-test-$PID"; $prioFile 
 $ErrorActionPreference = 'Continue'; $heads = @{}
 foreach ($n in 'idle', 'busy', 'next1') {
     $d = Join-Path $projects $n; New-Item -ItemType Directory -Force $d | Out-Null; Set-Content (Join-Path $d 'BUILD_SPEC.md') '# spec'
+    if ($n -eq 'idle') { New-Item -ItemType Directory -Force (Join-Path $projects 'idle\.hermes\live-build-tree') | Out-Null; Set-Content (Join-Path $projects 'idle\.hermes\live-build-tree\model.json') '{"nodes":[{"id":"T1","status":"done"},{"id":"T2","status":"done"},{"id":"G1","kind":"gate","status":"approval"}]}' }   # in the first commit: a tree is not tonight's work
     git -C $d init -q; git -C $d add -A; git -C $d -c user.email=t@t -c user.name=t commit -qm init; $heads[$n] = "$(git -C $d rev-parse HEAD)"
 }
 Set-Content (Join-Path $projects 'idle\REPORT.md') 'diagnosis only'; git -C (Join-Path $projects 'idle') add -A; git -C (Join-Path $projects 'idle') -c user.email=t@t -c user.name=t commit -qm report
@@ -296,5 +297,18 @@ Check 'tool: ordinary output is not' (Test-ToolMissing 'Slice 3 planned.') 'Fals
 $limitUntil = @{}; $noSpark = @{}
 Check 'effort: a Hermes lane model keeps its effort for planning' (Get-AdvanceSpec ([pscustomobject]@{ Name = 'h'; Harness = 'hermes'; Model = 'deepseek41-flash-pair-xhigh' })) 'hermes:deepseek41-flash-pair-xhigh'
 Check 'effort: no effort, the config default' (Get-AdvanceSpec ([pscustomobject]@{ Name = 'h'; Harness = 'hermes'; Model = $null })) 'hermes:deepseek41-flash-pair'
+
+# Active only when the tree is essentially built (owner, 2026-10-28).
+$tb = Join-Path ([IO.Path]::GetTempPath()) "tree-built-$PID"; New-Item -ItemType Directory -Force (Join-Path $tb '.hermes\live-build-tree') | Out-Null
+$tm = Join-Path $tb '.hermes\live-build-tree\model.json'
+Set-Content $tm '{"nodes":[{"id":"A","status":"done"},{"id":"B","status":"done"},{"id":"C","status":"done"},{"id":"D","status":"done"},{"id":"E","status":"blocked"},{"id":"G1","kind":"gate","status":"approval"}]}'
+Check 'built: 80% done, the rest waits on a gate' (Test-TreeBuilt $tb) 'True'
+Set-Content $tm '{"nodes":[{"id":"A","status":"done"},{"id":"B","status":"done"},{"id":"C","status":"done"},{"id":"D","status":"done"},{"id":"E","status":"ready"}]}'
+Check 'built: not with a node an agent could build now' (Test-TreeBuilt $tb) 'False'
+Set-Content $tm '{"nodes":[{"id":"A","status":"done"},{"id":"B","status":"blocked"},{"id":"C","status":"blocked"}]}'
+Check 'built: not under 80% done' (Test-TreeBuilt $tb) 'False'
+Set-Content (Join-Path $tb 'REPORT.md') "Project built: all done"
+Check 'built: a Project built line does not overrule the tree' (Test-Built $tb) 'False'
+Remove-Item -Recurse -Force $tb
 
 if ($failed) { exit 1 }
