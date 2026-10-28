@@ -1086,6 +1086,9 @@ function Start-QaJob($q, $plan, $from) {
     $suffix = $(if ($plan.FallbackUsed) { 'qa-fallback' } else { 'qa' })
     $log = Join-Path $logDir "$name.$suffix.txt"
     Remove-Item "$log.pid" -ErrorAction SilentlyContinue
+    # FirstSpark reviews origin's HEAD: bring the desktop level with origin first (2026-10-28: origin had a FirstSpark commit
+    # the desktop lacked, so jobs-search-and-apply-tool's final QA stopped at SPARK_HEAD_MISMATCH).
+    if ($fam -eq 'hermes') { git -C $dir pull --rebase --autostash -q 2>$null; git -C $dir push -q 2>$null }
     $head = "$(git -C $dir rev-parse HEAD 2>$null)"
     Add-Content -Path $log -Value "=== QA $((Get-Date).ToString('HH:mm')) of $from..$head on $($plan.Spec) ===" -Encoding UTF8
     $shots = $(if ($fam -eq 'hermes') { "/home/snknitin/.agents-board/qa/$stamp/$name" } else { Join-Path $logDir "_qa\$name" })
@@ -1244,7 +1247,7 @@ while ($pending.Count -or $running.Count) {
                 if ($row.TimedOut) { continue }   # cut off at the end time: the end-of-run QA reviews this range again
                 if (Complete-QaJob $r $r.QaTimedOut) {
                     $fb = Get-QaPlan $r.Q $roles -Fallback
-                    if (-not $fb.Skip -and $fb.Family -ne 'hermes' -and $fb.Spec -ne $r.Plan.Spec -and $cliOk[$fb.Family] -and -not (Test-Parked $fb.Family)) {
+                    if (-not $fb.Skip -and -not (Test-SharedQwen $fb) -and $fb.Spec -ne $r.Plan.Spec -and $cliOk[$fb.Family] -and -not (Test-Parked $fb.Family)) {
                         $rec = Start-QaJob $r.Q $fb $r.From; $running[$rec.Job.Id] = $rec; $row.Note += "Retrying QA on fallback $($fb.Spec). "; continue
                     }
                 }
@@ -1387,6 +1390,7 @@ if (@($qaQueue | Where-Object { $_.Plan.Family -eq 'hermes' -or (Get-QaPlan $_.Q
 while ($qaQueue.Count -or $qaRunning.Count) {
     foreach ($item in @($qaQueue)) {
         $name = $item.Q.Name; $fam = $item.Plan.Family; $dir = Join-Path $projects $name
+        if ($item.NotBefore -and (Get-Date) -lt $item.NotBefore) { continue }
         if (Test-Parked $fam) {
             $fallback = Get-QaPlan $item.Q $roles -Fallback
             if (-not $item.Plan.FallbackUsed -and -not $fallback.Skip -and -not (Test-Parked $fallback.Family) -and $cliOk[$fallback.Family]) {
@@ -1401,7 +1405,7 @@ while ($qaQueue.Count -or $qaRunning.Count) {
         if ($qaLimit -gt 0 -and @($qaRunning.Values | Where-Object { $_.Plan.Family -eq $fam -and (Test-SharedQwen $_.Plan) -eq $qwen }).Count -ge $qaLimit) { continue }
         $qaQueue.Remove($item)
         $rec = Start-QaJob $item.Q $item.Plan $item.From
-        $qaRunning[$rec.Job.Id] = $rec
+        $rec.Busy = [int]$item.Busy; $qaRunning[$rec.Job.Id] = $rec
     }
     if (-not $qaRunning.Count) { if ($qaQueue.Count) { Start-Sleep -Seconds 30; continue }; break }
     Wait-Job -Job @($qaRunning.Values | ForEach-Object { $_.Job }) -Any -Timeout 60 | Out-Null
@@ -1415,8 +1419,15 @@ while ($qaQueue.Count -or $qaRunning.Count) {
         }
         if ($r.Job.State -eq 'Running') { continue }
         Remove-Job $r.Job -Force; $qaRunning.Remove($id)
+        $retry = Complete-QaJob $r $timedOut
+        # The lane's last Hermes session is still finishing on FirstSpark: the same QA again in 5 minutes, up to 30 minutes
+        # (2026-10-28: expert-lens-skill's final QA was skipped at 06:06 for it).
+        if ($qaResults[$name].reason -like '*still running*' -and $r.Busy -lt 6) {
+            [void]$qaQueue.Add(@{ Q = $r.Q; Plan = $r.Plan; From = $r.From; NotBefore = (Get-Date).AddMinutes(5); Busy = 1 + $r.Busy })
+            Set-Qa $name 'running'; continue
+        }
         # Retry infrastructure/limit failures once on the configured fallback.
-        if (Complete-QaJob $r $timedOut) {
+        if ($retry) {
             $fallback = Get-QaPlan $r.Q $roles -Fallback
             if (-not $fallback.Skip -and $fallback.Spec -ne $r.Plan.Spec -and $cliOk[$fallback.Family] -and -not (Test-Parked $fallback.Family)) {
                 $rows[$name].Note += "Retrying QA on fallback $($fallback.Spec). "

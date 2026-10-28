@@ -1,14 +1,17 @@
 {
   "claude": {
     "builder": "claude:opus",
-    "qa": "off"
+    "qa": "codex:sol-5-6",
+    "fallbackQa": "hermes"
   },
   "codex": {
-    "builder": "codex",
-    "qa": "off"
+    "builder": "codex:sol-6-1-high",
+    "qa": "hermes",
+    "fallbackQa": "claude:sonnet-medium"
   },
   "hermes": {
     "builder": "hermes",
-    "qa": "off"
+    "qa": "claude:sonnet-medium",
+    "fallbackQa": "codex:sol-5-6"
   }
 }
