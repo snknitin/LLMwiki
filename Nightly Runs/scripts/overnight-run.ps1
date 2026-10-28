@@ -802,8 +802,10 @@ function Complete-Run($q, $row) {
     $dir = Join-Path $projects $q.Name
     $log = Join-Path $logDir "$($q.Name).log"
     $text = $(if (Test-Path $log) { Get-Content $log -Raw -Encoding UTF8 } else { '' })
+    # *>> appends UTF-16 to a UTF-8 file: drop the NULs first, or "\n\0=== session" never splits and an earlier session's
+    # "resets 12am" parked Claude until the next midnight (2026-10-28, 04:55)
+    $text = $text -replace "`0", ''
     $text = ($text -split '(?m)^=== session \d+ ')[-1]   # only this session's output; earlier sessions were already read
-    $text = $text -replace "`0", ''   # *>> appends UTF-16 to a UTF-8 file: drop the NULs so the checks below can match
     if ($q.Harness -ne 'hermes' -and (Test-LimitHit $text)) {
         $script:limitUntil[$q.Harness] = Get-LimitReset $text
         $row.Note += "$($q.Harness) usage limit at $((Get-Date).ToString('HH:mm')), resumed after $($script:limitUntil[$q.Harness].ToString('HH:mm')). "; $row.UsageLimit = $true
@@ -1291,7 +1293,9 @@ while ($pending.Count -or $running.Count) {
                 $row.Note += "connection lost at $((Get-Date).ToString('HH:mm')), retried when back. "; [void]$pending.Add($own); Write-Decision $name 'connection lost: retried when back'
             }
             elseif (-not $quiet -and $r.Hung -and [int]$hangs[$name] -lt 2) { $hangs[$name] = 1 + [int]$hangs[$name]; [void]$pending.Add($own); Write-Decision $name 'hung: fresh session' }   # hung, not done: a fresh session
-            elseif (-not $quiet -and [int]$leftovers[$name] -lt 3 -and (Test-Leftover $dir $r.Q.Harness $text)) {
+            # Not gated on $quiet: a dirty checkout is never "target done" (2026-10-28: finance-signals-dashboard's planner refused
+            # its uncommitted Slice 5p and the Codex lane idled 02:24-06:00). $leftovers bounds the restarts.
+            elseif ([int]$leftovers[$name] -lt 3 -and (Test-Leftover $dir $r.Q.Harness $text)) {
                 $leftovers[$name] = 1 + [int]$leftovers[$name]
                 $row.Note += "session ended mid-work at $((Get-Date).ToString('HH:mm')) (uncommitted changes left); fresh session started to finish it. "; [void]$pending.Add($own); Write-Decision $name 'ended mid-work: fresh session'
             }

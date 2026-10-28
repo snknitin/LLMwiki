@@ -3,7 +3,7 @@
 # Usage: powershell -NoProfile -ExecutionPolicy Bypass -File test-fallback.ps1
 $ErrorActionPreference = 'Stop'
 $ast = [System.Management.Automation.Language.Parser]::ParseFile((Join-Path $PSScriptRoot 'overnight-run.ps1'), [ref]$null, [ref]$null)
-$ast.FindAll({ param($n) $n -is [System.Management.Automation.Language.FunctionDefinitionAst] -and $n.Name -in 'Test-Parked', 'Get-SessionHarness', 'Save-RunState', 'Test-Leftover', 'Get-Backfill', 'Get-AdvanceSpec', 'Test-CachedPass', 'Get-LaneStates', 'Read-Pipeline', 'Move-ProjectLine', 'Get-LaneFor', 'Sync-Pipeline', 'Test-Built', 'Get-RunSet', 'Test-NetError', 'Test-OpenDirection', 'Set-PreviewPorts', 'Test-SharedQwen', 'Test-LimitHit', 'Get-LimitReset' }, $true) |
+$ast.FindAll({ param($n) $n -is [System.Management.Automation.Language.FunctionDefinitionAst] -and $n.Name -in 'Test-Parked', 'Get-SessionHarness', 'Save-RunState', 'Test-Leftover', 'Get-Backfill', 'Get-AdvanceSpec', 'Test-CachedPass', 'Get-LaneStates', 'Read-Pipeline', 'Move-ProjectLine', 'Get-LaneFor', 'Sync-Pipeline', 'Test-Built', 'Get-RunSet', 'Test-NetError', 'Test-OpenDirection', 'Set-PreviewPorts', 'Test-SharedQwen', 'Test-LimitHit', 'Get-LimitReset', 'Complete-Run' }, $true) |
     ForEach-Object { . ([scriptblock]::Create($_.Extent.Text)) }
 $failed = 0
 function Check($what, $got, $want) { if ("$got" -ne "$want") { Write-Output "FAIL $what`: got '$got', want '$want'"; $script:failed++ } else { Write-Output "ok   $what" } }
@@ -231,5 +231,16 @@ Check 'limit: Codex weekly limit with a garbled apostrophe' (Test-LimitHit $code
 Check 'limit: its dated reset' (Get-LimitReset $codexLimit).ToString('yyyy-MM-dd HH:mm') '2026-11-01 11:42'
 Check 'limit: Claude session limit still' (Test-LimitHit "You've hit your session limit · resets 2:40am") 'True'
 Check 'limit: ordinary text is not one' (Test-LimitHit 'All 58 tests passed.') 'False'
+
+# A session log as the runner writes it: UTF-8 "=== session" headers, each right after the tool's UTF-16 "\r\0\n\0"
+# (2026-10-28: the split missed them, so session 11's "resets 5am" was read as session 5's "resets 12am").
+$logDir = Join-Path ([IO.Path]::GetTempPath()) "complete-run-test-$PID"; New-Item -ItemType Directory -Force $logDir | Out-Null
+$u8 = [Text.Encoding]::UTF8; $u16 = [Text.Encoding]::Unicode
+[IO.File]::WriteAllBytes((Join-Path $logDir 'beta.log'), [byte[]]($u8.GetBytes("=== session 5 23:40 ===`r`n") + $u16.GetBytes("You've hit your session limit - resets 12am (Asia/Kolkata)`r`n") + $u8.GetBytes("=== session 11 04:04 ===`r`n") + $u16.GetBytes("work`r`nYou've hit your session limit - resets 5am (Asia/Kolkata)`r`n")))
+$limitUntil = @{}; $projects = $logDir; $stateFile = Join-Path $logDir 'state.json'; $runPhase = 'wrapup'; $qaResults = @{}
+$sessionText = Complete-Run ([pscustomobject]@{ Name = 'beta'; Harness = 'claude' }) @{ Note = '' }
+Remove-Item -Recurse -Force $logDir
+Check 'session log: only the last session is read' ($sessionText -match '12am') 'False'
+Check 'session log: its own reset time parks claude' $limitUntil.claude (Get-LimitReset 'resets 5am')
 
 if ($failed) { exit 1 }
