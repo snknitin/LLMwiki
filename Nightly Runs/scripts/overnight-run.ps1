@@ -1114,6 +1114,7 @@ function Get-QaFromReport($dir, $from) {
 function Complete-QaJob($r, $timedOut) {
     $name = $r.Q.Name; $dir = Join-Path $projects $name; $fam = $r.Plan.Family
     $text = (("$(Get-Content $r.Log -Raw -Encoding UTF8 -ErrorAction SilentlyContinue)" -replace "`0", '') -split '(?m)^=== QA ')[-1]
+    $timedOut = $timedOut -or $text -match '(?s)LOCAL AGENT FAILED:.*timed out after [\d.]+ seconds'   # Hermes stops itself at --run-budget
     if ($fam -eq 'hermes') { git -C $dir pull --rebase --autostash -q 2>$null }   # its commits reach the desktop only now
     # Put back what QA's verify run re-took (tracked screenshots), then look at what QA itself committed.
     $byVerify = @(git -C $dir status --porcelain 2>$null | Where-Object { $_ -notin $r.Dirty -and $_ -match '^ M ' } | ForEach-Object { $_.Substring(3) } | Where-Object { $_ -notin $qaAllowed })
@@ -1136,6 +1137,12 @@ function Complete-QaJob($r, $timedOut) {
     elseif ($text -match 'SPARK_HEAD_MISMATCH') { Set-Qa $name 'failed' 'FirstSpark HEAD differs from the desktop commit being reviewed' 0 $by }
     else { Set-Qa $name 'failed' 'the QA session ended without a "QA RESULT:" line' 0 $by }
     if ($qaResults[$name].state -in 'pass', 'findings') { $script:qaFrom[$name] = "$(git -C $dir rev-parse HEAD 2>$null)" }
+    # A timed-out range is left unreviewed, so the next QA covers only the newest slice instead of the whole night again
+    # (owner, 2026-10-28: each retry grew and timed out again, 3 times each on jobs-search and bionic-reading-trainer).
+    elseif ($timedOut -and $r.Head) {
+        $script:qaFrom[$name] = $r.Head
+        $rows[$name].Note += " Not reviewed (QA timed out): $("$($r.From)" -replace '^(.{7}).*', '$1')..$($r.Head -replace '^(.{7}).*', '$1')."
+    }
     return (-not $r.Plan.FallbackUsed -and -not $foreign -and $qaResults[$name].state -in 'failed', 'skipped')
 }
 # QA of a slice the moment its builder finishes it, on the lane, before the next slice is planned: its findings go into

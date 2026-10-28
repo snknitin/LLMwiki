@@ -3,7 +3,7 @@
 # Usage: powershell -NoProfile -ExecutionPolicy Bypass -File test-fallback.ps1
 $ErrorActionPreference = 'Stop'
 $ast = [System.Management.Automation.Language.Parser]::ParseFile((Join-Path $PSScriptRoot 'overnight-run.ps1'), [ref]$null, [ref]$null)
-$ast.FindAll({ param($n) $n -is [System.Management.Automation.Language.FunctionDefinitionAst] -and $n.Name -in 'Test-Parked', 'Get-SessionHarness', 'Save-RunState', 'Test-Leftover', 'Get-Backfill', 'Get-AdvanceSpec', 'Test-CachedPass', 'Get-LaneStates', 'Read-Pipeline', 'Move-ProjectLine', 'Get-LaneFor', 'Sync-Pipeline', 'Test-Built', 'Get-RunSet', 'Test-NetError', 'Test-OpenDirection', 'Set-PreviewPorts', 'Test-SharedQwen', 'Test-LimitHit', 'Get-LimitReset', 'Complete-Run' }, $true) |
+$ast.FindAll({ param($n) $n -is [System.Management.Automation.Language.FunctionDefinitionAst] -and $n.Name -in 'Test-Parked', 'Get-SessionHarness', 'Save-RunState', 'Test-Leftover', 'Get-Backfill', 'Get-AdvanceSpec', 'Test-CachedPass', 'Get-LaneStates', 'Read-Pipeline', 'Move-ProjectLine', 'Get-LaneFor', 'Sync-Pipeline', 'Test-Built', 'Get-RunSet', 'Test-NetError', 'Test-OpenDirection', 'Set-PreviewPorts', 'Test-SharedQwen', 'Test-LimitHit', 'Get-LimitReset', 'Complete-Run', 'Complete-QaJob', 'Set-Qa', 'Format-Qa', 'Get-QaFromReport' }, $true) |
     ForEach-Object { . ([scriptblock]::Create($_.Extent.Text)) }
 $failed = 0
 function Check($what, $got, $want) { if ("$got" -ne "$want") { Write-Output "FAIL $what`: got '$got', want '$want'"; $script:failed++ } else { Write-Output "ok   $what" } }
@@ -242,5 +242,19 @@ $sessionText = Complete-Run ([pscustomobject]@{ Name = 'beta'; Harness = 'claude
 Remove-Item -Recurse -Force $logDir
 Check 'session log: only the last session is read' ($sessionText -match '12am') 'False'
 Check 'session log: its own reset time parks claude' $limitUntil.claude (Get-LimitReset 'resets 5am')
+
+# A QA that hit Hermes's --run-budget counts as timed out, and the next QA starts after its range (owner, 2026-10-28).
+$projects = Join-Path ([IO.Path]::GetTempPath()) "qa-range-test-$PID"; $d = Join-Path $projects 'gamma'; New-Item -ItemType Directory -Force $d | Out-Null
+$ErrorActionPreference = 'Continue'
+git -C $d init -q; git -C $d -c user.email=t@t -c user.name=t commit -q --allow-empty -m c0; $c0 = "$(git -C $d rev-parse HEAD)"
+git -C $d -c user.email=t@t -c user.name=t commit -q --allow-empty -m c1; $c1 = "$(git -C $d rev-parse HEAD)"
+Set-Content (Join-Path $projects 'gamma.qa-fallback.txt') "=== QA 06:38 of $c0..$c1 on hermes:qwen3.6-35b-a3b ===`nLOCAL AGENT FAILED: Command '['hermes', '--run-budget',`n'1800']' timed out after 1859.99 seconds`nSPARK_GIT dirty=2 unpushed=0"
+$rows = @{ gamma = @{ Note = '' } }; $qaFrom = @{}; $qaAllowed = @('REPORT.md'); $QaMinutes = 30; $DryRun = $true
+$r = @{ Q = @{ Name = 'gamma' }; Plan = @{ Family = 'hermes'; Spec = 'hermes:qwen3.6-35b-a3b'; FallbackUsed = $true }; Log = (Join-Path $projects 'gamma.qa-fallback.txt'); Head = $c1; From = $c0; Dirty = @() }
+$null = Complete-QaJob $r $false
+$ErrorActionPreference = 'Stop'
+Remove-Item -Recurse -Force $projects
+Check 'qa: Hermes run-budget stop is a timeout' $qaResults.gamma.reason 'timed out after 30 min'
+Check 'qa: the next QA starts after the timed-out range' $qaFrom.gamma $c1
 
 if ($failed) { exit 1 }
