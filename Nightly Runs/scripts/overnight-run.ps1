@@ -270,6 +270,12 @@ function Test-Built($dir) {
         elseif ($t -match '(?ms)^###\s+Q\d+[^\r\n]*Move \S+ to Active\?(.*?)(?=^#|\z)') { $Matches[1] -notmatch '(?i)- \[x\][^\r\n]*(keep|not now|not yet|\bno\b)' }
         else { $false })
     if (-not $said) { return $false }
+    # A usable app first (owner, 2026-10-28: "built" projects had a blank page or no working preview): the MVP gate in
+    # verify and a preview script, unless BUILD_SPEC says "UI: none".
+    $spec = Join-Path $dir 'BUILD_SPEC.md'; $verify = Join-Path $dir 'scripts\verify.ps1'
+    $headless = (Test-Path $spec) -and [bool](Select-String -Path $spec -Pattern '^\s*\**UI\**\s*:\s*\**none\b' -Quiet)
+    $usable = (Test-Path $verify) -and [bool](Select-String -Path $verify -Pattern 'MVP FLOW OK' -SimpleMatch -Quiet) -and (Test-Path (Join-Path $dir 'scripts\preview.ps1'))
+    if (-not $headless -and -not $usable) { return $false }
     $tree = Test-TreeBuilt $dir
     return ($null -eq $tree) -or $tree   # the tree overrules the report line; no tree, the line decides
 }

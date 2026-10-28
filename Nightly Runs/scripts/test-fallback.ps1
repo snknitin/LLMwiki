@@ -142,7 +142,8 @@ Check 'pipeline: order untouched, CRLF kept' ([bool]($after -match "1\. a1`r`n2\
 Check 'pipeline: moves logged' $pipelineMoves.Count 3
 $null = Move-ProjectLine 'c2' 'active'
 Check 'pipeline: built project to Active' (Read-Pipeline).Where.c2 'active'
-$rep = Join-Path $root 'rep'; New-Item -ItemType Directory -Force $rep | Out-Null
+$rep = Join-Path $root 'rep'; New-Item -ItemType Directory -Force (Join-Path $rep 'scripts') | Out-Null
+Set-Content (Join-Path $rep 'scripts\verify.ps1') "'MVP FLOW OK'"; Set-Content (Join-Path $rep 'scripts\preview.ps1') '# preview'   # a usable app: built can apply
 Set-Content (Join-Path $rep 'REPORT.md') "# R`n## Status`nProject built: only G3 and G4 (owner steps) are left"
 Check 'built: marker' (Test-Built $rep) 'True'
 Set-Content (Join-Path $rep 'REPORT.md') "# R`n## Open questions`n### Q5: Move x to Active?`n- [ ] Yes (recommended)`n- [x] Keep building`n"
@@ -179,7 +180,8 @@ Check 'top 10: running it again changes nothing' ([IO.File]::ReadAllText($prioFi
 $null = Move-ProjectLine 'r03' 'active'; $null = Sync-Pipeline; $st = Read-Pipeline
 Check 'top 10: one more Active brings in the next rank' ([bool]($st.Where.r13 -in 'claude', 'codex', 'hermes')) 'True'
 # Built projects move to Active without asking; one the owner told to keep building stays.
-New-Item -ItemType Directory -Force (Join-Path $projects 'r04') | Out-Null; Set-Content (Join-Path $projects 'r04\REPORT.md') "# R`n## Status`nProject built: only G3 is left (owner)"
+New-Item -ItemType Directory -Force (Join-Path $projects 'r04\scripts') | Out-Null; Set-Content (Join-Path $projects 'r04\REPORT.md') "# R`n## Status`nProject built: only G3 is left (owner)"
+Set-Content (Join-Path $projects 'r04\scripts\verify.ps1') "'MVP FLOW OK'"; Set-Content (Join-Path $projects 'r04\scripts\preview.ps1') '# preview'   # a usable app
 Set-Content (Join-Path $projects 'r06\REPORT.md') "# R`n## Open questions`n### Q5: Move r06 to Active?`n- [ ] Yes (recommended)`n- [x] Not now, keep building"
 $null = Sync-Pipeline; $st = Read-Pipeline
 Check 'built: a built project in a lane moves to Active by itself' $st.Where.r04 'active'
@@ -309,6 +311,10 @@ Set-Content $tm '{"nodes":[{"id":"A","status":"done"},{"id":"B","status":"blocke
 Check 'built: not under 80% done' (Test-TreeBuilt $tb) 'False'
 Set-Content (Join-Path $tb 'REPORT.md') "Project built: all done"
 Check 'built: a Project built line does not overrule the tree' (Test-Built $tb) 'False'
+Set-Content $tm '{"nodes":[{"id":"A","status":"done"}]}'
+Check 'built: not without the MVP gate and a preview' (Test-Built $tb) 'False'
+New-Item -ItemType Directory -Force (Join-Path $tb 'scripts') | Out-Null; Set-Content (Join-Path $tb 'scripts\verify.ps1') "'MVP FLOW OK'"; Set-Content (Join-Path $tb 'scripts\preview.ps1') '# preview'
+Check 'built: tree done, MVP gate and preview' (Test-Built $tb) 'True'
 Remove-Item -Recurse -Force $tb
 
 if ($failed) { exit 1 }
