@@ -180,6 +180,18 @@ function Get-QaPlan($q, $roles, [switch]$Fallback) {
 }
 $roles = Read-Roles $rolesFile
 # roles.json's builder model applies to a lane project with no @tag model of its own (claude:opus is the old default).
+# The owner's picks take effect at the next step (owner, 2026-10-29): before every builder session, planning step and QA
+# review the runner reads roles.json and the project's @tag model again, so a model or effort changed on the board mid-run
+# is used at once, and the report's model column says what ran. The harness itself never changes mid-run.
+function Update-Choices($q) {
+    $script:roles = Read-Roles $rolesFile
+    $now = @(Read-Queue | Where-Object { $_.Name -eq $q.Name })[0]
+    $model = $(if ($now -and $now.Harness -eq $q.Harness -and $now.Model) { $now.Model } else { $null })
+    if (-not $model -and $roles[$q.Harness] -and $roles[$q.Harness].builder -match $specPattern -and $Matches[1] -eq $q.Harness) { $model = $Matches[2] }
+    $q.Model = $model
+    if ($now) { $q.Qa = $now.Qa }
+    if ($rows -and $rows[$q.Name]) { $rows[$q.Name].Harness = "$($q.Harness)$(if ($model) { ':' + $model })" }
+}
 function Set-BuilderModels($queue) {
     foreach ($q in $queue) { if (-not $q.Model -and $roles[$q.Harness] -and $roles[$q.Harness].builder -match $specPattern -and $Matches[1] -eq $q.Harness -and $Matches[2]) { $q.Model = $Matches[2] } }
     return $queue
@@ -454,7 +466,7 @@ if ($spec -like 'hermes:*' -and $model -in 'glm53-flash', 'deepseek41-flash-pair
 } elseif ($spec -like 'codex*') {
     $a = @('exec', '--dangerously-bypass-approvals-and-sandbox')
     # codex:<profile>-<level> (codex:default-<level>: the config's own model) sets the reasoning level, unless a profile has that full name.
-    if ($model -match '^(.+)-(low|medium|high|xhigh)$' -and -not (Test-Path (Join-Path $HOME ".codex\$model.config.toml"))) { $model = $Matches[1]; $a += @('-c', "model_reasoning_effort=$($Matches[2])") }
+    if ($model -match '^(.+)-(low|medium|high|xhigh|max)$' -and -not (Test-Path (Join-Path $HOME ".codex\$model.config.toml"))) { $model = $Matches[1]; $a += @('-c', "model_reasoning_effort=$($Matches[2])") }
     if ($model -eq 'default') { $model = $null }
     if ($model -and (Test-Path (Join-Path $HOME ".codex\$model.config.toml"))) { $a += @('-p', $model) } elseif ($model) { $a += @('-m', $model) }
     $text | & codex @a - *>> $log
@@ -812,7 +824,11 @@ $worker = {
     switch ($harness) {
         'codex' {
             # @codex:<name> is a profile when ~/.codex/<name>.config.toml exists (model + reasoning effort), else a model id.
+            # <profile>-<effort> (the board's effort menus; default-<effort>: config.toml's own model) sets the effort on
+            # top of that profile, unless a profile has that full name.
             $a = @('exec', '--dangerously-bypass-approvals-and-sandbox')
+            if ($model -match '^(.+)-(low|medium|high|xhigh|max)$' -and -not (Test-Path (Join-Path $HOME ".codex\$model.config.toml"))) { $model = $Matches[1]; $a += @('-c', "model_reasoning_effort=$($Matches[2])") }
+            if ($model -eq 'default') { $model = $null }
             if ($model -and (Test-Path (Join-Path $HOME ".codex\$model.config.toml"))) { $a += @('-p', $model) } elseif ($model) { $a += @('-m', $model) }
             $prompt | & codex @a - *>> $log
         }
@@ -946,6 +962,7 @@ function Get-AdvanceSpec($q) {
     }
 }
 function Start-Advance($q, $action = 'advance', $why = "tonight's target passed during the run") {
+    Update-Choices $q
     $name = $q.Name; $dir = Join-Path $projects $name
     $issues = @(Compare-Integrity $integrity[$name] (Get-Integrity $dir))   # checked before the advance re-baselines it
     if ($issues) {
@@ -1227,6 +1244,7 @@ function Complete-QaJob($r, $timedOut) {
 function Test-SharedQwen($plan) { return "$($plan.Spec)" -like 'hermes:qwen*' }
 
 function Start-SliceQa($q) {
+    Update-Choices $q
     $name = $q.Name; $dir = Join-Path $projects $name
     $from = $(if ($qaFrom[$name]) { $qaFrom[$name] } else { $heads[$name] })
     if ($DryRun -or -not $qaPromptText -or -not (Test-Progress $dir $from)) { return $false }
@@ -1266,6 +1284,7 @@ while ($pending.Count -or $running.Count) {
         if ($PerHarness -gt 0 -and @($running.Values | Where-Object { $_.Q.Harness -eq $use }).Count -ge $PerHarness) { continue }   # 0 = no limit: every project in the lane at once
         if ($firstStep[$q.Name]) { $f = $firstStep[$q.Name]; $firstStep.Remove($q.Name); $pending.Remove($q); Start-Advance $q $f.Action $f.Why; continue }
         $pending.Remove($q)
+        Update-Choices $q
         $run = $q
         if ($use -ne $q.Harness) {   # Home: the queue entry the project goes back to when this session ends
             $run = [pscustomobject]@{ Name = $q.Name; Harness = $use; Model = $null; Home = $q }
@@ -1434,6 +1453,7 @@ foreach ($q in $queue) {
     if (-not $QaOnly -and -not $sessions[$name]) { continue }   # QA-only explicitly reviews the supplied earlier range
     if ($QaOnly -and $checks[$name].Blockers) { Set-Qa $name 'skipped' ('preflight: ' + ($checks[$name].Blockers -join '; ')); continue }
     if ($resumedQa[$name]) { continue }   # a resumed run already finished this one
+    Update-Choices $q
     $from = $(if ($qaFrom[$name]) { $qaFrom[$name] } else { $heads[$name] })
     if (-not (Test-Progress $dir $from)) { if (-not $qaResults[$name] -or $qaResults[$name].state -eq 'running') { Set-Qa $name 'skipped' 'no real commit tonight' }; continue }   # slice QA covered it all
     $plan = Get-QaPlan $q $roles

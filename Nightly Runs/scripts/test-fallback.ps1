@@ -3,7 +3,7 @@
 # Usage: powershell -NoProfile -ExecutionPolicy Bypass -File test-fallback.ps1
 $ErrorActionPreference = 'Stop'
 $ast = [System.Management.Automation.Language.Parser]::ParseFile((Join-Path $PSScriptRoot 'overnight-run.ps1'), [ref]$null, [ref]$null)
-$ast.FindAll({ param($n) $n -is [System.Management.Automation.Language.FunctionDefinitionAst] -and $n.Name -in 'Test-Parked', 'Get-SessionHarness', 'Save-RunState', 'Test-Leftover', 'Get-Backfill', 'Get-AdvanceSpec', 'Test-CachedPass', 'Get-LaneStates', 'Read-Pipeline', 'Move-ProjectLine', 'Get-LaneFor', 'Sync-Pipeline', 'Test-Built', 'Get-RunSet', 'Test-NetError', 'Test-OpenDirection', 'Set-PreviewPorts', 'Test-SharedQwen', 'Test-LimitHit', 'Get-LimitReset', 'Complete-Run', 'Complete-QaJob', 'Set-Qa', 'Format-Qa', 'Get-QaFromReport', 'Get-Upkeep', 'Get-MissingStructure', 'Move-Stalled', 'Test-Progress', 'Write-Decision', 'Test-ToolMissing', 'Test-TreeBuilt', 'Get-LockHolder', 'Get-UnverifiedActive', 'Read-HomeLanes' }, $true) |
+$ast.FindAll({ param($n) $n -is [System.Management.Automation.Language.FunctionDefinitionAst] -and $n.Name -in 'Test-Parked', 'Get-SessionHarness', 'Save-RunState', 'Test-Leftover', 'Get-Backfill', 'Get-AdvanceSpec', 'Test-CachedPass', 'Get-LaneStates', 'Read-Pipeline', 'Move-ProjectLine', 'Get-LaneFor', 'Sync-Pipeline', 'Test-Built', 'Get-RunSet', 'Test-NetError', 'Test-OpenDirection', 'Set-PreviewPorts', 'Test-SharedQwen', 'Test-LimitHit', 'Get-LimitReset', 'Complete-Run', 'Complete-QaJob', 'Set-Qa', 'Format-Qa', 'Get-QaFromReport', 'Get-Upkeep', 'Get-MissingStructure', 'Move-Stalled', 'Test-Progress', 'Write-Decision', 'Test-ToolMissing', 'Test-TreeBuilt', 'Get-LockHolder', 'Get-UnverifiedActive', 'Read-HomeLanes', 'Update-Choices', 'Read-Queue', 'Read-Roles', 'Get-ModelFamily' }, $true) |
     ForEach-Object { . ([scriptblock]::Create($_.Extent.Text)) }
 $failed = 0
 function Check($what, $got, $want) { if ("$got" -ne "$want") { Write-Output "FAIL $what`: got '$got', want '$want'"; $script:failed++ } else { Write-Output "ok   $what" } }
@@ -347,5 +347,21 @@ $null = Move-ProjectLine 'back' 'active'; $null = Move-ProjectLine 'h1' 'active'
 Check 'home lane: comes back to Hermes, not the emptiest lane' (Get-LaneFor 'back' (Read-Pipeline)) 'hermes'
 Check 'home lane: a newcomer still takes the emptiest' (Get-LaneFor 'newcomer' (Read-Pipeline)) 'hermes'
 Remove-Item -Recurse -Force $projects
+
+# A model or effort picked on the board mid-run is used at the next step (owner, 2026-10-29).
+$tmpc = Join-Path ([IO.Path]::GetTempPath()) "choices-$PID"; New-Item -ItemType Directory -Force $tmpc | Out-Null
+$prioFile = Join-Path $tmpc 'prio.md'; $rolesFile = Join-Path $tmpc 'roles.json'
+Set-Content $rolesFile '{"claude":{"builder":"claude:opus","qa":"codex"},"codex":{"builder":"codex:sol-6-1-high","qa":"hermes"},"hermes":{"builder":"hermes","qa":"claude:sonnet"}}'
+Set-Content $prioFile "## Tonight`n`n### Claude`n`n### Codex`n- p1 @codex:sol-6-1-xhigh`n`n### Hermes`n`n## Backlog`n"
+$specPattern = $ast.Find({ param($n) $n -is [System.Management.Automation.Language.AssignmentStatementAst] -and "$($n.Left)" -eq '$specPattern' }, $true).Right.Extent.Text.Trim("'")
+$rows = @{ p1 = @{ Harness = 'codex:sol-6-high' } }; $pq = [pscustomobject]@{ Name = 'p1'; Harness = 'codex'; Model = 'sol-6-high'; Qa = $null }
+Update-Choices $pq
+Check 'choices: the project tag picked on the board is used' $pq.Model 'sol-6-1-xhigh'
+Check 'choices: the report says what runs' $rows.p1.Harness 'codex:sol-6-1-xhigh'
+Set-Content $prioFile "## Tonight`n`n### Claude`n`n### Codex`n- p1`n`n### Hermes`n`n## Backlog`n"
+Set-Content $rolesFile '{"claude":{"builder":"claude:opus","qa":"codex"},"codex":{"builder":"codex:astra-6-high","qa":"hermes"},"hermes":{"builder":"hermes","qa":"claude:sonnet"}}'
+Update-Choices $pq
+Check 'choices: no tag, the lane builder changed in Roles is used' $pq.Model 'astra-6-high'
+Remove-Item -Recurse -Force $tmpc
 
 if ($failed) { exit 1 }
