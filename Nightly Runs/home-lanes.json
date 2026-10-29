@@ -1,0 +1,14 @@
+{
+  "creator-content-engine": "claude",
+  "event-market-research-terminal": "claude",
+  "personal-library-website": "claude",
+  "event-networking-copilot": "codex",
+  "finance-signals-dashboard": "codex",
+  "customer-support-agency": "codex",
+  "paper-logbook": "codex",
+  "bionic-reading-trainer": "codex",
+  "motto-agent-council": "hermes",
+  "daily-parent-check-in": "hermes",
+  "leetcode-pattern-curriculum": "hermes",
+  "expert-lens-skill": "hermes"
+}

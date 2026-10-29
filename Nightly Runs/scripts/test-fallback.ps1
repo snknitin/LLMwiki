@@ -3,7 +3,7 @@
 # Usage: powershell -NoProfile -ExecutionPolicy Bypass -File test-fallback.ps1
 $ErrorActionPreference = 'Stop'
 $ast = [System.Management.Automation.Language.Parser]::ParseFile((Join-Path $PSScriptRoot 'overnight-run.ps1'), [ref]$null, [ref]$null)
-$ast.FindAll({ param($n) $n -is [System.Management.Automation.Language.FunctionDefinitionAst] -and $n.Name -in 'Test-Parked', 'Get-SessionHarness', 'Save-RunState', 'Test-Leftover', 'Get-Backfill', 'Get-AdvanceSpec', 'Test-CachedPass', 'Get-LaneStates', 'Read-Pipeline', 'Move-ProjectLine', 'Get-LaneFor', 'Sync-Pipeline', 'Test-Built', 'Get-RunSet', 'Test-NetError', 'Test-OpenDirection', 'Set-PreviewPorts', 'Test-SharedQwen', 'Test-LimitHit', 'Get-LimitReset', 'Complete-Run', 'Complete-QaJob', 'Set-Qa', 'Format-Qa', 'Get-QaFromReport', 'Get-Upkeep', 'Get-MissingStructure', 'Move-Stalled', 'Test-Progress', 'Write-Decision', 'Test-ToolMissing', 'Test-TreeBuilt', 'Get-LockHolder', 'Get-UnverifiedActive' }, $true) |
+$ast.FindAll({ param($n) $n -is [System.Management.Automation.Language.FunctionDefinitionAst] -and $n.Name -in 'Test-Parked', 'Get-SessionHarness', 'Save-RunState', 'Test-Leftover', 'Get-Backfill', 'Get-AdvanceSpec', 'Test-CachedPass', 'Get-LaneStates', 'Read-Pipeline', 'Move-ProjectLine', 'Get-LaneFor', 'Sync-Pipeline', 'Test-Built', 'Get-RunSet', 'Test-NetError', 'Test-OpenDirection', 'Set-PreviewPorts', 'Test-SharedQwen', 'Test-LimitHit', 'Get-LimitReset', 'Complete-Run', 'Complete-QaJob', 'Set-Qa', 'Format-Qa', 'Get-QaFromReport', 'Get-Upkeep', 'Get-MissingStructure', 'Move-Stalled', 'Test-Progress', 'Write-Decision', 'Test-ToolMissing', 'Test-TreeBuilt', 'Get-LockHolder', 'Get-UnverifiedActive', 'Read-HomeLanes' }, $true) |
     ForEach-Object { . ([scriptblock]::Create($_.Extent.Text)) }
 $failed = 0
 function Check($what, $got, $want) { if ("$got" -ne "$want") { Write-Output "FAIL $what`: got '$got', want '$want'"; $script:failed++ } else { Write-Output "ok   $what" } }
@@ -336,6 +336,16 @@ foreach ($n in 'shown', 'fresh') { Set-Content (Join-Path $projects "$n\scripts\
 New-Item -ItemType Directory -Force (Join-Path $projects '.overnight-logs\2026-10-28_2100') | Out-Null; Set-Content (Join-Path $projects '.overnight-logs\2026-10-28_2100\shown.verify.txt') 'MVP FLOW OK'
 Set-Content $prioFile "## Tonight`n`n### Claude`n`n### Codex`n`n### Hermes`n`n## Active`n- shown`n- fresh`n- noprev`n`n## Backlog`n"
 Check 'unverified: only the Active project with a preview and no recent verify' ((Get-UnverifiedActive) -join ',') 'fresh'
+Remove-Item -Recurse -Force $projects
+
+# A project that left the lanes comes back to the lane it ran in, not the emptiest one (2026-10-29).
+$projects = Join-Path ([IO.Path]::GetTempPath()) "homelane-$PID"; New-Item -ItemType Directory -Force $projects | Out-Null; $prioFile = Join-Path $projects 'prio.md'
+Set-Content $prioFile "## Tonight`n`n### Claude`n- c1`n`n### Codex`n- x1`n- x2`n`n### Hermes`n- h1`n- back`n`n## Active`n`n## Backlog`n"
+$DryRun = $false; $pipelineMoves = New-Object System.Collections.ArrayList
+$null = Sync-Pipeline
+$null = Move-ProjectLine 'back' 'active'; $null = Move-ProjectLine 'h1' 'active'
+Check 'home lane: comes back to Hermes, not the emptiest lane' (Get-LaneFor 'back' (Read-Pipeline)) 'hermes'
+Check 'home lane: a newcomer still takes the emptiest' (Get-LaneFor 'newcomer' (Read-Pipeline)) 'hermes'
 Remove-Item -Recurse -Force $projects
 
 if ($failed) { exit 1 }

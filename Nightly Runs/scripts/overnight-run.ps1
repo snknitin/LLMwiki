@@ -234,8 +234,17 @@ function Get-RunSet($st) {
 }
 # A project's lane: its own @harness tag, else the lane with the fewest projects (ties: Codex, then Claude, then Hermes;
 # the runner clones a missing FirstSpark copy for Hermes).
+# The lane each project last ran in (Nightly Runs/home-lanes.json, kept by Sync-Pipeline): a project that leaves the lanes
+# and comes back returns to its own harness (2026-10-29: leetcode-pattern-curriculum left Hermes and came back on Codex).
+function Read-HomeLanes {
+    $h = @{}
+    try { (Get-Content (Join-Path (Split-Path $prioFile) 'home-lanes.json') -Raw -ErrorAction Stop | ConvertFrom-Json).PSObject.Properties | ForEach-Object { $h[$_.Name] = "$($_.Value)" } } catch { }
+    return $h
+}
 function Get-LaneFor($name, $st) {
     if ($st.Tag[$name]) { return $st.Tag[$name] }
+    $homeLane = (Read-HomeLanes)[$name]
+    if ($homeLane -in 'claude', 'codex', 'hermes') { return $homeLane }
     $count = [ordered]@{ codex = 0; claude = 0; hermes = 0 }; foreach ($w in $st.Where.Values) { if ($w -in 'claude', 'codex', 'hermes') { $count[$w]++ } }
     $best = 'codex'; foreach ($k in @($count.Keys)) { if ($count[$k] -lt $count[$best]) { $best = $k } }   # first wins a tie
     return $best
@@ -270,6 +279,10 @@ function Sync-Pipeline {
         if (Move-ProjectLine $n 'backlog') { $st.Where[$n] = 'backlog'; $moved += "$n back to Backlog (not among the next 5 ranks)" }
     }
     foreach ($m in $moved) { [void]$pipelineMoves.Add("$((Get-Date).ToString('HH:mm')) $m"); Write-Output "pipeline: moved $m" }
+    # Remember each lane project's lane, so it comes back to it after a spell in Ready next or Active.
+    $homes = Read-HomeLanes; $before = ($homes | ConvertTo-Json -Compress)
+    foreach ($n in @($st.Where.Keys | Where-Object { $st.Where[$_] -in $lanes })) { $homes[$n] = $st.Where[$n] }
+    if (($homes | ConvertTo-Json -Compress) -ne $before -and -not $DryRun) { $homes | ConvertTo-Json | Set-Content -Path (Join-Path (Split-Path $prioFile) 'home-lanes.json') -Encoding UTF8 }
 }
 # Built: the planner found nothing buildable outside owner-only steps and wrote "Project built: ..." in REPORT.md (or the
 # older "Move <project> to Active?" question, unless the owner answered it with keep building).

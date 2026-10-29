@@ -25,15 +25,15 @@ The one list that decides what agents work on. Edit freely: reorder lines, move 
 
 ### Codex
 - event-networking-copilot — A phone-first event companion
-- finance-signals-dashboard @codex:sol-6-high — A read-only, local-first personal dashboard that ranks a ten-instrument India/US watchlist by " · includes merged: market-mood-cards (Morning tab)
-- leetcode-pattern-curriculum — T1 + T3: lcpc predict/attempt/hint loop, two-pointers module (verify.sh on Linux)
+- finance-signals-dashboard — A read-only, local-first personal dashboard that ranks a ten-instrument India/US watchlist by " · includes merged: market-mood-cards (Morning tab)
 - customer-support-agency — Local-first analysis app · includes merged: google-review-reply-desk, support-faq-builder, knowledge-base-agency
-- paper-logbook @codex:sol-6-high — An offline-first, paper-like daily/monthly notebook · includes merged: brainrot-rehab, measure-life, npc-mode-personal-coach (NPC Mode tab)
+- paper-logbook — An offline-first, paper-like daily/monthly notebook · includes merged: brainrot-rehab, measure-life, npc-mode-personal-coach (NPC Mode tab)
 - bionic-reading-trainer — T1–T2: SvelteKit reader, emphasis + scroll/RSVP/chunk modes, screenshots
 
 ### Hermes
 - motto-agent-council — first slice (local small-agent council)
 - daily-parent-check-in — Consent-first local app that sends one daily check-in prompt to a parent (via a simulated inbox
+- leetcode-pattern-curriculum — T1 + T3: lcpc predict/attempt/hint loop, two-pointers module (verify.sh on Linux)
 
 ## Priority order (top 10 = daily focus)
 Tiers P0–P5, highest first; ranks count straight through. In the Agents board, ⤒ ↑ ↓ ⤓ move a project only within its tier, and its tier menu moves it to the edge of another tier.
