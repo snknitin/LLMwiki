@@ -36,6 +36,7 @@ if ($Scheduled) {
 }
 # One run at a time, however it was started (board button, scheduled "Agents Run HHMM" task, by hand): a second one exits.
 # A real run that finds only a -PrepOnly going waits for it (prep is short), so a late prep never costs the night.
+# Not a -Resume check: the prep waits out a -Resume check, so the two would deadlock and the prep give up (2026-10-29 18:00).
 function Get-OtherRuns { @(Get-CimInstance Win32_Process -Filter "Name='powershell.exe' OR Name='pwsh.exe'" | Where-Object { $_.ProcessId -ne $PID -and $_.CommandLine -like '*-File*overnight-run.ps1*' -and $_.CommandLine -notlike '*-Preflight*' }) }
 $others = Get-OtherRuns
 # A -Resume check with nothing to continue exits within seconds: wait that out, so a 23:00 start never loses to it.
@@ -44,7 +45,7 @@ if (-not $Preflight -and $others -and -not @($others | Where-Object { $_.Command
     while (@(Get-OtherRuns | Where-Object { $_.CommandLine -like '*-Resume*' }) -and (Get-Date) -lt $waitUntil) { Start-Sleep -Seconds 5 }
     $others = Get-OtherRuns
 }
-if (-not $Preflight -and -not $PrepOnly -and $others -and -not @($others | Where-Object { $_.CommandLine -notlike '*-PrepOnly*' -and $_.CommandLine -notlike '*-FixOnly*' })) {
+if (-not $Preflight -and -not $PrepOnly -and -not $Resume -and $others -and -not @($others | Where-Object { $_.CommandLine -notlike '*-PrepOnly*' -and $_.CommandLine -notlike '*-FixOnly*' })) {
     $waitUntil = (Get-Date).AddMinutes($PrepMinutes + 5)
     while ((Get-OtherRuns) -and (Get-Date) -lt $waitUntil) { Start-Sleep -Seconds 30 }
     $others = Get-OtherRuns
@@ -77,7 +78,6 @@ function Get-LockHolder {
 }
 $holder = $(if (-not $Preflight) { Get-LockHolder })
 if (-not $Preflight -and ($others -or $holder)) { Write-Output "Another run is going (pid $(@(@($others.ProcessId) + $holder | Where-Object { $_ } | Select-Object -Unique) -join ', ')); not starting a second one."; exit 0 }
-if (-not $Preflight -and -not $PrepOnly -and -not $DryRun) { @{ pid = $PID; started = (Get-Process -Id $PID).StartTime.ToString('o') } | ConvertTo-Json -Compress | Set-Content -Path $runLock -Encoding UTF8 }
 $vault         = $(if ($env:OVERNIGHT_VAULT) { $env:OVERNIGHT_VAULT } else { 'F:\Vaults\LLMWiki' })   # the env overrides are for test-qa.ps1's fixture
 $projects      = $(if ($env:OVERNIGHT_PROJECTS) { $env:OVERNIGHT_PROJECTS } else { 'E:\GIT_ROOT\Projects' })
 $sparkProjects = $(if ($env:OVERNIGHT_SPARK_PROJECTS) { $env:OVERNIGHT_SPARK_PROJECTS } else { '/home/snknitin/Workspace/GIT_ROOT/Projects' })
@@ -104,6 +104,8 @@ if ($Resume) {
     $Kind = $state.kind
     Write-Output "resume: continuing the $Kind run cut off after $($state.started), until $($resumeEnd.ToString('HH:mm'))"
 }
+# Claimed only now: a -Resume check with nothing to continue exits above without it, so it never turns away the scheduled prep or run that fires with it.
+if (-not $Preflight -and -not $PrepOnly -and -not $DryRun) { @{ pid = $PID; started = (Get-Process -Id $PID).StartTime.ToString('o') } | ConvertTo-Json -Compress | Set-Content -Path $runLock -Encoding UTF8 }
 if (-not $Preflight) {
     # Keep the PC awake (not the screen) while this process lives; Windows drops the request when it exits.
     try { Add-Type -Namespace Win32 -Name Power -MemberDefinition '[DllImport("kernel32.dll")] public static extern uint SetThreadExecutionState(uint esFlags);'; [void][Win32.Power]::SetThreadExecutionState(0x80000001) } catch {}
