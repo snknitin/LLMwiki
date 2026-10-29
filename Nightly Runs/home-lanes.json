@@ -10,5 +10,9 @@
   "motto-agent-council": "hermes",
   "daily-parent-check-in": "hermes",
   "leetcode-pattern-curriculum": "hermes",
-  "expert-lens-skill": "hermes"
+  "expert-lens-skill": "hermes",
+  "demand-generation-workbench": "hermes",
+  "field-pokedex": "hermes",
+  "moving-out-marketplace": "claude",
+  "local-video-generation-evaluation-lab": "hermes"
 }

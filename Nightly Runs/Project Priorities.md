@@ -21,19 +21,18 @@ The one list that decides what agents work on. Edit freely: reorder lines, move 
 ### Claude
 - creator-content-engine — Human-led content OS for one creator · includes merged: build-in-public-autoposter, my-agent-posts-about-me, x-profile-autopsy, personal-voice-ghostwriter-and-dm-desk, social-subscription-curator, longform-to-shorts-studio, auto-gtm-engine
 - event-market-research-terminal — A research-only terminal for event markets and crypto narratives · includes merged: edge-desk
-- personal-library-website — A static, book-led personal website · includes merged: epub-highlights-bridge, giftshelf
+- moving-out-marketplace — A deadline-first local marketplace where one move-out becomes a temporary storefront · includes merged: price-my-room
 
 ### Codex
 - event-networking-copilot — A phone-first event companion
 - finance-signals-dashboard — A read-only, local-first personal dashboard that ranks a ten-instrument India/US watchlist by " · includes merged: market-mood-cards (Morning tab)
 - customer-support-agency — Local-first analysis app · includes merged: google-review-reply-desk, support-faq-builder, knowledge-base-agency
 - paper-logbook — An offline-first, paper-like daily/monthly notebook · includes merged: brainrot-rehab, measure-life, npc-mode-personal-coach (NPC Mode tab)
-- bionic-reading-trainer — T1–T2: SvelteKit reader, emphasis + scroll/RSVP/chunk modes, screenshots
 
 ### Hermes
-- motto-agent-council — first slice (local small-agent council)
-- daily-parent-check-in — Consent-first local app that sends one daily check-in prompt to a parent (via a simulated inbox
-- leetcode-pattern-curriculum — T1 + T3: lcpc predict/attempt/hint loop, two-pointers module (verify.sh on Linux)
+- demand-generation-workbench — A local experiment ledger and dashboard for demand discovery · includes merged: conversion-list-builder
+- field-pokedex — An Expo mobile app that identifies likely plant species from a photo via a hosted identificatio
+- local-video-generation-evaluation-lab — A reproducible CLI benchmark harness answering one question
 
 ## Priority order (top 10 = daily focus)
 Tiers P0–P5, highest first; ranks count straight through. In the Agents board, ⤒ ↑ ↓ ⤓ move a project only within its tier, and its tier menu moves it to the edge of another tier.
@@ -78,53 +77,53 @@ Tiers P0–P5, highest first; ranks count straight through. In the Agents board,
 33. local-video-generation-evaluation-lab
 
 ### P3 · Later
-34. handwriting-to-latex
-35. neural-fractal-visualizer
+34. maintainer-desk
+35. inbox-zero-mercenary
 36. dies-at-user-50
-37. taxonomy-cluster-explorer
-38. maintainer-desk
-39. sales-development-agency
-40. event-ops-agency
+37. flex-card-forge
+38. sales-development-agency
+39. event-ops-agency
+40. manga-to-animatic-studio
 41. finance-ops-agency
-42. landing-page-conversion-agency
-43. scam-radar
-44. community-ops-agency
-45. commute-copilot
+42. taxonomy-cluster-explorer
+43. landing-page-conversion-agency
+44. scam-radar
+45. community-ops-agency
 46. deal-desk-agency
-47. flex-card-forge
-48. inbox-zero-mercenary
-49. murder-mystery-game-master
+47. any-app-widget-maker
+48. phonescan-pdf
 
 ### P4 · Someday
-50. on-call-autopilot
-51. recruiting-agency
-52. phonescan-pdf
-53. red-tape-navigator
-54. seo-agency-crew
-55. user-research-agency
-56. wedding-gallery-concierge
-57. any-app-widget-maker
-58. ar-scale-lens
-59. audio-watermark-and-perception-lab
-60. feedback-mirror
+49. on-call-autopilot
+50. recruiting-agency
+51. commute-copilot
+52. murder-mystery-game-master
+53. wedding-gallery-concierge
+54. red-tape-navigator
+55. feedback-mirror
+56. handwriting-to-latex
+57. neural-fractal-visualizer
+58. seo-agency-crew
+59. user-research-agency
+60. ar-scale-lens
 61. live-chess-tutor
+62. audio-watermark-and-perception-lab
 
 ### P5 · Parked ideas
-62. playo-elo-sports-network
-63. tiny-model-game-lab
-64. visual-token-compiler
-65. adaptive-vision-glasses
-66. drone-mission-mapper
-67. manga-to-animatic-studio
-68. song-phrase-mosaic
-69. yugioh-rl-lab
+63. yugioh-rl-lab
+64. playo-elo-sports-network
+65. tiny-model-game-lab
+66. visual-token-compiler
+67. adaptive-vision-glasses
+68. drone-mission-mapper
+69. song-phrase-mosaic
 
 ## Ready next (overnight-ready, not queued)
-- moving-out-marketplace — A deadline-first local marketplace where one move-out becomes a temporary storefront · includes merged: price-my-room
-- demand-generation-workbench — A local experiment ledger and dashboard for demand discovery · includes merged: conversion-list-builder
-- meta-ad-creative-studio — A local creative workbench that turns one product's evidence, audience, offer, and brand system · includes merged: paid-ad-account-audit
-- field-pokedex — An Expo mobile app that identifies likely plant species from a photo via a hosted identificatio
-- local-video-generation-evaluation-lab — A reproducible CLI benchmark harness answering one question
+- maintainer-desk — A review desk for agent PRs and branches across the project repos, fed by the Agents board (re-aimed 2026-10-29; issue triage and Tournament later) · includes merged: pr-factory
+- inbox-zero-mercenary — A reversible email triage desk
+- dies-at-user-50 — An authorized synthetic-user gauntlet
+- flex-card-forge — A local Next.js app that turns opt-in GitHub stats plus pasted Strava/Chess.com exports into a 
+- sales-development-agency — A local research-and-drafting desk · includes merged: cold-email-rewrite-desk, linkedin-lead-list-plus-first-lines, microsite-factory
 
 ## Active (built; daytime feedback and iteration)
 - resume-blueprint-studio @codex:sol-6-1-high — first slice (its branch is codex/specification)
@@ -152,6 +151,12 @@ Tiers P0–P5, highest first; ranks count straight through. In the Agents board,
 - ambient-tv — A lean-back channel guide for the owner's own Jellyfin library
 - visual-recipe-book — A local-first PWA + Python service that captures recipes (URL, paste, image), compiles them int
 - expert-lens-skill — A FirstSpark dashboard for topic Markdown + GLM chat: Expert Lens, Batman Prep (with goal planner), Rabbit Hole, Research (Claim Check), Experiments (Brain Blast) · includes merged: batman-prep-time-skill, goal-to-calendar-planner, rabbit-hole-speedrun, physics-claim-debunker-skill, brain-blast-skill
+- motto-agent-council — first slice (local small-agent council)
+- bionic-reading-trainer — T1–T2: SvelteKit reader, emphasis + scroll/RSVP/chunk modes, screenshots
+- daily-parent-check-in — Consent-first local app that sends one daily check-in prompt to a parent (via a simulated inbox
+- leetcode-pattern-curriculum — T1 + T3: lcpc predict/attempt/hint loop, two-pointers module (verify.sh on Linux)
+- personal-library-website — A static, book-led personal website · includes merged: epub-highlights-bridge, giftshelf
+- meta-ad-creative-studio — A local creative workbench that turns one product's evidence, audience, offer, and brand system · includes merged: paid-ad-account-audit
 
 ## Backlog (BUILD_SPEC written, not set up for overnight yet)
 - adaptive-vision-glasses — A phone-based electronic magnifier for specific near/far tasks (reading labels, whiteboards, me
@@ -165,8 +170,6 @@ Tiers P0–P5, highest first; ranks count straight through. In the Agents board,
 - event-ops-agency — A local Next.js app that turns an event brief plus working spreadsheets (CSV) into a deadline-a · includes merged: ai-event-matchmaker
 - feedback-mirror — A privacy-first, on-device daily appearance journal
 - finance-ops-agency — A local finance-operations desk for a freelancer · includes merged: invoice-chaser-agent, tax-packet-autopilot
-- flex-card-forge — A local Next.js app that turns opt-in GitHub stats plus pasted Strava/Chess.com exports into a 
-- inbox-zero-mercenary — A reversible email triage desk
 - landing-page-conversion-agency — A local CRO workbench that audits a user-OWNED landing page · includes merged: roast-my-landing-page, shopify-product-page-optimizer
 - live-chess-tutor — A local desktop chess board for guided practice
 - manga-to-animatic-studio — A local previsualization studio that turns user-supplied sequential art (original/public-domain
@@ -176,7 +179,6 @@ Tiers P0–P5, highest first; ranks count straight through. In the Agents board,
 - playo-elo-sports-network — A local sports matchmaker for one invite-only group
 - recruiting-agency — A local hiring-design desk
 - red-tape-navigator — A local checklist compiler for Indian government procedures
-- sales-development-agency — A local research-and-drafting desk · includes merged: cold-email-rewrite-desk, linkedin-lead-list-plus-first-lines, microsite-factory
 - scam-radar — A local evidence dashboard that analyzes a pasted gig/job post, URL, email header set, or redac
 - seo-agency-crew — A local, evidence-led editorial workbench for an owned site
 - song-phrase-mosaic — A local desktop tool that indexes a folder of user-owned recordings, transcribes them with word
@@ -185,9 +187,7 @@ Tiers P0–P5, highest first; ranks count straight through. In the Agents board,
 - visual-token-compiler — A local benchmark-driven compiler
 - wedding-gallery-concierge — A photographer-controlled, event-scoped photo search service
 - yugioh-rl-lab — A reproducible card-battler RL laboratory built on an original small rules engine (40–100 car
-- maintainer-desk — A supervised operations desk for one GitHub repository · includes merged: pr-factory
 - taxonomy-cluster-explorer — A local-first dual-view explorer
-- dies-at-user-50 — An authorized synthetic-user gauntlet
 - handwriting-to-latex — A local desktop hotkey utility
 - neural-fractal-visualizer — A deterministic audio-reactive visualizer
 
