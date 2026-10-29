@@ -315,6 +315,17 @@ Set-Content $tm '{"nodes":[{"id":"A","status":"done"}]}'
 Check 'built: not without the MVP gate and a preview' (Test-Built $tb) 'False'
 New-Item -ItemType Directory -Force (Join-Path $tb 'scripts') | Out-Null; Set-Content (Join-Path $tb 'scripts\verify.ps1') "'MVP FLOW OK'"; Set-Content (Join-Path $tb 'scripts\preview.ps1') '# preview'
 Check 'built: tree done, MVP gate and preview' (Test-Built $tb) 'True'
+# The board's view, not the model's snapshot (2026-10-29: personal-library-website's builders logged every node in
+# PROGRESS.md but never touched model.json, so the runner read 1/48 done and kept a built project in its lane).
+Set-Content $tm '{"nodes":[{"id":"A","status":"done"},{"id":"B","status":"ready"},{"id":"C","status":"blocked"},{"id":"D","status":"blocked"},{"id":"G2","kind":"gate","status":"blocked"}],"edges":[{"from":"A","to":"B"},{"from":"B","to":"C"},{"from":"C","to":"D"}]}'
+Set-Content (Join-Path $tb 'PROGRESS.md') "# Progress`n## Log`n## 2026-10-28 21:40 $([char]0x2014) B $([char]0x2014) done: check-dist passes on dist, fails on fixtures/reject-dist`n## 2026-10-28 22:15 $([char]0x2014) C $([char]0x2014) done`n## 2026-10-28 23:00 $([char]0x2014) D $([char]0x2014) verify PASS`n" -Encoding UTF8
+Check 'built: PROGRESS.md entries mark a stale model built' (Test-TreeBuilt $tb) 'True'
+Set-Content (Join-Path $tb 'PROGRESS.md') "## 2026-10-28 21:40 $([char]0x2014) B $([char]0x2014) done`n## 2026-10-28 22:15 $([char]0x2014) C $([char]0x2014) done`n## 2026-10-28 22:30 $([char]0x2014) X $([char]0x2014) done`n" -Encoding UTF8
+Set-Content $tm '{"nodes":[{"id":"A","status":"done"},{"id":"B","status":"blocked"},{"id":"C","status":"blocked"},{"id":"X","status":"done"},{"id":"D","status":"blocked"}],"edges":[{"from":"A","to":"B"},{"from":"B","to":"C"},{"from":"C","to":"D"}]}'
+Check 'built: not when blocked work has all its dependencies done (it is ready)' (Test-TreeBuilt $tb) 'False'
+Set-Content (Join-Path $tb 'PROGRESS.md') "## 2026-10-28 21:40 $([char]0x2014) D $([char]0x2014) started the gift shelf`n" -Encoding UTF8
+Set-Content $tm '{"nodes":[{"id":"A","status":"done"},{"id":"B","status":"done"},{"id":"C","status":"done"},{"id":"X","status":"done"},{"id":"D","status":"blocked"}]}'
+Check 'built: not while PROGRESS.md shows a node in progress' (Test-TreeBuilt $tb) 'False'
 Remove-Item -Recurse -Force $tb
 
 # One run at a time even when the process query misses: the lock names a live runner (2026-10-28: two runners all night).

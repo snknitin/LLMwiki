@@ -317,13 +317,31 @@ function Test-Built($dir) {
 # Built per the build tree: at least 80% of its work nodes (gates aside) done and none an agent could build now (ready or
 # active), so what is left waits on the owner's gates or testing (owner, 2026-10-28: projects with nodes left went to
 # Active). $null when the project has no tree.
+# Statuses as the Agents board shows them (src/tree.ts treeFromHermesModel), not model.json's snapshot: builders log
+# nodes in PROGRESS.md, which marks them done or active, and blocked work whose dependencies are all done turns ready
+# (2026-10-29: personal-library-website read 1/48 done here while the board showed it built).
 function Test-TreeBuilt($dir) {
     $f = Join-Path $dir '.hermes\live-build-tree\model.json'
     if (-not (Test-Path $f)) { return $null }
-    try { $work = @((Get-Content $f -Raw -Encoding UTF8 | ConvertFrom-Json).nodes | Where-Object { $_.kind -ne 'gate' }) } catch { return $false }
+    try { $model = Get-Content $f -Raw -Encoding UTF8 | ConvertFrom-Json } catch { return $false }
+    $nodes = @($model.nodes); $status = @{}; foreach ($n in $nodes) { $status[$n.id] = "$($n.status)" }
+    $progress = Get-Content (Join-Path $dir 'PROGRESS.md') -Raw -Encoding UTF8 -ErrorAction SilentlyContinue
+    foreach ($e in "$progress" -split '\r?\n(?=##\s)') {
+        if ($e -notmatch '^##\s+\d{4}-\d{2}-\d{2}(?:[ T]\d{1,2}:\d{2})?\s*[—–-]\s*([A-Za-z][\w-]*?)(?=\s*[—–:]|[ \t]*(?:\r?\n|$))') { continue }
+        $id = $Matches[1]; $rest = $e.Substring($Matches[0].Length)
+        if (-not $status.ContainsKey($id) -or $status[$id] -eq 'done') { continue }
+        $done = ($rest -match '^[\s—–:-]*(done|complete[d]?|verify pass(ed)?|accepted)\b') -or (($e -match '\b(done|complete[d]?|passe?[sd]?|accepted)\b') -and ($e -notmatch '\b(fail(ed|s)?|not done|incomplete)\b'))
+        $status[$id] = $(if ($done) { 'done' } else { 'active' })
+    }
+    $deps = @{}; foreach ($x in @($model.edges)) { if ($x -and $status.ContainsKey($x.from) -and $status.ContainsKey($x.to)) { $deps[$x.to] += @($x.from) } }
+    foreach ($n in $nodes) {
+        $d = @($deps[$n.id] | Where-Object { $_ })
+        if ($status[$n.id] -eq 'blocked' -and $d.Count -and -not @($d | Where-Object { $status[$_] -ne 'done' }).Count) { $status[$n.id] = $(if ($n.kind -eq 'gate') { 'approval' } else { 'ready' }) }
+    }
+    $work = @($nodes | Where-Object { $_.kind -ne 'gate' })
     if (-not $work.Count) { return $false }
-    $done = @($work | Where-Object { $_.status -eq 'done' }).Count
-    return ($done / $work.Count -ge 0.8) -and -not @($work | Where-Object { $_.status -in 'ready', 'active' }).Count
+    $done = @($work | Where-Object { $status[$_.id] -eq 'done' }).Count
+    return ($done / $work.Count -ge 0.8) -and -not @($work | Where-Object { $status[$_.id] -in 'ready', 'active' }).Count
 }
 # Preview ports are handed out here, never asked about (2026-10-25: agents asked the owner which port to use, and one
 # preview took ntfy's 8783). Every project in the lanes, Ready next or with a preview script gets a "Project previews" row
