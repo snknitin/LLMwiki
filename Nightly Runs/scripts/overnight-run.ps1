@@ -595,13 +595,17 @@ if ($hermesNames) {
 $prepStatusFile = Join-Path $vault 'Nightly Runs\prep-status.json'
 $recordPrep = -not $Preflight -and -not $DryRun -and -not $QaOnly -and -not $NoPrep
 $prepReceipt = $null
+$preservePrepHistory = $false
 function Save-PrepReceipt($state, $remaining = @(), $blockers = @(), $reason = '') {
     if (-not $script:prepReceipt) { return }
     $script:prepReceipt.state = $state
     $script:prepReceipt.remaining = @($remaining)
     $script:prepReceipt.blockers = @($blockers)
     $script:prepReceipt.reason = $reason
-    if ($state -ne 'running') { $script:prepReceipt.ended = (Get-Date).ToString('o') }
+    if ($state -ne 'running') {
+        $script:prepReceipt.checked = (Get-Date).ToString('o')
+        if (-not $script:preservePrepHistory) { $script:prepReceipt.ended = $script:prepReceipt.checked }
+    }
     $tmp = "$prepStatusFile.$PID.tmp"
     [IO.File]::WriteAllText($tmp, ($script:prepReceipt | ConvertTo-Json -Depth 7), (New-Object Text.UTF8Encoding $false))
     Move-Item -LiteralPath $tmp -Destination $prepStatusFile -Force
@@ -784,6 +788,16 @@ if ($recordPrep) {
     $blocked = @($queue | ForEach-Object { $n = $_.Name; foreach ($why in @($checks[$n].Blockers)) { if ($why) { @{ project = $n; reason = $why } } } })
     $prepReceipt.warnings = @($queue | ForEach-Object { $n = $_.Name; foreach ($why in @($checks[$n].Warnings)) { if ($why) { "$n`: $why" } } })
     $prepReceipt.heads = @{}; foreach ($q in $queue) { $prepReceipt.heads[$q.Name] = "$(git -C (Join-Path $projects $q.Name) rev-parse HEAD 2>$null)" }   # lets a later prep see nothing moved
+    # Rechecking a changed queue is not another execution of the completed preparation batch.
+    if ($PrepOnly -and -not $prepWork.Count -and $oldReceipt -and $oldReceipt.state -in 'ready', 'attention') {
+        try {
+            $oldEnd = [datetime]$oldReceipt.ended; $oldStart = [datetime]$oldReceipt.started
+            if ($oldEnd -ge $cycleStart -and $oldEnd -le (Get-Date) -and $oldStart -le $oldEnd) {
+                $prepReceipt.started = $oldReceipt.started; $prepReceipt.ended = $oldReceipt.ended
+                $preservePrepHistory = $true
+            }
+        } catch { }
+    }
     Save-PrepReceipt $(if ($prepFailed -or $remaining.Count -or $blocked.Count) { 'attention' } else { 'ready' }) $remaining $blocked $(if ($prepFailed) { "Prep ($prepModel) did not finish (see $prepLog); lanes run on current targets" } elseif ($remaining.Count -or $blocked.Count) { 'Preparation finished with items still requiring attention' } else { 'Current queue checked and prepared for the scheduled run' })
 }
 if ($Preflight -or $PrepOnly) { Write-Output ($pf -join "`n"); exit @($checks.Values | Where-Object { $_.Blockers }).Count }
