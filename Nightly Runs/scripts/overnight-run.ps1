@@ -1029,6 +1029,14 @@ function Test-Progress($dir, $from) {
     return [bool](@(git -C $dir diff --name-only $from $head 2>$null) | Where-Object { $_ -notmatch '(^|/)(REPORT|PROGRESS|DECISIONS)\.md$' })
 }
 
+# Artifact commits still need QA, but an explicit completed handoff must not relaunch the same scope.
+# Read only Now: old completed slices in the history do not finish the current target.
+function Test-TargetDone($dir) {
+    $t = "$(Get-Content (Join-Path $dir 'PROGRESS.md') -Raw -ErrorAction SilentlyContinue)"
+    if ($t -notmatch '(?ms)^## Now[^\r\n]*\r?\n(.*?)(?=^## |\z)') { return $false }
+    return $Matches[1] -match '(?i)target done;\s*next:\s*advance'
+}
+
 # A session that ended mid-work (a crash, a model repetition loop, a context-compression timeout) leaves uncommitted
 # changes: on FirstSpark the session's SPARK_GIT line says so, on the desktop git status does. That is not "target done".
 function Test-Leftover($dir, $harness, $text) {
@@ -1407,7 +1415,8 @@ while ($pending.Count -or $running.Count) {
             $sparkBusy = -not $progress -and "$text" -match '(?m)^SPARK_BUSY'
             $idle[$name] = $(if ($progress) { 0 } elseif ($sparkBusy) { [int]$idle[$name] } else { 1 + [int]$idle[$name] })
             $quiet = [int]$idle[$name] -ge 2
-            if ($progress) { $advances[$name] = 0; [void]$pending.Add($own); Write-Decision $name 'real work committed: next builder session' }   # real work resets the advance count
+            $targetDone = Test-TargetDone $dir
+            if ($progress -and -not $targetDone) { $advances[$name] = 0; [void]$pending.Add($own); Write-Decision $name 'real work committed: next builder session' }   # real work resets the advance count
             elseif ($sparkBusy) { $notBefore[$name] = (Get-Date).AddMinutes(5); [void]$pending.Add($own); Write-Decision $name 'FirstSpark still busy in this repo: tried again in 5 minutes' }
             elseif ($r.Q.Harness -ne 'hermes' -and (Test-LimitHit $text)) { [void]$pending.Add($own); Write-Decision $name "usage limit: waits for $($r.Q.Harness)'s reset or another harness" }
             elseif ($r.Q.Harness -ne 'hermes' -and (Test-ToolMissing $text)) { $limitUntil[$r.Q.Harness] = (Get-Date).AddMinutes(30); Save-RunState; [void]$pending.Add($own); $row.Note += "$($r.Q.Harness) would not start at $((Get-Date).ToString('HH:mm')); parked 30 min, its sessions run on the fallback. "; Write-Decision $name "$($r.Q.Harness) would not start: parked 30 min, next session on the fallback" }
