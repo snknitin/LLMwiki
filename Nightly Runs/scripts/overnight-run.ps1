@@ -726,17 +726,18 @@ function Get-OpenItems($file) {
     #   (answered once they contain "- answered" or an em-dash "answered"), skipping "none" placeholders.
     #   "(multi)" and "(text)" after Q<n> only change how the board asks; any "- [x]" line means answered.
     if (-not (Test-Path $file)) { return @() }
-    $answeredMark = '(?i)(' + [char]0x2014 + '|-{1,2})\s*answered\b'   # built from a char code: this file must stay ASCII for PowerShell 5.1
+    $answeredMark = '(?i)(' + [char]0x2014 + '|\s-{1,2})\s*(answered|resolved|fixed|closed)\b'   # built from a char code: this file must stay ASCII for PowerShell 5.1
     $items = @(); $openLevel = 0; $q = $null; $qAnswered = $false
     foreach ($l in Get-Content $file -Encoding UTF8) {
         if ($l -match '^(#{1,6})\s+(.*)$') {
             $level = $Matches[1].Length; $title = $Matches[2].Trim()
             if ($q -and -not $qAnswered) { $items += $q }; $q = $null
-            if ($openLevel -and $level -gt $openLevel) { $q = $title; $qAnswered = $false; continue }   # a Q block inside the section
-            $openLevel = $(if ($title -match '(?i)open (questions?|decisions?)') { $level } else { 0 })
+            if ($openLevel -and $level -gt $openLevel -and $title -match '^Q\d+\s*(\((multi|text)\))?\s*[:.)]?') { $q = $title; $qAnswered = $false; continue }   # only a Q block, matching the board parser; other subheadings end the questions
+            $openLevel = $(if ($title -match '(?i)open (questions?|decisions?)' -and $title -notmatch '(?i)\b(made|taken|logged|log|resolved|answered|decided)\b') { $level } else { 0 })
             continue
         }
         if (-not $openLevel) { continue }
+        if ($q -and $l -match '^Auto-decided by Agents board:') { $qAnswered = $true; continue }
         if ($l -match '^\s*[-*]\s+\[([ xX])\]') { if ($q -and $Matches[1] -ne ' ') { $qAnswered = $true }; continue }   # an option line
         if (-not $q -and $l -match '^\s*[-*]\s+(\S.*)$' -and $Matches[1] -notmatch '^(?i)\(?none' -and $Matches[1] -notmatch $answeredMark) {
             $items += $Matches[1].Trim()
