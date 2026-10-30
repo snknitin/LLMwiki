@@ -653,6 +653,12 @@ $prepWork = @($upkeep | Where-Object { $_.Action -ne 'owner' })
 $verifyCacheFile = Join-Path $vault 'Nightly Runs\.verify-cache.json'
 $verifyCache = @{}
 try { (Get-Content $verifyCacheFile -Raw -ErrorAction Stop | ConvertFrom-Json).PSObject.Properties | ForEach-Object { $verifyCache[$_.Name] = $_.Value } } catch { }
+function Test-TargetDone($dir) {
+    $t = "$(Get-Content (Join-Path $dir 'PROGRESS.md') -Raw -ErrorAction SilentlyContinue)"
+    if ($t -notmatch '(?ms)^## Now[^\r\n]*\r?\n(.*?)(?=^## |\z)') { return $false }
+    return $Matches[1] -match '(?i)target done;\s*next:\s*advance'
+}
+
 function Test-CachedPass($name, $dir) {
     $c = $verifyCache[$name]
     return [bool]($c -and $c.verify -eq 'PASS' -and $c.head -and "$(git -C $dir rev-parse HEAD 2>$null)" -eq $c.head -and -not (git -C $dir status --porcelain 2>$null))
@@ -662,8 +668,10 @@ function Test-CachedPass($name, $dir) {
 # then finds a new commit and starts with a builder session; one prep did not reach still plans as its first step.
 if ($PrepOnly) {
     foreach ($q in $queue) {
-        if (@($prepWork | Where-Object { $_.Project -eq $q.Name }) -or -not (Test-CachedPass $q.Name (Join-Path $projects $q.Name))) { continue }
-        $prepWork += [pscustomobject]@{ Project = $q.Name; Action = 'advance'; Why = "its target passed verify at this commit ($($verifyCache[$q.Name].at)); plan the next slices now and ask their owner questions" }
+        $cached = Test-CachedPass $q.Name (Join-Path $projects $q.Name)
+        if (@($prepWork | Where-Object { $_.Project -eq $q.Name }) -or (-not $cached -and -not (Test-TargetDone (Join-Path $projects $q.Name)))) { continue }
+        $why = $(if ($cached) { "its target passed verify at this commit ($($verifyCache[$q.Name].at)); plan the next slices now" } else { 'PROGRESS says target done but the commit cache is absent: run canonical verify fresh first. Advance only if it passes; otherwise retain the current repair scope' })
+        $prepWork += [pscustomobject]@{ Project = $q.Name; Action = 'advance'; Why = "$why; settle reversible defaults now and ask only owner-only questions before the run" }
     }
 }
 # A real run never waits on a serial prep: each tonight project's item becomes its lane's first step, on the lane's own model,
@@ -1040,11 +1048,7 @@ function Test-Progress($dir, $from) {
 
 # Artifact commits still need QA, but an explicit completed handoff must not relaunch the same scope.
 # Read only Now: old completed slices in the history do not finish the current target.
-function Test-TargetDone($dir) {
-    $t = "$(Get-Content (Join-Path $dir 'PROGRESS.md') -Raw -ErrorAction SilentlyContinue)"
-    if ($t -notmatch '(?ms)^## Now[^\r\n]*\r?\n(.*?)(?=^## |\z)') { return $false }
-    return $Matches[1] -match '(?i)target done;\s*next:\s*advance'
-}
+
 
 # A session that ended mid-work (a crash, a model repetition loop, a context-compression timeout) leaves uncommitted
 # changes: on FirstSpark the session's SPARK_GIT line says so, on the desktop git status does. That is not "target done".
