@@ -536,21 +536,11 @@ if ($FixOnly) {
 }
 $upkeep = @(Get-Upkeep $queue)
 # ---- Handoff: leftover edits never block a run ----
-# Uncommitted work in a tonight project (desktop or FirstSpark clone) is committed on its own pushed wip/handoff-* branch,
-# the checkout goes back to clean, and PROGRESS.md gets a HANDOFF entry so tonight's agent reviews and continues it.
-# Left alone (and still blocking, with the reason): files edited in the last 10 minutes, a Hermes session still going,
-# and anything that looks like a secret.
+# Unknown edits stay in place: the builder reviews and verifies them under AGENTS.md before committing.
+# Recent work, a live Hermes session and possible secrets are left alone.
 $handoff = @{}; $leftAlone = @{}; $recheck = @{}; $notBefore = @{}
 $waitPattern = 'last 10 minutes|still running'   # left-alone reasons that pass on their own
 $secretPattern = '(^|/)(\.env[^/]*|[^/]*\.(pem|key|pfx|p12)|id_rsa[^/]*|[^/]*credential[^/]*|[^/]*secret[^/]*)$'
-$handoffBranch = "wip/handoff-$($started.ToString('yyyyMMdd-HHmm'))"
-function Add-HandoffNote($dir, $where, $branch, $hash, $pushed) {
-    git -C $dir pull --rebase -q 2>$null
-    $at = (Get-Date).ToString('yyyy-MM-dd HH:mm')
-    $saved = $(if ($pushed) { "pushed branch ``$branch`` (commit $hash)" } else { "branch ``$branch`` (commit $hash), not pushed: it exists only on $where" })
-    Add-Content -Path (Join-Path $dir 'PROGRESS.md') -Encoding UTF8 -Value "`n## $at - HANDOFF - open: uncommitted changes on $where before this run were saved on $saved. Start here: review that diff, merge what belongs to the current work and finish it (or say in REPORT.md why not), then add a later entry ``HANDOFF - picked up``."
-    git -C $dir add -- PROGRESS.md; git -C $dir commit -q -m "Handoff note: uncommitted work saved on $branch" -- PROGRESS.md 2>$null; git -C $dir push -q 2>$null
-}
 function Save-DesktopHandoff($name, $dir) {
     $lines = @(git -C $dir status --porcelain 2>$null)
     if (-not $lines) { return }
@@ -558,15 +548,7 @@ function Save-DesktopHandoff($name, $dir) {
     if ($paths | Where-Object { $_ -match $secretPattern }) { $leftAlone[$name] = 'uncommitted changes on the desktop include a file that looks like a secret; commit or remove it yourself'; return }
     # Screenshots a verify run just regenerated are not someone working: hand them off like any older edit.
     if ($paths | Where-Object { $_ -notmatch '(^|/)screenshots/.*\.png$' } | Where-Object { $f = Join-Path $dir $_; (Test-Path $f) -and (Get-Item $f).LastWriteTime -gt (Get-Date).AddMinutes(-10) }) { $leftAlone[$name] = 'uncommitted changes on the desktop edited in the last 10 minutes (someone may be working); left alone'; return }
-    $base = git -C $dir branch --show-current
-    git -C $dir switch -q -c $handoffBranch 2>$null
-    if ($LASTEXITCODE -ne 0) { $leftAlone[$name] = "uncommitted changes on the desktop; could not create $handoffBranch"; return }
-    git -C $dir add -A; git -C $dir commit -q -m "WIP handoff: uncommitted changes left on the desktop before the $Kind run" 2>$null
-    $hash = git -C $dir rev-parse --short HEAD
-    git -C $dir push -q -u origin $handoffBranch 2>$null; $pushed = $LASTEXITCODE -eq 0
-    git -C $dir switch -q $base
-    Add-HandoffNote $dir 'the desktop' $handoffBranch $hash $pushed
-    $handoff[$name] += "desktop edits handed off on $handoffBranch ($hash). "
+    $handoff[$name] += 'Uncommitted desktop work retained in place. Inspect the diff and queue, verify and commit only task-owned paths; use an isolated worktree if edits are unrelated. '
 }
 if (-not $Preflight -and -not $DryRun -and -not $QaOnly) {
     # Desktop checkouts only before a real run (a daytime prep must not sweep up the owner's work in progress).
@@ -575,25 +557,22 @@ if (-not $Preflight -and -not $DryRun -and -not $QaOnly) {
     # clone made that pull fail (2026-10-25). Only a Hermes-lane project is held back by its clone's state.
     $sparkNames = @(@($queue | ForEach-Object { $_.Name }) + @($upkeep | Where-Object { $_.Action -ne 'owner' } | ForEach-Object { $_.Project }) | Select-Object -Unique)
     if ($sparkNames) {
-        $sb = "$handoffBranch-spark"
         $script = @(foreach ($n in $sparkNames) {
             "( cd $sparkProjects/$n 2>/dev/null || exit 0; [ -z `"`$(git status --porcelain)`" ] && exit 0"
             "  p=.git/overnight-hermes.pid; if [ -f `$p ] && kill -0 `$(cat `$p) 2>/dev/null; then echo `"$n busy`"; exit 0; fi"
             "  files=`$(git status --porcelain | cut -c4- | sed 's/.* -> //; s/^`"//; s/`"`$//')"
             "  if echo `"`$files`" | grep -Eq '$secretPattern'; then echo `"$n secret`"; exit 0; fi"
             "  for f in `$files; do [ -e `"`$f`" ] && [ -n `"`$(find `"`$f`" -maxdepth 0 -mmin -10)`" ] && { echo `"$n recent`"; exit 0; }; done"
-            "  base=`$(git branch --show-current); git switch -q -c $sb || { echo `"$n nobranch`"; exit 0; }"
-            "  git add -A && git commit -qm 'WIP handoff: uncommitted changes left on FirstSpark before the $Kind run'; h=`$(git rev-parse --short HEAD)"
-            "  if git push -q -u origin $sb 2>/dev/null; then ok=1; else ok=0; fi; git switch -q `$base; echo `"$n saved `$h `$ok`" )"
+            "  echo `"$n dirty`" )"
         }) + '#'
         foreach ($l in @(($script -join "`n") | & $ssh -o BatchMode=yes -o ConnectTimeout=10 FirstSpark 'bash -s' 2>$null)) {
             $f = -split $l; $n = $f[0]; $d = Join-Path $projects $n
-            if ($f[1] -eq 'saved') { git -C $d fetch -q 2>$null; Add-HandoffNote $d 'FirstSpark' $sb $f[2] ($f[3] -eq '1'); $handoff[$n] += "FirstSpark edits handed off on $sb ($($f[2])). "; continue }
+            if ($f[1] -eq 'dirty') { $handoff[$n] += 'Uncommitted FirstSpark work retained in place. Recover the task-owned diff, verify and publish before QA; use an isolated worktree for unrelated edits. '; continue }
             $why = switch ($f[1]) {
                 'busy' { 'a Hermes session is still running on FirstSpark; its uncommitted changes were left alone' }
                 'secret' { 'uncommitted changes on FirstSpark include a file that looks like a secret; commit or remove it yourself' }
                 'recent' { 'uncommitted changes on FirstSpark edited in the last 10 minutes; left alone' }
-                default { "uncommitted changes on FirstSpark; could not create $sb" }
+                default { 'uncommitted changes on FirstSpark retained in place' }
             }
             if (@($queue | Where-Object { $_.Name -eq $n -and $_.Harness -eq 'hermes' })) { $leftAlone[$n] = $why }
         }
@@ -767,13 +746,13 @@ foreach ($q in $queue) {
         if ($LASTEXITCODE -ne 0) { $b += 'no upstream branch, so commits cannot be pushed (add a GitHub remote)' }
         # Someone editing or a Hermes session still going is temporary: the lane re-checks every 5 minutes and starts then.
         if ($leftAlone[$q.Name] -match $waitPattern) { $w += "$($leftAlone[$q.Name]); re-checked every 5 minutes, starts on its own once the edits stop"; $recheck[$q.Name] = $true }
-        elseif ($leftAlone[$q.Name]) { $b += $leftAlone[$q.Name] }   # the handoff above saved everything else
+        elseif ($leftAlone[$q.Name]) { $b += $leftAlone[$q.Name] }   # other unfinished edits are handed to the builder
         elseif (git -C $dir status --porcelain 2>$null) { $w += 'uncommitted changes on the desktop: saved on a wip/handoff branch and handed to tonight''s agent when the run starts' }
         if ($q.Harness -eq 'hermes') {
             $st = "$($sparkState[$q.Name])"
             if ($st -eq 'unreachable') { $w += 'FirstSpark unreachable over SSH at prep; its sessions retry when it answers' }
             elseif ($st -eq 'missing') { $b += "not cloned on FirstSpark ($sparkProjects/$($q.Name))" }
-            elseif ($st -match '^dirty=([1-9]\d*)$' -and -not $leftAlone[$q.Name]) { $w += "$($Matches[1]) uncommitted change(s) on FirstSpark: saved on a wip/handoff branch and handed to tonight's agent when the run starts" }
+            elseif ($st -match '^dirty=([1-9]\d*)$' -and -not $leftAlone[$q.Name]) { $w += "$($Matches[1]) uncommitted change(s) on FirstSpark: retained in place for tonight's builder to recover, verify and publish" }
         }
         if (-not (Test-Path "$dir\BUILD_SPEC.md")) { $w += 'no BUILD_SPEC.md' }
         if ($q.Harness -ne 'claude' -and -not (Test-Path "$dir\AGENTS.md")) { $w += "no AGENTS.md for @$($q.Harness) (it will fall back to CLAUDE.md if it reads it)" }
@@ -881,14 +860,13 @@ $worker = {
                 $m = 'python3 ~/.agents-board/local-agent.py --base-url http://127.0.0.1:8000/v1 --model spark-fast --workdir {0} --budget {1}' -f $sparkDir, $budget
                 if ($isQa) { $m += ' --qa-result' }
             } else { $m = '~/.local/bin/hermes chat --query-file - -Q --yolo --in {0} --run-budget {1} {2}' -f $sparkDir, $budget, $m }
-            # Leftovers in the FirstSpark clone made 'git pull --rebase' fail, so the session never started (2026-10-25: QA of
-            # paper-logbook and mock-interview). QA reviews the exact commit, so its leftovers go to a pushed wip branch; a builder
-            # continues from them, so they become a WIP commit. A file that looks like a secret is never committed.
-            $tidy = 'if git status --porcelain | grep -q .; then if git status --porcelain | grep -Eiq ''(\.env|\.pem|\.key|id_rsa|credential|secret)''; then echo SPARK_DIRTY_SECRET; exit 7; fi; '
-            $tidy += $(if ($isQa) { 'b=wip/qa-handoff-$(date +%Y%m%d-%H%M%S); git switch -q -c $b && git add -A && git commit -qm ''WIP left in the FirstSpark clone before QA, saved by the runner'' && git push -q -u origin $b 2>/dev/null; git switch -q -; echo SPARK_HANDOFF $b; fi; ' }
-                else { 'git add -A && git commit -qm ''WIP: unfinished work left by the previous session, saved by the runner; continue from it''; echo SPARK_WIP_COMMITTED; fi; ' })
+            # QA only reviews published clean commits. Builders recover old task-owned edits in place,
+            # without a runner-authored WIP commit or a pull that would overwrite unfinished work.
+            $tidy = 'recover_dirty=0; if git status --porcelain | grep -q .; then if git status --porcelain | grep -Eiq ''(\.env|\.pem|\.key|id_rsa|credential|secret)''; then echo SPARK_DIRTY_SECRET; exit 7; fi; '
+            $tidy += $(if ($isQa) { 'echo SPARK_BUSY; exit 4; fi; ' }
+                else { 'recover_dirty=1; echo SPARK_RECOVER_DIRTY; fi; ' })
             $headCheck = $(if ($isQa) { '[ $(git rev-parse HEAD) = {0} ] || {{ echo SPARK_HEAD_MISMATCH; exit 6; }}; ' -f $reviewHead } else { '' })
-            $remote = 'test -d {0} || {{ echo SPARK_MISSING; exit 3; }}; cd {0} || exit 3; p=.git/overnight-hermes.pid; if [ -f $p ] && kill -0 $(cat $p) 2>/dev/null; then echo SPARK_BUSY; exit 4; fi; echo $$ > $p; trap ''rm -f $p'' EXIT; {3}git pull --rebase -q || exit 5; {2}timeout --signal=TERM --kill-after=15s {4}s {1}; rc=$?; if [ $rc -eq 124 ] || [ $rc -eq 137 ]; then echo SPARK_TIMEOUT; fi; echo SPARK_GIT dirty=$(git status --porcelain | wc -l) unpushed=$(git rev-list --count @{{u}}..HEAD); exit $rc' -f $sparkDir, $m, $headCheck, $tidy, ([int]$budget)
+            $remote = 'test -d {0} || {{ echo SPARK_MISSING; exit 3; }}; cd {0} || exit 3; p=.git/overnight-hermes.pid; if [ -f $p ] && kill -0 $(cat $p) 2>/dev/null; then echo SPARK_BUSY; exit 4; fi; echo $$ > $p; trap ''rm -f $p'' EXIT; {3}if [ "$recover_dirty" = 0 ]; then git pull --rebase -q || exit 5; fi; {2}timeout --signal=TERM --kill-after=15s {4}s {1}; rc=$?; if [ $rc -eq 124 ] || [ $rc -eq 137 ]; then echo SPARK_TIMEOUT; fi; echo SPARK_GIT dirty=$(git status --porcelain | wc -l) unpushed=$(git rev-list --count @{{u}}..HEAD); exit $rc' -f $sparkDir, $m, $headCheck, $tidy, ([int]$budget)
             $prompt | & $ssh -o BatchMode=yes FirstSpark $remote *>> $log
         }
         default {
