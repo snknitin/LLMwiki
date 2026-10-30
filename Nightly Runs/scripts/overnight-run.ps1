@@ -80,6 +80,14 @@ $holder = $(if (-not $Preflight) { Get-LockHolder })
 if (-not $Preflight -and ($others -or $holder)) { Write-Output "Another run is going (pid $(@(@($others.ProcessId) + $holder | Where-Object { $_ } | Select-Object -Unique) -join ', ')); not starting a second one."; exit 0 }
 $vault         = $(if ($env:OVERNIGHT_VAULT) { $env:OVERNIGHT_VAULT } else { 'F:\Vaults\LLMWiki' })   # the env overrides are for test-qa.ps1's fixture
 $projects      = $(if ($env:OVERNIGHT_PROJECTS) { $env:OVERNIGHT_PROJECTS } else { 'E:\GIT_ROOT\Projects' })
+function Set-JavaTemp($dir) {
+    # Pipe.open fails in the inherited Windows UDS temp location. A short local path qualifies.
+    # Set only this runner's environment: prep, builders, QA and all verify paths inherit it.
+    if ($env:JAVA_TOOL_OPTIONS -match '-Djdk\.net\.unixdomain\.tmpdir=') { return }
+    $javaTmp = (New-Item -ItemType Directory -Force (Join-Path ([IO.Path]::GetPathRoot($dir)) "agent-tmp\j$PID")).FullName
+    $env:JAVA_TOOL_OPTIONS = "$env:JAVA_TOOL_OPTIONS `"-Djdk.net.unixdomain.tmpdir=$javaTmp`""
+}
+if (-not $Preflight -and -not $DryRun) { Set-JavaTemp $projects }
 $sparkProjects = $(if ($env:OVERNIGHT_SPARK_PROJECTS) { $env:OVERNIGHT_SPARK_PROJECTS } else { '/home/snknitin/Workspace/GIT_ROOT/Projects' })
 if ($sparkProjects -notmatch '^/[A-Za-z0-9/._-]+$') { throw 'Invalid Spark project root' }
 $ssh           = "$env:WINDIR\System32\OpenSSH\ssh.exe"
@@ -476,7 +484,7 @@ if ($spec -like 'hermes:*' -and $model -in 'glm53-flash', 'deepseek41-flash-pair
         "You may edit a project's CLAUDE.md or AGENTS.md, but only the target, scope, order-of-work and stop-condition lines; never its rules, permissions, owner gates or security text. " +
         "Work one project at a time, yourself. Commit only your paths and git push after each project. Report only what happened: name a commit hash only after git log -1 shows it. The runner checks every claim against git.`n"
     $pulls = ($items | ForEach-Object { "if [ -d $_/.git ]; then git -C $_ pull --rebase -q || echo 'PREP PULL FAILED: $_ (FirstSpark clone)'; else git clone -q $(git -C (Join-Path $dir $_) remote get-url origin) $_ || echo 'PREP CLONE FAILED: $_'; fi" }) -join '; '
-    $remote = "cd $spark && $pulls; timeout $([int]$budget + 120) ~/.local/bin/hermes -p agents-board-prep chat -m $model$(if ($effort) { " --reasoning $effort" }) --query-file - -Q --yolo --in $spark --max-turns 400 --run-budget $budget"
+    $remote = "cd $spark && $pulls; timeout --signal=TERM --kill-after=15s $([int]$budget)s ~/.local/bin/hermes -p agents-board-prep chat -m $model$(if ($effort) { " --reasoning $effort" }) --query-file - -Q --yolo --in $spark --max-turns 400 --run-budget $budget"
     $sparkText | & "$env:WINDIR\System32\OpenSSH\ssh.exe" -o BatchMode=yes FirstSpark $remote *>> $log
     $code = $LASTEXITCODE
     foreach ($p in $items) { git -C (Join-Path $dir $p) pull --rebase -q *>> $log }   # bring FirstSpark's prep commits to the desktop
@@ -840,10 +848,6 @@ $worker = {
     # on the desktop fail with WinError 5 on it (2026-10-26: three projects' final verify, and builders chasing it as a bug).
     # A short name: deep pytest paths under a long one pass Windows' 260-character limit (WinError 3).
     $env:TEMP = $env:TMP = (New-Item -ItemType Directory -Force (Join-Path ([IO.Path]::GetTempPath()) "ov$PID")).FullName
-    # JDK 17's Pipe.open failed with SocketException in the inherited Windows UDS temp location.
-    # Keep the correction local to this worker; never change the machine's Java or network settings.
-    $javaTmp = (New-Item -ItemType Directory -Force (Join-Path ([IO.Path]::GetPathRoot($dir)) "agent-tmp\j$PID")).FullName
-    if ($env:JAVA_TOOL_OPTIONS -notmatch '-Djdk\.net\.unixdomain\.tmpdir=') { $env:JAVA_TOOL_OPTIONS = "$env:JAVA_TOOL_OPTIONS `"-Djdk.net.unixdomain.tmpdir=$javaTmp`"" }
     if (-not $isQa) { $env:OVERNIGHT_RUN = '1' }   # turns on the project's Stop-hook verify gate (Claude); QA must be free to end on a failing verify
     switch ($harness) {
         'codex' {
@@ -1614,8 +1618,6 @@ foreach ($q in $gateList) {
         param($at, $v, $out)
         Set-Location $at
         $env:TEMP = $env:TMP = (New-Item -ItemType Directory -Force (Join-Path ([IO.Path]::GetTempPath()) "ov$PID")).FullName
-        $javaTmp = (New-Item -ItemType Directory -Force (Join-Path ([IO.Path]::GetPathRoot($v)) "agent-tmp\j$PID")).FullName
-        if ($env:JAVA_TOOL_OPTIONS -notmatch '-Djdk\.net\.unixdomain\.tmpdir=') { $env:JAVA_TOOL_OPTIONS = "$env:JAVA_TOOL_OPTIONS `"-Djdk.net.unixdomain.tmpdir=$javaTmp`"" }
         & powershell -NoProfile -ExecutionPolicy Bypass -File $v *> $out
         $LASTEXITCODE
     } -ArgumentList (Get-Location).Path, (Join-Path $projects "$($q.Name)\scripts\verify.ps1"), (Join-Path $logDir "$($q.Name).verify.txt")

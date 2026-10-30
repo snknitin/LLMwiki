@@ -6,6 +6,15 @@ $tmp = Join-Path $env:TEMP "remote-boundary-$PID"
 New-Item -ItemType Directory -Force $tmp | Out-Null
 $oldLocation = Get-Location; $oldTemp = $env:TEMP; $oldTmp = $env:TMP; $oldJava = $env:JAVA_TOOL_OPTIONS
 try {
+    $ast.FindAll({ param($n) $n -is [System.Management.Automation.Language.FunctionDefinitionAst] -and $n.Name -eq 'Set-JavaTemp' }, $true) | ForEach-Object { . ([scriptblock]::Create($_.Extent.Text)) }
+    $env:JAVA_TOOL_OPTIONS = '-Dfixture.keep=true'
+    Set-JavaTemp $tmp
+    if ($env:JAVA_TOOL_OPTIONS -notmatch '-Dfixture.keep=true.*-Djdk.net.unixdomain.tmpdir=') { throw 'Java correction dropped existing options' }
+    $configured = $env:JAVA_TOOL_OPTIONS
+    Set-JavaTemp $tmp
+    if ($env:JAVA_TOOL_OPTIONS -ne $configured) { throw 'Java correction overwrote a configured path' }
+    $prep = $ast.Find({ param($n) $n -is [System.Management.Automation.Language.AssignmentStatementAst] -and "$($n.Left)" -eq '$prepAgent' }, $true)
+    if ($prep.Extent.Text -notmatch 'timeout --signal=TERM --kill-after=15s') { throw 'Remote prep/advance child lacks a hard deadline' }
     $shim = Join-Path $tmp 'ssh.ps1'
     Set-Content $shim 'Write-Output ($args -join " ")'
     $log = Join-Path $tmp 'job.log'
