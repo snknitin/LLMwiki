@@ -1429,6 +1429,10 @@ while ($pending.Count -or $running.Count) {
             }
             $row.Minutes += [int]((Get-Date) - $r.Start).TotalMinutes
             $text = Complete-Run $r.Q $row
+            if ($r.Q.Harness -eq 'hermes' -and "$text" -match '(?m)^SPARK_TIMEOUT') {
+                $r.Hung = $true
+                $row.Note += 'remote session reached its hard deadline; unfinished work resumes in a fresh session. '
+            }
             if ($row.TimedOut) { continue }
             $t = ("$text" -replace '\s+$', ''); $tails[$name] = @{ At = (Get-Date).ToString('HH:mm'); Text = $t.Substring([Math]::Max(0, $t.Length - 1500)) }
             # A Hermes fallback for a project not cloned on FirstSpark: no more Hermes fallbacks for it; it waits for a reset.

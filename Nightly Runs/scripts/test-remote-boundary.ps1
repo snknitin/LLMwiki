@@ -15,6 +15,11 @@ try {
     if ($env:JAVA_TOOL_OPTIONS -ne $configured) { throw 'Java correction overwrote a configured path' }
     $prep = $ast.Find({ param($n) $n -is [System.Management.Automation.Language.AssignmentStatementAst] -and "$($n.Left)" -eq '$prepAgent' }, $true)
     if ($prep.Extent.Text -notmatch 'timeout --signal=TERM --kill-after=15s') { throw 'Remote prep/advance child lacks a hard deadline' }
+    $expired = $ast.Find({ param($n) $n -is [System.Management.Automation.Language.IfStatementAst] -and $n.Clauses[0].Item1.Extent.Text -like '*SPARK_TIMEOUT*' -and $n.Clauses[0].Item2.Extent.Text -like '*$r.Hung = $true*' }, $true)
+    if (-not $expired) { throw 'Expired builder could be mistaken for a completed target' }
+    $r = @{ Q = @{ Harness = 'hermes' } }; $row = @{ Note = '' }; $text = "SPARK_TIMEOUT`nSPARK_GIT dirty=0 unpushed=0"
+    & ([scriptblock]::Create($expired.Extent.Text))
+    if (-not $r.Hung) { throw 'Expired builder was not classified for bounded restart' }
     $shim = Join-Path $tmp 'ssh.ps1'
     Set-Content $shim 'Write-Output ($args -join " ")'
     $log = Join-Path $tmp 'job.log'
