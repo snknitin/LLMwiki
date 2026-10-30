@@ -747,7 +747,7 @@ foreach ($q in $queue) {
         # Someone editing or a Hermes session still going is temporary: the lane re-checks every 5 minutes and starts then.
         if ($leftAlone[$q.Name] -match $waitPattern) { $w += "$($leftAlone[$q.Name]); re-checked every 5 minutes, starts on its own once the edits stop"; $recheck[$q.Name] = $true }
         elseif ($leftAlone[$q.Name]) { $b += $leftAlone[$q.Name] }   # other unfinished edits are handed to the builder
-        elseif (git -C $dir status --porcelain 2>$null) { $w += 'uncommitted changes on the desktop: saved on a wip/handoff branch and handed to tonight''s agent when the run starts' }
+        elseif (git -C $dir status --porcelain 2>$null) { $w += 'uncommitted changes on the desktop: retained in place for tonight''s builder to recover, verify and publish' }
         if ($q.Harness -eq 'hermes') {
             $st = "$($sparkState[$q.Name])"
             if ($st -eq 'unreachable') { $w += 'FirstSpark unreachable over SSH at prep; its sessions retry when it answers' }
@@ -756,7 +756,7 @@ foreach ($q in $queue) {
         }
         if (-not (Test-Path "$dir\BUILD_SPEC.md")) { $w += 'no BUILD_SPEC.md' }
         if ($q.Harness -ne 'claude' -and -not (Test-Path "$dir\AGENTS.md")) { $w += "no AGENTS.md for @$($q.Harness) (it will fall back to CLAUDE.md if it reads it)" }
-        if (Test-Path "$dir\.claude\stop-retries") { $w += 'last run hit the stop-gate retry cap' }
+        # The counter records failed checks, not an owner gate; the stop hook clears it at its cap.
         foreach ($f in 'REPORT.md', 'PROGRESS.md') {
             $open = @(Get-OpenItems "$dir\$f")
             if ($open) { $w += "$($open.Count) open question(s) in $($f): " + (($open | Select-Object -First 3) -join ' / ') }
