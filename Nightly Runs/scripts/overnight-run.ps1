@@ -723,7 +723,7 @@ if ($prepWork -and $PrepOnly -and -not $NoPrep) {
 function Get-OpenItems($file) {
     # Unanswered questions under any heading that mentions open questions/decisions (same rules as the Agents board):
     #   "### Q1: ..." blocks with "- [ ]" options (answered once any option is "- [x]"), or plain bullets
-    #   (answered once they contain "- answered" or an em-dash "answered"), skipping "none" placeholders.
+    #   (settled once marked answered/resolved/fixed/closed), skipping "none" placeholders and automatic decision receipts.
     #   "(multi)" and "(text)" after Q<n> only change how the board asks; any "- [x]" line means answered.
     if (-not (Test-Path $file)) { return @() }
     $answeredMark = '(?i)(' + [char]0x2014 + '|\s-{1,2})\s*(answered|resolved|fixed|closed)\b'   # built from a char code: this file must stay ASCII for PowerShell 5.1
