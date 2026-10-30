@@ -1049,7 +1049,7 @@ function Test-TargetDone($dir) {
 # A session that ended mid-work (a crash, a model repetition loop, a context-compression timeout) leaves uncommitted
 # changes: on FirstSpark the session's SPARK_GIT line says so, on the desktop git status does. That is not "target done".
 function Test-Leftover($dir, $harness, $text) {
-    if ($harness -eq 'hermes') { return "$text" -match 'SPARK_GIT dirty=[1-9]' }
+    if ($harness -eq 'hermes') { return "$text" -match 'SPARK_GIT dirty=([1-9]\d*)|SPARK_GIT dirty=\d+ unpushed=([1-9]\d*)' }
     return [bool](git -C $dir status --porcelain 2>$null)
 }
 
@@ -1205,10 +1205,13 @@ $qaPromptText = $(if (Test-Path $qaPromptFile) { Get-Content $qaPromptFile -Raw 
 $qaFrom = @{}   # per project: the commit QA last reviewed up to (a slice at a time during the lanes, the rest at the end)
 $hermesBuilt = @{}
 # A disconnected SSH client does not prove its remote builder stopped. Check before choosing any reviewer's baseline.
+function Test-SparkGitPublished($text) {
+    return "$text" -match '(?m)^SPARK_IDLE dirty=0 unpushed=0\s*$'
+}
 function Test-SparkWriterIdle($name) {
-    $remote = 'cd {0}/{1} || exit 3; p=.git/overnight-hermes.pid; if [ -f $p ] && kill -0 $(cat $p) 2>/dev/null; then echo SPARK_BUSY; exit 4; fi; echo SPARK_IDLE' -f $sparkProjects, $name
+    $remote = 'cd {0}/{1} || exit 3; p=.git/overnight-hermes.pid; if [ -f $p ] && kill -0 $(cat $p) 2>/dev/null; then echo SPARK_BUSY; exit 4; fi; dirty=$(git status --porcelain | wc -l); unpushed=$(git rev-list --count @{{u}}..HEAD) || exit 5; echo SPARK_IDLE dirty=$dirty unpushed=$unpushed' -f $sparkProjects, $name
     $reply = "$(& $ssh -o BatchMode=yes -o ConnectTimeout=8 FirstSpark $remote 2>$null)"
-    return $LASTEXITCODE -eq 0 -and $reply -match 'SPARK_IDLE'
+    return $LASTEXITCODE -eq 0 -and (Test-SparkGitPublished $reply)
 }
 # QA of one range of a project's commits, on a QA plan (another model family than the builder). The log keeps every
 # attempt, each after its own "=== QA" line, and only the last attempt is read.
@@ -1218,7 +1221,7 @@ function Start-QaJob($q, $plan, $from) {
     $log = Join-Path $logDir "$name.$suffix.txt"
     Remove-Item "$log.pid" -ErrorAction SilentlyContinue
     if ($q.Harness -eq 'hermes' -or $hermesBuilt[$name]) {
-        if (-not (Test-SparkWriterIdle $name)) { Write-Decision $name 'QA deferred: remote builder still active or unreachable; baseline not captured'; return $null }
+        if (-not (Test-SparkWriterIdle $name)) { Write-Decision $name 'QA deferred: remote builder active, unreachable or has unpublished work; baseline not captured'; return $null }
         # A Codex/Claude reviewer needs the finished Hermes commits just as a Hermes reviewer does.
         git -C $dir pull --rebase --autostash -q 2>$null
         if ($LASTEXITCODE -ne 0) { Write-Decision $name 'QA deferred: could not sync finished remote builder commits'; return $null }
@@ -1462,7 +1465,7 @@ while ($pending.Count -or $running.Count) {
             # its uncommitted Slice 5p and the Codex lane idled 02:24-06:00). $leftovers bounds the restarts.
             elseif ([int]$leftovers[$name] -lt 3 -and (Test-Leftover $dir $r.Q.Harness $text)) {
                 $leftovers[$name] = 1 + [int]$leftovers[$name]
-                $row.Note += "session ended mid-work at $((Get-Date).ToString('HH:mm')) (uncommitted changes left); fresh session started to finish it. "; [void]$pending.Add($own); Write-Decision $name 'ended mid-work: fresh session'
+                $row.Note += "session ended mid-work at $((Get-Date).ToString('HH:mm')) (uncommitted or unpublished changes left); fresh session started to verify and publish it. "; [void]$pending.Add($own); Write-Decision $name 'ended mid-work: fresh session'
             }
             # No new work: tonight's target is done. Advance it to its next slices; after two advances in a row with no
             # real work between them, the lane moves to the next overnight-ready project.
