@@ -840,6 +840,10 @@ $worker = {
     # on the desktop fail with WinError 5 on it (2026-10-26: three projects' final verify, and builders chasing it as a bug).
     # A short name: deep pytest paths under a long one pass Windows' 260-character limit (WinError 3).
     $env:TEMP = $env:TMP = (New-Item -ItemType Directory -Force (Join-Path ([IO.Path]::GetTempPath()) "ov$PID")).FullName
+    # JDK 17's Pipe.open failed with SocketException in the inherited Windows UDS temp location.
+    # Keep the correction local to this worker; never change the machine's Java or network settings.
+    $javaTmp = (New-Item -ItemType Directory -Force (Join-Path ([IO.Path]::GetPathRoot($dir)) "agent-tmp\j$PID")).FullName
+    if ($env:JAVA_TOOL_OPTIONS -notmatch '-Djdk\.net\.unixdomain\.tmpdir=') { $env:JAVA_TOOL_OPTIONS = "$env:JAVA_TOOL_OPTIONS `"-Djdk.net.unixdomain.tmpdir=$javaTmp`"" }
     if (-not $isQa) { $env:OVERNIGHT_RUN = '1' }   # turns on the project's Stop-hook verify gate (Claude); QA must be free to end on a failing verify
     switch ($harness) {
         'codex' {
@@ -871,7 +875,7 @@ $worker = {
             $tidy += $(if ($isQa) { 'b=wip/qa-handoff-$(date +%Y%m%d-%H%M%S); git switch -q -c $b && git add -A && git commit -qm ''WIP left in the FirstSpark clone before QA, saved by the runner'' && git push -q -u origin $b 2>/dev/null; git switch -q -; echo SPARK_HANDOFF $b; fi; ' }
                 else { 'git add -A && git commit -qm ''WIP: unfinished work left by the previous session, saved by the runner; continue from it''; echo SPARK_WIP_COMMITTED; fi; ' })
             $headCheck = $(if ($isQa) { '[ $(git rev-parse HEAD) = {0} ] || {{ echo SPARK_HEAD_MISMATCH; exit 6; }}; ' -f $reviewHead } else { '' })
-            $remote = 'test -d {0} || {{ echo SPARK_MISSING; exit 3; }}; cd {0} || exit 3; p=.git/overnight-hermes.pid; if [ -f $p ] && kill -0 $(cat $p) 2>/dev/null; then echo SPARK_BUSY; exit 4; fi; echo $$ > $p; trap ''rm -f $p'' EXIT; {3}git pull --rebase -q || exit 5; {2}{1}; rc=$?; echo SPARK_GIT dirty=$(git status --porcelain | wc -l) unpushed=$(git rev-list --count @{{u}}..HEAD); exit $rc' -f $sparkDir, $m, $headCheck, $tidy
+            $remote = 'test -d {0} || {{ echo SPARK_MISSING; exit 3; }}; cd {0} || exit 3; p=.git/overnight-hermes.pid; if [ -f $p ] && kill -0 $(cat $p) 2>/dev/null; then echo SPARK_BUSY; exit 4; fi; echo $$ > $p; trap ''rm -f $p'' EXIT; {3}git pull --rebase -q || exit 5; {2}timeout --signal=TERM --kill-after=15s {4}s {1}; rc=$?; if [ $rc -eq 124 ] || [ $rc -eq 137 ]; then echo SPARK_TIMEOUT; fi; echo SPARK_GIT dirty=$(git status --porcelain | wc -l) unpushed=$(git rev-list --count @{{u}}..HEAD); exit $rc' -f $sparkDir, $m, $headCheck, $tidy, ([int]$budget)
             $prompt | & $ssh -o BatchMode=yes FirstSpark $remote *>> $log
         }
         default {
@@ -1194,6 +1198,13 @@ function Set-Qa($name, $state, $reason = '', $findings = 0, $by = '') {
 }
 $qaPromptText = $(if (Test-Path $qaPromptFile) { Get-Content $qaPromptFile -Raw -Encoding UTF8 } else { '' })
 $qaFrom = @{}   # per project: the commit QA last reviewed up to (a slice at a time during the lanes, the rest at the end)
+$hermesBuilt = @{}
+# A disconnected SSH client does not prove its remote builder stopped. Check before choosing any reviewer's baseline.
+function Test-SparkWriterIdle($name) {
+    $remote = 'cd {0}/{1} || exit 3; p=.git/overnight-hermes.pid; if [ -f $p ] && kill -0 $(cat $p) 2>/dev/null; then echo SPARK_BUSY; exit 4; fi; echo SPARK_IDLE' -f $sparkProjects, $name
+    $reply = "$(& $ssh -o BatchMode=yes -o ConnectTimeout=8 FirstSpark $remote 2>$null)"
+    return $LASTEXITCODE -eq 0 -and $reply -match 'SPARK_IDLE'
+}
 # QA of one range of a project's commits, on a QA plan (another model family than the builder). The log keeps every
 # attempt, each after its own "=== QA" line, and only the last attempt is read.
 function Start-QaJob($q, $plan, $from) {
@@ -1201,6 +1212,12 @@ function Start-QaJob($q, $plan, $from) {
     $suffix = $(if ($plan.FallbackUsed) { 'qa-fallback' } else { 'qa' })
     $log = Join-Path $logDir "$name.$suffix.txt"
     Remove-Item "$log.pid" -ErrorAction SilentlyContinue
+    if ($q.Harness -eq 'hermes' -or $hermesBuilt[$name]) {
+        if (-not (Test-SparkWriterIdle $name)) { Write-Decision $name 'QA deferred: remote builder still active or unreachable; baseline not captured'; return $null }
+        # A Codex/Claude reviewer needs the finished Hermes commits just as a Hermes reviewer does.
+        git -C $dir pull --rebase --autostash -q 2>$null
+        if ($LASTEXITCODE -ne 0) { Write-Decision $name 'QA deferred: could not sync finished remote builder commits'; return $null }
+    }
     # FirstSpark reviews origin's HEAD: bring the desktop level with origin first (2026-10-28: origin had a FirstSpark commit
     # the desktop lacked, so jobs-search-and-apply-tool's final QA stopped at SPARK_HEAD_MISMATCH).
     if ($fam -eq 'hermes') { git -C $dir pull --rebase --autostash -q 2>$null; git -C $dir push -q 2>$null }
@@ -1232,7 +1249,7 @@ function Get-QaFromReport($dir, $from) {
 function Complete-QaJob($r, $timedOut) {
     $name = $r.Q.Name; $dir = Join-Path $projects $name; $fam = $r.Plan.Family
     $text = (("$(Get-Content $r.Log -Raw -Encoding UTF8 -ErrorAction SilentlyContinue)" -replace "`0", '') -split '(?m)^=== QA ')[-1]
-    $timedOut = $timedOut -or $text -match '(?s)LOCAL AGENT FAILED:.*timed out after [\d.]+ seconds'   # Hermes stops itself at --run-budget
+    $timedOut = $timedOut -or $text -match '(?s)LOCAL AGENT FAILED:.*timed out after [\d.]+ seconds|(?m)^SPARK_TIMEOUT'
     if ($fam -eq 'hermes') { git -C $dir pull --rebase --autostash -q 2>$null }   # its commits reach the desktop only now
     # Put back what QA's verify run re-took (tracked screenshots), then look at what QA itself committed.
     $byVerify = @(git -C $dir status --porcelain 2>$null | Where-Object { $_ -notin $r.Dirty -and $_ -match '^ M ' } | ForEach-Object { $_.Substring(3) } | Where-Object { $_ -notin $qaAllowed })
@@ -1281,6 +1298,7 @@ function Start-SliceQa($q) {
     if (-not $cliOk[$plan.Family] -or (Test-Parked $plan.Family)) { $plan = Get-QaPlan $q $roles -Fallback; if ($plan.Skip -or -not $cliOk[$plan.Family] -or (Test-Parked $plan.Family)) { return $false } }
     if (Test-SharedQwen $plan) { return $false }   # waits for the end of the run
     $rec = Start-QaJob $q $plan $from
+    if (-not $rec) { $notBefore[$name] = (Get-Date).AddMinutes(1); [void]$pending.Add($q); return $true }
     $running[$rec.Job.Id] = $rec
     $rows[$name].Note += "slice QA on $($plan.Spec) at $((Get-Date).ToString('HH:mm')). "
     return $true
@@ -1326,7 +1344,10 @@ while ($pending.Count -or $running.Count) {
         $sessionName = "$($q.Name) $dot $(if ($Kind -eq 'morning') { 'morning' } else { 'night' }) of $($started.ToString('MMM d', [Globalization.CultureInfo]::InvariantCulture)) $dot session $($sessions[$q.Name])"
         # A fresh session after a cut-off one also sees how the last one ended (PROGRESS.md '## Now' is the handoff itself).
         $sessionPrompt = $prompt + $(if ($tails[$q.Name]) { "`nTHE PREVIOUS SESSION on this project ended at $($tails[$q.Name].At). Start from PROGRESS.md '## Now'; this is the end of its output:`n" + $tails[$q.Name].Text + "`n" } else { '' })
-        $job = Start-Job -ScriptBlock $worker -ArgumentList $dir, $run.Harness, $run.Model, $sessionPrompt, $log, $left, $ssh, "$sparkProjects/$($q.Name)", $sessionName, $false
+        if ($run.Harness -eq 'hermes') { $hermesBuilt[$q.Name] = $true }
+        # Bounded remote sessions resume from the disk handoff rather than occupying one context all night.
+        $budget = $(if ($run.Harness -eq 'hermes') { [Math]::Min($left, 5400) } else { $left })
+        $job = Start-Job -ScriptBlock $worker -ArgumentList $dir, $run.Harness, $run.Model, $sessionPrompt, $log, $budget, $ssh, "$sparkProjects/$($q.Name)", $sessionName, $false
         $running[$job.Id] = @{ Job = $job; Q = $run; Start = Get-Date; Head = (git -C $dir rev-parse HEAD 2>$null); PidFile = "$log.pid" }
     }
     Save-RunState   # each lane's state for the Agents board
@@ -1365,7 +1386,10 @@ while ($pending.Count -or $running.Count) {
                 if (Complete-QaJob $r $r.QaTimedOut) {
                     $fb = Get-QaPlan $r.Q $roles -Fallback
                     if (-not $fb.Skip -and -not (Test-SharedQwen $fb) -and $fb.Spec -ne $r.Plan.Spec -and $cliOk[$fb.Family] -and -not (Test-Parked $fb.Family)) {
-                        $rec = Start-QaJob $r.Q $fb $r.From; $running[$rec.Job.Id] = $rec; $row.Note += "Retrying QA on fallback $($fb.Spec). "; continue
+                        $rec = Start-QaJob $r.Q $fb $r.From
+                        if ($rec) { $running[$rec.Job.Id] = $rec; $row.Note += "Retrying QA on fallback $($fb.Spec). " }
+                        else { $notBefore[$name] = (Get-Date).AddMinutes(1); [void]$pending.Add($own) }
+                        continue
                     }
                 }
                 Start-Advance $r.Q   # plan the next slice; the planner puts QA's findings (FEEDBACK.md) first
@@ -1528,6 +1552,12 @@ while ($qaQueue.Count -or $qaRunning.Count) {
         if ($qaLimit -gt 0 -and @($qaRunning.Values | Where-Object { $_.Plan.Family -eq $fam -and (Test-SharedQwen $_.Plan) -eq $qwen }).Count -ge $qaLimit) { continue }
         $qaQueue.Remove($item)
         $rec = Start-QaJob $item.Q $item.Plan $item.From
+        if (-not $rec) {
+            $item.Busy = 1 + [int]$item.Busy
+            if ($item.Busy -lt 5) { $item.NotBefore = (Get-Date).AddMinutes(1); [void]$qaQueue.Add($item) }
+            else { Set-Qa $name 'failed' 'remote builder did not become idle or sync; no review baseline captured' }
+            continue
+        }
         $rec.Busy = [int]$item.Busy; $qaRunning[$rec.Job.Id] = $rec
     }
     if (-not $qaRunning.Count) { if ($qaQueue.Count) { Start-Sleep -Seconds 30; continue }; break }
@@ -1580,7 +1610,15 @@ $gateDirty = @{}; $gateCode = @{}; $gateJobs = @{}
 foreach ($q in $gateList) { $gateDirty[$q.Name] = @(git -C (Join-Path $projects $q.Name) status --porcelain 2>$null) }
 foreach ($q in $gateList) {
     while (@($gateJobs.Values | Where-Object { $_.State -eq 'Running' }).Count -ge 3) { Start-Sleep -Seconds 5 }
-    $gateJobs[$q.Name] = Start-Job -ScriptBlock { param($at, $v, $out) Set-Location $at; $env:TEMP = $env:TMP = (New-Item -ItemType Directory -Force (Join-Path ([IO.Path]::GetTempPath()) "ov$PID")).FullName; & powershell -NoProfile -ExecutionPolicy Bypass -File $v *> $out; $LASTEXITCODE } -ArgumentList (Get-Location).Path, (Join-Path $projects "$($q.Name)\scripts\verify.ps1"), (Join-Path $logDir "$($q.Name).verify.txt")
+    $gateJobs[$q.Name] = Start-Job -ScriptBlock {
+        param($at, $v, $out)
+        Set-Location $at
+        $env:TEMP = $env:TMP = (New-Item -ItemType Directory -Force (Join-Path ([IO.Path]::GetTempPath()) "ov$PID")).FullName
+        $javaTmp = (New-Item -ItemType Directory -Force (Join-Path ([IO.Path]::GetPathRoot($v)) "agent-tmp\j$PID")).FullName
+        if ($env:JAVA_TOOL_OPTIONS -notmatch '-Djdk\.net\.unixdomain\.tmpdir=') { $env:JAVA_TOOL_OPTIONS = "$env:JAVA_TOOL_OPTIONS `"-Djdk.net.unixdomain.tmpdir=$javaTmp`"" }
+        & powershell -NoProfile -ExecutionPolicy Bypass -File $v *> $out
+        $LASTEXITCODE
+    } -ArgumentList (Get-Location).Path, (Join-Path $projects "$($q.Name)\scripts\verify.ps1"), (Join-Path $logDir "$($q.Name).verify.txt")
 }
 foreach ($n in @($gateJobs.Keys)) { $out = @(Receive-Job -Job $gateJobs[$n] -Wait 2>$null); $gateCode[$n] = $(if ($out.Count) { [int]$out[-1] } else { 1 }); Remove-Job $gateJobs[$n] -Force }
 foreach ($n in @($gateCode.Keys | Where-Object { $gateCode[$_] -ne 0 })) {
