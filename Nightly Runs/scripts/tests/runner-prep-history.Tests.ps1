@@ -25,3 +25,10 @@ foreach($hasWork in $false,$true){
     if(-not $saved.checked -or [datetime]$saved.checked -lt $now){throw 'Fresh check time must be recorded separately'}
 }
 Write-Output 'PREP EXECUTION HISTORY REGRESSIONS OK'
+$Preflight=$true;$PrepOnly=$true;$NoPrep=$true;$DryRun=$false;$QaOnly=$false
+foreach($name in 'recheckOnly','recordPrep'){
+    $assignment=$ast.Find({param($n) $n -is [System.Management.Automation.Language.AssignmentStatementAst] -and $n.Left.Extent.Text -eq ('$'+$name)},$true)
+    if($assignment){Invoke-Expression $assignment.Extent.Text}
+}
+if(-not $recordPrep){throw 'An explicit no-agent preflight recheck must refresh the readiness receipt'}
+Write-Output 'NO-AGENT READINESS RECHECK OK'

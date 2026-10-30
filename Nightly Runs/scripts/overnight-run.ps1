@@ -593,7 +593,9 @@ if ($hermesNames) {
     }
 }
 $prepStatusFile = Join-Path $vault 'Nightly Runs\prep-status.json'
-$recordPrep = -not $Preflight -and -not $DryRun -and -not $QaOnly -and -not $NoPrep
+# -Preflight -PrepOnly -NoPrep validates readiness without launching another prep or replacing its execution span.
+$recheckOnly = $Preflight -and $PrepOnly -and $NoPrep
+$recordPrep = $recheckOnly -or (-not $Preflight -and -not $DryRun -and -not $QaOnly -and -not $NoPrep)
 $prepReceipt = $null
 $preservePrepHistory = $false
 function Save-PrepReceipt($state, $remaining = @(), $blockers = @(), $reason = '') {
@@ -628,7 +630,7 @@ if ($prepDone) {
 }
 if ($recordPrep) {
     $prepReceipt = @{ state = 'running'; started = (Get-Date).ToString('o'); prioritiesHash = (Get-FileHash $prioFile -Algorithm SHA256).Hash.ToLowerInvariant(); projects = @($queue | ForEach-Object Name); remaining = @(); blockers = @(); reason = '' }
-    Save-PrepReceipt 'running' @() @() 'Checking current targets before local preparation'
+    if (-not $recheckOnly) { Save-PrepReceipt 'running' @() @() 'Checking current targets before local preparation' }
 }
 $prepWork = @($upkeep | Where-Object { $_.Action -ne 'owner' })
 # The runner's own final verify per project, by commit (Nightly Runs/.verify-cache.json): a project whose target passed at
@@ -667,7 +669,7 @@ if (-not $PrepOnly) {
 }
 $prepHeads = @{}
 foreach ($item in $prepWork) { $prepHeads[$item.Project] = "$(git -C (Join-Path $projects $item.Project) rev-parse HEAD 2>$null)" }
-if ($recordPrep) { $prepReceipt.projects = @(@($queue | ForEach-Object Name) + @($upkeep | ForEach-Object Project) | Select-Object -Unique); Save-PrepReceipt 'running' $upkeep @() "Preparing the current queue with $prepModel" }
+if ($recordPrep) { $prepReceipt.projects = @(@($queue | ForEach-Object Name) + @($upkeep | ForEach-Object Project) | Select-Object -Unique); if (-not $recheckOnly) { Save-PrepReceipt 'running' $upkeep @() "Preparing the current queue with $prepModel" } }
 if ($prepWork -and $PrepOnly -and -not $NoPrep) {
     $prepLog = Join-Path $logDir '_prep.log'
     $prepPrompt = (Get-Content (Join-Path $vault 'Nightly Runs\agent-rules\prep-prompt.md') -Raw -Encoding UTF8) + "`n" +
