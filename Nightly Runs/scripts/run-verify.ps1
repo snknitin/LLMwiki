@@ -3,7 +3,7 @@
 # then never close, so the runner would wait forever (2026-10-31: 65 minutes on a stray `next start`). That server keeps
 # the redirected file open too, so each run writes its own file: a retry could not reopen the same one.
 param([string]$Verify, [string]$Out, [double]$Minutes = 30)
-$work = "$Out.$PID.tmp"
+$work = "$Out.$([guid]::NewGuid().ToString('N')).tmp"
 $arguments = '/d', '/c', "powershell -NoProfile -ExecutionPolicy Bypass -File `"$Verify`" > `"$work`" 2>&1"
 $p = Start-Process cmd.exe -ArgumentList $arguments -WorkingDirectory (Get-Location).Path -PassThru -WindowStyle Hidden
 $null = $p.Handle   # without this, ExitCode is empty once the process has ended
