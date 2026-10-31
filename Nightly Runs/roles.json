@@ -6,8 +6,8 @@
   },
   "codex": {
     "builder": "codex:sol-6-1-high",
-    "qa": "hermes",
-    "fallbackQa": "claude:sonnet-medium"
+    "qa": "claude:sonnet-medium",
+    "fallbackQa": "hermes:qwen3.6-35b-a3b"
   },
   "hermes": {
     "builder": "hermes",
