@@ -1665,11 +1665,6 @@ foreach ($q in $queue) {
 Write-RunReport -final
 if (-not $DryRun -and $verifyCache.Count) { $verifyCache | ConvertTo-Json -Depth 4 | Set-Content -Path $verifyCacheFile -Encoding UTF8 }
 if (-not $DryRun) { Remove-Item $stateFile -ErrorAction SilentlyContinue }   # finished: nothing for -Resume to continue
-# Projects that now have a preview (scripts/preview.ps1) appear as tabs in Dashboard Command Center's Projects group.
-if (-not $DryRun -and -not $env:OVERNIGHT_VAULT) {   # a fixture run (test-qa-run.ps1) must not touch the real board
-    try { $dcc = Invoke-RestMethod -Method Post -Uri 'http://127.0.0.1:8768/api/dcc' -ContentType 'application/json' -Body '{}' -TimeoutSec 60; Write-Output "dcc: registered $(@($dcc.registered) -join ', ')" }
-    catch { Write-Output "dcc: could not reach the Agents board to register previews ($($_.Exception.Message))" }
-}
 
 # ---- Scorecard: one row per project per real run, plus a summary by tool, so harnesses and models can be compared ----
 $scoreCsv = Join-Path $vault 'Nightly Runs\Scorecard.csv'
