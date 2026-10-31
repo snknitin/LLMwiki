@@ -1623,16 +1623,15 @@ foreach ($q in $gateList) { $gateDirty[$q.Name] = @(git -C (Join-Path $projects 
 foreach ($q in $gateList) {
     while (@($gateJobs.Values | Where-Object { $_.State -eq 'Running' }).Count -ge 3) { Start-Sleep -Seconds 5 }
     $gateJobs[$q.Name] = Start-Job -ScriptBlock {
-        param($at, $v, $out)
+        param($at, $run, $v, $out)
         Set-Location $at
         $env:TEMP = $env:TMP = (New-Item -ItemType Directory -Force (Join-Path ([IO.Path]::GetTempPath()) "ov$PID")).FullName
-        & powershell -NoProfile -ExecutionPolicy Bypass -File $v *> $out
-        $LASTEXITCODE
-    } -ArgumentList (Get-Location).Path, (Join-Path $projects "$($q.Name)\scripts\verify.ps1"), (Join-Path $logDir "$($q.Name).verify.txt")
+        & $run $v $out
+    } -ArgumentList (Get-Location).Path, (Join-Path $PSScriptRoot 'run-verify.ps1'), (Join-Path $projects "$($q.Name)\scripts\verify.ps1"), (Join-Path $logDir "$($q.Name).verify.txt")
 }
 foreach ($n in @($gateJobs.Keys)) { $out = @(Receive-Job -Job $gateJobs[$n] -Wait 2>$null); $gateCode[$n] = $(if ($out.Count) { [int]$out[-1] } else { 1 }); Remove-Job $gateJobs[$n] -Force }
 foreach ($n in @($gateCode.Keys | Where-Object { $gateCode[$_] -ne 0 })) {
-    & powershell -NoProfile -ExecutionPolicy Bypass -File (Join-Path $projects "$n\scripts\verify.ps1") *> (Join-Path $logDir "$n.verify.txt"); $gateCode[$n] = $LASTEXITCODE
+    $gateCode[$n] = & (Join-Path $PSScriptRoot 'run-verify.ps1') (Join-Path $projects "$n\scripts\verify.ps1") (Join-Path $logDir "$n.verify.txt")
 }
 # The Active projects verified only for their tab: put back what their verify re-took (tracked screenshots), nothing else.
 foreach ($q in @($gateList | Where-Object { $_.Name -notin @($queue | ForEach-Object Name) })) {
