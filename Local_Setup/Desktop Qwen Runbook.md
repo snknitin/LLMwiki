@@ -44,6 +44,7 @@ Q5 costs 5–9% speed for higher weight precision. Fresh Brief JSON, tool calls,
 - **Is it running?** `Invoke-RestMethod http://127.0.0.1:11435/health` → `ok`. Busy slots: `Invoke-RestMethod http://127.0.0.1:11435/slots`.
 - **Is it on the GPU?** `nvidia-smi` shows ~45 GB used. If the log has no `CUDA0` lines it's on the CPU (slow); see troubleshooting.
 - **Hermes:** pick *Desktop Qwen 3.8 27B (2 sessions, llama.cpp)*. A grey "Model fallback" line means it couldn't reach this server.
+- **sparkDash:** FirstSpark's dashboard reads this server at `http://nike-workstation.tail4a1242.ts.net:11435` (tailnet-only `tailscale serve --http=11435`, added 2026-10-31). It must use that name: the bare tailnet IP gets a 404 from `tailscale serve`.
 
 ## Rules that keep the desktop smooth
 
@@ -92,7 +93,7 @@ The server answers any model name, so only the apply script changes. Switching b
 1. Qwen OFF, then disable the **Desktop Qwen - llama-server** task. (To go back to Q4 only, see "Switching" step 3.)
 2. Fresh Brief: `git revert 7523a51` and `docker compose up -d --build`.
 3. Hermes: restore `~/.hermes/backups/desktop-qwen-2slot-20261013/` while idle.
-4. `tailscale serve --https=8444 off`.
+4. `tailscale serve --https=8444 off` and `tailscale serve --http=11435 off`.
 5. Optional: re-enable **Ollama - Start at login** (export in `work/ollama-start-at-login-task-backup.xml`). The tray app alone is enough.
 
 Ollama keeps its own settings: 128K context (Settings slider), q8_0 KV, parallel 1.
