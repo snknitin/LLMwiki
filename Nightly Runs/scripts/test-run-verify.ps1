@@ -12,6 +12,11 @@ try {
     if ($clock.Elapsed.TotalSeconds -gt 20) { throw "waited $($clock.Elapsed.TotalSeconds) s on the leftover process" }
     if ($code -ne 7) { throw "expected exit code 7, got '$code'" }
     if (-not (Select-String -LiteralPath $out -SimpleMatch 'VERIFY RAN' -Quiet)) { throw 'the output file has no verify output' }
+    # The retry, while that leftover process is still running: same output file, and the real exit code.
+    Remove-Item -LiteralPath $out
+    $code = & $run $leaves $out
+    if ($code -ne 7) { throw "expected 7 from the retry, got '$code'" }
+    if (-not (Select-String -LiteralPath $out -SimpleMatch 'VERIFY RAN' -Quiet)) { throw 'the retry wrote no verify output' }
 
     $never = Join-Path $dir 'never-ends.ps1'
     Set-Content $never 'Start-Sleep -Seconds 120'
