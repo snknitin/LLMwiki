@@ -26,6 +26,8 @@ if ($QaOnly -and (-not $Project -or -not $QaFrom -or $Resume -or $PrepOnly -or $
 if ($QaOnly) { $NoPrep = $true }
 if ($FixOnly -and (-not $Project -or $QaOnly -or $PrepOnly -or $DryRun -or $Resume)) { throw '-FixOnly requires -Project, without QaOnly, PrepOnly, DryRun or Resume' }
 $ErrorActionPreference = 'Continue'
+# Children inherit this, so agents, verifies and test browsers never outrank what the owner is using on this PC.
+(Get-Process -Id $PID).PriorityClass = 'BelowNormal'
 $hoursGiven = $PSBoundParameters.ContainsKey('HoursPerProject')   # explicit hours win over a nightly run's -Until
 # Paused on the board (Nightly Runs/pause.json): the scheduled tasks (-Scheduled) skip until then. Prep now and
 # Start a run now still work, and so does -Resume of a run that was cut off.
